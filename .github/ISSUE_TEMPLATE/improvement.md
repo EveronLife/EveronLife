@@ -2,7 +2,7 @@
 name: Improvement
 about: Improvement of existing gameplay features or technical aspects
 title: ''
-labels: ''
+labels: new
 assignees: ''
 
 ---
