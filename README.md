@@ -4,6 +4,7 @@
   <source media="(prefers-color-scheme: light)" width="400" srcset="https://user-images.githubusercontent.com/13269125/170135264-506819a4-830f-496f-bdee-8f5d3b5a9e94.svg">
   <img alt="Everon Life" width="400" src="https://user-images.githubusercontent.com/13269125/170135264-506819a4-830f-496f-bdee-8f5d3b5a9e94.svg">
 </picture>
+<br/><br/>
 
 [![Discord](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/everonlife)
 [![Downloads](https://img.shields.io/github/downloads/everonlife/EveronLife/total)](https://img.shields.io/github/downloads/everonlife/EveronLife/total)
