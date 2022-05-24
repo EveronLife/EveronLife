@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="400" srcset="./.github/everon_logo_dark.svg">
-  <source media="(prefers-color-scheme: light)" width="400" srcset="./.github/everon_logo_light.svg">
-  <img alt="Everon Life" width="400" src="./.github/everon_logo_dark.svg">
+  <source media="(prefers-color-scheme: dark)" width="400" srcset="https://user-images.githubusercontent.com/13269125/170135155-d99def26-696b-4608-98b3-26279ad01323.svg">
+  <source media="(prefers-color-scheme: light)" width="400" srcset="https://user-images.githubusercontent.com/13269125/170135264-506819a4-830f-496f-bdee-8f5d3b5a9e94.svg">
+  <img alt="Everon Life" width="400" src="https://user-images.githubusercontent.com/13269125/170135264-506819a4-830f-496f-bdee-8f5d3b5a9e94.svg">
 </picture>
 <br/>
 
