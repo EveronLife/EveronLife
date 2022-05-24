@@ -2,7 +2,7 @@
 name: Feature request
 about: 'Suggest new gameplay or technical features '
 title: ''
-labels: feature
+labels: feature, new
 assignees: ''
 
 ---

@@ -2,7 +2,7 @@
 name: Bug report
 about: Report gameplay or development problems
 title: ''
-labels: bug
+labels: bug, new
 assignees: ''
 
 ---
