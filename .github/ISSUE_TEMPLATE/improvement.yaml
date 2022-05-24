@@ -1,0 +1,29 @@
+name: Improvement Tracking Issue
+description: An improvement of existing gameplay features or technical aspects
+labels: new
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: Summarize your proposed improvement
+      description: |
+        Please describe what existing gameplay feature or technical aspect you want to see changed. E.g. *"please add a shortcut to access menu xyz ingame"* or *"Model xyz can be reduced in size"* or *"Script function xyz does unnecessary calls"*
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why is this needed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Add any other context or screenshots about the request here.
