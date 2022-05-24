@@ -12,24 +12,32 @@
 </div>
 
 # Everon Life RPG Framework
+**Everon Life is a community-driven Arma Reforger RPG open source framework.**
 
-**Everon Life is a community-driven Arma Reforger RPG open source framework.**  
-“Community-driven” is not just a buzzword. Our vision is to develop a framework with and for the community.   
-There are almost no restrictions regarding participation. Through our high quality standards, our love for the community and our mature collaboration guidelines, we guarantee full control and transparency.
-<br/><br/>
+Our vision is to develop a framework with and for the community.
+There are almost no restrictions regarding participation.
+Through our high quality standards, our love for the community and our mature collaboration guidelines, we guarantee full control and transparency.
 
-## Setup Guide
-...
-<br/><br/>
 
-## Documentation
-...
-<br/><br/>
+## 🚀 Features
+<!--
+🚧 meaning is being actively worked on
+✅ is somewhat implemeted (even an early WIP state is okay)
+- 🚧 Fully persitent world
+### To be discussed (follow the discussion links)
+- Player driven Economy 
+### Non Features
+- No weapons (link to alternative everon life guns
+- No models beyond basic stuff
+-->
+To be further defined, please checkout our [initial milestone here](https://github.com/EveronLife/EveronLife/milestone/1) additional milestones will follow soon but please feel free to start dicussions with your [ideas here](https://github.com/EveronLife/EveronLife/discussions/categories/ideas).
 
-## Contributing
-If you want to contribute to this community effort, feel free to read our [contributor guide](CONTRIBUTING.md).
-<br/><br/>
+## ⚡ Quick start
+To be written here we should write how to quickly get up and running this project.
 
-## Licensing
-This project is licensed under [MIT license](https://opensource.org/licenses/MIT).
+## 📖 Documentation
+Detailed information for server owners and our technical documentation will be located [here](docs/index.md).
+
+## 🛠️ Contributing
+If you want to contribute to this community effort, feel free to read our [contributor guide](.github/CONTRIBUTING.md).
 <br/><br/>
