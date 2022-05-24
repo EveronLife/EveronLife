@@ -1,4 +1,8 @@
-<img src="https://everon.life/assets/images/everon_logo.svg" alt="Everon Life" width="400" >
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="400" srcset="./.github/everon_logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" width="400" srcset="./.github/everon_logo_light.svg">
+  <img alt="Everon Life" width="400" src="./.github/everon_logo_dark.svg">
+</picture>
 <br/>
 
 [![License](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/everonlife)
