@@ -12,7 +12,6 @@ Your chosen folder should now contain the same files you see on the main of the 
 
 ### Setting up the Workbench
 Most of the development workflows take place in the integrated developer environment for Arma Reforger called Workbench. You start it by launching the `Arma Reforger Tools` tools through Steam.
-If you get an error message like "Engine could not be initialized" or anything "DX 12" related your computer does not support DirectX 12 or is lacking a GPU. Both are needed.
 
 #### Adding the project
 When you launch the Workbench you are greeted with the project overview. To add EveronLife you want to click the `Add Existing` button on the bottom left and navigate to the folder you cloned into.
@@ -22,6 +21,7 @@ Double click or select it and click `Open` on the bottom right.
 #### Opening the debug world
 You should now see the main window of the Workbench where you can quick launch all the different editors. Click the world editor button (left in the list) to open it.
 Now while in the world editor, navigate to the top left and click `File > Load World`. In the popup window search for `DebugWorld`, select the `DebugWorld.ent` file, and open it with `Ok`.
+The debug world is used to reduce loadtimes during development and testing of gameplay mechanics. The full Everon map (`MainWorld.ent`) takes significnatly longer to load and is only really needed for mapping the default multiplayer scenario.
 
 #### Setting up the peer tool
 With the debug world open, navigate to `Plugins > Settings > PeerTool`. Here you can configure the peer tool. It is used for local multiplayer testing by launching multiple game instances that automatically connect to your local server.
