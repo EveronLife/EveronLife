@@ -1,12 +1,8 @@
 # Contribution Guidelines
 
-Welcome and thanks for your Interest in contributing to EveronLife.
+Welcome and thanks for your interest in contributing to EveronLife.
 This is a set of guidelines to help us and you to contribute to the project.
 Contributions can occur in many different ways.
-
-## What should I know before I get started?
-
-// TODO
 
 ## Development process
 
