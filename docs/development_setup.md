@@ -6,7 +6,7 @@ This document is a detailed step by step guide to getting your development envir
 - Make sure you have launched the game at least once.
 
 ### Source code
-In order to contribute, you need to download and work with the source code. You can obtain it by [cloing](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repository to your local pc.
+In order to contribute, you need to download and work with the source code. You can obtain it by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repository to your local pc.
 For this guide, the repository is cloned to `C:\EveronLife`, but you can choose a different folder.
 Your chosen folder should now contain the same files you see on the main of the repository (e.g. `.gitignore` `/src` `/assets` etc).
 
