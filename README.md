@@ -12,12 +12,12 @@
 </div>
 
 # Everon Life RPG Framework
+
 **Everon Life is a community-driven Arma Reforger RPG open source framework.**
 
 Our vision is to develop a framework with and for the community.
 There are almost no restrictions regarding participation.
 Through our high quality standards, our love for the community and our mature collaboration guidelines, we guarantee full control and transparency.
-
 
 ## 🚀 Features
 <!--
@@ -33,11 +33,13 @@ Through our high quality standards, our love for the community and our mature co
 To be further defined, please checkout our [initial milestone here](https://github.com/EveronLife/EveronLife/milestone/1) additional milestones will follow soon but please feel free to start dicussions with your [ideas here](https://github.com/EveronLife/EveronLife/discussions/categories/ideas).
 
 ## ⚡ Quick start
+
 To be written here we should write how to quickly get up and running this project.
 
 ## 📖 Documentation
+
 Detailed information for server owners and our technical documentation will be located [here](docs/index.md).
 
 ## 🛠️ Contributing
+
 If you want to contribute to this community effort, feel free to read our [contributor guide](.github/CONTRIBUTING.md).
-<br/><br/>
