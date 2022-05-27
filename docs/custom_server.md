@@ -148,6 +148,7 @@ You can find more parameters and information about the dedicated server setup [h
 ### Joining your server
 The last step is quite simple. Launch your game, choose `Multiplayer` and use `Direct join` or search for the server. 
 When you attempt to join it will prompt you to download the mods it uses.
+**Note**: If the mod download appears to be stuck wait a few seconds and then press ESC to exit the overlay. Open `Workshop` and go the the `Downloaded` tab. There you should see your mod. Click onto it and download any updates available and make sure it is `Enabled` (toggle in the top left corner). Now attempt to join the server again and it should work.
 
 ### Something is not working?
 Go through the steps again, maybe you overlooked something. Otherwise, compare your setup with the example files repository that can be found [here](https://github.com/EveronLife/MyCustomServer).
