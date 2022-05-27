@@ -6,9 +6,9 @@
 </picture>
 <br/><br/>
 
-[![Discord](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/everonlife)
-[![Contributors](https://img.shields.io/github/contributors/EveronLife/EveronLife)](https://github.com/EveronLife/EveronLife/graphs/contributors)
 [![Releases](https://img.shields.io/github/v/release/EveronLife/EveronLife)](https://github.com/EveronLife/EveronLife/releases)
+[![Contributors](https://img.shields.io/github/contributors/EveronLife/EveronLife)](https://github.com/EveronLife/EveronLife/graphs/contributors)
+[![Discord](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/everonlife)
 [![License MIT](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 </div>
 
@@ -39,7 +39,7 @@ To be written here we should write how to quickly get up and running this projec
 
 ## 📖 Documentation
 
-Detailed information for server owners and our technical documentation will be located [here](docs/index.md).
+Detailed information for server owners and our technical documentation can be found here [here](docs/index.md).
 
 ## 🛠️ Contributing
 
