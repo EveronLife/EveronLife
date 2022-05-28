@@ -1,0 +1,26 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  TextWidgetClass "{596565CFBE414D61}" {
+   Name "URL"
+   Slot FrameWidgetSlot "{596565CFBE414D45}" {
+    Anchor 0.5 1 0.5 1
+    PositionX -117.403
+    OffsetLeft -117.403
+    PositionY -42.51
+    OffsetTop -42.51
+    SizeX 0
+    OffsetRight 117.403
+    SizeY 0
+    OffsetBottom 42.51
+    SizeToContent 1
+   }
+   Pivot 0 0
+   Text "www.everon.life"
+   "Font Size" 36
+   "Min Font Size" 36
+   "Horizontal Alignment" Center
+   "Vertical Alignment" Center
+  }
+ }
+}

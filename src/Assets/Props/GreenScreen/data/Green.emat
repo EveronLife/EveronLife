@@ -1,0 +1,7 @@
+MatPBRBasic {
+ Color 0.001 0.905 0.001 1
+ CastShadow 1
+ ReceiveShadow 1
+ MetalnessScale 0
+ BCRMap "{CB7DFED27EC4949A}Common/Textures/default_BCR.edds"
+}

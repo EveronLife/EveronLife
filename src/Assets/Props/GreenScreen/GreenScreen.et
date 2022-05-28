@@ -1,0 +1,20 @@
+GenericEntity {
+ ID "596F0843DA9DCCC6"
+ components {
+  MeshObject "{596F08439895B8F9}" {
+   Object "{BB197E81134E1679}Assets/Props/GreenScreen/Greenv2.xob"
+   Materials {
+    MaterialAssignClass "{596F08439090F6D6}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{08F74E5C4305A36A}Assets/Props/GreenScreen/data/Green.emat"
+    }
+   }
+   CastShadow 0
+   CastFarShadow 0
+   RainOccluder 0
+   WetnessOccluder 0
+   ReceiveLight 0
+  }
+ }
+ coords 82.451 0.001 135.965
+}
