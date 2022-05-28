@@ -5,6 +5,7 @@ This is a set of guidelines to help us and you to contribute to the project.
 Contributions can occur in many different ways.
 
 ## Development process
+We are using git for version control and GitHub as platform to host it. If you are new to contributing to GitHub repositories consider checking out this [guide](https://github.com/firstcontributions/first-contributions) that outlines the perperations to start proposing changes.
 
 ### Git Commit Messages
 
