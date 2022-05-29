@@ -13,12 +13,14 @@
 </div>
 
 # Everon Life RPG Framework
-
-**Everon Life is a community-driven Arma Reforger RPG open source framework.**
+**Everon Life is a community-driven open-source Arma Reforger RPG framework.**
 
 Our vision is to develop a framework with and for the community.
 There are almost no restrictions regarding participation.
 Through our high quality standards, our love for the community and our mature collaboration guidelines, we guarantee full control and transparency.
+
+#### ▶ [READ MORE ABOUT EVERON LIFE](https://github.com/EveronLife/EveronLife/discussions/42) ◀
+_______
 
 ## 🚀 Features
 <!--
@@ -31,16 +33,15 @@ Through our high quality standards, our love for the community and our mature co
 - No weapons (link to alternative everon life guns
 - No models beyond basic stuff
 -->
-To be further defined, please checkout our [initial milestone here](https://github.com/EveronLife/EveronLife/milestone/1) additional milestones will follow soon but please feel free to start dicussions with your [ideas here](https://github.com/EveronLife/EveronLife/discussions/categories/ideas).
+To be further defined, please checkout our [initial milestones here](https://github.com/EveronLife/EveronLife/milestones?direction=asc&sort=due_date&state=open). Additional milestones will follow soon but please feel free to start dicussions with your [ideas here](https://github.com/EveronLife/EveronLife/discussions/categories/ideas).
 
 ## ⚡ Quick start
+How to [customize your server](docs/custom_server.md) (including how to set one up)
 
-To be written here we should write how to quickly get up and running this project.
+*Quick start guide for server owners using Docker coming soon.*
 
 ## 📖 Documentation
-
 Detailed information for server owners and our technical documentation can be found here [here](docs/index.md).
 
 ## 🛠️ Contributing
-
-If you want to contribute to this community effort, feel free to read our [contributor guide](.github/CONTRIBUTING.md).
+If you want to contribute to this community effort, please check out our [contributor guide](.github/CONTRIBUTING.md) and [development setup instructions](docs/development_setup.md).
