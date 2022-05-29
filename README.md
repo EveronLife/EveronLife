@@ -1,8 +1,8 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="400" srcset="https://user-images.githubusercontent.com/13269125/170135155-d99def26-696b-4608-98b3-26279ad01323.svg">
-  <source media="(prefers-color-scheme: light)" width="400" srcset="https://user-images.githubusercontent.com/13269125/170135264-506819a4-830f-496f-bdee-8f5d3b5a9e94.svg">
-  <img alt="Everon Life" width="400" src="https://user-images.githubusercontent.com/13269125/170135264-506819a4-830f-496f-bdee-8f5d3b5a9e94.svg">
+  <source media="(prefers-color-scheme: dark)" width="400" srcset="https://user-images.githubusercontent.com/8494013/170880753-e3cfb7cb-c430-4ef7-a4b0-6123fee560d9.png">
+  <source media="(prefers-color-scheme: light)" width="400" srcset="https://user-images.githubusercontent.com/8494013/170880762-59b39e3d-9e6b-43ad-9043-5c1ebd8f8219.png">
+  <img alt="Everon Life" width="400" src="https://user-images.githubusercontent.com/8494013/170880762-59b39e3d-9e6b-43ad-9043-5c1ebd8f8219.png">
 </picture>
 <br/><br/>
 
