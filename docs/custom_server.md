@@ -2,7 +2,7 @@
 This document is a detailed step-by-step guide to setting up a customized Everon Life server for your own community. 
 It will go through the basic setup of how to make a mod based on the Everon Life framework, how to publish it and how to get it running on a dedicated server.
 
-There are video versions of this guide available in different languages:
+A video version of this is guide is available here *(more languages coming soon / additions welcome)*:
 <kbd>[<img title="English" alt="English" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/gb.svg" width="22">](https://www.youtube.com/watch?v=yNJNhTeZJN0)</kbd>
 
 ### Prerequisites
