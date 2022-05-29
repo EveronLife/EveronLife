@@ -1,0 +1,15 @@
+SubScene {
+ Parent "worlds/Eden/Eden.ent"
+}
+Layer default {
+ Index 0
+}
+Layer Gamemode {
+ Index 1
+}
+Layer Area_StPhillipe_AppleFarm {
+ Index 2
+}
+Layer Spawnconfig {
+ Index 3
+}

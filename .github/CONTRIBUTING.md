@@ -5,6 +5,7 @@ This is a set of guidelines to help us and you contribute to the project.
 Contributions can occur in many different ways.
 
 ## Development process
+We are using git for version control and GitHub as platform to host it. If you are new to contributing to GitHub repositories consider checking out this [guide](https://github.com/firstcontributions/first-contributions) that outlines the perperations to start proposing changes.
 
 ### Communication
 The primary platform for development and its communication is this repository. Any important information, findings, concept designs, etc must at least be shared once in the related discussions/issues, even if you were using a voice chat to collaborate on its creation. This way everyone can read up on the thought process. Also, decisions and lessons learned are not forgotten in the future. Please try to write your comments as compact as possible to avoid short live chat-like comment chains.

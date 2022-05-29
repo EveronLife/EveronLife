@@ -1,0 +1,23 @@
+SCR_SpawnPoint {
+ ID "597522E647192A0C"
+ components {
+  Hierarchy "{596559E5AD4DD841}" {
+  }
+  SCR_MapDescriptorComponent "{596559E5AD4DD83F}" {
+   VisibleOnMap 0
+   MainType Spawnpoint
+  }
+  RplComponent "{596559E5AD4DD828}" {
+   "Self Insert" 0
+   Streamable Disabled
+  }
+ }
+ coords 111.42 0 132.585
+ m_fSpawnRadius 25
+ m_fNoPlayerRadius 5
+ m_fNoSightRadius 0
+ m_sFaction "LIFE"
+ m_Info SCR_UIInfo "{596559E5AD4DDBF7}" {
+  Name "Spawn"
+ }
+}

@@ -1,0 +1,41 @@
+$object "" {
+ #version 1.0
+ #tag MergeMeshes "1"
+ #tag Coords "XZY"
+ #tag Scale "1.000000"
+ $materials {
+  $material "everon_titeliimg" {
+   #UVset 0
+  }
+ }
+ $lod 0 {
+  #lodFactor 0.5
+  $mesh "everon_titeliimg" {
+   #texCoords 1
+   $faces {
+     0 4 0 1 2 3
+   }
+   $faceVerts {
+     2 0 0
+     3 0 1
+     1 0 2
+     0 0 3
+   }
+   $verts {
+     -0 -0.5 -0.888889 0
+     0 -0.5 0.888889 0
+     -0 0.5 -0.888889 0
+     0 0.5 0.888889 0
+   }
+   $texCoords {
+     0 0
+     1 0
+     1 1
+     0 1
+   }
+   $normals {
+     1 -0 -0
+   }
+  }
+ }
+}
