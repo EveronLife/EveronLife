@@ -6,7 +6,7 @@ A video version of this is guide is available here *(more languages coming soon 
 <kbd>[<img title="English" alt="English" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/gb.svg" width="22">](https://www.youtube.com/watch?v=yNJNhTeZJN0)</kbd>
 
 ### Prerequisites
-- You must own [Arma Reforger](https://store.steampowered.com/app/1874880) and have it as well as the `Arma Reforger Tools` and `Arma Reforger Server` installed on your pc.
+- You must own [Arma Reforger](https://store.steampowered.com/app/1874880) and have it as well as the `Arma Reforger Tools` and `Arma Reforger Server` installed on your pc. 
 - You will need a BI account to publish the workshop item. You can register one [here](https://accounts.bistudio.com) if needed.
 - Make sure you have launched the game at least once.
 
