@@ -26,7 +26,8 @@ Currently, we do not have yet automatic tooling to enforce our code style guide.
 
 ### Getting your changes merged
 - Any changes you want to propose are to be developed on a fork of the repository you create. There you can collaborate with others and have them push to your fork. 
-- Once you are finished and everything is tested you open a pull request for the issue you worked on.
+- You might want to create a branch on your fork when working on multiple issues at the same time. It is suggested that you prefix them according to the category e.g. `bug/atm_system_compile_fix` or `feature/vehicle_shop` or `enhancement/apple_model_size_reduction`.
+- Once your work is done and testing showed no problems, you open a pull request for the issue you worked on.
 - On the **first** pull request you file, you will be asked automatically to sign a [contributor license agreement (CLA)](https://en.wikipedia.org/wiki/Contributor_License_Agreement) via a bot comment. Please click on the badge inside it and go through the quick process of digitally signing it. Your pull request will not be accepted until all contributors on it have signed the CLA.
 This CLA provides everyone involved with a legal basis, to be sure that intellectual property rights are being respected. Nobody wants stolen models, scripts, or otherwise non-credited or illegal assets in our framework.
 
