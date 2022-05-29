@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{4E7B578844A7B37B}Assets/Items/Food/Data/Apple_01.edds"
+ Name "{8E2F3067D06CB1BF}Assets/Items/Food/Apple/Data/Apple_01.edds"
  Configurations {
   JPGResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }
