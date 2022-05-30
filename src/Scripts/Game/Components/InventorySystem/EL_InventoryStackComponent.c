@@ -27,6 +27,11 @@ class EL_InventoryStackComponent : ScriptComponent
 		return m_Quantity;
 	}
 
+	void SetQuantity(int quantity)
+	{
+		m_Quantity = quantity;
+	}
+
 	int GetQuantityMax()
 	{
 		return m_QuantityMax;
@@ -75,11 +80,34 @@ class EL_InventoryStackComponent : ScriptComponent
 		int newQuantity = m_Quantity + other.m_Quantity;
 				
 		IEntity otherItem = other.GetOwner();
+		if (!DeleteItem(otherItem, manager, cb))
+		{
+			return false;
+		}
+		
+		m_Quantity = newQuantity;
+		
+		return true;
+	}
+
+	bool Split(EL_InventoryStackComponent other, SCR_InventoryStorageManagerComponent manager, SCR_InvCallBack cb = null)
+	{
+		return true;
+	}
+
+	static bool DeleteItem(IEntity item, SCR_InventoryStorageManagerComponent manager, SCR_InvCallBack cb = null)
+	{
+		if (!item)
+		{
+			return false;
+		}
+
 		if (false && manager) //! TODO: Investigate why 'TryDeleteItem' fails
 		{
-			if (otherItem && !manager.TryDeleteItem(otherItem))
+			if (!manager.TryDeleteItem(item))
 			{
 				Print("failed to delete");
+
 				if (cb)
 				{
 					cb.InvokeOnFailed();
@@ -90,16 +118,9 @@ class EL_InventoryStackComponent : ScriptComponent
 		}
 		else
 		{
-			delete otherItem;
+			delete item;
 		}
-		
-		m_Quantity = newQuantity;
-		
-		return true;
-	}
 
-	bool Split(EL_InventoryStackComponent other, SCR_InventoryStorageManagerComponent manager, SCR_InvCallBack cb = null)
-	{
 		return true;
 	}
 
