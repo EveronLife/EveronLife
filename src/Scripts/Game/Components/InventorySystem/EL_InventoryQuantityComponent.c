@@ -32,6 +32,8 @@ class EL_InventoryQuantityComponent : ScriptComponent
 	void SetQuantity(int quantity)
 	{
 		m_Quantity = quantity;
+
+		CallOnQuantityChanged();
 		Replication.BumpMe();
 	}
 
@@ -45,7 +47,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 	void OnQuantityChanged(int previous)
 	{
 		Print("OnQuantityChanged: " + this);
-		Print("Prev: " + m_QuantityPrev);
+		Print("Prev: " + previous);
 		Print("Curr: " + GetQuantity());
 
 		SCR_InventoryMenuUI menu = SCR_InventoryMenuUI.Cast(ChimeraMenuBase.CurrentChimeraMenu());
