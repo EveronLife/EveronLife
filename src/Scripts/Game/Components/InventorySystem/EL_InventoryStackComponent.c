@@ -8,6 +8,7 @@ class EL_InventoryStackComponent : ScriptComponent
 	[Attribute(defvalue: "5", uiwidget: UIWidgets.Auto, desc: "Inclusive maximal quantity the entity can be stacked")]
 	private int m_QuantityMax;
 
+	[RplProp()]
 	private int m_Quantity = 1;
 
 	private InventoryItemComponent m_InventoryItemComponent;
