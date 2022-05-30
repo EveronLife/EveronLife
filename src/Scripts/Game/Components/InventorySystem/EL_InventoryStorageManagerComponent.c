@@ -52,10 +52,13 @@ modded class SCR_InventoryStorageManagerComponent
 			SetInventoryLocked(true);
 
 			EL_InventoryQuantityComponent targetQuantityComponent = EL_FindEntityToCombineWith(quantityComponent, pStorageTo);
-			if (targetQuantityComponent && targetQuantityComponent.Combine(quantityComponent, this, cb, false))
+			if (targetQuantityComponent)
 			{
+				targetQuantityComponent.Combine(quantityComponent, this);
+				
 				SetInventoryLocked(false);
 
+				//! Assuming everything is OK does not damage anything
 				SetReturnCode(EInventoryRetCode.RETCODE_OK);
 				cb.InvokeOnComplete();
 				
@@ -79,7 +82,6 @@ modded class SCR_InventoryStorageManagerComponent
 		{
 			return null;
 		}
-
 
 		int count = pStorage.GetSlotsCount();
 		if (count == 0)
@@ -131,6 +133,64 @@ modded class SCR_InventoryStorageManagerComponent
 		}
 
 		return null;
+	}
+
+	void EL_Combine(EL_InventoryQuantityComponent itemA, EL_InventoryQuantityComponent itemB)
+	{
+		Rpc(RPC_EL_Combine, Replication.FindId(itemA), Replication.FindId(itemB));
+	}
+
+	void EL_Split(EL_InventoryQuantityComponent item, BaseInventoryStorageComponent destination)
+	{
+		int quantity = item.GetQuantity();
+		int quantityA = Math.Floor(0.5 * quantity);
+		int quantityB = Math.Ceil(0.5 * quantity);
+
+		//! If the destination is the same and the quantity doesn't change then early terminate
+		if (destination == item.GetOwningStorage() && (quantityA == 0 || quantityB == 0))
+		{
+			return;
+		}
+
+		RplId itemId = Replication.FindId(item);
+		RplId destinationId = Replication.FindId(destination);
+		Rpc(RPC_EL_Split, itemId, destinationId, quantityA, quantityB);
+	}
+
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RPC_EL_Combine(RplId itemAId, RplId itemBId)
+	{
+		EL_InventoryQuantityComponent itemA = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemAId));
+		if (!itemA)
+		{
+			return;
+		}
+
+		EL_InventoryQuantityComponent itemB = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemBId));
+		if (!itemB)
+		{
+			return;
+		}
+
+		itemA.LocalCombine(itemB);
+	}
+
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RPC_EL_Split(RplId itemId, RplId destinationId, int quantityA, int quantityB)
+	{
+		EL_InventoryQuantityComponent item = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemId));
+		if (!item)
+		{
+			return;
+		}
+
+		BaseInventoryStorageComponent destination = BaseInventoryStorageComponent.Cast(Replication.FindItem(destinationId));
+		if (!destination)
+		{
+			return;
+		}
+
+		item.LocalSplit(destination, this, quantityA, quantityB);
 	}
 }
 

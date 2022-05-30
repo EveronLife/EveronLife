@@ -34,16 +34,8 @@ modded class SCR_InventoryMenuUI
 		}
 
 		BaseInventoryStorageComponent storage = quantityComponent.GetOwningStorage();
-		if (!quantityComponent.Split(storage, m_InventoryManager, null))
-		{
-			return;
-		}
-
-		ShowStoragesList();
-		ShowAllStoragesInList();
-		RefreshLootUIListener();
-		RefreshUISlotStorages();
-		NavigationBarUpdate();
+		
+		quantityComponent.Split(storage, m_InventoryManager);
 	}
 
 	override void NavigationBarUpdate()
@@ -51,5 +43,20 @@ modded class SCR_InventoryMenuUI
 		super.NavigationBarUpdate();
 		
 		m_pNavigationBar.SetButtonEnabled("ButtonDropQuantity", true);
+	}
+
+	void EL_Refresh()
+	{
+		if (m_pVicinity)
+		{
+			m_pVicinity.ManipulationComplete();
+		}
+		
+		ShowStoragesList();
+		ShowAllStoragesInList();
+
+		RefreshLootUIListener();
+		RefreshUISlotStorages();
+		NavigationBarUpdate();
 	}
 };
