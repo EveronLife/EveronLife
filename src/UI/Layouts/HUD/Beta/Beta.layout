@@ -5,14 +5,14 @@ FrameWidgetClass {
    Name "URL"
    Slot FrameWidgetSlot "{596565CFBE414D45}" {
     Anchor 0.5 1 0.5 1
-    PositionX -117.403
-    OffsetLeft -117.403
-    PositionY -42.51
-    OffsetTop -42.51
+    PositionX -927.802
+    OffsetLeft -927.802
+    PositionY -1069.03
+    OffsetTop -1069.03
     SizeX 0
-    OffsetRight 117.403
+    OffsetRight 927.802
     SizeY 0
-    OffsetBottom 42.51
+    OffsetBottom 1069.03
     SizeToContent 1
    }
    Pivot 0 0
@@ -21,6 +21,87 @@ FrameWidgetClass {
    "Min Font Size" 36
    "Horizontal Alignment" Center
    "Vertical Alignment" Center
+  }
+  SliderWidgetClass "{597D39368DBE0224}" {
+   Name "healthSlider"
+   Slot FrameWidgetSlot "{597D39368DBE0205}" {
+    PositionX 1552.14
+    OffsetLeft 1552.14
+    PositionY 986.462
+    OffsetTop 986.462
+    SizeX 31.8
+    OffsetRight -1583.94
+    SizeY 62.4
+    OffsetBottom -1048.86
+   }
+   Color 0.561 0.071 0.071 1
+   current 100
+   vertical 1
+   flipped 1
+  }
+  SliderWidgetClass "{597D39368AB52DF7}" {
+   Name "staminaSlider"
+   Slot FrameWidgetSlot "{597D39368AB52DD8}" {
+    PositionX 1602.14
+    OffsetLeft 1602.14
+    PositionY 986.462
+    OffsetTop 986.462
+    SizeX 30.9
+    OffsetRight -1633.04
+    SizeY 63.3
+    OffsetBottom -1049.76
+   }
+   Color 0.686 0.58 0.259 1
+   maximum 1
+   current 1
+   vertical 1
+   flipped 1
+  }
+  SliderWidgetClass "{597D39365E00E9A7}" {
+   Name "hungerSlider"
+   Slot FrameWidgetSlot "{597D39365E00E988}" {
+    PositionX 1702.14
+    OffsetLeft 1702.14
+    PositionY 986.462
+    OffsetTop 986.462
+    SizeX 30.9
+    OffsetRight -1733.04
+    SizeY 62.4
+    OffsetBottom -1048.86
+   }
+   Color 0.157 0.624 0.275 1
+   vertical 1
+   flipped 1
+  }
+  SliderWidgetClass "{597D39365EE13C0F}" {
+   Name "thirstSlider"
+   Slot FrameWidgetSlot "{597D39365EE13C11}" {
+    PositionX 1652.14
+    OffsetLeft 1652.14
+    PositionY 986.462
+    OffsetTop 986.462
+    SizeX 30.9
+    OffsetRight -1683.04
+    SizeY 63.3
+    OffsetBottom -1049.76
+   }
+   Color 0.157 0.275 0.624 1
+   vertical 1
+   flipped 1
+  }
+  TextWidgetClass "{597D3936D39533BA}" {
+   Name "Money"
+   Slot FrameWidgetSlot "{597D3936D395339B}" {
+    PositionX 1411.51
+    OffsetLeft 1411.51
+    PositionY 1019.99
+    OffsetTop 1019.99
+    SizeX 126.694
+    OffsetRight -1538.2
+    SizeY 30
+    OffsetBottom -1049.99
+   }
+   Text "$ -"
   }
  }
 }
