@@ -157,6 +157,7 @@ modded class SCR_InventoryStorageManagerComponent
 		Rpc(RPC_EL_Split, itemId, destinationId, quantityA, quantityB);
 	}
 
+	//! RPCs must be performed in the StorageManagerComponent as that is an owner on client so can send to the server
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RPC_EL_Combine(RplId itemAId, RplId itemBId)
 	{
