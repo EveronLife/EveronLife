@@ -44,33 +44,12 @@ modded class SCR_InventoryStorageManagerComponent
 		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(pItem.FindComponent(EL_InventoryQuantityComponent));
 		if (quantityComponent)
 		{
-			if (!pItem || !IsAnimationReady() || IsInventoryLocked())
-			{
-				return;
-			}
-
-			SetInventoryLocked(true);
-
 			EL_InventoryQuantityComponent targetQuantityComponent = EL_FindEntityToCombineWith(quantityComponent, pStorageTo);
 			if (targetQuantityComponent)
 			{
 				targetQuantityComponent.Combine(quantityComponent, this);
-				
-				SetInventoryLocked(false);
-
-				//! Assuming everything is OK does not damage anything
-				SetReturnCode(EInventoryRetCode.RETCODE_OK);
-				cb.InvokeOnComplete();
-				
 				return;
 			}
-
-			SetInventoryLocked(false);
-
-			//! There is no entity to combine with
-			
-			super.InsertItem(pItem, pStorageTo, pStorageFrom, cb);
-			return;
 		}
 
 		super.InsertItem(pItem, pStorageTo, pStorageFrom, cb);
@@ -123,8 +102,7 @@ modded class SCR_InventoryStorageManagerComponent
 				continue;
 			}
 			
-			bool canCombine = quantityComponent.CanCombine(pQuantity);
-			if (!canCombine)
+			if (!quantityComponent.CanCombine(pQuantity))
 			{
 				continue;
 			}
@@ -137,7 +115,7 @@ modded class SCR_InventoryStorageManagerComponent
 
 	void EL_Combine(EL_InventoryQuantityComponent itemA, EL_InventoryQuantityComponent itemB)
 	{
-		Rpc(RPC_EL_Combine, Replication.FindId(itemA), Replication.FindId(itemB));
+		Rpc(EL_RPC_Combine, Replication.FindId(itemA), Replication.FindId(itemB));
 	}
 
 	void EL_Split(EL_InventoryQuantityComponent item, BaseInventoryStorageComponent destination)
@@ -154,12 +132,12 @@ modded class SCR_InventoryStorageManagerComponent
 
 		RplId itemId = Replication.FindId(item);
 		RplId destinationId = Replication.FindId(destination);
-		Rpc(RPC_EL_Split, itemId, destinationId, quantityA, quantityB);
+		Rpc(EL_RPC_Split, itemId, destinationId);
 	}
 
 	//! RPCs must be performed in the StorageManagerComponent as that is an owner on client so can send to the server
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RPC_EL_Combine(RplId itemAId, RplId itemBId)
+	protected void EL_RPC_Combine(RplId itemAId, RplId itemBId)
 	{
 		EL_InventoryQuantityComponent itemA = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemAId));
 		if (!itemA)
@@ -177,7 +155,7 @@ modded class SCR_InventoryStorageManagerComponent
 	}
 
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RPC_EL_Split(RplId itemId, RplId destinationId, int quantityA, int quantityB)
+	protected void EL_RPC_Split(RplId itemId, RplId destinationId)
 	{
 		EL_InventoryQuantityComponent item = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemId));
 		if (!item)
@@ -185,8 +163,15 @@ modded class SCR_InventoryStorageManagerComponent
 			return;
 		}
 
+		//! Can be null
 		BaseInventoryStorageComponent destination = BaseInventoryStorageComponent.Cast(Replication.FindItem(destinationId));
-		if (!destination)
+
+		int quantity = item.GetQuantity();
+		int quantityA = Math.Floor(0.5 * quantity);
+		int quantityB = Math.Ceil(0.5 * quantity);
+
+		//! If the destination is the same and the quantity doesn't change then early terminate
+		if (destination == item.GetOwningStorage() && (quantityA == 0 || quantityB == 0))
 		{
 			return;
 		}
