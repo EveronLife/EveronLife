@@ -42,6 +42,17 @@ class EL_InventoryStackComponent : ScriptComponent
 		return m_InventoryItemComponent.GetTotalWeight();
 	}
 
+	BaseInventoryStorageComponent GetOwningStorage()
+	{
+		InventoryStorageSlot parentSlot = m_InventoryItemComponent.GetParentSlot();
+		if (parentSlot)
+		{
+			return parentSlot.GetStorage();
+		}
+
+		return null;
+	}
+
 	EntityPrefabData GetPrefabData()
 	{
 		return GetOwner().GetPrefabData();
@@ -90,8 +101,82 @@ class EL_InventoryStackComponent : ScriptComponent
 		return true;
 	}
 
-	bool Split(EL_InventoryStackComponent other, SCR_InventoryStorageManagerComponent manager, SCR_InvCallBack cb = null)
+	bool Split(BaseInventoryStorageComponent destination, SCR_InventoryStorageManagerComponent manager, SCR_InvCallBack cb = null)
 	{
+		IEntity entity = GetOwner();
+		IEntity newEntity = null;
+
+		int quantity = GetQuantity();
+		int quantityA = Math.Floor(0.5 * quantity);
+		int quantityB = Math.Ceil(0.5 * quantity);
+
+		//! If the destination is the same and the quantity doesn't change then early terminate
+		if (destination == GetOwningStorage() && (quantityA == 0 || quantityB == 0))
+		{
+			return false;
+		}
+
+		EntityPrefabData entityData = entity.GetPrefabData();
+		if (!entityData)
+		{
+			return false;
+		}
+
+		Resource resource = Resource.Load(entityData.GetPrefabName());
+		if (!resource.IsValid())
+		{
+			return false;
+		}
+
+		IEntity player = manager.GetOwner();
+
+		EntitySpawnParams params();
+		player.GetWorldTransform(params.Transform);
+
+		newEntity = GetGame().SpawnEntityPrefab(resource, entity.GetWorld(), params);
+
+		if (destination && newEntity)
+		{
+			manager.TryInsertItemInStorage(newEntity, destination);
+		}
+
+		if (!newEntity)
+		{
+			return false;
+		}
+		
+		EL_InventoryStackComponent newStackComponent = EL_InventoryStackComponent.Cast(newEntity.FindComponent(EL_InventoryStackComponent));
+		if (!newStackComponent)
+		{
+			return false;
+		}
+		
+		//! If either is zero then we are removing the item from the inventory
+		if (quantityB == 0 || quantityA == 0)
+		{
+			if (quantityA == 0)
+			{
+				quantityA = quantityB;
+			}
+
+			if (quantityA == 0)
+			{
+				quantityA = 1;
+			}
+
+			if (!EL_InventoryStackComponent.DeleteItem(entity, null, null))
+			{
+				return false;
+			}
+
+			newStackComponent.SetQuantity(quantity);
+		}
+		else
+		{
+			SetQuantity(quantityA);
+			newStackComponent.SetQuantity(quantityB);
+		}
+
 		return true;
 	}
 
