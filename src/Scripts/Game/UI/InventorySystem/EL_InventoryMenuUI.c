@@ -51,12 +51,38 @@ modded class SCR_InventoryMenuUI
 		{
 			m_pVicinity.ManipulationComplete();
 		}
-		
+
 		ShowStoragesList();
 		ShowAllStoragesInList();
 
 		RefreshLootUIListener();
 		RefreshUISlotStorages();
 		NavigationBarUpdate();
+	}
+
+	SCR_InventorySlotUI EL_GetFocusedSlotUI()
+	{
+		return m_pFocusedSlotUI;
+	}
+
+	SCR_InventorySlotUI EL_GetSelectedSlotUI()
+	{
+		return m_pSelectedSlotUI;
+	}
+
+	SCR_InventorySlotUI EL_GetPrevSelectedSlotUI()
+	{
+		return m_pPrevSelectedSlotUI;
+	}
+
+	static void EL_PrintSlotUI(SCR_InventorySlotUI slot)
+	{
+		Print(slot);
+		if (!slot)
+		{
+			return;
+		}
+
+		Print(slot.EL_GetInventoryQuantityComponent());
 	}
 };

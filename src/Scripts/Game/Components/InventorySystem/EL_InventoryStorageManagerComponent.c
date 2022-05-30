@@ -39,20 +39,65 @@ modded class SCR_InventoryStorageManagerComponent
 			return;
 		}
 
-		//! TODO: Handle if the item was dragged directly onto the existing item or next to it. If next to it, it doesn't combine.
-
-		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(pItem.FindComponent(EL_InventoryQuantityComponent));
-		if (quantityComponent)
-		{
-			EL_InventoryQuantityComponent targetQuantityComponent = EL_FindEntityToCombineWith(quantityComponent, pStorageTo);
-			if (targetQuantityComponent)
-			{
-				targetQuantityComponent.Combine(quantityComponent, this);
-				return;
-			}
-		}
+		//! Disabled in favour of having to drag the item directly ontop of the existing item
+		//if (TryCombineItems(pItem, pStorageTo, pStorageFrom, cb))
+		//{
+		//	return;
+		//}
 
 		super.InsertItem(pItem, pStorageTo, pStorageFrom, cb);
+	}
+
+	bool TryCombineItems(IEntity pItem, BaseInventoryStorageComponent pStorageTo, BaseInventoryStorageComponent pStorageFrom, SCR_InvCallBack cb)
+	{
+		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(pItem.FindComponent(EL_InventoryQuantityComponent));
+		if (!quantityComponent)
+		{
+			return false;
+		}
+
+		EL_InventoryQuantityComponent targetQuantityComponent = EL_FindEntityToCombineWith(quantityComponent, pStorageTo);
+		if (!targetQuantityComponent)
+		{
+			return false;
+		}
+
+		targetQuantityComponent.Combine(quantityComponent, this);
+		return true;
+	}
+
+	override bool EquipAny(BaseInventoryStorageComponent storage, IEntity item, int prefered = 0, SCR_InvCallBack cb = null)
+	{
+		if (!cb || !cb.m_pMenu)
+		{
+			return super.EquipAny(storage, item, prefered, cb);
+		}
+
+		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(item.FindComponent(EL_InventoryQuantityComponent));
+		if (!quantityComponent)
+		{
+			return super.EquipAny(storage, item, prefered, cb);
+		}
+		
+		SCR_InventorySlotUI slotUi = cb.m_pMenu.EL_GetFocusedSlotUI();
+		if (!slotUi)
+		{
+			return super.EquipAny(storage, item, prefered, cb);
+		}
+
+		EL_InventoryQuantityComponent targetQuantityComponent = slotUi.EL_GetInventoryQuantityComponent();
+		if (!targetQuantityComponent)
+		{
+			return super.EquipAny(storage, item, prefered, cb);
+		}
+
+		if (!targetQuantityComponent.CanCombine(quantityComponent))
+		{
+			return super.EquipAny(storage, item, prefered, cb);
+		}
+
+		targetQuantityComponent.Combine(quantityComponent, this);
+		return true;
 	}
 
 	protected EL_InventoryQuantityComponent EL_FindEntityToCombineWith(EL_InventoryQuantityComponent pQuantity, BaseInventoryStorageComponent pStorage)

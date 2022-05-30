@@ -85,6 +85,11 @@ class EL_InventoryQuantityComponent : ScriptComponent
 
 	bool CanCombine(EL_InventoryQuantityComponent other)
 	{
+		if (this == other)
+		{
+			return false;
+		}
+
 		if (GetPrefabData() != other.GetPrefabData())
 		{
 			return false;
