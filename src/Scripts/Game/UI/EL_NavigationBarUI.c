@@ -2,11 +2,11 @@ modded class SCR_NavigationBarUI
 {
 	override void HandlerAttached( Widget w )
 	{
-		EL_AddButton("EL_Inventory_SplitStack", "ButtonDropStack");
+		EL_AddButton("EL_Inventory_SplitQuantity", "ButtonDropQuantity");
 				
 		super.HandlerAttached(w);
 		
-		EL_SetButtonName("ButtonDropStack", "Split Stack");
+		EL_SetButtonName("ButtonDropQuantity", "Split Quantity");
 	}
 
 	void EL_AddButton(string action, string buttonId)
@@ -26,6 +26,6 @@ modded class SCR_NavigationBarUI
 			return;
 		}
 
-		button.SetLabel("Split Stack");
+		button.SetLabel("Split Quantity");
 	}
 };

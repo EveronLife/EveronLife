@@ -1,11 +1,11 @@
 [ComponentEditorProps()]
-class EL_InventoryStackComponentClass: ScriptComponentClass
+class EL_InventoryQuantityComponentClass: ScriptComponentClass
 {
 };
 
-class EL_InventoryStackComponent : ScriptComponent
+class EL_InventoryQuantityComponent : ScriptComponent
 {
-	[Attribute(defvalue: "5", uiwidget: UIWidgets.Auto, desc: "Inclusive maximal quantity the entity can be stacked")]
+	[Attribute(defvalue: "5", uiwidget: UIWidgets.Auto, desc: "Inclusive maximal quantity the entity can be quantityed")]
 	private int m_QuantityMax;
 
 	[RplProp()]
@@ -59,7 +59,7 @@ class EL_InventoryStackComponent : ScriptComponent
 		return GetOwner().GetPrefabData();
 	}
 
-	bool CanCombine(EL_InventoryStackComponent other)
+	bool CanCombine(EL_InventoryQuantityComponent other)
 	{
 		if (GetPrefabData() != other.GetPrefabData())
 		{
@@ -81,7 +81,7 @@ class EL_InventoryStackComponent : ScriptComponent
 		return true;
 	}
 
-	bool Combine(EL_InventoryStackComponent other, SCR_InventoryStorageManagerComponent manager, SCR_InvCallBack cb = null, bool validate = true)
+	bool Combine(EL_InventoryQuantityComponent other, SCR_InventoryStorageManagerComponent manager, SCR_InvCallBack cb = null, bool validate = true)
 	{
 		//! Check if everything about the two items are the same
 		if (validate && !CanCombine(other))
@@ -146,8 +146,8 @@ class EL_InventoryStackComponent : ScriptComponent
 			return false;
 		}
 		
-		EL_InventoryStackComponent newStackComponent = EL_InventoryStackComponent.Cast(newEntity.FindComponent(EL_InventoryStackComponent));
-		if (!newStackComponent)
+		EL_InventoryQuantityComponent newQuantityComponent = EL_InventoryQuantityComponent.Cast(newEntity.FindComponent(EL_InventoryQuantityComponent));
+		if (!newQuantityComponent)
 		{
 			return false;
 		}
@@ -165,17 +165,17 @@ class EL_InventoryStackComponent : ScriptComponent
 				quantityA = 1;
 			}
 
-			if (!EL_InventoryStackComponent.DeleteItem(entity, null, null))
+			if (!EL_InventoryQuantityComponent.DeleteItem(entity, null, null))
 			{
 				return false;
 			}
 
-			newStackComponent.SetQuantity(quantity);
+			newQuantityComponent.SetQuantity(quantity);
 		}
 		else
 		{
 			SetQuantity(quantityA);
-			newStackComponent.SetQuantity(quantityB);
+			newQuantityComponent.SetQuantity(quantityB);
 		}
 
 		return true;

@@ -8,9 +8,9 @@ modded class SCR_InventoryStorageBaseUI
 			return super.FindItem(pInvItem);
 		}
 			
-		//! If the item has a stack component then each entity must be shown unique
-		EL_InventoryStackComponent stackComponent = EL_InventoryStackComponent.Cast(entity.FindComponent(EL_InventoryStackComponent));
-		if (!stackComponent)
+		//! If the item has a quantity component then each entity must be shown unique
+		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(entity.FindComponent(EL_InventoryQuantityComponent));
+		if (!quantityComponent)
 		{
 			return super.FindItem(pInvItem);
 		}

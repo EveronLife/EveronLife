@@ -1,6 +1,6 @@
 modded class SCR_InventorySlotUI
 {
-	private EL_InventoryStackComponent m_EL_StackComponent;
+	private EL_InventoryQuantityComponent m_EL_QuantityComponent;
 
 	override void UpdateReferencedComponent(InventoryItemComponent pComponent)
 	{
@@ -11,15 +11,15 @@ modded class SCR_InventorySlotUI
 			return;
 		}
 
-		m_EL_StackComponent = EL_InventoryStackComponent.Cast(pComponent.GetOwner().FindComponent(EL_InventoryStackComponent));
-		if (m_EL_StackComponent)
+		m_EL_QuantityComponent = EL_InventoryQuantityComponent.Cast(pComponent.GetOwner().FindComponent(EL_InventoryQuantityComponent));
+		if (m_EL_QuantityComponent)
 		{
-			SetStackNumber(m_EL_StackComponent.GetQuantity());
+			SetQuantityNumber(m_EL_QuantityComponent.GetQuantity());
 		}
 	}
 
-	EL_InventoryStackComponent EL_GetInventoryStackComponent()
+	EL_InventoryQuantityComponent EL_GetInventoryQuantityComponent()
 	{
-		return m_EL_StackComponent;
+		return m_EL_QuantityComponent;
 	}
 };

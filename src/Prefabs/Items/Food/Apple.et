@@ -7,7 +7,7 @@ Apple : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    }
    OnFrameUpdate 0
   }
-  EL_InventoryStackComponent "{597C9AAC661AECFC}" {
+  EL_InventoryQuantityComponent "{597C9AAC661AECFC}" {
   }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {

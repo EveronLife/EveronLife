@@ -41,8 +41,8 @@ modded class SCR_InventoryStorageManagerComponent
 
 		//! TODO: Handle if the item was dragged directly onto the existing item or next to it. If next to it, it doesn't combine.
 
-		EL_InventoryStackComponent stackComponent = EL_InventoryStackComponent.Cast(pItem.FindComponent(EL_InventoryStackComponent));
-		if (stackComponent)
+		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(pItem.FindComponent(EL_InventoryQuantityComponent));
+		if (quantityComponent)
 		{
 			if (!pItem || !IsAnimationReady() || IsInventoryLocked())
 			{
@@ -51,8 +51,8 @@ modded class SCR_InventoryStorageManagerComponent
 
 			SetInventoryLocked(true);
 
-			EL_InventoryStackComponent targetStackComponent = EL_FindEntityToCombineWith(stackComponent, pStorageTo);
-			if (targetStackComponent && targetStackComponent.Combine(stackComponent, this, cb, false))
+			EL_InventoryQuantityComponent targetQuantityComponent = EL_FindEntityToCombineWith(quantityComponent, pStorageTo);
+			if (targetQuantityComponent && targetQuantityComponent.Combine(quantityComponent, this, cb, false))
 			{
 				SetInventoryLocked(false);
 
@@ -61,7 +61,7 @@ modded class SCR_InventoryStorageManagerComponent
 				
 				return;
 			}
-			
+
 			SetInventoryLocked(false);
 
 			//! There is no entity to combine with
@@ -73,9 +73,9 @@ modded class SCR_InventoryStorageManagerComponent
 		super.InsertItem(pItem, pStorageTo, pStorageFrom, cb);
 	}
 
-	protected EL_InventoryStackComponent EL_FindEntityToCombineWith(EL_InventoryStackComponent pStack, BaseInventoryStorageComponent pStorage)
+	protected EL_InventoryQuantityComponent EL_FindEntityToCombineWith(EL_InventoryQuantityComponent pQuantity, BaseInventoryStorageComponent pStorage)
 	{
-		if (!pStack || !pStack.IsValid())
+		if (!pQuantity || !pQuantity.IsValid())
 		{
 			return null;
 		}
@@ -87,7 +87,7 @@ modded class SCR_InventoryStorageManagerComponent
 			return null;
 		}
 
-		IEntity entity = pStack.GetOwner();
+		IEntity entity = pQuantity.GetOwner();
 		if (!entity)
 		{
 			return null;
@@ -115,19 +115,19 @@ modded class SCR_InventoryStorageManagerComponent
 				continue;
 			}
 
-			EL_InventoryStackComponent stackComponent = EL_InventoryStackComponent.Cast(otherItem.FindComponent(EL_InventoryStackComponent));
-			if (!stackComponent || !stackComponent.IsValid())
+			EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(otherItem.FindComponent(EL_InventoryQuantityComponent));
+			if (!quantityComponent || !quantityComponent.IsValid())
 			{
 				continue;
 			}
 			
-			bool canCombine = stackComponent.CanCombine(pStack);
+			bool canCombine = quantityComponent.CanCombine(pQuantity);
 			if (!canCombine)
 			{
 				continue;
 			}
 
-			return stackComponent;
+			return quantityComponent;
 		}
 
 		return null;

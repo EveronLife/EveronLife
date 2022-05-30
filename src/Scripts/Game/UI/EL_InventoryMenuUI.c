@@ -4,9 +4,9 @@ modded class SCR_InventoryMenuUI
 	{
 		switch (action)
 		{
-		case "EL_Inventory_SplitStack":
+		case "EL_Inventory_SplitQuantity":
 		{
-			EL_SplitStack();
+			EL_SplitQuantity();
 			return;
 		}
 		}
@@ -14,27 +14,27 @@ modded class SCR_InventoryMenuUI
 		super.OnAction(comp, action, pParentStorage, traverseStorageIndex);
 	}
 
-	void EL_SplitStack()
+	void EL_SplitQuantity()
 	{
 		if (!m_pFocusedSlotUI)
 		{
 			return;
 		}
 
-		EL_InventoryStackComponent stackComponent = m_pFocusedSlotUI.EL_GetInventoryStackComponent();
-		if (!stackComponent)
+		EL_InventoryQuantityComponent quantityComponent = m_pFocusedSlotUI.EL_GetInventoryQuantityComponent();
+		if (!quantityComponent)
 		{
 			return;
 		}
 
-		IEntity entity = stackComponent.GetOwner();
+		IEntity entity = quantityComponent.GetOwner();
 		if (!entity)
 		{
 			return;
 		}
 
-		BaseInventoryStorageComponent storage = stackComponent.GetOwningStorage();
-		if (!stackComponent.Split(storage, m_InventoryManager, null))
+		BaseInventoryStorageComponent storage = quantityComponent.GetOwningStorage();
+		if (!quantityComponent.Split(storage, m_InventoryManager, null))
 		{
 			return;
 		}
@@ -50,6 +50,6 @@ modded class SCR_InventoryMenuUI
 	{
 		super.NavigationBarUpdate();
 		
-		m_pNavigationBar.SetButtonEnabled("ButtonDropStack", true);
+		m_pNavigationBar.SetButtonEnabled("ButtonDropQuantity", true);
 	}
 };
