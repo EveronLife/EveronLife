@@ -14,7 +14,7 @@ modded class SCR_InventorySlotUI
 		m_EL_QuantityComponent = EL_InventoryQuantityComponent.Cast(pComponent.GetOwner().FindComponent(EL_InventoryQuantityComponent));
 		if (m_EL_QuantityComponent)
 		{
-			SetQuantityNumber(m_EL_QuantityComponent.GetQuantity());
+			SetStackNumber(m_EL_QuantityComponent.GetQuantity());
 		}
 	}
 
