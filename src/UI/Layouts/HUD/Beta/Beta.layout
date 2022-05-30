@@ -90,7 +90,7 @@ FrameWidgetClass {
    flipped 1
   }
   TextWidgetClass "{597D3936D39533BA}" {
-   Name "Money"
+   Name "moneyDisplay"
    Slot FrameWidgetSlot "{597D3936D395339B}" {
     PositionX 1411.51
     OffsetLeft 1411.51

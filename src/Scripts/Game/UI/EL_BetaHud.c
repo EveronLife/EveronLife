@@ -4,6 +4,7 @@ class EL_BetaHud : SCR_InfoDisplay
 	private SliderWidget healthSlider = null;
 	private SliderWidget thirstSlider = null;
 	private SliderWidget hungerSlider = null;
+	private TextWidget moneyDisplay = null;
 	private SCR_CharacterControllerComponent playerController = null;
 	private DamageManagerComponent DMC = null;
 	
@@ -52,6 +53,17 @@ class EL_BetaHud : SCR_InfoDisplay
 		hungerSlider.SetCurrent(value);
 	}
 	
+		void OnMoneyChange(float value)
+	{
+		if (moneyDisplay)
+		{
+			moneyDisplay = TextWidget.Cast(m_wRoot.FindWidget("moneyDisplay"));
+			if (!moneyDisplay) return;
+		};
+		
+		moneyDisplay.SetText("$ " + value) //for configurabiluity could have the $ changeable in config...
+	}
+	
 	//--------------------------- Main Functions --------------------------- 
 	override event void OnStartDraw(IEntity owner)
 	{
@@ -70,7 +82,7 @@ class EL_BetaHud : SCR_InfoDisplay
 	}
 	
 	
-	//UpdateValues needs to be called upon respawning as to reset the UI -- KNOWN BUG
+	//UpdateValues needs to be called upon respawning as to reset the UI for healthSlider so it isnt stuck at 0 until you take damage -- KNOWN BUG
 	override event void UpdateValues(IEntity owner, float timeSlice)
 	{
 		if (!playerController)
@@ -86,7 +98,7 @@ class EL_BetaHud : SCR_InfoDisplay
 			DMC = DamageManagerComponent.Cast(player.FindComponent(DamageManagerComponent));
 			if (!DMC) return;
 			
-			//add lines to get thirst and hunger here
+			//add lines to get thirst, hunger, money here
 			
 		};
 		

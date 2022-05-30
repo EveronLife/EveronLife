@@ -1,0 +1,4 @@
+class EL_Currency
+{
+	
+}
