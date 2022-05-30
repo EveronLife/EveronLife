@@ -46,9 +46,9 @@ class EL_InventoryQuantityComponent : ScriptComponent
 	
 	void OnQuantityChanged(int previous)
 	{
-		Print("OnQuantityChanged: " + this);
-		Print("Prev: " + previous);
-		Print("Curr: " + GetQuantity());
+		//Print("OnQuantityChanged: " + this);
+		//Print("Prev: " + previous);
+		//Print("Curr: " + GetQuantity());
 
 		SCR_InventoryMenuUI menu = SCR_InventoryMenuUI.Cast(ChimeraMenuBase.CurrentChimeraMenu());
 		if (menu)
