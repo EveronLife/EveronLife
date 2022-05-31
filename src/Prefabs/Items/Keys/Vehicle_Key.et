@@ -1,8 +1,26 @@
 GenericEntity {
- ID "597F394489660FCD"
+ ID "597F3D6C7AE0B395"
  components {
-  RplComponent "{597F394549904CDC}" {
+  EL_VehicleKeyComponent "{597F3D6C545F26E6}" {
+  }
+  InventoryItemComponent "{597F3D6C4B2E490C}" {
+   Attributes SCR_ItemAttributeCollection "{597F3D6C48C8D6CB}" {
+    ItemDisplayName UIInfo "{597F3D6C49DA8677}" {
+     Name "Vehicle Key"
+     Description "Vehicle Key"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{597F3D6C4CA1D1B9}" {
+     Weight 0.05
+    }
+    m_Size SLOT_1x1
+    m_SlotType SLOT_ANY
+   }
+  }
+  MeshObject "{597F3D6C5F8EC54C}" {
+   Object "{EA08EF2EE0340290}Assets/Items/Keys/Vehicle Key.xob"
+  }
+  RplComponent "{597F3D6C51B0BB90}" {
   }
  }
- coords 114.093 0.001 129.551
+ coords 113.462 0.001 133.247
 }
