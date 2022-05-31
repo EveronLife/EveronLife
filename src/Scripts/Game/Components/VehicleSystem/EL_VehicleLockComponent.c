@@ -4,11 +4,20 @@ class EL_VehicleLockComponentClass : SCR_BaseLockComponentClass {
 
 class EL_VehicleLockComponent : SCR_BaseLockComponent {
 	
+	[Attribute("Debug Identifier")]
+	string m_DebugIdentifier;
+	
 	[RplProp()]
-	string m_VehicleIdentifier = "123456";
+	string m_VehicleIdentifier;
 	
 	[RplProp()]
 	bool m_IsLocked = true;
+	
+	
+	void EL_VehicleLockComponent() {
+		if (m_DebugIdentifier != "")
+			m_VehicleIdentifier = m_DebugIdentifier;
+	}
 	
 	override bool IsLocked(IEntity user, BaseCompartmentSlot compartmentSlot)
 	{

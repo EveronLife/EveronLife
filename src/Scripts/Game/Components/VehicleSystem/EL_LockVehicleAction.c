@@ -8,10 +8,6 @@ class EL_VehicleLockAction : ScriptedUserAction
 		//Get the vehicles locking class
 		auto vehicleLock = EL_VehicleLockComponent.Cast(pOwnerEntity.FindComponent(EL_VehicleLockComponent));
 		
-		//Check for lock
-		//if (!vehicleLock)
-		//	return;
-		
 		//Swap islocked
 		vehicleLock.m_IsLocked = !vehicleLock.m_IsLocked;
 		
