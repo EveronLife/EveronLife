@@ -1,4 +1,9 @@
-class EL_Currency
+class EL_CurrencyManager
+{
+	
+}
+
+class EL_CurrencyBank
 {
 	
 }
