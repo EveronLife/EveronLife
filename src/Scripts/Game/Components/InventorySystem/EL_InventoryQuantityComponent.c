@@ -5,7 +5,7 @@ class EL_InventoryQuantityComponentClass: ScriptComponentClass
 
 class EL_InventoryQuantityComponent : ScriptComponent
 {
-	[Attribute(defvalue: "5", uiwidget: UIWidgets.Auto, desc: "Inclusive maximal quantity the entity can be quantityed")]
+	[Attribute(defvalue: "5", uiwidget: UIWidgets.Auto, desc: "Inclusive maximal quantity the entity can be stacked. 0 equals no maximum.")]
 	private int m_QuantityMax;
 
 	[RplProp(onRplName: "CallOnQuantityChanged")]
@@ -29,12 +29,28 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		return m_Quantity;
 	}
 
+	//! Doesn't destory the entity when quantity equals 0
 	void SetQuantity(int quantity)
 	{
-		m_Quantity = quantity;
+		m_Quantity = Math.Max(quantity, 0.0);
+
+		if (m_QuantityMax >= 1)
+		{
+			m_Quantity = Math.Min(m_Quantity, m_QuantityMax);
+		}
 
 		CallOnQuantityChanged();
 		Replication.BumpMe();
+	}
+
+	//! Returns consumed quantity value
+	int AddQuantity(int quantity)
+	{
+		int start = m_Quantity;
+
+		SetQuantity(m_Quantity + quantity);
+
+		return m_Quantity - start;
 	}
 
 	private void CallOnQuantityChanged()
@@ -44,6 +60,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		OnQuantityChanged(prev);
 	}
 	
+	//! Doesn't get called when entity is destroyed as a result of the quantity equalling 0 
 	void OnQuantityChanged(int previous)
 	{
 		//Print("OnQuantityChanged: " + this);
@@ -99,13 +116,6 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		{
 			return false;
 		}
-		
-		int newQuantity = GetQuantity() + other.GetQuantity();
-
-		if (newQuantity > GetQuantityMax())
-		{
-			return false;
-		}
 
 		return true;
 	}
@@ -127,13 +137,18 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		{
 			return;
 		}
-		
-		int newQuantity = m_Quantity + other.m_Quantity;
-				
-		IEntity otherItem = other.GetOwner();
-		RplComponent.DeleteRplEntity(otherItem, false);
-		
-		SetQuantity(newQuantity);
+
+		int requested = other.GetQuantity();
+		int consumed = AddQuantity(requested);
+		if (requested == consumed)
+		{	
+			IEntity otherItem = other.GetOwner();
+			RplComponent.DeleteRplEntity(otherItem, false);
+		}
+		else
+		{
+			other.SetQuantity(requested - consumed);
+		}
 	}
 	
 	void LocalSplit(BaseInventoryStorageComponent destination, SCR_InventoryStorageManagerComponent manager, int quantityA, int quantityB)
