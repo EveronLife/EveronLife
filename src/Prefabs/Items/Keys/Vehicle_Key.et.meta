@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{3EA8291CCC6F4D0F}Prefabs/Items/Keys/Vehicle_Key.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

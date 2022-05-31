@@ -1,4 +1,5 @@
-Vehicle UAZ1 {
+Vehicle {
+ ID "597F3944ADE81EDE"
  components {
   ControllersManagerComponent "{597F3944739ECAC5}" {
   }
@@ -2003,11 +2004,4 @@ Vehicle UAZ1 {
  }
  coords 115.953 0.001 129.497
  m_eVehicleType CAR
-}
-GenericEntity : "{3EA8291CCC6F4D0F}Prefabs/Items/Keys/Vehicle_Key.et" {
- components {
-  RplComponent "{597F394549904CDC}" {
-  }
- }
- coords 114.093 0.001 129.551
 }
