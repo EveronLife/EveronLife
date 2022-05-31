@@ -1282,8 +1282,32 @@ $grp GenericEntity {
  PlumTreeGather {
   coords 105.084 0.001 135.12
   {
+   $grp GenericEntity : "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et" {
+    {
+     coords 4.596 0.953 -0.147
+    }
+    {
+     coords 4.606 0.952 -0.23
+    }
+    {
+     coords 4.67 0.952 -0.238
+    }
+   }
    Tree : "{CEFEBF266E7040A9}Prefabs/Vegetation/Tree/t_prunus_domestica_2s.et" {
     components {
+     MeshObject "{73B3A8279333CB00}" {
+      Object "{C4E0BC68279A46F8}Assets/Vegetation/Tree/Prunus_Domestica/t_prunus_domestica_2s.xob"
+      LODFactors +{
+      }
+     }
+     RigidBody "{73B3A8279333CB0B}" {
+      ModelGeometry 1
+      Static 1
+     }
+     SimpleSoundComponent "{597CB6B1BE8365AB}" {
+      Filenames +{
+      }
+     }
      ActionsManagerComponent "{597CB6B1CB95890C}" {
       ActionContexts {
        UserActionContext "{597CB6B2F827CA1A}" {
@@ -1292,6 +1316,8 @@ $grp GenericEntity {
         }
        }
       }
+     }
+     RplComponent "{597CB6B2E3E4D790}" {
      }
     }
     coords -1.184 0 1.062
