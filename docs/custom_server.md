@@ -72,7 +72,7 @@ Now double click the newly created `.conf` file. Adjust the following settings:
 Now save the file.
 
 ##### Optional: Finishing touches
-1. If you want to, you can go back into the world editor, load up your map and create two new layers (layers can be created via right-click on your world name) called `Gamemode` and `Spawnconfig` and move the `GameMode_Roleplay` and `SpawnPoint_LIFE` objects into their respective layer. 
+1. If you want to, you can go back into the world editor, load up your map and create two new layers (layers can be created via right-click on your sub-scene) called `Gamemode` and `Spawnconfig` and move the `GameMode_Roleplay` and `SpawnPoint_LIFE` objects into their respective layer. 
 This helps to keep things organized later. You can also lock those layers to not accidentally break the core functionality.
 
 2. You can give your mod a project logo to be recognizable in the projects list. First, close the whole Workbench and launch it again.
