@@ -30,7 +30,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 	}
 
 	//! Doesn't destory the entity when quantity equals 0
-	void SetQuantity(int quantity)
+	void SetQuantity(int quantity, bool sync = true)
 	{
 		m_Quantity = Math.Max(quantity, 0.0);
 
@@ -39,16 +39,19 @@ class EL_InventoryQuantityComponent : ScriptComponent
 			m_Quantity = Math.Min(m_Quantity, m_QuantityMax);
 		}
 
-		CallOnQuantityChanged();
-		Replication.BumpMe();
+		if (sync)
+		{
+			CallOnQuantityChanged();
+			Replication.BumpMe();
+		}
 	}
 
 	//! Returns consumed quantity value
-	int AddQuantity(int quantity)
+	int AddQuantity(int quantity, bool sync = true)
 	{
 		int start = m_Quantity;
 
-		SetQuantity(m_Quantity + quantity);
+		SetQuantity(m_Quantity + quantity, sync);
 
 		return m_Quantity - start;
 	}
@@ -125,9 +128,9 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		manager.EL_Combine(this, other);
 	}
 
-	void Split(BaseInventoryStorageComponent destination, SCR_InventoryStorageManagerComponent manager)
+	void Split(BaseInventoryStorageComponent destination, float split, SCR_InventoryStorageManagerComponent manager)
 	{
-		manager.EL_Split(this, destination);
+		manager.EL_Split(this, split, destination);
 	}
 
 	void LocalCombine(EL_InventoryQuantityComponent other)
@@ -139,7 +142,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		}
 
 		int requested = other.GetQuantity();
-		int consumed = AddQuantity(requested);
+		int consumed = AddQuantity(requested, false);
 		if (requested == consumed)
 		{	
 			IEntity otherItem = other.GetOwner();
@@ -149,10 +152,23 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		{
 			other.SetQuantity(requested - consumed);
 		}
+
+		CallOnQuantityChanged();
+		Replication.BumpMe();
 	}
 	
-	void LocalSplit(BaseInventoryStorageComponent destination, SCR_InventoryStorageManagerComponent manager, int quantityA, int quantityB)
+	void LocalSplit(BaseInventoryStorageComponent destination, SCR_InventoryStorageManagerComponent manager, float split)
 	{
+		int quantity = GetQuantity();
+		int quantityA = Math.Floor(split);
+		int quantityB = Math.Ceil(1.0 - split);
+
+		//! If the destination is the same and the quantity doesn't change then early terminate
+		if (destination == GetOwningStorage() && (quantityA == 0 || quantityB == 0))
+		{
+			return;
+		}
+
 		IEntity entity = GetOwner();
 		IEntity newEntity = null;
 

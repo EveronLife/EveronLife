@@ -35,7 +35,7 @@ modded class SCR_InventoryMenuUI
 
 		BaseInventoryStorageComponent storage = quantityComponent.GetOwningStorage();
 		
-		quantityComponent.Split(storage, m_InventoryManager);
+		quantityComponent.Split(storage, 0.5, m_InventoryManager);
 	}
 
 	override void NavigationBarUpdate()
