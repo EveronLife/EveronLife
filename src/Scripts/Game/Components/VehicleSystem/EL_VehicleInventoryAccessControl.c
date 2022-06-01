@@ -1,9 +1,9 @@
-class EL_VehicleInventoryStorageAccessControlClass: EL_InventoryStorageAccessControlClass
+class EL_VehicleInventoryStorageAccessControlClass: EL_BaseInventoryStorageAccessControlClass
 {
 };
 
 
-class EL_VehicleInventoryStorageAccessControl : EL_InventoryStorageAccessControl
+class EL_VehicleInventoryStorageAccessControl : EL_BaseInventoryStorageAccessControl
 {
 	
 	

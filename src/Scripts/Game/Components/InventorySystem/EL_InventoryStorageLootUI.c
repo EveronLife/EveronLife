@@ -18,7 +18,7 @@ modded class SCR_InventoryStorageLootUI : SCR_InventoryStorageBaseUI {
 		
 			
 			//Get the items access control component
-			EL_InventoryStorageAccessControl accessControl = EL_InventoryStorageAccessControl.Cast(item.FindComponent(EL_InventoryStorageAccessControl));
+			EL_BaseInventoryStorageAccessControl accessControl = EL_BaseInventoryStorageAccessControl.Cast(item.FindComponent(EL_BaseInventoryStorageAccessControl));
 		
 			//Check if the item has an access control component
 			if (accessControl) {
