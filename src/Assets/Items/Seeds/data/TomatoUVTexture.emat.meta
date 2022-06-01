@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{1034A71EFE71F158}Assets/Items/Seeds/data/TomatoUVTexture.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

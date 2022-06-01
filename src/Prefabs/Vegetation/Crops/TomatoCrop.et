@@ -1,0 +1,59 @@
+EL_PositionCrop {
+ ID "597C8E361AFDA740"
+ components {
+  InventoryItemComponent "{597C8E36D7B84F6B}" {
+   Attributes SCR_ItemAttributeCollection "{597C8E36E9253873}" {
+    ItemDisplayName UIInfo "{597C8E36ED2BE8A8}" {
+     Name "Tomato"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{597C8E36F1965A99}" {
+     Weight 0.01
+     SizeSetupStrategy Size
+     ItemDimensions 7.5 7.5 7.5
+    }
+    CommonItemType ""
+    m_Size SLOT_1x1
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
+  MeshObject "{597C689DC240295E}" {
+   Object "{B89423573D7244D4}Assets/Vegetation/Vegetables/TomatoCrop_01.xob"
+  }
+  Hierarchy "{597C689FCD8C04BF}" {
+  }
+  RigidBody "{597C7BAC22BEB579}" {
+   ModelGeometry 1
+   Static 1
+  }
+  ActionsManagerComponent "{597C8E3627A8D5BF}" {
+   Enabled 1
+   ActionContexts {
+    UserActionContext "{597C8E36397FCAFC}" {
+     ContextName "default"
+     Position PointInfo "{597C8E363AD6AFAF}" {
+      Offset 0 0.75 0
+     }
+     Radius 4.311
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{597C8E2B2F01DF3A}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 1
+     m_GatherItemDisplayName "Tomato"
+     m_GatherItemPrefab "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et"
+     m_DeleteAfterUse 1
+     m_AlwaysActive 0
+    }
+   }
+  }
+  RplComponent "{597C689FB6C7BF08}" {
+  }
+ }
+ coords 92.95 0.001 130.527
+ m_buildingType CROP
+ growTime 10
+ totalYIncrease 1.465
+}

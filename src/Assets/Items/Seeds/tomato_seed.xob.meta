@@ -1,0 +1,31 @@
+MetaFileClass {
+ Name "{3B0F9D6E5236E09E}Assets/Items/Seeds/Seed_Tomato.xob"
+ Configurations {
+  FBXResourceClass PC {
+   MaterialAssigns {
+    MaterialAssignClass "{597B49526A8B5028}" {
+     SourceMaterial "TomatoUVTexture"
+     AssignedMaterial "{1034A71EFE71F158}Assets/Items/Seeds/data/TomatoUVTexture.emat"
+    }
+   }
+   Common TXOCommonClass "{597B49526A8F1F61}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{597B49526A8F1FE3}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{597B49526A8F1E30}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{597B49526A8F1E17}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{597B49526A8F1E75}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}

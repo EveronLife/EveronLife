@@ -4,6 +4,10 @@ SCR_ChimeraCharacter : "{7A9EE19AB67B298B}Prefabs/Characters/Factions/INDFOR/FIA
   CharacterWeaponSlotComponent "{520EA1D2F659CFDC}" {
    WeaponTemplate "{BC5061EBB3284158}Prefabs/Weapons/Handguns/M9/Handgun_M9_empty.et"
   }
+  EL_BuildingManagerComponent "{597B34FBC1BDB21B}" {
+   m_PreviewMaterial "{58F07022C12D0CF5}Assets/Editor/PlacingPreview/Preview.emat"
+   m_BasePreviewPrefab "{5626E68741FCB9DB}Prefabs/Building/BaseBuildingPreview.et"
+  }
   SCR_EditableCharacterComponent "{520EA1D2F659C85C}" {
    m_UIInfo SCR_EditableEntityUIInfo "{5298E609432D192D}" {
     Name "#AR-Role_Unarmed"

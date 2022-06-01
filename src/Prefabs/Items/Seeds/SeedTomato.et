@@ -1,0 +1,82 @@
+GenericEntity {
+ ID "59752C6F3883AB8D"
+ components {
+  EL_BuildingPerformerComponent "{597C8E37150EA9DC}" {
+   m_eAnimVariable ADRIANOV
+   m_BuildingPrefab "{F8A57337BD45B783}Prefabs/Vegetation/Vegetables/TomatoCrop_01.et"
+  }
+  InventoryItemComponent "{59752C6F42BE630E}" {
+   Attributes SCR_ItemAttributeCollection "{59752C6F5A5C85AC}" {
+    ItemDisplayName UIInfo "{59752C6F5D8BC37C}" {
+     Name "Tomato Seed"
+     Description "Plant this"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59752C6F7F053682}" {
+     Weight 0.01
+     DimensionScaler 0.1
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59752C6F773C76A7}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59752C6FC860AAD1}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 0
+     HandAdditiveTranslation 0 0.025 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{59752C69D36BC395}" {
+      CameraPreset Right
+      CameraDistanceToItem 0.5
+      CameraOffset 0 0 0
+      FOV 10
+     }
+    }
+    m_Size SLOT_1x1
+    m_SlotType SLOT_ANY
+   }
+  }
+  MeshObject "{59752C6D8F32A642}" {
+   Object "{3B0F9D6E5236E09E}Assets/Items/Seeds/tomato_seed.xob"
+   Materials {
+    MaterialAssignClass "{59752C6F16C2140B}" {
+     SourceMaterial "TomatoUVTexture"
+     AssignedMaterial "{1034A71EFE71F158}Assets/Items/Seeds/data/TomatoUVTexture.emat"
+    }
+   }
+  }
+  Hierarchy "{59752C6EEB124832}" {
+  }
+  RigidBody "{59752C6EA112145E}" {
+   ModelGeometry 1
+  }
+  ActionsManagerComponent "{59752C6FFA269B37}" {
+   ActionContexts {
+    UserActionContext "{59752C6FFD17A8F4}" {
+     ContextName "default"
+     Position PointInfo "{59752C6FF328EC65}" {
+     }
+     Radius 8.719
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59752C6E0815F4B7}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59752C6E0D086B65}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{59752C6FE489D4C5}" {
+  }
+ }
+ coords 9593.622 25.027 1634.316
+ scale 1.15
+}

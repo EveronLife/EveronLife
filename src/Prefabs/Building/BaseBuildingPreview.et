@@ -1,0 +1,30 @@
+SCR_EditablePreviewEntity {
+ ID "597EFAF0EF28C44C"
+ components {
+  MeshObject "{597EFAF0D55A5E17}" {
+   Object "{B89423573D7244D4}Assets/Vegetation/Vegetables/TomatoCrop_01.xob"
+   Materials {
+    MaterialAssignClass "{597EFAF0D55A5FD6}" {
+     SourceMaterial "TomatoCrop_01"
+     AssignedMaterial "{58F07022C12D0CF5}Assets/Editor/PlacingPreview/Preview.emat"
+    }
+    MaterialAssignClass "{597EFAF0D55A5FC4}" {
+     SourceMaterial "TomatoCrop_01_wood"
+     AssignedMaterial "{58F07022C12D0CF5}Assets/Editor/PlacingPreview/Preview.emat"
+    }
+   }
+  }
+  SCR_EditablePreviewComponent "{597EFAF0D55A5EAE}" {
+   Enabled 0
+   m_UIInfo SCR_EditableEntityUIInfo "{597EFAF0D55A5E73}" {
+    Name "est"
+    Description "ttt"
+   }
+   m_bAutoRegister NEVER
+   m_AccessKey 0
+   m_Flags 8728
+  }
+ }
+ coords 98.536 0.001 130.115
+ m_Flags 65
+}

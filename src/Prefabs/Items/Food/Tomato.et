@@ -1,0 +1,22 @@
+GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Tomato"
+     Description "This is a Tomato  from a Tomato Crop"
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5966FD8070F889C7}" {
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0 0
+    }
+   }
+  }
+  MeshObject "{59652C0ACB87CEB7}" {
+   Object "{A87E248EF9C50419}Assets/Items/Food/Tomato/tomato.xob"
+  }
+ }
+ coords 102.222 0.934 133.914
+ scale 0.75
+}

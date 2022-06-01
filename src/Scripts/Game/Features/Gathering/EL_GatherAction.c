@@ -5,7 +5,15 @@ class EL_GatherAction : ScriptedUserAction
 	
 	[Attribute("", UIWidgets.ResourceNamePicker, desc: "Prefab what item is gathered")]
 	private ResourceName m_GatherItemPrefab;
-		
+	
+	[Attribute("false", UIWidgets.ResourceNamePicker, desc: "Delete the object after gathering?")]
+	private bool m_DeleteAfterUse;
+	
+	[Attribute("true", UIWidgets.ResourceNamePicker, desc: "Gather Action always active?")]
+	private bool m_AlwaysActive;
+	
+	
+	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		// Play sound
@@ -20,16 +28,35 @@ class EL_GatherAction : ScriptedUserAction
 		
 		//Show hint what to do with the gathered item
 		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
-	}
+		
+		//Delete entity after use
+		if (m_DeleteAfterUse)
+			delete(pOwnerEntity);
+			
+	}		
 	
+	//------------------------------------------------------------------------------------------------
 	override bool GetActionNameScript(out string outName)
 	{
 		outName = string.Format("Gather %1", m_GatherItemDisplayName);
 		return true;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
  	{
-		return true;
+		//Upcast to BaseCrop to get grow status from any crop type
+		EL_BaseCrop baseCrop = EL_BaseCrop.Cast(GetOwner());
+		if (baseCrop && baseCrop.m_IsGrown)
+			return true;
+		
+		return m_AlwaysActive;
  	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Hide action until CanBePerformed to not show "Action [Unavailable]"
+	override bool CanBeShownScript(IEntity user)
+	{
+		return CanBePerformedScript(user);
+	}
 }
