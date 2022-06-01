@@ -46,6 +46,7 @@ After the map is loaded you navigate to `File > New World` and choose the option
 Once loaded you may or may not be in the middle of nowhere or in the water. Go into the left `Hierarchy` view unfold the parent world (e.g. `Eden`) and select any of the default layer objects. Now press F or right-click it and `Focus selection`. Now you should be able to see the map.
 To make sure that you do not accidentally edit the parent world, you can right-click its layers (e.g. `default`) and choose `Lock`.
 Before doing anything else you want to save the empty map via `File > Save World`. Navigate to your mod's `Worlds` folder (e.g. `MyCustomServer/Worlds`) and for the name, you can again put your community name (e.g. `MyCustomServer`). The file is then saved as `MyCustomServer.ent`
+If it's not saved, save it via `File > Force Save All`. You should now see the files in your folder.
 
 ##### Adding the game mode
 Now it is time to connect the map with the game mode. To do this, all you need to do is place two prefabs. Prefabs are a bundle of map objects and script components that are your primary building blocks when mapping for your server.
@@ -71,7 +72,7 @@ Now double click the newly created `.conf` file. Adjust the following settings:
 Now save the file.
 
 ##### Optional: Finishing touches
-1. If you want to, you can go back into the world editor, load up your map and create two new layers (layers can be created via right-click on your world name) called `Gamemode` and `Spawnconfig` and move the `GameMode_Roleplay` and `SpawnPoint_LIFE` objects into their respective layer. 
+1. If you want to, you can go back into the world editor, load up your map and create two new layers (layers can be created via right-click on your sub-scene) called `Gamemode` and `Spawnconfig` and move the `GameMode_Roleplay` and `SpawnPoint_LIFE` objects into their respective layer. 
 This helps to keep things organized later. You can also lock those layers to not accidentally break the core functionality.
 
 2. You can give your mod a project logo to be recognizable in the projects list. First, close the whole Workbench and launch it again.
@@ -96,6 +97,10 @@ Now you navigate to `Workbench > Workshop Member Area > Publish project` and the
 - `Summary` -> Short summary of the mod shown in the mod browsing section.
 - `Description` -> Full description shown on the mod detail page. This would be one possible way **to correctly give credits** for using the Everon Life framework, by including something like `Powered by` or `Built with` `Everon Life Framework` 
 Now click `Bundle` and then `Publish`
+
+If you get the error message: `Asset bundle manifest is invalid` when publishing.
+It could be because some characters are not supported in the workshop.
+Make sure that the Summary and Description do not contain any illegal characters!
 
 
 ### Setting up your server
