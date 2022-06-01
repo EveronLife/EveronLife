@@ -106,7 +106,7 @@ class EL_BetaHud : SCR_InfoDisplay
 			if (!DMC) return;
 			
 			//add things here to find component for survivalstats
-			 
+			
 			
 			//functon to get money from @Arkensor & @Jacob_Mango contribution of a money System
 			//MSC = moneysystemcomponent.Cast(player.FindComponent(moneysystemcomponent))

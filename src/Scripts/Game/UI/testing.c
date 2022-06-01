@@ -32,4 +32,4 @@ class EL_SurvivalStats
 	}
 }
 
-// really could use with this being made as a player attached component, IDK how to code a Component yet.
+// need to store values on Component in the player
