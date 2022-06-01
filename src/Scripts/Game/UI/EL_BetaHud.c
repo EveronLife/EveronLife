@@ -70,8 +70,6 @@ class EL_BetaHud : SCR_InfoDisplay
 	{
 		super.OnStartDraw(owner);
 
-		staminaSlider = SliderWidget.Cast(m_wRoot.FindWidget("staminaSlider"));
-		healthSlider = SliderWidget.Cast(m_wRoot.FindWidget("healthSlider"));
 		IEntity player = GetGame().GetPlayerController();
 		if (!player) 
 		{
