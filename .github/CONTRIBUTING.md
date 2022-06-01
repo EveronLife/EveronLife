@@ -35,12 +35,15 @@ It can be difficult to decide on design and implementation concepts or other asp
 * Reference issues and pull requests liberally after the first line
 * Consider using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-### <a name="code_guidelines"></a> Code Styleguide
+### <a name="code_guidelines"></a> Code styleguide
 Currently, we do not have yet automatic tooling to enforce our code style guide. For now please follow the guidelines published on the Community Wiki.
 * [Do's and Don'ts](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Do%27s_and_Don%27ts)
 * [Conventions](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Conventions)
 * [Performance](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Performance)
 * [Values](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Values)
+
+### Directory guidelines
+* [Arma Reforger directory structure](https://community.bistudio.com/wiki/Arma_Reforger:Directory_Structure)
 
 ### <a name="changes_merged"></a> Getting your changes merged
 - Any changes you want to propose are to be developed on a fork of the repository you create. There you can collaborate with others and have them push to your fork. 
