@@ -7,6 +7,7 @@ class EL_BetaHud : SCR_InfoDisplay
 	private TextWidget moneyDisplay = null;
 	private SCR_CharacterControllerComponent playerController = null;
 	private DamageManagerComponent DMC = null;
+	//private moneysystemcomponent MSC = null;
 	
 	//--------------------------- OnChangeFunctions --------------------------- 
 	void OnHealthChange(float value)
@@ -72,13 +73,18 @@ class EL_BetaHud : SCR_InfoDisplay
 		staminaSlider = SliderWidget.Cast(m_wRoot.FindWidget("staminaSlider"));
 		healthSlider = SliderWidget.Cast(m_wRoot.FindWidget("healthSlider"));
 		IEntity player = GetGame().GetPlayerController();
-		if (!player) {
+		if (!player) 
+		{
 			Print("no player found");
 			return;
 		}
 		
 		playerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
-		if (playerController) Print("Found character controller component")
+		if (playerController) 
+		{
+			Print("Found character controller component")
+		}
+		
 	}
 	
 	
@@ -88,7 +94,8 @@ class EL_BetaHud : SCR_InfoDisplay
 		if (!playerController)
 		{
 			IEntity player = SCR_PlayerController.GetLocalControlledEntity();
-			if (!player) {
+			if (!player) 
+			{
 				return;
 			}
 		
@@ -98,11 +105,14 @@ class EL_BetaHud : SCR_InfoDisplay
 			DMC = DamageManagerComponent.Cast(player.FindComponent(DamageManagerComponent));
 			if (!DMC) return;
 			
-			//add lines to get thirst, hunger, money here
+			//add things here to find component for survivalstats
+			 
 			
+			//functon to get money from @Arkensor & @Jacob_Mango contribution of a money System
+			//MSC = moneysystemcomponent.Cast(player.FindComponent(moneysystemcomponent))
 		};
 		
+		OnHealthChange(DMC.GetHealth());
 		OnStaminaChange(playerController.GetStamina());
-		OnHealthChange(DMC.GetHealth())
 	}
 }
