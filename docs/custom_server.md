@@ -98,6 +98,10 @@ Now you navigate to `Workbench > Workshop Member Area > Publish project` and the
 - `Description` -> Full description shown on the mod detail page. This would be one possible way **to correctly give credits** for using the Everon Life framework, by including something like `Powered by` or `Built with` `Everon Life Framework` 
 Now click `Bundle` and then `Publish`
 
+If you get the error message: `Asset bundle manifest is invalid` when publishing.
+It could be because some characters are not supported in the workshop.
+Make sure that the Summary and Description do not contain any illegal characters!
+
 
 ### Setting up your server
 Before setting up your server you need two pieces of information: Your mod GUID and the path of your mission config.  
