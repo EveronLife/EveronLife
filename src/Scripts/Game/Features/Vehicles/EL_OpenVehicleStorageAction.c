@@ -1,35 +1,20 @@
-class EL_VehicleLockAction : ScriptedUserAction
-{
+class EL_OpenVehicleStorageAction : SCR_OpenVehicleStorageAction {
 	
-	
-	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
-	{
-		
-		//Get the vehicles locking class
-		auto vehicleLock = EL_VehicleLockComponent.Cast(pOwnerEntity.FindComponent(EL_VehicleLockComponent));
-		
-		//Swap islocked
-		vehicleLock.m_IsLocked = !vehicleLock.m_IsLocked;
-		
-		//Hints
-		if (vehicleLock.m_IsLocked) {
-			SCR_HintManagerComponent.GetInstance().ShowCustomHint("Your vehicle is now locked.", "Vehicle Locked", 3);
-		} else {
-			SCR_HintManagerComponent.GetInstance().ShowCustomHint("Your vehicle is now unlocked.", "Vehicle Unlocked", 3);
-		};
-	}
-	
-	override bool GetActionNameScript(out string outName)
-	{
-		outName = string.Format("Lock/Unlock Vehicle");
-		return true;
-	}
 	
 	override bool CanBePerformedScript(IEntity user)
  	{
 		
+		//Call base method
+		if (!super.CanBePerformedScript(user))
+			return false;
+		
+		
 		//Get the vehicle's lock
 		EL_VehicleLockComponent vehicleLock = EL_VehicleLockComponent.Cast(this.GetOwner().FindComponent(EL_VehicleLockComponent));
+		
+		//If the vehicle isnt locked, then yes we can perform!
+		if (!vehicleLock.m_IsLocked)
+			return true;
 		
 		//Get the users inventory
 		auto inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
@@ -55,10 +40,9 @@ class EL_VehicleLockAction : ScriptedUserAction
 		}
 		
 		//Set the cant be feformed reason
-		SetCannotPerformReason("Missing Key");
+		SetCannotPerformReason("Locked");
 		
 		return false;
  	}
-	
 	
 }
