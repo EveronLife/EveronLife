@@ -160,8 +160,8 @@ class EL_InventoryQuantityComponent : ScriptComponent
 	void LocalSplit(BaseInventoryStorageComponent destination, SCR_InventoryStorageManagerComponent manager, float split)
 	{
 		int quantity = GetQuantity();
-		int quantityA = Math.Floor(split);
-		int quantityB = Math.Ceil(1.0 - split);
+		int quantityA = Math.Floor(quantity * split);
+		int quantityB = Math.Ceil(quantity * (1.0 - split));
 
 		//! If the destination is the same and the quantity doesn't change then early terminate
 		if (destination == GetOwningStorage() && (quantityA == 0 || quantityB == 0))

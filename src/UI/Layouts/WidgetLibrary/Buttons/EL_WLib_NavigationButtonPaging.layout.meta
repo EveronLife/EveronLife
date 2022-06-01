@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{00ACB2767A28349A}UI/layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

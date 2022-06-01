@@ -1,0 +1,114 @@
+ButtonWidgetClass "{5982E004FFD253FC}" {
+ Name "NavigationButton"
+ Slot AlignableSlot "{5562AD4DE94488A9}" {
+  Padding 0 0 10 0
+ }
+ Clipping False
+ Color 0 0 0 0
+ components {
+  SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+   m_BackgroundDefault 0 0 0 0.42
+   m_BackgroundHovered 0 0 0 0.42
+   m_BackgroundSelectedHovered 0.76 0.392 0.08 0.3
+   m_BackgroundClicked 0.76 0.392 0.08 0.3
+   m_bShowBorderOnFocus 0
+   m_sLabel "Navigation Button"
+   m_sActionName "MenuNavRight"
+  }
+ }
+ "no focus" 1
+ {
+  SizeLayoutWidgetClass "{5982E004FFD253FD}" {
+   Name "SizeLayout"
+   Slot ButtonWidgetSlot "{5562AD435529FB5D}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   AllowHeightOverride 1
+   HeightOverride 48
+   {
+    OverlayWidgetClass "{5982E004FFD253F2}" {
+     Name "Overlay"
+     Slot ButtonWidgetSlot "{5452C531C2876D63}" {
+      VerticalAlign 3
+      Padding 2 2 2 2
+     }
+     {
+      PanelWidgetClass "{5982E004FFD253F3}" {
+       Name "Border"
+       Slot OverlayWidgetSlot "{5562AD426F7EB8E7}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding -2 -2 -2 -2
+       }
+       Opacity 0
+       Color 0.761 0.386 0.078 1
+       style outline_2px
+      }
+      HorizontalLayoutWidgetClass "{5982E004FFD3C370}" {
+       Name "HorizontalLayout"
+       Slot OverlayWidgetSlot "{547290FBCA5E9358}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Clipping False
+       "Inherit Color" 1
+       {
+        SizeLayoutWidgetClass "{5982E004FFD3C376}" {
+         Name "SizeLayout"
+         Slot LayoutSlot "{587100582AC3CB71}" {
+          Padding 5 0 5 0
+         }
+         AllowWidthOverride 1
+         WidthOverride 29
+         {
+          RichTextWidgetClass "{5982E004FFD3C375}" : "{AF1955F09606B450}UI/layouts/WidgetLibrary/RichTextWidgets/RichText_Interactive.layout" {
+           Name "Action"
+           Slot LayoutSlot "{547AD5678196CDF0}" {
+            HorizontalAlign 0
+            Padding 2 -3 0 3
+           }
+           Clipping True
+           Color 0.761 0.386 0.078 1
+           Text "<action name=\"MenuTabLeft\"/>"
+           "Min Font Size" 20
+           "Vertical Alignment" Center
+          }
+         }
+        }
+        FrameWidgetClass "{5982E004FFD3C374}" {
+         Name "ImageFrame"
+         Slot LayoutSlot "{58E0C4A065A11E98}" {
+          Padding 10 0 10 0
+         }
+         {
+          ImageWidgetClass "{5982E004FFD3113E}" {
+           Name "Image"
+           Slot FrameWidgetSlot "{58E0C4A063ECADF1}" {
+            Anchor 0.5 0.5 0.5 0.5
+            PositionX 0
+            OffsetLeft 0
+            PositionY -2
+            OffsetTop -2
+            SizeX 100
+            OffsetRight -100
+            SizeY 30
+            OffsetBottom -28
+            Alignment 0.5 0.5
+            SizeToContent 1
+           }
+           Color 0.761 0.392 0.08 1
+           Texture "{45008A4A62B2B5F6}UI/Textures/WidgetLibrary/ButtonSortArrow_Right_16px_UI.edds"
+           Image ""
+           Size 16 16
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

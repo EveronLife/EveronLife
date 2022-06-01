@@ -1,0 +1,177 @@
+FrameWidgetClass {
+ Name "BasicDialog"
+ "Is Visible" 1
+ "Ignore Cursor" 0
+ Color 0.357 0.357 0.357 1
+ {
+  ImageWidgetClass "{597EC7F2313645C5}" : "{997E262EDAF1549F}UI/layouts/Menus/Dialogs/DialogBackground.layout" {
+   Name "OuterBackground0"
+   Slot FrameWidgetSlot "{5558C3118DE4FCC1}" {
+   }
+  }
+  OverlayWidgetClass "{597EC7F2313645C7}" : "{1123A3569ACDCDEC}UI/layouts/Menus/Dialogs/DialogBase.layout" {
+   Name "DialogBase0"
+   Slot FrameWidgetSlot "{5510B6AD02D313DF}" {
+   }
+   {
+    VerticalLayoutWidgetClass "{5510B6AD7C32873E}" {
+     Prefab "{5510B6AD7C32873E}"
+     {
+      ImageWidgetClass "{56CAA30A22E3F57D}" {
+       Prefab "{56CAA30A22E3F57D}"
+       Size 48 48
+      }
+      TextWidgetClass "{5510B6AC7B039C4D}" {
+       Prefab "{5510B6AC7B039C4D}"
+       Slot LayoutSlot "{5558A7C1F9BF5F8A}" {
+        Padding 80 -39 25 0
+       }
+       Text "Split Quantity"
+      }
+      OverlayWidgetClass "{5510B6ACD309D043}" {
+       Prefab "{5510B6ACD309D043}"
+       {
+        HorizontalLayoutWidgetClass "{5982E004BE72BD49}" {
+         Name "ContentSizer"
+         Slot OverlayWidgetSlot "{5982E004BE72BD65}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         "Fill Origin" Center
+         {
+          ButtonWidgetClass "{5982E004F2F65259}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
+           Name "DecreaseButton"
+           Slot LayoutSlot {
+            SizeMode Fill
+            FillWeight 0.2
+           }
+           components {
+            SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+             m_sActionName "MenuNavLeft"
+            }
+           }
+           {
+            SizeLayoutWidgetClass "{5982E004FFD253FD}" {
+             Prefab "{5982E004FFD253FD}"
+             {
+              OverlayWidgetClass "{5982E004FFD253F2}" {
+               Prefab "{5982E004FFD253F2}"
+               {
+                HorizontalLayoutWidgetClass "{5982E004FFD3C370}" {
+                 Prefab "{5982E004FFD3C370}"
+                 {
+                  FrameWidgetClass "{5982E004FFD3C374}" {
+                   Prefab "{5982E004FFD3C374}"
+                   {
+                    ImageWidgetClass "{5982E004FFD3113E}" {
+                     Prefab "{5982E004FFD3113E}"
+                     Rotation 180
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+          EditBoxWidgetClass "{5982E002729A3E12}" {
+           Name "QuantityInput"
+           Slot LayoutSlot "{5982E002729A3E33}" {
+            SizeMode Fill
+            FillWeight 0.3
+           }
+           "Use placeholder text" 1
+           "Placeholder text" "0"
+           "Horizontal alignment" Right
+           "Virtual Keyboard Title" "Quantity"
+           "Virtual Keyboard Desc" "How much do you want to drop?"
+          }
+          TextWidgetClass "{5982E00047785D5E}" {
+           Name "QuantityDividor"
+           Slot LayoutSlot "{5982E00047785D63}" {
+           }
+           Pivot 0.5 0.5
+           Text "/"
+           "Font Size" 40
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           Offset 0 -0.5
+          }
+          TextWidgetClass "{5982E0005EB5850E}" {
+           Name "QuantityMax"
+           Slot LayoutSlot "{5982E0005EB5852F}" {
+            SizeMode Fill
+            FillWeight 0.3
+           }
+           Text "0"
+           "Vertical Alignment" Center
+           Offset 0 0
+          }
+          ButtonWidgetClass "{5982E004F68F10AF}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
+           Name "IncreaseButton"
+           Slot LayoutSlot {
+            SizeMode Fill
+            FillWeight 0.2
+           }
+           {
+            SizeLayoutWidgetClass "{5982E004FFD253FD}" {
+             Prefab "{5982E004FFD253FD}"
+             {
+              OverlayWidgetClass "{5982E004FFD253F2}" {
+               Prefab "{5982E004FFD253F2}"
+               {
+                HorizontalLayoutWidgetClass "{5982E004FFD3C370}" {
+                 Prefab "{5982E004FFD3C370}"
+                 {
+                  FrameWidgetClass "{5982E004FFD3C374}" {
+                   Prefab "{5982E004FFD3C374}"
+                   "Z Order" -1
+                   {
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5510B6AC9B6E1FC2}" {
+       Prefab "{5510B6AC9B6E1FC2}"
+       {
+        ButtonWidgetClass "{5592C598DBD75400}" {
+         Prefab "{5592C598DBD75400}"
+         components {
+          SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+           m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+          }
+         }
+         {
+         }
+        }
+        ButtonWidgetClass "{5592C59F26008352}" {
+         Prefab "{5592C59F26008352}"
+         components {
+          SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+           m_sActionName "DialogConfirm"
+          }
+         }
+         {
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
