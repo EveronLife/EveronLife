@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{3FE0F52C19A1E77C}Assets/Items/Food/Apple/Data/Apple.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}
