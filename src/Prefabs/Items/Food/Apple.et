@@ -39,7 +39,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    }
   }
   MeshObject "{59652C0ACB87CEB7}" {
-   Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/apple.xob"
+   Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
    LODScale 0.1
    PixelSizeScale 10
   }
