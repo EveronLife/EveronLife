@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{5C98899DE23C7813}Assets/Items/Food/Plum/data/Material_2D_View (1).edds"
+ Name "{5C98899DE23C7813}Assets/Items/Food/Plum/data/Plum_Material.edds"
  Configurations {
   TIFFResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }

@@ -5,7 +5,7 @@ MetaFileClass {
    MaterialAssigns {
     MaterialAssignClass "{597EB529FC4ACF5B}" {
      SourceMaterial "Material"
-     AssignedMaterial "{5DCEE3E3833E90FA}Assets/Items/Food/Plum/data/Plum_01.emat"
+     AssignedMaterial "{5DCEE3E3833E90FA}Assets/Items/Food/Plum/data/Plum.emat"
     }
    }
    Common TXOCommonClass "{597EB529FC413FC6}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
