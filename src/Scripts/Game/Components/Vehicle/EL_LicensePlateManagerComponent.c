@@ -82,7 +82,7 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 		}
 	}
 	
-	override void OnPostInit(IEntity owner)
+    override void OnPostInit(IEntity owner)
     {		
 		SetEventMask(owner, EntityEvent.INIT);
 		owner.SetFlags(EntityFlags.ACTIVE, false);
