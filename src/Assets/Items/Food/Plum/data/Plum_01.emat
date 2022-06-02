@@ -2,5 +2,5 @@ MatPBRBasic {
  Color 0.397 0.481 0.716 1
  Specular 1 1 1 1
  RoughnessScale 0.779
- BCRMap "{64D397E3D6FC6A94}Assets/Items/Food/Plum/Plum_01.edds"
+ BCRMap "{5C98899DE23C7813}Assets/Items/Food/Plum/data/Plum_Material.edds"
 }
