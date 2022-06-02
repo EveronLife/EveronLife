@@ -27,6 +27,15 @@ class EL_LicensePlateEntity : GenericEntity
 		SetFlags(EntityFlags.ACTIVE, false);
 	}
 	
+	void ~EL_LicensePlateEntity()
+	{
+		if (m_wPIPRoot)
+		{
+			m_wPIPRoot.RemoveFromHierarchy();
+			m_wPIPRoot = null;
+		}
+	}
+	
 	protected override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		if (!m_wPIPRoot)
