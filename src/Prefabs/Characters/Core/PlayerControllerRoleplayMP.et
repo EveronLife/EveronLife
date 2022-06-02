@@ -1,9 +1,6 @@
 SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerControllerMP.et" {
  ID "1A9BA6BEFA06E3B1"
  components {
-  EL_SurvivalStatsManagerComponent "{5983555561CC1BDB}" {
-   DecaySpeed 10
-  }
   SCR_HUDManagerComponent "{2FDC275D9EBCDB8B}" {
    InfoDisplays {
     EL_BetaHud "{596B35404325D772}" {
