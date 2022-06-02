@@ -57,6 +57,7 @@ FrameWidgetClass {
    Image ""
    Size 512 512
    "Transition width" 0
+   Progress 0.567
    Range 0.005
   }
   SliderWidgetClass "{597D39368AB52DF7}" {
@@ -126,6 +127,7 @@ FrameWidgetClass {
     SizeY 47.2
     OffsetBottom 32.8
    }
+   IsPixelPerfect 0
    Texture "{C04B9C3C3A616327}Assets/UI/food.edds"
    Image ""
    Size 512 512
