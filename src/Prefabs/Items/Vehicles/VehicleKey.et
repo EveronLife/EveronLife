@@ -1,0 +1,63 @@
+GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  SoundComponent "{59849E530BD5EA58}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+   OnFrameUpdate 0
+  }
+  EL_VehicleKeyComponent "{59849E53AA85EE27}" {
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Apple"
+     Description "This is an Apple from an Apple Tree"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 0.2
+     SizeSetupStrategy Volume
+     ItemVolume 113
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59849E530BD5EA61}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59849E530BD5EA67}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 65.9 0 0
+     HandAdditiveTranslation -0.025 0.03 0
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59849E530BD5EA64}" {
+      ActionType Bandage
+     }
+    }
+   }
+  }
+  MeshObject "{59849E530BD5EA6A}" {
+   Object "{9E3338102BB036B8}Assets/Items/Vehicles/VehicleKey.xob"
+  }
+  RigidBody "{59849E530BD5EA69}" {
+   Enabled 0
+   LinearDamping 0.5
+   AngularDamping 0.5
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   CCDRadius 0.015
+  }
+  SCR_ConsumableItemComponent "{59849E530BD5EA6F}" {
+   m_eAnimVariable ADRIANOV
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   additionalActions {
+   }
+  }
+ }
+ coords 3118.714 15.855 2738.387
+}
