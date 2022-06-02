@@ -42,10 +42,7 @@ class EL_LicensePlateEntity : GenericEntity
 		{
 			m_wPIPRoot = GetGame().GetWorkspace().CreateWidgets(m_Layout);
 	
-			if (!m_wPIPRoot)
-			{
-				return;
-			}
+			if (!m_wPIPRoot) return;
 			
 			m_wRenderTargetTextureWidget = RTTextureWidget.Cast(m_wPIPRoot.FindAnyWidget("RTTexture0"));
 			
@@ -58,7 +55,8 @@ class EL_LicensePlateEntity : GenericEntity
 			
 			m_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Text0"));
 			
-			if (m_LicensePlateManager && m_TextWidget) {
+			if (m_LicensePlateManager && m_TextWidget)
+			{
 				m_TextWidget.SetText(m_LicensePlateManager.m_Registration);
 			}
 		}

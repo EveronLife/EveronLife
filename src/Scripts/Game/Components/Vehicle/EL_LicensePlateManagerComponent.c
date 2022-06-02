@@ -30,7 +30,7 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 	ref array<ref EL_LicensePlateComponent> m_Plates;
 	
 	[Attribute("{E95486C43308F36B}Prefabs/Vehicles/LicensePlate/LicensePlate.et")]
-    protected ResourceName m_LicensePlatePrefab;
+	protected ResourceName m_LicensePlatePrefab;
 	
 	[RplProp(onRplName: "OnRegistrationUpdated")]
 	string m_Registration;
@@ -39,8 +39,7 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 	{
 		Resource resource = Resource.Load(m_LicensePlatePrefab);
 		
-		if (!resource.IsValid())
-			return;
+		if (!resource.IsValid()) return;
 		
 		EntitySpawnParams params();
 		params.Parent = owner;
@@ -94,7 +93,7 @@ class EL_LicensePlateManagerComponent: ScriptComponent
         Math3D.MatrixIdentity4(transform);
         BaseContainer source;
         GenericEntity entity = GetOwner();
-		BaseContainerList list;
+        BaseContainerList list;
         
         source = GetComponentSource(entity);
         if (!source) return false;
@@ -111,12 +110,12 @@ class EL_LicensePlateManagerComponent: ScriptComponent
         vector position;
         source.Get("Offset", position);
 		
-		vector rotation;
-		source.Get("Angles", rotation);
+        vector rotation;
+        source.Get("Angles", rotation);
 
         transform[3] = position;
 		
-		Math3D.AnglesToMatrix(rotation, transform);
+        Math3D.AnglesToMatrix(rotation, transform);
 
         return true;
     }
