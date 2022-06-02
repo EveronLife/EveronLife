@@ -1,0 +1,36 @@
+Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
+ ID "0F2AA6B42CA78628"
+ components {
+  SimpleSoundComponent "{597CB6B1BE8365AB}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  ActionsManagerComponent "{597CB6B1CB95890C}" {
+   ActionContexts {
+    UserActionContext "{597CB6B2F827CA1A}" {
+     UIInfo UIInfo "{597CB6B2CD2BAFC7}" {
+      Name "Gather"
+     }
+     ContextName "Gather"
+     Position PointInfo "{597CB6B2B59EA96F}" {
+      Offset 0 1.25 0
+     }
+     Radius 0.5
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{597CB6B14BA63749}" {
+     ParentContextList {
+      "Gather"
+     }
+     Duration 1
+     m_GatherItemDisplayName "Plum"
+     m_GatherItemPrefab "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et"
+    }
+   }
+  }
+  RplComponent "{597CB6B2E3E4D790}" {
+  }
+ }
+}
