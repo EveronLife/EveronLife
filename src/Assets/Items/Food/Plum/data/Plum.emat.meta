@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{2FE9029EE6853C72}Assets/Items/Food/Plum/Data/Plum.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}
