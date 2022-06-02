@@ -32,7 +32,7 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 	[Attribute("{E95486C43308F36B}Prefabs/Vehicles/LicensePlate/LicensePlate.et")]
     protected ResourceName m_LicensePlatePrefab;
 	
-	[RplProp()]
+	[RplProp(onRplName: "OnRegistrationUpdated")]
 	string m_Registration;
 	
 	override void EOnInit(IEntity owner)
@@ -46,15 +46,20 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 		params.Parent = owner;
 		params.TransformMode = ETransformMode.LOCAL;
 		
-		if (GetGame().InPlayMode())
+		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
+		
+		if (rpl && rpl.IsMaster())
 		{
-			Resource container = BaseContainerTools.LoadContainer("{B1DD7B5D4812AB19}Configs/Vehicles/VehicleSettings.conf");
-			EL_VehicleSettings vehicleSettings = EL_VehicleSettings.Cast(BaseContainerTools.CreateInstanceFromContainer(container.GetResource().ToBaseContainer()));
-			m_Registration = vehicleSettings.m_LicensePlateGenerator.GenerateLicensePlate();
-		}
-		else
-		{
-			m_Registration = "PLACEHOLDER";
+			if (GetGame().InPlayMode())
+			{
+				Resource container = BaseContainerTools.LoadContainer("{B1DD7B5D4812AB19}Configs/Vehicles/VehicleSettings.conf");
+				EL_VehicleSettings vehicleSettings = EL_VehicleSettings.Cast(BaseContainerTools.CreateInstanceFromContainer(container.GetResource().ToBaseContainer()));
+				m_Registration = vehicleSettings.m_LicensePlateGenerator.GenerateLicensePlate();
+			}
+			else
+			{
+				m_Registration = "PLACEHOLDER";
+			}
 		}
 		
 		for (int i = 0; i < m_Plates.Count(); i++)
@@ -67,6 +72,14 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 			
 			veh.AddChild(plate.m_Object, -1, EAddChildFlags.RECALC_LOCAL_TRANSFORM);
 			plate.m_Object.m_LicensePlateManager = this;
+		}
+	}
+	
+	void OnRegistrationUpdated()
+	{
+		foreach (auto plate : m_Plates)
+		{
+			plate.m_Object.m_TextWidget.SetText(m_Registration);
 		}
 	}
 	
