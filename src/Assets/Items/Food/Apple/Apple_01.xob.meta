@@ -1,11 +1,11 @@
 MetaFileClass {
- Name "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+ Name "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {
     MaterialAssignClass "{59652C0B7F6A2846}" {
      SourceMaterial "apple"
-     AssignedMaterial "{272271777CDBD90A}Assets/Items/Food/Data/Apple_01.emat"
+     AssignedMaterial "{272271777CDBD90A}Assets/Items/Food/Apple/Data/Apple_01.emat"
     }
    }
    Common TXOCommonClass "{59652C0B7F704516}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
