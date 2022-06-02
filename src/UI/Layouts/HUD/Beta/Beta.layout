@@ -26,14 +26,14 @@ FrameWidgetClass {
    Name "healthSlider"
    Slot FrameWidgetSlot "{597D39368DBE0205}" {
     Anchor 1 1 1 1
-    PositionX -375
-    OffsetLeft -375
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 327.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -497.007
+    OffsetLeft -497.007
+    PositionY -79.829
+    OffsetTop -79.829
+    SizeX 34.098
+    OffsetRight 462.909
+    SizeY 29.728
+    OffsetBottom 50.101
    }
    Color 0.561 0.071 0.071 1
    current 100
@@ -44,14 +44,14 @@ FrameWidgetClass {
    Name "healthImage"
    Slot FrameWidgetSlot "{597F65E4959A8A49}" {
     Anchor 1 1 1 1
-    PositionX -375
-    OffsetLeft -375
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 327.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -519.007
+    OffsetLeft -519.007
+    PositionY -105.372
+    OffsetTop -105.372
+    SizeX 80
+    OffsetRight 439.007
+    SizeY 80
+    OffsetBottom 25.372
    }
    Texture "{C115C81ECF288516}Assets/UI/heart.edds"
    Image ""
@@ -64,14 +64,14 @@ FrameWidgetClass {
    Name "staminaSlider"
    Slot FrameWidgetSlot "{597D39368AB52DD8}" {
     Anchor 1 1 1 1
-    PositionX -320
-    OffsetLeft -320
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 272.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -419.007
+    OffsetLeft -419.007
+    PositionY -82.544
+    OffsetTop -82.544
+    SizeX 36
+    OffsetRight 383.007
+    SizeY 28.641
+    OffsetBottom 53.903
    }
    Color 0.686 0.58 0.259 1
    maximum 1
@@ -83,14 +83,14 @@ FrameWidgetClass {
    Name "staminaImage"
    Slot FrameWidgetSlot "{597F65E4959A8A49}" {
     Anchor 1 1 1 1
-    PositionX -320
-    OffsetLeft -320
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 272.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -439.007
+    OffsetLeft -439.007
+    PositionY -105.372
+    OffsetTop -105.372
+    SizeX 80
+    OffsetRight 359.007
+    SizeY 80
+    OffsetBottom 25.372
    }
    Texture "{81F9321D141593EC}Assets/UI/bolt.edds"
    Image ""
@@ -100,14 +100,14 @@ FrameWidgetClass {
    Name "hungerSlider"
    Slot FrameWidgetSlot "{597D39365E00E988}" {
     Anchor 1 1 1 1
-    PositionX -210
-    OffsetLeft -210
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 162.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -255.578
+    OffsetLeft -255.578
+    PositionY -77.055
+    OffsetTop -77.055
+    SizeX 32.552
+    OffsetRight 223.026
+    SizeY 29.482
+    OffsetBottom 47.573
    }
    Color 0.157 0.624 0.275 1
    current 100
@@ -118,14 +118,14 @@ FrameWidgetClass {
    Name "hungerImage"
    Slot FrameWidgetSlot "{597F65E4959A8A49}" {
     Anchor 1 1 1 1
-    PositionX -210
-    OffsetLeft -210
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 162.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -279.279
+    OffsetLeft -279.279
+    PositionY -106.187
+    OffsetTop -106.187
+    SizeX 80
+    OffsetRight 199.279
+    SizeY 80
+    OffsetBottom 26.188
    }
    IsPixelPerfect 0
    Texture "{C04B9C3C3A616327}Assets/UI/food.edds"
@@ -136,14 +136,14 @@ FrameWidgetClass {
    Name "thirstSlider"
    Slot FrameWidgetSlot "{597D39365EE13C11}" {
     Anchor 1 1 1 1
-    PositionX -265
-    OffsetLeft -265
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 217.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -333.002
+    OffsetLeft -333.002
+    PositionY -76.954
+    OffsetTop -76.954
+    SizeX 26.304
+    OffsetRight 306.698
+    SizeY 22.505
+    OffsetBottom 54.449
    }
    Color 0.157 0.275 0.624 1
    current 100
@@ -154,14 +154,14 @@ FrameWidgetClass {
    Name "thirstImage"
    Slot FrameWidgetSlot "{597F65E4959A8A49}" {
     Anchor 1 1 1 1
-    PositionX -265
-    OffsetLeft -265
-    PositionY -80
-    OffsetTop -80
-    SizeX 47.3
-    OffsetRight 217.7
-    SizeY 47.2
-    OffsetBottom 32.8
+    PositionX -358.758
+    OffsetLeft -358.758
+    PositionY -106.105
+    OffsetTop -106.105
+    SizeX 80
+    OffsetRight 278.758
+    SizeY 79.999
+    OffsetBottom 26.106
    }
    Texture "{644AA9530A7EDC65}Assets/UI/cup.edds"
    Image ""
@@ -171,17 +171,19 @@ FrameWidgetClass {
    Name "moneyDisplay"
    Slot FrameWidgetSlot "{597D3936D395339B}" {
     Anchor 1 1 1 1
-    PositionX -508.5
-    OffsetLeft -508.5
-    PositionY -63
-    OffsetTop -63
-    SizeX 126.7
-    OffsetRight 381.8
+    PositionX -519.135
+    OffsetLeft -519.135
+    PositionY -136.552
+    OffsetTop -136.552
+    SizeX 319.433
+    OffsetRight 199.702
     SizeY 30
-    OffsetBottom 33
+    OffsetBottom 106.552
    }
-   Color 0.202 0.202 0.202 1
+   Color 0.503 0.503 0.503 1
    Text "$ -"
+   "Horizontal Alignment" Center
+   "Vertical Alignment" Center
   }
  }
 }

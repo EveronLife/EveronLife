@@ -7,7 +7,7 @@ class EL_BetaHud : SCR_InfoDisplay
 	private TextWidget moneyDisplay = null;
 	private SCR_CharacterControllerComponent playerController = null;
 	private DamageManagerComponent DMC = null;
-	private EL_SurvivalStatsManagerComponent SSM = null;
+	//private EL_SurvivalStatsManagerComponent SSM = null;
 	//private moneysystemcomponent MSC = null;
 	
 	//--------------------------- OnChangeFunctions --------------------------- 
@@ -105,8 +105,8 @@ class EL_BetaHud : SCR_InfoDisplay
 			if (!DMC) return;
 			
 			//add things here to find component for survivalstats
-			SSM = EL_SurvivalStatsManagerComponent.Cast(player.FindComponent(EL_SurvivalStatsManagerComponent));
-			if (!SSM) return;
+			//SSM = EL_SurvivalStatsManagerComponent.Cast(player.FindComponent(EL_SurvivalStatsManagerComponent));
+			//if (!SSM) return;
 			
 			//functon to get money from @Arkensor & @Jacob_Mango contribution of a money System
 			//MSC = moneysystemcomponent.Cast(player.FindComponent(moneysystemcomponent))
@@ -114,7 +114,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		
 		OnHealthChange(DMC.GetHealth());
 		OnStaminaChange(playerController.GetStamina());
-		OnThirstChange(SSM.GetThirst());
-		OnHungerChange(SSM.GetHunger());
+		//OnThirstChange(SSM.GetThirst());
+		//OnHungerChange(SSM.GetHunger());
 	}
 }
