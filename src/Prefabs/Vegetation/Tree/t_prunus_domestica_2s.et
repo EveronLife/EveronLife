@@ -3,7 +3,7 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
  components {
   SimpleSoundComponent "{597CB6B1BE8365AB}" {
    Filenames {
-    "{1210AB9711D04033}Sounds/Destruction/Trees/Destruction_Tree.acp"
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
   }
   ActionsManagerComponent "{597CB6B1CB95890C}" {
