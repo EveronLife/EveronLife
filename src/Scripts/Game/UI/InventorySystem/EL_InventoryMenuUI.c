@@ -88,7 +88,6 @@ modded class SCR_InventoryMenuUI
 		}
 
 		menu.m_InventoryManager = m_InventoryManager;
-		menu.m_OwningStorage = quantityComponent.GetOwningStorage();
 		menu.m_QuantityComponent = quantityComponent;
 		
 		menu.OnRefresh();

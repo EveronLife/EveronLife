@@ -180,21 +180,20 @@ modded class SCR_InventoryStorageManagerComponent
 		Rpc(EL_RPC_Combine, Replication.FindId(itemA), Replication.FindId(itemB));
 	}
 
-	void EL_Split(EL_InventoryQuantityComponent item, float split, BaseInventoryStorageComponent destination)
+	void EL_Split(EL_InventoryQuantityComponent item, float split)
 	{
 		int quantity = item.GetQuantity();
 		int quantityA = Math.Floor(quantity * split);
 		int quantityB = Math.Ceil(quantity * (1.0 - split));
 
-		//! If the destination is the same and the quantity doesn't change then early terminate
-		if (destination == item.GetOwningStorage() && (quantityA == 0 || quantityB == 0))
+		//! If the quantity doesn't change then early terminate
+		if (quantityA == 0 || quantityB == 0)
 		{
 			return;
 		}
 
 		RplId itemId = Replication.FindId(item);
-		RplId destinationId = Replication.FindId(destination);
-		Rpc(EL_RPC_Split, itemId, split, destinationId);
+		Rpc(EL_RPC_Split, itemId, split);
 	}
 
 	//! RPCs must be performed in the StorageManagerComponent as that is an owner on client so can send to the server
@@ -217,7 +216,7 @@ modded class SCR_InventoryStorageManagerComponent
 	}
 
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void EL_RPC_Split(RplId itemId, float split, RplId destinationId)
+	protected void EL_RPC_Split(RplId itemId, float split)
 	{
 		EL_InventoryQuantityComponent item = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemId));
 		if (!item)
@@ -225,10 +224,7 @@ modded class SCR_InventoryStorageManagerComponent
 			return;
 		}
 
-		//! Can be null
-		BaseInventoryStorageComponent destination = BaseInventoryStorageComponent.Cast(Replication.FindItem(destinationId));
-
-		item.LocalSplit(destination, this, split);
+		item.LocalSplit(this, split);
 	}
 }
 

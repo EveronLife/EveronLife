@@ -1,6 +1,5 @@
 class EL_QuantityDialog : DialogUI // why no prefix, this aint generated you fuck
 {
-	BaseInventoryStorageComponent m_OwningStorage;
 	EL_InventoryQuantityComponent m_QuantityComponent;
 	SCR_InventoryStorageManagerComponent m_InventoryManager;
 	
@@ -126,6 +125,6 @@ class EL_QuantityDialog : DialogUI // why no prefix, this aint generated you fuc
 		super.OnConfirm();
 		
 		float split = m_QuantityValue / (m_MaximumQuantityValue + 1);
-		m_QuantityComponent.Split(m_OwningStorage, split, m_InventoryManager);
+		m_QuantityComponent.Split(split, m_InventoryManager);
 	}
 };

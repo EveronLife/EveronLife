@@ -134,9 +134,9 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		manager.EL_Combine(this, other);
 	}
 
-	void Split(BaseInventoryStorageComponent destination, float split, SCR_InventoryStorageManagerComponent manager)
+	void Split(float split, SCR_InventoryStorageManagerComponent manager)
 	{
-		manager.EL_Split(this, split, destination);
+		manager.EL_Split(this, split);
 	}
 
 	void LocalCombine(EL_InventoryQuantityComponent other)
@@ -163,14 +163,16 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		Replication.BumpMe();
 	}
 	
-	void LocalSplit(BaseInventoryStorageComponent destination, SCR_InventoryStorageManagerComponent manager, float split)
+	void LocalSplit(SCR_InventoryStorageManagerComponent manager, float split)
 	{
 		int quantity = GetQuantity();
 		int quantityA = Math.Floor(quantity * split);
 		int quantityB = Math.Ceil(quantity * (1.0 - split));
+		
+		BaseInventoryStorageComponent destination = GetOwningStorage();
 
-		//! If the destination is the same and the quantity doesn't change then early terminate
-		if (destination == GetOwningStorage() && (quantityA == 0 || quantityB == 0))
+		//! If the quantity doesn't change then early terminate
+		if (quantityA == 0 || quantityB == 0)
 		{
 			return;
 		}
