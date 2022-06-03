@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{06082E213F9C3C0C}UI/Layouts/LicensePlate/EL_LicensePlatePlate.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

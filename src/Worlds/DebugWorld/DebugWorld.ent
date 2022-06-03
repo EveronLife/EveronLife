@@ -14,5 +14,10 @@ Layer AppleChain {
  Index 4
 }
 Layer FarmingChain {
+ Index 20
+Layer PlumChain {
  Index 3
+}
+Layer TomatoChain {
+ Index 6
 }

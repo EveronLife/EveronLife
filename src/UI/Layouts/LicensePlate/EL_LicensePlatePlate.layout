@@ -1,0 +1,23 @@
+PanelWidgetClass {
+ Name "rootFrame"
+ style debugUI
+ {
+  TextWidgetClass "{598319DABCCC3D55}" {
+   Name "Text0"
+   Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
+    Anchor 0 0 1 1
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX -1820
+    OffsetRight 0
+    SizeY -1050
+    OffsetBottom 0
+   }
+   Color 0 0 0 1
+   "Horizontal Alignment" Center
+   "Vertical Alignment" Center
+  }
+ }
+}

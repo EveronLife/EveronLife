@@ -1,24 +1,14 @@
 $grp GenericEntity {
- TitlePoster {
-  components {
-   MeshObject "{596960D011771E88}" {
-    Object "{97442DB7F9595AB7}Assets/Props/TitlePoster/titleposter.xob"
-   }
-  }
-  coords 4451.806 21.493 10571.927
-  angleY 83.04
-  scale 1.94
- }
- Trader {
-  coords 4442.505 19.418 10568.728
+ TomatoTrader {
+  coords 106.183 -0.001 134.916
   {
-   GenericEntity TradeContainer {
+   GenericEntity AppleTradeContainer2 {
     components {
      EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
       Attributes SCR_ItemAttributeCollection "{59693C53B153D96B}" {
        ItemDisplayName UIInfo "{59693C53AAB06F2D}" {
-        Name "Apple Trade"
-        Description "Trade apples for ammo"
+        Name "Tomato Trade"
+        Description "Trade tomatos for ammo"
        }
        ItemPhysAttributes ItemPhysicalAttributes "{59693C53A3873124}" {
        }
@@ -34,11 +24,11 @@ $grp GenericEntity {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+       "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+      m_ItemToReceive "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {
@@ -65,8 +55,8 @@ $grp GenericEntity {
          "default"
         }
         UIInfo UIInfo "{59670CE9F9F9794D}" {
-         Name "Trade Apples"
-         Description "Trade apples for ammo"
+         Name "Trade Tomatos"
+         Description "Trade tamtos for ammo"
         }
        }
       }
@@ -79,7 +69,7 @@ $grp GenericEntity {
     angleY -14.907
     Flags 1027
    }
-   SCR_ChimeraCharacter Npc {
+   SCR_ChimeraCharacter TomatoNpc {
     components {
      ControllersManagerComponent "{59670CC3FB6839B0}" {
      }
@@ -322,9 +312,9 @@ $grp GenericEntity {
        SoundIdentity SoundIdentity "{59670CC3FB68C7E4}" {
         VoiceID 100
        }
-       Name "Apple Trader"
+       Name "Tomato"
        Alias ""
-       Surname ""
+       Surname "Trader"
       }
      }
      BaseLoadoutManagerComponent "{59670CC3FB68C637}" {
@@ -464,22 +454,8 @@ $grp GenericEntity {
      RplComponent "{59670CC3FB68C515}" {
      }
     }
-    coords -0.023 -0.143 0.87
+    coords -0.023 0.001 0.87
     angleY 171.533
-   }
-   $grp GenericEntity : "{43E4371F76A8706A}PrefabLibrary/Props/Industrial/Pallet_01.et" {
-    {
-     coords -2.428 -0.057 -0.018
-     angleX -1.028
-     angleY 87.866
-     angleZ -3.54
-    }
-    {
-     coords -2.397 -0.006 -0.832
-     angleX -1.028
-     angleY 87.866
-     angleZ -3.54
-    }
    }
    $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
     {
@@ -490,71 +466,52 @@ $grp GenericEntity {
      coords -1.053 0.019 -0.31
      angleY 82.104
     }
-    {
-     coords 1.347 0.019 0.023
-     angleY 82.104
-    }
-   }
-   GenericEntity : "{662766254306EE2D}PrefabLibrary/Props/Agricultural/SackUniversal_01_Pile.et" {
-    coords -2.402 0.109 -0.369
-    angleY 96.122
-    angleZ -3.882
-    scale 0.921
    }
    GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01_white.et" {
-    coords -1.331 -0.243 0.668
+    coords -1.331 0.001 0.712
     angleX 3.15
     angleY 151.694
     angleZ -1.695
    }
-   $grp GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {
-    {
-     components {
-      SCR_BaseInteractiveLightComponent "{58C4C3C542898CFB}" {
-       m_bGradualLightning 0
-       m_fLV 2.5
-       m_eInitialLightState LIT
-      }
+   GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {
+    components {
+     SCR_BaseInteractiveLightComponent "{58C4C3C542898CFB}" {
+      m_bGradualLightning 0
+      m_fLV 2.6
+      m_eInitialLightState LIT
      }
-     coords 1.765 0.918 -0.095
     }
-    {
-     components {
-      SCR_BaseInteractiveLightComponent "{58C4C3C542898CFB}" {
-       m_bGradualLightning 0
-       m_fLV 2.6
-       m_eInitialLightState LIT
-      }
-     }
-     coords -1.333 0.918 -0.263
-    }
+    coords -1.333 0.918 -0.263
    }
   }
  }
- TraderTestApples {
-  coords 4441.516 20.372 10568.072
+ TomatoTraderTestItems {
+  coords 105.185 0.963 134.246
   {
-   $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
+   $grp GenericEntity : "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et" {
     {
-     coords -0.137 -0.036 -0.08
+     coords 0.096 -0.025 -0.048
     }
     {
-     coords -0.074 -0.043 0.152
+     coords 0.096 -0.025 0.084
     }
     {
-     coords 0.168 -0.036 0.057
+     coords 0.201 -0.025 0.012
     }
     {
-     coords -0.002 -0.036 0.074
+     coords -0.008 -0.025 0.012
     }
     {
-     coords -0.165 -0.036 0.08
+     coords -0.008 -0.025 0.146
     }
     {
-     coords -0.052 -0.036 -0.034
+     coords -0.123 -0.025 0.108
     }
     {
-     coords 0.1 -0.036 -0.035
+     coords -0.123 -0.025 -0.019
+    }
+    {
+     coords -0.02 -0.025 -0.105
     }
    }
   }
