@@ -28,12 +28,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -497.007
     OffsetLeft -497.007
-    PositionY -79.829
-    OffsetTop -79.829
+    PositionY -69.325
+    OffsetTop -69.325
     SizeX 34.098
     OffsetRight 462.909
     SizeY 29.728
-    OffsetBottom 50.101
+    OffsetBottom 39.597
    }
    Color 0.561 0.071 0.071 1
    current 100
@@ -46,12 +46,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -519.007
     OffsetLeft -519.007
-    PositionY -105.372
-    OffsetTop -105.372
+    PositionY -94.868
+    OffsetTop -94.868
     SizeX 80
     OffsetRight 439.007
     SizeY 80
-    OffsetBottom 25.372
+    OffsetBottom 14.868
    }
    Texture "{C115C81ECF288516}Assets/UI/heart.edds"
    Image ""
@@ -66,12 +66,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -419.007
     OffsetLeft -419.007
-    PositionY -82.544
-    OffsetTop -82.544
+    PositionY -72.04
+    OffsetTop -72.04
     SizeX 36
     OffsetRight 383.007
     SizeY 28.641
-    OffsetBottom 53.903
+    OffsetBottom 43.399
    }
    Color 0.686 0.58 0.259 1
    maximum 1
@@ -85,12 +85,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -439.007
     OffsetLeft -439.007
-    PositionY -105.372
-    OffsetTop -105.372
+    PositionY -94.868
+    OffsetTop -94.868
     SizeX 80
     OffsetRight 359.007
     SizeY 80
-    OffsetBottom 25.372
+    OffsetBottom 14.868
    }
    Texture "{81F9321D141593EC}Assets/UI/bolt.edds"
    Image ""
@@ -102,12 +102,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -255.578
     OffsetLeft -255.578
-    PositionY -77.055
-    OffsetTop -77.055
+    PositionY -66.551
+    OffsetTop -66.551
     SizeX 32.552
     OffsetRight 223.026
     SizeY 29.482
-    OffsetBottom 47.573
+    OffsetBottom 37.069
    }
    Color 0.157 0.624 0.275 1
    current 100
@@ -120,12 +120,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -279.279
     OffsetLeft -279.279
-    PositionY -106.187
-    OffsetTop -106.187
+    PositionY -95.683
+    OffsetTop -95.683
     SizeX 80
     OffsetRight 199.279
-    SizeY 80
-    OffsetBottom 26.188
+    SizeY 79.999
+    OffsetBottom 15.684
    }
    IsPixelPerfect 0
    Texture "{C04B9C3C3A616327}Assets/UI/food.edds"
@@ -138,12 +138,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -333.002
     OffsetLeft -333.002
-    PositionY -76.954
-    OffsetTop -76.954
+    PositionY -66.45
+    OffsetTop -66.45
     SizeX 26.304
     OffsetRight 306.698
     SizeY 22.505
-    OffsetBottom 54.449
+    OffsetBottom 43.945
    }
    Color 0.157 0.275 0.624 1
    current 100
@@ -156,12 +156,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -358.758
     OffsetLeft -358.758
-    PositionY -106.105
-    OffsetTop -106.105
+    PositionY -95.601
+    OffsetTop -95.601
     SizeX 80
     OffsetRight 278.758
     SizeY 79.999
-    OffsetBottom 26.106
+    OffsetBottom 15.602
    }
    Texture "{644AA9530A7EDC65}Assets/UI/cup.edds"
    Image ""
@@ -173,12 +173,12 @@ FrameWidgetClass {
     Anchor 1 1 1 1
     PositionX -519.135
     OffsetLeft -519.135
-    PositionY -136.552
-    OffsetTop -136.552
+    PositionY -126.048
+    OffsetTop -126.048
     SizeX 319.433
     OffsetRight 199.702
     SizeY 30
-    OffsetBottom 106.552
+    OffsetBottom 96.048
    }
    Color 0.503 0.503 0.503 1
    Text "$ -"
