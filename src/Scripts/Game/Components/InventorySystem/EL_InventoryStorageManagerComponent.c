@@ -2,6 +2,11 @@ modded class SCR_InventoryStorageManagerComponent
 {
 	override void InsertItem(IEntity pItem, BaseInventoryStorageComponent pStorageTo = null, BaseInventoryStorageComponent pStorageFrom = null, SCR_InvCallBack cb = null)
 	{
+		if (TryCombineItems(pItem, pStorageTo, pStorageFrom, cb))
+		{
+			return;
+		}
+
 		if (!pStorageTo)
 		{
 			super.InsertItem(pItem, pStorageTo, pStorageFrom, cb);
@@ -39,12 +44,6 @@ modded class SCR_InventoryStorageManagerComponent
 			return;
 		}
 
-		//! Disabled in favour of having to drag the item directly ontop of the existing item
-		//if (TryCombineItems(pItem, pStorageTo, pStorageFrom, cb))
-		//{
-		//	return;
-		//}
-
 		super.InsertItem(pItem, pStorageTo, pStorageFrom, cb);
 	}
 
@@ -52,6 +51,11 @@ modded class SCR_InventoryStorageManagerComponent
 	{
 		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(pItem.FindComponent(EL_InventoryQuantityComponent));
 		if (!quantityComponent)
+		{
+			return false;
+		}
+
+		if (pStorageTo)
 		{
 			return false;
 		}
@@ -107,7 +111,20 @@ modded class SCR_InventoryStorageManagerComponent
 			return null;
 		}
 
-		int count = pStorage.GetSlotsCount();
+		array<IEntity> items();
+		int count = 0;
+
+		if (pStorage)
+		{
+			pStorage.GetAll(items);
+			count = items.Count();
+		}
+		else
+		{
+			EL_InventoryQuantityPredicate predicate = new EL_InventoryQuantityPredicate();
+			count = FindItems(items, predicate, EStoragePurpose.PURPOSE_ANY);
+		}
+
 		if (count == 0)
 		{
 			return null;
@@ -127,7 +144,7 @@ modded class SCR_InventoryStorageManagerComponent
 
 		for (int i = 0; i < count; i++)
 		{
-			IEntity otherItem = pStorage.Get(i);
+			IEntity otherItem = items.Get(i);
 
 			//! Should be redundant
 			if (!otherItem)
@@ -147,7 +164,7 @@ modded class SCR_InventoryStorageManagerComponent
 				continue;
 			}
 			
-			if (!quantityComponent.CanCombine(pQuantity))
+			if (!quantityComponent.CanCombine(pQuantity, true))
 			{
 				continue;
 			}
