@@ -70,11 +70,19 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		//Print("Prev: " + previous);
 		//Print("Curr: " + GetQuantity());
 
-		SCR_InventoryMenuUI menu = SCR_InventoryMenuUI.EL_InventoryMenuInstance();
-		if (menu)
-		{
-			menu.EL_Refresh();
-		}
+		RefreshMenu();
+	}
+
+	override void OnDelete(IEntity owner)
+	{
+		super.OnDelete(owner);
+
+		RefreshMenu();
+	}
+
+	void RefreshMenu()
+	{
+		SCR_InventoryMenuUI.EL_DelayedRefresh();
 	}
 
 	int GetQuantityMax()

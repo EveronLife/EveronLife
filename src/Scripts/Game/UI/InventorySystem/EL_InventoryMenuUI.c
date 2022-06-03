@@ -6,6 +6,26 @@ modded class SCR_InventoryMenuUI
 	{
 		return s_EL_InventoryMenuInstance;
 	}
+
+	static void EL_RefreshMenu()
+	{
+		if (!s_EL_InventoryMenuInstance)
+		{
+			return;
+		}
+
+		s_EL_InventoryMenuInstance.EL_Refresh();
+	}
+
+	static void EL_DelayedRefresh()
+	{
+		if (!s_EL_InventoryMenuInstance)
+		{
+			return;
+		}
+
+		GetGame().GetCallqueue().CallLater(EL_RefreshMenu, 10, false);
+	}
 	
 	override void OnMenuInit()
 	{
