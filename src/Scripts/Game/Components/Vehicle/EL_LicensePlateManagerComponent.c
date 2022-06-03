@@ -3,15 +3,11 @@ class EL_LicensePlateManagerComponentClass: ScriptComponentClass
 {
 };
 
-[BaseContainerProps()]
-class EL_LicensePlateComponent
-{
-	[Attribute(uiwidget: UIWidgets.Auto)]
-	ref EL_PointInfo m_Point;
-	
+class EL_LicensePlatePointInfo: PointInfo
+{	
 	EL_LicensePlateEntity m_Object;
 	
-	void ~EL_LicensePlateComponent()
+	void ~EL_LicensePlatePointInfo()
 	{
 		if (m_Object)
 		{
@@ -20,14 +16,10 @@ class EL_LicensePlateComponent
 	}
 }
 
-class EL_PointInfo: PointInfo
-{
-}
-
 class EL_LicensePlateManagerComponent: ScriptComponent
 {
 	[Attribute(uiwidget: UIWidgets.Auto)]
-	ref array<ref EL_LicensePlateComponent> m_Plates;
+	ref array<ref EL_LicensePlatePointInfo> m_Plates;
 	
 	[Attribute("{E95486C43308F36B}Prefabs/Vehicles/LicensePlate/LicensePlate.et")]
 	protected ResourceName m_LicensePlatePrefab;
@@ -47,18 +39,11 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 		
 		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
 		
-		if (rpl && rpl.IsMaster())
+		if (GetGame().InPlayMode() && rpl && rpl.IsMaster())
 		{
-			if (GetGame().InPlayMode())
-			{
-				Resource container = BaseContainerTools.LoadContainer("{B1DD7B5D4812AB19}Configs/Vehicles/VehicleSettings.conf");
-				EL_VehicleSettings vehicleSettings = EL_VehicleSettings.Cast(BaseContainerTools.CreateInstanceFromContainer(container.GetResource().ToBaseContainer()));
-				m_Registration = vehicleSettings.m_LicensePlateGenerator.GenerateLicensePlate();
-			}
-			else
-			{
-				m_Registration = "PLACEHOLDER";
-			}
+			Resource container = BaseContainerTools.LoadContainer("{B1DD7B5D4812AB19}Configs/Vehicles/VehicleSettings.conf");
+			EL_VehicleSettings vehicleSettings = EL_VehicleSettings.Cast(BaseContainerTools.CreateInstanceFromContainer(container.GetResource().ToBaseContainer()));
+			m_Registration = vehicleSettings.m_LicensePlateGenerator.GenerateLicensePlate();
 		}
 		
 		for (int i = 0; i < m_Plates.Count(); i++)
@@ -82,41 +67,38 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 		}
 	}
 	
-    override void OnPostInit(IEntity owner)
-    {		
+	override void OnPostInit(IEntity owner)
+	{		
 		SetEventMask(owner, EntityEvent.INIT);
 		owner.SetFlags(EntityFlags.ACTIVE, false);
-    }
+	}
 	
-    bool GetPositionFromPoint(int index, out vector transform[4])
-    {
-        Math3D.MatrixIdentity4(transform);
-        BaseContainer source;
-        GenericEntity entity = GetOwner();
-        BaseContainerList list;
-        
-        source = GetComponentSource(entity);
-        if (!source) return false;
-        
-        list = source.GetObjectArray("m_Plates");
-        if (!list) return false;
-
-        source = list.Get(index);
-        if (!source) return false;
-
-        source = source.GetObject("m_Point");
-        if (!source) return false;
-
-        vector position;
-        source.Get("Offset", position);
+	bool GetPositionFromPoint(int index, out vector transform[4])
+	{
+		Math3D.MatrixIdentity4(transform);
+		BaseContainer source;
+		GenericEntity entity = GetOwner();
+		BaseContainerList list;
 		
-        vector rotation;
-        source.Get("Angles", rotation);
-
-        transform[3] = position;
+		source = GetComponentSource(entity);
+		if (!source) return false;
 		
-        Math3D.AnglesToMatrix(rotation, transform);
+		list = source.GetObjectArray("m_Plates");
+		if (!list) return false;
 
-        return true;
-    }
+		source = list.Get(index);
+		if (!source) return false;
+
+		vector position;
+		source.Get("Offset", position);
+		
+		vector rotation;
+		source.Get("Angles", rotation);
+
+		transform[3] = position;
+		
+		Math3D.AnglesToMatrix(rotation, transform);
+
+		return true;
+	}
 };
