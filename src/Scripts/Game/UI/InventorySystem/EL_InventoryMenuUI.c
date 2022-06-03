@@ -26,6 +26,12 @@ modded class SCR_InventoryMenuUI
 		{
 			return;
 		}
+		
+		//! Don't show the dialog if there is nothing to split
+		if (quantityComponent.GetQuantity() <= 1)
+		{
+			return;
+		}
 
 		IEntity entity = quantityComponent.GetOwner();
 		if (!entity)
@@ -33,11 +39,17 @@ modded class SCR_InventoryMenuUI
 			return;
 		}
 		
-		MenuBase menu = GetGame().GetMenuManager().OpenDialog(ChimeraMenuPreset.EL_QuantityDialog, DialogPriority.INFORMATIVE, 0, true);
+		EL_QuantityDialog menu = EL_QuantityDialog.Cast(GetGame().GetMenuManager().OpenDialog(ChimeraMenuPreset.EL_QuantityDialog, DialogPriority.INFORMATIVE, 0, true));
+		if (!menu)
+		{
+			return;
+		}
 
-		//BaseInventoryStorageComponent storage = quantityComponent.GetOwningStorage();
+		menu.m_InventoryManager = m_InventoryManager;
+		menu.m_OwningStorage = quantityComponent.GetOwningStorage();
+		menu.m_QuantityComponent = quantityComponent;
 		
-		//quantityComponent.Split(storage, 0.5, m_InventoryManager);
+		menu.OnRefresh();
 	}
 
 	override void NavigationBarUpdate()
