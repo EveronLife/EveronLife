@@ -1,5 +1,19 @@
 modded class SCR_InventoryMenuUI
 {
+	static SCR_InventoryMenuUI s_EL_InventoryMenuInstance; 
+
+	static SCR_InventoryMenuUI EL_InventoryMenuInstance()
+	{
+		return s_EL_InventoryMenuInstance;
+	}
+	
+	override void OnMenuInit()
+	{
+		super.OnMenuInit();
+
+		s_EL_InventoryMenuInstance = this;
+	}
+
 	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
 	{
 		switch (action)
@@ -98,7 +112,7 @@ modded class SCR_InventoryMenuUI
 		ShowAllStoragesInList();
 
 		RefreshLootUIListener();
-		RefreshUISlotStorages();
+		//RefreshUISlotStorages();
 		NavigationBarUpdate();
 	}
 

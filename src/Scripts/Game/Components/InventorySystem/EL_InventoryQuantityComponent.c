@@ -70,7 +70,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		//Print("Prev: " + previous);
 		//Print("Curr: " + GetQuantity());
 
-		SCR_InventoryMenuUI menu = SCR_InventoryMenuUI.Cast(ChimeraMenuBase.CurrentChimeraMenu());
+		SCR_InventoryMenuUI menu = SCR_InventoryMenuUI.EL_InventoryMenuInstance();
 		if (menu)
 		{
 			menu.EL_Refresh();
