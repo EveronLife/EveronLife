@@ -13,6 +13,18 @@ class EL_InventoryQuantityComponent : ScriptComponent
 	private int m_QuantityPrev = 1;
 
 	private InventoryItemComponent m_InventoryItemComponent;
+	
+	private static EL_InventoryQuantityComponent s_LastCreated;
+	
+	void EL_InventoryQuantityComponent()
+	{
+		s_LastCreated = this;
+	}
+	
+	static EL_InventoryQuantityComponent GetLastCreated()
+	{
+		return s_LastCreated;
+	}
 
 	bool IsValid()
 	{
@@ -171,7 +183,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		Replication.BumpMe();
 	}
 	
-	void LocalSplit(SCR_InventoryStorageManagerComponent manager, float split)
+	void LocalSplit(EL_InventoryQuantityComponent newQuantityComponent, SCR_InventoryStorageManagerComponent manager, float split)
 	{
 		int quantity = GetQuantity();
 		int quantityA = Math.Floor(quantity * split);
@@ -200,30 +212,6 @@ class EL_InventoryQuantityComponent : ScriptComponent
 			return;
 		}
 
-		Resource resource = Resource.Load(entityData.GetPrefabName());
-		if (!resource.IsValid())
-		{
-			return;
-		}
-
-		IEntity player = manager.GetOwner();
-
-		EntitySpawnParams params();
-		player.GetWorldTransform(params.Transform);
-
-		newEntity = GetGame().SpawnEntityPrefab(resource, entity.GetWorld(), params);
-
-		if (destination && newEntity)
-		{
-			manager.TryInsertItemInStorage(newEntity, destination);
-		}
-
-		if (!newEntity)
-		{
-			return;
-		}
-		
-		EL_InventoryQuantityComponent newQuantityComponent = EL_InventoryQuantityComponent.Cast(newEntity.FindComponent(EL_InventoryQuantityComponent));
 		if (!newQuantityComponent)
 		{
 			return;

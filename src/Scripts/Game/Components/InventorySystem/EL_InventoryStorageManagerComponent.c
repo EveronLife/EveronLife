@@ -180,9 +180,9 @@ modded class SCR_InventoryStorageManagerComponent
 		Rpc(EL_RPC_Combine, Replication.FindId(itemA), Replication.FindId(itemB));
 	}
 
-	void EL_Split(EL_InventoryQuantityComponent item, float split)
+	void EL_Split(EL_InventoryQuantityComponent itemA, float split)
 	{
-		int quantity = item.GetQuantity();
+		int quantity = itemA.GetQuantity();
 		int quantityA = Math.Floor(quantity * split);
 		int quantityB = Math.Ceil(quantity * (1.0 - split));
 
@@ -191,9 +191,18 @@ modded class SCR_InventoryStorageManagerComponent
 		{
 			return;
 		}
-
-		RplId itemId = Replication.FindId(item);
-		Rpc(EL_RPC_Split, itemId, split);
+		
+		IEntity entity = itemA.GetOwner();
+		EntityPrefabData entityData = entity.GetPrefabData();
+		
+		ResourceName resourceName = entityData.GetPrefabName();
+		TrySpawnPrefabToStorage(resourceName, itemA.GetOwningStorage());
+		
+		EL_InventoryQuantityComponent itemB = EL_InventoryQuantityComponent.GetLastCreated();
+		
+		RplId itemAId = Replication.FindId(itemA);
+		
+		Rpc(EL_RPC_Split, itemAId, split);
 	}
 
 	//! RPCs must be performed in the StorageManagerComponent as that is an owner on client so can send to the server
@@ -216,15 +225,23 @@ modded class SCR_InventoryStorageManagerComponent
 	}
 
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void EL_RPC_Split(RplId itemId, float split)
+	protected void EL_RPC_Split(RplId itemAId, float split)
 	{
-		EL_InventoryQuantityComponent item = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemId));
-		if (!item)
+		EL_InventoryQuantityComponent itemA = EL_InventoryQuantityComponent.Cast(Replication.FindItem(itemAId));
+		if (!itemA)
 		{
 			return;
 		}
+		
+		IEntity entity = itemA.GetOwner();
+		EntityPrefabData entityData = entity.GetPrefabData();
+		
+		ResourceName resourceName = entityData.GetPrefabName();
+		TrySpawnPrefabToStorage(resourceName, itemA.GetOwningStorage());
+		
+		EL_InventoryQuantityComponent itemB = EL_InventoryQuantityComponent.GetLastCreated();
 
-		item.LocalSplit(this, split);
+		itemA.LocalSplit(itemB, this, split);
 	}
 }
 
