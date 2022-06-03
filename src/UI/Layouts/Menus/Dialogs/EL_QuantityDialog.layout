@@ -15,8 +15,8 @@ FrameWidgetClass {
     OffsetLeft 0
     OffsetTop 0
     OffsetRight -600
-    SizeY 250
-    OffsetBottom -250
+    SizeY 260
+    OffsetBottom -260
    }
    {
     VerticalLayoutWidgetClass "{5510B6AD7C32873E}" {
@@ -36,45 +36,63 @@ FrameWidgetClass {
       OverlayWidgetClass "{5510B6ACD309D043}" {
        Prefab "{5510B6ACD309D043}"
        Slot LayoutSlot "{5510B6ACD309D020}" {
-        Padding 25 40 25 0
+        Padding 25 10 25 -5
        }
        {
-        HorizontalLayoutWidgetClass "{5982E004BE72BD49}" {
-         Name "ContentSizer"
-         Slot OverlayWidgetSlot "{5982E004BE72BD65}" {
+        VerticalLayoutWidgetClass "{5986A864D47F50B0}" {
+         Name "VerticalLayout0"
+         Slot OverlayWidgetSlot "{5986A864D47F50D7}" {
           HorizontalAlign 3
           VerticalAlign 3
          }
-         "Fill Origin" Center
          {
-          ButtonWidgetClass "{5982E004F2F65259}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
-           Name "DecreaseButton"
-           Slot LayoutSlot "{598699754A17F011}" {
+          TextWidgetClass "{5986A864C6FD7A01}" {
+           Name "Text0"
+           Slot LayoutSlot "{5986A864C6FD7A18}" {
+            Padding 5 5 0 0
             SizeMode Fill
-            FillWeight 0.2
+            FillWeight 0.5
            }
-           components {
-            SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
-             m_bShowBorderOnHover 1
-             m_sActionName "MenuNavLeft"
-            }
+           Text "The amount to remove from the current stack"
+          }
+          HorizontalLayoutWidgetClass "{5982E004BE72BD49}" {
+           Name "ContentSizer"
+           Slot LayoutSlot "{5986A864D24C1873}" {
+            SizeMode Fill
+            FillWeight 0.5
            }
+           "Fill Origin" Center
            {
-            SizeLayoutWidgetClass "{5982E004FFD253FD}" {
-             Prefab "{5982E004FFD253FD}"
+            ButtonWidgetClass "{5982E004F2F65259}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
+             Name "DecreaseButton"
+             Slot LayoutSlot "{598699754A17F011}" {
+              SizeMode Fill
+              FillWeight 0.2
+             }
+             components {
+              SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+               m_bShowBorderOnHover 1
+               m_sActionName "MenuNavLeft"
+              }
+             }
              {
-              OverlayWidgetClass "{5982E004FFD253F2}" {
-               Prefab "{5982E004FFD253F2}"
+              SizeLayoutWidgetClass "{5982E004FFD253FD}" {
+               Prefab "{5982E004FFD253FD}"
                {
-                HorizontalLayoutWidgetClass "{5982E004FFD3C370}" {
-                 Prefab "{5982E004FFD3C370}"
+                OverlayWidgetClass "{5982E004FFD253F2}" {
+                 Prefab "{5982E004FFD253F2}"
                  {
-                  FrameWidgetClass "{5982E004FFD3C374}" {
-                   Prefab "{5982E004FFD3C374}"
+                  HorizontalLayoutWidgetClass "{5982E004FFD3C370}" {
+                   Prefab "{5982E004FFD3C370}"
                    {
-                    ImageWidgetClass "{5982E004FFD3113E}" {
-                     Prefab "{5982E004FFD3113E}"
-                     Rotation 180
+                    FrameWidgetClass "{5982E004FFD3C374}" {
+                     Prefab "{5982E004FFD3C374}"
+                     {
+                      ImageWidgetClass "{5982E004FFD3113E}" {
+                       Prefab "{5982E004FFD3113E}"
+                       Rotation 180
+                      }
+                     }
                     }
                    }
                   }
@@ -84,66 +102,68 @@ FrameWidgetClass {
               }
              }
             }
-           }
-          }
-          EditBoxWidgetClass "{5982E002729A3E12}" {
-           Name "QuantityInput"
-           Slot LayoutSlot "{5982E002729A3E33}" {
-            SizeMode Fill
-            FillWeight 0.3
-           }
-           "Use placeholder text" 1
-           "Placeholder text" "0"
-           "Horizontal alignment" Right
-           "Virtual Keyboard Title" "Quantity"
-           "Virtual Keyboard Desc" "How much do you want to drop?"
-          }
-          TextWidgetClass "{5982E00047785D5E}" {
-           Name "QuantityDividor"
-           Slot LayoutSlot "{5982E00047785D63}" {
-           }
-           Pivot 0.5 0.5
-           Text "/"
-           "Font Size" 40
-           "Horizontal Alignment" Center
-           "Vertical Alignment" Center
-           Offset 0 -0.5
-          }
-          TextWidgetClass "{5982E0005EB5850E}" {
-           Name "QuantityMax"
-           Slot LayoutSlot "{5982E0005EB5852F}" {
-            SizeMode Fill
-            FillWeight 0.3
-           }
-           Text "0"
-           "Vertical Alignment" Center
-           Offset 0 0
-          }
-          ButtonWidgetClass "{5982E004F68F10AF}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
-           Name "IncreaseButton"
-           Slot LayoutSlot "{598699754A17F71B}" {
-            SizeMode Fill
-            FillWeight 0.2
-           }
-           components {
-            SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
-             m_bShowBorderOnHover 1
+            EditBoxWidgetClass "{5982E002729A3E12}" {
+             Name "QuantityInput"
+             Slot LayoutSlot "{5982E002729A3E33}" {
+              SizeMode Fill
+              FillWeight 0.3
+             }
+             Tooltip TextWidgetTooltip "{5986A865E1A25EE0}" {
+              Text "The amount to remove from the current stack"
+             }
+             "Use placeholder text" 1
+             "Horizontal alignment" Right
+             "Virtual Keyboard Title" "Quantity"
+             "Virtual Keyboard Desc" "The amount to remove from the current stack"
             }
-           }
-           {
-            SizeLayoutWidgetClass "{5982E004FFD253FD}" {
-             Prefab "{5982E004FFD253FD}"
+            TextWidgetClass "{5982E00047785D5E}" {
+             Name "QuantityDividor"
+             Slot LayoutSlot "{5982E00047785D63}" {
+             }
+             Pivot 0.5 0.5
+             Text "/"
+             "Font Size" 40
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+             Offset 0 -0.5
+            }
+            TextWidgetClass "{5982E0005EB5850E}" {
+             Name "QuantityMax"
+             Slot LayoutSlot "{5982E0005EB5852F}" {
+              SizeMode Fill
+              FillWeight 0.3
+             }
+             Text "0"
+             "Vertical Alignment" Center
+             Offset 0 0
+            }
+            ButtonWidgetClass "{5982E004F68F10AF}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
+             Name "IncreaseButton"
+             Slot LayoutSlot "{598699754A17F71B}" {
+              SizeMode Fill
+              FillWeight 0.2
+             }
+             components {
+              SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+               m_bShowBorderOnHover 1
+              }
+             }
              {
-              OverlayWidgetClass "{5982E004FFD253F2}" {
-               Prefab "{5982E004FFD253F2}"
+              SizeLayoutWidgetClass "{5982E004FFD253FD}" {
+               Prefab "{5982E004FFD253FD}"
                {
-                HorizontalLayoutWidgetClass "{5982E004FFD3C370}" {
-                 Prefab "{5982E004FFD3C370}"
+                OverlayWidgetClass "{5982E004FFD253F2}" {
+                 Prefab "{5982E004FFD253F2}"
                  {
-                  FrameWidgetClass "{5982E004FFD3C374}" {
-                   Prefab "{5982E004FFD3C374}"
-                   "Z Order" -1
+                  HorizontalLayoutWidgetClass "{5982E004FFD3C370}" {
+                   Prefab "{5982E004FFD3C370}"
                    {
+                    FrameWidgetClass "{5982E004FFD3C374}" {
+                     Prefab "{5982E004FFD3C374}"
+                     "Z Order" -1
+                     {
+                     }
+                    }
                    }
                   }
                  }

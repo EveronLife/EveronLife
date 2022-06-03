@@ -86,15 +86,11 @@ class EL_QuantityDialog : DialogUI // why no prefix, this aint generated you fuc
 		if (m_QuantityValue < m_MinimumQuantityValue)
 		{
 			m_QuantityValue = m_MinimumQuantityValue;
-			
-			//TODO: show error
 		}
 		
 		if (m_QuantityValue > m_MaximumQuantityValue)
 		{
 			m_QuantityValue = m_MaximumQuantityValue;
-			
-			//TODO: show error
 		}
 		
 		m_wQuantityInput.SetText(m_QuantityValue.ToString());
