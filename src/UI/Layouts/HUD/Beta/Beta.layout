@@ -4,17 +4,18 @@ FrameWidgetClass {
   TextWidgetClass "{596565CFBE414D61}" {
    Name "URL"
    Slot FrameWidgetSlot "{596565CFBE414D45}" {
-    Anchor 0 0 0 0
-    PositionX 32.198
-    OffsetLeft 32.198
-    PositionY 10.97
-    OffsetTop 10.97
-    SizeX 0
-    OffsetRight -32.198
+    Anchor 0.487 1 0.487 1
+    PositionX -116.07
+    OffsetLeft -116.1
+    PositionY -71
+    OffsetTop -71
+    SizeX -0
+    OffsetRight 116.1
     SizeY 0
-    OffsetBottom -10.97
+    OffsetBottom 71
     SizeToContent 1
    }
+   Color 0.503 0.503 0.503 1
    Pivot 0 0
    Text "www.everon.life"
    "Font Size" 36
