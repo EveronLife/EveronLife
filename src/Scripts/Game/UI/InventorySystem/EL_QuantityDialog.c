@@ -94,7 +94,7 @@ class EL_QuantityDialog : DialogUI // why no prefix, this aint generated you fuc
 		}
 		
 		m_wQuantityInput.SetText(m_QuantityValue.ToString());
-		m_wQuantityMax.SetText(m_MaximumQuantityValue.ToString());
+		m_wQuantityMax.SetText((m_MaximumQuantityValue + 1).ToString());
 	}
 
 	void OnDecrease()
