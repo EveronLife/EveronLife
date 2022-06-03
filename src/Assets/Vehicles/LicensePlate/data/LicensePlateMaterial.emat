@@ -1,0 +1,8 @@
+MatPBRBasic {
+ Color 1 1 1 1
+ Cull none
+ CastShadow 0
+ SurfaceProperties "{3DC7C8A918E3F4A5}Common/Materials/Game/glass.gamemat"
+ CrossFade 0
+ BCRMap "$rendertarget"
+}
