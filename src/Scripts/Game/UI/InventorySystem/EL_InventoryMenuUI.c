@@ -14,6 +14,34 @@ modded class SCR_InventoryMenuUI
 		super.OnAction(comp, action, pParentStorage, traverseStorageIndex);
 	}
 
+	bool EL_CanSplitQuantity()
+	{
+		if (!m_pFocusedSlotUI)
+		{
+			return false;
+		}
+
+		EL_InventoryQuantityComponent quantityComponent = m_pFocusedSlotUI.EL_GetInventoryQuantityComponent();
+		if (!quantityComponent)
+		{
+			return false;
+		}
+		
+		//! Don't show the dialog if there is nothing to split
+		if (quantityComponent.GetQuantity() <= 1)
+		{
+			return false;
+		}
+
+		IEntity entity = quantityComponent.GetOwner();
+		if (!entity)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	void EL_SplitQuantity()
 	{
 		if (!m_pFocusedSlotUI)
@@ -56,7 +84,7 @@ modded class SCR_InventoryMenuUI
 	{
 		super.NavigationBarUpdate();
 		
-		m_pNavigationBar.SetButtonEnabled("ButtonDropQuantity", true);
+		m_pNavigationBar.SetButtonEnabled("ButtonDropQuantity", EL_CanSplitQuantity());
 	}
 
 	void EL_Refresh()

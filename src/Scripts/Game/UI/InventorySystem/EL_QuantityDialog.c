@@ -24,12 +24,16 @@ class EL_QuantityDialog : DialogUI // why no prefix, this aint generated you fuc
 		// Cancel button
 		m_DecreaseQuantity = SCR_NavigationButtonComponent.GetNavigationButtonComponent("DecreaseButton", w);
 		if (m_DecreaseQuantity)
+		{
 			m_DecreaseQuantity.m_OnActivated.Insert(OnDecrease);
-
+		}
+		
 		// Confirm button
 		m_IncreaseQuantity = SCR_NavigationButtonComponent.GetNavigationButtonComponent("IncreaseButton", w);
 		if (m_IncreaseQuantity)
+		{
 			m_IncreaseQuantity.m_OnActivated.Insert(OnIncrease);
+		}
 		
 		m_wQuantityInput = EditBoxWidget.Cast(w.FindAnyWidget("QuantityInput"));
 		m_wQuantityMax = TextWidget.Cast(w.FindAnyWidget("QuantityMax"));
@@ -63,7 +67,9 @@ class EL_QuantityDialog : DialogUI // why no prefix, this aint generated you fuc
 	void OnRefresh()
 	{
 		if (!m_QuantityComponent)
+		{
 			return;
+		}
 		
 		//! Minimum split value is 1, can't remove nothing. 
 		//!   If the user wants to split nothing they should click cancel instead
@@ -73,9 +79,23 @@ class EL_QuantityDialog : DialogUI // why no prefix, this aint generated you fuc
 		m_MaximumQuantityValue = m_QuantityComponent.GetQuantity() - 1;
 		
 		if (m_QuantityValue == -1)
+		{
 			return;
+		}
 		
-		m_QuantityValue = Math.Clamp(m_QuantityValue, m_MinimumQuantityValue, m_MaximumQuantityValue);
+		if (m_QuantityValue < m_MinimumQuantityValue)
+		{
+			m_QuantityValue = m_MinimumQuantityValue;
+			
+			//TODO: show error
+		}
+		
+		if (m_QuantityValue > m_MaximumQuantityValue)
+		{
+			m_QuantityValue = m_MaximumQuantityValue;
+			
+			//TODO: show error
+		}
 		
 		m_wQuantityInput.SetText(m_QuantityValue.ToString());
 		m_wQuantityMax.SetText(m_MaximumQuantityValue.ToString());
