@@ -32,10 +32,12 @@ modded class SCR_InventoryMenuUI
 		{
 			return;
 		}
-
-		BaseInventoryStorageComponent storage = quantityComponent.GetOwningStorage();
 		
-		quantityComponent.Split(storage, 0.5, m_InventoryManager);
+		MenuBase menu = GetGame().GetMenuManager().OpenDialog(ChimeraMenuPreset.EL_QuantityDialog, DialogPriority.INFORMATIVE, 0, true);
+
+		//BaseInventoryStorageComponent storage = quantityComponent.GetOwningStorage();
+		
+		//quantityComponent.Split(storage, 0.5, m_InventoryManager);
 	}
 
 	override void NavigationBarUpdate()

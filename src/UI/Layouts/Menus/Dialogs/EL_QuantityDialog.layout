@@ -12,6 +12,11 @@ FrameWidgetClass {
   OverlayWidgetClass "{597EC7F2313645C7}" : "{1123A3569ACDCDEC}UI/layouts/Menus/Dialogs/DialogBase.layout" {
    Name "DialogBase0"
    Slot FrameWidgetSlot "{5510B6AD02D313DF}" {
+    OffsetLeft 0
+    OffsetTop 0
+    OffsetRight -600
+    SizeY 250
+    OffsetBottom -250
    }
    {
     VerticalLayoutWidgetClass "{5510B6AD7C32873E}" {
@@ -30,6 +35,9 @@ FrameWidgetClass {
       }
       OverlayWidgetClass "{5510B6ACD309D043}" {
        Prefab "{5510B6ACD309D043}"
+       Slot LayoutSlot "{5510B6ACD309D020}" {
+        Padding 25 40 25 0
+       }
        {
         HorizontalLayoutWidgetClass "{5982E004BE72BD49}" {
          Name "ContentSizer"
@@ -41,12 +49,13 @@ FrameWidgetClass {
          {
           ButtonWidgetClass "{5982E004F2F65259}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
            Name "DecreaseButton"
-           Slot LayoutSlot {
+           Slot LayoutSlot "{598699754A17F011}" {
             SizeMode Fill
             FillWeight 0.2
            }
            components {
             SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+             m_bShowBorderOnHover 1
              m_sActionName "MenuNavLeft"
             }
            }
@@ -112,9 +121,14 @@ FrameWidgetClass {
           }
           ButtonWidgetClass "{5982E004F68F10AF}" : "{00ACB2767A28349A}UI/Layouts/WidgetLibrary/Buttons/EL_WLib_NavigationButtonPaging.layout" {
            Name "IncreaseButton"
-           Slot LayoutSlot {
+           Slot LayoutSlot "{598699754A17F71B}" {
             SizeMode Fill
             FillWeight 0.2
+           }
+           components {
+            SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+             m_bShowBorderOnHover 1
+            }
            }
            {
             SizeLayoutWidgetClass "{5982E004FFD253FD}" {
