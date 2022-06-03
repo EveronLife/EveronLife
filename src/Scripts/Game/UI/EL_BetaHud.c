@@ -1,69 +1,68 @@
 class EL_BetaHud : SCR_InfoDisplay
 {
-	private SliderWidget staminaSlider = null;
-	private SliderWidget healthSlider = null;
-	private SliderWidget thirstSlider = null;
-	private SliderWidget hungerSlider = null;
-	private TextWidget moneyDisplay = null;
-	private SCR_CharacterControllerComponent playerController = null;
-	private DamageManagerComponent DMC = null;
-	//private EL_SurvivalStatsManagerComponent SSM = null;
-	//private moneysystemcomponent MSC = null;
+	private SliderWidget m_StaminaSlider;
+	private SliderWidget m_HealthSlider;
+	private SliderWidget m_ThirstSlider;
+	private SliderWidget m_HungerSlider;
+	private TextWidget m_MoneyDisplay;
+	private SCR_CharacterControllerComponent m_PlayerController;
+	private DamageManagerComponent m_DMC;
+	//TODO: Money & Survival Stats
 	
 	//--------------------------- OnChangeFunctions --------------------------- 
 	void OnHealthChange(float value)
 	{
-		if (!healthSlider)
+		if (!m_HealthSlider)
 		{
-			healthSlider = SliderWidget.Cast(m_wRoot.FindWidget("healthSlider"));
-			if (!healthSlider) return;
+			m_HealthSlider = SliderWidget.Cast(m_wRoot.FindWidget("healthSlider"));
+			if (!m_HealthSlider) return;
 		};
 		
-		healthSlider.SetCurrent(value)
+		m_HealthSlider.SetCurrent(value)
 	}
 	
 	void OnStaminaChange(float value)
 	{
-		if (!staminaSlider)
+		if (!m_StaminaSlider)
 		{
-			staminaSlider = SliderWidget.Cast(m_wRoot.FindWidget("staminaSlider"));
-			if (!staminaSlider) return;
+			m_StaminaSlider = SliderWidget.Cast(m_wRoot.FindWidget("staminaSlider"));
+			if (!m_StaminaSlider) return;
 		};
 		
-		staminaSlider.SetCurrent(value);
+		m_StaminaSlider.SetCurrent(value);
 	}
 	
 	void OnThirstChange(float value)
 	{
-		if (!thirstSlider)
+		if (!m_ThirstSlider)
 		{
-			thirstSlider = SliderWidget.Cast(m_wRoot.FindWidget("thirstSlider"));
-			if (!thirstSlider) return;
+			m_ThirstSlider = SliderWidget.Cast(m_wRoot.FindWidget("thirstSlider"));
+			if (!m_ThirstSlider) return;
 		};
 		
-		thirstSlider.SetCurrent(value);
+		m_ThirstSlider.SetCurrent(value);
 	}
 	
 	void OnHungerChange(float value)
 	{
-		if (!hungerSlider)
+		if (!m_HungerSlider)
 		{
-			hungerSlider = SliderWidget.Cast(m_wRoot.FindWidget("hungerSlider"));
-			if (!hungerSlider) return;
+			m_HungerSlider = SliderWidget.Cast(m_wRoot.FindWidget("hungerSlider"));
+			if (!m_HungerSlider) return;
 		};
 		
-		hungerSlider.SetCurrent(value);
+		m_HungerSlider.SetCurrent(value);
 	}
 	
-		void OnMoneyChange(float value)
+	void OnMoneyChange(float value)
 	{
-		if (moneyDisplay)
+		if (m_MoneyDisplay)
 		{
-			moneyDisplay = TextWidget.Cast(m_wRoot.FindWidget("moneyDisplay"));
-			if (!moneyDisplay) return;
+			m_MoneyDisplay = TextWidget.Cast(m_wRoot.FindWidget("moneyDisplay"));
+			if (!m_MoneyDisplay) return;
 		};
 		
-		moneyDisplay.SetText("$ " + value) //for configurabiluity could have the $ changeable in config...
+		m_MoneyDisplay.SetText("$ " + value) //for configurabiluity could have the $ changeable in config...
 	}
 	
 	//--------------------------- Main Functions --------------------------- 
@@ -72,49 +71,33 @@ class EL_BetaHud : SCR_InfoDisplay
 		super.OnStartDraw(owner);
 
 		IEntity player = GetGame().GetPlayerController();
-		if (!player) 
-		{
-			Print("no player found");
-			return;
-		}
+		if (!player) return;
 		
-		playerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
-		if (playerController) 
-		{
-			Print("Found character controller component")
-		}
-		
+		m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
 	}
 	
 	
-	//UpdateValues needs to be called upon respawning as to reset the UI for healthSlider so it isnt stuck at 0 until you take damage -- KNOWN BUG
+	//UpdateValues needs to be called upon respawning as to reset the UI for m_HealthSlider so it isnt stuck at 0 until you take damage -- KNOWN BUG
 	override event void UpdateValues(IEntity owner, float timeSlice)
 	{
-		if (!playerController)
+		if (!m_PlayerController)
 		{
 			IEntity player = SCR_PlayerController.GetLocalControlledEntity();
-			if (!player) 
-			{
-				return;
-			}
+			if (!player) return;
 		
-			playerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
-			if (!playerController) return;
+			m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
+			if (!m_PlayerController) return;
 			
-			DMC = DamageManagerComponent.Cast(player.FindComponent(DamageManagerComponent));
-			if (!DMC) return;
+			m_DMC = DamageManagerComponent.Cast(player.FindComponent(DamageManagerComponent));
+			if (!m_DMC) return;
 			
-			//add things here to find component for survivalstats
-			//SSM = EL_SurvivalStatsManagerComponent.Cast(player.FindComponent(EL_SurvivalStatsManagerComponent));
-			//if (!SSM) return;
+			//TODO: Get Survival Stats Component
 			
-			//functon to get money from @Arkensor & @Jacob_Mango contribution of a money System
-			//MSC = moneysystemcomponent.Cast(player.FindComponent(moneysystemcomponent))
+			//TOFO: Get Money Stats Component
 		}; 
 		
-		OnHealthChange(DMC.GetHealth());
-		OnStaminaChange(playerController.GetStamina());
-		//OnThirstChange(SSM.GetThirst());
-		//OnHungerChange(SSM.GetHunger());
+		OnHealthChange(m_DMC.GetHealth());
+		OnStaminaChange(m_PlayerController.GetStamina());
+		//TODO: Get info from Money and Survival Stats Components
 	}
 }
