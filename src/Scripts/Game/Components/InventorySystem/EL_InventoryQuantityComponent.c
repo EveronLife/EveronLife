@@ -103,7 +103,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		return GetOwner().GetPrefabData();
 	}
 
-	bool CanCombine(EL_InventoryQuantityComponent other)
+	bool CanCombine(EL_InventoryQuantityComponent other, bool checkQuantity = false)
 	{
 		if (this == other)
 		{
@@ -116,6 +116,12 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		}
 		
 		if (GetTotalWeight() != other.GetTotalWeight())
+		{
+			return false;
+		}
+
+		float quantity = GetQuantity() + other.GetQuantity();
+		if (checkQuantity && quantity > GetQuantityMax())
 		{
 			return false;
 		}
