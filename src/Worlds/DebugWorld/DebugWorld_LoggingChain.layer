@@ -1,0 +1,17 @@
+GenericEntity : "{BC5061EBB3284158}Prefabs/Weapons/Axe.et" {
+ components {
+  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
+   ActionContexts {
+    UserActionContext "{5086F9ADF588DCA4}" {
+     Position PointInfo "{5086F9ADE97650DF}" {
+      Offset 0 0 0
+     }
+    }
+   }
+  }
+ }
+ coords 115.479 0.925 135.876
+ angleX 0.021
+ angleY 56.012
+ angleZ 89.986
+}
