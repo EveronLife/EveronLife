@@ -2,12 +2,59 @@ GenericEntity : "{809488C4984AC087}Prefabs/Weapons/Handguns/M9/Handgun_M9_base.e
  ID "CFBAA4B725411E45"
  components {
   MeshObject "{CFBAA4B701F95D69}" {
-   Object "{8DCFCE9A5FEA9013}Assets/Weapons/Axe/Axe.xob"
+   Object "{7E496FCB2C922CB9}Assets/Weapons/Axe/Axe.xob"
+  }
+  SCR_MeleeWeaponProperties "{5534C5023A57E44C}" {
+   m_fDamage 20
+   m_fRange 2
+   m_fExecutionTime 2
+  }
+  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+   Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+    ItemDisplayName WeaponUIInfo "{5222CB0701437228}" {
+     Name "Axe"
+     Description "Axe for woodcutting"
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+    }
+   }
   }
   WeaponComponent "{CFBAA4B706BA66E8}" {
    components {
+    AttachmentSlotComponent "{B502E4DC8A9E835E}" {
+     Enabled 0
+    }
     MuzzleComponent "{50F64C45E7271D47}" {
+     Enabled 0
+     components {
+      CaseEjectingEffectComponent "{5122AAD190FCA21D}" {
+       Enabled 0
+      }
+      CaseEjectingEffectComponent "{5534C5023A57FB91}" {
+       Enabled 0
+      }
+      SCR_MuzzleEffectComponent "{C9B3271BB22CDB68}" {
+       Enabled 0
+      }
+     }
      MagazineTemplate ""
+    }
+    SightsComponent "{BB23A637957CFFF8}" {
+     Enabled 0
+    }
+    WeaponAnimationComponent "{5534C5023A57FB8A}" {
+     Enabled 0
+    }
+   }
+   useAimingType None
+  }
+  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
+   ActionContexts {
+    UserActionContext "{5086F9ADF588DCA4}" {
+     Position PointInfo "{5086F9ADE97650DF}" {
+      Offset 0 0.16 0
+     }
+     Radius 0.6
     }
    }
   }
