@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{10F5FAEC4AACE480}Assets/Props/Ores/data/Resource_Gold.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

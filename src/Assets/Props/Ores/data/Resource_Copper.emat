@@ -1,0 +1,5 @@
+MatPBRBasic {
+ AddWetness 1
+ BCRMap "{F0C7B2892B7139F3}Assets/Props/Ores/data/T_Resource_Copper_BCR.edds"
+ NMOMap "{C81F091BF2066B6D}Assets/Props/Ores/data/T_Resource_Copper_NMO.edds"
+}

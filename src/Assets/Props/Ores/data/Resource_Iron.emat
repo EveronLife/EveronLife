@@ -1,0 +1,6 @@
+MatPBRBasic {
+ AddWetness 1
+ DielectricReflectance 0.131
+ BCRMap "{18C9B4A7538683DE}Assets/Props/Ores/data/T_Resource_Iron_BCR.edds"
+ NMOMap "{20110F358AF1D140}Assets/Props/Ores/data/T_Resource_Iron_NMO.edds"
+}

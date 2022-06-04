@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{152218E9378CE60B}Assets/Props/Ores/data/Resource_Copper.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

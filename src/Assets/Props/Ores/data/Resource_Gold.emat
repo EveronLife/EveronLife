@@ -1,0 +1,5 @@
+MatPBRBasic {
+ AddWetness 1
+ BCRMap "{FF1BEB4E0E42CA86}Assets/Props/Ores/data/T_Resource_Gold_BCR.edds"
+ NMOMap "{C7C350DCD7359818}Assets/Props/Ores/data/T_Resource_Gold_NMO.edds"
+}
