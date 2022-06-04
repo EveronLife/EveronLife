@@ -16,6 +16,16 @@ GenericEntity : "{809488C4984AC087}Prefabs/Weapons/Handguns/M9/Handgun_M9_base.e
      Description "Axe for woodcutting"
     }
     ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+     AnimationIKPose "{09E1B16C87261340}Assets/Weapons/Handguns/M9/anims/anm/p_m9_idle.anm"
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{52D2D34CD4A7302B}" {
+      CameraDistanceToItem 0.3
+      CameraOffset 0.2 0 0
+      ItemRenderRotation 0 0 -270
+     }
+     ItemInspectionAnimAttributes "{564C7E98F44E1E2C}" {
+     }
     }
    }
   }
@@ -47,6 +57,10 @@ GenericEntity : "{809488C4984AC087}Prefabs/Weapons/Handguns/M9/Handgun_M9_base.e
     }
    }
    useAimingType None
+   UIInfo WeaponUIInfo "{CC3BA6A2C42F09F4}" {
+    Name "Axe"
+    Description "Axe for woodcutting"
+   }
   }
   ActionsManagerComponent "{A29AE67FF4D82B0F}" {
    ActionContexts {
