@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{2C55945E5BAB108E}Prefabs/Items/Vehicles/VehicleKey.et"
+ Name "{2C55945E5BAB108E}Prefabs/Items/Food/VehicleKey.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

@@ -1,7 +1,7 @@
 GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
  ID "508AB2013EEE1E00"
  components {
-  SoundComponent "{59652C0ACB87CED2}" {
+  SoundComponent "{598779B1D923222E}" {
    Filenames {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
@@ -18,11 +18,11 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      SizeSetupStrategy Volume
      ItemVolume 113
     }
-    ItemAnimationAttributes ItemAnimationAttributes "{5966FD8070F889C7}" {
+    ItemAnimationAttributes ItemAnimationAttributes "{598779B1D9232235}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
      AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
      AnimationAttachments {
-      AnimationAttachmentInfo "{5966FD80B4E293CD}" {
+      AnimationAttachmentInfo "{598779B1D923223B}" {
        AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
        AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
        BindingName "Gadget"
@@ -32,16 +32,16 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      HandAdditiveTranslation -0.025 0.03 0
     }
     CustomAttributes {
-     ItemActionAnimAttributes "{5966FD80994B5908}" {
+     ItemActionAnimAttributes "{598779B1D9232238}" {
       ActionType Bandage
      }
     }
    }
   }
-  MeshObject "{59652C0ACB87CEB7}" {
+  MeshObject "{598779B1D923223E}" {
    Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
   }
-  RigidBody "{59652C0ACB87CE82}" {
+  RigidBody "{598779B1D9232241}" {
    Enabled 0
    LinearDamping 0.5
    AngularDamping 0.5
@@ -49,7 +49,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    ModelGeometry 1
    CCDRadius 0.015
   }
-  SCR_ConsumableItemComponent "{5966FECAA294E6A7}" {
+  SCR_ConsumableItemComponent "{598779B1D9232247}" {
    m_eAnimVariable ADRIANOV
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {

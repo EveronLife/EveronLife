@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{2C770F88577754E6}Assets/Items/Vehicles/VehicleKey/RGB Alpha.edds"
+ Name "{AA356592EEA065FA}Assets/Items/Vehicles/VehicleKey/VehicleKey 512x512 RGB Alpha.edds"
  Configurations {
   TIFFResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }

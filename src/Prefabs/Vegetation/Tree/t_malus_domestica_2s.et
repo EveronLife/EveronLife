@@ -25,7 +25,7 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
      }
      Duration 1
      m_GatherItemDisplayName "Apples"
-     m_GatherItemPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+     m_GatherItemPrefab "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et"
     }
    }
   }
