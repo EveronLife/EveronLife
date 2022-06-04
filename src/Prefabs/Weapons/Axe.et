@@ -1,6 +1,9 @@
 GenericEntity : "{809488C4984AC087}Prefabs/Weapons/Handguns/M9/Handgun_M9_base.et" {
  ID "CFBAA4B725411E45"
  components {
+  MeshObject "{CFBAA4B701F95D69}" {
+   Object "{8DCFCE9A5FEA9013}Assets/Weapons/Axe/Axe.xob"
+  }
   WeaponComponent "{CFBAA4B706BA66E8}" {
    components {
     MuzzleComponent "{50F64C45E7271D47}" {
