@@ -43,11 +43,11 @@ $grp GenericEntity {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+       "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+      m_ItemToReceive "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {
@@ -517,7 +517,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.121 0.183 -0.132
@@ -525,7 +525,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.123 0.183 -0.132
@@ -533,7 +533,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.07 0.183 -0.064
@@ -541,7 +541,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.185 0.183 -0.064
@@ -549,7 +549,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.202 0.183 -0.064
@@ -557,7 +557,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.137 0.183 -0.064
@@ -565,7 +565,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.07 0.183 -0.132
@@ -573,7 +573,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.137 0.183 -0.132
@@ -581,7 +581,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.202 0.183 -0.132
@@ -589,7 +589,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.185 0.183 -0.132
@@ -597,7 +597,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.057 0.183 -0.132
@@ -605,7 +605,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.006 0.183 -0.132
@@ -613,7 +613,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.204 0.093
@@ -621,7 +621,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.204 0.093
@@ -629,7 +629,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.204 0.033
@@ -637,7 +637,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.204 0.033
@@ -645,7 +645,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.204 0.093
@@ -653,7 +653,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.204 0.093
@@ -661,7 +661,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.204 0.093
@@ -669,7 +669,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.204 0.093
@@ -677,7 +677,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.057 0.183 0.062
@@ -685,7 +685,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.006 0.183 0.062
@@ -693,7 +693,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.121 0.183 0.062
@@ -701,7 +701,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.202 0.183 0.062
@@ -709,7 +709,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.123 0.183 -0.003
@@ -717,7 +717,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.185 0.183 0.062
@@ -725,7 +725,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.07 0.183 0.062
@@ -733,7 +733,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.137 0.183 0.062
@@ -741,7 +741,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.07 0.183 -0.003
@@ -749,7 +749,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.121 0.183 -0.003
@@ -757,7 +757,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.057 0.183 -0.003
@@ -765,7 +765,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.006 0.183 -0.003
@@ -773,7 +773,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.185 0.183 -0.003
@@ -781,7 +781,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.006 0.183 -0.064
@@ -789,7 +789,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.057 0.183 -0.064
@@ -797,7 +797,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.121 0.183 -0.064
@@ -805,7 +805,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.123 0.183 -0.064
@@ -813,7 +813,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.137 0.183 -0.003
@@ -821,7 +821,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.202 0.183 -0.003
@@ -829,7 +829,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.185 0.183 0.125
@@ -837,7 +837,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.202 0.183 0.125
@@ -845,7 +845,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.137 0.183 0.125
@@ -853,7 +853,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.07 0.183 0.125
@@ -861,7 +861,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.123 0.183 0.062
@@ -869,7 +869,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.121 0.183 0.125
@@ -877,7 +877,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.123 0.183 0.125
@@ -885,7 +885,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.006 0.183 0.125
@@ -893,7 +893,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.057 0.183 0.125
@@ -901,7 +901,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.145 -0.102
@@ -909,7 +909,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.145 -0.102
@@ -917,7 +917,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.145 -0.102
@@ -925,7 +925,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.145 0.033
@@ -933,7 +933,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.145 0.093
@@ -941,7 +941,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.145 0.093
@@ -949,7 +949,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.145 0.093
@@ -957,7 +957,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.145 0.093
@@ -965,7 +965,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.145 0.093
@@ -973,7 +973,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.145 0.033
@@ -981,7 +981,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.145 0.033
@@ -989,7 +989,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.145 0.033
@@ -997,7 +997,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.145 0.033
@@ -1005,7 +1005,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.145 0.033
@@ -1013,7 +1013,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.145 -0.036
@@ -1021,7 +1021,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.145 -0.036
@@ -1029,7 +1029,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.145 -0.036
@@ -1037,7 +1037,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.145 -0.102
@@ -1045,7 +1045,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.145 -0.102
@@ -1053,7 +1053,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.145 -0.036
@@ -1061,7 +1061,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.145 -0.036
@@ -1069,7 +1069,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.145 -0.036
@@ -1077,7 +1077,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.145 -0.102
@@ -1085,7 +1085,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.204 -0.034
@@ -1093,7 +1093,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.204 0.033
@@ -1101,7 +1101,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.204 0.033
@@ -1109,7 +1109,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.204 0.033
@@ -1117,7 +1117,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.204 0.033
@@ -1125,7 +1125,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.204 -0.034
@@ -1133,7 +1133,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.204 -0.034
@@ -1141,7 +1141,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.204 -0.034
@@ -1149,7 +1149,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.204 -0.034
@@ -1157,7 +1157,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.204 -0.034
@@ -1165,7 +1165,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.043 0.204 -0.102
@@ -1173,7 +1173,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.204 -0.102
@@ -1181,7 +1181,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.089 0.204 -0.102
@@ -1189,7 +1189,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.025 0.204 -0.102
@@ -1197,7 +1197,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords -0.151 0.145 0.093
@@ -1205,7 +1205,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.172 0.204 -0.102
@@ -1213,7 +1213,7 @@ $grp GenericEntity {
       {
        components {
         MeshObject "{59670CCD5D495493}" {
-         Object "{D9380D19DF422535}Assets/Items/Food/Apple_01.xob"
+         Object "{D9380D19DF422535}Assets/Items/Food/Apple/Apple_01.xob"
         }
        }
        coords 0.111 0.204 -0.102
@@ -1254,7 +1254,7 @@ $grp GenericEntity {
  AppleTraderTestApples {
   coords 110.099 0.956 134.946
   {
-   $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
+   $grp GenericEntity : "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et" {
     {
      coords -0.137 -0.036 -0.08
     }
