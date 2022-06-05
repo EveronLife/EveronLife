@@ -1,0 +1,4 @@
+MatPBRBasic {
+ BCRMap "{CE735E41FD71A71D}Assets/Items/Food/Tomato/Data/Tomato_BCR.edds"
+ NMOMap "{F6ABE5D32406F583}Assets/Items/Food/Tomato/Data/Tomato_NMO.edds"
+}

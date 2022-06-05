@@ -1,0 +1,7 @@
+Vehicle {
+ ID "BBCBA43A9778AE21"
+ components {
+  EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
+  }
+ }
+}

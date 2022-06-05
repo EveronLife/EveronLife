@@ -1,0 +1,19 @@
+EL_LicensePlateEntity {
+ ID "596884CEF0BAAD86"
+ components {
+  MeshObject "{596884C9599E3BE4}" {
+   Object "{4276D85312F72925}Assets/Vehicles/LicensePlate/LicensePlate.xob"
+   Materials {
+    MaterialAssignClass "{5985183624CEA6F6}" {
+     SourceMaterial "PIPMaterial"
+     AssignedMaterial "{D7550006F427D046}Assets/Vehicles/LicensePlate/data/LicensePlateMaterial.emat"
+    }
+   }
+  }
+  Hierarchy "{59830C84D82DED56}" {
+  }
+ }
+ coords 8.456 1.131 2.478
+ m_Layout "{A4CADC2CF8CBAB17}UI/Layouts/LicensePlate/LicensePlate.layout"
+ m_MaterialIndex 1
+}

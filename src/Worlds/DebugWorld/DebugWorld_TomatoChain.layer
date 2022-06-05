@@ -1,14 +1,14 @@
 $grp GenericEntity {
- AppleTrader {
-  coords 111.088 -0.001 135.601
+ TomatoTrader {
+  coords 106.183 -0.001 134.916
   {
-   GenericEntity AppleTradeContainer {
+   GenericEntity AppleTradeContainer2 {
     components {
      EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
       Attributes SCR_ItemAttributeCollection "{59693C53B153D96B}" {
        ItemDisplayName UIInfo "{59693C53AAB06F2D}" {
-        Name "Apple Trade"
-        Description "Trade apples for ammo"
+        Name "Tomato Trade"
+        Description "Trade tomatos for ammo"
        }
        ItemPhysAttributes ItemPhysicalAttributes "{59693C53A3873124}" {
        }
@@ -24,11 +24,11 @@ $grp GenericEntity {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et"
+       "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et"
+      m_ItemToReceive "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {
@@ -55,8 +55,8 @@ $grp GenericEntity {
          "default"
         }
         UIInfo UIInfo "{59670CE9F9F9794D}" {
-         Name "Trade Apples"
-         Description "Trade apples for ammo"
+         Name "Trade Tomatos"
+         Description "Trade tamtos for ammo"
         }
        }
       }
@@ -69,7 +69,7 @@ $grp GenericEntity {
     angleY -14.907
     Flags 1027
    }
-   SCR_ChimeraCharacter AppleNpc {
+   SCR_ChimeraCharacter TomatoNpc {
     components {
      ControllersManagerComponent "{59670CC3FB6839B0}" {
      }
@@ -312,7 +312,7 @@ $grp GenericEntity {
        SoundIdentity SoundIdentity "{59670CC3FB68C7E4}" {
         VoiceID 100
        }
-       Name "Apple"
+       Name "Tomato"
        Alias ""
        Surname "Trader"
       }
@@ -485,36 +485,35 @@ $grp GenericEntity {
    }
   }
  }
- AppleTraderTestItems {
-  coords 110.275 0.956 135.088
+ TomatoTraderTestItems {
+  coords 105.185 0.963 134.246
   {
-   $grp GenericEntity : "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et" {
+   $grp GenericEntity : "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et" {
     {
-     coords -0.137 -0.036 -0.08
+     coords 0.096 -0.025 -0.048
     }
     {
-     coords -0.074 -0.043 0.152
+     coords 0.096 -0.025 0.084
     }
     {
-     coords 0.168 -0.036 0.057
+     coords 0.201 -0.025 0.012
     }
     {
-     coords -0.002 -0.036 0.074
+     coords -0.008 -0.025 0.012
     }
     {
-     coords -0.165 -0.036 0.08
+     coords -0.008 -0.025 0.146
     }
     {
-     coords -0.052 -0.036 -0.034
+     coords -0.123 -0.025 0.108
     }
     {
-     coords 0.1 -0.036 -0.035
+     coords -0.123 -0.025 -0.019
+    }
+    {
+     coords -0.02 -0.025 -0.105
     }
    }
   }
  }
-}
-Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domestica_2s.et" {
- coords 112.51 0.002 135.664
- angleY 86.566
 }

@@ -13,3 +13,9 @@ Layer Spawnconfig {
 Layer AppleChain {
  Index 4
 }
+Layer PlumChain {
+ Index 3
+}
+Layer TomatoChain {
+ Index 6
+}

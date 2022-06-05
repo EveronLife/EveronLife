@@ -1,0 +1,54 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  RTTextureWidgetClass "{5982EE18548C7EAE}" {
+   Name "RTTexture0"
+   Slot FrameWidgetSlot "{5982EE18548C7EF5}" {
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 520
+    OffsetRight -520
+    SizeY 520
+    OffsetBottom -520
+   }
+   {
+    FrameWidgetClass "{598324498390FFDB}" {
+     Name "Frame0"
+     Slot FrameWidgetSlot "{598324498390FFFE}" {
+      OffsetLeft 0
+      OffsetTop 0
+      SizeX 520
+      OffsetRight -520
+      SizeY 150
+      OffsetBottom -150
+     }
+     {
+      PanelWidgetClass "{59832449B4210ABB}" : "{06082E213F9C3C0C}UI/Layouts/LicensePlate/EL_LicensePlatePlate.layout" {
+       Name "rootFrame0"
+       Slot FrameWidgetSlot "{59832449B4210ACE}" {
+        Anchor 0 0 1 1
+        PositionX 0
+        OffsetLeft 0
+        PositionY 0
+        OffsetTop 0
+        SizeX -520
+        OffsetRight 0
+        SizeY -110
+        OffsetBottom 0
+       }
+       {
+        TextWidgetClass "{598319DABCCC3D55}" {
+         Prefab "{598319DABCCC3D55}"
+         "Font Size" 100
+         "Min Font Size" 100
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
