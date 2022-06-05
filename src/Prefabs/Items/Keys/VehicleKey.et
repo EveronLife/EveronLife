@@ -8,6 +8,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    OnFrameUpdate 0
   }
   EL_VehicleKeyComponent "{598779B5FE37ED05}" {
+   m_DebugIdentifier ""
   }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
@@ -16,7 +17,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      Description "This is a key to keep your vehicle safe."
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
-     Weight 0.2
+     Weight 0.1
      SizeSetupStrategy Volume
      ItemDimensions 20 20 20
      ItemVolume 113
@@ -40,7 +41,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    }
   }
   MeshObject "{598779B1CA2CDBC7}" {
-   Object "{DF73CA3188E9743C}Assets/Items/Vehicles/VehicleKey/VehicleKey.xob"
+   Object "{DF73CA3188E9743C}Assets/Items/Keys/VehicleKey/VehicleKey.xob"
   }
   RigidBody "{598779B1CA2CDBC6}" {
    Enabled 0
