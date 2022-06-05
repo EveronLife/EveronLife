@@ -1,8 +1,8 @@
-GenericEntity : "{06B68C58B72EAAC6}Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium.et" {
- coords 127.297 0.001 134.968
-}
 GenericEntity : "{344090890C63F4CA}Prefabs/Items/Resources/Gravel_bag.et" {
- coords 128.091 0.001 135.005
+ coords 128.054 0.001 135.005
+}
+GenericEntity : "{5C5C6EE05EE2FF1A}Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium_assembled.et" {
+ coords 123.012 0.001 135.773
 }
 StaticModelEntity : "{ADBA6500B487DC94}Prefabs/Props/Construction/GravelPile.et" {
  components {
