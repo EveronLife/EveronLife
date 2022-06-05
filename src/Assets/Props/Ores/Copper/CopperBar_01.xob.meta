@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{C4B8677E91951D64}Assets/Props/Ores/SM_CopperBar_01.xob"
+ Name "{C4B8677E91951D64}Assets/Props/Ores/Copper/SM_CopperBar_01.xob"
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {

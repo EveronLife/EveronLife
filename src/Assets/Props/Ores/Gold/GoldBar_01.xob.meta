@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{C8CCFA1F12EED008}Assets/Props/Ores/SM_GoldBar_01.xob"
+ Name "{C8CCFA1F12EED008}Assets/Props/Ores/Gold/SM_GoldBar_01.xob"
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {

@@ -1,0 +1,9 @@
+GenericEntity {
+ ID "598AA13F6576DF8F"
+ components {
+  MeshObject "{598AA13F09C76EDF}" {
+   Object "{AF6F6BBDAC99F1B9}Assets/Props/Ores/Iron/IronIngot_01.xob"
+  }
+ }
+ coords 104.686 0.917 134.267
+}

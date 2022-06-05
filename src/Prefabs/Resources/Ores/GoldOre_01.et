@@ -1,0 +1,9 @@
+GenericEntity {
+ ID "598AA13FA2AF4DA5"
+ components {
+  MeshObject "{598AA13F0F4E3D27}" {
+   Object "{47ACBD7436BBF123}Assets/Props/Ores/Gold/GoldOre_01.xob"
+  }
+ }
+ coords 109.54 0.001 141.034
+}

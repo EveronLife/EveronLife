@@ -1,0 +1,9 @@
+GenericEntity {
+ ID "598AA13F7B14347C"
+ components {
+  MeshObject "{598AA13F00686B57}" {
+   Object "{6A0B807CE1709763}Assets/Props/Ores/Copper/CopperNugget_01.xob"
+  }
+ }
+ coords 105.789 0.913 134.905
+}

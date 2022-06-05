@@ -1,0 +1,9 @@
+GenericEntity {
+ ID "598AA13F18B40165"
+ components {
+  MeshObject "{598AA13F07A26271}" {
+   Object "{C4B8677E91951D64}Assets/Props/Ores/Copper/CopperBar_01.xob"
+  }
+ }
+ coords 105.52 0.917 134.642
+}
