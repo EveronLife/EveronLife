@@ -27,7 +27,7 @@ StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortification
       Name "Gather"
       Description "Gather Cement"
      }
-     Duration 1
+     Duration 10
      m_GatherItemDisplayName "Cement Bag"
      m_GatherItemPrefab "{D58674633332DC86}Prefabs/Items/Resources/Cement_bag.et"
     }

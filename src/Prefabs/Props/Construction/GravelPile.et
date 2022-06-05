@@ -28,7 +28,7 @@ StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortification
       Name "Gather"
       Description "Gather Gravel"
      }
-     Duration 1
+     Duration 10
      m_GatherItemDisplayName "Gravel Bag"
      m_GatherItemPrefab "{344090890C63F4CA}Prefabs/Items/Resources/Gravel_bag.et"
     }

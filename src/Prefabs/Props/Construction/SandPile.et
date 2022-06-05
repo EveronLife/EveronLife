@@ -28,7 +28,7 @@ StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortification
       Name "Gather"
       Description "Gather Sand"
      }
-     Duration 1
+     Duration 10
      m_GatherItemDisplayName "Sandbag"
      m_GatherItemPrefab "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et"
     }
