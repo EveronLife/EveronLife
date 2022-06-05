@@ -1,0 +1,40 @@
+StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortifications/DirtPile_01_base.et" {
+ ID "5272E314F01B2DBE"
+ components {
+  MeshObject "{5272E314F6439B95}" {
+   Object "{352A1A2A8D933FFE}Assets/Props/Construction/GravelPile_01/GravelPile_01_medium.xob"
+  }
+  SimpleSoundComponent "{598A74222DFDE827}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  ActionsManagerComponent "{598A74222DFDE823}" {
+   ActionContexts {
+    UserActionContext "{598A74222DFDE81E}" {
+     ContextName "Gather"
+     Position PointInfo "{598A74222DFDE819}" {
+      Offset 0 0.5 0
+     }
+     Radius 10
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{598A74222DFDE81B}" {
+     ParentContextList {
+      "Gather"
+     }
+     UIInfo UIInfo "{598A74222DFDE814}" {
+      Name "Gather"
+      Description "Gather Gravel"
+     }
+     Duration 1
+     m_GatherItemDisplayName "Gravel Bag"
+     m_GatherItemPrefab "{344090890C63F4CA}Prefabs/Items/Resources/Gravel_bag.et"
+    }
+   }
+  }
+  RplComponent "{598A74222DFDE817}" {
+  }
+ }
+}
