@@ -1,0 +1,26 @@
+GenericEntity : "{06B68C58B72EAAC6}Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium.et" {
+ coords 127.297 0.001 134.968
+}
+GenericEntity : "{344090890C63F4CA}Prefabs/Items/Resources/Gravel_bag.et" {
+ coords 128.091 0.001 135.005
+}
+StaticModelEntity : "{ADBA6500B487DC94}Prefabs/Props/Construction/GravelPile.et" {
+ components {
+  MeshObject "{5272E314F6439B95}" {
+   Object "{352A1A2A8D933FFE}Assets/Props/Construction/GravelPile_01/GravelPile_01_medium.xob"
+  }
+  SimpleSoundComponent "{598A74222DFDE827}" {
+   Filenames +{
+   }
+  }
+  ActionsManagerComponent "{598A74222DFDE823}" {
+   ActionContexts {
+    UserActionContext "{598A74222DFDE81E}" {
+    }
+   }
+  }
+  RplComponent "{598A74222DFDE817}" {
+  }
+ }
+ coords 127.624 0.001 137.8
+}

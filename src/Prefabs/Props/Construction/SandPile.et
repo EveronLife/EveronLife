@@ -16,7 +16,7 @@ StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortification
      Position PointInfo "{598A742251E67993}" {
       Offset 0 1 0
      }
-     Radius 10
+     Radius 2.5
     }
    }
    additionalActions {

@@ -14,9 +14,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      Description "A bag full of gravel"
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
-     Weight 0.2
+     Weight 20
      SizeSetupStrategy Volume
-     ItemVolume 113
+     ItemVolume 10000
     }
     ItemAnimationAttributes ItemAnimationAttributes "{598A6878445EB15B}" {
      AnimationInstance "{81E91C367B2A22D6}anims/workspaces/player/player_main_rpg.asi"
