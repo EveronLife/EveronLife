@@ -1,5 +1,4 @@
 MatPBRBasic {
- RoughnessScale 1.478
  MetalnessScale 0
  BCRMap "{1F9EB7B8F30C25E7}Assets/Items/Food/Apple/Data/Apple_BCR.edds"
 }
