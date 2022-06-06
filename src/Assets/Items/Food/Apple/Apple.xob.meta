@@ -5,7 +5,7 @@ MetaFileClass {
    MaterialAssigns {
     MaterialAssignClass "{598C2CD724E31DEB}" {
      SourceMaterial "Material"
-     AssignedMaterial "{A2DEDA91509615F3}Assets/Items/Food/Apple/Data/Material.emat"
+     AssignedMaterial "{A2DEDA91509615F3}Assets/Items/Food/Apple/Data/Apple.emat"
     }
    }
    Common TXOCommonClass "{598C2CD724E6E55C}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
