@@ -141,7 +141,7 @@ class EL_InventoryQuantityComponent : ScriptComponent
 		}
 
 		float quantity = GetQuantity() + other.GetQuantity();
-		if (checkQuantity && quantity > GetQuantityMax())
+		if (checkQuantity && GetQuantityMax() >= 1 && quantity > GetQuantityMax())
 		{
 			return false;
 		}
