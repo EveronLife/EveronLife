@@ -4,7 +4,7 @@ MetaFileClass {
   FBXResourceClass PC {
    MaterialAssigns {
     MaterialAssignClass "{598C2CD724E31DEB}" {
-     SourceMaterial "Material"
+     SourceMaterial "Apple"
      AssignedMaterial "{A2DEDA91509615F3}Assets/Items/Food/Apple/Data/Apple.emat"
     }
    }
