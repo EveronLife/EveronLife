@@ -191,14 +191,16 @@ modded class SCR_InventoryStorageManagerComponent
 		{
 			return;
 		}
-		
-		IEntity entity = itemA.GetOwner();
-		EntityPrefabData entityData = entity.GetPrefabData();
-		
-		ResourceName resourceName = entityData.GetPrefabName();
-		TrySpawnPrefabToStorage(resourceName, itemA.GetOwningStorage());
-		
-		EL_InventoryQuantityComponent itemB = EL_InventoryQuantityComponent.GetLastCreated();
+
+		BaseInventoryStorageComponent storage = itemA.GetOwningStorage();
+		if (storage)
+		{
+			IEntity entity = itemA.GetOwner();
+			EntityPrefabData entityData = entity.GetPrefabData();
+			
+			ResourceName resourceName = entityData.GetPrefabName();
+			TrySpawnPrefabToStorage(resourceName, storage);
+		}
 		
 		RplId itemAId = Replication.FindId(itemA);
 		
@@ -233,14 +235,34 @@ modded class SCR_InventoryStorageManagerComponent
 			return;
 		}
 
+		BaseInventoryStorageComponent storage = itemA.GetOwningStorage();
 		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		if (!rpl.IsMaster())
+		if (storage && !rpl.IsMaster()) //! Spawned on client first then server. Master check for "host"
 		{
 			IEntity entity = itemA.GetOwner();
 			EntityPrefabData entityData = entity.GetPrefabData();
 			
 			ResourceName resourceName = entityData.GetPrefabName();
-			TrySpawnPrefabToStorage(resourceName, itemA.GetOwningStorage());
+			TrySpawnPrefabToStorage(resourceName, storage);
+		}
+		else if (!storage) //! Spawned on server regardless if there is no specified storage
+		{
+			IEntity entity = itemA.GetOwner();
+			EntityPrefabData entityData = entity.GetPrefabData();
+
+			ResourceName resourceName = entityData.GetPrefabName();
+			Resource resource = Resource.Load(resourceName);
+			if (!resource.IsValid())
+			{
+				return;
+			}
+
+			EntitySpawnParams params();
+			
+			//! Owner is player
+			GetOwner().GetWorldTransform(params.Transform);
+
+			GetGame().SpawnEntityPrefab(resource, entity.GetWorld(), params);
 		}
 		
 		EL_InventoryQuantityComponent itemB = EL_InventoryQuantityComponent.GetLastCreated();
