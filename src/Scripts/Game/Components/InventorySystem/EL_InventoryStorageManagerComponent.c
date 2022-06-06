@@ -232,12 +232,16 @@ modded class SCR_InventoryStorageManagerComponent
 		{
 			return;
 		}
-		
-		IEntity entity = itemA.GetOwner();
-		EntityPrefabData entityData = entity.GetPrefabData();
-		
-		ResourceName resourceName = entityData.GetPrefabName();
-		TrySpawnPrefabToStorage(resourceName, itemA.GetOwningStorage());
+
+		RplComponent rpl = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
+		if (!rpl.IsMaster())
+		{
+			IEntity entity = itemA.GetOwner();
+			EntityPrefabData entityData = entity.GetPrefabData();
+			
+			ResourceName resourceName = entityData.GetPrefabName();
+			TrySpawnPrefabToStorage(resourceName, itemA.GetOwningStorage());
+		}
 		
 		EL_InventoryQuantityComponent itemB = EL_InventoryQuantityComponent.GetLastCreated();
 
