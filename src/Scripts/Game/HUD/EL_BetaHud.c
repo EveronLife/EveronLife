@@ -5,8 +5,12 @@ class EL_BetaHud : SCR_InfoDisplay
 	private SliderWidget m_ThirstSlider;
 	private SliderWidget m_HungerSlider;
 	private TextWidget m_MoneyDisplay;
+	private FrameWidget m_PlayerStatsFrame
 	private SCR_CharacterControllerComponent m_PlayerController;
 	private DamageManagerComponent m_DMC;
+	
+	private bool m_StatChange;
+	private float m_PreviousValues[4];
 	//TODO: Money & Survival Stats
 	
 	//--------------------------- OnChangeFunctions --------------------------- 
@@ -14,55 +18,88 @@ class EL_BetaHud : SCR_InfoDisplay
 	{
 		if (!m_HealthSlider)
 		{
-			m_HealthSlider = SliderWidget.Cast(m_wRoot.FindWidget("healthSlider"));
+			m_HealthSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("healthSlider"));
 			if (!m_HealthSlider) return;
 		};
 		
-		m_HealthSlider.SetCurrent(value)
+		private float m_currentHealth = m_DMC.GetHealth();
+		
+		if (!m_PreviousValues[0])
+		{
+			m_PreviousValues[0] = m_currentHealth
+		}
+		else
+		{
+			if (float.AlmostEqual(m_PreviousValues[0], m_currentHealth)) return;
+			
+			m_HealthSlider.SetCurrent(value);
+			m_StatChange = true;
+		}
 	}
 	
 	void OnStaminaChange(float value)
 	{
 		if (!m_StaminaSlider)
 		{
-			m_StaminaSlider = SliderWidget.Cast(m_wRoot.FindWidget("staminaSlider"));
+			m_StaminaSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("staminaSlider"));
 			if (!m_StaminaSlider) return;
 		};
 		
-		m_StaminaSlider.SetCurrent(value);
+		private float m_currentStam = m_PlayerController.GetStamina();
+		
+		if (!m_PreviousValues[1])
+		{
+			m_PreviousValues[1] = m_currentStam
+		}
+		else
+		{
+			if (!float.AlmostEqual(m_PreviousValues[1] , m_currentStam))
+			{
+				m_PreviousValues[1] = m_currentStam;
+				m_StaminaSlider.SetCurrent(value);
+				m_StatChange = true;
+			}
+			else
+			{
+				return;
+			}
+		}
 	}
 	
 	void OnThirstChange(float value)
 	{
 		if (!m_ThirstSlider)
 		{
-			m_ThirstSlider = SliderWidget.Cast(m_wRoot.FindWidget("thirstSlider"));
+			m_ThirstSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("thirstSlider"));
 			if (!m_ThirstSlider) return;
 		};
 		
 		m_ThirstSlider.SetCurrent(value);
+		//m_StatChange = true;
 	}
 	
 	void OnHungerChange(float value)
 	{
 		if (!m_HungerSlider)
 		{
-			m_HungerSlider = SliderWidget.Cast(m_wRoot.FindWidget("hungerSlider"));
+			m_HungerSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("hungerSlider"));
 			if (!m_HungerSlider) return;
 		};
 		
 		m_HungerSlider.SetCurrent(value);
+		//m_StatChange = true;
 	}
 	
 	void OnMoneyChange(float value)
 	{
 		if (m_MoneyDisplay)
 		{
-			m_MoneyDisplay = TextWidget.Cast(m_wRoot.FindWidget("moneyDisplay"));
+			m_MoneyDisplay = TextWidget.Cast(m_PlayerStatsFrame.FindWidget("moneyDisplay"));
 			if (!m_MoneyDisplay) return;
 		};
 		
-		m_MoneyDisplay.SetText("$ " + value) //for configurabiluity could have the $ changeable in config...
+		m_MoneyDisplay.SetText("$ " + value); //for configurabiluity could have the $ changeable in config...
+		//m_StatChange = true;
 	}
 	
 	//--------------------------- Main Functions --------------------------- 
@@ -74,10 +111,14 @@ class EL_BetaHud : SCR_InfoDisplay
 		if (!player) return;
 		
 		m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
+		m_PlayerStatsFrame = FrameWidget.Cast(m_wRoot.FindWidget("playerStatsFrame"));
+		if (!m_PlayerStatsFrame) return;
 	}
 	
 	
 	//UpdateValues needs to be called upon respawning as to reset the UI for m_HealthSlider so it isnt stuck at 0 until you take damage -- KNOWN BUG
+	float m_TimeAccumulator = 0;
+	bool m_GUIHidden = false;
 	override event void UpdateValues(IEntity owner, float timeSlice)
 	{
 		if (!m_PlayerController)
@@ -93,11 +134,36 @@ class EL_BetaHud : SCR_InfoDisplay
 			
 			//TODO: Get Survival Stats Component
 			
-			//TOFO: Get Money Stats Component
+			//TODO: Get Money Stats Component
 		}; 
 		
+		m_StatChange = false;
 		OnHealthChange(m_DMC.GetHealth());
 		OnStaminaChange(m_PlayerController.GetStamina());
 		//TODO: Get info from Money and Survival Stats Components
+		
+		
+		
+		
+		if (m_StatChange) //DEBUG: When sprinting this happens
+		{
+			//Trigger();
+			m_TimeAccumulator = 0;
+			if(m_GUIHidden)
+			{
+				m_GUIHidden = false;
+				WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
+			}
+		}
+		else //DEBUG: when just standing this happens
+		{
+			m_TimeAccumulator += timeSlice;
+			Print(m_TimeAccumulator);
+			if (m_TimeAccumulator > 2.0 && !m_GUIHidden)
+			{
+				m_GUIHidden = true;
+				WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
+			}
+		}
 	}
 }
