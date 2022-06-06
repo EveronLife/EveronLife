@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F8C4B5BE3BEB59ED}Assets/Items/Card/Id/data/PIPMaterial.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}
