@@ -74,19 +74,13 @@ class EL_GatherAction : ScriptedUserAction
 		{
 			SetCannotPerformReason(string.Format("Requires %1", m_RequiredItemDisplayName));
 			
-			array<BaseInventoryStorageComponent> outStorages = new array<BaseInventoryStorageComponent>();
-			m_InventoryManager.GetStorages(outStorages);
+			array<IEntity> outItems = new array<IEntity>();
+			m_InventoryManager.GetItems(outItems);
 			
-			foreach (BaseInventoryStorageComponent storage : outStorages)
+			foreach (IEntity item : outItems)
 			{
-				array<IEntity> outItems = new array<IEntity>();
-				storage.GetAll(outItems);
-				
-				foreach (IEntity item : outItems)
-				{
-					if (item.GetPrefabData().GetPrefabName() == m_RequiredItemPrefab)
-						return true;
-				}
+				if (item.GetPrefabData().GetPrefabName() == m_RequiredItemPrefab)
+					return true;
 			}
 		}
 		else // Check hands 
