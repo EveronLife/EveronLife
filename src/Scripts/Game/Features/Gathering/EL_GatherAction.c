@@ -16,17 +16,17 @@ class EL_GatherAction : ScriptedUserAction
 	private bool m_CheckInventory;
 		
 	
-	private SCR_InventoryStorageManagerComponent inventoryManager;
+	private SCR_InventoryStorageManagerComponent m_InventoryManager;
 	
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
 		
-		inventoryManager.PlayItemSound(replication.Id(), "SOUND_PICK_UP");
+		m_InventoryManager.PlayItemSound(replication.Id(), "SOUND_PICK_UP");
 		
 		//Spawn item
 		for (int i = 0; i < m_AmountGathered; i++)
-			inventoryManager.TrySpawnPrefabToStorage(m_GatherItemPrefab);
+			m_InventoryManager.TrySpawnPrefabToStorage(m_GatherItemPrefab);
 		
 		//Show hint what to do with the gathered item
 		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
@@ -40,7 +40,7 @@ class EL_GatherAction : ScriptedUserAction
 	
 	override bool CanBePerformedScript(IEntity user)
  	{
-		inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
+		m_InventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 		
 		if (!m_RequiredItemPrefab)
 			return true;
@@ -48,7 +48,7 @@ class EL_GatherAction : ScriptedUserAction
 		if (m_CheckInventory)
 		{
 			array<BaseInventoryStorageComponent> outStorages = new array<BaseInventoryStorageComponent>();
-			inventoryManager.GetStorages(outStorages);
+			m_InventoryManager.GetStorages(outStorages);
 			
 			foreach (BaseInventoryStorageComponent storage : outStorages)
 			{
@@ -64,7 +64,6 @@ class EL_GatherAction : ScriptedUserAction
 		}
 		else // Check hands 
 		{
-			PlayerController playerController = PlayerController.Cast(GetGame().GetPlayerController());
 			SCR_CharacterControllerComponent characterControllerComponent = SCR_CharacterControllerComponent.Cast(user.FindComponent(SCR_CharacterControllerComponent));
 			if (!characterControllerComponent)
 				return false;
