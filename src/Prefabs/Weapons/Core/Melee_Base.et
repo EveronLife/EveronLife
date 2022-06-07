@@ -1,0 +1,64 @@
+GenericEntity {
+ ID "598E7510554DA860"
+ components {
+  SignalsManagerComponent "{598E75129A7386A0}" {
+  }
+  MeshObject "{CFBAA4B701F95D69}" {
+   Object "{7E496FCB2C922CB9}Assets/Weapons/Axe/Axe.xob"
+   Materials {
+    MaterialAssignClass "{598E75124570E309}" {
+     SourceMaterial "None"
+     AssignedMaterial "{0E06136CC8AD499B}Assets/Weapons/Axe/Data/Axe.emat"
+    }
+   }
+  }
+  SCR_MeleeWeaponProperties "{5534C5023A57E44C}" {
+   m_fDamage 20
+   m_fRange 2
+   m_fExecutionTime 2
+  }
+  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+   Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+    ItemDisplayName WeaponUIInfo "{5222CB0701437228}" {
+     Name "Axe"
+     Description "Axe for woodcutting"
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{52D2D34CD4A7302B}" {
+      CameraDistanceToItem 0.3
+      CameraOffset 0.2 0 0
+      ItemRenderRotation 0 0 -270
+     }
+     ItemInspectionAnimAttributes "{564C7E98F44E1E2C}" {
+     }
+    }
+   }
+  }
+  SimpleSoundComponent "{598E7510554DA85C}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+   DistanceManagement 0
+  }
+  WeaponComponent "{CFBAA4B706BA66E8}" {
+   useAimingType None
+   WeaponType Handgun
+   UIInfo WeaponUIInfo "{CC3BA6A2C42F09F4}" {
+    Name "Axe"
+    Description "Axe for woodcutting"
+   }
+  }
+  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
+   ActionContexts {
+    UserActionContext "{5086F9ADF588DCA4}" {
+     Position PointInfo "{5086F9ADE97650DF}" {
+      Offset 0 0.16 0
+     }
+     Radius 0.6
+    }
+   }
+  }
+  RplComponent "{598E75127D832D19}" {
+  }
+ }
+}
