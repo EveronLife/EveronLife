@@ -1,4 +1,4 @@
 MatPBRBasic {
  RoughnessScale 0.919
- BCRMap "{7951C0475B657B74}Assets/Weapons/Axe/Data/Axe.edds"
+ BCRMap "{FEE086DB8D17852A}Assets/Weapons/Axe/Data/Axe_BCR.edds"
 }
