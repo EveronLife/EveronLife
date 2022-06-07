@@ -1,5 +1,5 @@
 [BaseContainerProps()]
 class EL_IDCardGeneratorBase
 {	
-	string GenerateIDCard();
+	//EL_IDCardGeneratorGeneric Test_Player = new EL_IDCardGeneratorGeneric("Tombo", "TheFreaks", "19.06.2002");
 }

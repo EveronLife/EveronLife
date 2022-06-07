@@ -19,7 +19,7 @@ class EL_IDCardPointInfo: PointInfo
 class EL_IDCardManagerComponent: ScriptComponent
 {
 	[Attribute(uiwidget: UIWidgets.Auto)]
-	ref array<ref EL_IDCardPointInfo> m_Plates;
+	ref array<ref EL_IDCardPointInfo> m_Licenses;
 	
 	[Attribute("{C5EDD08670904FBD}Prefabs/Items/Card/Id/ID_Card.et")]
 	protected ResourceName m_IDCardPrefab;
@@ -39,11 +39,18 @@ class EL_IDCardManagerComponent: ScriptComponent
 		
 		RplComponent rpl = RplComponent.Cast(owner.FindComponent(RplComponent));
 		
-		if (GetGame().InPlayMode() && rpl && rpl.IsMaster())
+		for (int i = 0; i < m_Licenses.Count(); i++)
 		{
-			Resource container = BaseContainerTools.LoadContainer("{B1DD7B5D4812AB19}Configs/Vehicles/IDCardSettings.conf");
-			EL_IDCardSettings idcardSettings = EL_IDCardSettings.Cast(BaseContainerTools.CreateInstanceFromContainer(container.GetResource().ToBaseContainer()));
-			m_Registration = idcardSettings.m_IDCardGenerator.GenerateIDCard();
+			auto licence = m_Licenses[i];
+
+			licence.m_Object = EL_IDCardEntity.Cast(GetGame().SpawnEntityPrefabLocal(resource, owner.GetWorld(), params));
+			
+			licence.m_Object.m_IDCardManager = this;
 		}
+	}
+	
+	void OnRegistrationUpdated()
+	{
+			licence.m_Object.m_TextWidget.SetText(m_Registration);
 	}
 }
