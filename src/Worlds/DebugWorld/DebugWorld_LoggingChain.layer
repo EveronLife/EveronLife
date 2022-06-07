@@ -4,7 +4,6 @@ GenericEntity : "{BC5061EBB3284158}Prefabs/Weapons/Axe.et" {
    ActionContexts {
     UserActionContext "{5086F9ADF588DCA4}" {
      Position PointInfo "{5086F9ADE97650DF}" {
-      Offset 0 0 0
      }
     }
    }
