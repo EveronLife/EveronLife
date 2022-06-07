@@ -28,8 +28,8 @@ class EL_GatherAction : ScriptedUserAction
 		for (int i = 0; i < m_AmountGathered; i++)
 			inventoryManager.TrySpawnPrefabToStorage(m_GatherItemPrefab);
 		
-		//Show hint what to do with the gathered item - NOT sure if this works(?)
-		//EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
+		//Show hint what to do with the gathered item
+		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
 	}
 	
 	override bool GetActionNameScript(out string outName)
