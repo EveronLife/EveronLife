@@ -18,8 +18,11 @@ class EL_GatherAction : ScriptedUserAction
 	[Attribute("", UIWidgets.CheckBox, desc: "Check entire inventory too")]
 	private bool m_CheckInventory;
 		
+	[Attribute(defvalue:"0", UIWidgets.EditBox, desc: "Amount of delay after performing action")]
+	private int m_DelayTimeMilliseconds;
 	
 	private SCR_InventoryStorageManagerComponent m_InventoryManager;
+	private bool m_CanBePerformed = true;
 	
 	//------------------------------------------------------------------------------------------------
 	// User has performed the action
@@ -36,6 +39,14 @@ class EL_GatherAction : ScriptedUserAction
 		
 		//Show hint what to do with the gathered item
 		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
+		
+		if (m_DelayTimeMilliseconds > 0) // If item has a delay between uses
+		{
+			SetCannotPerformReason(string.Format("Please wait %1 seconds", m_DelayTimeMilliseconds / 1000));
+			
+			m_CanBePerformed = false;
+			GetGame().GetCallqueue().CallLater(ToggleCanBePerformed, m_DelayTimeMilliseconds);	
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -51,6 +62,9 @@ class EL_GatherAction : ScriptedUserAction
 	// If so, check if its in the users inventory/hands depending on settings set
 	override bool CanBePerformedScript(IEntity user)
  	{
+		if (!m_CanBePerformed)
+			return false;
+		
 		m_InventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 		
 		if (!m_RequiredItemPrefab) // If not required we dont need to check anything
@@ -94,4 +108,11 @@ class EL_GatherAction : ScriptedUserAction
 		
 		return false;
  	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Called after delay timer runs out
+	protected void ToggleCanBePerformed()
+	{
+		m_CanBePerformed = !m_CanBePerformed;
+	}
 }
