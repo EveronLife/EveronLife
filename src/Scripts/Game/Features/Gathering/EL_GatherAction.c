@@ -6,8 +6,11 @@ class EL_GatherAction : ScriptedUserAction
 	[Attribute("", UIWidgets.ResourceNamePicker, desc: "Prefab what item is gathered")]
 	private ResourceName m_GatherItemPrefab;
 	
-	[Attribute("", UIWidgets.EditBox, desc: "Amount of items to receive")]
+	[Attribute(defvalue:"1", UIWidgets.EditBox, desc: "Amount of items to receive")]
 	private int m_AmountGathered;
+	
+	[Attribute("", UIWidgets.EditBox, desc: "Display name of what is needed")]
+	private string m_RequiredItemDisplayName;
 	
 	[Attribute("", UIWidgets.ResourceNamePicker, desc: "Item(s) required for gathering")]
 	private ResourceName m_RequiredItemPrefab;
@@ -47,6 +50,8 @@ class EL_GatherAction : ScriptedUserAction
 		
 		if (m_CheckInventory)
 		{
+			SetCannotPerformReason(string.Format("Requires %1", m_RequiredItemDisplayName));
+			
 			array<BaseInventoryStorageComponent> outStorages = new array<BaseInventoryStorageComponent>();
 			m_InventoryManager.GetStorages(outStorages);
 			
@@ -64,6 +69,8 @@ class EL_GatherAction : ScriptedUserAction
 		}
 		else // Check hands 
 		{
+			SetCannotPerformReason(string.Format("Requires %1 in hands", m_RequiredItemDisplayName));
+			
 			SCR_CharacterControllerComponent characterControllerComponent = SCR_CharacterControllerComponent.Cast(user.FindComponent(SCR_CharacterControllerComponent));
 			if (!characterControllerComponent)
 				return false;
