@@ -21,6 +21,9 @@ class EL_GatherAction : ScriptedUserAction
 	
 	private SCR_InventoryStorageManagerComponent m_InventoryManager;
 	
+	//------------------------------------------------------------------------------------------------
+	// User has performed the action
+	// play a pickup sound and then add the correct amount to the users inventory
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
@@ -35,20 +38,25 @@ class EL_GatherAction : ScriptedUserAction
 		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	// Formats name for action when hovering
 	override bool GetActionNameScript(out string outName)
 	{
 		outName = string.Format("Gather %1", m_GatherItemDisplayName);
 		return true;
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	// Checks if a required item has been set in the Editor
+	// If so, check if its in the users inventory/hands depending on settings set
 	override bool CanBePerformedScript(IEntity user)
  	{
 		m_InventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 		
-		if (!m_RequiredItemPrefab)
+		if (!m_RequiredItemPrefab) // If not required we dont need to check anything
 			return true;
 		
-		if (m_CheckInventory)
+		if (m_CheckInventory) // Just check the inventory
 		{
 			SetCannotPerformReason(string.Format("Requires %1", m_RequiredItemDisplayName));
 			
