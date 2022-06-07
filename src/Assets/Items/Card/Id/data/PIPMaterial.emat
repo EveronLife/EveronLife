@@ -1,2 +1,4 @@
 MatPBRBasic {
+ Cull none
+ BCRMap "$rendertarget"
 }

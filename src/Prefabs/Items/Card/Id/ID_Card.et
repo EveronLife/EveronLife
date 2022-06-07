@@ -38,6 +38,8 @@ GenericEntity {
    Object "{C268137C366C0FC2}Assets/Items/Card/Id/id.xob"
    LODScale 0.1
   }
+  Hierarchy "{598EE2201302096B}" {
+  }
   SCR_ConsumableItemComponent "{598D4D37A04D4533}" {
    m_eAnimVariable FLASHLIGHT_SOVIET_01
   }
