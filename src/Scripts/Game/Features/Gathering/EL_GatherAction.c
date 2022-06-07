@@ -22,7 +22,6 @@ class EL_GatherAction : ScriptedUserAction
 	{
 		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
 		
-		//SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
 		inventoryManager.PlayItemSound(replication.Id(), "SOUND_PICK_UP");
 		
 		//Spawn item
