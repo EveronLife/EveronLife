@@ -2,6 +2,11 @@ Vehicle {
  ID "BBCBA43A9778AE21"
  components {
   EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
+   m_Plates {
+    EL_LicensePlatePointInfo "{599093DE56E5783A}" {
+     Offset 0 0.5951 1.8116
+    }
+   }
   }
  }
 }

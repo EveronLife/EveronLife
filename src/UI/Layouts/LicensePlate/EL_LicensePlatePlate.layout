@@ -1,5 +1,6 @@
 PanelWidgetClass {
  Name "rootFrame"
+ Color 0.498 0.498 0.498 1
  style debugUI
  {
   TextWidgetClass "{598319DABCCC3D55}" {
@@ -16,8 +17,13 @@ PanelWidgetClass {
     OffsetBottom 0
    }
    Color 0 0 0 1
-   "Horizontal Alignment" Center
+   "Font Size" 200
+   "Min Font Size" 200
    "Vertical Alignment" Center
+   FontProperties FontProperties "{599093DFA9DC336D}" {
+    Font "{0E041C5B1F27DCEA}ui/fonts/robotomono_msdf_28.fnt"
+    Bold 1
+   }
   }
  }
 }

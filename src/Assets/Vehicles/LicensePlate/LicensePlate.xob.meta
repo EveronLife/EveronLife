@@ -4,13 +4,13 @@ MetaFileClass {
   FBXResourceClass PC {
    Rotate 0 0 180
    MaterialAssigns {
-    MaterialAssignClass "{59830E88DF8D332B}" {
-     SourceMaterial "Material"
-     AssignedMaterial "{E3E53DFABB0F6BBF}Assets/Vehicles/LicensePlate/data/Material.emat"
+    MaterialAssignClass "{599093DCB28F6BC2}" {
+     SourceMaterial "Codes"
+     AssignedMaterial "{98E6BD52F0E0EA18}Assets/Vehicles/LicensePlate/data/Codes.emat"
     }
-    MaterialAssignClass "{59830E88DF8D3338}" {
-     SourceMaterial "PIPMaterial"
-     AssignedMaterial "{0E3747C4C40D35A4}Assets/Vehicles/LicensePlate/data/PIPMaterial.emat"
+    MaterialAssignClass "{599093DC8561F5AE}" {
+     SourceMaterial "LicensePlate"
+     AssignedMaterial "{6C4A3C62D596C4B8}Assets/Vehicles/LicensePlate/data/LicensePlate.emat"
     }
    }
    Common TXOCommonClass "{59830E88DFB1FBC5}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {

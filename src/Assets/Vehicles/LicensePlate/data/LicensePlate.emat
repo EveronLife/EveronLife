@@ -1,0 +1,4 @@
+MatPBRBasic {
+ BCRMap "{E8D8F6035F0E82DE}Assets/Vehicles/LicensePlate/data/LicensePlate_BCR.edds"
+ NMOMap "{D0004D918679D040}Assets/Vehicles/LicensePlate/data/LicensePlate_NMO.edds"
+}
