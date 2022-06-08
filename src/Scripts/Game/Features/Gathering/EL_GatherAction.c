@@ -23,6 +23,7 @@ class EL_GatherAction : ScriptedUserAction
 	
 	private SCR_InventoryStorageManagerComponent m_InventoryManager;
 	private bool m_CanBePerformed = true;
+	private float m_EndOfDelay;
 	
 	//------------------------------------------------------------------------------------------------
 	// User has performed the action
@@ -42,10 +43,9 @@ class EL_GatherAction : ScriptedUserAction
 		
 		if (m_DelayTimeMilliseconds > 0) // If item has a delay between uses
 		{
-			SetCannotPerformReason(string.Format("Please wait %1 seconds", m_DelayTimeMilliseconds / 1000));
-			
 			m_CanBePerformed = false;
 			GetGame().GetCallqueue().CallLater(ToggleCanBePerformed, m_DelayTimeMilliseconds);	
+			m_EndOfDelay = GetGame().GetWorld().GetWorldTime() + m_DelayTimeMilliseconds;
 		}
 	}
 	
@@ -63,7 +63,12 @@ class EL_GatherAction : ScriptedUserAction
 	override bool CanBePerformedScript(IEntity user)
  	{
 		if (!m_CanBePerformed)
+		{
+			float timeLeft = (m_EndOfDelay - GetGame().GetWorld().GetWorldTime()) / 1000;
+			SetCannotPerformReason(string.Format("Please wait %1 seconds", Math.Round(timeLeft)));
 			return false;
+		}
+			
 		
 		m_InventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 		
