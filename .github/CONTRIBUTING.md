@@ -35,7 +35,38 @@ It can be difficult to decide on design and implementation concepts or other asp
 * Reference issues and pull requests liberally after the first line
 * Consider using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-### <a name="code_guidelines"></a> Code styleguide
+### Recognising Co-Authors
+It's important to recognise the contribution of everyone who works on Everon Life. As such there may be times where you commit a change that was worked on alongside others who didn't directly commit changes to source control. For example, you may be using models, textures that were made by another contributor that were checked in by you, or design documents that were never pushed to source control.
+
+In order for this contribution to be recognised please add them as a co-autor into your commits. This can be done by both Git GUI's and the CLI.
+
+#### Github Desktop
+
+![Image](https://docs.github.com/assets/cb-1355315/images/help/desktop/co-authors-demo-hq.gif "GH-Desktop co-authors")
+
+#### Git CLI
+
+In order to add a co-author through the CLI your will need an email that is linked to their account (their `noreply` Github address will work if they don't want to make an email public)
+
+To do this commit your changes, but don't close the quotation for the commit message. After your description you can add two empty lines like so:
+
+```bash
+$ git commit -m "Update CONTRIBUTING.md
+>
+>
+```
+
+Now add each contributor on their own line then end with another quotation mark:
+
+```bash
+$ git commit -m "Update CONTRIBUTING.md
+>
+>
+> Co-authored-by: Arkensor <email@domain.com>
+> Co-authored-by: Meat <email@domain.com>"
+```
+
+### <a name="code_guidelines"></a> Code Styleguide
 Currently, we do not have yet automatic tooling to enforce our code style guide. For now please follow the guidelines published on the Community Wiki.
 * [Do's and Don'ts](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Do%27s_and_Don%27ts)
 * [Conventions](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Conventions)
