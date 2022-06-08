@@ -17,7 +17,7 @@ class EL_ProcessAction : ScriptedUserAction
 	
 	private ref array<IEntity> m_FoundItems = {};
 	InventoryStorageManagerComponent m_InventoryManager;
-	private string usingInventory = "Player";
+	private string usingInventory;
 	
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
