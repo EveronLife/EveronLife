@@ -12,6 +12,8 @@ GenericEntity {
     }
    }
   }
+  Hierarchy "{59908080E26C44DE}" {
+  }
   SCR_MeleeWeaponProperties "{5534C5023A57E44C}" {
    m_fDamage 20
    m_fRange 2
@@ -23,16 +25,20 @@ GenericEntity {
      Name "Axe"
      Description "Axe for woodcutting"
     }
+    ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+     AnimationIKPose "{09E1B16C87261340}Assets/Weapons/Handguns/M9/anims/anm/p_m9_idle.anm"
+    }
     CustomAttributes {
      PreviewRenderAttributes "{52D2D34CD4A7302B}" {
+      CameraPreset Left
       CameraDistanceToItem 0.3
-      CameraOffset 0.2 0 0
-      ItemRenderRotation 0 0 -270
      }
      ItemInspectionAnimAttributes "{564C7E98F44E1E2C}" {
      }
     }
+    m_SlotType SLOT_WEAPONS_STORAGE
    }
+   StoragePurpose 3
   }
   SimpleSoundComponent "{598E7510554DA85C}" {
    Filenames {
@@ -51,10 +57,37 @@ GenericEntity {
   ActionsManagerComponent "{A29AE67FF4D82B0F}" {
    ActionContexts {
     UserActionContext "{5086F9ADF588DCA4}" {
+     UIInfo UIInfo "{59908083BD7DC171}" {
+      Name "default"
+     }
      Position PointInfo "{5086F9ADE97650DF}" {
-      Offset 0 0.16 0
      }
      Radius 0.6
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59908083ABA317C4}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5990808350771A26}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+    SCR_EquipWeaponHolsterAction "{599080832ED160BC}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{599080831951DDBE}" {
+     }
+    }
+    SCR_EquipWeaponAction "{599080830B6BF6A5}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{599080830DE4A981}" {
+      Name "#AR-Inventory_Equip"
+     }
     }
    }
   }
