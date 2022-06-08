@@ -1,22 +1,22 @@
 class EL_ProcessAction : ScriptedUserAction
 {
-	[Attribute(defvalue: "", uiwidget: UIWidgets.Auto, desc: "Output amount per process", category: "Spawn Area")]
-	private string m_ReciepeName;
+	[Attribute(defvalue: "", uiwidget: UIWidgets.Auto, desc: "Recipe name to show on action")]
+	private string m_RecipeName;
 	
-	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Spawn", "et", category: "Spawn Area")]
+	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Input", "et")]
 	ResourceName m_PrefabToInput;
 	
-	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input amount per process", category: "Spawn Area")]
+	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input amount per process")]
 	private int m_InputAmount;
 	
-	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Spawn", "et", category: "Spawn Area")]
+	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Output", "et")]
 	ResourceName m_PrefabToOutput;		
 	
-	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process", category: "Spawn Area")]
+	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
 	private int m_OutputAmount;
 	
 	private ref array<IEntity> m_FoundItems = {};
-	InventoryStorageManagerComponent m_InventoryManager;
+	private InventoryStorageManagerComponent m_InventoryManager;
 	private string usingInventory;
 	
 	//------------------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ class EL_ProcessAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool GetActionNameScript(out string outName)
 	{
-		outName = string.Format("Make %1 via %2", m_ReciepeName, usingInventory);
+		outName = string.Format("Make %1 via %2", m_RecipeName, usingInventory);
 		return true;
 	}
 	//------------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ class EL_ProcessAction : ScriptedUserAction
 		array<IEntity> items = {};
 		inventory.GetItems(items);
 		
-		//Check if item in reciepe
+		//Check if item in recipe
 		foreach (IEntity item : items)
 		{
 			if (item.GetPrefabData().GetPrefabName() == m_PrefabToInput)
