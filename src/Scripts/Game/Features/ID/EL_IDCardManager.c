@@ -1,3 +1,7 @@
+class EL_IDCardManagerClass: GenericEntityClass
+{
+}
+
 class EL_IDCardManager: GenericEntity
 {
 	[Attribute(uiwidget: UIWidgets.Auto)]

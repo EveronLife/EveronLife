@@ -17,4 +17,8 @@ class EL_IDCardEntity : GenericEntity
 	protected static bool s_bPIPIsEnabled;
 	protected RTTextureWidget m_wRenderTargetTextureWidget;
 	protected RenderTargetWidget m_wRenderTargetWidget;
+	
+	TextWidget m_TextWidget;
+	EL_IDCardManagerComponent m_IDCardManager;
+	
 };

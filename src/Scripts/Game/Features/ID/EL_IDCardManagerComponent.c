@@ -51,6 +51,10 @@ class EL_IDCardManagerComponent: ScriptComponent
 	
 	void OnRegistrationUpdated()
 	{
+		foreach (auto licence : m_Licenses)
+		{
 			licence.m_Object.m_TextWidget.SetText(m_Registration);
+		}
+			
 	}
 }
