@@ -36,9 +36,9 @@ It can be difficult to decide on design and implementation concepts or other asp
 * Consider using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
 ### Recognising Co-Authors
-It's important to recognise the contribution of everyone who works on Everon Life. As such there may be times where you commit a change that was worked on alongside others who didn't directly commit changes to source control. For example, you may be using models, textures that were made by another contributor that were checked in by you, or design documents that were never pushed to source control.
+It's important to recognise the contribution of everyone who works on Everon Life. As such there may be times where you commit a change that was worked on alongside others who didn't directly commit changes to source control. For example, you may be using models or textures that were made by another contributor that were checked in by you, or design documents that were never pushed to source control.
 
-In order for this contribution to be recognised please add them as a co-autor into your commits. This can be done by both Git GUI's and the CLI.
+In order for this contribution to be recognised please add them as a co-author into your commits. This can be done by both Git GUI's and the CLI.
 
 #### Github Desktop
 
