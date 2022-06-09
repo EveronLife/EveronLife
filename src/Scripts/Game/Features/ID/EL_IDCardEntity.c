@@ -17,6 +17,7 @@ class EL_IDCardEntity : GenericEntity
 	protected static bool s_bPIPIsEnabled;
 	protected RTTextureWidget m_wRenderTargetTextureWidget;
 	protected RenderTargetWidget m_wRenderTargetWidget;
+	protected RplComponent m_RplComponent;
 	
 	TextWidget m_TextWidget;
 	EL_IDCardManagerComponent m_IDCardManager;
@@ -57,7 +58,7 @@ class EL_IDCardEntity : GenericEntity
 			
 			if (m_IDCardManager && m_TextWidget)
 			{
-				m_TextWidget.SetText(m_IDCardManager.m_Registration);
+				m_TextWidget.SetText("Test");
 			}
 		}
 		

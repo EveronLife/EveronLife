@@ -21,7 +21,7 @@ class EL_IDCardManagerComponent: ScriptComponent
 	[Attribute(uiwidget: UIWidgets.Auto)]
 	ref array<ref EL_IDCardPointInfo> m_Licenses;
 	
-	[Attribute("{C5EDD08670904FBD}Prefabs/Items/Card/Id/ID_Card.et")]
+	[Attribute("{6784EF9BC821D725}Prefabs/Items/Equipment/Accessories/IdCard/IDCard.et")]
 	protected ResourceName m_IDCardPrefab;
 	
 	[RplProp(onRplName: "OnRegistrationUpdated")]
