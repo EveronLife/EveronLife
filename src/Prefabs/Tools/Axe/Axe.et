@@ -14,9 +14,20 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
      Description "Axe for wood cutting "
     }
     ItemPhysAttributes ItemPhysicalAttributes "{5990AD6B74ECA5AE}" {
+     Weight 3
+     SizeSetupStrategy Volume
+     ItemVolume 50
      RestingAdditiveRotationLS 0 90 0
     }
     ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+     IkSettings {
+      ItemIKSettings "{59927B2BFF57A5D5}" {
+       Jumping 1
+       Lowered 1
+       ProneTurn 1
+       IkSettingsStand 4
+      }
+     }
      AnimationInstance "{D01958BBC8FE6598}anims/workspaces/player/player_main_pistol_beretta.asi"
      AnimationIKPose "{6AAD163C7072AF0F}Assets/Weapons/Handguns/M9/anims/anm/p_m9_ik.anm"
     }
@@ -29,6 +40,15 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
     }
     m_SlotType SLOT_WEAPONS_STORAGE
    }
+  }
+  WeaponComponent "{5990809682E12ADF}" {
+   useAimingType None
+   WeaponType Handgun
+   UIInfo WeaponUIInfo "{59927B2B73B2CA77}" {
+    Name "Axe"
+    Description "Axe for wood cutting"
+   }
+   WeaponSlotType "secondary"
   }
   ActionsManagerComponent "{A29AE67FF4D82B0F}" {
    ActionContexts {
