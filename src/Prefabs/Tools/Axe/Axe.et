@@ -1,3 +1,48 @@
 GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
  ID "50989DC991E68512"
+ components {
+  MeshObject "{59908096775F151D}" {
+   Object "{7E496FCB2C922CB9}Assets/Weapons/Axe/Axe.xob"
+  }
+  RigidBody "{599080966B9BB4E4}" {
+   ModelGeometry 1
+  }
+  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+   Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+    ItemDisplayName UIInfo "{5990AD6EC4FAB1CD}" {
+     Name "Axe"
+     Description "Axe for wood cutting "
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5990AD6B74ECA5AE}" {
+     RestingAdditiveRotationLS 0 90 0
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+     AnimationInstance "{D01958BBC8FE6598}anims/workspaces/player/player_main_pistol_beretta.asi"
+     AnimationIKPose "{6AAD163C7072AF0F}Assets/Weapons/Handguns/M9/anims/anm/p_m9_ik.anm"
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5990AD67802E3130}" {
+      CameraDistanceToItem 0.42
+      CameraOffset 0.17 0 0
+      ItemRenderRotation -90 90 0
+     }
+    }
+    m_SlotType SLOT_WEAPONS_STORAGE
+   }
+  }
+  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
+   ActionContexts {
+    UserActionContext "{5086F9ADF588DCA4}" {
+     ContextName "default"
+    }
+   }
+   additionalActions {
+    SCR_EquipWeaponHolsterAction "{5990AD67F23F879F}" {
+     ParentContextList {
+      "default"
+     }
+    }
+   }
+  }
+ }
 }

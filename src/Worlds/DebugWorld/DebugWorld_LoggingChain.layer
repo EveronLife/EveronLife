@@ -1,4 +1,20 @@
-GenericEntity : "{BC5061EBB3284158}Prefabs/Weapons/Axe.et" {
+GenericEntity : "{809488C4984AC087}Prefabs/Weapons/Handguns/M9/Handgun_M9_base.et" {
+ coords 117.671 0.001 134.679
+ angleZ 0
+}
+GenericEntity : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+ components {
+  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+   Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+    ItemPhysAttributes ItemPhysicalAttributes "{5990AD6B74ECA5AE}" {
+     SizeSetupStrategy Volume
+    }
+   }
+  }
+ }
+ coords 117.075 0.001 134.405
+}
+GenericEntity : "{BC5061EBB3284158}Prefabs/Weapons/Handguns/M9/Handgun_M9_empty.et" {
  components {
   ActionsManagerComponent "{A29AE67FF4D82B0F}" {
    ActionContexts {

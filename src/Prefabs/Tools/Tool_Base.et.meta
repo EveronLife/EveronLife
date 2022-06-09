@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{F3919A62ADD6123A}Prefabs/Weapons/Core/Melee_Base_inherited.et"
+ Name "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }
