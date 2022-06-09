@@ -1,7 +1,8 @@
 MetaFileClass {
- Name "{6A0B807CE1709763}Assets/Props/Ores/Copper/SM_CopperNugget_01.xob"
+ Name "{6A0B807CE1709763}Assets/Props/Ores/Copper/CopperNugget_01.xob"
  Configurations {
   FBXResourceClass PC {
+   Scale 0.5 0.5 0.5
    MaterialAssigns {
     MaterialAssignClass "{598903CD4FB013B1}" {
      SourceMaterial "Resource_Copper"

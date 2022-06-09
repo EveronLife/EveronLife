@@ -1,9 +1,103 @@
 GenericEntity {
- ID "598AA13F18B40165"
+ ID "59932AEE4A9ED9F1"
  components {
-  MeshObject "{598AA13F07A26271}" {
+  SoundComponent "{59932AEE4A9ED9FB}" {
+   Filenames {
+    "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
+   }
+  }
+  InventoryItemComponent "{59932AEE4A9ED9FD}" {
+   Enabled 1
+   Attributes SCR_ItemAttributeCollection "{59932AEE4A9ED902}" {
+    ItemDisplayName UIInfo "{59932AEE4A9ED900}" {
+     Name "Copper Bar"
+     Description "Smelted piece of copper."
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59932AEE4A9ED906}" {
+     Weight 10
+     SizeSetupStrategy Scaler
+     RestingAdditiveRotationLS 0 0 0
+     ActivePhysicalSimulation Collision
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59932AEE4A9ED90B}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59932AEE4A9ED908}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 -90 210
+     HandAdditiveTranslation 0 0.05 0
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59932AEE4A9ED90E}" {
+      ActionType Bandage
+     }
+    }
+    CommonItemType "NONE"
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
+  MeshObject "{59932AEE4A9ED913}" {
    Object "{C4B8677E91951D64}Assets/Props/Ores/Copper/CopperBar_01.xob"
   }
+  RigidBody "{59932AEE4A9ED912}" {
+   Enabled 0
+   Active Active
+  }
+  SCR_ConsumableItemComponent "{59932AEE4A9ED910}" {
+   m_eAnimVariable FLASHLIGHT_SOVIET_01
+  }
+  SCR_MeleeComponent "{59932AEE4A9ED917}" {
+   Enabled 0
+  }
+  SCR_MeleeWeaponProperties "{59932AEE4A9ED916}" {
+   Enabled 0
+  }
+  WeaponComponent "{59932AEE4A9ED915}" {
+   Enabled 0
+   SignalsSourceAccess SignalsSourceAccessClass "{59932AEE4A9ED91A}" {
+   }
+   useAimingType None
+   WeaponType Handgun
+   UIInfo UIInfo "{59932AEE4A9ED918}" {
+   }
+   WeaponSlotType "secondary"
+  }
+  ActionsManagerComponent "{59932AEE4A9ED91E}" {
+   ActionContexts {
+    UserActionContext "{59932AEE4A9ED91C}" {
+     ContextName "default"
+     Position PointInfo "{59932AEE4A9ED922}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59932AEE4A9ED927}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59932AEE4A9E9C09}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  WeaponAnimationComponent "{59932AEE4A9E9C0A}" {
+   Enabled 0
+   AnimGraph "{FE49E462683C1D86}Assets/Weapons/Grenades/workspaces/Grenade.agr"
+   AnimInstance "{E9626E5906AE8FFC}Assets/Weapons/Grenades/workspaces/Grenade_M18.asi"
+   AlwaysActive 1
+   AnimInjection AnimationAttachmentInfo "{59932AEE4A9E9C04}" {
+    AnimGraph "{FE49E462683C1D86}Assets/Weapons/Grenades/workspaces/Grenade.agr"
+    AnimInstance "{E9626E5906AE8FFC}Assets/Weapons/Grenades/workspaces/Grenade_M18.asi"
+   }
+  }
+  RplComponent "{59932AEE4A9E9C06}" {
+  }
  }
- coords 105.52 0.917 134.642
+ coords 104.686 0.917 134.267
 }

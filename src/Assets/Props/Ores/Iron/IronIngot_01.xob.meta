@@ -1,7 +1,8 @@
 MetaFileClass {
- Name "{AF6F6BBDAC99F1B9}Assets/Props/Ores/Iron/SM_IronIngot_01.xob"
+ Name "{AF6F6BBDAC99F1B9}Assets/Props/Ores/Iron/IronIngot_01.xob"
  Configurations {
   FBXResourceClass PC {
+   Scale 0.5 0.5 0.5
    MaterialAssigns {
     MaterialAssignClass "{598903CD4FF4CA35}" {
      SourceMaterial "Resource_Iron"

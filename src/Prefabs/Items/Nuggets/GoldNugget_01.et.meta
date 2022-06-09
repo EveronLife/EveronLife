@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{E10A77561FBC8AF8}Prefabs/Items/Nuggets/GoldNugget_01.et"
+ Name "{E730BF7580CB8AEE}Prefabs/Items/CopperNugget_01.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

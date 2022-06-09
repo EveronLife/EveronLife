@@ -1,8 +1,102 @@
 GenericEntity {
  ID "598AA13F6576DF8F"
  components {
+  SoundComponent "{59931CABD6579C9D}" {
+   Filenames {
+    "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
+   }
+  }
+  InventoryItemComponent "{598B23CAA8229853}" {
+   Enabled 1
+   Attributes SCR_ItemAttributeCollection "{59930ADFA9E7F1B2}" {
+    ItemDisplayName UIInfo "{59930ADB2CE7370A}" {
+     Name "Iron Ingot"
+     Description "Smelted piece of iron."
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59930ADB3D4713D9}" {
+     Weight 8
+     SizeSetupStrategy Scaler
+     RestingAdditiveRotationLS 0 0 0
+     ActivePhysicalSimulation Collision
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59930ADB0E54E2DE}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59930AD40CAEF58D}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 -90 210
+     HandAdditiveTranslation 0 0.05 0
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59930AD49E9B4D08}" {
+      ActionType Bandage
+     }
+    }
+    CommonItemType "NONE"
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
   MeshObject "{598AA13F09C76EDF}" {
    Object "{AF6F6BBDAC99F1B9}Assets/Props/Ores/Iron/IronIngot_01.xob"
+  }
+  RigidBody "{59931CABCC6F9488}" {
+   Enabled 0
+   Active Active
+  }
+  SCR_ConsumableItemComponent "{59930ADD7FE95B43}" {
+   m_eAnimVariable FLASHLIGHT_SOVIET_01
+  }
+  SCR_MeleeComponent "{59932AEC70EB2A86}" {
+   Enabled 0
+  }
+  SCR_MeleeWeaponProperties "{59932AEC5B084555}" {
+   Enabled 0
+  }
+  WeaponComponent "{59932AECD7C3F3B7}" {
+   Enabled 0
+   SignalsSourceAccess SignalsSourceAccessClass "{59932AED013E0C3D}" {
+   }
+   useAimingType None
+   WeaponType Handgun
+   UIInfo UIInfo "{59932AED0BD00CDF}" {
+   }
+   WeaponSlotType "secondary"
+  }
+  ActionsManagerComponent "{598B23CAB488B7A0}" {
+   ActionContexts {
+    UserActionContext "{59930AD4A978A6F6}" {
+     ContextName "default"
+     Position PointInfo "{59931CAF55ADFB87}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59930AD458EEFAAD}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59930AD4A21BE201}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  WeaponAnimationComponent "{59932AED43D9DAA2}" {
+   Enabled 0
+   AnimGraph "{FE49E462683C1D86}Assets/Weapons/Grenades/workspaces/Grenade.agr"
+   AnimInstance "{E9626E5906AE8FFC}Assets/Weapons/Grenades/workspaces/Grenade_M18.asi"
+   AlwaysActive 1
+   AnimInjection AnimationAttachmentInfo "{59932AED5992E5F7}" {
+    AnimGraph "{FE49E462683C1D86}Assets/Weapons/Grenades/workspaces/Grenade.agr"
+    AnimInstance "{E9626E5906AE8FFC}Assets/Weapons/Grenades/workspaces/Grenade_M18.asi"
+   }
+  }
+  RplComponent "{598B23CAA7DC6F75}" {
   }
  }
  coords 104.686 0.917 134.267
