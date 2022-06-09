@@ -5,7 +5,8 @@ class EL_BetaHud : SCR_InfoDisplay
 	private SliderWidget m_ThirstSlider;
 	private SliderWidget m_HungerSlider;
 	private TextWidget m_MoneyDisplay;
-	private FrameWidget m_PlayerStatsFrame
+	private FrameWidget m_PlayerStatsFrame;
+	private FrameWidget m_PlayerStatsIcons;
 	private SCR_CharacterControllerComponent m_PlayerController;
 	private DamageManagerComponent m_DMC;
 	
@@ -113,6 +114,9 @@ class EL_BetaHud : SCR_InfoDisplay
 		m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
 		m_PlayerStatsFrame = FrameWidget.Cast(m_wRoot.FindWidget("playerStatsFrame"));
 		if (!m_PlayerStatsFrame) return;
+		
+		m_PlayerStatsIcons = FrameWidget.Cast(m_wRoot.FindWidget("playerStatsIcons"));
+		if(!m_PlayerStatsIcons) return;
 	}
 	
 	
@@ -120,7 +124,7 @@ class EL_BetaHud : SCR_InfoDisplay
 	float m_TimeAccumulator = 0;
 	bool m_GUIHidden = false;
 	override event void UpdateValues(IEntity owner, float timeSlice)
-	{
+	{	
 		if (!m_PlayerController)
 		{
 			IEntity player = SCR_PlayerController.GetLocalControlledEntity();
@@ -142,28 +146,38 @@ class EL_BetaHud : SCR_InfoDisplay
 		OnStaminaChange(m_PlayerController.GetStamina());
 		//TODO: Get info from Money and Survival Stats Components
 		
-		
-		
-		
-		if (m_StatChange) //DEBUG: When sprinting this happens
+
+		if (m_StatChange)
 		{
-			//Trigger();
 			m_TimeAccumulator = 0;
 			if(m_GUIHidden)
 			{
 				m_GUIHidden = false;
-				WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
+				ShowStatsHUD(true);
 			}
 		}
-		else //DEBUG: when just standing this happens
+		else
 		{
 			m_TimeAccumulator += timeSlice;
-			Print(m_TimeAccumulator);
-			if (m_TimeAccumulator > 2.0 && !m_GUIHidden)
+			if (m_TimeAccumulator > 4.0 && !m_GUIHidden)
 			{
 				m_GUIHidden = true;
-				WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
+				ShowStatsHUD(false);
 			}
+		}
+	}
+	
+	void ShowStatsHUD(bool var) //TODO: Key press to also show stats HUD? " ` or ~ key perhaps, KeyCode.KC_GRAVE"
+	{
+		if (var)
+		{
+			WidgetAnimator.PlayAnimation(m_PlayerStatsIcons,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_DEFAULT);
+			WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
+		}
+		else
+		{
+			WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_DEFAULT);
+			WidgetAnimator.PlayAnimation(m_PlayerStatsIcons,WidgetAnimationType.Opacity,false,3);
 		}
 	}
 }
