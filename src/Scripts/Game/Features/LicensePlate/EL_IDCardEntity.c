@@ -21,4 +21,47 @@ class EL_IDCardEntity : GenericEntity
 	TextWidget m_TextWidget;
 	EL_IDCardManagerComponent m_IDCardManager;
 	
+	void EL_IDCardEntity(IEntitySource src, IEntity parent)
+	{
+		SetEventMask(EntityEvent.FRAME);
+		SetFlags(EntityFlags.ACTIVE, false);
+	}
+	
+	void ~EL_IDCardEntity()
+	{
+		if (m_wPIPRoot)
+		{
+			m_wPIPRoot.RemoveFromHierarchy();
+			m_wPIPRoot = null;
+		}
+	}
+	
+	protected override void EOnFrame(IEntity owner, float timeSlice)
+	{
+		if (!m_wPIPRoot)
+		{
+			m_wPIPRoot = GetGame().GetWorkspace().CreateWidgets(m_Layout);
+	
+			if (!m_wPIPRoot) return;
+			
+			m_wRenderTargetTextureWidget = RTTextureWidget.Cast(m_wPIPRoot.FindAnyWidget("RTTexture0"));
+			
+			if (!m_wRenderTargetTextureWidget)
+			{
+				m_wPIPRoot.RemoveFromHierarchy();
+				m_wPIPRoot = null;
+				return;
+			}
+			
+			m_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Text0"));
+			
+			if (m_IDCardManager && m_TextWidget)
+			{
+				m_TextWidget.SetText(m_IDCardManager.m_Registration);
+			}
+		}
+		
+		m_wRenderTargetTextureWidget.SetGUIWidget(this, m_MaterialIndex);
+	}
+	
 };

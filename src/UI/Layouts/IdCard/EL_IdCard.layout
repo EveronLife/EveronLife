@@ -1,0 +1,114 @@
+PanelWidgetClass {
+ Name "rootFrame"
+ style debugUI
+ {
+  TextWidgetClass "{5992DA2018B89157}" {
+   Name "Text0"
+   Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
+    Anchor 0 0 0 0
+    PositionX 92
+    OffsetLeft 92
+    PositionY 30
+    OffsetTop 30
+    SizeX 891
+    OffsetRight -983
+    SizeY 105
+    OffsetBottom -135
+   }
+   Color 0 0 0 1
+   Text "Surname"
+   "Font Size" 100
+   "Min Font Size" 100
+  }
+  TextWidgetClass "{5992F91E6ED3A475}" {
+   Name "Text1"
+   Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
+    Anchor 0 0 0 0
+    PositionX 92
+    OffsetLeft 92
+    PositionY 125
+    OffsetTop 125
+    SizeX 891
+    OffsetRight -983
+    SizeY 105
+    OffsetBottom -230
+   }
+   Color 0 0 0 1
+   Text "Lastname"
+   "Font Size" 100
+   "Min Font Size" 100
+  }
+  TextWidgetClass "{5992F91E69E116C0}" {
+   Name "Text2"
+   Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
+    Anchor 0 0 0 0
+    PositionX 92
+    OffsetLeft 92
+    PositionY 220
+    OffsetTop 220
+    SizeX 891
+    OffsetRight -983
+    SizeY 105
+    OffsetBottom -325
+   }
+   Color 0 0 0 1
+   Text "Birthday"
+   "Font Size" 100
+   "Min Font Size" 100
+  }
+  TextWidgetClass "{5992F91C112511AF}" {
+   Name "Licence1"
+   Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
+    Anchor 0 0 0 0
+    PositionX 220
+    OffsetLeft 220
+    PositionY 580
+    OffsetTop 580
+    SizeX 891
+    OffsetRight -1111
+    SizeY 105
+    OffsetBottom -685
+   }
+   Color 0 0 0 1
+   Text "Licence1"
+   "Font Size" 100
+   "Min Font Size" 100
+  }
+  TextWidgetClass "{5992F91C1DD2B63C}" {
+   Name "Licence2"
+   Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
+    Anchor 0 0 0 0
+    PositionX 220
+    OffsetLeft 220
+    PositionY 675
+    OffsetTop 675
+    SizeX 891
+    OffsetRight -1111
+    SizeY 105
+    OffsetBottom -780
+   }
+   Color 0 0 0 1
+   Text "Licence2"
+   "Font Size" 100
+   "Min Font Size" 100
+  }
+  TextWidgetClass "{5992F91C1CB5212B}" {
+   Name "Licence3"
+   Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
+    Anchor 0 0 0 0
+    PositionX 220
+    OffsetLeft 220
+    PositionY 770
+    OffsetTop 770
+    SizeX 891
+    OffsetRight -1111
+    SizeY 104.997
+    OffsetBottom -875
+   }
+   Color 0 0 0 1
+   Text "Licence3"
+   "Font Size" 100
+   "Min Font Size" 100
+  }
+ }
+}

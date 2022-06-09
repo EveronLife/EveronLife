@@ -1,6 +1,12 @@
 GenericEntity {
  ID "598D4D367434CA15"
  components {
+  EL_IDCardManagerComponent "{5992B64508A49436}" {
+   m_Licenses {
+    EL_IDCardPointInfo "{5992B64511A57620}" {
+    }
+   }
+  }
   InventoryItemComponent "{598D4D3104486834}" {
    Attributes SCR_ItemAttributeCollection "{598D4D315D1D9770}" {
     ItemDisplayName UIInfo "{598D4D31B768C278}" {
