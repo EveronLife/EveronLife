@@ -14,8 +14,9 @@ MetaFileClass {
    }
    GeometryParams {
     GeometryParam UBX_IdCard {
+     LayerPreset "ItemFireView"
      SurfaceProperties {
-      "{536BF67B2052B869}material/metal.gamemat"
+      "{1CDC68ADBEA09DCC}Common/Materials/Game/Paper/paper_15mm.gamemat"
      }
      Mass 0
      Margin 0
