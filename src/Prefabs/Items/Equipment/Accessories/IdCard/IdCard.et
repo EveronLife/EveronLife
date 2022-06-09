@@ -15,8 +15,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
      Weight 0.2
-     SizeSetupStrategy Volume
      ItemVolume 113
+     RestingUP Forward
+     RestingAdditiveRotationLS 0 0 0
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59927CDF1923CCAA}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
@@ -44,11 +45,11 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    PixelSizeScale 10
   }
   RigidBody "{59927CDF1923CCD4}" {
-   Enabled 0
    LinearDamping 0.5
    AngularDamping 0.5
    AngularSleepingThreashold 1
    ModelGeometry 1
+   Static 1
    CCDRadius 0.015
   }
   SCR_ConsumableItemComponent "{59927CDF1923CCD6}" {
@@ -69,4 +70,5 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
   }
  }
  coords 109.804 0.917 134.874
+ angleX 90
 }
