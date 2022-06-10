@@ -14,9 +14,13 @@ modded class SCR_InventorySlotUI
 		EL_UpdateQuantityNumber();
 	}
 		
-	void EL_UpdateQuantityNumber()
+	void EL_UpdateQuantityNumber(InventoryItemComponent itemComponent = null)
 	{
-		InventoryItemComponent itemComponent = GetItem();
+		if (!itemComponent)
+		{
+			itemComponent = GetItem();
+		}
+
 		if (!itemComponent)
 		{
 			return;
