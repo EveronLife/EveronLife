@@ -3,7 +3,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
  components {
   SoundComponent "{59927CDF1923CCA3}" {
    Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+    "{13F8D0DE67678118}Sounds/Items/_SharedData/PickUp/Items_PickUp_Map.acp"
    }
    OnFrameUpdate 0
   }
@@ -47,15 +47,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    Static 1
    CCDRadius 0.015
   }
-  SCR_ConsumableItemComponent "{59927CDF1923CCD6}" {
-   m_eAnimVariable ADRIANOV
-  }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
     UserActionContext "{508AC2ABEC97066C}" {
-     ContextName "default"
-     Position PointInfo "{508AC2ABEAC4A0F5}" {
-     }
     }
    }
    additionalActions {
