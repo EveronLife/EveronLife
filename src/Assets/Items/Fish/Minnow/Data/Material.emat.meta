@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{916D6119C2E7E64D}Assets/Items/Fish/Minnow/Data/Material.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

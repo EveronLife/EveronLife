@@ -486,7 +486,7 @@ $grp GenericEntity {
   }
  }
  AppleTraderTestItems {
-  coords 110.275 0.956 135.088
+  coords 110.273 0.956 134.798
   {
    $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
     {
