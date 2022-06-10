@@ -470,8 +470,10 @@ $grp GenericEntity {
       }
       additionalActions {
        EL_ProcessAction "{598F21A877BE6DEE}" {
-        Duration 2
-        m_ReciepeName "Apple Juice"
+        UIInfo UIInfo "{59947AF4A11A18DC}" {
+         Name "Make 1 apple juice with 3 apples"
+        }
+        Duration 1
        }
       }
      }
