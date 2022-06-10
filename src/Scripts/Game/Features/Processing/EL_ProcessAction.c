@@ -12,8 +12,6 @@ class EL_ProcessAction : ScriptedUserAction
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
 	private int m_OutputAmount;
 	
-	private string usingInventory;
-	
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
