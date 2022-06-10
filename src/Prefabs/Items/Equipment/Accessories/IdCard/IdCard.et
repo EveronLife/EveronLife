@@ -18,10 +18,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      ItemVolume 113
      RestingUP Forward
      RestingAdditiveRotationLS 0 0 0
+     RestingAdditiveOffsetLS 0 0 -0.008
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59927CDF1923CCAA}" {
-     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
-     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
      AnimationAttachments {
       AnimationAttachmentInfo "{59927CDF1923CCAF}" {
        AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
@@ -29,15 +28,11 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
        BindingName "Gadget"
       }
      }
-     HandAdditiveRotation -90 0 -90
-     HandAdditiveTranslation 0 0.02 0
-    }
-    CustomAttributes {
-     ItemActionAnimAttributes "{59927CDF1923CCD0}" {
-      ActionType Bandage
-     }
+     HandAdditiveRotation -65 -60 -60
+     HandAdditiveTranslation -0.06 0.03 -0.01
     }
    }
+   WbPlacementFromAttributes 1
   }
   MeshObject "{59927CDF1923CCD2}" {
    Object "{F0EA214737403A67}Assets/Items/Equipment/Accessories/IdCard/IdCard.xob"
