@@ -41,7 +41,8 @@ FrameWidgetClass {
        {
         TextWidgetClass "{598319DABCCC3D55}" {
          Prefab "{598319DABCCC3D55}"
-         "Min Font Size" 24
+         "Font Size" 100
+         "Min Font Size" 100
         }
        }
       }
