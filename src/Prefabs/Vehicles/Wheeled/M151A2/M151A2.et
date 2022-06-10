@@ -1,0 +1,16 @@
+Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
+   m_Plates {
+    EL_LicensePlatePointInfo "{59947699E7AB94AC}" {
+     Offset 0 0.5928 1.8132
+    }
+    EL_LicensePlatePointInfo "{5994769A8D4DE410}" {
+     Offset -0.3705 0.6903 -1.6805
+     Angles 180 0 0
+    }
+   }
+  }
+ }
+}

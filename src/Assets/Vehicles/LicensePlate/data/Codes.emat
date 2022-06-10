@@ -1,5 +1,5 @@
 MatPBRBasic {
- RoughnessScale 0.25
+ RoughnessScale 0.4
  BCRMap "$rendertarget"
  NMOMap "{0B6ADF02A06C1842}Assets/Vehicles/LicensePlate/data/Codes_NMO.edds"
 }

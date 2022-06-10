@@ -1,4 +1,18 @@
-MatPBRBasic {
- BCRMap "{E8D8F6035F0E82DE}Assets/Vehicles/LicensePlate/data/LicensePlate_BCR.edds"
- NMOMap "{D0004D918679D040}Assets/Vehicles/LicensePlate/data/LicensePlate_NMO.edds"
+MatPBRMulti {
+ VFXMap "{A0724839DA1D612C}Assets/Vehicles/LicensePlate/data/LicensePlate_VFX.edds"
+ MudOpacity 0.95
+ MudColor 0.084 0.074 0.061 1
+ MudRoughness 2
+ MudMetalness 0
+ MudBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ MudNMOMap "{96EF3CD8C8E643BA}Assets/_SharedData/Dirt/ST_Mud_01_NMO.edds"
+ MudMaskMap "{816ABEBED1A52FF3}Assets/_SharedData/DetailMask/ST_Mud_01_Mask.edds"
+ DirtOpacity 0.32
+ DirtLayerSharpness 2.082
+ DirtColor 0.141 0.125 0.099 1
+ DirtRoughness 1.5
+ DirtBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ DirtMaskMap "{A074608E879A25CB}Assets/_SharedData/DetailMask/ST_Dirt_01_Mask1.edds"
+ BCR_1 "{E8D8F6035F0E82DE}Assets/Vehicles/LicensePlate/data/LicensePlate_BCR.edds"
+ NMO_1 "{D0004D918679D040}Assets/Vehicles/LicensePlate/data/LicensePlate_NMO.edds"
 }
