@@ -14,14 +14,17 @@ GenericEntity {
      SizeSetupStrategy Volume
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59943707F44D7B2C}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
     }
     CustomAttributes {
      ItemActionAnimAttributes "{599437079BA45845}" {
+      ActionType Bandage
      }
     }
     CommonItemType "FOOD"
-    m_Size SLOT_1x1
-    m_SlotType SLOT_LOADOUT_STORAGE
+    m_Size SLOT_2x1
+    m_SlotType SLOT_ANY
    }
   }
   MeshObject "{599361CD61346D01}" {
@@ -33,7 +36,7 @@ GenericEntity {
    ModelGeometry 1
   }
   SCR_ConsumableItemComponent "{599437076871B234}" {
-   m_eAnimVariable ADRIANOV
+   m_eAnimVariable MAP
   }
   ActionsManagerComponent "{5994322B354CA40A}" {
    ActionContexts {
@@ -61,5 +64,4 @@ GenericEntity {
  angleX 1.744
  angleY 74.412
  angleZ -89.63
- scale 0.094
 }

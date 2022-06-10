@@ -1,41 +1,9 @@
 $grp GenericEntity {
- FishTraderTestItems {
-  coords 105.783 0.928 131.401
-  angleY -82.83
-  {
-   $grp GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
-    {
-     coords 0 -0.01 -0.003
-     angleX 0
-     angleY 0.304
-     angleZ -90.219
-    }
-    {
-     coords -0.241 0 -0.001
-     angleX 0
-     angleY 0.304
-     angleZ -87.841
-    }
-    {
-     coords 0.192 0 -0.004
-     angleX 0
-     angleY 0.304
-     angleZ -80.732
-    }
-    {
-     coords -0.496 0 0
-     angleX 0
-     angleY 0.304
-     angleZ -88.82
-    }
-   }
-  }
- }
  FishTrader {
-  coords 105.299 0 132.372
-  angleY -82.83
+  coords 124.615 0.07 130.936
+  angleY 41.822
   {
-   GenericEntity PlumTradeContainer2 {
+   GenericEntity PlumTradeContainer3 {
     components {
      EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
       Attributes SCR_ItemAttributeCollection "{59693C53B153D96B}" {
@@ -98,11 +66,11 @@ $grp GenericEntity {
       Enabled 1
      }
     }
-    coords 0.184 0.917 -0.292
+    coords 0.184 0.917 -0.291
     angleY -14.907
     Flags 1027
    }
-   SCR_ChimeraCharacter FishNpc {
+   SCR_ChimeraCharacter FishNpc2 {
     components {
      ControllersManagerComponent "{59670CC3FB6839B0}" {
      }
@@ -487,21 +455,21 @@ $grp GenericEntity {
      RplComponent "{59670CC3FB68C515}" {
      }
     }
-    coords -0.023 0.001 0.87
+    coords -0.023 0.001 0.871
     angleY 171.533
    }
    $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
     {
-     coords 0.147 0.019 -0.144
+     coords 0.148 0.019 -0.143
      angleY 82.104
     }
     {
-     coords -1.053 0.019 -0.31
+     coords -1.052 0.019 -0.309
      angleY 82.104
     }
    }
    GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01_white.et" {
-    coords -1.331 0.001 0.712
+    coords -1.33 0.001 0.713
     angleX 3.15
     angleY 151.694
     angleZ -1.695
@@ -514,7 +482,19 @@ $grp GenericEntity {
       m_eInitialLightState LIT
      }
     }
-    coords -1.333 0.918 -0.263
+    coords -1.333 0.918 -0.262
+   }
+  }
+ }
+ FishTraderTestItems {
+  coords 123.684 1.151 130.964
+  angleY 41.822
+  {
+   GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
+    coords 0.001 0.086 -0.003
+    angleX 0
+    angleY 0.304
+    angleZ -90.219
    }
   }
  }

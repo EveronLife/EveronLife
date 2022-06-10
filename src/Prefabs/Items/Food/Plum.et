@@ -39,7 +39,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    }
   }
   MeshObject "{597CB6B0AB826ED8}" {
-   Object "{1768DEF76C703B91}Assets/Items/Food/Plum/Plum.xob"
+   Object "{3EB653D9ECE9E4E9}Assets/Items/Food/Plum/Plum.xob"
   }
   RigidBody "{597CB6B0AB826ED9}" {
    Enabled 0

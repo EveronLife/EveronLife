@@ -5,4 +5,5 @@ SCR_VehicleSpawn TestVehicleSpawner {
  respawnDelay 0
 }
 SCR_SpawnPoint : "{285FB4BFAE87D26F}Prefabs/MP/Spawning/SpawnPoint_LIFE.et" {
+ coords 112.852 0 132.585
 }
