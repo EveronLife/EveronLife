@@ -47,10 +47,11 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    Static 1
    CCDRadius 0.015
   }
+  SCR_GadgetComponent "{5994769C10789CF5}" {
+   m_eAnimVariable FLASHLIGHT_SOVIET_01
+  }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
-    UserActionContext "{508AC2ABEC97066C}" {
-    }
    }
    additionalActions {
     SCR_PickUpItemAction "{51EC842E3A187379}" {
@@ -58,6 +59,4 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    }
   }
  }
- coords 109.804 0.917 134.874
- angleX 90
 }
