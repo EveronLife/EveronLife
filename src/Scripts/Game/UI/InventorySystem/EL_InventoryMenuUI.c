@@ -55,7 +55,19 @@ modded class SCR_InventoryMenuUI
 			return false;
 		}
 
-		EL_InventoryQuantityComponent quantityComponent = m_pFocusedSlotUI.EL_GetInventoryQuantityComponent();
+		InventoryItemComponent itemComponent = m_pFocusedSlotUI.GetItem();
+		if (!itemComponent)
+		{
+			return false;
+		}
+		
+		IEntity owner = itemComponent.GetOwner();
+		if (!owner)
+		{
+			return false;
+		}
+		
+		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(owner.FindComponent(EL_InventoryQuantityComponent));
 		if (!quantityComponent)
 		{
 			return false;
@@ -82,8 +94,20 @@ modded class SCR_InventoryMenuUI
 		{
 			return;
 		}
+		
+		InventoryItemComponent itemComponent = m_pFocusedSlotUI.GetItem();
+		if (!itemComponent)
+		{
+			return;
+		}
 
-		EL_InventoryQuantityComponent quantityComponent = m_pFocusedSlotUI.EL_GetInventoryQuantityComponent();
+		IEntity entity = itemComponent.GetOwner();
+		if (!entity)
+		{
+			return;
+		}
+		
+		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(entity.FindComponent(EL_InventoryQuantityComponent));
 		if (!quantityComponent)
 		{
 			return;
@@ -91,12 +115,6 @@ modded class SCR_InventoryMenuUI
 		
 		//! Don't show the dialog if there is nothing to split
 		if (quantityComponent.GetQuantity() <= 1)
-		{
-			return;
-		}
-
-		IEntity entity = quantityComponent.GetOwner();
-		if (!entity)
 		{
 			return;
 		}
@@ -158,6 +176,24 @@ modded class SCR_InventoryMenuUI
 			return;
 		}
 
-		Print(slot.EL_GetInventoryQuantityComponent());
+		InventoryItemComponent itemComponent = slot.GetItem();
+		if (!itemComponent)
+		{
+			return;
+		}
+		
+		IEntity owner = itemComponent.GetOwner();
+		if (!owner)
+		{
+			return;
+		}
+		
+		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(owner.FindComponent(EL_InventoryQuantityComponent));
+		if (!quantityComponent)
+		{
+			return;
+		}
+		
+		Print(quantityComponent);
 	}
 };
