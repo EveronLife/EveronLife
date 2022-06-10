@@ -1,47 +1,45 @@
 $grp GenericEntity {
- FishTraderTestItems {
-  coords 105.783 0.928 131.401
-  angleY -82.83
+ TomatoTraderTestItems2 {
+  coords 101.531 1.001 133.713
   {
-   $grp GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
+   $grp GenericEntity : "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et" {
     {
-     coords 0 -0.01 -0.003
-     angleX 0
-     angleY 0.304
-     angleZ -90.219
+     coords 0.096 -0.025 -0.048
     }
     {
-     coords -0.241 0 -0.001
-     angleX 0
-     angleY 0.304
-     angleZ -87.841
+     coords 0.096 -0.025 0.084
     }
     {
-     coords 0.192 0 -0.004
-     angleX 0
-     angleY 0.304
-     angleZ -80.732
+     coords 0.201 -0.025 0.012
     }
     {
-     coords -0.496 0 0
-     angleX 0
-     angleY 0.304
-     angleZ -88.82
+     coords -0.008 -0.025 0.012
+    }
+    {
+     coords -0.008 -0.025 0.146
+    }
+    {
+     coords -0.123 -0.025 0.108
+    }
+    {
+     coords -0.123 -0.025 -0.019
+    }
+    {
+     coords -0.02 -0.025 -0.105
     }
    }
   }
  }
- FishTrader {
-  coords 105.299 0 132.372
-  angleY -82.83
+ TomatoTrader2 {
+  coords 102.529 0.037 134.383
   {
-   GenericEntity PlumTradeContainer2 {
+   GenericEntity AppleTradeContainer3 {
     components {
      EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
       Attributes SCR_ItemAttributeCollection "{59693C53B153D96B}" {
        ItemDisplayName UIInfo "{59693C53AAB06F2D}" {
-        Name "Fish Trade"
-        Description "Trade Fish for ammo"
+        Name "Tomato Trade"
+        Description "Trade tomatos for ammo"
        }
        ItemPhysAttributes ItemPhysicalAttributes "{59693C53A3873124}" {
        }
@@ -57,11 +55,11 @@ $grp GenericEntity {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et"
+       "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et"
+      m_ItemToReceive "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {
@@ -88,8 +86,8 @@ $grp GenericEntity {
          "default"
         }
         UIInfo UIInfo "{59670CE9F9F9794D}" {
-         Name "Trade Fish"
-         Description "Trade fish for ammo"
+         Name "Trade Tomatos"
+         Description "Trade tamtos for ammo"
         }
        }
       }
@@ -102,7 +100,7 @@ $grp GenericEntity {
     angleY -14.907
     Flags 1027
    }
-   SCR_ChimeraCharacter FishNpc {
+   SCR_ChimeraCharacter TomatoNpc2 {
     components {
      ControllersManagerComponent "{59670CC3FB6839B0}" {
      }
@@ -345,7 +343,7 @@ $grp GenericEntity {
        SoundIdentity SoundIdentity "{59670CC3FB68C7E4}" {
         VoiceID 100
        }
-       Name "Plum"
+       Name "Tomato"
        Alias ""
        Surname "Trader"
       }
