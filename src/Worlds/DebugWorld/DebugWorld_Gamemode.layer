@@ -1,5 +1,15 @@
 EL_GameModeRoleplay GameMode_Roleplay1 : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
 }
+$grp EL_IDCardEntity : "{6784EF9BC821D725}Prefabs/Items/Equipment/Accessories/IdCard/IDCard.et" {
+ {
+  coords 105.465 0.947 134.107
+  surname_blank "Test"
+ }
+ {
+  coords 105.717 0.917 134.292
+  surname_blank "Test2"
+ }
+}
 GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
  components {
   InventoryItemComponent "{5994322B1DE33BE4}" {

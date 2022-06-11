@@ -13,6 +13,24 @@ class EL_IDCardEntity : GenericEntity
 	[Attribute("2", UIWidgets.Slider, "Material Index", params: "0 10 1")]
 	protected int m_MaterialIndex;
 	
+	[Attribute("Firstname", UIWidgets.EditBox, "Surname")]
+	protected string surname_blank;
+	
+	[Attribute("Lastname", UIWidgets.EditBox, "Lastname")]
+	protected string lastname_blank;
+	
+	[Attribute("Birthday", UIWidgets.EditBox, "Birthday")]
+	protected string birthday_blank;
+	
+	[Attribute("Licence1", UIWidgets.EditBox, "Licence1")]
+	protected string licence1_blank;
+	
+	[Attribute("Licence2", UIWidgets.EditBox, "Licence2")]
+	protected string licence2_blank;
+	
+	[Attribute("Licence2", UIWidgets.EditBox, "Licence3")]
+	protected string licence3_blank;
+	
 	protected ref Widget m_wPIPRoot;
 	protected static bool s_bPIPIsEnabled;
 	protected RTTextureWidget m_wRenderTargetTextureWidget;
@@ -67,16 +85,18 @@ class EL_IDCardEntity : GenericEntity
 
 			if ( surname_TextWidget && lastname_TextWidget && birthday_TextWidget)
 			{	
-				surname_TextWidget.SetText("Paul");
-				lastname_TextWidget.SetText("Durfer");
-				birthday_TextWidget.SetText("10.06.2022");
-				licence1_TextWidget.SetText("Wood Processing Licence");
-				licence2_TextWidget.SetText("Weapon Licence");
-				licence3_TextWidget.SetText("Fishing Licence");
+				surname_TextWidget.SetText(surname_blank);
+				lastname_TextWidget.SetText(lastname_blank);
+				birthday_TextWidget.SetText(birthday_blank);
+				licence1_TextWidget.SetText(licence1_blank);
+				licence2_TextWidget.SetText(licence2_blank);
+				licence3_TextWidget.SetText(licence3_blank);
 			}
+			
 		}
 		
 		m_wRenderTargetTextureWidget.SetGUIWidget(this, m_MaterialIndex);
+		Print(owner);
 	}
 	
 };
