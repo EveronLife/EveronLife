@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{FEE086DB8D17852A}Assets/Weapons/Axe/Data/Axe_BCR.edds"
+ Name "{30945E9FCFF3A195}Assets/Tools/data/Axe_BCR.edds"
  Configurations {
   TIFFResourceClass PC : "{EAB5DE3219F9CBA8}Configs/System/ResourceTypes/PC/TextureColorMap.conf" {
   }
