@@ -1,2 +1,42 @@
 EL_GameModeRoleplay GameMode_Roleplay1 : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
 }
+GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
+ components {
+  InventoryItemComponent "{5994322B1DE33BE4}" {
+   Attributes SCR_ItemAttributeCollection "{59943707E0BE14E7}" {
+    ItemAnimationAttributes ItemAnimationAttributes "{59943707F44D7B2C}" {
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59954C165E3FC9C4}" {
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 -90
+     HandAdditiveTranslation 0 1 0
+    }
+   }
+  }
+ }
+ coords 106.909 1.034 134.414
+ angleX 0
+ angleY 0
+ angleZ 0
+}
+Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
+ components {
+  SCR_BaseCompartmentManagerComponent "{20FB66C5DCB8DF72}" {
+   CompartmentSlots {
+    PilotCompartmentSlot PilotCompartment {
+     GetOutAction SCR_GetOutAction "{509D56667AFC4BD5}" {
+     }
+    }
+   }
+  }
+  SCR_UniversalInventoryStorageComponent "{5916C5825BF621D1}" {
+   MaxCumulativeVolume 300000
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 10408.7
+  }
+ }
+ coords 106.391 0.001 129.338
+}

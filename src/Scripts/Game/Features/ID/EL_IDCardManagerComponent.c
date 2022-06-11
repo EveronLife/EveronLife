@@ -1,4 +1,4 @@
-[EntityEditorProps(category: "EL/IDCardManagerComponent", description: "This renders the ID Card", color: "0 0 255 255")]
+/*[EntityEditorProps(category: "EL/IDCardManagerComponent", description: "This renders the ID Card", color: "0 0 255 255")]
 class EL_IDCardManagerComponentClass: ScriptComponentClass
 {
 };
@@ -57,4 +57,4 @@ class EL_IDCardManagerComponent: ScriptComponent
 		}
 			
 	}
-}
+}/*

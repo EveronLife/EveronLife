@@ -19,8 +19,12 @@ class EL_IDCardEntity : GenericEntity
 	protected RenderTargetWidget m_wRenderTargetWidget;
 	protected RplComponent m_RplComponent;
 	
-	TextWidget m_TextWidget;
-	EL_IDCardManagerComponent m_IDCardManager;
+	TextWidget surname_TextWidget;
+	TextWidget lastname_TextWidget;
+	TextWidget birthday_TextWidget;
+	TextWidget licence1_TextWidget;
+	TextWidget licence2_TextWidget;
+	TextWidget licence3_TextWidget;
 	
 	void EL_IDCardEntity(IEntitySource src, IEntity parent)
 	{
@@ -54,11 +58,21 @@ class EL_IDCardEntity : GenericEntity
 				return;
 			}
 			
-			m_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Text0"));
-			
-			if (m_IDCardManager && m_TextWidget)
-			{
-				m_TextWidget.SetText("Test");
+			surname_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Surname"));
+			lastname_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Lastname"));
+			birthday_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Birthday"));
+			licence1_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Licence1"));
+			licence2_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Licence2"));
+			licence3_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Licence3"));
+
+			if ( surname_TextWidget && lastname_TextWidget && birthday_TextWidget)
+			{	
+				surname_TextWidget.SetText("Paul");
+				lastname_TextWidget.SetText("Durfer");
+				birthday_TextWidget.SetText("10.06.2022");
+				licence1_TextWidget.SetText("Wood Processing Licence");
+				licence2_TextWidget.SetText("Weapon Licence");
+				licence3_TextWidget.SetText("Fishing Licence");
 			}
 		}
 		

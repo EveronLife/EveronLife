@@ -3,7 +3,7 @@ PanelWidgetClass {
  style debugUI
  {
   TextWidgetClass "{5992DA2018B89157}" {
-   Name "Text0"
+   Name "Surname"
    Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
     Anchor 0 0 0 0
     PositionX 92
@@ -21,7 +21,7 @@ PanelWidgetClass {
    "Min Font Size" 100
   }
   TextWidgetClass "{5992F91E6ED3A475}" {
-   Name "Text1"
+   Name "Lastname"
    Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
     Anchor 0 0 0 0
     PositionX 92
@@ -39,7 +39,7 @@ PanelWidgetClass {
    "Min Font Size" 100
   }
   TextWidgetClass "{5992F91E69E116C0}" {
-   Name "Text2"
+   Name "Birthday"
    Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
     Anchor 0 0 0 0
     PositionX 92

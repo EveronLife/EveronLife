@@ -8,8 +8,8 @@ FrameWidgetClass {
     OffsetLeft 0.05
     PositionY 0
     OffsetTop 0
-    SizeX 1920.08
-    OffsetRight -1920.13
+    SizeX 1921.82
+    OffsetRight -1921.87
     SizeY 1080.12
     OffsetBottom -1080.12
    }
@@ -54,6 +54,38 @@ FrameWidgetClass {
           OffsetBottom -1080.03
          }
          {
+          ImageWidgetClass "{59952714BDA2C7C8}" {
+           Name "Image0"
+           Slot FrameWidgetSlot "{59952714BDA2C7ED}" {
+            PositionX 51.161
+            OffsetLeft 51.161
+            PositionY 0
+            OffsetTop 0
+            SizeX 1587.1
+            OffsetRight -1638.26
+            SizeY 529.498
+            OffsetBottom -529.498
+           }
+           Texture "{62700B7A1924C22B}Missions/EveronLife_TitleImage.edds"
+           Image ""
+           Size 1920 1080
+          }
+          ImageWidgetClass "{599538AD5F3CAF9F}" {
+           Name "Image1"
+           Slot FrameWidgetSlot "{59952714BDA2C7ED}" {
+            PositionX 50.841
+            OffsetLeft 50.841
+            PositionY 551.34
+            OffsetTop 551.34
+            SizeX 1588.65
+            OffsetRight -1639.49
+            SizeY 529.5
+            OffsetBottom -1080.84
+           }
+           Texture "{62700B7A1924C22B}Missions/EveronLife_TitleImage.edds"
+           Image ""
+           Size 1920 1080
+          }
           TextWidgetClass "{5992DA2018B89157}" {
            Prefab "{5992DA2018B89157}"
            Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
