@@ -15,5 +15,5 @@ EL_LicensePlateEntity {
  }
  coords 8.456 1.131 2.478
  m_Layout "{A4CADC2CF8CBAB17}UI/Layouts/LicensePlate/LicensePlate.layout"
- m_MaterialIndex 1
+ m_iMaterialIndex 1
 }
