@@ -1,5 +1,6 @@
 class EL_Utils
 {
+	//------------------------------------------------------------------------------------------------
 	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0")
 	{
 		EntitySpawnParams spawnParams();

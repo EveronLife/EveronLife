@@ -1,6 +1,7 @@
 [BaseContainerProps()]
-class EL_LicensePlateGeneratorGeneric: EL_LicensePlateGeneratorBase
+class EL_LicensePlateGeneratorGeneric : EL_LicensePlateGeneratorBase
 {
+	//------------------------------------------------------------------------------------------------
 	override string GenerateLicensePlate()
 	{
 		string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
