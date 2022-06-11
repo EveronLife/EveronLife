@@ -26,6 +26,7 @@ GenericEntity {
        BindingName "Gadget"
       }
      }
+     HandAdditiveRotation 0 90 180
     }
     CustomAttributes {
      ItemActionAnimAttributes "{599437079BA45845}" {
@@ -49,7 +50,7 @@ GenericEntity {
    CCDRadius 0.015
   }
   SCR_ConsumableItemComponent "{599437076871B234}" {
-   m_eAnimVariable ADRIANOV
+   m_eAnimVariable MAP
   }
   ActionsManagerComponent "{5994322B354CA40A}" {
    ActionContexts {

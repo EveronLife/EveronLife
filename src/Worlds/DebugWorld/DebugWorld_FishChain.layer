@@ -484,6 +484,15 @@ $grp GenericEntity {
   angleY 41.822
   {
    GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
+    components {
+     InventoryItemComponent "{5994322B1DE33BE4}" {
+      Attributes SCR_ItemAttributeCollection "{59943707E0BE14E7}" {
+       ItemAnimationAttributes ItemAnimationAttributes "{59943707F44D7B2C}" {
+        HandAdditiveRotation 0 90 180
+       }
+      }
+     }
+    }
     coords 0.001 0.086 -0.003
     angleY 0.304
     angleZ -90.219
