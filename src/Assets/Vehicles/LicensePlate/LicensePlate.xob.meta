@@ -13,6 +13,16 @@ MetaFileClass {
      AssignedMaterial "{6C4A3C62D596C4B8}Assets/Vehicles/LicensePlate/data/LicensePlate.emat"
     }
    }
+   GeometryParams {
+    GeometryParam UBX_License_plate {
+     LayerPreset "FireView"
+     SurfaceProperties {
+      "{EDB153DC99889624}Common/Materials/Game/Metal/metal_3mm.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
    Common TXOCommonClass "{59830E88DFB1FBC5}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
    }
   }
