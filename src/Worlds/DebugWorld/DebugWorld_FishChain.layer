@@ -1,9 +1,9 @@
 $grp GenericEntity {
  FishTrader {
-  coords 124.615 0.07 130.936
+  coords 123.613 -0.006 133.844
   angleY 41.822
   {
-   GenericEntity PlumTradeContainer3 {
+   GenericEntity FishTradeContainer {
     components {
      EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
       Attributes SCR_ItemAttributeCollection "{59693C53B153D96B}" {
@@ -70,7 +70,7 @@ $grp GenericEntity {
     angleY -14.907
     Flags 1027
    }
-   SCR_ChimeraCharacter FishNpc2 {
+   SCR_ChimeraCharacter FishNpc {
     components {
      ControllersManagerComponent "{59670CC3FB6839B0}" {
      }
@@ -475,19 +475,12 @@ $grp GenericEntity {
     angleZ -1.695
    }
    GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {
-    components {
-     SCR_BaseInteractiveLightComponent "{58C4C3C542898CFB}" {
-      m_bGradualLightning 0
-      m_fLV 2.6
-      m_eInitialLightState LIT
-     }
-    }
     coords -1.333 0.918 -0.262
    }
   }
  }
  FishTraderTestItems {
-  coords 123.684 1.151 130.964
+  coords 122.682 0.828 133.872
   angleY 41.822
   {
    GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
