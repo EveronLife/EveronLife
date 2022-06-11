@@ -54,63 +54,6 @@ FrameWidgetClass {
           OffsetBottom -1080.03
          }
          {
-          ImageWidgetClass "{59952714BDA2C7C8}" {
-           Name "Image0"
-           Slot FrameWidgetSlot "{59952714BDA2C7ED}" {
-            PositionX 51.161
-            OffsetLeft 51.161
-            PositionY 0
-            OffsetTop 0
-            SizeX 1587.1
-            OffsetRight -1638.26
-            SizeY 529.498
-            OffsetBottom -529.498
-           }
-           Texture "{62700B7A1924C22B}Missions/EveronLife_TitleImage.edds"
-           Image ""
-           Size 1920 1080
-          }
-          ImageWidgetClass "{599538AD5F3CAF9F}" {
-           Name "Image1"
-           Slot FrameWidgetSlot "{59952714BDA2C7ED}" {
-            PositionX 50.841
-            OffsetLeft 50.841
-            PositionY 551.34
-            OffsetTop 551.34
-            SizeX 1588.65
-            OffsetRight -1639.49
-            SizeY 529.5
-            OffsetBottom -1080.84
-           }
-           Texture "{62700B7A1924C22B}Missions/EveronLife_TitleImage.edds"
-           Image ""
-           Size 1920 1080
-          }
-          TextWidgetClass "{5992DA2018B89157}" {
-           Prefab "{5992DA2018B89157}"
-           Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
-            PositionX 92
-            OffsetLeft 92
-            PositionY 30
-            OffsetTop 30
-            OffsetRight -983
-            OffsetBottom -135
-           }
-           "Font Size" 100
-           "Min Font Size" 100
-          }
-          TextWidgetClass "{5992F91E6ED3A475}" {
-           Prefab "{5992F91E6ED3A475}"
-           Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
-            PositionX 92
-           }
-          }
-          TextWidgetClass "{5992F91E69E116C0}" {
-           Prefab "{5992F91E69E116C0}"
-           Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
-            PositionX 92
-           }
-          }
           TextWidgetClass "{5992F91C112511AF}" {
            Prefab "{5992F91C112511AF}"
            Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
