@@ -40,9 +40,6 @@ class EL_IDCardEntity : GenericEntity
 	TextWidget surname_TextWidget;
 	TextWidget lastname_TextWidget;
 	TextWidget birthday_TextWidget;
-	TextWidget licence1_TextWidget;
-	TextWidget licence2_TextWidget;
-	TextWidget licence3_TextWidget;
 	
 	void EL_IDCardEntity(IEntitySource src, IEntity parent)
 	{
@@ -79,18 +76,15 @@ class EL_IDCardEntity : GenericEntity
 			surname_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Surname"));
 			lastname_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Lastname"));
 			birthday_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Birthday"));
-			licence1_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Licence1"));
-			licence2_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Licence2"));
-			licence3_TextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget("Licence3"));
-
+			
+			Licence licence = new Licence("Licence1", "Driving Licence", m_wPIPRoot);
+			Licence licence2 = new Licence("Licence2", "Food Licence", m_wPIPRoot);
+			
 			if ( surname_TextWidget && lastname_TextWidget && birthday_TextWidget)
 			{	
 				surname_TextWidget.SetText(surname_blank);
 				lastname_TextWidget.SetText(lastname_blank);
 				birthday_TextWidget.SetText(birthday_blank);
-				licence1_TextWidget.SetText(licence1_blank);
-				licence2_TextWidget.SetText(licence2_blank);
-				licence3_TextWidget.SetText(licence3_blank);
 			}
 			
 		}
@@ -99,4 +93,4 @@ class EL_IDCardEntity : GenericEntity
 		Print(owner);
 	}
 	
-};
+}
