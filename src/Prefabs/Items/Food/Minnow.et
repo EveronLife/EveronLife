@@ -2,6 +2,9 @@ GenericEntity {
  ID "59946AB95B4C15F6"
  components {
   SoundComponent "{5994322BC07DAA22}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
   }
   InventoryItemComponent "{5994322B1DE33BE4}" {
    Attributes SCR_ItemAttributeCollection "{59943707E0BE14E7}" {
@@ -16,6 +19,13 @@ GenericEntity {
     ItemAnimationAttributes ItemAnimationAttributes "{59943707F44D7B2C}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
      AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59972AA05529D9B3}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
     }
     CustomAttributes {
      ItemActionAnimAttributes "{599437079BA45845}" {
@@ -32,11 +42,14 @@ GenericEntity {
   }
   RigidBody "{5994322AB598DCCA}" {
    Enabled 0
-   Active Active
+   Active Inactive
+   LinearDamping 0.5
+   AngularDamping 0.5
    ModelGeometry 1
+   CCDRadius 0.015
   }
   SCR_ConsumableItemComponent "{599437076871B234}" {
-   m_eAnimVariable MAP
+   m_eAnimVariable ADRIANOV
   }
   ActionsManagerComponent "{5994322B354CA40A}" {
    ActionContexts {
@@ -60,8 +73,7 @@ GenericEntity {
   RplComponent "{5994322BC7BACA08}" {
   }
  }
- coords 101.462 0.996 133.653
- angleX 1.744
- angleY 74.412
- angleZ -89.63
+ coords 0.001 0.086 -0.003
+ angleY 0.304
+ angleZ -90.219
 }

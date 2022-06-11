@@ -485,7 +485,6 @@ $grp GenericEntity {
   {
    GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
     coords 0.001 0.086 -0.003
-    angleX 0
     angleY 0.304
     angleZ -90.219
    }
