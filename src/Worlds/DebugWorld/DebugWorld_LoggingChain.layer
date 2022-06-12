@@ -1,20 +1,6 @@
 GenericEntity : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
- coords 117.694 0.937 135.745
- angleZ -90.204
-}
-GenericEntity : "{BC5061EBB3284158}Prefabs/Weapons/Handguns/M9/Handgun_M9_empty.et" {
- components {
-  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
-   ActionContexts {
-    UserActionContext "{5086F9ADF588DCA4}" {
-     Position PointInfo "{5086F9ADE97650DF}" {
-     }
-    }
-   }
-  }
- }
- coords 115.479 0.925 135.876
- angleX 0.021
- angleY 56.012
- angleZ 89.986
+ coords 115.744 0.93 135.55
+ angleX 0.123
+ angleY 36.927
+ angleZ -90.163
 }
