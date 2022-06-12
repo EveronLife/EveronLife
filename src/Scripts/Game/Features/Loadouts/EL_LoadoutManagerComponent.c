@@ -26,7 +26,6 @@ class EL_LoadoutManagerComponent : ScriptComponent
 		
 		m_mPlayerLoadouts.Set(playerId, context.ExportToString());
 		
-		// -----------------
 		SCR_InventoryStorageManagerComponent playerInventoryStorageManager = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		
 		array<BaseInventoryStorageComponent> playerStorages = new array<BaseInventoryStorageComponent>();

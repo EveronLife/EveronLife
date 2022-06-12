@@ -10,7 +10,6 @@ class EL_RestrictedInventoryStorageComponent : SCR_UniversalInventoryStorageComp
 	//------------------------------------------------------------------------------------------------
     override bool CanStoreItem(IEntity item, int slotID)
     {   
-		Print("testtesttest");   
         return m_aTradablePrefabs.Contains(item.GetPrefabData().GetPrefabName());
     }
 }
