@@ -1,0 +1,15 @@
+Layer default_0 {
+ Index 0
+}
+Layer default_1 {
+ Index 1
+}
+Layer Area_StPhillipe_AppelFarm {
+ Index 2
+}
+Layer SpawnPoint {
+ Index 3
+}
+Layer GameMode {
+ Index 4
+}

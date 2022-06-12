@@ -1,0 +1,21 @@
+GenericEntity : "{060FDE3900ABC2F4}Prefabs/MP/PNJ/TraderApple.et" {
+ coords 4438.75 21.299 10547.396
+ angleY -85.195
+ angleZ 3.673
+}
+GenericEntity : "{4F1691CB0664D448}Prefabs/Structure/EveronPoster.et" {
+ coords 4437.004 23.737 10547.229
+ angleX -1.42
+ angleY -4.494
+}
+SCR_DestructibleBuildingEntity : "{99F6E8E52B71B137}Prefabs/Structures/Agriculture/Barn/Barn_E_01.et" {
+ coords 4431.778 21.215 10551.555
+ angleY -94.664
+ Flags 1027
+ {
+  GenericEntity {
+   ID "5488F0389AAE1FD6"
+   coords 0 -0.19 0
+  }
+ }
+}
