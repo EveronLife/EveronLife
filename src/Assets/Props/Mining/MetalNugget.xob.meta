@@ -1,0 +1,41 @@
+MetaFileClass {
+ Name "{938F93CAF4298785}Assets/Props/Mining/MetalNugget.xob"
+ Configurations {
+  FBXResourceClass PC {
+   Scale 0.5 0.5 0.5
+   MaterialAssigns {
+    MaterialAssignClass "{59992E59E18DED5C}" {
+     SourceMaterial "Resource_Gold"
+     AssignedMaterial "{8558F47F40E780C8}Assets/Props/Mining/data/Resource_Gold.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UTM_MetalNugget {
+     SurfaceProperties {
+      "{F167BC17BF4E6B61}Resource_Gold.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
+   Common TXOCommonClass "{59992E59E1752299}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{59992E59E1752130}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{59992E59E17521CA}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{59992E59E17521E8}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{59992E59E1752187}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}

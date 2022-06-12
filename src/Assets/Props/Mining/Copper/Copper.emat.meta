@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F2335C6A7801F62B}Assets/Props/Mining/Copper/Copper.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

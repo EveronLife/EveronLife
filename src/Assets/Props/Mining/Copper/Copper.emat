@@ -1,0 +1,4 @@
+MatPBRBasic {
+ BCRMap "{E8EFD71AD93B0F96}Assets/Props/Mining/Copper/T_Resource_Copper_BCR.edds"
+ NMOMap "{D0376C88004C5D08}Assets/Props/Mining/Copper/T_Resource_Copper_NMO.edds"
+}

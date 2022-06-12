@@ -1,0 +1,23 @@
+GenericEntity : "{DEC4FDC6CA92D632}Prefabs/Items/Nuggets/IronNugget_01.et" {
+ ID "598AA13F6576DF8F"
+ components {
+  InventoryItemComponent "{598B23CAA8229853}" {
+   Attributes SCR_ItemAttributeCollection "{59930ADFA9E7F1B2}" {
+    ItemDisplayName UIInfo "{59930ADB2CE7370A}" {
+     Name "Copper Nugget"
+     Description "A piece of copper ore."
+    }
+   }
+  }
+  MeshObject "{598AA13F09C76EDF}" {
+   Object "{938F93CAF4298785}Assets/Props/Mining/MetalNugget.xob"
+   Materials {
+    MaterialAssignClass "{59992E5F78C1C12D}" {
+     SourceMaterial "Resource_Gold"
+     AssignedMaterial "{F2335C6A7801F62B}Assets/Props/Mining/Copper/Copper.emat"
+    }
+   }
+  }
+ }
+ coords 111.512 0.917 135.043
+}

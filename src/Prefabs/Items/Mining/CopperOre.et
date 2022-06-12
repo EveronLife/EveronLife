@@ -1,0 +1,15 @@
+GenericEntity {
+ ID "59992E5E579051DF"
+ components {
+  MeshObject "{59992E5E325854D0}" {
+   Object "{BD7F32B8FD73D30F}Assets/Props/Mining/MetalOre.xob"
+   Materials {
+    MaterialAssignClass "{59992E5E04077902}" {
+     SourceMaterial "Resource_Gold"
+     AssignedMaterial "{F2335C6A7801F62B}Assets/Props/Mining/Copper/Copper.emat"
+    }
+   }
+  }
+ }
+ coords 102.935 0.001 128.633
+}
