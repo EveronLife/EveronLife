@@ -40,7 +40,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    Materials {
     MaterialAssignClass "{598A687A815E1D6C}" {
      SourceMaterial "Sandbags_01_End"
-     AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/Gravel_bag.emat"
+     AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
     }
    }
    LODScale 0.1
