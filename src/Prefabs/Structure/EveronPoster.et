@@ -1,0 +1,11 @@
+GenericEntity {
+ ID "5998CB2A946D8C46"
+ components {
+  MeshObject "{596960D011771E88}" {
+   Object "{97442DB7F9595AB7}Assets/Props/TitlePoster/titleposter.xob"
+  }
+ }
+ coords 4451.806 21.493 10571.927
+ angleY 83.04
+ scale 1.94
+}
