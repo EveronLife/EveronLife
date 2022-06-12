@@ -43,6 +43,7 @@ GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
 }
 Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
  components {
+<<<<<<< Updated upstream
   BaseLightManagerComponent "{51E210F17D2534F7}" {
    LightAction {
     SCR_LightsDashboardUserAction "{59976EA39262170A}" {
@@ -55,6 +56,15 @@ Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
     }
    }
   }
+=======
+  SCR_VehicleSoundComponent "{55C2E66AD4EF2CA6}" {
+   Filenames + {
+    "{81FD9B1F9043D257}Scripts/Game/Features/VehicleSiren/Siren_Sound.acp"
+   }
+  }
+  BaseLightManagerComponent "{51E210F17D2534F7}" {
+  }
+>>>>>>> Stashed changes
   SCR_BaseCompartmentManagerComponent "{20FB66C5DCB8DF72}" {
    CompartmentSlots {
     PilotCompartmentSlot PilotCompartment {
@@ -71,16 +81,38 @@ Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
   }
   ActionsManagerComponent "{C97BE5489221AE18}" {
    ActionContexts {
+<<<<<<< Updated upstream
     UserActionContext "{59976EA28CEC503D}" {
      ContextName "EL_Siren"
      Position PointInfo "{59976EA2EB40C4DE}" {
       PivotID "v_light_switch"
+=======
+    UserActionContext "{59975E7A8B4B9CFF}" {
+     ContextName "siren_switch"
+     Position PointInfo "{59975E7AD8A58A0D}" {
+      Offset -0.2775 0.9509 0.4599
+>>>>>>> Stashed changes
      }
     }
    }
    additionalActions {
+<<<<<<< Updated upstream
    }
   }
  }
  coords 106.808 0.063 129.138
+=======
+    EL_SirenUserAction "{5998D18B51E07869}" {
+     ParentContextList {
+      "siren_switch"
+     }
+     UIInfo UIInfo "{5998D18B4636CF12}" {
+      Name "Siren"
+     }
+    }
+   }
+  }
+ }
+ coords 106.391 -0.008 129.363
+>>>>>>> Stashed changes
 }
