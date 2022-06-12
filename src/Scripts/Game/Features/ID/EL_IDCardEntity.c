@@ -11,6 +11,10 @@ class EL_IDCardEntity : GenericEntity
 	[Attribute("{EF091399D840192D}UI/layouts/Sights/PictureInPictureSightsLayout.layout", UIWidgets.ResourcePickerThumbnail, "The layout used for the PIP component", params: "layout")]
 	protected ResourceName m_Layout;
 	
+	// Attribute for material
+	[Attribute("2", UIWidgets.Slider, "Material Index", params: "0 10 1")]
+	protected int m_MaterialIndex;
+	
 	// Attribute to set the firstname (Just for testing purpose)
 	[Attribute("Firstname", UIWidgets.EditBox, "Surname")]
 	protected string surname_blank;
