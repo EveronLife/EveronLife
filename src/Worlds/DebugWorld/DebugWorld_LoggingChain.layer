@@ -1,4 +1,4 @@
-GenericEntity : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+GenericEntity Axe : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
  coords 115.744 0.93 135.55
  angleX 0.123
  angleY 36.927
