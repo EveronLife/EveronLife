@@ -474,6 +474,7 @@ $grp GenericEntity {
          Name "Make 1 apple juice with 3 apples"
         }
         Duration 1
+        m_iInputAmount 3
        }
       }
      }
