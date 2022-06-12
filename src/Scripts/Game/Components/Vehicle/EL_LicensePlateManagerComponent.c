@@ -39,13 +39,6 @@ class EL_LicensePlateManagerComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	override void OnPostInit(IEntity owner)
-	{		
-		SetEventMask(owner, EntityEvent.INIT);
-		owner.SetFlags(EntityFlags.ACTIVE, false);
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	bool GetPositionFromPoint(int index, out vector transform[4])
 	{
 		Math3D.MatrixIdentity4(transform);
@@ -76,6 +69,13 @@ class EL_LicensePlateManagerComponent : ScriptComponent
 		Math3D.AnglesToMatrix(rotation, transform);
 
 		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override void OnPostInit(IEntity owner)
+	{		
+		SetEventMask(owner, EntityEvent.INIT);
+		owner.SetFlags(EntityFlags.ACTIVE, false);
 	}
 	
 	//------------------------------------------------------------------------------------------------
