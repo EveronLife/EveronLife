@@ -1,6 +1,28 @@
 FrameWidgetClass {
  Name "rootFrame"
  {
+  TextWidgetClass "{596565CFBE414D61}" {
+   Name "URL"
+   Slot FrameWidgetSlot "{596565CFBE414D45}" {
+    Anchor 0.487 1 0.487 1
+    PositionX -116.07
+    OffsetLeft -116.1
+    PositionY -71
+    OffsetTop -71
+    SizeX -0
+    OffsetRight 116.1
+    SizeY 0
+    OffsetBottom 71
+    SizeToContent 1
+   }
+   Color 0.503 0.503 0.503 1
+   Pivot 0 0
+   Text "www.everon.life"
+   "Font Size" 36
+   "Min Font Size" 36
+   "Horizontal Alignment" Center
+   "Vertical Alignment" Center
+  }
   SliderWidgetClass "{597D39368DBE0224}" {
    Name "healthSlider"
    Slot FrameWidgetSlot "{597D39368DBE0205}" {
@@ -163,22 +185,6 @@ FrameWidgetClass {
    Text "$ -"
    "Horizontal Alignment" Center
    "Vertical Alignment" Center
-  }
-  ImageWidgetClass "{5988C7C20BE74E92}" {
-   Name "logoImage"
-   Slot FrameWidgetSlot "{5988C7C20BE74EB6}" {
-    PositionX 1776.96
-    OffsetLeft 1776.96
-    PositionY 35.04
-    OffsetTop 35.04
-    SizeX 100
-    OffsetRight -1876.96
-    SizeY 30
-    OffsetBottom -65.04
-   }
-   Texture "{DFA31E31A7FECD79}Assets/UI/everon_logo_light.edds"
-   Image ""
-   Size 647 180
   }
  }
 }
