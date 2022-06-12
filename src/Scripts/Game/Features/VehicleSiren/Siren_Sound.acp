@@ -1,4 +1,27 @@
 AudioClass {
+ signals {
+  SignalClass {
+   id 11277
+   name "SOUND_SIREN_STOP"
+   tl 125.758 501.414
+   res "{2F86916417932725}Scripts/Game/Features/VehicleSiren/Siren_Sound_Stop_Signal.sig"
+   inputsport {
+    1
+   }
+   outputsport {
+    2
+   }
+   inputvalues {
+    0
+   }
+   inputvaluesmin {
+    0
+   }
+   inputvaluesmax {
+    1
+   }
+  }
+ }
  sounds {
   SoundClass {
    id 2057
@@ -17,9 +40,20 @@ AudioClass {
    }
    iops {
     IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 9
+       links {
+        ConnectionClass connection {
+         id 11277
+         port 2
+        }
+       }
+      }
+     }
     }
    }
-   eventType "OnStart - Stop"
   }
  }
  shaders {

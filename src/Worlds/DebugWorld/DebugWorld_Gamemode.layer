@@ -41,78 +41,40 @@ GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
  angleY 0
  angleZ 0
 }
-Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
- components {
-<<<<<<< Updated upstream
-  BaseLightManagerComponent "{51E210F17D2534F7}" {
-   LightAction {
-    SCR_LightsDashboardUserAction "{59976EA39262170A}" {
-     ParentContextList {
-      "EL_Siren"
-     }
-     UIInfo UIInfo "{59976EA39BA77703}" {
-      Name "Test"
-     }
-    }
-   }
-  }
-=======
-  SCR_VehicleSoundComponent "{55C2E66AD4EF2CA6}" {
-   Filenames + {
-    "{81FD9B1F9043D257}Scripts/Game/Features/VehicleSiren/Siren_Sound.acp"
-   }
-  }
-  BaseLightManagerComponent "{51E210F17D2534F7}" {
-  }
->>>>>>> Stashed changes
-  SCR_BaseCompartmentManagerComponent "{20FB66C5DCB8DF72}" {
-   CompartmentSlots {
-    PilotCompartmentSlot PilotCompartment {
-     GetOutAction SCR_GetOutAction "{509D56667AFC4BD5}" {
-     }
-    }
-   }
-  }
-  SCR_UniversalInventoryStorageComponent "{5916C5825BF621D1}" {
-   MaxCumulativeVolume 300000
-  }
-  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
-   m_fVehicleDestroyDamage 10408.7
-  }
-  ActionsManagerComponent "{C97BE5489221AE18}" {
-   ActionContexts {
-<<<<<<< Updated upstream
-    UserActionContext "{59976EA28CEC503D}" {
-     ContextName "EL_Siren"
-     Position PointInfo "{59976EA2EB40C4DE}" {
-      PivotID "v_light_switch"
-=======
-    UserActionContext "{59975E7A8B4B9CFF}" {
-     ContextName "siren_switch"
-     Position PointInfo "{59975E7AD8A58A0D}" {
-      Offset -0.2775 0.9509 0.4599
->>>>>>> Stashed changes
-     }
-    }
-   }
-   additionalActions {
-<<<<<<< Updated upstream
-   }
-  }
+$grp Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
+ M151A1 {
  }
- coords 106.808 0.063 129.138
-=======
-    EL_SirenUserAction "{5998D18B51E07869}" {
-     ParentContextList {
-      "siren_switch"
+ M151A2 {
+  components {
+   SCR_VehicleSoundComponent "{55C2E66AD4EF2CA6}" {
+    Filenames + {
+     "{81FD9B1F9043D257}Scripts/Game/Features/VehicleSiren/Siren_Sound.acp"
+    }
+   }
+   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+    m_fVehicleDestroyDamage 10408.7
+   }
+   ActionsManagerComponent "{C97BE5489221AE18}" {
+    ActionContexts {
+     UserActionContext "{599923F471C620A1}" {
+      ContextName "siren_switch"
+      Position PointInfo "{599923F45B9485CC}" {
+       Offset -0.2772 0.9508 0.4557
+      }
      }
-     UIInfo UIInfo "{5998D18B4636CF12}" {
-      Name "Siren"
+    }
+    additionalActions {
+     EL_SirenUserAction "{599923F3A7347134}" {
+      ParentContextList {
+       "siren_switch"
+      }
+      UIInfo UIInfo "{599923F3A44293C5}" {
+       Name "Siren"
+      }
      }
     }
    }
   }
+  coords 105.574 0.116 127.736
  }
- coords 106.391 -0.008 129.363
->>>>>>> Stashed changes
 }

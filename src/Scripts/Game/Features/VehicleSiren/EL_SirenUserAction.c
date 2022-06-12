@@ -21,13 +21,7 @@ class EL_SirenUserAction: ScriptedUserAction
 	{		
 		// Play sound
 		SoundComponent soundComponent = SoundComponent.Cast(pOwnerEntity.FindComponent(SoundComponent));
-		Print(soundComponent.IsPlaying());
-		if(!soundComponent.IsPlaying())
-		{
-			soundComponent.SoundEvent("SOUND_SIREN");
-		}else
-		{
-			//soundComponent.SoundEvent("SOUND_SIREN_STOP");
-		}
+		soundComponent.SoundEvent("SOUND_SIREN");
+		
 	}
 }
