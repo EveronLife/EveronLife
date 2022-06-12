@@ -3,7 +3,7 @@ PanelWidgetClass {
  style debugUI
  {
   FrameWidgetClass "{5996EE779072214D}" {
-   Name "Frame0"
+   Name "Leftside of book"
    Slot FrameWidgetSlot "{5996EE7790722168}" {
     PositionX 51
     OffsetLeft 51
@@ -72,7 +72,7 @@ PanelWidgetClass {
    }
   }
   FrameWidgetClass "{5996EE7636B7356C}" {
-   Name "Frame1"
+   Name "Rightside of book"
    Slot FrameWidgetSlot "{5996EE7636B73574}" {
     PositionX 51
     OffsetLeft 51
@@ -132,24 +132,6 @@ PanelWidgetClass {
       OffsetRight -1059.91
       SizeY 105
       OffsetBottom -324.911
-     }
-     Color 0 0 0 1
-     Text "Licence3"
-     "Font Size" 100
-     "Min Font Size" 100
-    }
-    TextWidgetClass "{5996EE75F9DF209B}" {
-     Name "Licencename"
-     Slot FrameWidgetSlot "{598319DB2D0D8F29}" {
-      Anchor 0 0 0 0
-      PositionX 168.911
-      OffsetLeft 168.911
-      PositionY 307.905
-      OffsetTop 307.905
-      SizeX 890.999
-      OffsetRight -1059.91
-      SizeY 105
-      OffsetBottom -412.905
      }
      Color 0 0 0 1
      Text "Licence3"

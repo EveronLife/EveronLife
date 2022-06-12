@@ -3,11 +3,21 @@ EL_GameModeRoleplay GameMode_Roleplay1 : "{03913608C59017A3}Prefabs/MP/Modes/Rol
 $grp EL_IDCardEntity : "{6784EF9BC821D725}Prefabs/Items/Equipment/Accessories/IdCard/IDCard.et" {
  {
   coords 105.465 0.947 134.107
-  surname_blank "Test"
+  surname_blank "Manchaster"
+  lastname_blank "Law"
+  birthday_blank "20.02.1980"
+  licence1_blank "Weapon Licence"
+  licence2_blank "Drivers Licence"
+  licence3_blank "Wood Processing"
  }
  {
   coords 105.717 0.917 134.292
-  surname_blank "Test2"
+  surname_blank "Paul"
+  lastname_blank "Durfer"
+  birthday_blank "12.06.2022"
+  licence1_blank "Weapon Licence"
+  licence2_blank "Drivers Licence"
+  licence3_blank "Gold processing"
  }
 }
 GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
@@ -33,6 +43,18 @@ GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
 }
 Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
  components {
+  BaseLightManagerComponent "{51E210F17D2534F7}" {
+   LightAction {
+    SCR_LightsDashboardUserAction "{59976EA39262170A}" {
+     ParentContextList {
+      "EL_Siren"
+     }
+     UIInfo UIInfo "{59976EA39BA77703}" {
+      Name "Test"
+     }
+    }
+   }
+  }
   SCR_BaseCompartmentManagerComponent "{20FB66C5DCB8DF72}" {
    CompartmentSlots {
     PilotCompartmentSlot PilotCompartment {
@@ -47,6 +69,18 @@ Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
    m_fVehicleDestroyDamage 10408.7
   }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   ActionContexts {
+    UserActionContext "{59976EA28CEC503D}" {
+     ContextName "EL_Siren"
+     Position PointInfo "{59976EA2EB40C4DE}" {
+      PivotID "v_light_switch"
+     }
+    }
+   }
+   additionalActions {
+   }
+  }
  }
- coords 106.391 0.001 129.338
+ coords 106.808 0.063 129.138
 }
