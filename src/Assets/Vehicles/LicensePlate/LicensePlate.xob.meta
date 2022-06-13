@@ -2,7 +2,6 @@ MetaFileClass {
  Name "{4276D85312F72925}Assets/Vehicles/LicensePlate/LicensePlate.xob"
  Configurations {
   FBXResourceClass PC {
-   Rotate 0 0 180
    MaterialAssigns {
     MaterialAssignClass "{599093DCB28F6BC2}" {
      SourceMaterial "Codes"
