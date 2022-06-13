@@ -1,12 +1,16 @@
 class EL_BetaHud : SCR_InfoDisplay
 {
-	private SliderWidget m_StaminaSlider;
-	private SliderWidget m_HealthSlider;
-	private SliderWidget m_ThirstSlider;
-	private SliderWidget m_HungerSlider;
-	private TextWidget m_MoneyDisplay;
-	private FrameWidget m_PlayerStatsFrame;
-	private FrameWidget m_PlayerStatsIcons;
+	private ProgressBarWidget m_StaminaProgressBar;
+	private ImageWidget m_StaminaProgress;
+	private ImageWidget m_HealthProgress;
+	private ImageWidget m_ThirstProgress;
+	private ImageWidget m_HungerProgress;
+	private TextWidget m_MoneyIndicator;
+	private HorizontalLayoutWidget m_PlayerStatsHUD;
+	private OverlayWidget m_HealthIndicator;
+	private OverlayWidget m_StaminaIndicator;
+	private OverlayWidget m_HungerIndicator;
+	private OverlayWidget m_ThirstIndicator;
 	private SCR_CharacterControllerComponent m_PlayerController;
 	private DamageManagerComponent m_DMC;
 	
@@ -17,13 +21,13 @@ class EL_BetaHud : SCR_InfoDisplay
 	//--------------------------- OnChangeFunctions --------------------------- 
 	void OnHealthChange(float value)
 	{
-		if (!m_HealthSlider)
+		if (!m_HealthProgress)
 		{
-			m_HealthSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("healthSlider"));
-			if (!m_HealthSlider) return;
+			m_HealthProgress = ImageWidget.Cast(m_HealthIndicator.FindAnyWidget("m_healthProgress"));
+			if (!m_HealthProgress) return;
 		}
 		
-		private float m_currentHealth = m_DMC.GetHealth();
+		private float m_currentHealth = m_DMC.GetHealth() / 100;
 		
 		if (!m_PreviousValues[0])
 		{
@@ -33,17 +37,23 @@ class EL_BetaHud : SCR_InfoDisplay
 		{
 			if (float.AlmostEqual(m_PreviousValues[0], m_currentHealth)) return;
 			
-			m_HealthSlider.SetCurrent(value);
+			m_HealthProgress.SetMaskProgress(value);
 			m_StatChange = true;
+			
+			//TODO: Make this only call every once and a while similar to the fade
+			SetProgressColor(m_HealthProgress, value);
 		}
 	}
 	
 	void OnStaminaChange(float value)
 	{
-		if (!m_StaminaSlider)
+		if (!m_StaminaProgressBar)
 		{
-			m_StaminaSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("staminaSlider"));
-			if (!m_StaminaSlider) return;
+			if (!m_StaminaProgress)
+			{
+				m_StaminaProgress = ImageWidget.Cast(m_StaminaIndicator.FindAnyWidget("m_staminaProgress"));
+				if (!m_StaminaProgress) return;
+			}
 		}
 		
 		private float m_currentStam = m_PlayerController.GetStamina();
@@ -57,8 +67,19 @@ class EL_BetaHud : SCR_InfoDisplay
 			if (!float.AlmostEqual(m_PreviousValues[1] , m_currentStam))
 			{
 				m_PreviousValues[1] = m_currentStam;
-				m_StaminaSlider.SetCurrent(value);
+				if (!m_StaminaProgressBar)
+				{
+					m_StaminaProgress.SetMaskProgress(value);
+					SetProgressColor(m_StaminaProgress, value);//TODO: Make this only call every once and a while similar to the fade
+				}
+				else
+				{
+					m_StaminaProgressBar.SetCurrent(value);
+					SetProgressColor(m_StaminaProgressBar, value);//TODO: Make this only call every once and a while similar to the fade
+				}
+				
 				m_StatChange = true;
+				
 			}
 			else
 			{
@@ -69,37 +90,37 @@ class EL_BetaHud : SCR_InfoDisplay
 	
 	void OnThirstChange(float value)
 	{
-		if (!m_ThirstSlider)
+		if (!m_ThirstProgress)
 		{
-			m_ThirstSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("thirstSlider"));
-			if (!m_ThirstSlider) return;
+			m_ThirstProgress = ImageWidget.Cast(m_ThirstIndicator.FindAnyWidget("m_thirstProgress"));
+			if (!m_ThirstProgress) return;
 		}
 		
-		m_ThirstSlider.SetCurrent(value);
+		m_ThirstProgress.SetMaskProgress(value);
 		//m_StatChange = true;
 	}
 	
 	void OnHungerChange(float value)
 	{
-		if (!m_HungerSlider)
+		if (!m_HungerProgress)
 		{
-			m_HungerSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("hungerSlider"));
-			if (!m_HungerSlider) return;
+			m_HungerProgress = ImageWidget.Cast(m_HungerIndicator.FindAnyWidget("m_hungerProgress"));
+			if (!m_HungerProgress) return;
 		}
 		
-		m_HungerSlider.SetCurrent(value);
+		m_HungerProgress.SetMaskProgress(value);
 		//m_StatChange = true;
 	}
 	
 	void OnMoneyChange(float value)
 	{
-		if (m_MoneyDisplay)
+		if (m_MoneyIndicator)
 		{
-			m_MoneyDisplay = TextWidget.Cast(m_PlayerStatsFrame.FindWidget("moneyDisplay"));
-			if (!m_MoneyDisplay) return;
+			m_MoneyIndicator = TextWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_moneyIndicator"));
+			if (!m_MoneyIndicator) return;
 		}
 		
-		m_MoneyDisplay.SetText("$ " + value); //for configurabiluity could have the $ changeable in config...
+		m_MoneyIndicator.SetText("$ " + value); //for configurabiluity could have the $ changeable in config...
 		//m_StatChange = true;
 	}
 	
@@ -112,15 +133,30 @@ class EL_BetaHud : SCR_InfoDisplay
 		if (!player) return;
 		
 		m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
-		m_PlayerStatsFrame = FrameWidget.Cast(m_wRoot.FindWidget("playerStatsFrame"));
-		if (!m_PlayerStatsFrame) return;
+		m_PlayerStatsHUD = HorizontalLayoutWidget.Cast(m_wRoot.FindAnyWidget("m_playerStatsHUD"));
+		if (!m_PlayerStatsHUD) return;
 		
-		m_PlayerStatsIcons = FrameWidget.Cast(m_wRoot.FindWidget("playerStatsIcons"));
-		if(!m_PlayerStatsIcons) return;
+		m_HealthIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_healthIndicator"));
+		if (!m_HealthIndicator) return;
+		
+		m_StaminaIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_staminaIndicator"));
+		//if this is null thats fine as long as the ProgressBarWidget is enabled
+		
+		if (!m_StaminaIndicator || !m_StaminaIndicator.IsEnabled())
+		{
+			m_StaminaProgressBar = ProgressBarWidget.Cast(m_wRoot.FindAnyWidget("m_staminaProgressBar"));
+			if (!m_StaminaProgressBar) return;
+		}
+		
+		m_HungerIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_hungerIndicator"));
+		if (!m_HungerIndicator) return;
+		
+		m_ThirstIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_thirstIndicator"));
+		if (!m_ThirstIndicator) return;
 	}
 	
 	
-	//UpdateValues needs to be called upon respawning as to reset the UI for m_HealthSlider so it isnt stuck at 0 until you take damage -- KNOWN BUG
+	//UpdateValues needs to be called upon respawning as to reset the UI for m_HealthProgress so it isnt stuck at 0 until you take damage -- KNOWN BUG
 	float m_TimeAccumulator = 0;
 	bool m_GUIHidden = false;
 	override event void UpdateValues(IEntity owner, float timeSlice)
@@ -167,17 +203,37 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 	}
 	
-	void ShowStatsHUD(bool var) //TODO: Key press to also show stats HUD? " ` or ~ key perhaps, KeyCode.KC_GRAVE"
+	void ShowStatsHUD(bool var) //TODO: Show HUD when in an inventory
 	{
 		if (var)
 		{
-			WidgetAnimator.PlayAnimation(m_PlayerStatsIcons,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_DEFAULT);
-			WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
+			WidgetAnimator.PlayAnimation(m_PlayerStatsHUD,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
+			WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
 		}
 		else
 		{
-			WidgetAnimator.PlayAnimation(m_PlayerStatsFrame,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_DEFAULT);
-			WidgetAnimator.PlayAnimation(m_PlayerStatsIcons,WidgetAnimationType.Opacity,false,3);
+			WidgetAnimator.PlayAnimation(m_PlayerStatsHUD,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
+			WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
+		}
+	}
+	
+	//TODO: Make this only call every once and a while similar to the fade
+	void SetProgressColor(Widget bar, float value)
+	{
+		if (value >= 0.75)
+		{
+			//turn white
+			bar.SetColor(Color.White);
+		}
+		else if (value > 0.25 && value < 0.75)
+		{
+			//turn yellow
+			bar.SetColor(Color.Yellow);
+		}
+		else
+		{
+			//turn red
+			bar.SetColor(Color.Red);
 		}
 	}
 }

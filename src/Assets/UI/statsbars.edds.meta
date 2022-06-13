@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{C04B9C3C3A616327}Assets/UI/food.edds"
+ Name "{7B51CC5B05005809}Assets/UI/statsbars.edds"
  Configurations {
   PNGResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }
