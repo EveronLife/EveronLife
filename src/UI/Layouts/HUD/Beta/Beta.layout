@@ -9,7 +9,7 @@ FrameWidgetClass {
     OffsetLeft -116.1
     PositionY -71
     OffsetTop -71
-    SizeX -0
+    SizeX 0
     OffsetRight 116.1
     SizeY 0
     OffsetBottom 71
@@ -23,168 +23,200 @@ FrameWidgetClass {
    "Horizontal Alignment" Center
    "Vertical Alignment" Center
   }
-  SliderWidgetClass "{597D39368DBE0224}" {
-   Name "healthSlider"
-   Slot FrameWidgetSlot "{597D39368DBE0205}" {
+  FrameWidgetClass "{599175DBA383A8C2}" {
+   Name "playerStatsFrame"
+   Slot FrameWidgetSlot "{598B78B3EA286586}" {
     Anchor 1 1 1 1
-    PositionX -497.007
-    OffsetLeft -497.007
-    PositionY -69.325
-    OffsetTop -69.325
-    SizeX 34.098
-    OffsetRight 462.909
-    SizeY 29.728
-    OffsetBottom 39.597
+    PositionX -1116.33
+    OffsetLeft -1116.33
+    PositionY -143.239
+    OffsetTop -143.239
+    SizeX 1116.33
+    OffsetRight 0
+    SizeY 143.239
+    OffsetBottom 0
    }
-   Color 0.561 0.071 0.071 1
-   current 100
-   vertical 1
-   flipped 1
+   {
+    SliderWidgetClass "{599175DBA383A8DD}" {
+     Name "healthSlider"
+     Slot FrameWidgetSlot "{597D39368DBE0205}" {
+      Anchor 1 1 1 1
+      PositionX -497.007
+      OffsetLeft -497.007
+      PositionY -68.633
+      OffsetTop -68.633
+      SizeX 34.098
+      OffsetRight 462.909
+      SizeY 29.672
+      OffsetBottom 38.961
+     }
+     Color 0.561 0.071 0.071 1
+     current 100
+     vertical 1
+     flipped 1
+    }
+    SliderWidgetClass "{599175DBA383A8DE}" {
+     Name "staminaSlider"
+     Slot FrameWidgetSlot "{597D39368AB52DD8}" {
+      Anchor 1 1 1 1
+      PositionX -413.749
+      OffsetLeft -413.749
+      PositionY -71.702
+      OffsetTop -71.702
+      SizeX 26.799
+      OffsetRight 386.95
+      SizeY 28.303
+      OffsetBottom 43.399
+     }
+     Color 0.686 0.58 0.259 1
+     maximum 1
+     current 1
+     vertical 1
+     flipped 1
+    }
+    SliderWidgetClass "{599175DBA38071F1}" {
+     Name "hungerSlider"
+     Slot FrameWidgetSlot "{597D39365E00E988}" {
+      Anchor 1 1 1 1
+      PositionX -255.578
+      OffsetLeft -255.578
+      PositionY -65.839
+      OffsetTop -65.839
+      SizeX 32.552
+      OffsetRight 223.026
+      SizeY 28.2
+      OffsetBottom 37.639
+     }
+     Color 0.157 0.624 0.275 1
+     current 100
+     vertical 1
+     flipped 1
+    }
+    SliderWidgetClass "{599175DBA38071F2}" {
+     Name "thirstSlider"
+     Slot FrameWidgetSlot "{597D39365EE13C11}" {
+      Anchor 1 1 1 1
+      PositionX -333.002
+      OffsetLeft -333.002
+      PositionY -65.446
+      OffsetTop -65.446
+      SizeX 26.304
+      OffsetRight 306.698
+      SizeY 21.643
+      OffsetBottom 43.803
+     }
+     Color 0.157 0.275 0.624 1
+     current 100
+     vertical 1
+     flipped 1
+    }
+    TextWidgetClass "{599175DBA38071FC}" {
+     Name "moneyDisplay"
+     Slot FrameWidgetSlot "{597D3936D395339B}" {
+      Anchor 1 1 1 1
+      PositionX -519.135
+      OffsetLeft -519.135
+      PositionY -126.048
+      OffsetTop -126.048
+      SizeX 319.433
+      OffsetRight 199.702
+      SizeY 30
+      OffsetBottom 96.048
+     }
+     Color 0.503 0.503 0.503 1
+     Text "$ -"
+     "Horizontal Alignment" Center
+     "Vertical Alignment" Center
+    }
+   }
   }
-  ImageWidgetClass "{597F65E4959A8A93}" {
-   Name "healthImage"
-   Slot FrameWidgetSlot "{597F65E4959A8A49}" {
+  FrameWidgetClass "{598B4293042E1633}" {
+   Name "playerStatsIcons"
+   Slot FrameWidgetSlot "{598B78B3EA286586}" {
     Anchor 1 1 1 1
-    PositionX -519.007
-    OffsetLeft -519.007
-    PositionY -94.868
-    OffsetTop -94.868
-    SizeX 80
-    OffsetRight 439.007
-    SizeY 80
-    OffsetBottom 14.868
+    PositionX -1116.33
+    OffsetLeft -1116.33
+    PositionY -143.239
+    OffsetTop -143.239
+    SizeX 1116.33
+    OffsetRight 0
+    SizeY 143.239
+    OffsetBottom 0
    }
-   Texture "{C115C81ECF288516}Assets/UI/heart.edds"
-   Image ""
-   Size 512 512
-   "Transition width" 0
-   Progress 0.567
-   Range 0.005
-  }
-  SliderWidgetClass "{597D39368AB52DF7}" {
-   Name "staminaSlider"
-   Slot FrameWidgetSlot "{597D39368AB52DD8}" {
-    Anchor 1 1 1 1
-    PositionX -419.007
-    OffsetLeft -419.007
-    PositionY -72.04
-    OffsetTop -72.04
-    SizeX 36
-    OffsetRight 383.007
-    SizeY 28.641
-    OffsetBottom 43.399
+   {
+    ImageWidgetClass "{597F65E4959A8A93}" {
+     Name "healthImage"
+     Slot FrameWidgetSlot "{597F65E4959A8A49}" {
+      Anchor 1 1 1 1
+      PositionX -519.007
+      OffsetLeft -519.007
+      PositionY -94.868
+      OffsetTop -94.868
+      SizeX 80
+      OffsetRight 439.007
+      SizeY 80
+      OffsetBottom 14.868
+     }
+     Texture "{C115C81ECF288516}Assets/UI/heart.edds"
+     Image ""
+     Size 512 512
+     "Transition width" 0
+     Progress 0.567
+     Range 0.005
+    }
+    ImageWidgetClass "{597F65E45416BD5A}" {
+     Name "staminaImage"
+     Slot FrameWidgetSlot "{597F65E4959A8A49}" {
+      Anchor 1 1 1 1
+      PositionX -439.007
+      OffsetLeft -439.007
+      PositionY -94.868
+      OffsetTop -94.868
+      SizeX 80
+      OffsetRight 359.007
+      SizeY 80
+      OffsetBottom 14.868
+     }
+     Texture "{81F9321D141593EC}Assets/UI/bolt.edds"
+     Image ""
+     Size 512 512
+    }
+    ImageWidgetClass "{597F65E581D1254E}" {
+     Name "hungerImage"
+     Slot FrameWidgetSlot "{597F65E4959A8A49}" {
+      Anchor 1 1 1 1
+      PositionX -279.279
+      OffsetLeft -279.279
+      PositionY -95.683
+      OffsetTop -95.683
+      SizeX 80
+      OffsetRight 199.279
+      SizeY 79.999
+      OffsetBottom 15.684
+     }
+     IsPixelPerfect 0
+     Texture "{C04B9C3C3A616327}Assets/UI/food.edds"
+     Image ""
+     Size 512 512
+    }
+    ImageWidgetClass "{597F65E5F0519E98}" {
+     Name "thirstImage"
+     Slot FrameWidgetSlot "{597F65E4959A8A49}" {
+      Anchor 1 1 1 1
+      PositionX -358.758
+      OffsetLeft -358.758
+      PositionY -95.601
+      OffsetTop -95.601
+      SizeX 80
+      OffsetRight 278.758
+      SizeY 79.999
+      OffsetBottom 15.602
+     }
+     Texture "{644AA9530A7EDC65}Assets/UI/cup.edds"
+     Image ""
+     Size 512 512
+    }
    }
-   Color 0.686 0.58 0.259 1
-   maximum 1
-   current 1
-   vertical 1
-   flipped 1
-  }
-  ImageWidgetClass "{597F65E45416BD5A}" {
-   Name "staminaImage"
-   Slot FrameWidgetSlot "{597F65E4959A8A49}" {
-    Anchor 1 1 1 1
-    PositionX -439.007
-    OffsetLeft -439.007
-    PositionY -94.868
-    OffsetTop -94.868
-    SizeX 80
-    OffsetRight 359.007
-    SizeY 80
-    OffsetBottom 14.868
-   }
-   Texture "{81F9321D141593EC}Assets/UI/bolt.edds"
-   Image ""
-   Size 512 512
-  }
-  SliderWidgetClass "{597D39365E00E9A7}" {
-   Name "hungerSlider"
-   Slot FrameWidgetSlot "{597D39365E00E988}" {
-    Anchor 1 1 1 1
-    PositionX -255.578
-    OffsetLeft -255.578
-    PositionY -66.551
-    OffsetTop -66.551
-    SizeX 32.552
-    OffsetRight 223.026
-    SizeY 29.482
-    OffsetBottom 37.069
-   }
-   Color 0.157 0.624 0.275 1
-   current 100
-   vertical 1
-   flipped 1
-  }
-  ImageWidgetClass "{597F65E581D1254E}" {
-   Name "hungerImage"
-   Slot FrameWidgetSlot "{597F65E4959A8A49}" {
-    Anchor 1 1 1 1
-    PositionX -279.279
-    OffsetLeft -279.279
-    PositionY -95.683
-    OffsetTop -95.683
-    SizeX 80
-    OffsetRight 199.279
-    SizeY 79.999
-    OffsetBottom 15.684
-   }
-   IsPixelPerfect 0
-   Texture "{C04B9C3C3A616327}Assets/UI/food.edds"
-   Image ""
-   Size 512 512
-  }
-  SliderWidgetClass "{597D39365EE13C0F}" {
-   Name "thirstSlider"
-   Slot FrameWidgetSlot "{597D39365EE13C11}" {
-    Anchor 1 1 1 1
-    PositionX -333.002
-    OffsetLeft -333.002
-    PositionY -66.45
-    OffsetTop -66.45
-    SizeX 26.304
-    OffsetRight 306.698
-    SizeY 22.505
-    OffsetBottom 43.945
-   }
-   Color 0.157 0.275 0.624 1
-   current 100
-   vertical 1
-   flipped 1
-  }
-  ImageWidgetClass "{597F65E5F0519E98}" {
-   Name "thirstImage"
-   Slot FrameWidgetSlot "{597F65E4959A8A49}" {
-    Anchor 1 1 1 1
-    PositionX -358.758
-    OffsetLeft -358.758
-    PositionY -95.601
-    OffsetTop -95.601
-    SizeX 80
-    OffsetRight 278.758
-    SizeY 79.999
-    OffsetBottom 15.602
-   }
-   Texture "{644AA9530A7EDC65}Assets/UI/cup.edds"
-   Image ""
-   Size 512 512
-  }
-  TextWidgetClass "{597D3936D39533BA}" {
-   Name "moneyDisplay"
-   Slot FrameWidgetSlot "{597D3936D395339B}" {
-    Anchor 1 1 1 1
-    PositionX -519.135
-    OffsetLeft -519.135
-    PositionY -126.048
-    OffsetTop -126.048
-    SizeX 319.433
-    OffsetRight 199.702
-    SizeY 30
-    OffsetBottom 96.048
-   }
-   Color 0.503 0.503 0.503 1
-   Text "$ -"
-   "Horizontal Alignment" Center
-   "Vertical Alignment" Center
   }
  }
 }
