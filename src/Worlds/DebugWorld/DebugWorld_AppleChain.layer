@@ -457,6 +457,10 @@ $grp GenericEntity {
     coords -0.023 0.001 0.87
     angleY 171.533
    }
+   GenericEntity : "{1DD3BF6A1A249CDE}Prefabs/Processor/Apple_Processor.et" {
+    coords -2.457 0.917 -0.707
+    angleY 165
+   }
    $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
     {
      coords 0.147 0.019 -0.144
@@ -513,8 +517,79 @@ $grp GenericEntity {
    }
   }
  }
+ AppleTradeContainer3 {
+  components {
+   EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
+    Attributes SCR_ItemAttributeCollection "{59693C53B153D96B}" {
+     ItemDisplayName UIInfo "{59693C53AAB06F2D}" {
+      Name "Apple Juice Trade"
+      Description "Trade apple juice for ammo"
+     }
+     ItemPhysAttributes ItemPhysicalAttributes "{59693C53A3873124}" {
+     }
+     CustomAttributes {
+      PreviewRenderAttributes "{59693C53D4D18183}" {
+       CameraOrbitAngles 330 30 0
+       CameraDistanceToItem 1
+      }
+     }
+     CommonItemType "NONE"
+     m_Size SLOT_3x3
+     m_SlotType SLOT_ANY
+    }
+    m_fMaxWeight 1000
+    m_TradablePrefabs {
+     "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+    }
+   }
+   EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
+    m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+    m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
+   }
+   MeshObject "{59670CE9C98E5BAF}" {
+    Object "{55991E1823C60AB3}Assets/Props/Crates/Crate_01.xob"
+   }
+   RigidBody "{59670CE9C98E5B27}" {
+    Mass 10
+    ModelGeometry 1
+    Static 1
+   }
+   ActionsManagerComponent "{59670CE9C98E5814}" {
+    ActionContexts {
+     UserActionContext "{59670CE9C98E5829}" {
+      ContextName "default"
+      Position PointInfo "{59670CE9C98E582A}" {
+       Offset 0 0.0873 0
+      }
+      Radius 1.5
+     }
+    }
+    additionalActions {
+     EL_OpenTraderAction "{59670CE9FBF3C749}" {
+      ParentContextList {
+       "default"
+      }
+      UIInfo UIInfo "{59670CE9F9F9794D}" {
+       Name "Trade Apple Juice"
+       Description "Trade apple juice for ammo"
+      }
+     }
+    }
+   }
+   RplComponent "{59670CE9C98E581E}" {
+    Enabled 1
+   }
+  }
+  coords 109.216 0.916 135.057
+  angleY -14.907
+  Flags 1027
+ }
 }
 Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domestica_2s.et" {
  coords 112.51 0.002 135.664
  angleY 86.566
+}
+GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+ coords 108.846 0.018 135.126
+ angleY 82.104
 }
