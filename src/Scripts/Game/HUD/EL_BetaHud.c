@@ -21,13 +21,13 @@ class EL_BetaHud : SCR_InfoDisplay
 		{
 			m_HealthSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("healthSlider"));
 			if (!m_HealthSlider) return;
-		};
+		}
 		
 		private float m_currentHealth = m_DMC.GetHealth();
 		
 		if (!m_PreviousValues[0])
 		{
-			m_PreviousValues[0] = m_currentHealth
+			m_PreviousValues[0] = m_currentHealth;
 		}
 		else
 		{
@@ -44,13 +44,13 @@ class EL_BetaHud : SCR_InfoDisplay
 		{
 			m_StaminaSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("staminaSlider"));
 			if (!m_StaminaSlider) return;
-		};
+		}
 		
 		private float m_currentStam = m_PlayerController.GetStamina();
 		
 		if (!m_PreviousValues[1])
 		{
-			m_PreviousValues[1] = m_currentStam
+			m_PreviousValues[1] = m_currentStam;
 		}
 		else
 		{
@@ -73,7 +73,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		{
 			m_ThirstSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("thirstSlider"));
 			if (!m_ThirstSlider) return;
-		};
+		}
 		
 		m_ThirstSlider.SetCurrent(value);
 		//m_StatChange = true;
@@ -85,7 +85,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		{
 			m_HungerSlider = SliderWidget.Cast(m_PlayerStatsFrame.FindWidget("hungerSlider"));
 			if (!m_HungerSlider) return;
-		};
+		}
 		
 		m_HungerSlider.SetCurrent(value);
 		//m_StatChange = true;
@@ -97,7 +97,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		{
 			m_MoneyDisplay = TextWidget.Cast(m_PlayerStatsFrame.FindWidget("moneyDisplay"));
 			if (!m_MoneyDisplay) return;
-		};
+		}
 		
 		m_MoneyDisplay.SetText("$ " + value); //for configurabiluity could have the $ changeable in config...
 		//m_StatChange = true;
@@ -139,7 +139,7 @@ class EL_BetaHud : SCR_InfoDisplay
 			//TODO: Get Survival Stats Component
 			
 			//TODO: Get Money Stats Component
-		}; 
+		}
 		
 		m_StatChange = false;
 		OnHealthChange(m_DMC.GetHealth());
