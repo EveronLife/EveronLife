@@ -526,6 +526,6 @@ $grp GenericEntity {
  }
 }
 Tree PlumGatherTree : "{CEFEBF266E7040A9}Prefabs/Vegetation/Tree/t_prunus_domestica_2s.et" {
- coords 118.581 0.003 136.754
+ coords 118.581 0.008 136.754
  angleY 18.039
 }

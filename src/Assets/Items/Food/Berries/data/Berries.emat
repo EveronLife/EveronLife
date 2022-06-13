@@ -1,0 +1,7 @@
+MatPBRBasic {
+ Color 0.624 0.624 0.624 1
+ SpecularMul 1.752
+ RoughnessScale 0.887
+ DielectricReflectance 0.041
+ BCRMap "{CCBEE3C09D2A3349}Assets/Items/Food/Berries/data/DefaultMaterial_2D_View.edds"
+}
