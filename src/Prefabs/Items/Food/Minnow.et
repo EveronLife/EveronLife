@@ -10,7 +10,7 @@ GenericEntity {
    Attributes SCR_ItemAttributeCollection "{59943707E0BE14E7}" {
     ItemDisplayName UIInfo "{59943707E5B99CE5}" {
      Name "Minnow"
-     Description "A minnow"
+     Description "A simple fish, common throughout small streams."
     }
     ItemPhysAttributes ItemPhysicalAttributes "{59943707F2EC61F7}" {
      Weight 0.2
