@@ -1,27 +1,43 @@
-class EL_SirenUserAction: ScriptedUserAction
+class EL_SirenUserAction: SCR_VehicleActionBase
 {
 
-	//! Should action behave as a toggle
-	[Attribute( uiwidget: UIWidgets.CheckBox, defvalue: "1", desc: "Should action behave as a toggle")]
-	protected bool m_bIsToggle;
-
-	//! Target state of the action, ignored if toggle
-	[Attribute( uiwidget: UIWidgets.CheckBox, defvalue: "1", desc: "Target state of the action, ignored if toggle")]
-	protected bool m_bTargetState;
-
-	//! Description of action to toggle on
-	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "#AR-UserAction_State_On", desc: "Description of action to toggle on")]
-	private string m_sActionStateOn;
-
-	//! Description of action to toggle off
-	[Attribute( uiwidget: UIWidgets.Auto, defvalue: "#AR-UserAction_State_Off", desc: "Description of action to toggle off")]
-	private string m_sActionStateOff;
+	protected EL_SirenControllerComponent sirenController;
+	SoundComponent soundComponent;
+	
+	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
+	{
+		sirenController = EL_SirenControllerComponent.Cast(pOwnerEntity.FindComponent(EL_SirenControllerComponent));
+		soundComponent = SoundComponent.Cast(pOwnerEntity.FindComponent(SoundComponent));
+	}
 	
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{		
-		// Play sound
-		SoundComponent soundComponent = SoundComponent.Cast(pOwnerEntity.FindComponent(SoundComponent));
-		soundComponent.SoundEvent("SOUND_SIREN");
+		Print("BOOL: " + sirenController.IsSirenOn());
+		if(GetState())
+		{
+			SetState(false);
+			soundComponent.TerminateAll();
+		}else
+		{
+			SetState(true);
+			soundComponent.SoundEvent("SOUND_SIREN");
+		}
 		
+	}
+	
+	override bool GetState()
+	{
+		return sirenController && sirenController.IsSirenOn();
+	}
+	
+	override void SetState(bool enable)
+	{
+		if (!sirenController)
+			return;
+		
+		if (enable)
+			sirenController.IsSirenOn() = true;
+		else
+			sirenController.IsSirenOn() = false;
 	}
 }
