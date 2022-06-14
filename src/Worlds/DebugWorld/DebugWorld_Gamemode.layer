@@ -51,6 +51,18 @@ $grp Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
      "{81FD9B1F9043D257}Scripts/Game/Features/VehicleSiren/Siren_Sound.acp"
     }
    }
+   BaseLightManagerComponent "{51E210F17D2534F7}" {
+    LightAction {
+     SCR_LightsHazardUserAction "{599CC8CBCFDBBCDF}" {
+      ParentContextList {
+       "siren_switch"
+      }
+      UIInfo UIInfo "{599CC8CBCB388234}" {
+       Name "#AR-UserAction_Lights"
+      }
+     }
+    }
+   }
    SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
     m_fVehicleDestroyDamage 10408.7
    }
@@ -69,7 +81,7 @@ $grp Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
        "siren_switch"
       }
       UIInfo UIInfo "{599923F3A44293C5}" {
-       Name "Siren"
+       Name "#EL-UserAction_Siren"
       }
      }
     }
