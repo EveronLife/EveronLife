@@ -3,17 +3,19 @@ class EL_SirenUserAction: SCR_VehicleActionBase
 
 	protected EL_SirenControllerComponent sirenController;
 	SoundComponent soundComponent;
+	AudioHandle audioHandle;
 	
 	protected bool state = false;
 	
 	void ToggleSiren()
 	{
 		if (state == false) {
-			soundComponent.SoundEvent("SOUND_SIREN");
+			audioHandle = soundComponent.SoundEvent("SOUND_SIREN");
 			Print(state);
 			state = true;
 		} else {
-			soundComponent.TerminateAll();
+			soundComponent.Terminate(audioHandle);
+
 			Print(state);
 			state = false;
 		}
