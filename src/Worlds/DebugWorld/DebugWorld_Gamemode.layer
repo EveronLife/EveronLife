@@ -1,5 +1,11 @@
 EL_GameModeRoleplay GameMode_Roleplay1 : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
 }
+Admin {
+ components {
+  RplComponent "{599D29644E72D813}" {
+  }
+ }
+}
 $grp EL_IDCardEntity : "{6784EF9BC821D725}Prefabs/Items/Equipment/Accessories/IdCard/IDCard.et" {
  {
   coords 105.465 0.947 134.107
