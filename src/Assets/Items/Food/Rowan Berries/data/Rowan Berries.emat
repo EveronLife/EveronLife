@@ -1,0 +1,6 @@
+MatPBRBasic {
+ SpecularMul 2.053
+ RoughnessScale 0.827
+ MetalnessScale 0.752
+ BCRMap "{0C862423F831217B}Assets/Items/Food/Rowan Berries/data/rowan_berries_bcr.edds"
+}
