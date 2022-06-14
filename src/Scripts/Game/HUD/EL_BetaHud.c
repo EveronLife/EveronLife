@@ -14,6 +14,16 @@ class EL_BetaHud : SCR_InfoDisplay
 	private SCR_CharacterControllerComponent m_PlayerController;
 	private DamageManagerComponent m_DMC;
 	
+	//--------------------------- CONFIG VALUES ---------------------------
+	private bool m_EnableHUD = true;
+	private bool m_EnableStamina = true;
+	private bool m_EnableHealth = true;
+	private bool m_EnableThirst = true;
+	private bool m_EnableHunger = true;
+	private bool m_EnableMoney = true;
+	//---------------------------------------------------------------------
+	
+	private bool m_UsingProgressWidget;
 	private bool m_StatChange;
 	private float m_PreviousValues[4];
 	//TODO: Money & Survival Stats
@@ -128,31 +138,51 @@ class EL_BetaHud : SCR_InfoDisplay
 	override event void OnStartDraw(IEntity owner)
 	{
 		super.OnStartDraw(owner);
-
+		
+		if (!m_EnableHUD) return;
+		
 		IEntity player = GetGame().GetPlayerController();
 		if (!player) return;
 		
 		m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
+		
 		m_PlayerStatsHUD = HorizontalLayoutWidget.Cast(m_wRoot.FindAnyWidget("m_playerStatsHUD"));
 		if (!m_PlayerStatsHUD) return;
 		
-		m_HealthIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_healthIndicator"));
-		if (!m_HealthIndicator) return;
-		
-		m_StaminaIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_staminaIndicator"));
-		//if this is null thats fine as long as the ProgressBarWidget is enabled
-		
-		if (!m_StaminaIndicator || !m_StaminaIndicator.IsEnabled())
+		if (m_EnableHealth)
 		{
-			m_StaminaProgressBar = ProgressBarWidget.Cast(m_wRoot.FindAnyWidget("m_staminaProgressBar"));
-			if (!m_StaminaProgressBar) return;
+			m_HealthIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_healthIndicator"));
+			if (!m_HealthIndicator) return;
 		}
 		
-		m_HungerIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_hungerIndicator"));
-		if (!m_HungerIndicator) return;
+		if (m_EnableStamina)
+		{
+			m_StaminaIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_staminaIndicator"));
+			//if this is null thats fine as long as the ProgressBarWidget is enabled
+			
+			if (!m_StaminaIndicator || !m_StaminaIndicator.IsEnabled())
+			{
+				m_UsingProgressWidget = true;
+				m_StaminaProgressBar = ProgressBarWidget.Cast(m_wRoot.FindAnyWidget("m_staminaProgressBar"));
+				if (!m_StaminaProgressBar) return;
+			}
+			else
+			{
+				m_UsingProgressWidget = false;
+			}
+		}
 		
-		m_ThirstIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_thirstIndicator"));
-		if (!m_ThirstIndicator) return;
+		if (m_EnableHunger)
+		{
+			m_HungerIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_hungerIndicator"));
+			if (!m_HungerIndicator) return;
+		}
+		
+		if (m_EnableThirst)
+		{
+			m_ThirstIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_thirstIndicator"));
+			if (!m_ThirstIndicator) return;
+		}
 	}
 	
 	
@@ -178,8 +208,8 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 		
 		m_StatChange = false;
-		OnHealthChange(m_DMC.GetHealth());
-		OnStaminaChange(m_PlayerController.GetStamina());
+		if (m_EnableHealth) OnHealthChange(m_DMC.GetHealth());
+		if (m_EnableStamina) OnStaminaChange(m_PlayerController.GetStamina());
 		//TODO: Get info from Money and Survival Stats Components
 		
 
@@ -208,24 +238,30 @@ class EL_BetaHud : SCR_InfoDisplay
 		if (var)
 		{
 			WidgetAnimator.PlayAnimation(m_PlayerStatsHUD,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
-			WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
+			if (m_UsingProgressWidget)
+			{
+				WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
+			}
 		}
 		else
 		{
 			WidgetAnimator.PlayAnimation(m_PlayerStatsHUD,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
-			WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
+			if (m_UsingProgressWidget)
+			{
+				WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
+			}
 		}
 	}
 	
 	//TODO: Make this only call every once and a while similar to the fade
 	void SetProgressColor(Widget bar, float value)
 	{
-		if (value >= 0.75)
+		if (value >= 0.65)
 		{
 			//turn white
 			bar.SetColor(Color.White);
 		}
-		else if (value > 0.25 && value < 0.75)
+		else if (value > 0.35 && value < 0.65)
 		{
 			//turn yellow
 			bar.SetColor(Color.Yellow);

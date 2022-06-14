@@ -78,7 +78,7 @@ FrameWidgetClass {
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Health"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{3E610FF229AE7C80}Assets/UI/healthfade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -89,7 +89,7 @@ FrameWidgetClass {
        Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
        Image "Health"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{3E610FF229AE7C80}Assets/UI/healthfade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -101,8 +101,6 @@ FrameWidgetClass {
       Padding 0 0 0 0
       FillWeight 1
      }
-     "Is Enabled" 0
-     "Is Visible" 0
      {
       ImageWidgetClass "{599ADB19F1739A15}" {
        Name "m_staminaGlow"
@@ -126,7 +124,6 @@ FrameWidgetClass {
        Texture "{4A44FEA03A779FED}UI/Textures/WeaponInfo/icons_weaponInfo-075.imageset"
        Image "magazine-default-background"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -138,7 +135,7 @@ FrameWidgetClass {
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Stamina"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{048378E91D97B4C6}Assets/UI/staminafade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -149,7 +146,7 @@ FrameWidgetClass {
        Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
        Image "Stamina"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{048378E91D97B4C6}Assets/UI/staminafade.edds"
       }
      }
     }
@@ -193,7 +190,7 @@ FrameWidgetClass {
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Hunger"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{C5E68D1961F5F34C}Assets/UI/hungerfade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -204,7 +201,7 @@ FrameWidgetClass {
        Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
        Image "Hunger"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{C5E68D1961F5F34C}Assets/UI/hungerfade.edds"
       }
      }
     }
@@ -248,7 +245,7 @@ FrameWidgetClass {
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Thirst"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{A09CACE94A75F60D}Assets/UI/thirstfade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -259,7 +256,7 @@ FrameWidgetClass {
        Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
        Image "Thirst"
        Size 60 60
-       Mask "{0EF2203DF4502FB7}UI/Textures/WeaponInfo/alphamasks/alpha-mag-default.edds"
+       Mask "{A09CACE94A75F60D}Assets/UI/thirstfade.edds"
       }
      }
     }
@@ -289,6 +286,8 @@ FrameWidgetClass {
     SizeY 13.64
     OffsetBottom 11.342
    }
+   "Is Enabled" 0
+   "Is Visible" 0
    Maximum 1
    Current 1
   }
