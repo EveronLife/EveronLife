@@ -39,10 +39,6 @@ FrameWidgetClass {
         OffsetBottom 0
        }
        {
-        TextWidgetClass "{598319DABCCC3D55}" {
-         Prefab "{598319DABCCC3D55}"
-         "Min Font Size" 24
-        }
        }
       }
      }
