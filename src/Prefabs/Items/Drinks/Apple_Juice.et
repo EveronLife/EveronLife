@@ -1,0 +1,19 @@
+GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Apple Juice"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     DimensionScaler 0.01
+    }
+   }
+  }
+  MeshObject "{598F21A81E1F41BF}" {
+   Object "{240D853DBB045D05}Assets/Props/Civilian/BeerBottle_01/BeerBottle_01.xob"
+  }
+ }
+ coords 110.025 0.917 134.781
+}
