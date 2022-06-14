@@ -3,7 +3,7 @@ AudioClass {
   SignalClass {
    id 11277
    name "SOUND_SIREN_STOP"
-   tl 125.758 501.414
+   tl 138.758 496.414
    res "{2F86916417932725}Scripts/Game/Features/VehicleSiren/Siren_Sound_Stop_Signal.sig"
    inputsport {
     1
@@ -122,7 +122,7 @@ AudioClass {
    "Fade out time" 25
    Samples {
     AudioBankSampleClass "Sample(1)" {
-     Filename "{60855B568E6838E2}police-siren-sound-effect.wav"
+     Filename "{ACF00ABA18086363}Scripts/Game/Features/VehicleSiren/police-siren-sound-effect (mp3cut.net).wav"
     }
    }
   }

@@ -4,6 +4,21 @@ class EL_SirenUserAction: SCR_VehicleActionBase
 	protected EL_SirenControllerComponent sirenController;
 	SoundComponent soundComponent;
 	
+	protected bool state = false;
+	
+	void ToggleSiren()
+	{
+		if (state == false) {
+			soundComponent.SoundEvent("SOUND_SIREN");
+			Print(state);
+			state = true;
+		} else {
+			soundComponent.TerminateAll();
+			Print(state);
+			state = false;
+		}
+	}
+	
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
 	{
 		sirenController = EL_SirenControllerComponent.Cast(pOwnerEntity.FindComponent(EL_SirenControllerComponent));
@@ -12,32 +27,7 @@ class EL_SirenUserAction: SCR_VehicleActionBase
 	
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{		
-		Print("BOOL: " + sirenController.IsSirenOn());
-		if(GetState())
-		{
-			SetState(false);
-			soundComponent.TerminateAll();
-		}else
-		{
-			SetState(true);
-			soundComponent.SoundEvent("SOUND_SIREN");
-		}
-		
+		ToggleSiren();
 	}
 	
-	override bool GetState()
-	{
-		return sirenController && sirenController.IsSirenOn();
-	}
-	
-	override void SetState(bool enable)
-	{
-		if (!sirenController)
-			return;
-		
-		if (enable)
-			sirenController.IsSirenOn() = true;
-		else
-			sirenController.IsSirenOn() = false;
-	}
 }
