@@ -35,7 +35,12 @@ It can be difficult to decide on design and implementation concepts or other asp
 * Reference issues and pull requests liberally after the first line
 * Consider using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
-### <a name="code_guidelines"></a> Code styleguide
+### Recognising Co-Authors
+It's important to recognise the contribution of everyone who works on Everon Life. As such there may be times where you commit a change that was worked on alongside others who didn't directly commit changes to source control. For example, you may be using models or textures that were made by another contributor that were checked in by you, or design documents that were never pushed to source control.
+
+In order for this contribution to be recognized please add them as a co-author to **at least one** of your pull requests commits: [GitHub Guide](https://docs.github.com/en/enterprise-cloud@latest/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors).
+
+### <a name="code_guidelines"></a> Code Styleguide
 Currently, we do not have yet automatic tooling to enforce our code style guide. For now please follow the guidelines published on the Community Wiki.
 * [Do's and Don'ts](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Do%27s_and_Don%27ts)
 * [Conventions](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Conventions)
