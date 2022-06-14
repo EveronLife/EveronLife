@@ -1,11 +1,11 @@
 MetaFileClass {
- Name "{B24B07C19FECA100}Assets/Tools/Axe.xob"
+ Name "{B24B07C19FECA100}Assets/Tools/Axe/Axe.xob"
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {
     MaterialAssignClass "{5996B6987C2373EF}" {
      SourceMaterial "None"
-     AssignedMaterial "{F5D658A836748EEA}Assets/Tools/data/None.emat"
+     AssignedMaterial "{F5D658A836748EEA}Assets/Tools/Axe/data/Axe.emat"
     }
    }
    GeometryParams {
