@@ -1,0 +1,71 @@
+GenericEntity {
+ ID "599F622ABFC36112"
+ components {
+  MeshObject "{599F622AB54B47B6}" {
+   Object "{73A69BABF69D29C3}Assets/Items/Fish/Trout/Trout.xob"
+  }
+  ActionsManagerComponent "{599F688381FF6F9A}" {
+   ActionContexts {
+    UserActionContext "{599F68838864111C}" {
+     ContextName "default"
+     Position PointInfo "{599F68838E2A8871}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{599F6883BAABB84A}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{599F6883BF444F54}" {
+      Name "#AR-Inventory_PickUp Trout"
+     }
+    }
+   }
+  }
+  InventoryItemComponent "{599F688215436AEE}" {
+   Attributes SCR_ItemAttributeCollection "{599F68821F3C6B32}" {
+    ItemDisplayName UIInfo "{599F688223923715}" {
+     Name "Trout"
+     Description "A trout"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{599F68822EB21C0E}" {
+     SizeSetupStrategy Volume
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{599F6882367D8A0B}" {
+     IkSettings {
+      ItemIKSettings "{599F6882C549FDFD}" {
+      }
+     }
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{599F68829E1032E4}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 180
+    }
+    CommonItemType "FOOD"
+    m_SlotType SLOT_ANY
+   }
+  }
+  RplComponent "{599F68814A18C933}" {
+  }
+  SoundComponent "{599F688151052781}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  RigidBody "{599F6881623BA91E}" {
+   Enabled 0
+  }
+  SCR_ConsumableItemComponent "{599F68817ED62CCB}" {
+   m_eAnimVariable MAP
+  }
+ }
+ coords -0.373 0.145 -0.066
+ angleZ -76.665
+}

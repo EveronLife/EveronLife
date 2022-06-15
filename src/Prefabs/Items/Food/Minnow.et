@@ -39,7 +39,7 @@ GenericEntity {
    }
   }
   MeshObject "{599361CD61346D01}" {
-   Object "{533489D9F50619FD}Assets/Items/Fish/Minnow/minnow.xob"
+   Object "{533489D9F50619FD}Assets/Items/Fish/Minnow/Minnow.xob"
    PixelSizeScale 10
   }
   RigidBody "{5994322AB598DCCA}" {
@@ -75,7 +75,7 @@ GenericEntity {
   RplComponent "{5994322BC7BACA08}" {
   }
  }
- coords 0.001 0.086 -0.003
+ coords 0 0.086 -0.002
  angleY 0.304
  angleZ -90.219
 }
