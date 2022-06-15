@@ -1,0 +1,79 @@
+GenericEntity {
+ ID "599E48424679242F"
+ components {
+  SoundComponent "{599E4C318BC8D7FB}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  InventoryItemComponent "{599E4C30B3DD3955}" {
+   Attributes SCR_ItemAttributeCollection "{599E4C30BAB07029}" {
+    ItemDisplayName UIInfo "{599E4C30BCCD95F7}" {
+     Name "Mackerel"
+     Description "A mackerel"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{599E4C334A7DE28D}" {
+     Weight 0.5
+     SizeSetupStrategy Volume
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{599E4C336BFCDD83}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{599E4C331277057E}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 180
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{599E4C3413EE74D2}" {
+      ActionType Bandage
+     }
+    }
+    CommonItemType "FOOD"
+    m_SlotType SLOT_ANY
+   }
+  }
+  MeshObject "{599E4843A6F03764}" {
+   Object "{064BCDB4CB58EF67}Assets/Items/Fish/Mackerel/Mackerel.xob"
+   PixelSizeScale 10
+  }
+  RigidBody "{599E4C31BBD9DC8C}" {
+   Enabled 0
+   LinearDamping 0.5
+   AngularDamping 0.5
+   ResponseIndex "HugeDestructible"
+   ModelGeometry 1
+   CCDRadius 0.015
+  }
+  SCR_ConsumableItemComponent "{599E4C3065AEAD46}" {
+   m_eAnimVariable MAP
+  }
+  ActionsManagerComponent "{599E4C30704766F7}" {
+   ActionContexts {
+    UserActionContext "{599E4C30041CF73B}" {
+     ContextName "default"
+     Position PointInfo "{599E4C358C4F44BF}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{599E4C3017506FDF}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{599E4C3037F9140F}" {
+      Name "#AR-Inventory_PickUp Mackerel"
+     }
+    }
+   }
+  }
+  RplComponent "{599E4C31AE355B88}" {
+  }
+ }
+ coords -0.19 0.11 0
+ angleZ -83.827
+}

@@ -1,4 +1,4 @@
-Layer NewFishChain {
+Layer Fish {
  Index 7
 }
 Layer Terrain {
@@ -18,7 +18,4 @@ Layer PlumChain {
 }
 Layer TomatoChain {
  Index 6
-}
-Layer FishChain {
- Index 0
 }

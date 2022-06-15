@@ -1,7 +1,22 @@
 $grp GenericEntity {
+ FishTraderTestItems {
+  coords 118.886 0.99 132.799
+  angleY 88.493
+  {
+   GenericEntity : "{5D91718B5DAB0A08}Prefabs/Items/Food/Mackerel.et" {
+    coords -0.191 0.11 0.001
+    angleZ -83.827
+   }
+   GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
+    coords 0 0.086 -0.002
+    angleY 0.304
+    angleZ -90.219
+   }
+  }
+ }
  FishTrader {
-  coords 123.613 -0.006 133.844
-  angleY 41.822
+  coords 119.504 0.156 132.102
+  angleY 88.493
   {
    GenericEntity FishTradeContainer {
     components {
@@ -66,7 +81,7 @@ $grp GenericEntity {
       Enabled 1
      }
     }
-    coords 0.184 0.917 -0.291
+    coords 0.183 0.917 -0.29
     angleY -14.907
     Flags 1027
    }
@@ -455,38 +470,27 @@ $grp GenericEntity {
      RplComponent "{59670CC3FB68C515}" {
      }
     }
-    coords -0.023 0.001 0.871
+    coords -0.024 0.001 0.872
     angleY 171.533
    }
    $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
     {
-     coords 0.148 0.019 -0.143
+     coords 0.147 0.019 -0.142
      angleY 82.104
     }
     {
-     coords -1.052 0.019 -0.309
+     coords -1.053 0.019 -0.308
      angleY 82.104
     }
    }
    GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01_white.et" {
-    coords -1.33 0.001 0.713
+    coords -1.331 0.001 0.714
     angleX 3.15
     angleY 151.694
     angleZ -1.695
    }
    GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {
-    coords -1.333 0.918 -0.262
-   }
-  }
- }
- FishTraderTestItems {
-  coords 122.682 0.828 133.872
-  angleY 41.822
-  {
-   GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
-    coords 0.001 0.086 -0.003
-    angleY 0.304
-    angleZ -90.219
+    coords -1.334 0.918 -0.261
    }
   }
  }
