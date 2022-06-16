@@ -13,26 +13,26 @@ modded class SCR_InventorySlotUI
 		
 		EL_UpdateQuantityNumber();
 	}
-		
-	void EL_UpdateQuantityNumber(InventoryItemComponent itemComponent = null)
+	
+	InventoryItemComponent EL_GetItemComponent()
 	{
-		if (!itemComponent)
+		return m_pItem;
+	}
+	
+	EL_InventoryQuantityComponent EL_GetQuantityComponent()
+	{
+		if (!m_pItem)
 		{
-			itemComponent = GetItem();
-		}
-
-		if (!itemComponent)
-		{
-			return;
-		}
-		
-		IEntity owner = itemComponent.GetOwner();
-		if (!owner)
-		{
-			return;
+			return null;
 		}
 		
-		auto quantityComponent = EL_InventoryQuantityComponent.Cast(owner.FindComponent(EL_InventoryQuantityComponent));
+		IEntity owner = m_pItem.GetOwner();		
+		return EL_InventoryQuantityComponent.Cast(owner.FindComponent(EL_InventoryQuantityComponent));
+	}
+		
+	void EL_UpdateQuantityNumber()
+	{		
+		auto quantityComponent = EL_GetQuantityComponent();
 		if (!quantityComponent || !m_wStackNumber)
 		{
 			return;

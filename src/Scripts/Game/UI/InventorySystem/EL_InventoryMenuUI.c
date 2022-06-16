@@ -55,19 +55,7 @@ modded class SCR_InventoryMenuUI
 			return false;
 		}
 
-		InventoryItemComponent itemComponent = m_pFocusedSlotUI.GetItem();
-		if (!itemComponent)
-		{
-			return false;
-		}
-		
-		IEntity owner = itemComponent.GetOwner();
-		if (!owner)
-		{
-			return false;
-		}
-		
-		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(owner.FindComponent(EL_InventoryQuantityComponent));
+		EL_InventoryQuantityComponent quantityComponent = m_pFocusedSlotUI.EL_GetQuantityComponent();
 		if (!quantityComponent)
 		{
 			return false;
@@ -95,19 +83,7 @@ modded class SCR_InventoryMenuUI
 			return;
 		}
 		
-		InventoryItemComponent itemComponent = m_pFocusedSlotUI.GetItem();
-		if (!itemComponent)
-		{
-			return;
-		}
-
-		IEntity entity = itemComponent.GetOwner();
-		if (!entity)
-		{
-			return;
-		}
-		
-		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(entity.FindComponent(EL_InventoryQuantityComponent));
+		EL_InventoryQuantityComponent quantityComponent = m_pFocusedSlotUI.EL_GetQuantityComponent();
 		if (!quantityComponent)
 		{
 			return;
@@ -175,20 +151,8 @@ modded class SCR_InventoryMenuUI
 		{
 			return;
 		}
-
-		InventoryItemComponent itemComponent = slot.GetItem();
-		if (!itemComponent)
-		{
-			return;
-		}
 		
-		IEntity owner = itemComponent.GetOwner();
-		if (!owner)
-		{
-			return;
-		}
-		
-		EL_InventoryQuantityComponent quantityComponent = EL_InventoryQuantityComponent.Cast(owner.FindComponent(EL_InventoryQuantityComponent));
+		EL_InventoryQuantityComponent quantityComponent = slot.EL_GetQuantityComponent();
 		if (!quantityComponent)
 		{
 			return;

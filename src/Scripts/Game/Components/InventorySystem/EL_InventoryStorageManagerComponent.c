@@ -89,19 +89,7 @@ modded class SCR_InventoryStorageManagerComponent
 			return super.EquipAny(storage, item, prefered, cb);
 		}
 
-		InventoryItemComponent targetItemComponent = slotUi.GetItem();
-		if (!targetItemComponent)
-		{
-			return super.EquipAny(storage, item, prefered, cb);
-		}
-		
-		IEntity targetItem = targetItemComponent.GetOwner();
-		if (!targetItem)
-		{
-			return super.EquipAny(storage, item, prefered, cb);
-		}
-		
-		EL_InventoryQuantityComponent targetQuantityComponent = EL_InventoryQuantityComponent.Cast(targetItem.FindComponent(EL_InventoryQuantityComponent));
+		EL_InventoryQuantityComponent targetQuantityComponent = slotUi.EL_GetQuantityComponent();
 		if (!targetQuantityComponent)
 		{
 			return super.EquipAny(storage, item, prefered, cb);
