@@ -2,7 +2,7 @@ EL_GameModeRoleplay GameMode_Roleplay1 : "{03913608C59017A3}Prefabs/MP/Modes/Rol
 }
 $grp GenericEntity {
  FishTrader {
-  coords 119.504 0.156 132.102
+  coords 119.737 0.156 130.419
   angleY 88.493
   {
    GenericEntity FishTradeContainer {
@@ -482,7 +482,7 @@ $grp GenericEntity {
   }
  }
  FishTraderTestItems {
-  coords 118.886 0.99 132.799
+  coords 119.119 0.99 131.116
   angleY 88.493
   {
    GenericEntity : "{0F992ACA7623E9C6}Prefabs/Items/Food/Cod.et" {
@@ -491,6 +491,12 @@ $grp GenericEntity {
     angleY 25.942
     angleZ -70.082
    }
+   GenericEntity : "{4BCC1BF4C0C9C922}Prefabs/Items/Food/Shark.et" {
+    coords -1.372 0.426 0.275
+    angleX 0.627
+    angleY 26.393
+    angleZ -22.41
+   }
    GenericEntity : "{5D91718B5DAB0A08}Prefabs/Items/Food/Mackerel.et" {
     coords -0.212 0.099 -0.033
     angleX -2.281
@@ -498,7 +504,7 @@ $grp GenericEntity {
     angleZ -77.319
    }
    GenericEntity : "{7610D20D2871CCF5}Prefabs/Items/Food/Tuna.et" {
-    coords -0.591 0.116 0.071
+    coords -0.59 0.116 0.071
     angleX 1.76
     angleY 32.617
     angleZ -67.322
@@ -519,7 +525,7 @@ $grp GenericEntity {
       }
      }
     }
-    coords -0.399 0.113 -0.071
+    coords -0.398 0.113 -0.071
     angleX -1.091
     angleY 36.188
     angleZ -60.382

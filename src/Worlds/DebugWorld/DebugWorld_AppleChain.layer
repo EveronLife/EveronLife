@@ -518,3 +518,7 @@ Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domest
  coords 112.51 0.002 135.664
  angleY 86.566
 }
+GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+ coords 119.222 0.178 132.695
+ angleY 82.104
+}

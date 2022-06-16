@@ -1,39 +1,9 @@
 GenericEntity {
  ID "59A030A32E1DD69D"
  components {
-  MeshObject "{59A030A3797EAA4F}" {
-   Object "{460655C18E347147}Assets/Items/Fish/Carp/Carp.xob"
-  }
-  RplComponent "{59A034F768182EC2}" {
-  }
   SoundComponent "{59A034F77B876837}" {
    Filenames {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-  }
-  RigidBody "{59A034F71E21EBE1}" {
-   Enabled 0
-  }
-  SCR_ConsumableItemComponent "{59A034F7D17CA6EB}" {
-   m_eAnimVariable MAP
-  }
-  ActionsManagerComponent "{59A034F7F3A10CEE}" {
-   ActionContexts {
-    UserActionContext "{59A034F7FAB2588F}" {
-     ContextName "default"
-     Position PointInfo "{59A034F78A05883F}" {
-     }
-    }
-   }
-   additionalActions {
-    SCR_PickUpItemAction "{59A034F79711B1DD}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{59A034F79F113358}" {
-      Name "#AR-Inventory_PickUp Carp"
-     }
-    }
    }
   }
   InventoryItemComponent "{59A034F48B3899B9}" {
@@ -66,6 +36,36 @@ GenericEntity {
     CommonItemType "FOOD"
     m_SlotType SLOT_ANY
    }
+  }
+  MeshObject "{59A030A3797EAA4F}" {
+   Object "{460655C18E347147}Assets/Items/Fish/Carp/Carp.xob"
+  }
+  RigidBody "{59A034F71E21EBE1}" {
+   Enabled 0
+  }
+  SCR_ConsumableItemComponent "{59A034F7D17CA6EB}" {
+   m_eAnimVariable MAP
+  }
+  ActionsManagerComponent "{59A034F7F3A10CEE}" {
+   ActionContexts {
+    UserActionContext "{59A034F7FAB2588F}" {
+     ContextName "default"
+     Position PointInfo "{59A034F78A05883F}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59A034F79711B1DD}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59A034F79F113358}" {
+      Name "#AR-Inventory_PickUp Carp"
+     }
+    }
+   }
+  }
+  RplComponent "{59A034F768182EC2}" {
   }
  }
  coords 0.519 0.141 0.028

@@ -1,0 +1,9 @@
+GenericEntity {
+ ID "59A05B9131D4A1DB"
+ components {
+  MeshObject "{59A05B9118BB2A29}" {
+   Object "{D4BD666582A1CD89}Assets/Items/Fish/Shark/Shark.xob"
+  }
+ }
+ coords 118.47 0.001 129.951
+}

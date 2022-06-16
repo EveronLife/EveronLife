@@ -1,39 +1,9 @@
 GenericEntity {
  ID "59A030A32B8A7B02"
  components {
-  MeshObject "{59A030A37D750152}" {
-   Object "{C3A8EC180A81D5E1}Assets/Items/Fish/Cod/Cod.xob"
-  }
-  RplComponent "{59A034F76253A242}" {
-  }
   SoundComponent "{59A034F70869A27B}" {
    Filenames {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-  }
-  RigidBody "{59A034F72419417D}" {
-   Enabled 0
-  }
-  SCR_ConsumableItemComponent "{59A034F7D8222F73}" {
-   m_eAnimVariable MAP
-  }
-  ActionsManagerComponent "{59A034F7AF84D482}" {
-   ActionContexts {
-    UserActionContext "{59A034F7B432C703}" {
-     ContextName "default"
-     Position PointInfo "{59A034F7BC2B2585}" {
-     }
-    }
-   }
-   additionalActions {
-    SCR_PickUpItemAction "{59A034F447A54076}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{59A034F464987C36}" {
-      Name "#AR-Inventory_PickUp Cod"
-     }
-    }
    }
   }
   InventoryItemComponent "{59A034F47CD9FD62}" {
@@ -61,6 +31,36 @@ GenericEntity {
     CommonItemType "FOOD"
     m_SlotType SLOT_ANY
    }
+  }
+  MeshObject "{59A030A37D750152}" {
+   Object "{C3A8EC180A81D5E1}Assets/Items/Fish/Cod/Cod.xob"
+  }
+  RigidBody "{59A034F72419417D}" {
+   Enabled 0
+  }
+  SCR_ConsumableItemComponent "{59A034F7D8222F73}" {
+   m_eAnimVariable MAP
+  }
+  ActionsManagerComponent "{59A034F7AF84D482}" {
+   ActionContexts {
+    UserActionContext "{59A034F7B432C703}" {
+     ContextName "default"
+     Position PointInfo "{59A034F7BC2B2585}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59A034F447A54076}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59A034F464987C36}" {
+      Name "#AR-Inventory_PickUp Cod"
+     }
+    }
+   }
+  }
+  RplComponent "{59A034F76253A242}" {
   }
  }
  coords 0.362 0.109 0.346
