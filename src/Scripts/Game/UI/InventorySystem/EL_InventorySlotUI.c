@@ -14,6 +14,13 @@ modded class SCR_InventorySlotUI
 		EL_UpdateQuantityNumber();
 	}
 	
+	override void SetSlotVisible(bool bVisible)
+	{
+		super.SetSlotVisible(bVisible);
+		
+		EL_UpdateQuantityNumber();
+	}
+
 	InventoryItemComponent EL_GetItemComponent()
 	{
 		return m_pItem;
@@ -31,7 +38,12 @@ modded class SCR_InventorySlotUI
 	}
 		
 	void EL_UpdateQuantityNumber()
-	{		
+	{	
+		if (!m_wStackNumber)
+		{
+			m_wStackNumber = TextWidget.Cast(m_widget.FindAnyWidget("stackNumber"));
+		}
+
 		auto quantityComponent = EL_GetQuantityComponent();
 		if (!quantityComponent || !m_wStackNumber)
 		{
@@ -45,7 +57,7 @@ modded class SCR_InventorySlotUI
 			return;
 		}
 		
-		string sQuantity = "te" + iQuantity.ToString();
+		string sQuantity = iQuantity.ToString();
         if (iQuantity >= 1000000)
 		{
         	sQuantity = string.Format("%1M", (iQuantity / 1000000.0).ToString(-1, 1));
