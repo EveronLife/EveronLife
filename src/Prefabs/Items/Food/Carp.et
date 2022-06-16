@@ -1,0 +1,75 @@
+GenericEntity {
+ ID "59A030A32E1DD69D"
+ components {
+  MeshObject "{59A030A3797EAA4F}" {
+   Object "{460655C18E347147}Assets/Items/Fish/Carp/Carp.xob"
+  }
+  RplComponent "{59A034F768182EC2}" {
+  }
+  SoundComponent "{59A034F77B876837}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  RigidBody "{59A034F71E21EBE1}" {
+   Enabled 0
+  }
+  SCR_ConsumableItemComponent "{59A034F7D17CA6EB}" {
+   m_eAnimVariable MAP
+  }
+  ActionsManagerComponent "{59A034F7F3A10CEE}" {
+   ActionContexts {
+    UserActionContext "{59A034F7FAB2588F}" {
+     ContextName "default"
+     Position PointInfo "{59A034F78A05883F}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59A034F79711B1DD}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59A034F79F113358}" {
+      Name "#AR-Inventory_PickUp Carp"
+     }
+    }
+   }
+  }
+  InventoryItemComponent "{59A034F48B3899B9}" {
+   Attributes SCR_ItemAttributeCollection "{59A034F491F44D58}" {
+    ItemDisplayName UIInfo "{59A034F4958D3375}" {
+     Name "Carp"
+     Description "A carp"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59A034F4957C2E60}" {
+     Weight 0.3
+     SizeSetupStrategy Volume
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59A034F497E5205F}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59A034F54E9E01DE}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 180
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59A034F50C975964}" {
+      ActionType Bandage
+     }
+    }
+    CommonItemType "FOOD"
+    m_SlotType SLOT_ANY
+   }
+  }
+ }
+ coords 0.519 0.141 0.028
+ angleX 3.119
+ angleY 35.843
+ angleZ -81.977
+}

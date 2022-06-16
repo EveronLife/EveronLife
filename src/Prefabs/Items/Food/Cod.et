@@ -1,0 +1,70 @@
+GenericEntity {
+ ID "59A030A32B8A7B02"
+ components {
+  MeshObject "{59A030A37D750152}" {
+   Object "{C3A8EC180A81D5E1}Assets/Items/Fish/Cod/Cod.xob"
+  }
+  RplComponent "{59A034F76253A242}" {
+  }
+  SoundComponent "{59A034F70869A27B}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  RigidBody "{59A034F72419417D}" {
+   Enabled 0
+  }
+  SCR_ConsumableItemComponent "{59A034F7D8222F73}" {
+   m_eAnimVariable MAP
+  }
+  ActionsManagerComponent "{59A034F7AF84D482}" {
+   ActionContexts {
+    UserActionContext "{59A034F7B432C703}" {
+     ContextName "default"
+     Position PointInfo "{59A034F7BC2B2585}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59A034F447A54076}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59A034F464987C36}" {
+      Name "#AR-Inventory_PickUp Cod"
+     }
+    }
+   }
+  }
+  InventoryItemComponent "{59A034F47CD9FD62}" {
+   Attributes SCR_ItemAttributeCollection "{59A034F402857720}" {
+    ItemDisplayName UIInfo "{59A034F405546AF8}" {
+     Name "Cod"
+     Description "A Cod"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59A034F41251EC6C}" {
+     Weight 0.5
+     SizeSetupStrategy Volume
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59A034F41D9E1A6C}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59A034F4337EDF24}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 180
+    }
+    CommonItemType "FOOD"
+    m_SlotType SLOT_ANY
+   }
+  }
+ }
+ coords 0.362 0.109 0.346
+ angleX -2.679
+ angleY 25.942
+ angleZ -70.082
+}

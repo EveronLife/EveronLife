@@ -1,11 +1,6 @@
 GenericEntity {
  ID "59A00AB321DA163D"
  components {
-  MeshObject "{59A00AB30F42013F}" {
-   Object "{A7E02E7A0FE59E71}Assets/Items/Fish/Tuna/BluefinTuna.xob"
-  }
-  RplComponent "{59A00AB089832BDA}" {
-  }
   SoundComponent "{59A00AB0ADA5103A}" {
    Filenames {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
@@ -45,6 +40,9 @@ GenericEntity {
     m_SlotType SLOT_ANY
    }
   }
+  MeshObject "{59A00AB30F42013F}" {
+   Object "{A7E02E7A0FE59E71}Assets/Items/Fish/Tuna/BluefinTuna.xob"
+  }
   RigidBody "{59A00AB098F29DE2}" {
    Enabled 0
   }
@@ -69,6 +67,8 @@ GenericEntity {
      }
     }
    }
+  }
+  RplComponent "{59A00AB089832BDA}" {
   }
  }
  coords -0.591 0.116 0.071
