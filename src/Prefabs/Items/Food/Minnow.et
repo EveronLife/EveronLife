@@ -75,7 +75,8 @@ GenericEntity {
   RplComponent "{5994322BC7BACA08}" {
   }
  }
- coords 0 0.086 -0.002
- angleY 0.304
- angleZ -90.219
+ coords -0.092 0.113 -0.13
+ angleX -0.461
+ angleY 31.954
+ angleZ -70.044
 }

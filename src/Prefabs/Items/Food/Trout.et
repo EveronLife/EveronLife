@@ -1,26 +1,9 @@
 GenericEntity {
  ID "599F622ABFC36112"
  components {
-  MeshObject "{599F622AB54B47B6}" {
-   Object "{73A69BABF69D29C3}Assets/Items/Fish/Trout/Trout.xob"
-  }
-  ActionsManagerComponent "{599F688381FF6F9A}" {
-   ActionContexts {
-    UserActionContext "{599F68838864111C}" {
-     ContextName "default"
-     Position PointInfo "{599F68838E2A8871}" {
-     }
-    }
-   }
-   additionalActions {
-    SCR_PickUpItemAction "{599F6883BAABB84A}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{599F6883BF444F54}" {
-      Name "#AR-Inventory_PickUp Trout"
-     }
-    }
+  SoundComponent "{599F688151052781}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
   }
   InventoryItemComponent "{599F688215436AEE}" {
@@ -48,16 +31,17 @@ GenericEntity {
      }
      HandAdditiveRotation 0 90 180
     }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59A00AB79FF71E41}" {
+      ActionType Bandage
+     }
+    }
     CommonItemType "FOOD"
     m_SlotType SLOT_ANY
    }
   }
-  RplComponent "{599F68814A18C933}" {
-  }
-  SoundComponent "{599F688151052781}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
+  MeshObject "{599F622AB54B47B6}" {
+   Object "{73A69BABF69D29C3}Assets/Items/Fish/Trout/Trout.xob"
   }
   RigidBody "{599F6881623BA91E}" {
    Enabled 0
@@ -65,7 +49,30 @@ GenericEntity {
   SCR_ConsumableItemComponent "{599F68817ED62CCB}" {
    m_eAnimVariable MAP
   }
+  ActionsManagerComponent "{599F688381FF6F9A}" {
+   ActionContexts {
+    UserActionContext "{599F68838864111C}" {
+     ContextName "default"
+     Position PointInfo "{599F68838E2A8871}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{599F6883BAABB84A}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{599F6883BF444F54}" {
+      Name "#AR-Inventory_PickUp Trout"
+     }
+    }
+   }
+  }
+  RplComponent "{599F68814A18C933}" {
+  }
  }
- coords -0.373 0.145 -0.066
- angleZ -76.665
+ coords -0.399 0.113 -0.071
+ angleX -1.091
+ angleY 36.188
+ angleZ -60.382
 }

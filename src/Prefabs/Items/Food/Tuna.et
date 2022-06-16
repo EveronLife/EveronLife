@@ -1,0 +1,78 @@
+GenericEntity {
+ ID "59A00AB321DA163D"
+ components {
+  MeshObject "{59A00AB30F42013F}" {
+   Object "{A7E02E7A0FE59E71}Assets/Items/Fish/Tuna/BluefinTuna.xob"
+  }
+  RplComponent "{59A00AB089832BDA}" {
+  }
+  SoundComponent "{59A00AB0ADA5103A}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  InventoryItemComponent "{59A00AB708486D53}" {
+   Attributes SCR_ItemAttributeCollection "{59A00AB712F7FCF4}" {
+    ItemDisplayName UIInfo "{59A00AB715DB915C}" {
+     Name "Tuna"
+     Description "A tuna"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59A00AB71F7B783D}" {
+     SizeSetupStrategy Volume
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59A00AB725B1FFF0}" {
+     IkSettings {
+      ItemIKSettings "{59A00AB610F2962E}" {
+      }
+     }
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59A00AB73C5BAF44}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 180
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59A00AB7A828279B}" {
+      ActionType Bandage
+     }
+    }
+    CommonItemType "FOOD"
+    m_SlotType SLOT_ANY
+   }
+  }
+  RigidBody "{59A00AB098F29DE2}" {
+   Enabled 0
+  }
+  SCR_ConsumableItemComponent "{59A00AB77EC96E69}" {
+   m_eAnimVariable MAP
+  }
+  ActionsManagerComponent "{59A00AB74365C87C}" {
+   ActionContexts {
+    UserActionContext "{59A00AB74AABD301}" {
+     ContextName "default"
+     Position PointInfo "{59A00AB74E78079F}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59A00AB75923A927}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59A00AB76052165A}" {
+      Name "#AR-Inventory_PickUp Tuna"
+     }
+    }
+   }
+  }
+ }
+ coords -0.591 0.116 0.071
+ angleX 1.76
+ angleY 32.617
+ angleZ -67.322
+}
