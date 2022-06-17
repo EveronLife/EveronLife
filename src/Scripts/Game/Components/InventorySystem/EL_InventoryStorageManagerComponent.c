@@ -86,18 +86,18 @@ modded class SCR_InventoryStorageManagerComponent
 		SCR_InventorySlotUI slotUi = cb.m_pMenu.EL_GetFocusedSlotUI();
 		if (!slotUi)
 		{
-			return super.EquipAny(storage, item, prefered, cb);
+			return false;
 		}
 
 		EL_InventoryQuantityComponent targetQuantityComponent = slotUi.EL_GetQuantityComponent();
 		if (!targetQuantityComponent)
 		{
-			return super.EquipAny(storage, item, prefered, cb);
+			return false;
 		}
 
 		if (!targetQuantityComponent.CanCombine(quantityComponent))
 		{
-			return super.EquipAny(storage, item, prefered, cb);
+			return false;
 		}
 
 		targetQuantityComponent.Combine(quantityComponent, this);
