@@ -142,6 +142,9 @@ modded class SCR_InventoryStorageManagerComponent
 			return null;
 		}
 
+		int targetFree = 0;
+		EL_InventoryQuantityComponent targetQuantityComponent = null;
+
 		for (int i = 0; i < count; i++)
 		{
 			IEntity otherItem = items.Get(i);
@@ -169,10 +172,18 @@ modded class SCR_InventoryStorageManagerComponent
 				continue;
 			}
 
-			return quantityComponent;
+			int max = quantityComponent.GetQuantityMax();
+			int quantity = quantityComponent.GetQuantity();
+
+			int free = max - quantity;
+			if (free > targetFree)
+			{
+				targetFree = free;
+				targetQuantityComponent = quantityComponent;
+			}
 		}
 
-		return null;
+		return targetQuantityComponent;
 	}
 
 	void EL_Combine(EL_InventoryQuantityComponent itemA, EL_InventoryQuantityComponent itemB)
