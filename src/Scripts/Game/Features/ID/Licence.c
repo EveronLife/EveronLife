@@ -5,7 +5,7 @@ class Licence
 	
 	void Licence(string widgetname, string displayname, Widget m_wPIPRoot)
 	{
-		m_wRenderTargetTextureWidget = RTTextureWidget.Cast(m_wPIPRoot.FindAnyWidget("RTTexture0"));
+		m_wRenderTargetTextureWidget = RTTextureWidget.Cast(wPIPRoot.FindAnyWidget("RTTexture0"));
 		licenceTextWidget = TextWidget.Cast(m_wRenderTargetTextureWidget.FindAnyWidget(widgetname));	
 		if(licenceTextWidget)
 		{
