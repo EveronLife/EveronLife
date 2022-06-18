@@ -1,7 +1,7 @@
 class Licence
 {
 	protected RTTextureWidget m_wRenderTargetTextureWidget;
-	TextWidget licenceTextWidget;
+	TextWidget licence_TextWidget;
 	
 	void Licence(string widgetname, string displayname, Widget wPIPRoot)
 	{
