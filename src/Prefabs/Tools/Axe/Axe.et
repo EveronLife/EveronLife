@@ -1,0 +1,103 @@
+GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
+ ID "50989DC991E68512"
+ components {
+  WeaponSoundComponent "{59965ADCBEA461A0}" {
+   Filenames {
+    "{430CD8162D17C2FF}Sounds/Weapons/_SharedData/Melee/Weapons_Melee_Pistol.acp" "{8D040E18DFEC29AF}Sounds/Weapons/_SharedData/PickUp/Weapons_PickUp_HandGun.acp"
+   }
+  }
+  MeshObject "{59908096775F151D}" {
+   Object "{B24B07C19FECA100}Assets/Tools/Axe.xob"
+  }
+  Hierarchy "{59965ADC3651353A}" {
+  }
+  RigidBody "{599080966B9BB4E4}" {
+   ModelGeometry 1
+  }
+  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
+   m_fDamage 65
+   m_fRange 2
+   m_fExecutionTime 2
+   m_aCollisionProbesPos {
+    0 -0.05 0 0 -0.025 0.05
+   }
+  }
+  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+   Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+    ItemDisplayName UIInfo "{5990AD6EC4FAB1CD}" {
+     Name "Axe"
+     Description "Axe for wood cutting "
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5990AD6B74ECA5AE}" {
+     Weight 3
+     SizeSetupStrategy Volume
+     ItemVolume 50
+     RestingUP Forward
+     RestingAdditiveRotationLS 0 90 0
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+     IkSettings {
+      ItemIKSettings "{59927B2BFF57A5D5}" {
+       Jumping 1
+       Lowered 1
+       ProneTurn 1
+       IkSettingsStand 4
+      }
+     }
+     AnimationInstance "{D01958BBC8FE6598}anims/workspaces/player/player_main_pistol_beretta.asi"
+     AnimationIKPose "{6AAD163C7072AF0F}Assets/Weapons/Handguns/M9/anims/anm/p_m9_ik.anm"
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5990AD67802E3130}" {
+      CameraDistanceToItem 0.42
+      CameraOffset 0.17 0 0
+      ItemRenderRotation -90 90 0
+     }
+    }
+    m_SlotType SLOT_WEAPONS_STORAGE
+   }
+  }
+  SimpleSoundComponent "{59072B578A46AF84}" {
+   Enabled 0
+   Filenames + {
+    ""
+   }
+  }
+  WeaponComponent "{5990809682E12ADF}" {
+   SignalsSourceAccess SignalsSourceAccessClass "{59927B29CCA9EA6F}" {
+   }
+   useAimingType None
+   WeaponType Handgun
+   SoundInt 1010200
+   UIInfo WeaponUIInfo "{59927B2B73B2CA77}" {
+    Name "Axe"
+    Description "Axe for wood cutting"
+   }
+   WeaponSlotType "secondary"
+  }
+  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
+   ActionContexts {
+    UserActionContext "{5086F9ADF588DCA4}" {
+     ContextName "default"
+    }
+   }
+   additionalActions {
+    SCR_EquipWeaponHolsterAction "{5990AD67F23F879F}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59965ADC467073C4}" {
+     }
+    }
+    SCR_EquipWeaponAction "{59927B282708471D}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59927B281D9EA33A}" {
+      Name "#AR-Inventory_Equip"
+     }
+    }
+   }
+  }
+ }
+}

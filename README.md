@@ -41,7 +41,7 @@ How to [customize your server](docs/custom_server.md) (including how to set one 
 *Quick start guide for server owners using Docker coming soon.*
 
 ## 📖 Documentation
-Detailed information for server owners and our technical documentation can be found here [here](docs/index.md).
+Detailed information for server owners and our technical documentation can be found [here](docs/index.md).
 
 ## 🛠️ Contributing
 If you want to contribute to this community effort, please check out our [contributor guide](.github/CONTRIBUTING.md) and [development setup instructions](docs/development_setup.md).
