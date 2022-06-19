@@ -27,15 +27,6 @@ $object "" {
       0 -0 0.0518478
      
     }
-    $node "TailTip_end" {
-     $frame {
-       1 0 0
-       0 1 0
-       0 0 1
-       -0 0 0.0518479
-      
-     }
-    }
    }
   }
   $node "Head" {
@@ -46,20 +37,27 @@ $object "" {
      0.0006309 -0.0199453 -0.0259011
     
    }
-   $node "Head_end" {
-    $frame {
-      1 0 0
-      0 1 0
-      0 0 1
-      -0 0 0.1139094
-     
-    }
-   }
   }
  }
  $materials {
   $material "fish" {
    #UVset 0
+  }
+ }
+ $colliders {
+  $capsule "UCS_fish" {
+   $frame {
+     1 0 0
+     0 -0 1
+     0 -1 -0
+     0 0.0036599 -0.0222246
+    
+   }
+   #weight 0
+   #material "Flesh_base_47A240CFE62D784B"
+   #layers "FireGeo"
+   #radius 0.0657
+   #length 0.0825
   }
  }
  $lod 0 {

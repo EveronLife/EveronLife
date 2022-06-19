@@ -9,6 +9,16 @@ MetaFileClass {
      AssignedMaterial "{916D6119C2E7E64C}Assets/Items/Fish/Minnow/Data/Material.emat"
     }
    }
+   GeometryParams {
+    GeometryParam UCS_fish {
+     LayerPreset "FireGeo"
+     SurfaceProperties {
+      "{47A240CFE62D784B}Common/Materials/Game/Core/flesh_base.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
    Common TXOCommonClass "{599B2A0A62AB6874}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
    }
   }
