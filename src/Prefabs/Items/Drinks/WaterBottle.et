@@ -28,7 +28,7 @@ GenericEntity {
        BindingName "Gadget"
       }
      }
-     HandAdditiveRotation 35 0 -90
+     HandAdditiveRotation 50 0 -90
      HandAdditiveTranslation 0.12 0.02 0
     }
     CustomAttributes {
