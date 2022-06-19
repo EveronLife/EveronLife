@@ -1,0 +1,48 @@
+GenericEntity : "{69FC0AAC5FFE1288}Prefabs/Weapons/Core/Melee_Base.et" {
+ ID "50989DC991E68512"
+ components {
+  SignalsManagerComponent "{5990AD6FBA6EEF6D}" {
+  }
+  MeshObject "{59908096775F151D}" {
+  }
+  RigidBody "{599080966B9BB4E4}" {
+  }
+  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
+  }
+  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+   Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+    ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+     AnimationIKPose "{09E1B16C87261340}Assets/Weapons/Handguns/M9/anims/anm/p_m9_idle.anm"
+    }
+   }
+  }
+  SimpleSoundComponent "{59072B578A46AF84}" {
+  }
+  WeaponComponent "{5990809682E12ADF}" {
+  }
+  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
+   ActionContexts {
+    UserActionContext "{5086F9ADF588DCA4}" {
+     ContextName "default"
+     Position PointInfo "{5086F9ADE97650DF}" {
+      Offset 0 0.16 0
+     }
+     Radius 0.6
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{5990AD6EEBCA9EAB}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5990AD68A511720A}" {
+      Name "#AR-Inventory_PickUp"
+     }
+     "Sort Priority" 2
+    }
+   }
+  }
+  RplComponent "{59908095DD42CB50}" {
+  }
+ }
+}
