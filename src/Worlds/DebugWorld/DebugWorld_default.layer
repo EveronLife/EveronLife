@@ -1,0 +1,13 @@
+GenericEntity {
+ components {
+  MeshObject "{59849E43B96A4D88}" {
+   Object "{DF73CA3188E9743C}Assets/Items/Vehicles/VehicleKey/VehicleKey.xob"
+  }
+ }
+ coords 110.75 0.617 136.536
+ scale 0.015
+}
+GenericEntity VehicleKey_1 : "{2C55945E5BAB108E}Prefabs/Items/Vehicles/VehicleKey.et" {
+ coords 110.808 0.922 134.854
+ angleZ 90
+}

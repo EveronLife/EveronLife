@@ -1,49 +1,49 @@
 GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
  ID "508AB2013EEE1E00"
  components {
-  SoundComponent "{598779B1D923222E}" {
+  SoundComponent "{598779B1CA2CDBAD}" {
    Filenames {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
    OnFrameUpdate 0
   }
+  EL_VehicleKeyComponent "{598779B5FE37ED05}" {
+   m_DebugIdentifier ""
+  }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
-     Name "Apple"
-     Description "This is an Apple from an Apple Tree"
+     Name "Vehicle Key"
+     Description "This is a key to keep your vehicle safe."
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
-     Weight 0.2
+     Weight 0.1
      SizeSetupStrategy Volume
+     ItemDimensions 20 20 20
      ItemVolume 113
     }
-    ItemAnimationAttributes ItemAnimationAttributes "{598779B1D9232235}" {
+    ItemAnimationAttributes ItemAnimationAttributes "{598779B1CA2CDBB8}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
      AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
      AnimationAttachments {
-      AnimationAttachmentInfo "{598779B1D923223B}" {
+      AnimationAttachmentInfo "{598779B1CA2CDBBC}" {
        AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
        AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
        BindingName "Gadget"
       }
      }
-     HandAdditiveRotation 90 0 -90
-     HandAdditiveTranslation 0 0.02 0
     }
     CustomAttributes {
-     ItemActionAnimAttributes "{598779B1D9232238}" {
+     ItemActionAnimAttributes "{598779B1CA2CDBC1}" {
       ActionType Bandage
      }
     }
    }
   }
-  MeshObject "{59652C0ACB87CEB7}" {
-   Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
-   LODScale 0.1
-   PixelSizeScale 10
+  MeshObject "{598779B1CA2CDBC7}" {
+   Object "{DF73CA3188E9743C}Assets/Items/Keys/VehicleKey/VehicleKey.xob"
   }
-  RigidBody "{598779B1D9232241}" {
+  RigidBody "{598779B1CA2CDBC6}" {
    Enabled 0
    LinearDamping 0.5
    AngularDamping 0.5
@@ -51,12 +51,19 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    ModelGeometry 1
    CCDRadius 0.015
   }
-  SCR_ConsumableItemComponent "{598779B1D9232247}" {
+  SCR_ConsumableItemComponent "{598779B1CA2CDBC4}" {
    m_eAnimVariable ADRIANOV
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    additionalActions {
+    SCR_PickUpItemAction "{51EC842E3A187379}" {
+     UIInfo UIInfo "{51EC842E413D3E1D}" {
+      Name "Vehicle key"
+     }
+    }
    }
   }
  }
+ coords 110.808 0.922 134.854
+ angleZ 90
 }

@@ -1,0 +1,9 @@
+MatPBRBasic {
+ DiffuseIBL 0 0 0 1
+ SpecularMul 2.631
+ RoughnessScale 0.524
+ MetalnessScale 2.5
+ DielectricReflectance 0.05
+ BCRMap "{B81862AD893EBC4C}Assets/Items/Vehicles/VehicleKey/VehicleKey 512x512 _BaseColor.edds"
+ NMOMap "{AA356592EEA065FA}Assets/Items/Vehicles/VehicleKey/VehicleKey 512x512 RGB Alpha.edds"
+}

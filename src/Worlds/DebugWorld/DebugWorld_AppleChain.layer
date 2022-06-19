@@ -24,11 +24,11 @@ $grp GenericEntity {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+       "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+      m_ItemToReceive "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {
@@ -492,7 +492,7 @@ $grp GenericEntity {
  AppleTraderTestItems {
   coords 110.275 0.956 135.088
   {
-   $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
+   $grp GenericEntity : "{C9D661E5B0714712}Prefabs/Items/Food/Apple.et" {
     {
      coords -0.137 -0.036 -0.08
     }
