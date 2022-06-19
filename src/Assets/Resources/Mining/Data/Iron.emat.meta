@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{29473C87C35726A4}Assets/Resources/Mining/Data/Iron.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

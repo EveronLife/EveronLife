@@ -1,9 +1,0 @@
-GenericEntity {
- ID "598AA13F5B0799BA"
- components {
-  MeshObject "{598AA13F01B40415}" {
-   Object "{4BD82015B5C03C4F}Assets/Props/Ores/Copper/CopperOre_01.xob"
-  }
- }
- coords 102.911 0.917 138.176
-}
