@@ -2,10 +2,11 @@ MetaFileClass {
  Name "{533489D9F50619FD}Assets/Items/Fish/Minnow/minnow.xob"
  Configurations {
   FBXResourceClass PC {
+   ExportSkinning 1
    MaterialAssigns {
-    MaterialAssignClass "{599B2A0A62AD528B}" {
-     SourceMaterial "Material"
-     AssignedMaterial "{916D6119C2E7E64C}Assets/Items/Fish/Minnow/data/Material.emat"
+    MaterialAssignClass "{59A267C35B63976E}" {
+     SourceMaterial "fish"
+     AssignedMaterial "{916D6119C2E7E64C}Assets/Items/Fish/Minnow/Data/Material.emat"
     }
    }
    Common TXOCommonClass "{599B2A0A62AB6874}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {

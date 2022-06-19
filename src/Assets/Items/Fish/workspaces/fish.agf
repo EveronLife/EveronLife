@@ -1,0 +1,66 @@
+AnimSrcGraphFile {
+ Sheets {
+  AnimSrcGraphSheet Fish {
+   Nodes {
+    AnimSrcNodeStateMachine MasterControl {
+     EditorPos 469 141
+     states {
+      AnimSrcNodeState Swim {
+       EditorPos 469.1 142
+       Child "Switch 1"
+       StartCondition "true"
+       TimeStorage "Normalized Time"
+       IsExit 0
+       PassThrough 0
+      }
+     }
+    }
+    AnimSrcNodeSource SlopHard {
+     EditorPos 466.3 144.9
+     Source "Fish.InHand.SlopHard"
+     Interpolate 1
+     Predictions {
+      AnimSrcNodePrediction "{59A623D610198AED}" {
+       Name ""
+       Bone "Head"
+       PercentTime 45.9
+       Translation 0
+       Rotation 0
+       MainPath 0
+      }
+      AnimSrcNodePrediction "{59A623D610198A04}" {
+       Name ""
+      }
+     }
+    }
+    AnimSrcNodeSwitch "Switch 1" {
+     EditorPos 469.3 143.9
+     BlendTime 0
+     FirstProbabilities "70 20 10"
+     SwitchItems {
+      AnimSrcNodeSwitchItem "{59A2A14936B35E85}" {
+       Child "SlopHard"
+       NextProbabilities "70 25 5"
+      }
+      AnimSrcNodeSwitchItem "{59A2A149660B84F3}" {
+       Child "SlopGentle"
+       NextProbabilities "10 30 60 "
+      }
+      AnimSrcNodeSwitchItem "{59A2C806173FBA32}" {
+       Child "Idle"
+       NextProbabilities "10 20 70"
+      }
+     }
+    }
+    AnimSrcNodeSource Idle {
+     EditorPos 471.3 145.2
+     Source "Fish.InHand.Idle"
+    }
+    AnimSrcNodeSource SlopGentle {
+     EditorPos 468.3 145.9
+     Source "Fish.InHand.SlopGentle"
+    }
+   }
+  }
+ }
+}

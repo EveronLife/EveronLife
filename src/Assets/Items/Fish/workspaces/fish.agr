@@ -1,0 +1,11 @@
+AnimSrcGraph {
+ AnimSetTemplate "{64AE5A6CC7F1E41F}Assets/Items/Fish/workspaces/fish.ast"
+ ControlTemplate AnimSrcGCT "{59A267CE96B1DCCC}" {
+ }
+ Debug AnimSrcGD "{59A267CE96B1DCDF}" {
+ }
+ GraphFilesResourceNames {
+  "{595222D66E9759DC}Assets/Items/Fish/workspaces/fish.agf"
+ }
+ DefaultRunNode "MasterControl"
+}

@@ -1,0 +1,14 @@
+AnimSetInstanceSource {
+ Template "{64AE5A6CC7F1E41F}Assets/Items/Fish/workspaces/fish.ast"
+ Lines {
+  AnimSetInstanceSource_Line "Fish.InHand.SlopGentle" {
+   Resource "{0EAED73C075E8FDA}Assets/Items/Fish/workspaces/anims/FishSlopGentle.anm"
+  }
+  AnimSetInstanceSource_Line "Fish.InHand.Idle" {
+   Resource "{9F9F50E67EE549F5}Assets/Items/Fish/workspaces/anims/FishIdle.anm"
+  }
+  AnimSetInstanceSource_Line "Fish.InHand.SlopHard" {
+   Resource "{93A253507766BDEB}Assets/Items/Fish/workspaces/anims/FishSlopHard.anm"
+  }
+ }
+}
