@@ -27,4 +27,6 @@ Layer GravelChain {
 }
 Layer CementChain {
  Index 9
+Layer LoggingChain {
+ Index 7
 }
