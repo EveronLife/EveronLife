@@ -1,0 +1,52 @@
+SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart_Bottom.et" {
+ ID "515C604CC7CADD44"
+ components {
+  InventoryItemComponent "{598695F67B4E3D6D}" {
+   Attributes SCR_ItemAttributeCollection "{598695F67AD79D4E}" {
+    ItemDisplayName UIInfo "{598695F67C337121}" {
+     Name "Big log"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{598695F671121830}" {
+     Weight 100
+     SizeSetupStrategy Manual
+     ItemDimensions 10 100 10
+     ItemVolume 10000
+     DimensionScaler 1
+     RestingAdditiveRotationLS 0 0 90
+     RestingAdditiveOffsetLS 0 -1 0
+    }
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
+  Hierarchy "{5724272A5B23398D}" {
+   Enabled 0
+  }
+  RigidBody "{5984C2E4CF34F75B}" {
+   ModelGeometry 1
+  }
+  ActionsManagerComponent "{59868E192E17132D}" {
+   ActionContexts {
+    UserActionContext "{59868E1921CDA2F2}" {
+     ContextName "default"
+     Position PointInfo "{59868E193801F33D}" {
+      Offset 0 3.2 0
+     }
+     Radius 14.278
+    }
+   }
+   additionalActions {
+    EL_LoadAction "{598694C8149C2632}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{598694C82902C57E}" {
+      Name "Load into vehicle"
+     }
+     Duration 1
+    }
+   }
+  }
+  RplComponent "{5984C2E16DB4F46F}" {
+  }
+ }
+}

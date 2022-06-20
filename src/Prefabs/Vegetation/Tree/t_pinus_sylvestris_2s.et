@@ -1,0 +1,40 @@
+Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
+ ID "0F2AA6B42CA78628"
+ components {
+  SCR_DestructionMultiPhaseComponent "{598E73985119A506}" {
+   "Additional hit zones" {
+    HitZone Tree {
+     ColliderNames {
+      "UTM_F"
+     }
+     HZDefault 1
+     "Kinetic multiplier" 0.1
+    }
+   }
+   EnableDamage 0
+   m_fBaseHealth 300
+   m_fDamageThresholdMinimum 50
+   m_DestroySpawnObjects {
+    SCR_PrefabSpawnable "{598E7398B7FBDF2D}" {
+     m_vOffsetPosition 0 0.3 0
+     m_Prefabs {
+      "{22DE91EBC56FCB5E}Prefabs/Vegetation/Tree/Dst/t_pinus_sylvestris_2f_dst_base.et"
+     }
+     m_fDamageToImpulse 0.01
+     m_fRandomVelocityLinear 0.1
+    }
+    SCR_PrefabSpawnable "{598E7398C91FD4B0}" {
+     m_Prefabs {
+      "{1263BEF0B822A24A}Prefabs/Vegetation/Tree/t_pinus_sylvestris_stump_01.et"
+     }
+     m_fDamageToImpulse 0
+     m_fRandomVelocityLinear 0
+     m_fRandomVelocityAngular 0
+    }
+   }
+   m_eMaterialSoundType WOOD_SOLID
+  }
+  RplComponent "{598739526E165B57}" {
+  }
+ }
+}

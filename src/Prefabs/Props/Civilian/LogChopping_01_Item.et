@@ -1,0 +1,51 @@
+GenericEntity : "{4CC2C69DE1AEF103}Prefabs/Props/Core/Destructible_Props_Base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  InventoryItemComponent "{5984C2E0257B8E1D}" {
+   Attributes SCR_ItemAttributeCollection "{5984C2E02704F8ED}" {
+    ItemDisplayName UIInfo "{5984C2E0394A0E8D}" {
+     Name "Log"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5984C2E038F37739}" {
+     DimensionScaler 0.01
+    }
+    m_SlotType SLOT_LOADOUT_STORAGE
+   }
+  }
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{A8098145E6F0B4C3}Assets/Props/Civilian/LogChopping_01/LogChopping_01.xob"
+  }
+  RigidBody "{5872F0EB7DFB5A9D}" {
+   Active Active
+   LinearDamping 0.1
+   AngularDamping 0.1
+   ResponseIndex "TinyDestructible"
+   Static 0
+  }
+  ActionsManagerComponent "{5984C2E03FACA25E}" {
+   ActionContexts {
+    UserActionContext "{5984C2E03E8CCECD}" {
+     ContextName "default"
+     Position PointInfo "{5984C2E0325949BC}" {
+      Offset 0 0.35 0
+     }
+     Radius 11.859
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{5984C2E0376AFA67}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5984C2E04953C5BB}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+ coords 0 0 0
+}
