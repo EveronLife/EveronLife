@@ -1,6 +1,6 @@
 StaticModelEntity : "{81CB1B2631584427}Prefabs/Props/Construction/CementPile.et" {
- coords 144.74 0.911 137.38
+ coords 145.712 0.939 138.32
 }
 GenericEntity : "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et" {
- coords 145.008 0.001 134.94
+ coords 145.694 0.001 135.326
 }

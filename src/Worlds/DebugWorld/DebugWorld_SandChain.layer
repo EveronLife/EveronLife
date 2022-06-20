@@ -1,6 +1,6 @@
-StaticModelEntity : "{3D3B9A6F9894BF5F}Prefabs/Props/Construction/SandPile.et" {
- coords 137.756 0.17 139.186
-}
 GenericEntity : "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et" {
  coords 137.741 0.001 134.975
+}
+GenericEntity : "{DEB57429CD49782D}Prefabs/Props/Construction/SandPile_01.et" {
+ coords 137.993 0.001 139.951
 }
