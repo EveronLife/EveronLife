@@ -3,10 +3,11 @@ StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortification
  components {
   MeshObject "{5272E314F6439B95}" {
    Object "{155FCD2AE8BA59A3}Assets/Structures/Military/Fortifications/DirtMounds/DirtCover_01_short.xob"
-  }
-  SimpleSoundComponent "{598A74212B34B29C}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   Materials {
+    MaterialAssignClass "{59A84535676B3286}" {
+     SourceMaterial "DirtCover_01"
+     AssignedMaterial "{840D530398C0062E}Assets/Props/CementMound/Data/CementCover_01.emat"
+    }
    }
   }
   ActionsManagerComponent "{598A74219C9D30C8}" {
@@ -29,7 +30,7 @@ StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortification
      }
      Duration 10
      m_GatherItemDisplayName "Cement Bag"
-     m_GatherItemPrefab "{D58674633332DC86}Prefabs/Items/Resources/Cement_bag.et"
+     m_GatherItemPrefab "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et"
     }
    }
   }

@@ -1,0 +1,29 @@
+GenericEntity : "{EAD49AAAD13457F0}Prefabs/Props/Construction/GravelPile_01/SandPile_01_base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{59A84AD0F9723633}" {
+   ActionContexts {
+    UserActionContext "{59A84AD0F0C8E7A4}" {
+     ContextName "default"
+     Position PointInfo "{59A84AD0B7BC0C2D}" {
+      Offset 0 0.8 0
+     }
+     Radius 2.5
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{59A84AD0D3CC04BC}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 10
+     m_GatherItemDisplayName "Sandbag"
+     m_GatherItemPrefab "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et"
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+}
