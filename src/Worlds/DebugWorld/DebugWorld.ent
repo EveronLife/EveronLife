@@ -22,3 +22,6 @@ Layer TomatoChain {
 Layer LoggingChain {
  Index 7
 }
+Layer DebugWorldActions {
+ Index 8
+}
