@@ -1,9 +1,7 @@
-EL_GameModeRoleplay GameMode_Roleplay1 : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
-}
 $grp GenericEntity {
  FishTrader {
-  coords 119.737 0.156 130.419
-  angleY 88.493
+  coords 123.613 -0.006 133.844
+  angleY 41.822
   {
    GenericEntity FishTradeContainer {
     components {
@@ -68,7 +66,7 @@ $grp GenericEntity {
       Enabled 1
      }
     }
-    coords 0.183 0.917 -0.29
+    coords 0.184 0.917 -0.291
     angleY -14.907
     Flags 1027
    }
@@ -457,84 +455,42 @@ $grp GenericEntity {
      RplComponent "{59670CC3FB68C515}" {
      }
     }
-    coords -0.024 0.001 0.872
+    coords -0.023 0.001 0.871
     angleY 171.533
    }
    $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
     {
-     coords 0.147 0.019 -0.142
+     coords 0.148 0.019 -0.143
      angleY 82.104
     }
     {
-     coords -1.053 0.019 -0.308
+     coords -1.052 0.019 -0.309
      angleY 82.104
     }
    }
    GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01_white.et" {
-    coords -1.331 0.001 0.714
+    coords -1.33 0.001 0.713
     angleX 3.15
     angleY 151.694
     angleZ -1.695
    }
    GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {
-    coords -1.334 0.918 -0.261
+    coords -1.333 0.918 -0.262
    }
   }
  }
  FishTraderTestItems {
-  coords 119.119 0.99 131.116
-  angleY 88.493
+  coords 122.682 0.828 133.872
+  angleY 41.822
   {
-   GenericEntity : "{0F992ACA7623E9C6}Prefabs/Items/Food/Cod.et" {
-    coords 0.362 0.109 0.346
-    angleX -2.679
-    angleY 25.942
-    angleZ -70.082
-   }
-   GenericEntity : "{4BCC1BF4C0C9C922}Prefabs/Items/Food/Shark.et" {
-    coords -1.372 0.426 0.275
-    angleX 0.627
-    angleY 26.393
-    angleZ -22.41
-   }
    GenericEntity : "{5D91718B5DAB0A08}Prefabs/Items/Food/Mackerel.et" {
-    coords -0.212 0.099 -0.033
-    angleX -2.281
-    angleY 32.219
-    angleZ -77.319
-   }
-   GenericEntity : "{7610D20D2871CCF5}Prefabs/Items/Food/Tuna.et" {
-    coords -0.59 0.116 0.071
-    angleX 1.76
-    angleY 32.617
-    angleZ -67.322
+    coords -0.133 0.104 0
+    angleZ -83.827
    }
    GenericEntity : "{8A39F762731AAFE2}Prefabs/Items/Food/Minnow.et" {
-    coords -0.092 0.113 -0.13
-    angleX -0.461
-    angleY 31.954
-    angleZ -70.044
-   }
-   GenericEntity : "{966F7343FABBA35F}Prefabs/Items/Food/Trout.et" {
-    components {
-     InventoryItemComponent "{599F688215436AEE}" {
-      Attributes SCR_ItemAttributeCollection "{599F68821F3C6B32}" {
-       ItemPhysAttributes ItemPhysicalAttributes "{599F68822EB21C0E}" {
-        Weight 0.2
-       }
-      }
-     }
-    }
-    coords -0.398 0.113 -0.071
-    angleX -1.091
-    angleY 36.188
-    angleZ -60.382
-   }
-   GenericEntity : "{B5098F0017742C37}Prefabs/Items/Food/Carp.et" {
-    coords 0.519 0.141 0.028
-    angleX 3.119
-    angleY 35.843
-    angleZ -81.977
+    coords 0.001 0.086 -0.003
+    angleY 0.304
+    angleZ -90.219
    }
   }
  }

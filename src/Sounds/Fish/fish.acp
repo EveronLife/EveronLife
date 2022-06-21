@@ -1,0 +1,159 @@
+AudioClass {
+ sounds {
+  SoundClass {
+   id 9225
+   name "SLAP"
+   tl -27.203 -81.124
+   conns {
+    ConnectionsClass connections {
+     id 14
+     links {
+      ConnectionClass connection {
+       id 17426
+       port 65
+      }
+     }
+    }
+   }
+   outState 16395
+   outStatePort 24583
+   transformation Bone
+   boneName "TailTip"
+   type "One shot"
+  }
+ }
+ mixers {
+  MixerClass {
+   id 16395
+   name "OutputState 16"
+   tl 184.333 -278
+   res "{50BB5461D7BEDFCC}Sounds/Master.afm"
+   iops {
+    IOPConnectionClass iopConnection {
+     port 24583
+     conn {
+      ConnectionsClass connections {
+       id 5
+       links {
+        ConnectionClass connection {
+         id 9225
+         port 65
+        }
+       }
+      }
+     }
+    }
+   }
+   path "{50BB5461D7BEDFCC}Sounds/Master.afm"
+   inputs {
+    "ANM_Footsteps" "ANM_Voice" "WPN_Handling" "WPN_Shots" "WPN_Explosions" "WNP_BulletHits" "CHAR" "ENV_Ambients" "VEH_Animations" "Impacts" "Dialogue" "Music" "ENV_Objects" "UI" "VEH_Engine" "VEH_Tires" "VON" "SFX" "ENV_Ambient_NoAtt" "SFX_Reverb" "VON_Reverb" "Dialogue_Reverb"
+   }
+  }
+ }
+ shaders {
+  ShaderClass {
+   id 17426
+   name "Shader 17"
+   tl -251.25 -90
+   conns {
+    ConnectionsClass connections {
+     id 0
+     links {
+      ConnectionClass connection {
+       id 8196
+       port 65
+      }
+     }
+    }
+   }
+   iops {
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 24
+       links {
+        ConnectionClass connection {
+         id 18460
+         port 65
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 15
+       links {
+        ConnectionClass connection {
+         id 19475
+         port 65
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 2
+     conn {
+      ConnectionsClass connections {
+       id 17
+       links {
+        ConnectionClass connection {
+         id 20501
+         port 65
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+ amplitudes {
+  AmplitudeClass {
+   id 19475
+   name "Amplitude 19"
+   tl -576.25 -181.25
+   curve Logarithm
+   outerRange 324.1
+  }
+ }
+ frequency {
+  FrequencyClass {
+   id 20501
+   name "Frequency 20"
+   tl -570 -100
+   enableDistanceAtt 1
+   filterStrength 2
+  }
+ }
+ banks_local {
+  BankLocalClass {
+   id 8196
+   name "SLAP"
+   tl -577 -353.25
+   Volume -5.361
+   "Volume variance" 4.525
+   Pitch 0.402
+   "Pitch variance" 2.145
+   Samples {
+    AudioBankSampleClass "Sample(1)" {
+     Filename "{69080E088D39F674}Assets/Items/Fish/fish.wav"
+    }
+   }
+  }
+ }
+ spatialities {
+  SpatialityClass {
+   id 18460
+   name "Spatiality 18"
+   tl -573.75 -255
+   spatialFactor 1
+  }
+ }
+ version 1
+ listenerWindowModel "{533489D9F50619FD}Assets/Items/Fish/Minnow/minnow.xob"
+}

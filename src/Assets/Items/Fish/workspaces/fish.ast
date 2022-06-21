@@ -1,0 +1,15 @@
+AnimSetTemplateSource {
+ Groups {
+  AnimSetTemplateSource_AnimationGroup "{59A2AB6E3974E478}" {
+   Name "Fish"
+   Animations {
+    "Idle"
+    "SlopGentle"
+    "SlopHard"
+   }
+   Columns {
+    "InHand"
+   }
+  }
+ }
+}

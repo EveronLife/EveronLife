@@ -1,5 +1,5 @@
-Layer default {
- Index 0
+Layer Fish {
+ Index 7
 }
 Layer Terrain {
  Index 1

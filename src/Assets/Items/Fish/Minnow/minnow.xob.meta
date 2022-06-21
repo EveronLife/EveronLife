@@ -1,0 +1,42 @@
+MetaFileClass {
+ Name "{533489D9F50619FD}Assets/Items/Fish/Minnow/minnow.xob"
+ Configurations {
+  FBXResourceClass PC {
+   ExportSkinning 1
+   MaterialAssigns {
+    MaterialAssignClass "{59A267C35B63976E}" {
+     SourceMaterial "fish"
+     AssignedMaterial "{916D6119C2E7E64C}Assets/Items/Fish/Minnow/Data/Material.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UCS_fish {
+     LayerPreset "FireGeo"
+     SurfaceProperties {
+      "{47A240CFE62D784B}Common/Materials/Game/Core/flesh_base.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
+   Common TXOCommonClass "{599B2A0A62AB6874}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{599B2A0A62AB69B9}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{599B2A0A62AB6968}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{599B2A0A62AB690B}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{599B2A0A62AB6921}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}

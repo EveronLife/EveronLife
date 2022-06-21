@@ -1,0 +1,88 @@
+GenericEntity {
+ ID "59946AB95B4C15F6"
+ components {
+  SoundComponent "{5994322BC07DAA22}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  InventoryItemComponent "{5994322B1DE33BE4}" {
+   Attributes SCR_ItemAttributeCollection "{59943707E0BE14E7}" {
+    ItemDisplayName UIInfo "{59943707E5B99CE5}" {
+     Name "Minnow"
+     Description "A simple fish, common throughout small streams."
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59943707F2EC61F7}" {
+     Weight 0.2
+     SizeSetupStrategy Volume
+     RestingUP Right
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59943707F44D7B2C}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59972AA05529D9B3}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 90 180
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{599437079BA45845}" {
+      ActionType Bandage
+     }
+    }
+    CommonItemType "FOOD"
+    m_Size SLOT_2x1
+    m_SlotType SLOT_ANY
+   }
+   WbPlacementFromAttributes 1
+  }
+  MeshObject "{599361CD61346D01}" {
+   Object "{533489D9F50619FD}Assets/Items/Fish/Minnow/minnow.xob"
+   PixelSizeScale 10
+  }
+  RigidBody "{5994322AB598DCCA}" {
+   Active Inactive
+   LinearDamping 0.5
+   AngularDamping 0.5
+   ModelGeometry 1
+   CCDRadius 0.015
+  }
+  SCR_ConsumableItemComponent "{599437076871B234}" {
+   m_eAnimVariable MAP
+  }
+  ActionsManagerComponent "{5994322B354CA40A}" {
+   ActionContexts {
+    UserActionContext "{5994370720BBB3AF}" {
+     ContextName "default"
+     Position PointInfo "{59943707266E5A25}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{5994370713981983}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{599437066634FB3F}" {
+      Name "#AR-Inventory_PickUp Minnow"
+     }
+    }
+   }
+  }
+  BaseItemAnimationComponent "{59A634C05DF3A0AC}" {
+   AnimGraph "{765C3C6CF03430EC}Assets/Items/Fish/workspaces/fish.agr"
+   AnimInstance "{9B3669B7EC3D6202}Assets/Items/Fish/workspaces/fish.asi"
+   AlwaysActive 1
+  }
+  RplComponent "{5994322BC7BACA08}" {
+  }
+ }
+ coords -0.092 0.113 -0.13
+ angleX -0.461
+ angleY 31.954
+ angleZ -70.044
+}

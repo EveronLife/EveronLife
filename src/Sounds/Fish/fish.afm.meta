@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{A320E60BDBA204DE}Assets/Items/Fish/fish.afm"
+ Configurations {
+  AudioOutputStateResourceClass PC {
+  }
+  AudioOutputStateResourceClass XBOX_ONE : PC {
+  }
+  AudioOutputStateResourceClass XBOX_SERIES : PC {
+  }
+  AudioOutputStateResourceClass PS4 : PC {
+  }
+  AudioOutputStateResourceClass HEADLESS : PC {
+  }
+ }
+}

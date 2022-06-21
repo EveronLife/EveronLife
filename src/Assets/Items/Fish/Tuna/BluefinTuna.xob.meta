@@ -1,0 +1,31 @@
+MetaFileClass {
+ Name "{A7E02E7A0FE59E71}Assets/Items/Fish/Tuna/BluefinTuna.xob"
+ Configurations {
+  FBXResourceClass PC {
+   MaterialAssigns {
+    MaterialAssignClass "{599F7C1950CC0188}" {
+     SourceMaterial "DefaultGeneratedMaterial"
+     AssignedMaterial "{22FEE8D2F295BA15}Assets/Items/Fish/Tuna/data/DefaultGeneratedMaterial.emat"
+    }
+   }
+   Common TXOCommonClass "{599F7C1950CA792A}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{599F7C1950CA0600}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{599F7C1950CA0635}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{599F7C1950CA07EF}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{599F7C1950CA0787}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}
