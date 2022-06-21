@@ -1,0 +1,93 @@
+GenericEntity {
+ coords 100.455 -0.001 135
+ {
+  $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+   {
+    coords 0.147 0 0
+   }
+   {
+    coords -1.065 0 0
+   }
+  }
+  GenericEntity : "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et" {
+   coords 0.299 0.9 -0.186
+  }
+  GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {
+   components {
+    SCR_BaseInteractiveLightComponent "{58C4C3C542898CFB}" {
+     m_bGradualLightning 0
+     m_fLV 2.6
+     m_eInitialLightState LIT
+    }
+   }
+   coords -1.333 0.902 -0.055
+  }
+ }
+}
+GenericEntity : "{33882C61BA9F0F90}Prefabs/Props/Civilian/Globe_01.et" {
+ components {
+  ActionsManagerComponent "{59AA8B5EDA806A4B}" {
+   ActionContexts {
+    UserActionContext "{59AA8B5EE81F1715}" {
+     ContextName "default"
+     Position PointInfo "{59AA8B5EEA8DAB33}" {
+     }
+    }
+   }
+   additionalActions {
+    EL_ChangeTimeAction "{59AA931427CE2EDC}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59AA972B06DDB418}" {
+      Name "Set Day"
+     }
+     m_fTargetTime 12
+    }
+    EL_ChangeTimeAction "{59AA972B1009CA57}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59AA972B12F15E8D}" {
+      Name "Set Night"
+     }
+     "Sort Priority" 1
+     m_fTargetTime 0
+    }
+    EL_ChangeWeatherAction "{59AA972B2C0B6D29}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59AA972B27D3AC93}" {
+      Name "Weather Rain"
+     }
+     "Sort Priority" 3
+     m_fTargetWeatherID 3
+    }
+    EL_ChangeWeatherAction "{59AA972B2CE8BA85}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59AA972B21100806}" {
+      Name "Weather Clear"
+     }
+     "Sort Priority" 2
+    }
+   }
+  }
+  RplComponent "{59AA93A81C0B22D5}" {
+  }
+ }
+ coords 100.028 0.898 135.126
+}
+GenericEntity : "{8F05D427252644F8}Prefabs/Props/Civilian/Suitcase_01.et" {
+ coords 98.349 0 134.854
+ angleY 60
+}
+GenericEntity : "{9ABAFFCBC76D824B}Prefabs/Props/Civilian/NoticeBoardCork_01.et" {
+ coords 100.02 0.898 134.46
+ {
+  GenericEntity : "{83E6FF1C73E92AA3}Prefabs/Props/Civilian/NoticeBoardCork_01_posters.et" {
+  }
+ }
+}
