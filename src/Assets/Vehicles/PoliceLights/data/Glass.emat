@@ -1,0 +1,6 @@
+MatPBRBasicGlass {
+ Color 0.017 0 1 1
+ Cull none
+ BCRMap "{2B82E1B19C020F62}Assets/_SharedData/Glass/ST_Glass_Streaks_01_BCR.edds"
+ OpacityMap "{46CF67CB400DECC9}Assets/_SharedData/Glass/ST_Glass_Streaks_01_A.edds"
+}
