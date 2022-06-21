@@ -15,7 +15,7 @@ class EL_BetaHud : SCR_InfoDisplay
 	private DamageManagerComponent m_DMC;
 	
 	//--------------------------- CONFIG VALUES ---------------------------
-	private bool m_EnableHUD = true;
+	private bool m_EnableHUD = true; //TODO: ref from settings insted of setting in code
 	private bool m_EnableStamina = true;
 	private bool m_EnableHealth = true;
 	private bool m_EnableThirst = true;
@@ -186,7 +186,7 @@ class EL_BetaHud : SCR_InfoDisplay
 	}
 	
 	
-	//UpdateValues needs to be called upon respawning as to reset the UI for m_HealthProgress so it isnt stuck at 0 until you take damage -- KNOWN BUG
+	//TODO: UpdateValues needs to be called upon respawning as to reset the UI for m_HealthProgress so it isnt stuck at 0 until you take damage
 	float m_TimeAccumulator = 0;
 	bool m_GUIHidden = false;
 	override event void UpdateValues(IEntity owner, float timeSlice)

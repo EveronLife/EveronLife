@@ -43,6 +43,7 @@ FrameWidgetClass {
      Name "m_healthIndicator"
      Slot LayoutSlot "{599ADB14544C3A19}" {
      }
+     Opacity 0.5
      {
       ImageWidgetClass "{599ADB19EC331B27}" {
        Name "m_healthGlow"
@@ -101,6 +102,7 @@ FrameWidgetClass {
       Padding 0 0 0 0
       FillWeight 1
      }
+     Opacity 0.5
      {
       ImageWidgetClass "{599ADB19F1739A15}" {
        Name "m_staminaGlow"
@@ -155,6 +157,7 @@ FrameWidgetClass {
      Slot LayoutSlot "{599ADB1440D61213}" {
       Padding 0 0 0 0
      }
+     Opacity 0.5
      {
       ImageWidgetClass "{599ADB19F20F000A}" {
        Name "m_hungerGlow"
@@ -210,6 +213,7 @@ FrameWidgetClass {
      Slot LayoutSlot "{599ADB1449235EBB}" {
       Padding 0 0 0 0
      }
+     Opacity 0.5
      {
       ImageWidgetClass "{599ADB165C1AF2CF}" {
        Name "m_thirstGlow"
@@ -266,6 +270,7 @@ FrameWidgetClass {
       VerticalAlign 1
       Padding 0 0 30 0
      }
+     Opacity 0.6
      Color 0.429 0.429 0.429 1
      Text "$ -"
      "Horizontal Alignment" Center
