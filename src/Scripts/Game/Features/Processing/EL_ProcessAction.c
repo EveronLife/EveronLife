@@ -1,17 +1,30 @@
-class EL_ProcessAction : ScriptedUserAction
+class EL_ProcessingInput
 {
-	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Input", "et")]
-	ResourceName m_InputPrefab;
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Input", "et")]
+	ResourceName m_InputPrefab;	
 	
-	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input amount per process")]
-	private int m_iInputAmount;
-	
-	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Output", "et")]
-	ResourceName m_OutputPrefab;		
+	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input/s amount per process")]
+	int m_iInputAmount;
+}
+
+class EL_ProcessingOutput
+{
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Output", "et")]
+	ResourceName m_OutputPrefab;	
 	
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
-	private int m_iOutputAmount;
-		
+	int m_iOutputAmount;
+}
+
+class EL_ProcessAction : ScriptedUserAction
+{
+	
+	[Attribute("", UIWidgets.Object, "List of inputs")]
+    ref array<ref EL_ProcessingInput> m_aProcessingInputs;
+	
+	[Attribute("", UIWidgets.Object, "List of outputs")]
+    ref array<ref EL_ProcessingInput> m_aProcessingOutputs;
+	
 	private IEntity m_OutputPrefabEntity;
 	
 	
@@ -22,15 +35,18 @@ class EL_ProcessAction : ScriptedUserAction
 		array<IEntity> foundItems = new array<IEntity>();
 		inventory.GetItems(items);
 		
-		//Check if item in recipe
-		foreach (IEntity item : items)
+		//Add a parent each item prefab in the array
+		foreach(ResourceName m_InputPrefab :  m_InputPrefabs)
 		{
-			if (item.GetPrefabData().GetPrefabName() == m_InputPrefab)
+			//Check if item in recipe
+			foreach (IEntity item : items)
 			{
-				foundItems.Insert(item);
+				if (item.GetPrefabData().GetPrefabName() == m_InputPrefab)
+				{
+					foundItems.Insert(item);
+				}
 			}
 		}
-		
 		return foundItems;
 	}
 
@@ -40,17 +56,17 @@ class EL_ProcessAction : ScriptedUserAction
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
 		array<IEntity> allFoundItems = GetAllInputItems(inventoryManager);
 		
-		if (allFoundItems.Count() < m_iInputAmount || !inventoryManager.CanInsertItem(m_OutputPrefabEntity))
+		if (allFoundItems.Count() < m_iInputAmount[0] || !inventoryManager.CanInsertItem(m_OutputPrefabEntity))
 			return;
 		
-		for (int i = 0; i < m_iInputAmount; i++) 
+		for (int i = 0; i < m_iInputAmount[0]; i++) 
 		{
 			inventoryManager.TryDeleteItem(allFoundItems[i]);
 		}
 		
-		for (int i = 0; i < m_iOutputAmount; i++) 
+		for (int i = 0; i < m_iOutputAmount[0]; i++) 
 		{
-			inventoryManager.TrySpawnPrefabToStorage(m_OutputPrefab);
+			inventoryManager.TrySpawnPrefabToStorage(m_OutputPrefabs[0]);
 		}
 	}
 
@@ -59,7 +75,10 @@ class EL_ProcessAction : ScriptedUserAction
  	{
 		//Check player inventory
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
-		int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(m_InputPrefab);
+		
+		// Add a parent each item prefab in the array
+		
+		int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(m_InputPrefabs[0]);
 		
 		if (!inventoryManager.CanInsertItem(m_OutputPrefabEntity))
 		{
@@ -69,13 +88,13 @@ class EL_ProcessAction : ScriptedUserAction
 		
 		SetCannotPerformReason("Can't find items");
 		
-		return (inputPrefabsInInv >= m_iInputAmount);
+		return (inputPrefabsInInv >= m_iInputAmount[0]);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
 	{
-		m_OutputPrefabEntity = EL_Utils.SpawnEntityPrefab(m_OutputPrefab, vector.Zero);
+		m_OutputPrefabEntity = EL_Utils.SpawnEntityPrefab(m_OutputPrefabs[0], vector.Zero);
 	}
 	
 }
