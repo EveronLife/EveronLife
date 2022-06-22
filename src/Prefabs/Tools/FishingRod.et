@@ -1,0 +1,13 @@
+GenericEntity {
+ ID "59AB57EEF4E77C3B"
+ components {
+  MeshObject "{59AB57EE5B516FD9}" {
+   Object "{10FA2021E5D866EC}Assets/Items/Fish/rodreel.xob"
+  }
+ }
+ coords 118.277 0.704 132.092
+ angleX 44.04
+ angleY 108.308
+ angleZ 5.185
+ scale 0.25
+}
