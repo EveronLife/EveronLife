@@ -1,0 +1,12 @@
+MatPBRMulti {
+ MaskMap "{70C0D41409A3FAC0}Assets/Vehicles/EmergencyLightsSmallBuiltIn/data/Lights_GLOBAL_MASK.edds"
+ Enabled_2 1
+ Color_2 0.356 0.381 0.396 1
+ BCR_2 "{DDFA1BE6FC945C12}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_BCR.edds"
+ NMO_2 "{E522A07425E30E8C}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_NMO.edds"
+ MaskSharpness_2 10
+ MaskOffset_2 0.404
+ Color_1 0 0.016 0.059 1
+ BCR_1 "{8EADB31D864DD0FC}Assets/_SharedData/Metal/ST_MetalBare_01_BCR.edds"
+ NMO_1 "{0470164F98BC8DD2}Assets/_SharedData/Metal/ST_MetalBare_01_NMO.edds"
+}

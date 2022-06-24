@@ -1,0 +1,303 @@
+AudioClass {
+ sounds {
+  SoundClass {
+   id 4105
+   name "Sound 4"
+   tl 127 19
+   conns {
+    ConnectionsClass connections {
+     id 14
+     links {
+      ConnectionClass connection {
+       id 3090
+       port 65
+      }
+     }
+    }
+   }
+   outState 2059
+   outStatePort 152583
+   terrainEffects 1
+  }
+  SoundClass {
+   id 10249
+   name "Sound 4"
+   tl 88.667 -446.5
+   conns {
+    ConnectionsClass connections {
+     id 14
+     links {
+      ConnectionClass connection {
+       id 12306
+       port 65
+      }
+     }
+    }
+   }
+   iops {
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 8
+       links {
+        ConnectionClass connection {
+         id 14348
+         port 1
+        }
+       }
+      }
+     }
+    }
+   }
+   outState 2059
+   outStatePort 152583
+   terrainEffects 1
+  }
+ }
+ mixers {
+  MixerClass {
+   id 2059
+   name "OutputState 2"
+   tl 370.286 -202.143
+   res "{B764D803219C775F}Sounds/FinalMix.afm"
+   iops {
+    IOPConnectionClass iopConnection {
+     port 152583
+     conn {
+      ConnectionsClass connections {
+       id 5
+       links {
+        ConnectionClass connection {
+         id 4105
+         port 65
+        }
+        ConnectionClass connection {
+         id 10249
+         port 65
+        }
+       }
+      }
+     }
+    }
+   }
+   path "{B764D803219C775F}Sounds/FinalMix.afm"
+   inputs {
+    "ANM_Footsteps" "ANM_Voice" "WPN_Handling" "WPN_Shots" "WPN_Explosions" "WNP_BulletHits" "CHAR" "ENV_Ambients" "VEH_Animations" "Impacts" "Dialogue" "Music" "ENV_Objects" "UI" "VEH_Engine" "VEH_Tires" "VON" "SFX" "ENV_Ambient_NoAtt" "SFX_Reverb" "VON_Reverb" "Dialogue_Reverb"
+   }
+  }
+ }
+ constants {
+  ConstantClass {
+   id 14348
+   name "Constant 14"
+   comment ""
+   tl -72.222 -237.222
+   ctl 0 0
+   parent ""
+   Metadata ""
+   "Constant values" {
+    IOPConstantsValueClass "1" {
+     Key "IOPConstantsValueClass"
+     Value 1
+     Port 1
+    }
+   }
+  }
+  ConstantClass {
+   id 15372
+   name "Constant 14"
+   comment ""
+   tl -784.444 75.556
+   ctl 0 0
+   parent ""
+   Metadata ""
+  }
+ }
+ shaders {
+  ShaderClass {
+   id 3090
+   name "Shader 3"
+   tl -95 33
+   conns {
+    ConnectionsClass connections {
+     id 0
+     links {
+      ConnectionClass connection {
+       id 1028
+       port 65
+      }
+     }
+    }
+   }
+   iops {
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 15
+       links {
+        ConnectionClass connection {
+         id 5139
+         port 65
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 2
+     conn {
+      ConnectionsClass connections {
+       id 17
+       links {
+        ConnectionClass connection {
+         id 6165
+         port 65
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 24
+       links {
+        ConnectionClass connection {
+         id 7196
+         port 65
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  ShaderClass {
+   id 12306
+   name "Shader 3"
+   tl -133.333 -432.5
+   conns {
+    ConnectionsClass connections {
+     id 0
+     links {
+      ConnectionClass connection {
+       id 11268
+       port 65
+      }
+     }
+    }
+   }
+   iops {
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 15
+       links {
+        ConnectionClass connection {
+         id 5139
+         port 65
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 2
+     conn {
+      ConnectionsClass connections {
+       id 17
+       links {
+        ConnectionClass connection {
+         id 6165
+         port 65
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 24
+       links {
+        ConnectionClass connection {
+         id 7196
+         port 65
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+ amplitudes {
+  AmplitudeClass {
+   id 5139
+   name "Amplitude 5"
+   tl -582 -21.857
+   curve Logarithm
+   outerRange 1000
+  }
+ }
+ frequency {
+  FrequencyClass {
+   id 6165
+   name "Frequency 6"
+   tl -584 78.429
+   enableDistanceAtt 1
+   filterStrength 2
+  }
+ }
+ banks_local {
+  BankLocalClass {
+   id 1028
+   name "Slow"
+   tl -259.143 -104.286
+   Pitch -2.145
+   "Loop count" 255
+   "Infinite loop" 1
+   Samples {
+    AudioBankSampleClass "Sample(1)" {
+     Filename "{4722560D017A79B9}Assets/Vehicles/siren.wav"
+    }
+   }
+  }
+  BankLocalClass {
+   id 11268
+   name "Fast"
+   tl -401.762 -422.643
+   Volume -20
+   "Loop count" 255
+   "Infinite loop" 1
+   Samples {
+    AudioBankSampleClass "Sample(1)" {
+     Filename "{A69CE1C244001182}Assets/Vehicles/sirenfast.wav"
+    }
+   }
+  }
+ }
+ spatialities {
+  SpatialityClass {
+   id 7196
+   name "Spatiality 7"
+   tl -556.857 -129.857
+   SpatialFactorSource Curve
+   SFCurve {
+    CurvePoint "1" {
+     Y 0.59249
+    }
+    CurvePoint "2" {
+     X 999.99994
+     Y 0.2
+    }
+   }
+  }
+ }
+ version 1
+}

@@ -1,6 +1,0 @@
-MatPBRBasic {
- Emissive 0 0.125 0.502 1
- EmissiveLV 20
- EmissiveMap "{E8ADC7B9CDA6F64A}Assets/Vehicles/PoliceLights/data/Lights_EM.edds"
- BCRMap "{9118D37720D38A75}Assets/Vehicles/PoliceLights/data/Lights_BCR.edds"
-}
