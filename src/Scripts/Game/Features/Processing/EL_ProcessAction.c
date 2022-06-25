@@ -72,7 +72,7 @@ class EL_ProcessAction : ScriptedUserAction
 			}
 		}
 		
-		bool CanSpawnToStorage = true;
+		bool bCanSpawnToStorage = true;
 		
 		foreach (EL_ProcessingOutput processingOutput : m_aProcessingOutputs) 
 		{
