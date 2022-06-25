@@ -33,7 +33,7 @@ class EL_ProcessAction : ScriptedUserAction
 	
 	
 	//------------------------------------------------------------------------------------------------
-	private array<IEntity> GetAllInputItems(InventoryStorageManagerComponent inventory, )
+	private array<IEntity> GetAllInputItems(InventoryStorageManagerComponent inventory)
 	{
 		array<IEntity> items = new array<IEntity>();
 		array<IEntity> foundItems = new array<IEntity>();
