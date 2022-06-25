@@ -7,7 +7,6 @@ class EL_ProcessingInput
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input/s amount per process")]
 	int m_iInputAmount;
 	
-	ref array<IEntity> foundItems = new array<IEntity>();
 }
 
 [BaseContainerProps()]
