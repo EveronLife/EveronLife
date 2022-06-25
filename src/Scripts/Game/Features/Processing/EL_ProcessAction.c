@@ -79,13 +79,8 @@ class EL_ProcessAction : ScriptedUserAction
 			{
 				bCanSpawnToStorage = inventoryManager.TrySpawnPrefabToStorage(processingOutput.m_OutputPrefab);
 				if (!bCanSpawnToStorage)
-				{
-					EntitySpawnParams spawnParams = new EntitySpawnParams();
-					vector position[4];
-					pUserEntity.GetWorldTransform(position);
-					spawnParams.Transform = position;
-					
-					IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(processingOutput.m_OutputPrefab), null, spawnParams);
+				{			
+					EL_Utils.SpawnEntityPrefab(processingOutput.m_OutputPrefab, pUserEntity.GetOrigin());
 				}
 			}
 		}
@@ -96,9 +91,7 @@ class EL_ProcessAction : ScriptedUserAction
  	{
 		//Check player inventory
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
-		
-		array<string> CannotPerformArray = {};
-		CannotPerformArray.Insert("Hello");
+	
 		
 		bool bCanPerform = true;
 		
