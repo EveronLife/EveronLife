@@ -18,7 +18,6 @@ class EL_ProcessingOutput
 	
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
 	int m_iOutputAmount;
-	
 }
 
 
