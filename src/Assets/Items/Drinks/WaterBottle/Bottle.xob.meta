@@ -1,0 +1,32 @@
+MetaFileClass {
+ Name "{1F941A15AF4D93BF}Assets/Items/Drinks/WaterBottle/Bottle.xob"
+ Configurations {
+  FBXResourceClass PC {
+   Scale 0.55 0.55 0.55
+   MaterialAssigns {
+    MaterialAssignClass "{598B1327FCEBF02C}" {
+     SourceMaterial "DefaultGeneratedMaterial"
+     AssignedMaterial "{A0A194FFC39525F3}Assets/Items/Drinks/WaterBottle/Data/Bottle.emat"
+    }
+   }
+   Common TXOCommonClass "{598B1327FCE38026}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{598B1327FCE38296}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{598B1327FCE38219}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{598B1327FCE385B8}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{598B1327FCE38576}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}
