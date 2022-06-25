@@ -61,7 +61,7 @@ class EL_ProcessAction : ScriptedUserAction
 
 		array<IEntity> allInputItems = GetAllInputItems(inventoryManager);
 
-		foreach (EL_ProcessingInput m_aProcessingInput : m_aProcessingInputs) 
+		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs) 
 		{
 			if (allInputItems.Count() < m_aProcessingInput.m_iInputAmount)
 				return;
