@@ -116,16 +116,6 @@ class EL_ProcessAction : ScriptedUserAction
 		}
 
 		return (CanPerform);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
-	{
-		
-		
-		
-		// Do this for the array m_OutputPrefabEntity = GetGame().SpawnEntityPrefab(Resource.Load(m_OutputPrefab));
-	}
-	
+	}	
 }
 
