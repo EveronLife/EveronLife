@@ -19,9 +19,17 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
       Name "Make 1 apple juice with 3 apples"
      }
      Duration 1
-     m_InputPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
-     m_iInputAmount 3
-     m_OutputPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+     m_aProcessingInputs {
+      EL_ProcessingInput "{59B2AD116757D53C}" {
+       m_InputPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+       m_iInputAmount 3
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{59B2AD115CAF9A69}" {
+       m_OutputPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+      }
+     }
     }
    }
   }
