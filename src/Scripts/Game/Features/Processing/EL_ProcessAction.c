@@ -74,7 +74,7 @@ class EL_ProcessAction : ScriptedUserAction
 		
 		bool CanSpawnToStorage = true;
 		
-		foreach (EL_ProcessingOutput m_aProcessingOutput : m_aProcessingOutputs) 
+		foreach (EL_ProcessingOutput processingOutput : m_aProcessingOutputs) 
 		{
 			for (int i = 0; i < m_aProcessingOutput.m_iOutputAmount; i++) 
 			{
