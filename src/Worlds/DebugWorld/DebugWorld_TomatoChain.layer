@@ -510,33 +510,3 @@ GenericEntity TomatoTrader {
   }
  }
 }
-GenericEntity : "{1DD3BF6A1A249CDE}Prefabs/Processor/Apple_Processor.et" {
- components {
-  ActionsManagerComponent "{598F21A8710B89C1}" {
-   additionalActions {
-    EL_ProcessAction "{598F21A877BE6DEE}" {
-     UIInfo UIInfo "{59947AF4A11A18DC}" {
-      Name "Make fruit juice with an apple and a plum"
-     }
-     m_aProcessingInputs {
-      EL_ProcessingInput "{59B26188F9AA489C}" {
-       m_InputPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
-      }
-      EL_ProcessingInput "{59B261883B8493FE}" {
-       m_InputPrefab "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et"
-      }
-     }
-     m_aProcessingOutputs {
-      EL_ProcessingOutput "{59B26188F94F146A}" {
-       m_OutputPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
-      }
-      EL_ProcessingOutput "{59B2618827CBFA31}" {
-       m_OutputPrefab "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et"
-      }
-     }
-    }
-   }
-  }
- }
- coords 108.516 0.899 135.363
-}
