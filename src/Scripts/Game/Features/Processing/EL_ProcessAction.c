@@ -6,6 +6,8 @@ class EL_ProcessingInput
 	
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input/s amount per process")]
 	int m_iInputAmount;
+	
+	ref array<IEntity> foundItems = new array<IEntity>();
 }
 
 [BaseContainerProps()]
@@ -16,6 +18,7 @@ class EL_ProcessingOutput
 	
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
 	int m_iOutputAmount;
+	
 }
 
 
@@ -32,7 +35,7 @@ class EL_ProcessAction : ScriptedUserAction
 	
 	
 	//------------------------------------------------------------------------------------------------
-	private array<IEntity> GetAllInputItems(InventoryStorageManagerComponent inventory)
+	private array<IEntity> GetAllInputItems(InventoryStorageManagerComponent inventory, )
 	{
 		array<IEntity> items = new array<IEntity>();
 		array<IEntity> foundItems = new array<IEntity>();
@@ -57,19 +60,27 @@ class EL_ProcessAction : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-		array<IEntity> allFoundItems = GetAllInputItems(inventoryManager);
 
-		if (allFoundItems.Count() < m_iInputAmount || !inventoryManager.CanInsertItem(m_OutputPrefabEntity))
-			return;
+		array<IEntity> allInputItems = GetAllInputItems(inventoryManager);
 
-		for (int i = 0; i < m_iInputAmount; i++) 
+		foreach (EL_ProcessingInput m_aProcessingInput : m_aProcessingInputs) 
 		{
-			inventoryManager.TryDeleteItem(allFoundItems[i]);
+			if (allInputItems.Count() < m_aProcessingInput.m_iInputAmount)
+				return;
+	
+			for (int i = 0; i < m_aProcessingInput.m_iInputAmount; i++) 
+			{
+				inventoryManager.TryDeleteItem(allInputItems[i]);
+			}
 		}
-
-		for (int i = 0; i < m_iOutputAmount; i++) 
+		
+		
+		foreach (EL_ProcessingOutput m_aProcessingOutput : m_aProcessingOutputs) 
 		{
-			inventoryManager.TrySpawnPrefabToStorage(m_OutputPrefab);
+			for (int i = 0; i < m_aProcessingOutput.m_iOutputAmount; i++) 
+			{
+				inventoryManager.TrySpawnPrefabToStorage(m_aProcessingOutput.m_OutputPrefab);
+			}
 		}
 	}
 
@@ -90,6 +101,8 @@ class EL_ProcessAction : ScriptedUserAction
 			{
 				int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(m_aProcessingInput.m_InputPrefab);
 				
+				
+				
 				if (!inventoryManager.CanInsertItem(m_OutputPrefabEntity))
 				{
 					SetCannotPerformReason("Inventory full");
@@ -106,7 +119,10 @@ class EL_ProcessAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
 	{
-		m_OutputPrefabEntity = EL_Utils.SpawnEntityPrefab(m_OutputPrefab, vector.Zero);
+		
+		
+		
+		// Do this for the array m_OutputPrefabEntity = GetGame().SpawnEntityPrefab(Resource.Load(m_OutputPrefab));
 	}
 	
 }

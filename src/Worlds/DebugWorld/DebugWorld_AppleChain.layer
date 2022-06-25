@@ -552,10 +552,6 @@ GenericEntity AppleTrader {
    }
    coords -1.08 0.104 -0.957
   }
-  GenericEntity : "{1DD3BF6A1A249CDE}Prefabs/Processor/Apple_Processor.et" {
-   coords -2.622 0.9 0.246
-   angleY 26.718
-  }
   $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
    {
     coords 0.147 0 0
