@@ -43,7 +43,7 @@ class EL_ProcessAction : ScriptedUserAction
 		{
 			foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 			{
-				if (item.GetPrefabData().GetPrefabName() == m_aProcessingInput.m_InputPrefab)
+				if (item.GetPrefabData().GetPrefabName() == processingInput.m_InputPrefab)
 				{
 					foundItems.Insert(item);
 				}
@@ -62,10 +62,10 @@ class EL_ProcessAction : ScriptedUserAction
 
 		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs) 
 		{
-			if (allInputItems.Count() < m_aProcessingInput.m_iInputAmount)
+			if (allInputItems.Count() < processingInput.m_iInputAmount)
 				return;
 	
-			for (int i = 0; i < m_aProcessingInput.m_iInputAmount; i++) 
+			for (int i = 0; i < processingInput.m_iInputAmount; i++) 
 			{
 				inventoryManager.TryDeleteItem(allInputItems[i]);
 			}
@@ -75,17 +75,17 @@ class EL_ProcessAction : ScriptedUserAction
 		
 		foreach (EL_ProcessingOutput processingOutput : m_aProcessingOutputs) 
 		{
-			for (int i = 0; i < m_aProcessingOutput.m_iOutputAmount; i++) 
+			for (int i = 0; i < processingOutput.m_iOutputAmount; i++) 
 			{
-				CanSpawnToStorage = inventoryManager.TrySpawnPrefabToStorage(m_aProcessingOutput.m_OutputPrefab);
-				if (!CanSpawnToStorage)
+				bCanSpawnToStorage = inventoryManager.TrySpawnPrefabToStorage(processingOutput.m_OutputPrefab);
+				if (!bCanSpawnToStorage)
 				{
 					EntitySpawnParams spawnParams = new EntitySpawnParams();
 					vector position[4];
 					pUserEntity.GetWorldTransform(position);
 					spawnParams.Transform = position;
 					
-					IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_aProcessingOutput.m_OutputPrefab), null, spawnParams);
+					IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(processingOutput.m_OutputPrefab), null, spawnParams);
 				}
 			}
 		}
@@ -104,16 +104,16 @@ class EL_ProcessAction : ScriptedUserAction
 		
 		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
-			if (CanPerform)
+			if (bCanPerform)
 			{
-				int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(m_aProcessingInput.m_InputPrefab);
+				int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(processingInput.m_InputPrefab);
 				
 				SetCannotPerformReason("Can't find items");
-				CanPerform = inputPrefabsInInv >= m_aProcessingInput.m_iInputAmount
+				bCanPerform = inputPrefabsInInv >= processingInput.m_iInputAmount
 			}
 		}
 
-		return (CanPerform);
+		return (bCanPerform);
 	}	
 }
 
