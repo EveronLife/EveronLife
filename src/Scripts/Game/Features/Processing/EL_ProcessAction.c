@@ -103,7 +103,7 @@ class EL_ProcessAction : ScriptedUserAction
 		
 		bool bCanPerform = true;
 		
-		foreach (EL_ProcessingInput m_aProcessingInput : m_aProcessingInputs)
+		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
 			if (CanPerform)
 			{
