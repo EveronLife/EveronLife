@@ -30,8 +30,7 @@ class EL_ProcessAction : ScriptedUserAction
 	
 	[Attribute("", UIWidgets.Object, "List of outputs")]
     ref array<ref EL_ProcessingOutput> m_aProcessingOutputs;
-	
-	private IEntity m_OutputPrefabEntity;
+
 	
 	
 	//------------------------------------------------------------------------------------------------
@@ -74,12 +73,22 @@ class EL_ProcessAction : ScriptedUserAction
 			}
 		}
 		
+		bool CanSpawnToStorage = true;
 		
 		foreach (EL_ProcessingOutput m_aProcessingOutput : m_aProcessingOutputs) 
 		{
 			for (int i = 0; i < m_aProcessingOutput.m_iOutputAmount; i++) 
 			{
-				inventoryManager.TrySpawnPrefabToStorage(m_aProcessingOutput.m_OutputPrefab);
+				CanSpawnToStorage = inventoryManager.TrySpawnPrefabToStorage(m_aProcessingOutput.m_OutputPrefab);
+				if (!CanSpawnToStorage)
+				{
+					EntitySpawnParams spawnParams = new EntitySpawnParams();
+					vector position[4];
+					pUserEntity.GetWorldTransform(position);
+					spawnParams.Transform = position;
+					
+					IEntity item = GetGame().SpawnEntityPrefab(Resource.Load(m_aProcessingOutput.m_OutputPrefab), null, spawnParams);
+				}
 			}
 		}
 	}
@@ -101,13 +110,6 @@ class EL_ProcessAction : ScriptedUserAction
 			{
 				int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(m_aProcessingInput.m_InputPrefab);
 				
-				
-				
-				if (!inventoryManager.CanInsertItem(m_OutputPrefabEntity))
-				{
-					SetCannotPerformReason("Inventory full");
-					CanPerform = false;
-				}
 				SetCannotPerformReason("Can't find items");
 				CanPerform = inputPrefabsInInv >= m_aProcessingInput.m_iInputAmount
 			}
