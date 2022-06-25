@@ -101,7 +101,7 @@ class EL_ProcessAction : ScriptedUserAction
 		array<string> CannotPerformArray = {};
 		CannotPerformArray.Insert("Hello");
 		
-		bool CanPerform = true;
+		bool bCanPerform = true;
 		
 		foreach (EL_ProcessingInput m_aProcessingInput : m_aProcessingInputs)
 		{
