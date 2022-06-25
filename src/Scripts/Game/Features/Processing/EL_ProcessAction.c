@@ -42,7 +42,7 @@ class EL_ProcessAction : ScriptedUserAction
 		//Check if item in recipe
 		foreach (IEntity item : items)
 		{
-			foreach (EL_ProcessingInput m_aProcessingInput : m_aProcessingInputs)
+			foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 			{
 				if (item.GetPrefabData().GetPrefabName() == m_aProcessingInput.m_InputPrefab)
 				{
