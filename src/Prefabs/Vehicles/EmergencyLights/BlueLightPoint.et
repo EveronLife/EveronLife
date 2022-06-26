@@ -1,0 +1,16 @@
+LightEntity {
+ ID "59B2918FD4310263"
+ components {
+  Hierarchy "{59B2918FD4310269}" {
+  }
+  RplComponent "{59B2918FD4310192}" {
+  }
+ }
+ Color 0 0.25 1 1
+ LV 3.335
+ Radius 10.706
+ NearPlane 0.3
+ SpotAngle 170
+ SpotAngleAttenuation 1
+ Dynamic 1
+}

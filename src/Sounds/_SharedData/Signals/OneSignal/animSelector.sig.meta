@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{63CE53388AF9EF01}Sounds/_SharedData/Signals/OneSignal/animSelector.sig"
+ Configurations {
+  AudioSignalResourceClass PC {
+  }
+  AudioSignalResourceClass XBOX_ONE : PC {
+  }
+  AudioSignalResourceClass XBOX_SERIES : PC {
+  }
+  AudioSignalResourceClass PS4 : PC {
+  }
+  AudioSignalResourceClass HEADLESS : PC {
+  }
+ }
+}

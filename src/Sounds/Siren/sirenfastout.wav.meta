@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{4722560D017A79B9}Sounds/Siren/siren.wav"
+ Name "{7F99F933B4EA9C3A}Sounds/Siren/sirenfastout.wav"
  Configurations {
   WAVResourceClass PC : "{F72B05D02F3F135E}Configs/System/ResourceTypes/PC/Sound.conf" {
   }

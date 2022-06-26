@@ -1,0 +1,131 @@
+ProcAnimProjectClass {
+ signals {
+  SignalClass {
+   id 7172
+   name "Signal 7"
+   tl -271 -28
+   res "{A9092E4FE68D1B5E}Assets/Vehicles/EmergencyLightsBase/anims/EmergencyLightsBase.siga"
+   conns {
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 1
+       links {
+        ConnectionClass connection {
+         id 11269
+         port 1
+        }
+       }
+      }
+     }
+    }
+   }
+   inputsport {
+    1 12
+   }
+   outputsport {
+    2
+   }
+   inputvalues {
+    0 0
+   }
+   inputvaluesmin {
+    -360 0
+   }
+   inputvaluesmax {
+    360 1
+   }
+  }
+ }
+ constants {
+  ProcAnimConstants {
+   id 11269
+   name "Constant 11"
+   tl -459 -24
+   "Constant values" {
+    IOPConstantsValueClass "1" {
+     Key "IOPConstantsValueClass"
+     Value 366.6
+     Port 1
+    }
+   }
+  }
+ }
+ funcs {
+  RotationMakeClass {
+   id 8198
+   name "RotationMake 8198"
+   tl -23 -56
+   iops {
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 0
+       links {
+        ConnectionClass connection {
+         id 7172
+         port 2
+        }
+       }
+      }
+     }
+    }
+   }
+   outs {
+    9222
+   }
+  }
+  RotationSetClass {
+   id 9222
+   name "RotationSet 9222"
+   tl 243 -104
+   funcs {
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 2
+       links {
+        ConnectionClass connection {
+         id 8198
+         port 0
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 2
+       links {
+        ConnectionClass connection {
+         id 10246
+         port 0
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  BoneClass {
+   id 10246
+   name "Bone 10246"
+   version 0
+   tl 19 -146
+   outs {
+    9222
+   }
+   bone "Disk"
+  }
+ }
+ model "{33ACF11F49BBC84D}Assets/Vehicles/EmergencyLightsBase/EmergencyLightsBase.xob"
+ version 1
+ compiled ProcAnimCompiledClass {
+  version 2
+ }
+}

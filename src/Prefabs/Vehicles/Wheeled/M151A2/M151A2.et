@@ -1,11 +1,21 @@
 Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
  ID "44EC665ABD2FF04B"
  components {
+  BaseLightManagerComponent "{51E210F17D2534F7}" {
+   LightSlots {
+   }
+   LightAction {
+   }
+  }
   EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
    m_Plates {
     EL_LicensePlatePointInfo "{59A37E81FD36C7BB}" {
      Offset 0 0.6305 1.8237
     }
+   }
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   additionalActions {
    }
   }
  }

@@ -1,0 +1,6 @@
+MatPBRDecal {
+ Color 0.733 0.733 0.733 1
+ AlphaMul 0.684
+ BlendMode AlphaBlend
+ OpacityMap "{1E0424A7C6F7A07F}Assets/Vehicles/EmergencyLightsKnob/data/Knob_Decals_A.edds"
+}

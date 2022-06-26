@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{910DD77DD05DB1BD}Prefabs/Vehicles/PoliceLights/Lights.et"
+ Name "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/EmergencyLightsBase.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{917FE12DD64AA054}Assets/Vehicles/EmergencyLightsKnob/data/Knob_Decals.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

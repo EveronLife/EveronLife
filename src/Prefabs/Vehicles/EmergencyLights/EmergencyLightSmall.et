@@ -1,0 +1,10 @@
+GenericEntity {
+ ID "59B23DD729906EF6"
+ components {
+  MeshObject "{59B23DD73B6C2B2F}" {
+   Object "{9EC0E3457C577DB1}Assets/Vehicles/EmegencyLightsSmall/EmergencyLightsSmall.xob"
+  }
+  Hierarchy "{59B23DD71123492C}" {
+  }
+ }
+}

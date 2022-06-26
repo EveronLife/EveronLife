@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{CA1800B8CFD285D0}Sounds/_SharedData/Configs/Amplitude/Vehicles/Amplitude_Vehicles_Horn_base.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{374FBE464293EF1C}Sounds/_SharedData/Configs/Spatiality/Vehicles/Spatiality_Vehicles_Engine_Truck.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{69E28569A5638E5A}Sounds/Vehicles/Wheeled/M151A2/Vehicles_M151A2_Horn.acp"
+ Configurations {
+  AudioProjectResourceClass PC {
+  }
+  AudioProjectResourceClass XBOX_ONE : PC {
+  }
+  AudioProjectResourceClass XBOX_SERIES : PC {
+  }
+  AudioProjectResourceClass PS4 : PC {
+  }
+  AudioProjectResourceClass HEADLESS : PC {
+  }
+ }
+}
