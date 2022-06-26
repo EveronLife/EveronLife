@@ -15,6 +15,13 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
      RestingAdditiveRotationLS 0 0 90
      RestingAdditiveOffsetLS 0 -1 0
     }
+    CustomAttributes {
+     PreviewRenderAttributes "{59B47B4D97B4F512}" {
+      CameraDistanceToItem 3
+      CameraOffset 3 -3 0
+      ItemRenderRotation 0 0 90
+     }
+    }
     m_SlotType SLOT_LOOT_STORAGE
    }
   }
