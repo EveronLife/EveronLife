@@ -5,7 +5,7 @@ MetaFileClass {
    MaterialAssigns {
     MaterialAssignClass "{599CB82244B8E50B}" {
      SourceMaterial "DefaultGeneratedMaterial"
-     AssignedMaterial "{602DF06606D57B36}Assets/Items/Food/Rowan Berries/data/DefaultGeneratedMaterial.emat"
+     AssignedMaterial "{602DF06606D57B36}Assets/Items/Food/Rowan Berries/Data/Rowan Berries.emat"
     }
    }
    GeometryParams {

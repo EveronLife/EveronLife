@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{0C862423F831217B}Assets/Items/Food/Rowan Berries/data/rowan_berries_bcr.edds"
+ Name "{0C862423F831217B}Assets/Items/Food/Rowan Berries/Data/rowan_berries_bcr.edds"
  Configurations {
   TIFFResourceClass PC : "{EAB5DE3219F9CBA8}Configs/System/ResourceTypes/PC/TextureColorMap.conf" {
   }
