@@ -11,7 +11,7 @@ class EL_ProcessingInput
 [BaseContainerProps()]
 class EL_ProcessingOutput
 {
-    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Output", "et")]
+	[Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Output", "et")]
 	ResourceName m_OutputPrefab;	
 	
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
