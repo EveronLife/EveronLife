@@ -29,8 +29,6 @@ class EL_ProcessAction : ScriptedUserAction
 	[Attribute("", UIWidgets.Object, "List of outputs")]
     ref array<ref EL_ProcessingOutput> m_aProcessingOutputs;
 
-	
-	
 	//------------------------------------------------------------------------------------------------
 	private array<IEntity> GetAllInputItems(InventoryStorageManagerComponent inventory)
 	{
