@@ -23,10 +23,11 @@ class EL_ProcessingOutput
 class EL_ProcessAction : ScriptedUserAction
 {
 	[Attribute("", UIWidgets.Object, "List of inputs")]
-    ref array<ref EL_ProcessingInput> m_aProcessingInputs;
+	ref array<ref EL_ProcessingInput> m_aProcessingInputs;
 	
 	[Attribute("", UIWidgets.Object, "List of outputs")]
-    ref array<ref EL_ProcessingOutput> m_aProcessingOutputs;
+	ref array<ref EL_ProcessingOutput> m_aProcessingOutputs;
+
 
 	//------------------------------------------------------------------------------------------------
 	private array<IEntity> GetAllInputItems(InventoryStorageManagerComponent inventory)
