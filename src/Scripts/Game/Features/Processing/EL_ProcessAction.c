@@ -1,7 +1,7 @@
 [BaseContainerProps()]
 class EL_ProcessingInput
 {
-    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Input", "et")]
+	[Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Input", "et")]
 	ResourceName m_InputPrefab;	
 	
 	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input/s amount per process")]
