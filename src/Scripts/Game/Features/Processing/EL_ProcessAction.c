@@ -22,7 +22,6 @@ class EL_ProcessingOutput
 
 class EL_ProcessAction : ScriptedUserAction
 {
-	
 	[Attribute("", UIWidgets.Object, "List of inputs")]
     ref array<ref EL_ProcessingInput> m_aProcessingInputs;
 	
