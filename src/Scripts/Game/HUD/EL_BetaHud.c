@@ -10,11 +10,12 @@ class EL_BetaHud : SCR_InfoDisplay
 	private SCR_CharacterControllerComponent m_PlayerController;
 	private DamageManagerComponent m_DMC;
 	
-	private bool m_StatChange;
-	private float m_PreviousValues[4];
+	private bool m_bStatChange;
+	private float m_aPreviousValues[4];
 	//TODO: Money & Survival Stats
 	
 	//--------------------------- OnChangeFunctions --------------------------- 
+	//------------------------------------------------------------------------------------------------
 	void OnHealthChange(float value)
 	{
 		if (!m_HealthSlider)
@@ -25,19 +26,20 @@ class EL_BetaHud : SCR_InfoDisplay
 		
 		private float m_currentHealth = m_DMC.GetHealth();
 		
-		if (!m_PreviousValues[0])
+		if (!m_aPreviousValues[0])
 		{
-			m_PreviousValues[0] = m_currentHealth;
+			m_aPreviousValues[0] = m_currentHealth;
 		}
 		else
 		{
-			if (float.AlmostEqual(m_PreviousValues[0], m_currentHealth)) return;
+			if (float.AlmostEqual(m_aPreviousValues[0], m_currentHealth)) return;
 			
 			m_HealthSlider.SetCurrent(value);
-			m_StatChange = true;
+			m_bStatChange = true;
 		}
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	void OnStaminaChange(float value)
 	{
 		if (!m_StaminaSlider)
@@ -48,17 +50,17 @@ class EL_BetaHud : SCR_InfoDisplay
 		
 		private float m_currentStam = m_PlayerController.GetStamina();
 		
-		if (!m_PreviousValues[1])
+		if (!m_aPreviousValues[1])
 		{
-			m_PreviousValues[1] = m_currentStam;
+			m_aPreviousValues[1] = m_currentStam;
 		}
 		else
 		{
-			if (!float.AlmostEqual(m_PreviousValues[1] , m_currentStam))
+			if (!float.AlmostEqual(m_aPreviousValues[1] , m_currentStam))
 			{
-				m_PreviousValues[1] = m_currentStam;
+				m_aPreviousValues[1] = m_currentStam;
 				m_StaminaSlider.SetCurrent(value);
-				m_StatChange = true;
+				m_bStatChange = true;
 			}
 			else
 			{
@@ -67,6 +69,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	void OnThirstChange(float value)
 	{
 		if (!m_ThirstSlider)
@@ -76,9 +79,10 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 		
 		m_ThirstSlider.SetCurrent(value);
-		//m_StatChange = true;
+		//m_bStatChange = true;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	void OnHungerChange(float value)
 	{
 		if (!m_HungerSlider)
@@ -88,9 +92,10 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 		
 		m_HungerSlider.SetCurrent(value);
-		//m_StatChange = true;
+		//m_bStatChange = true;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	void OnMoneyChange(float value)
 	{
 		if (m_MoneyDisplay)
@@ -100,10 +105,11 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 		
 		m_MoneyDisplay.SetText("$ " + value); //for configurabiluity could have the $ changeable in config...
-		//m_StatChange = true;
+		//m_bStatChange = true;
 	}
 	
-	//--------------------------- Main Functions --------------------------- 
+	//--------------------------- Main Functions ---------------------------	
+	//------------------------------------------------------------------------------------------------
 	override event void OnStartDraw(IEntity owner)
 	{
 		super.OnStartDraw(owner);
@@ -120,7 +126,8 @@ class EL_BetaHud : SCR_InfoDisplay
 	}
 	
 	
-	//UpdateValues needs to be called upon respawning as to reset the UI for m_HealthSlider so it isnt stuck at 0 until you take damage -- KNOWN BUG
+	//------------------------------------------------------------------------------------------------
+	//! UpdateValues needs to be called upon respawning as to reset the UI for m_HealthSlider so it isnt stuck at 0 until you take damage -- KNOWN BUG
 	float m_TimeAccumulator = 0;
 	bool m_GUIHidden = false;
 	override event void UpdateValues(IEntity owner, float timeSlice)
@@ -141,13 +148,13 @@ class EL_BetaHud : SCR_InfoDisplay
 			//TODO: Get Money Stats Component
 		}
 		
-		m_StatChange = false;
+		m_bStatChange = false;
 		OnHealthChange(m_DMC.GetHealth());
 		OnStaminaChange(m_PlayerController.GetStamina());
 		//TODO: Get info from Money and Survival Stats Components
 		
 
-		if (m_StatChange)
+		if (m_bStatChange)
 		{
 			m_TimeAccumulator = 0;
 			if(m_GUIHidden)
@@ -167,6 +174,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	void ShowStatsHUD(bool var) //TODO: Key press to also show stats HUD? " ` or ~ key perhaps, KeyCode.KC_GRAVE"
 	{
 		if (var)

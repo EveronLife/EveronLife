@@ -1,7 +1,7 @@
 [EntityEditorProps(category: "EL/LicensePlateEntity", description:"The License Plate Entity")]
 class EL_LicensePlateEntityClass : GenericEntityClass
 {
-};
+}
 
 class EL_LicensePlateEntity : GenericEntity
 {
@@ -11,7 +11,7 @@ class EL_LicensePlateEntity : GenericEntity
 	protected ResourceName m_Layout;
 	
 	[Attribute("2", UIWidgets.Slider, "Material Index", params: "0 10 1")]
-	protected int m_MaterialIndex;
+	protected int m_iMaterialIndex;
 	
 	protected ref Widget m_wPIPRoot;
 	protected static bool s_bPIPIsEnabled;
@@ -21,28 +21,16 @@ class EL_LicensePlateEntity : GenericEntity
 	TextWidget m_TextWidget;
 	EL_LicensePlateManagerComponent m_LicensePlateManager;
 	
-	void EL_LicensePlateEntity(IEntitySource src, IEntity parent)
-	{
-		SetEventMask(EntityEvent.FRAME);
-		SetFlags(EntityFlags.ACTIVE, false);
-	}
-	
-	void ~EL_LicensePlateEntity()
-	{
-		if (m_wPIPRoot)
-		{
-			m_wPIPRoot.RemoveFromHierarchy();
-			m_wPIPRoot = null;
-		}
-	}
-	
+	//------------------------------------------------------------------------------------------------
+	//! Frame
 	protected override void EOnFrame(IEntity owner, float timeSlice)
 	{
 		if (!m_wPIPRoot)
 		{
 			m_wPIPRoot = GetGame().GetWorkspace().CreateWidgets(m_Layout);
 	
-			if (!m_wPIPRoot) return;
+			if (!m_wPIPRoot)
+				return;
 			
 			m_wRenderTargetTextureWidget = RTTextureWidget.Cast(m_wPIPRoot.FindAnyWidget("RTTexture0"));
 			
@@ -57,10 +45,29 @@ class EL_LicensePlateEntity : GenericEntity
 			
 			if (m_LicensePlateManager && m_TextWidget)
 			{
-				m_TextWidget.SetText(m_LicensePlateManager.m_Registration);
+				m_TextWidget.SetText(m_LicensePlateManager.m_sRegistration);
 			}
 		}
 		
-		m_wRenderTargetTextureWidget.SetGUIWidget(this, m_MaterialIndex);
+		m_wRenderTargetTextureWidget.SetGUIWidget(this, m_iMaterialIndex);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Constructor
+	void EL_LicensePlateEntity(IEntitySource src, IEntity parent)
+	{
+		SetEventMask(EntityEvent.FRAME);
+		SetFlags(EntityFlags.ACTIVE, false);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Deconstructor
+	void ~EL_LicensePlateEntity()
+	{
+		if (m_wPIPRoot)
+		{
+			m_wPIPRoot.RemoveFromHierarchy();
+			m_wPIPRoot = null;
+		}
 	}
 };

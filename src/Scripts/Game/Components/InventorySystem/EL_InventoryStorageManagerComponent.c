@@ -1,11 +1,14 @@
 modded class SCR_InventoryStorageManagerComponent
 {
-	override void InsertItem( IEntity pItem, BaseInventoryStorageComponent pStorageTo = null, BaseInventoryStorageComponent pStorageFrom = null, SCR_InvCallBack cb = null  )
+	//------------------------------------------------------------------------------------------------
+	override void InsertItem(IEntity pItem, BaseInventoryStorageComponent pStorageTo = null, BaseInventoryStorageComponent pStorageFrom = null, SCR_InvCallBack cb = null)
 	{
-		if(pStorageTo) {
+		if(pStorageTo) 
+		{
 			IEntity owner = pStorageTo.GetOwner();
-			auto trader = EL_TraderManagerComponent.Cast(owner.FindComponent(EL_TraderManagerComponent));
-			if (trader) {
+			EL_TraderManagerComponent trader = EL_TraderManagerComponent.Cast(owner.FindComponent(EL_TraderManagerComponent));
+			if (trader) 
+			{
 				// check if we get the correct Item traded
 				if (pItem.GetPrefabData().GetPrefabName() != trader.m_ItemToReceive)
 				{
@@ -16,17 +19,21 @@ modded class SCR_InventoryStorageManagerComponent
 				
 				// delete Item that we get traded
 				bool deleteSuccess = this.TryDeleteItem(pItem);
-				if (!deleteSuccess){
+				if (!deleteSuccess)
+				{
 					cb.InvokeOnFailed();
 					return;
 				}
+				
 				// spawn and insert ItemToGive into inventory
-				auto barterItem = GetGame().SpawnEntityPrefab(Resource.Load(trader.m_ItemToGive));
+				IEntity barterItem = GetGame().SpawnEntityPrefab(Resource.Load(trader.m_ItemToGive));
 				bool insertSuccess = TryInsertItemInStorage(barterItem, pStorageFrom);
-				if (!insertSuccess){
+				if (!insertSuccess)
+				{
 					TryInsertItemInStorage(GetGame().SpawnEntityPrefab(Resource.Load(trader.m_ItemToReceive)), pStorageFrom);
 					return;
 				}
+				
 				this.SetReturnCode(EInventoryRetCode.RETCODE_OK);
 				cb.InvokeOnComplete();
 				return;
@@ -38,13 +45,17 @@ modded class SCR_InventoryStorageManagerComponent
 
 modded class SCR_InvCallBack
 {
+	//------------------------------------------------------------------------------------------------
+	//! Complete
 	void InvokeOnComplete()
 	{
 		this.OnComplete();
 	}
 
+	//------------------------------------------------------------------------------------------------
+	//! Failed
 	void InvokeOnFailed()
 	{
 		this.OnFailed();
 	}
-};
+}
