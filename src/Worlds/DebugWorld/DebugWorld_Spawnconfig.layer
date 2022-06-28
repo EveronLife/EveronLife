@@ -1,8 +1,10 @@
 SCR_VehicleSpawn TestVehicleSpawner {
- coords 111.548 0.001 127.093
- angleY 87.735
+ coords 110.036 0.001 142.458
+ angleY 90
  m_rnPrefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
  respawnDelay 0
 }
 SCR_SpawnPoint : "{285FB4BFAE87D26F}Prefabs/MP/Spawning/SpawnPoint_LIFE.et" {
+ coords 110.006 0 139.963
+ angleY 180
 }
