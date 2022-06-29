@@ -18,9 +18,13 @@ class EL_GatherAction : ScriptedUserAction
 	[Attribute(defvalue:"0", UIWidgets.EditBox, desc: "Amount of delay after performing action")]
 	private int m_DelayTimeMilliseconds;
 	
+	[Attribute(defvalue:"1", UIWidgets.EditBox, desc: "Amount of items that can be gathered per delay")]
+	private int m_DelayPrefabQuantity;
+	
 	private SCR_InventoryStorageManagerComponent m_InventoryManager;
 	private bool m_CanBePerformed = true;
 	private float m_EndOfDelay;
+	private int m_QuantityBeforeDelay;
 	
 	//------------------------------------------------------------------------------------------------
 	// User has performed the action
@@ -38,7 +42,14 @@ class EL_GatherAction : ScriptedUserAction
 		//Show hint what to do with the gathered item
 		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
 		
-		if (m_DelayTimeMilliseconds > 0) // If item has a delay between uses
+		if (!m_QuantityBeforeDelay) 
+		{
+			m_QuantityBeforeDelay = m_DelayPrefabQuantity;
+		}
+		
+		m_QuantityBeforeDelay -= 1;
+		
+		if (m_DelayTimeMilliseconds > 0 && (!m_QuantityBeforeDelay || (m_QuantityBeforeDelay == 0))) // If item has a delay between uses and the quantity has been depleted 
 		{
 			m_CanBePerformed = false;
 			GetGame().GetCallqueue().CallLater(ToggleCanBePerformed, m_DelayTimeMilliseconds);	
