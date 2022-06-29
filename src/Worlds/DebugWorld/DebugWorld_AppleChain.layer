@@ -587,7 +587,7 @@ Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domest
    additionalActions {
     EL_GatherAction "{59654094806921B6}" {
      m_DelayTimeMilliseconds 6000
-     m_DelayPrefabQuantity 3
+     m_DelayGatherQuantity 3
     }
    }
   }
