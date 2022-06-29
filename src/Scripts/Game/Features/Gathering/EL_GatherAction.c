@@ -24,7 +24,7 @@ class EL_GatherAction : ScriptedUserAction
 	private SCR_InventoryStorageManagerComponent m_InventoryManager;
 	private bool m_CanBePerformed = true;
 	private float m_EndOfDelay;
-	private int m_QuantityBeforeDelay;
+	private int m_GathersBeforeDelay;
 	
 	//------------------------------------------------------------------------------------------------
 	// User has performed the action
@@ -42,14 +42,14 @@ class EL_GatherAction : ScriptedUserAction
 		//Show hint what to do with the gathered item
 		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
 		
-		if (!m_QuantityBeforeDelay) 
+		if (!m_GathersBeforeDelay) 
 		{
-			m_QuantityBeforeDelay = m_DelayPrefabQuantity;
+			m_GathersBeforeDelay = m_DelayPrefabQuantity;
 		}
 		
-		m_QuantityBeforeDelay -= 1;
+		m_GathersBeforeDelay -= 1;
 		
-		if (m_DelayTimeMilliseconds > 0 && (!m_QuantityBeforeDelay || (m_QuantityBeforeDelay == 0))) // If item has a delay between uses and the quantity has been depleted 
+		if (m_DelayTimeMilliseconds > 0 && (!m_GathersBeforeDelay || (m_GathersBeforeDelay == 0))) // If item has a delay between uses and the quantity has been depleted 
 		{
 			m_CanBePerformed = false;
 			GetGame().GetCallqueue().CallLater(ToggleCanBePerformed, m_DelayTimeMilliseconds);	
