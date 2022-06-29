@@ -1,0 +1,39 @@
+MatPBRMulti {
+ Color 1 1 1 1
+ GlobalMCRMap "{14B37C922DF01200}Assets/Vehicles/LicensePlate/data/LicensePlate_MCR.edds"
+ MaskMap "{6FE854594FB0F890}Assets/Vehicles/LicensePlate/data/LicensePlate_GLOBAL_MASK.edds"
+ VFXMap "{A0724839DA1D612C}Assets/Vehicles/LicensePlate/data/LicensePlate_VFX.edds"
+ GlobalNMOMap "{D0004D918679D040}Assets/Vehicles/LicensePlate/data/LicensePlate_NMO.edds"
+ MudOpacity 0.95
+ MudColor 0.084 0.074 0.061 1
+ MudRoughness 2
+ MudMetalness 0
+ MudBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ MudNMOMap "{96EF3CD8C8E643BA}Assets/_SharedData/Dirt/ST_Mud_01_NMO.edds"
+ MudMaskMap "{816ABEBED1A52FF3}Assets/_SharedData/DetailMask/ST_Mud_01_Mask.edds"
+ MudUVTransform MatUVTransform "{5996932F5BD3D836}" {
+ }
+ DirtOpacity 0.353
+ DirtLayerSharpness 2.082
+ DirtColor 0.141 0.125 0.099 1
+ DirtRoughness 1.5
+ DirtBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ DirtMaskMap "{A074608E879A25CB}Assets/_SharedData/DetailMask/ST_Dirt_01_Mask1.edds"
+ Enabled_4 1
+ Color_4 0.043 0.043 0.043 1
+ BCR_4 "{0236DEFDB2549ADB}Assets/_SharedData/Plastic/ST_PlasticBase_03_BCR.edds"
+ NMO_4 "{3AEE656F6B23C845}Assets/_SharedData/Plastic/ST_PlasticBase_03_NMO.edds"
+ Enabled_3 1
+ Color_3 0.443 0.475 0.494 1
+ BCR_3 "{FA742FE6A11B2766}Assets/_SharedData/Metal/ST_Steel_Base_01_BCR.edds"
+ NMO_3 "{C2AC9474786C75F8}Assets/_SharedData/Metal/ST_Steel_Base_01_NMO.edds"
+ MaskUVScale_3 0.001
+ Enabled_2 1
+ Color_2 0.498 0.498 0.498 1
+ NMO_2 "{839CBC1678749998}Assets/_SharedData/Metal/ST_MetalPaint_Coated_1m_NMO.edds"
+ MaskSharpness_2 0.204
+ Roughness_2 0.4
+ Color_1 1 1 1 1
+ BCR_1 "{D9F47D76A9247FD3}Assets/_SharedData/Metal/ST_Metal_Rust_01_BCR.edds"
+ NMO_1 "{E12CC6E470532D4D}Assets/_SharedData/Metal/ST_Metal_Rust_01_NMO.edds"
+}

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{A0724839DA1D612C}Assets/Vehicles/LicensePlate/data/LicensePlate_VFX.edds"
+ Configurations {
+  TIFFResourceClass PC : "{4EC6C20A754D338D}Configs/System/ResourceTypes/PC/TextureEffect.conf" {
+  }
+  TIFFResourceClass XBOX_ONE : "{CA41B00C72F6D179}Configs/System/ResourceTypes/XBOX_ONE/TextureEffect.conf" {
+  }
+  TIFFResourceClass XBOX_SERIES : "{5DF0BD2327CD114A}Configs/System/ResourceTypes/XBOX_SERIES/TextureEffect.conf" {
+  }
+  TIFFResourceClass PS4 : "{0FAC34EBBDAC6F40}Configs/System/ResourceTypes/PS4/TextureEffect.conf" {
+  }
+  TIFFResourceClass HEADLESS : "{3C96FCD2DDBE3074}Configs/System/ResourceTypes/HEADLESS/TextureEffect.conf" {
+  }
+ }
+}

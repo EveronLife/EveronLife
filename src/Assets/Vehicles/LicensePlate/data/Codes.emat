@@ -1,0 +1,5 @@
+MatPBRBasic {
+ RoughnessScale 0.4
+ BCRMap "$rendertarget"
+ NMOMap "{839CBC1678749998}Assets/_SharedData/Metal/ST_MetalPaint_Coated_1m_NMO.edds"
+}
