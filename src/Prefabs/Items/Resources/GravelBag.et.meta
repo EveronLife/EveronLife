@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{344090890C63F4CA}Prefabs/Items/Resources/Gravel_bag.et"
+ Name "{344090890C63F4CA}Prefabs/Items/Resources/GravelBag.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

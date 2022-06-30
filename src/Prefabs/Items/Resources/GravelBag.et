@@ -14,9 +14,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      Description "A bag full of gravel"
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
-     Weight 20
+     Weight 10
      SizeSetupStrategy Volume
-     ItemVolume 10000
+     ItemVolume 3000
     }
     ItemAnimationAttributes ItemAnimationAttributes "{598A6878445EB15B}" {
      AnimationInstance "{81E91C367B2A22D6}anims/workspaces/player/player_main_rpg.asi"
@@ -31,7 +31,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
       CameraOffset 0 0 0
      }
     }
-    m_Size SLOT_3x3
+    m_Size SLOT_2x1
     m_SlotType SLOT_ANY
    }
   }

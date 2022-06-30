@@ -1,6 +1,5 @@
 GenericEntity : "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et" {
- coords 128.198 0.001 136.136
- angleY -179.853
+ coords 127.918 0.001 135.664
 }
 GenericEntity : "{DEB57429CD49782D}Prefabs/Props/Construction/SandPile_01.et" {
  coords 127.934 0.001 131.16
