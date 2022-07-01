@@ -3,25 +3,9 @@ class EL_BaseEntry : ScriptAndConfig
 {
 	protected ref array<EL_LightComponent> m_AffectedLights = {};
 	
-	sealed void OnRegister(EL_LightComponent light)
-	{
-		if(Affects(light)) m_AffectedLights.Insert(light);
-	}
+	void OnRegister(EL_LightComponent light);
 	
-	void OnExecute(EL_LightAnimation animation)
-	{
-		foreach(EL_LightComponent light : m_AffectedLights)
-		{
-			Act(light);
-		}
-	}
-	
-	protected bool Affects(EL_LightComponent light)
-	{
-		return false;
-	}
-	
-	protected void Act(EL_LightComponent light);
+	void OnExecute(EL_LightAnimation animation);
 }
 
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_DelayMS", "%1ms")]
@@ -48,25 +32,66 @@ class EL_LoopEntry : EL_BaseEntry
 	
 	override void OnExecute(EL_LightAnimation animation)
 	{
-		if(m_LoopsRemaining)
+		if(m_Steps)
 		{
-			m_LoopsRemaining--;
-			animation.GoBack(m_Steps);
+			if(m_LoopsRemaining > 0 || !m_LoopCount)
+			{
+				if(m_LoopCount)
+					m_LoopsRemaining--;
+				animation.GoBack(m_Steps + 1);
+			}
+			else   
+			{
+				m_LoopsRemaining = m_LoopCount;
+			}
 		}
 		else
-		{
-			m_LoopsRemaining = m_LoopCount;
+		{	
+			animation.Reset();
 		}
+	
 	}
 }
 
-[BaseContainerProps(), SCR_BaseContainerStaticTitleField("All on")]
-class EL_TurnOnEntry : EL_BaseEntry
+enum EL_EntryType
 {
+	TURN_ON,
+	TURN_OFF,
+	TOGGLE
+}
+
+class EL_LightEntry : EL_WaitEntry
+{
+	protected ref static const ParamEnumArray enums = 
+	{
+		ParamEnum("Turn On", EL_EntryType.TURN_ON.ToString()),
+		ParamEnum("Turn Off", EL_EntryType.TURN_OFF.ToString()),
+		ParamEnum("Toggle", EL_EntryType.TOGGLE.ToString())
+	};
+	
+	[Attribute(defvalue: EL_EntryType.TURN_ON.ToString(), uiwidget: UIWidgets.ComboBox, enums: enums)]
+	protected EL_EntryType m_Type;
+
 	[Attribute()]
 	protected string m_Name;
 	
-	override bool Affects(EL_LightComponent light)
+	protected ref array<EL_LightComponent> m_Lights = {};
+	
+	override void OnRegister(EL_LightComponent light)
+	{
+		if(Affects(light)) m_Lights.Insert(light);
+	}
+	
+	override void OnExecute(EL_LightAnimation animation)
+	{
+		foreach(EL_LightComponent light : m_Lights)
+		{
+			Act(light);
+		}
+		animation.SetDelay(m_DelayMS / 1000.0);
+	}
+	
+	bool Affects(EL_LightComponent light)
 	{
 		if(!m_Name) return true;
 		array<string> names = {};
@@ -80,35 +105,20 @@ class EL_TurnOnEntry : EL_BaseEntry
 		return false;
 	}
 	
-	override void Act(EL_LightComponent light)
+	void Act(EL_LightComponent light)
 	{
-		light.TurnOn();
+		if(m_Type == EL_EntryType.TURN_ON) light.TurnOn();
+		else if(m_Type == EL_EntryType.TURN_OFF) light.TurnOff();
+		else light.Toggle();
 	}
 }
 
-[SCR_BaseContainerStaticTitleField("All off")]
-class EL_TurnOffEntry : EL_BaseEntry
+class EL_AnimateEntry : EL_LightEntry
 {
-	[Attribute()]
-	protected string m_Name;
-	
-	override bool Affects(EL_LightComponent light)
-	{
-		if(!m_Name) return true;
-		array<string> names = {};
-		m_Name.Split(" ", names, true);
-		
-		foreach(string name : names)
-		{
-			if(light.GetName().Contains(name))
-				return true;
-		}
-		
-		return false;
-	}
-	
 	override void Act(EL_LightComponent light)
 	{
-		light.TurnOff();
+		if(m_Type == EL_EntryType.TURN_ON) light.Play();
+		else if(m_Type == EL_EntryType.TURN_OFF) light.Stop();
+		else light.ToggleAnim();
 	}
 }

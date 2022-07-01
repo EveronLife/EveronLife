@@ -3,7 +3,7 @@ AudioClass {
   SignalClass {
    id 7181
    name "Signal 1"
-   tl -559.417 -421.777
+   tl -292.144 -152.686
    res "{63CE53388AF9EF01}Sounds/_SharedData/Signals/OneSignal/animSelector.sig"
    inputsport {
     3
@@ -85,10 +85,10 @@ AudioClass {
    tl -922.857 -61.429
    res "{3E81E3832430D45B}Sounds/Siren/siren.sig"
    inputsport {
-    17 22 23 25 30 28
+    17 22 23 25 38 40
    }
    outputsport {
-    18 20 21 24 27
+    20 21 24 37 39 41
    }
    inputvalues {
     0 0 0 0 0 0
@@ -203,7 +203,7 @@ AudioClass {
        id 0
        links {
         ConnectionClass connection {
-         id 20484
+         id 38916
          port 65
         }
         ConnectionClass connection {
@@ -211,15 +211,20 @@ AudioClass {
          port 65
         }
         ConnectionClass connection {
+         id 20484
+         port 65
+        }
+        ConnectionClass connection {
          id 35844
          port 65
         }
+       }
+      }
+      ConnectionsClass connections {
+       id 1
+       links {
         ConnectionClass connection {
-         id 37892
-         port 65
-        }
-        ConnectionClass connection {
-         id 38916
+         id 43013
          port 65
         }
        }
@@ -233,15 +238,15 @@ AudioClass {
        id 0
        links {
         ConnectionClass connection {
+         id 44036
+         port 65
+        }
+        ConnectionClass connection {
          id 33796
          port 65
         }
         ConnectionClass connection {
-         id 36868
-         port 65
-        }
-        ConnectionClass connection {
-         id 37892
+         id 45060
          port 65
         }
        }
@@ -263,8 +268,8 @@ AudioClass {
  generators {
   GeneratorClass {
    id 43013
-   name "Generator 42"
-   tl -563.333 576.667
+   name "Silence"
+   tl -299.333 64.667
    function Silence
   }
  }
@@ -423,7 +428,7 @@ AudioClass {
        links {
         ConnectionClass connection {
          id 34829
-         port 20
+         port 39
         }
        }
       }
@@ -454,7 +459,7 @@ AudioClass {
        links {
         ConnectionClass connection {
          id 34829
-         port 20
+         port 39
         }
        }
       }
@@ -482,7 +487,7 @@ AudioClass {
        links {
         ConnectionClass connection {
          id 34829
-         port 20
+         port 41
         }
        }
       }
@@ -499,8 +504,8 @@ AudioClass {
   }
   BankLocalClass {
    id 35844
-   name "Siren_fast"
-   tl -564.107 212.321
+   name "FastSirenActive"
+   tl -556.107 388.321
    iops {
     IOPConnectionClass iopConnection {
      port 0
@@ -510,25 +515,13 @@ AudioClass {
        links {
         ConnectionClass connection {
          id 34829
-         port 21
+         port 20
         }
        }
       }
      }
     }
     IOPConnectionClass iopConnection {
-     port 1
-     conn {
-      ConnectionsClass connections {
-       id 9
-       links {
-        ConnectionClass connection {
-         id 34829
-         port 27
-        }
-       }
-      }
-     }
     }
    }
    Volume -10
@@ -542,54 +535,9 @@ AudioClass {
    }
   }
   BankLocalClass {
-   id 36868
-   name "Siren_slow"
-   tl -565 327.5
-   iops {
-    IOPConnectionClass iopConnection {
-     port 0
-     conn {
-      ConnectionsClass connections {
-       id 9
-       links {
-        ConnectionClass connection {
-         id 34829
-         port 21
-        }
-       }
-      }
-     }
-    }
-    IOPConnectionClass iopConnection {
-     port 1
-     conn {
-      ConnectionsClass connections {
-       id 9
-       links {
-        ConnectionClass connection {
-         id 34829
-         port 27
-        }
-       }
-      }
-     }
-    }
-   }
-   Volume -10
-   "Loop count" 255
-   "Infinite loop" 1
-   "Fade in time" 100
-   "Fade out time" 100
-   Samples {
-    AudioBankSampleClass "Sample(1)" {
-     Filename "{4722560D017A79B9}Sounds/Siren/siren.wav"
-    }
-   }
-  }
-  BankLocalClass {
-   id 37892
-   name "Siren_fast_continuos"
-   tl -561.25 467.5
+   id 38916
+   name "SlowSirenActive"
+   tl -559 187
    iops {
     IOPConnectionClass iopConnection {
      port 0
@@ -606,62 +554,6 @@ AudioClass {
      }
     }
     IOPConnectionClass iopConnection {
-     port 1
-     conn {
-      ConnectionsClass connections {
-       id 9
-       links {
-        ConnectionClass connection {
-         id 34829
-         port 27
-        }
-       }
-      }
-     }
-    }
-   }
-   Volume -10
-   "Loop count" 255
-   "Infinite loop" 1
-   "Fade in time" 50
-   Samples {
-    AudioBankSampleClass "Sample(1)" {
-     Filename "{A69CE1C244001182}Sounds/Siren/sirenfast.wav"
-    }
-   }
-  }
-  BankLocalClass {
-   id 38916
-   name "Siren_slow"
-   tl -563 -323
-   iops {
-    IOPConnectionClass iopConnection {
-     port 0
-     conn {
-      ConnectionsClass connections {
-       id 9
-       links {
-        ConnectionClass connection {
-         id 34829
-         port 18
-        }
-       }
-      }
-     }
-    }
-    IOPConnectionClass iopConnection {
-     port 1
-     conn {
-      ConnectionsClass connections {
-       id 9
-       links {
-        ConnectionClass connection {
-         id 34829
-         port 27
-        }
-       }
-      }
-     }
     }
    }
    Volume -10
@@ -671,6 +563,70 @@ AudioClass {
    Samples {
     AudioBankSampleClass "Sample(1)" {
      Filename "{4722560D017A79B9}Sounds/Siren/siren.wav"
+    }
+   }
+  }
+  BankLocalClass {
+   id 44036
+   name "SlowSirenInactive"
+   tl -556 286
+   iops {
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 9
+       links {
+        ConnectionClass connection {
+         id 34829
+         port 37
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+    }
+   }
+   Volume -10
+   "Loop count" 255
+   "Infinite loop" 1
+   "Fade in time" 50
+   Samples {
+    AudioBankSampleClass "Sample(1)" {
+     Filename "{4722560D017A79B9}Sounds/Siren/siren.wav"
+    }
+   }
+  }
+  BankLocalClass {
+   id 45060
+   name "FastSirenInactive"
+   tl -562 490
+   iops {
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 9
+       links {
+        ConnectionClass connection {
+         id 34829
+         port 21
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+    }
+   }
+   Volume -10
+   "Loop count" 255
+   "Infinite loop" 1
+   "Fade in time" 50
+   Samples {
+    AudioBankSampleClass "Sample(1)" {
+     Filename "{A69CE1C244001182}Sounds/Siren/sirenfast.wav"
     }
    }
   }

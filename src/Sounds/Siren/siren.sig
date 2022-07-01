@@ -2,8 +2,8 @@ AudioSignalResClass {
  Inputs {
   IOPItemInputClass {
    id 17
-   name "Mode0"
-   tl 230 -222.5
+   name "FastSirenActive"
+   tl 395 -222.5
    children {
     20
    }
@@ -11,138 +11,98 @@ AudioSignalResClass {
   }
   IOPItemInputClass {
    id 22
-   name "Mode1"
-   tl 228.75 -136.25
+   name "FastSirenInactive"
+   tl 397.5 -137.5
    children {
-    34
+    37
    }
   }
   IOPItemInputClass {
    id 23
-   name "Mode2"
-   tl 233.75 -41.25
+   name "SlowSirenInactive"
+   tl 410 13.75
    children {
-    35
+    21
    }
   }
   IOPItemInputClass {
    id 25
-   name "Mode3"
-   tl 246.417 46.417
-   children {
-    36
-   }
-  }
-  IOPItemInputClass {
-   id 28
-   name "PitchVariance"
-   tl 264 206
-   children {
-    27
-   }
-  }
-  IOPItemInputClass {
-   id 30
-   name "VolumeVariance"
-   tl 256 127
-   children {
-    34 35 36
-   }
-  }
- }
- Ops {
-  IOPItemOpMulClass {
-   id 34
-   name "Mul 34"
-   tl 427 -130
-   children {
-    18
-   }
-   inputs {
-    ConnectionClass connection {
-     id 30
-     port 0
-    }
-    ConnectionClass connection {
-     id 22
-     port 0
-    }
-   }
-  }
-  IOPItemOpMulClass {
-   id 35
-   name "Mul 34"
-   tl 433 -44
-   children {
-    21
-   }
-   inputs {
-    ConnectionClass connection {
-     id 30
-     port 0
-    }
-    ConnectionClass connection {
-     id 23
-     port 0
-    }
-   }
-  }
-  IOPItemOpMulClass {
-   id 36
-   name "Mul 34"
-   tl 441 49
+   name "SlowSirenActive"
+   tl 403.917 -58.583
    children {
     24
    }
-   inputs {
-    ConnectionClass connection {
-     id 30
-     port 0
-    }
-    ConnectionClass connection {
-     id 25
-     port 0
-    }
+  }
+  IOPItemInputClass {
+   id 38
+   name "DefaultHornActive"
+   tl 416.25 106.25
+   children {
+    39
+   }
+  }
+  IOPItemInputClass {
+   id 40
+   name "DefaultHornInactive"
+   tl 413.75 187.5
+   children {
+    41
    }
   }
  }
  Outputs {
   IOPItemOutputClass {
-   id 18
-   name "SirenOnce"
-   tl 630.75 -137
-   input 34
-  }
-  IOPItemOutputClass {
    id 20
-   name "Horn"
+   name "FastSirenActive"
    tl 621 -224.75
    input 17
   }
   IOPItemOutputClass {
    id 21
-   name "SirenSlow"
-   tl 618.25 -41.75
-   input 35
+   name "SlowSirenInactive"
+   tl 627 13.25
+   input 23
   }
   IOPItemOutputClass {
    id 24
-   name "SirenFast"
-   tl 642.917 66.917
-   input 36
+   name "SlowSirenActive"
+   tl 627.917 -65.583
+   input 25
   }
   IOPItemOutputClass {
-   id 27
-   name "PitchVariance"
-   tl 648 163
-   input 28
+   id 37
+   name "FastSirenInactive"
+   tl 618.75 -137.5
+   input 22
+  }
+  IOPItemOutputClass {
+   id 39
+   name "DefaultHornActive"
+   tl 628.75 101.25
+   input 38
+  }
+  IOPItemOutputClass {
+   id 41
+   name "DefaultHornInactive"
+   tl 628.75 178.75
+   input 40
   }
  }
  compiled IOPCompiledClass {
   visited {
-   645 517 518 389 267 390 261 139 262 133 11 6 5 134
+   645 646 517 518 389 262 261 134 133 390 5 6
   }
   ins {
+   IOPCompiledIn {
+    data {
+     1 2
+    }
+   }
+   IOPCompiledIn {
+    data {
+     1 196610
+    }
+   }
    IOPCompiledIn {
     data {
      1 65538
@@ -150,17 +110,7 @@ AudioSignalResClass {
    }
    IOPCompiledIn {
     data {
-     1 3
-    }
-   }
-   IOPCompiledIn {
-    data {
-     1 65539
-    }
-   }
-   IOPCompiledIn {
-    data {
-     1 131075
+     1 131074
     }
    }
    IOPCompiledIn {
@@ -170,24 +120,7 @@ AudioSignalResClass {
    }
    IOPCompiledIn {
     data {
-     3 3 65539 131075
-    }
-   }
-  }
-  ops {
-   IOPCompiledOp {
-    data {
-     1 2 4 327680 0 65536 0
-    }
-   }
-   IOPCompiledOp {
-    data {
-     1 131074 4 327680 0 131072 0
-    }
-   }
-   IOPCompiledOp {
-    data {
-     1 196610 4 327680 0 196608 0
+     1 327682
     }
    }
   }
@@ -217,8 +150,13 @@ AudioSignalResClass {
      0
     }
    }
+   IOPCompiledOut {
+    data {
+     0
+    }
+   }
   }
-  processed 14
+  processed 12
   version 2
  }
 }

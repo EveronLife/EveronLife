@@ -31,22 +31,34 @@ class EL_LightAnimation
 		else m_EntryIndex = nextIdx;
 	}
 	
+	void Reset()
+	{
+		m_EntryIndex = 0;
+	}
+	
 	protected void Simulate(float timeSlice)
 	{
 		m_Timer -= timeSlice;
-		while(m_Timer <= 0) 
+		while(m_Timer <= 0 && m_EntryIndex < m_Entries.Count()) 
 		{
 			m_Entries[m_EntryIndex].OnExecute(this);
-			m_EntryIndex = (m_EntryIndex + 1) % (m_Entries.Count());
+			m_EntryIndex++;
 		}
 	}
 	
 	void Tick(float timeSlice)
 	{
-		for(int i = 0; i < m_Precision; i++)
+		if(m_EntryIndex < m_Entries.Count())
 		{
-			Simulate(timeSlice / m_Precision);
+			float step = timeSlice / m_Precision;
+			for(int i = 0; i < m_Precision; i++)
+			{
+				if(m_EntryIndex < m_Entries.Count())
+					Simulate(step);
+			}
 		}
+		
+		
 	}
 	
 	void SetPrecision(int precision)

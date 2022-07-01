@@ -43,7 +43,6 @@ class EL_LightComponent : ScriptComponent
 			{
 				light.Spawn(GetOwner());
 			}
-			Play();
 			m_isOn = true;
 		}
 	}
@@ -56,9 +55,20 @@ class EL_LightComponent : ScriptComponent
 			if(m_Material)
 				m_Material.SetEmissiveMultiplier(EMISSIVE_OFF);
 			DestroyLights();
-			Stop();
 			m_isOn = false;
 		}
+	}
+	
+	void Toggle()
+	{
+		if(IsOn()) TurnOff();
+		else TurnOn();
+	}
+	
+	void ToggleAnim()
+	{
+		if(IsPlaying()) Stop();
+		else Play();
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -88,23 +98,7 @@ class EL_LightComponent : ScriptComponent
 			return m_Anim.IsPlaying();
 		return false;
 	}
-	
-	//------------------------------------------------------------------------------------------------
-	void Register(IEntity owner)
-	{
-		IEntity parent = owner.GetParent();
-		EL_SirenManagerComponent manager;
-		
-			Print(parent);
-		while(parent && !manager)
-		{
-			manager = EL_SirenManagerComponent.Cast(parent.FindComponent(EL_SirenManagerComponent));
-			parent = parent.GetParent();
-		}
-		if(manager) manager.Register(this);
-		else Print("Light component with no manager", LogLevel.WARNING);
-	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void DestroyLights()
 	{
@@ -116,10 +110,26 @@ class EL_LightComponent : ScriptComponent
 	
 	//------------------------------------------------------------------------------------------------
 	
+	void Register(IEntity owner)
+	{
+		IEntity parent = owner.GetParent();
+		EL_SirenManagerComponent manager;
+		
+			Print(parent);
+		while(parent && !manager)
+		{
+			manager = EL_SirenManagerComponent.Cast(parent.FindComponent(EL_SirenManagerComponent));
+			parent = parent.GetParent();
+		}
+		if(manager) manager.RegisterLight(this);
+		else Print("Light component with no manager", LogLevel.WARNING);
+	}
+	
 	string GetName()
 	{
 		return m_Name;
 	}
+	
 	void ~EL_LightComponent()
 	{
 		DestroyLights();
