@@ -14,13 +14,10 @@ class SirenModeAction : ScriptedUserAction
 	
 	protected IEntity m_pOwner;
 	
-	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
-	{
-		m_Manager = EL_SirenManagerComponent.Cast(pOwnerEntity.FindComponent(EL_SirenManagerComponent));
-	}
 	
 	override event void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
+		if(!m_Manager) m_Manager = EL_SirenManagerComponent.Cast(pOwnerEntity.FindComponent(EL_SirenManagerComponent));
 		m_Manager.SetMode(m_Mode);
 	}
 	
@@ -55,8 +52,6 @@ class SirenModeAction : ScriptedUserAction
 		}
 		// We cannot be pilot nor interior, if we are not seated in vehicle at all.
 		else if (m_bInteriorOnly || m_bPilotOnly)
-			return false;
-		else if(!m_Manager)
 			return false;
 		
 		return true;

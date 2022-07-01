@@ -1,0 +1,76 @@
+Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  EL_SirenManagerComponent "{59C243CD49C708B5}" {
+   m_Modes EL_SirenModes "{59C243CCE05D66FC}" : "{8758CF5CD8151C11}Prefabs/Vehicles/Wheeled/M151A2/Modes.conf" {
+   }
+  }
+  RigidBody "{51DAA09FECF52BBF}" {
+   Active AlwaysActive
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 10408.7
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   ActionContexts {
+    UserActionContext "{59C243CE22440286}" {
+     ContextName "siren"
+     Position PointInfo "{59C243CE168D6476}" {
+      Offset -0.2044 1.082 0.433
+      Angles 0 180 0
+     }
+     Omnidirectional 0
+    }
+   }
+   additionalActions {
+    SirenModeAction "{59C243CE6A635673}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59C243CE552DF450}" {
+      Name "Position 0"
+     }
+     m_Mode "default"
+    }
+    SirenModeAction "{59C243CE4DE2E3E4}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59C243CEB0961166}" {
+      Name "Position 1"
+     }
+     m_Mode "Mode1"
+    }
+    SirenModeAction "{59C243C7E1081FDD}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59C243C7E458BF39}" {
+      Name "Position 2"
+     }
+     m_Mode "Mode2"
+    }
+    SirenModeAction "{59C243C65934B313}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59C243C65CB1ED95}" {
+      Name "Position 3"
+     }
+     m_Mode "Mode3"
+    }
+   }
+  }
+ }
+ coords 0 0 0
+ {
+  GenericEntity : "{AC7FCBC268CA2914}Prefabs/Vehicles/Wheeled/M151A2/Light.et" {
+   ID "59C243CFED30F562"
+   coords -0.858 1.46 0.501
+  }
+  GenericEntity : "{B6742C91E4499F0A}Prefabs/Vehicles/EmergencyLights/EmergencyLightsKnob.et" {
+   ID "59C243CFED30F567"
+   coords -0.203 1.077 0.466
+  }
+ }
+}

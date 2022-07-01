@@ -521,8 +521,6 @@ AudioClass {
       }
      }
     }
-    IOPConnectionClass iopConnection {
-    }
    }
    Volume -10
    "Loop count" 255
@@ -553,8 +551,6 @@ AudioClass {
       }
      }
     }
-    IOPConnectionClass iopConnection {
-    }
    }
    Volume -10
    "Loop count" 255
@@ -579,13 +575,11 @@ AudioClass {
        links {
         ConnectionClass connection {
          id 34829
-         port 37
+         port 21
         }
        }
       }
      }
-    }
-    IOPConnectionClass iopConnection {
     }
    }
    Volume -10
@@ -611,13 +605,11 @@ AudioClass {
        links {
         ConnectionClass connection {
          id 34829
-         port 21
+         port 37
         }
        }
       }
      }
-    }
-    IOPConnectionClass iopConnection {
     }
    }
    Volume -10

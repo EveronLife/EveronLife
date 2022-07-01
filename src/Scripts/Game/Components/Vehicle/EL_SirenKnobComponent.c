@@ -7,15 +7,18 @@ class EL_SirenKnobComponent : ScriptComponent
 {
 	protected SoundComponent m_SoundComp;
 	
+	protected EL_LightAnimation m_Animation;
+	
 	override void OnPostInit(IEntity owner)
 	{
 		m_SoundComp = SoundComponent.Cast(GetOwner().FindComponent(SoundComponent));
-		Register(owner);
+		SetEventMask(owner, EntityEvent.SIMULATE);
+		Register();
 	}
 	
-	void Register(IEntity owner)
+	void Register()
 	{
-		IEntity parent = owner.GetParent();
+		IEntity parent = GetOwner().GetParent();
 		EL_SirenManagerComponent manager;
 		
 		while(parent && !manager)
@@ -23,7 +26,18 @@ class EL_SirenKnobComponent : ScriptComponent
 			manager = EL_SirenManagerComponent.Cast(parent.FindComponent(EL_SirenManagerComponent));
 			parent = parent.GetParent();
 		}
-		if(manager) manager.RegisterKnob(SignalsManagerComponent.Cast(owner.FindComponent(SignalsManagerComponent)));
+		if(manager) manager.RegisterKnob(this);
 		else Print("Siren knob component with no manager", LogLevel.WARNING);
+	}
+	
+	void SetAnimation(EL_LightAnimation anim)
+	{
+		m_Animation = anim;
+	}
+	
+	override event protected void EOnSimulate(IEntity owner, float timeSlice)
+	{
+		if(m_Animation)
+			m_Animation.Tick(timeSlice);
 	}
 }

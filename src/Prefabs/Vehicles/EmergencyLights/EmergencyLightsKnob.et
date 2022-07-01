@@ -4,13 +4,15 @@ GenericEntity {
   SignalsManagerComponent "{59BCE8306DCF56D0}" {
   }
   EL_SirenKnobComponent "{59BD4EF13634FA27}" {
-   m_Modes EL_KnobModes "{59BD4EF13940675C}" {
-   }
   }
   MeshObject "{59B23DD7A2211F0C}" {
    Object "{90C1B80546AE52D2}Assets/Vehicles/EmergencyLightsKnob/Knob.xob"
   }
   Hierarchy "{59B23DD7E039D117}" {
+  }
+  RigidBody "{59C34E58A4853F83}" {
+   Active AlwaysActive
+   ModelGeometry 1
   }
   ProcAnimComponent "{59B35BD12113D2C0}" {
    Parameters {

@@ -15,15 +15,15 @@ class EL_SirenManagerComponent : ScriptComponent
 	
 	protected ref EL_LightAnimation m_CurrentAnim;
 	
-	protected SignalsManagerComponent m_Knob;
+	protected EL_SirenKnobComponent m_Knob;
+	protected SignalsManagerComponent m_KnobSigComp;
 	
 	protected SoundComponent m_SoundComp;
 	
 	override void OnPostInit(IEntity owner)
 	{
-		SetMode("default");
 		m_SoundComp = SoundComponent.Cast(owner.FindComponent(SoundComponent));
-		SetEventMask(owner, EntityEvent.SIMULATE);
+		SetMode("default");
 	}
 	
 	
@@ -33,16 +33,23 @@ class EL_SirenManagerComponent : ScriptComponent
 			m_Modes.Insert(light);
 	}
 	
-	void RegisterKnob(SignalsManagerComponent knob)
+	void RegisterKnob(EL_SirenKnobComponent knob)
 	{
 		if(m_Knob) Print("Siren with multiple knobs", LogLevel.WARNING);
-		else m_Knob = knob;
+		else 
+		{
+			m_Knob = knob;
+			m_KnobSigComp = SignalsManagerComponent.Cast(knob.GetOwner().FindComponent(SignalsManagerComponent));
+		}
 	}
 	
 	protected void SetSirenMode(EL_SirenMode mode)
 	{
-		m_SoundComp.SetSignalValueStr(m_CurrentMode.GetSirenActive() + "Active", SOUND_OFF);
-		m_SoundComp.SetSignalValueStr(m_CurrentMode.GetSirenInactive() + "Inactive", SOUND_OFF);
+		if(m_CurrentMode)
+		{
+			m_SoundComp.SetSignalValueStr(m_CurrentMode.GetSirenActive() + "Active", SOUND_OFF);
+			m_SoundComp.SetSignalValueStr(m_CurrentMode.GetSirenInactive() + "Inactive", SOUND_OFF);
+		}
 		
 		m_SoundComp.SetSignalValueStr(mode.GetSirenActive() + "Active", SOUND_ON);
 		m_SoundComp.SetSignalValueStr(mode.GetSirenInactive() + "Inactive", SOUND_ON);
@@ -50,43 +57,32 @@ class EL_SirenManagerComponent : ScriptComponent
 	
 	protected void SetKnobMode(EL_SirenMode mode)
 	{
+		EL_LightAnimation anim = mode.GetAnimation();
+		if(anim)
+		{
+			anim.Reset();
+			m_Knob.SetAnimation(anim);
+		}
 		foreach(SignalValuePair sig : mode.GetKnobSignals())
 		{
-			m_Knob.SetSignalValue(m_Knob.FindSignal(sig.GetName()), sig.GetValue());
+			m_KnobSigComp.SetSignalValue(m_KnobSigComp.FindSignal(sig.GetName()), sig.GetValue());
 		}
 		
 	}
 	
 	void SetMode(string name)
 	{
+		if(!m_Modes) return;
 		EL_SirenMode mode = m_Modes.Find(name);
 		if(mode)
 		{
-			EL_LightAnimation anim = mode.GetAnimation();
-			if(anim)
-			{
-				anim.Reset();
-				m_CurrentAnim = anim;
-			}
-			if(m_Knob)
-				SetKnobMode(mode);
+			if(m_Knob) SetKnobMode(mode);
 			
-			if(m_SoundComp)
-				SetSirenMode(mode);
+			if(m_SoundComp) SetSirenMode(mode);
 		}
 		
 		m_CurrentMode = mode;
 	}
-	
-	override event protected void EOnSimulate(IEntity owner, float timeSlice)
-	{
-		m_CurrentAnim.Tick(timeSlice);
-	}
-}
-
-class SirenSounds : ParamEnumArray
-{
-	
 }
 
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_Name", "%1")]
@@ -147,6 +143,7 @@ class EL_SirenMode
 	}
 }
 
+[BaseContainerProps()]
 class SignalValuePair
 {
 	[Attribute()]

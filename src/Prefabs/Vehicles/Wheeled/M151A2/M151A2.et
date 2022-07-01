@@ -14,6 +14,16 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
     }
    }
   }
+  EL_SirenManagerComponent "{59C243CD49C708B5}" {
+  }
+  MeshObject "{51DAA09FEFBFC0E7}" {
+   Materials {
+    MaterialAssignClass "{59C243CC611908B5}" {
+     SourceMaterial "M151A2_Body"
+     AssignedMaterial "{EFC1F56477585047}Assets/Vehicles/Wheeled/M151A2/data/M151A2_Body_Police.emat"
+    }
+   }
+  }
   ActionsManagerComponent "{C97BE5489221AE18}" {
    additionalActions {
    }
