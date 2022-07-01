@@ -39,6 +39,7 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
      UIInfo UIInfo "{59C243CEB0961166}" {
       Name "Position 1"
      }
+     "Sort Priority" -1
      m_Mode "Mode1"
     }
     SirenModeAction "{59C243C7E1081FDD}" {
@@ -48,6 +49,7 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
      UIInfo UIInfo "{59C243C7E458BF39}" {
       Name "Position 2"
      }
+     "Sort Priority" 1
      m_Mode "Mode2"
     }
     SirenModeAction "{59C243C65934B313}" {
@@ -57,6 +59,7 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
      UIInfo UIInfo "{59C243C65CB1ED95}" {
       Name "Position 3"
      }
+     "Sort Priority" 2
      m_Mode "Mode3"
     }
    }
