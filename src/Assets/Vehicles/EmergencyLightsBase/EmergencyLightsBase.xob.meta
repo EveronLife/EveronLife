@@ -13,6 +13,15 @@ MetaFileClass {
      AssignedMaterial "{7F47C0F74A6C96A3}Assets/Vehicles/EmergencyLightsBase/data/Glass.emat"
     }
    }
+   GeometryParams {
+    GeometryParam USP_Disk {
+     SurfaceProperties {
+      "{536BF67B2052B869}material/metal.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
    Common TXOCommonClass "{59A97EA968511180}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
    }
   }

@@ -1,18 +1,18 @@
 LightEntity {
  ID "59B002DD6DB97381"
  components {
-  Hierarchy "{59B27190D918E1F5}" {
-  }
-  RplComponent "{59B27D001AF53529}" {
+  Hierarchy "{59B833273055323C}" {
   }
  }
  Color 0 0.25 1 1
- LV 12.099
+ LV 4.359
  ProjectionMap "{5B38174CD9F1071B}Assets/Vehicles/EmergencyLightsBase/data/ProjectionMap.edds"
+ ClipEV -10
  Type Spot
  Radius 30.218
  NearPlane 0.01
  SpotAngle 170
- SpotAngleAttenuation 1
  Dynamic 1
+ VolLightScale 0.469
+ VolLightIntensity 0.223
 }
