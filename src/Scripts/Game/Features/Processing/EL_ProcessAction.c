@@ -62,7 +62,7 @@ class EL_ProcessAction : ScriptedUserAction
 			if (allInputItems.Count() < processingInput.m_iInputAmount)
 				return;
 	
-			for (int i = 0; i <= processingInput.m_iInputAmount; i++) 
+			for (int i = 0; i < processingInput.m_iInputAmount; i++) 
 			{
 				inventoryManager.TryDeleteItem(allInputItems[i]);
 			}
