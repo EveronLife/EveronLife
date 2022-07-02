@@ -1,6 +1,6 @@
 MatPBRBasic {
  Emissive 0 0.25 1 0
- EmissiveLV 8.215
+ EmissiveLV 11.954
  EmissiveMap "{E8ADC7B9CDA6F64A}Assets/Vehicles/EmergencyLightsBase/data/Lights_EM.edds"
  BCRMap "{9118D37720D38A75}Assets/Vehicles/EmergencyLightsBase/data/Lights_BCR.edds"
 }
