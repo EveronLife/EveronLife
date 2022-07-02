@@ -13,6 +13,4 @@ LightEntity {
  NearPlane 0.01
  SpotAngle 170
  Dynamic 1
- VolLightScale 0.469
- VolLightIntensity 0.223
 }
