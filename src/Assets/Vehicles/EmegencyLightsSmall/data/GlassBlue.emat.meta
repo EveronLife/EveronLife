@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{1727785442C76CC4}Assets/Vehicles/EmergencyLightsSmall/data/Glass.emat"
+ Name "{1727785442C76CC4}Assets/Vehicles/EmergencyLightsSmallBuiltIn/data/GlassBlue.emat"
  Configurations {
   EMATResourceClass PC {
   }
