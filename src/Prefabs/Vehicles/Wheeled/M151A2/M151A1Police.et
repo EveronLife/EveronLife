@@ -2,11 +2,10 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
  ID "44EC665ABD2FF04B"
  components {
   EL_SirenManagerComponent "{59C243CD49C708B5}" {
-   m_Modes EL_SirenModes "{59C243CCE05D66FC}" : "{8758CF5CD8151C11}Prefabs/Vehicles/Wheeled/M151A2/Modes.conf" {
+   m_Modes EL_SirenModes "{59C45208DFE27BBC}" : "{A24DB78BFBC39A07}Prefabs/Vehicles/Wheeled/M151A2/Basic.conf" {
    }
   }
   RigidBody "{51DAA09FECF52BBF}" {
-   Active AlwaysActive
   }
   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
    m_fVehicleDestroyDamage 10408.7
@@ -23,43 +22,40 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
     }
    }
    additionalActions {
-    SirenModeAction "{59C243CE6A635673}" {
+    EL_SirenModeAction "{59C36850230EA3A1}" {
      ParentContextList {
       "siren"
      }
-     UIInfo UIInfo "{59C243CE552DF450}" {
-      Name "Position 0"
+     UIInfo UIInfo "{59C421B67FE7DDF1}" {
+      Name "Mode 0"
      }
      m_Mode "default"
     }
-    SirenModeAction "{59C243CE4DE2E3E4}" {
+    EL_SirenModeAction "{59C421B6680A3C7F}" {
      ParentContextList {
       "siren"
      }
-     UIInfo UIInfo "{59C243CEB0961166}" {
-      Name "Position 1"
+     UIInfo UIInfo "{59C421B0FA7E1126}" {
+      Name "Mode 1"
      }
-     "Sort Priority" -1
      m_Mode "Mode1"
     }
-    SirenModeAction "{59C243C7E1081FDD}" {
+    EL_SirenModeAction "{59C421B6465272B4}" {
      ParentContextList {
       "siren"
      }
-     UIInfo UIInfo "{59C243C7E458BF39}" {
-      Name "Position 2"
+     UIInfo UIInfo "{59C421B0E07B80AC}" {
+      Name "Mode 2"
      }
-     "Sort Priority" 1
      m_Mode "Mode2"
     }
-    SirenModeAction "{59C243C65934B313}" {
+    EL_SirenModeAction "{59C421B6B0ACFEC2}" {
      ParentContextList {
       "siren"
      }
-     UIInfo UIInfo "{59C243C65CB1ED95}" {
-      Name "Position 3"
+     UIInfo UIInfo "{59C421B0E71B6271}" {
+      Name "Mode 3"
      }
-     "Sort Priority" 2
      m_Mode "Mode3"
     }
    }
