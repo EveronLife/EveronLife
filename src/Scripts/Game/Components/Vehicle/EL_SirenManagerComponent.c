@@ -23,14 +23,13 @@ class EL_SirenManagerComponent : ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		m_SoundComp = SoundComponent.Cast(owner.FindComponent(SoundComponent));
-		SetMode("default");
 	}
 	
 	
 	void RegisterLight(EL_LightComponent light)
 	{
-		if(m_Modes)
-			m_Modes.Insert(light);
+		if(m_Modes) m_Modes.Insert(light);
+		SetMode("default");
 	}
 	
 	void RegisterKnob(EL_SirenKnobComponent knob)
@@ -40,6 +39,7 @@ class EL_SirenManagerComponent : ScriptComponent
 		{
 			m_Knob = knob;
 			m_KnobSigComp = SignalsManagerComponent.Cast(knob.GetOwner().FindComponent(SignalsManagerComponent));
+			SetMode("default");
 		}
 	}
 	
@@ -88,25 +88,38 @@ class EL_SirenManagerComponent : ScriptComponent
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_Name", "%1")]
 class EL_SirenMode
 {
+	static const ref ParamEnumArray MODE_NAMES =
+	{
+		new ParamEnum("default", "0"),
+		new ParamEnum("Mode1", "1"),
+		new ParamEnum("Mode2", "2"),
+		new ParamEnum("Mode3", "3"),
+		new ParamEnum("Mode4", "4"),
+		new ParamEnum("Mode5", "5"),
+		new ParamEnum("Mode6", "6"),
+		new ParamEnum("Mode7", "7")
+	};
+	
 	static protected const ref ParamEnumArray SIREN_SOUNDS = 
 	{
-		new ParamEnum("None", "0"),
+		new ParamEnum("Silent", "0"),
 		new ParamEnum("DefaultHorn", "1"),
 		new ParamEnum("SlowSiren", "2"),
 		new ParamEnum("FastSiren", "3")
 	};
 	
-	[Attribute()]
+	[Attribute("default", uiwidget: UIWidgets.ComboBox, enums: MODE_NAMES)]
 	protected string m_Name;
 	
 	[Attribute()]
 	protected ref EL_LightAnimation m_Animation;
 	
-	[Attribute(uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
-	protected string m_SirenActive;
 	
 	[Attribute(uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
-	protected string m_SirenInactive;
+	protected string m_SoundWhenPressed;
+	
+	[Attribute(uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
+	protected string m_SoundWhenReleased;
 	
 	[Attribute()]
 	protected ref array<ref SignalValuePair> m_KnobSignals;
@@ -119,12 +132,12 @@ class EL_SirenMode
 	
 	string GetSirenActive()
 	{
-		return m_SirenActive;
+		return m_SoundWhenPressed;
 	}
 	
 	string GetSirenInactive()
 	{
-		return m_SirenInactive;
+		return m_SoundWhenReleased;
 	}
 	
 	EL_LightAnimation GetAnimation()

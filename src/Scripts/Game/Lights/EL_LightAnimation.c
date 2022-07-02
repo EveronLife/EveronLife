@@ -4,7 +4,6 @@ class EL_LightAnimation
 	[Attribute()]
 	protected ref array<ref EL_BaseEntry> m_Entries;
 	
-	
 	protected float m_Timer = 0;
 	
 	protected int m_EntryIndex = 0;

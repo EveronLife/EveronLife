@@ -1,4 +1,4 @@
-class SirenModeAction : ScriptedUserAction 
+class EL_SirenModeAction : ScriptedUserAction 
 {
 	[Attribute( uiwidget: UIWidgets.CheckBox)]
 	protected bool m_bInteriorOnly;
@@ -7,14 +7,13 @@ class SirenModeAction : ScriptedUserAction
 	[Attribute( uiwidget: UIWidgets.CheckBox, defvalue: "1")]
 	protected bool m_bPilotOnly;
 	
-	[Attribute()]
+	[Attribute(uiwidget: UIWidgets.ComboBox, enums: EL_SirenMode.MODE_NAMES)]
 	protected string m_Mode;
 	
 	protected EL_SirenManagerComponent m_Manager;
 	
 	protected IEntity m_pOwner;
-	
-	
+
 	override event void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		if(!m_Manager) m_Manager = EL_SirenManagerComponent.Cast(pOwnerEntity.FindComponent(EL_SirenManagerComponent));
@@ -52,7 +51,7 @@ class SirenModeAction : ScriptedUserAction
 		}
 		// We cannot be pilot nor interior, if we are not seated in vehicle at all.
 		else if (m_bInteriorOnly || m_bPilotOnly)
-			return false;
+ 			return false;
 		
 		return true;
 	}
