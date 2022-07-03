@@ -1,5 +1,5 @@
 [BaseContainerProps()]
-class EL_BaseEntry : ScriptAndConfig
+class EL_BaseEntry
 {
 	protected ref array<EL_LightComponent> m_AffectedLights = {};
 	
@@ -8,7 +8,7 @@ class EL_BaseEntry : ScriptAndConfig
 	void OnExecute(EL_LightAnimation animation);
 }
 
-[BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_DelayMS", "%1ms")]
+[BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_DelayMS", "Wait %1ms")]
 class EL_WaitEntry : EL_BaseEntry
 {
 	[Attribute()]
@@ -20,6 +20,7 @@ class EL_WaitEntry : EL_BaseEntry
 	}
 }
 
+[BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_Steps", "Loop %1 steps")]
 class EL_LoopEntry : EL_BaseEntry
 {
 	[Attribute()]
@@ -53,24 +54,27 @@ class EL_LoopEntry : EL_BaseEntry
 	}
 }
 
-enum EL_EntryType
+enum EL_LightEntryType
 {
-	TURN_ON,
-	TURN_OFF,
-	TOGGLE
+	TURN_LIGHTS_ON,
+	TURN_LIGHTS_OFF,
+	TOGGLE_LIGHTS
 }
 
+[BaseContainerProps(), EL_BaseContainerCustomTitleEnumReadable(EL_LightEntryType, "m_Type")]
 class EL_LightEntry : EL_WaitEntry
 {
+	
+	
 	protected ref static const ParamEnumArray enums = 
 	{
-		ParamEnum("Turn On", EL_EntryType.TURN_ON.ToString()),
-		ParamEnum("Turn Off", EL_EntryType.TURN_OFF.ToString()),
-		ParamEnum("Toggle", EL_EntryType.TOGGLE.ToString())
+		ParamEnum("Turn On", EL_LightEntryType.TURN_LIGHTS_ON.ToString()),
+		ParamEnum("Turn Off", EL_LightEntryType.TURN_LIGHTS_OFF.ToString()),
+		ParamEnum("Toggle", EL_LightEntryType.TOGGLE_LIGHTS.ToString())
 	};
 	
-	[Attribute(defvalue: EL_EntryType.TURN_ON.ToString(), uiwidget: UIWidgets.ComboBox, enums: enums)]
-	protected EL_EntryType m_Type;
+	[Attribute("Turn On", uiwidget: UIWidgets.ComboBox, enums: enums)]
+	protected EL_LightEntryType m_Type;
 
 	[Attribute()]
 	protected string m_Name;
@@ -107,18 +111,27 @@ class EL_LightEntry : EL_WaitEntry
 	
 	void Act(EL_LightComponent light)
 	{
-		if(m_Type == EL_EntryType.TURN_ON) light.TurnOn();
-		else if(m_Type == EL_EntryType.TURN_OFF) light.TurnOff();
+		if(m_Type == EL_LightEntryType.TURN_LIGHTS_ON) light.TurnOn();
+		else if(m_Type == EL_LightEntryType.TURN_LIGHTS_OFF) light.TurnOff();
 		else light.Toggle();
 	}
 }
 
-class EL_AnimateEntry : EL_LightEntry
+enum EL_AnimationEntryType
+{
+	TURN_ANIMATION_ON,
+	TURN_ANIMATION_OFF,
+	TOGGLE_ANIMATION
+}
+
+
+[BaseContainerProps(), EL_BaseContainerCustomTitleEnumReadable(EL_AnimationEntryType, "m_Type")]
+class EL_AnimationEntry : EL_LightEntry
 {
 	override void Act(EL_LightComponent light)
 	{
-		if(m_Type == EL_EntryType.TURN_ON) light.Play();
-		else if(m_Type == EL_EntryType.TURN_OFF) light.Stop();
+		if(m_Type == EL_AnimationEntryType.TURN_ANIMATION_ON) light.Play();
+		else if(m_Type == EL_AnimationEntryType.TURN_ANIMATION_OFF) light.Stop();
 		else light.ToggleAnim();
 	}
 }
