@@ -26,7 +26,12 @@ class EL_GatherAction : ScriptedUserAction
 	// User has performed the action
 	// play a pickup sound and then add the correct amount to the users inventory
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
-	{
+	{	
+		EL_DBDummySaveLoadDemo demo();
+		demo.LoadFromDbVariantWithFunction();
+		
+		// ----------------------------------------------
+		
 		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
 		
 		m_InventoryManager.PlayItemSound(replication.Id(), "SOUND_PICK_UP");
