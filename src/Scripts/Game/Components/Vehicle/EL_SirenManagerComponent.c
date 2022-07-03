@@ -105,7 +105,8 @@ class EL_SirenMode
 		new ParamEnum("Silent", "0"),
 		new ParamEnum("DefaultHorn", "1"),
 		new ParamEnum("SlowSiren", "2"),
-		new ParamEnum("FastSiren", "3")
+		new ParamEnum("FastSiren", "3"),
+		new ParamEnum("FastestSiren", "4")
 	};
 	
 	[Attribute("default", uiwidget: UIWidgets.ComboBox, enums: MODE_NAMES)]
