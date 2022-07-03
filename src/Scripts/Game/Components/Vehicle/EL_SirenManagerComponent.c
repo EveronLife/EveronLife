@@ -115,13 +115,13 @@ class EL_SirenMode
 	protected ref EL_LightAnimation m_Animation;
 	
 	
-	[Attribute(uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
+	[Attribute(desc: "Sound that should be played when the horn is pressed.", uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
 	protected string m_SoundWhenPressed;
 	
-	[Attribute(uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
+	[Attribute(desc: "Sound that should be played when horn is released", uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
 	protected string m_SoundWhenReleased;
 	
-	[Attribute()]
+	[Attribute(desc: "Controls the knob position for each mode. Each pair contains the name of the procedural animation signal and it's value.")]
 	protected ref array<ref SignalValuePair> m_KnobSignals;
 	
 	string GetName()
@@ -159,10 +159,10 @@ class EL_SirenMode
 [BaseContainerProps()]
 class SignalValuePair
 {
-	[Attribute()]
+	[Attribute(desc: "Name of the signal to send to the procedural animation.")]
 	protected string m_Name;
 	
-	[Attribute()]
+	[Attribute(desc: "Value of the procedural animation signal specified above.")]
 	protected float m_Value;
 	
 	string GetName()

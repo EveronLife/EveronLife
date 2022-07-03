@@ -1,7 +1,7 @@
 [BaseContainerProps()]
 class EL_LightAnimation
 {
-	[Attribute()]
+	[Attribute(desc: "Entries that will be executed in order when the mode is selected")]
 	protected ref array<ref EL_BaseEntry> m_Entries;
 	
 	protected float m_Timer = 0;

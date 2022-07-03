@@ -11,7 +11,7 @@ class EL_BaseEntry
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_DelayMS", "Wait %1ms")]
 class EL_WaitEntry : EL_BaseEntry
 {
-	[Attribute()]
+	[Attribute(desc: "Time in milliseconds that the entry will take", params: "0")]
 	protected int m_DelayMS;
 	
 	override void OnExecute(EL_LightAnimation animation)
@@ -23,10 +23,10 @@ class EL_WaitEntry : EL_BaseEntry
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_Steps", "Loop %1 steps")]
 class EL_LoopEntry : EL_BaseEntry
 {
-	[Attribute()]
+	[Attribute(desc: "Number of steps to loop. If 0, the animation will loop from the beginning")]
 	protected int m_Steps;
 	
-	[Attribute()]
+	[Attribute(desc: "Number of times the loop should be executed. Number 0 means infinite")]
 	protected int m_LoopCount;
 	
 	protected int m_LoopsRemaining = m_LoopCount;
@@ -76,7 +76,7 @@ class EL_LightEntry : EL_WaitEntry
 	[Attribute("Turn On", uiwidget: UIWidgets.ComboBox, enums: enums)]
 	protected EL_LightEntryType m_Type;
 
-	[Attribute()]
+	[Attribute(desc: "Names separated by space. Lights that contains the name will be affected by the entry. If left blank all lights are affected.")]
 	protected string m_Name;
 	
 	protected ref array<EL_LightComponent> m_Lights = {};
