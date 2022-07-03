@@ -49,6 +49,22 @@ AudioSignalResClass {
     41
    }
   }
+  IOPItemInputClass {
+   id 42
+   name "FastestSirenActive"
+   tl 396 -333.909
+   children {
+    43
+   }
+  }
+  IOPItemInputClass {
+   id 44
+   name "FastestSirenInactive"
+   tl 400 -404.545
+   children {
+    45
+   }
+  }
  }
  Outputs {
   IOPItemOutputClass {
@@ -87,10 +103,22 @@ AudioSignalResClass {
    tl 628.75 178.75
    input 40
   }
+  IOPItemOutputClass {
+   id 43
+   name "FastestSirenActive"
+   tl 627.273 -333.636
+   input 42
+  }
+  IOPItemOutputClass {
+   id 45
+   name "FastestSirenInactive"
+   tl 627.273 -405.455
+   input 44
+  }
  }
  compiled IOPCompiledClass {
   visited {
-   645 646 517 518 389 262 261 134 133 390 5 6
+   901 902 773 774 645 646 517 518 389 262 261 134 133 390 5 6
   }
   ins {
    IOPCompiledIn {
@@ -121,6 +149,16 @@ AudioSignalResClass {
    IOPCompiledIn {
     data {
      1 327682
+    }
+   }
+   IOPCompiledIn {
+    data {
+     1 393218
+    }
+   }
+   IOPCompiledIn {
+    data {
+     1 458754
     }
    }
   }
@@ -155,8 +193,18 @@ AudioSignalResClass {
      0
     }
    }
+   IOPCompiledOut {
+    data {
+     0
+    }
+   }
+   IOPCompiledOut {
+    data {
+     0
+    }
+   }
   }
-  processed 12
+  processed 16
   version 2
  }
 }

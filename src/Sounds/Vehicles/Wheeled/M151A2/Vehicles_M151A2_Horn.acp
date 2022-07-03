@@ -85,19 +85,19 @@ AudioClass {
    tl -922.857 -61.429
    res "{3E81E3832430D45B}Sounds/Siren/siren.sig"
    inputsport {
-    17 22 23 25 38 40
+    17 22 23 25 38 40 42 44
    }
    outputsport {
-    20 21 24 37 39 41
+    20 21 24 37 39 41 43 45
    }
    inputvalues {
-    0 0 0 0 0 0
+    0 0 0 0 0 0 0 0
    }
    inputvaluesmin {
-    0 0 0 0 0 0
+    0 0 0 0 0 0 0 0
    }
    inputvaluesmax {
-    1 1 1 1 1 1
+    1 1 1 1 1 1 1 1
    }
   }
  }
@@ -218,6 +218,10 @@ AudioClass {
          id 35844
          port 65
         }
+        ConnectionClass connection {
+         id 46084
+         port 65
+        }
        }
       }
       ConnectionsClass connections {
@@ -247,6 +251,10 @@ AudioClass {
         }
         ConnectionClass connection {
          id 45060
+         port 65
+        }
+        ConnectionClass connection {
+         id 47108
          port 65
         }
        }
@@ -494,6 +502,7 @@ AudioClass {
      }
     }
    }
+   Volume -8
    "Fade in time" 30
    "Fade out time" 0
    Samples {
@@ -619,6 +628,64 @@ AudioClass {
    Samples {
     AudioBankSampleClass "Sample(1)" {
      Filename "{A69CE1C244001182}Sounds/Siren/sirenfast.wav"
+    }
+   }
+  }
+  BankLocalClass {
+   id 46084
+   name "FastestSirenActive"
+   tl -558.571 597.143
+   iops {
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 9
+       links {
+        ConnectionClass connection {
+         id 34829
+         port 43
+        }
+       }
+      }
+     }
+    }
+   }
+   "Loop count" 255
+   "Infinite loop" 1
+   "Fade in time" 50
+   Samples {
+    AudioBankSampleClass "Sample(1)" {
+     Filename "{FD964A197F93A936}Sounds/Siren/sirenFastest.wav"
+    }
+   }
+  }
+  BankLocalClass {
+   id 47108
+   name "FastestSirenInactive"
+   tl -558.571 705.714
+   iops {
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 9
+       links {
+        ConnectionClass connection {
+         id 34829
+         port 45
+        }
+       }
+      }
+     }
+    }
+   }
+   "Loop count" 255
+   "Infinite loop" 1
+   "Fade in time" 50
+   Samples {
+    AudioBankSampleClass "Sample(1)" {
+     Filename "{FD964A197F93A936}Sounds/Siren/sirenFastest.wav"
     }
    }
   }

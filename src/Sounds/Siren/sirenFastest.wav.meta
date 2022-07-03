@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{FE254191511F9FC1}Sounds/Siren/triangleWave.wav"
+ Name "{FD964A197F93A936}Sounds/Siren/sirenFastest.wav"
  Configurations {
   WAVResourceClass PC : "{F72B05D02F3F135E}Configs/System/ResourceTypes/PC/Sound.conf" {
   }
