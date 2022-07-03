@@ -2,7 +2,7 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
  ID "44EC665ABD2FF04B"
  components {
   EL_SirenManagerComponent "{59C243CD49C708B5}" {
-   m_Modes EL_SirenModes "{59C45208DFE27BBC}" : "{A24DB78BFBC39A07}Prefabs/Vehicles/Wheeled/M151A2/Basic.conf" {
+   m_Modes EL_SirenModes "{59C45208DFE27BBC}" : "{A24DB78BFBC39A07}Prefabs/Vehicles/Wheeled/M151A2/Siren.conf" {
    }
   }
   RigidBody "{51DAA09FECF52BBF}" {
