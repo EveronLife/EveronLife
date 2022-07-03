@@ -1,5 +1,4 @@
 MatPBRDecal {
- Color 0.733 0.733 0.733 1
  Emissive 0.502 0.046 0 1
  EmissiveLV 1.5
  ApplyAlbedoToEmissive 1
