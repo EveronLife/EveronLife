@@ -26,9 +26,9 @@ class EL_DBDummySaveLoadDemo
 		EL_DbEntityRepository<EL_DummyDbEntity> repository = EL_DbEntityHelper<EL_DummyDbEntity>.GetRepository();
 		Print(repository);
 		
-		repository.FindAll(callback: new CustomDbDummyCallback());
+		repository.FindAllAsync(callback: new CustomDbDummyCallback());
 		
-		repository.FindAll(callback: EL_DbFindCallback<EL_DummyDbEntity>.FromMethod(this, "OnDataLoaded"));
+		repository.FindAllAsync(callback: EL_DbFindCallback<EL_DummyDbEntity>.FromMethod(this, "OnDataLoaded"));
 	}
 	
 	void OnDataLoaded(EL_DbOperationStatusCode resultCode, array<ref EL_DummyDbEntity> resultData)

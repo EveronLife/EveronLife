@@ -12,3 +12,21 @@ class EL_Utils
 		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 	}
 }
+
+class EL_RefArrayCaster<Class TSourceType, Class TResultType>
+{
+	static array<ref TResultType> Convert(array<ref TSourceType> sourceArray)
+	{
+		array<ref TResultType> castedResult();
+		castedResult.Resize(sourceArray.Count());
+		
+		foreach(int idx, TSourceType element : sourceArray)
+		{
+			TResultType castedElement = TResultType.Cast(element);
+			
+			if(castedElement) castedResult.Set(idx, castedElement);
+		}
+		
+		return castedResult;
+	}
+}

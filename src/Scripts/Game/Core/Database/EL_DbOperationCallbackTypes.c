@@ -64,25 +64,18 @@ class EL_DbFindCallbackBase : EL_DbOperationCallback
 	void _SetCompleted(EL_DbOperationStatusCode code, array<ref EL_DbEntity> findResults);
 }
 
-class EL_DbFindCallback<Class TDbEntityType> : EL_DbFindCallbackBase
+class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 {
-	static EL_DbFindCallback<TDbEntityType> FromMethod(Managed instance, string functionName)
+	static EL_DbFindCallback<TEntityType> FromMethod(Managed instance, string functionName)
 	{
-		EL_DbFindCallback<TDbEntityType> callback();
+		EL_DbFindCallback<TEntityType> callback();
 		callback.ConfigureInvoker(instance, functionName);
 		return callback;
 	}
 	
 	override void _SetCompleted(EL_DbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
-		array<ref TDbEntityType> strongTypedResults();
-		
-		foreach(EL_DbEntity findResult : findResults)
-		{
-			TDbEntityType typedResult = TDbEntityType.Cast(findResult);
-			
-			if(typedResult) strongTypedResults.Insert(typedResult);
-		}
+		array<ref TEntityType> strongTypedResults = EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults);
 		
 		if(code == EL_DbOperationStatusCode.SUCCESS)
 		{
@@ -100,27 +93,27 @@ class EL_DbFindCallback<Class TDbEntityType> : EL_DbFindCallbackBase
 		}
 	}
 	
-	void OnSuccess(array<ref TDbEntityType> resultData);
+	void OnSuccess(array<ref TEntityType> resultData);
 	
 	void OnFailure(EL_DbOperationStatusCode resultCode);
 }
 
-class EL_DbFindCallbackSingle<Class TDbEntityType> : EL_DbFindCallbackBase
+class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 {
-	static EL_DbFindCallbackSingle<TDbEntityType> FromMethod(Managed instance, string functionName)
+	static EL_DbFindCallbackSingle<TEntityType> FromMethod(Managed instance, string functionName)
 	{
-		EL_DbFindCallbackSingle<TDbEntityType> callback();
+		EL_DbFindCallbackSingle<TEntityType> callback();
 		callback.ConfigureInvoker(instance, functionName);
 		return callback;
 	}
 	
 	override void _SetCompleted(EL_DbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
-		TDbEntityType typedResult;
+		TEntityType typedResult;
 		
 		if(findResults.Count() > 0)
 		{
-			typedResult = TDbEntityType.Cast(findResults.Get(0));
+			typedResult = TEntityType.Cast(findResults.Get(0));
 		}
 		
 		if(code == EL_DbOperationStatusCode.SUCCESS)
@@ -139,7 +132,7 @@ class EL_DbFindCallbackSingle<Class TDbEntityType> : EL_DbFindCallbackBase
 		}
 	}
 	
-	void OnSuccess(TDbEntityType resultData);
+	void OnSuccess(TEntityType resultData);
 	
 	void OnFailure(EL_DbOperationStatusCode resultCode);
 }

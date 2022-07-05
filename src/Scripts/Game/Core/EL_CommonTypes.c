@@ -1,0 +1,1 @@
+typedef array<ref TStringArray> EL_TStringArrayArray;

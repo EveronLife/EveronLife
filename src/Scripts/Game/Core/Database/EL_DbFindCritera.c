@@ -1,4 +1,0 @@
-class EL_DbFindCriteria
-{
-
-}

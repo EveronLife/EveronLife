@@ -4,9 +4,15 @@ class EL_DbDriver
 	
 	void Shutdown();
 	
-	void AddOrUpdate(EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null);
+	EL_DbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity);
 	
-	void RemoveById(EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null);
+	EL_DbOperationStatusCode RemoveById(typename entityType, EL_DbEntityId entityId);
 	
-	void FindBy(EL_DbFindCriteria criteria, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null);
+	array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, EL_TStringArrayArray orderBy = null, int limit = -1, int offset = -1);
+	
+	void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null);
+
+	void RemoveByIdAsync(typename entityType, EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null);
+
+	void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, EL_TStringArrayArray orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null);
 }

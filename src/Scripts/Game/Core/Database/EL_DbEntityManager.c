@@ -10,19 +10,34 @@ class EL_DbEntityManager
 		m_DbContext = dbContext;
 	}
 	
-	void AddOrUpdate(EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
+	EL_DbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
-		m_DbContext.AddOrUpdate(entity, callback);
+		return m_DbContext.AddOrUpdate(entity);
 	}
 	
-	void RemoveById(EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	EL_DbOperationStatusCode RemoveById(typename entityType, EL_DbEntityId entityId)
 	{
-		m_DbContext.RemoveById(entityId, callback);
+		return m_DbContext.RemoveById(entityType, entityId);
 	}
 	
-	void FindBy(EL_DbFindCriteria criteria, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
+	array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition, EL_TStringArrayArray orderBy = null, int limit = -1, int offset = -1)
 	{
-		m_DbContext.FindBy(criteria, orderBy, limit, offset, callback);
+		return m_DbContext.FindAll(entityType, condition, orderBy, limit, offset);
+	}
+	
+	void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
+	{
+		m_DbContext.AddOrUpdateAsync(entity, callback);
+	}
+	
+	void RemoveByIdAsync(typename entityType, EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	{
+		m_DbContext.RemoveByIdAsync(entityType, entityId, callback);
+	}
+	
+	void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
+	{
+		m_DbContext.FindAllAsync(entityType, condition, orderBy, limit, offset, callback);
 	}
 	
 	//Entity manager will be constructed through typename.Spawn() depending on the EL_DbEntityRepositoryBase request

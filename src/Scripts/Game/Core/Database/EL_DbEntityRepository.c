@@ -40,36 +40,69 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	{
 		return TEntityType;
 	}
+
+	// ---------------------- Sync API (to use with thread) ----------------------
 	
-	void AddOrUpdate(TEntityType entity, EL_DbOperationStatusOnlyCallback callback = null)
+	EL_DbOperationStatusCode AddOrUpdate(notnull TEntityType entity)
 	{
-		GetEntityManager().AddOrUpdate(entity, callback);
+		return GetEntityManager().AddOrUpdate(entity);
 	}
 	
-	void RemoveById(EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	EL_DbOperationStatusCode Remove(notnull TEntityType entity)
 	{
-		GetEntityManager().RemoveById(entityId, callback);
+		return GetEntityManager().RemoveById(TEntityType, entity.m_Id);
+	}
+	
+	EL_DbOperationStatusCode RemoveById(EL_DbEntityId entityId)
+	{
+		return GetEntityManager().RemoveById(TEntityType, entityId);
+	}
+	
+	TEntityType Find(EL_DbEntityId entityId)
+	{
+		//Where(query->field:id->value:id, limit:1).FirstOrDefault();
+		return null;
+	}
+	
+	TEntityType FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
+	{
+		//Where(query, limit:1).FirstOrDefault();
+		return null;
+	}
+	
+	array<ref TEntityType> FindAll(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1)
+	{
+		array<ref EL_DbEntity> findResults = GetEntityManager().FindAll(TEntityType, condition, orderBy, limit, offset);
+		
+		return EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults);
+	}
+	
+	// -------------------------------- ASYNC API --------------------------------
+	
+	void AddOrUpdateAsync(notnull TEntityType entity, EL_DbOperationStatusOnlyCallback callback = null)
+	{
+		GetEntityManager().AddOrUpdateAsync(entity, callback);
+	}
+	
+	void RemoveByIdAsync(EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	{
+		GetEntityManager().RemoveByIdAsync(TEntityType, entityId, callback);
 	}
 
-	void Find(EL_DbEntityId entityId, EL_DbFindCallbackSingle<TEntityType> callback)
+	void FindAsync(EL_DbEntityId entityId, EL_DbFindCallbackSingle<TEntityType> callback)
 	{
 		// TODO
 		//Where(query->field:id->value:id, limit:1).FirstOrDefault();
 	}
 	
-	void FindOneBy(EL_DbFindCriteria criteria, EL_DbFindCallbackSingle<TEntityType> callback)
+	void FindFirstAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, EL_DbFindCallbackSingle<TEntityType> callback = null)
 	{
 		// TODO
 		//Where(query, limit:1).FirstOrDefault();
 	}
 	
-	void FindBy(EL_DbFindCriteria criteria, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallback<TEntityType> callback = null)
+	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallback<TEntityType> callback = null)
 	{
-		GetEntityManager().FindBy(criteria, orderBy, limit, offset, callback);
-	}
-	
-	void FindAll(array<ref array<string>> orderBy = null, EL_DbFindCallback<TEntityType> callback = null)
-	{
-		callback._SetCompleted(EL_DbOperationStatusCode.SUCCESS, new array<ref EL_DbEntity>());
+		GetEntityManager().FindAllAsync(TEntityType, condition, orderBy, limit, offset, callback);
 	}
 }
