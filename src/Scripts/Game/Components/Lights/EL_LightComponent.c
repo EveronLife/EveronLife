@@ -143,7 +143,7 @@ class EL_LightChild
 	[Attribute(uiwidget: UIWidgets.ResourceNamePicker, params: "et", desc: "Prefab of the LightEntity that will be used. Can be left blank")]
 	protected ResourceName m_LightPrefab;
 	
-	[Attribute("90", desc: "Used to circumvent a game bug", params: "0 360")]
+	[Attribute(desc: "Used to circumvent a game bug", params: "0 360")]
 	protected float m_ConeAngle;
 	
 	[Attribute(desc: "Position of the light relative to parent root or bone")]
@@ -168,7 +168,9 @@ class EL_LightChild
 	{
 		m_LightEntity = LightEntity.Cast(EL_Utils.SpawnAsChild(m_LightPrefab, parent, m_PivotPoint));
 		if(!m_LightEntity) return false;
-		m_LightEntity.SetConeAngle(m_ConeAngle);
+		if(m_ConeAngle)
+			m_LightEntity.SetConeAngle(m_ConeAngle);
+		m_LightEntity.SetLightFlags(LightFlags.CHEAP & LightFlags.CASTSHADOW & LightFlags.DYNAMIC);
 		return true;
 	}
 	

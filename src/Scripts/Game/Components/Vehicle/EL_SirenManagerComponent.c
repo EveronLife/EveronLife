@@ -12,6 +12,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	protected ref EL_SirenModes m_Modes;
 	
 	protected EL_SirenMode m_CurrentMode;
+	protected int m_CurrentModeIndex;
 	
 	protected ref EL_LightAnimation m_CurrentAnim;
 	
@@ -29,7 +30,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	void RegisterLight(EL_LightComponent light)
 	{
 		if(m_Modes) m_Modes.Insert(light);
-		SetMode("default");
+		SetModeStr("default");
 	}
 	
 	void RegisterKnob(EL_SirenKnobComponent knob)
@@ -39,7 +40,7 @@ class EL_SirenManagerComponent : ScriptComponent
 		{
 			m_Knob = knob;
 			m_KnobSigComp = SignalsManagerComponent.Cast(knob.GetOwner().FindComponent(SignalsManagerComponent));
-			SetMode("default");
+			SetModeStr("default");
 		}
 	}
 	
@@ -70,10 +71,9 @@ class EL_SirenManagerComponent : ScriptComponent
 		
 	}
 	
-	void SetMode(string name)
+	protected void SetMode()
 	{
-		if(!m_Modes) return;
-		EL_SirenMode mode = m_Modes.Find(name);
+		EL_SirenMode mode = m_Modes.GetMode(m_CurrentModeIndex);
 		if(mode)
 		{
 			if(m_Knob) SetKnobMode(mode);
@@ -82,6 +82,26 @@ class EL_SirenManagerComponent : ScriptComponent
 		}
 		
 		m_CurrentMode = mode;
+	}
+	
+	void SetModeStr(string name)
+	{
+		if(!m_Modes) return;
+		m_CurrentModeIndex = m_Modes.Find(name);
+		SetMode();
+	}
+	
+	override bool RplSave(ScriptBitWriter writer)
+	{
+		writer.WriteInt(m_CurrentModeIndex);
+		return true;
+	}
+	
+	override bool RplLoad(ScriptBitReader reader)
+	{
+		reader.ReadInt(m_CurrentModeIndex);
+		SetMode();
+		return true;
 	}
 }
 
@@ -106,7 +126,8 @@ class EL_SirenMode
 		new ParamEnum("DefaultHorn", "1"),
 		new ParamEnum("SlowSiren", "2"),
 		new ParamEnum("FastSiren", "3"),
-		new ParamEnum("FastestSiren", "4")
+		new ParamEnum("FastestSiren", "4"),
+		new ParamEnum("WarningSiren", "5")
 	};
 	
 	[Attribute("default", uiwidget: UIWidgets.ComboBox, enums: MODE_NAMES)]
@@ -197,14 +218,20 @@ class EL_SirenModes
 		}
 	}
 	
-	EL_SirenMode Find(string name)
+	EL_SirenMode GetMode(int index)
+	{
+		if(index < 0 || index > m_Modes.Count() - 1) return null;
+		return m_Modes[index];
+	}
+	
+	int Find(string name)
 	{
 		int i = 0;
 		while(i < m_Modes.Count() && m_Modes[i].GetName() != name)
 		{
 			i++;
 		}
-		if(i < m_Modes.Count()) return m_Modes[i];
-		return null;
+		if(i < m_Modes.Count()) return i;
+		return -1;
 	}
 }

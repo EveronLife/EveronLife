@@ -17,7 +17,7 @@ class EL_SirenModeAction : ScriptedUserAction
 	override event void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		if(!m_Manager) m_Manager = EL_SirenManagerComponent.Cast(pOwnerEntity.FindComponent(EL_SirenManagerComponent));
-		m_Manager.SetMode(m_Mode);
+		m_Manager.SetModeStr(m_Mode);
 	}
 	
 	override bool CanBeShownScript(IEntity user)
