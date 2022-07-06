@@ -1,8 +1,7 @@
 MatPBRBasic {
  Emissive 0.021 0.074 1 0
  EmissiveLV 14
- SpecularMul 0
- EmissiveMap "{E8ADC7B9CDA6F64A}Assets/Vehicles/Wheeled/Attachments/Lights/EmergencyLightsBase/Data/Lights_EM.edds"
- BCRMap "{9118D37720D38A75}Assets/Vehicles/Wheeled/Attachments/Lights/EmergencyLightsBase/Data/Lights_BCR.edds"
- NMOMap "{0EA1D6B9FFE3CA15}Assets/Vehicles/Wheeled/Attachments/Lights/EmergencyLightsBase/Data/Lights_NMO.edds"
+ EmissiveMap "{E8ADC7B9CDA6F64A}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights_EM.edds"
+ BCRMap "{9118D37720D38A75}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights_BCR.edds"
+ NMOMap "{0EA1D6B9FFE3CA15}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights_NMO.edds"
 }
