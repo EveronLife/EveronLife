@@ -1,7 +1,0 @@
-MatPBRBasicGlass {
- Color 1 1 1 1
- Emissive 0 0.125 0.502 0
- EmissiveLV 1.103
- BCRMap "{93AAE26DAA1992E6}Assets/_SharedData/Glass/ST_Glass_Streaks_01_NoColor_BCR.edds"
- OpacityMap "{46CF67CB400DECC9}Assets/_SharedData/Glass/ST_Glass_Streaks_01_A.edds"
-}

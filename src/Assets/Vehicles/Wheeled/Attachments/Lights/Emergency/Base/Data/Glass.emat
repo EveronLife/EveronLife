@@ -1,0 +1,7 @@
+MatPBRBasic {
+ Sort translucent
+ BlendMode AlphaBlend
+ MetalnessScale 1.006
+ BCRMap "{93AAE26DAA1992E6}Assets/_SharedData/Glass/ST_Glass_Streaks_01_NoColor_BCR.edds"
+ OpacityMap "{46CF67CB400DECC9}Assets/_SharedData/Glass/ST_Glass_Streaks_01_A.edds"
+}

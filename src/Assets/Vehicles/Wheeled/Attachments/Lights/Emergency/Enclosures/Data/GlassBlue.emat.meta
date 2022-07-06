@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{5821C277E1D8E265}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/GlassBlue.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}
