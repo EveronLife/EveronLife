@@ -65,6 +65,22 @@ AudioSignalResClass {
     45
    }
   }
+  IOPItemInputClass {
+   id 48
+   name "WarningSirenInactive"
+   tl 401 -502
+   children {
+    46
+   }
+  }
+  IOPItemInputClass {
+   id 49
+   name "WarningSirenActive"
+   tl 404 -588
+   children {
+    47
+   }
+  }
  }
  Outputs {
   IOPItemOutputClass {
@@ -115,10 +131,22 @@ AudioSignalResClass {
    tl 627.273 -405.455
    input 44
   }
+  IOPItemOutputClass {
+   id 46
+   name "WarningSirenInactive"
+   tl 617 -506
+   input 48
+  }
+  IOPItemOutputClass {
+   id 47
+   name "WarningSirenActive"
+   tl 621 -579
+   input 49
+  }
  }
  compiled IOPCompiledClass {
   visited {
-   901 902 773 774 645 646 517 518 389 262 261 134 133 390 5 6
+   1157 1158 1029 1030 901 902 773 774 645 646 517 518 389 262 261 134 133 390 5 6
   }
   ins {
    IOPCompiledIn {
@@ -159,6 +187,16 @@ AudioSignalResClass {
    IOPCompiledIn {
     data {
      1 458754
+    }
+   }
+   IOPCompiledIn {
+    data {
+     1 524290
+    }
+   }
+   IOPCompiledIn {
+    data {
+     1 589826
     }
    }
   }
@@ -203,8 +241,18 @@ AudioSignalResClass {
      0
     }
    }
+   IOPCompiledOut {
+    data {
+     0
+    }
+   }
+   IOPCompiledOut {
+    data {
+     0
+    }
+   }
   }
-  processed 16
+  processed 20
   version 2
  }
 }
