@@ -83,7 +83,7 @@ SCR_CameraManager CameraManager {
 }
 TimeAndWeatherManagerEntity TimeAndWeatherManager : "{A3BAF78F6F03315B}Prefabs/World/Game/TimeAndWeatherManager.et" {
  coords 94.322 -0.999 117.803
- "Initial Day Time" 11.655
+ "Initial Day Time" 0
  "Internal variant transition" 0
  "Internal subvariant 0" 0
  "Internal subvariant 1" 0
