@@ -6,10 +6,10 @@ LightEntity {
   RplComponent "{59B2918FD4310192}" {
   }
  }
- Color 0 0.25 1 1
- LV 3.335
- Radius 10.706
- NearPlane 0.3
+ Color 0 0.275 1 1
+ LV 1
+ Radius 30
+ NearPlane 0.25
  SpotAngle 170
  SpotAngleAttenuation 1
  Dynamic 1

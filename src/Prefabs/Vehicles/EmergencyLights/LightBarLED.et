@@ -1,0 +1,149 @@
+GenericEntity {
+ ID "59CAED6D49F8CD19"
+ components {
+  MeshObject "{59CAED6D2042DCA3}" {
+   Object "{200F37D0B30B3336}Assets/Vehicles/LightBars/EmergencyLightsBarLED.xob"
+  }
+  Hierarchy "{59CAED6D27BAD9F3}" {
+  }
+ }
+ {
+  $grp GameEntity : "{BEAAB983C9C31AB6}Prefabs/Vehicles/EmergencyLights/EmergencyLightsBaseLEDRed.et" {
+   {
+    ID "59CAED6D49F8BE49"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "left2"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Left2"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F8BE4E"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "left3"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Left3"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F8CD1A"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "left1"
+      m_Lights {
+       EL_LightChild "{59CD6022D72A94F3}" {
+        m_LightPrefab "{0BB0DCF49F8B7225}Prefabs/Vehicles/EmergencyLights/BlueLightPoint.et"
+        m_PivotPoint PivotPoint "{59CD6021366699B8}" {
+         m_Offset -0.64 0.3 0
+        }
+       }
+      }
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Left1"
+     }
+    }
+   }
+   {
+    ID "59CAED6D49F903CC"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "right2"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Right2"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F903CD"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "right1"
+      m_Lights {
+       EL_LightChild "{59CD60216D7CFA53}" {
+        m_LightPrefab "{0BB0DCF49F8B7225}Prefabs/Vehicles/EmergencyLights/BlueLightPoint.et"
+        m_PivotPoint PivotPoint "{59CD6021520E3E5F}" {
+         m_Offset 0.64 0.3 0
+        }
+       }
+      }
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Right1"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F946DE"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "left5"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Left5"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F97163"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "left4"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Left4"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F990C3"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "right5"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Right5"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F9B478"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "right4"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Right4"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CAED6D49F9B47B"
+    components {
+     EL_LightComponent "{59CAE48E25716D2B}" {
+      m_Name "right3"
+     }
+     Hierarchy "{59CAE48E2C5F5137}" {
+      PivotID "Right3"
+     }
+    }
+    coords 0 0 0
+   }
+  }
+ }
+}

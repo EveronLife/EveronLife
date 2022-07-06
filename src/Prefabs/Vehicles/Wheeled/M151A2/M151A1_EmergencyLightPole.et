@@ -1,0 +1,50 @@
+GenericEntity {
+ ID "59BB3D4D00ED8435"
+ components {
+  MeshObject "{59BB3D4EC6A90ADD}" {
+   Object "{5F082069AD35801B}Assets/Vehicles/Wheeled/M151A2/M151A2_lightsMount.xob"
+  }
+  Hierarchy "{59BB3D4D32816A63}" {
+  }
+ }
+ {
+  GenericEntity : "{27F012459707DB5A}Prefabs/Vehicles/EmergencyLights/EmergencyLightSmall.et" {
+   ID "59BB3D4D00ED8431"
+   components {
+    Hierarchy "{59B83327238BB490}" {
+     PivotID "SocketLight"
+    }
+   }
+   {
+    GameEntity : "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/Base/EmergencyLightsBase.et" {
+     ID "59BB3D4D00ED8D9B"
+     components {
+      EL_LightComponent "{59BB3758474323BE}" {
+       m_Lights {
+        EL_LightChild "{59CD739EFD955811}" {
+         m_LightPrefab "{0200098267046AE3}Prefabs/Vehicles/EmergencyLights/Base/BlueLight.et"
+         m_ConeAngle 120
+         m_PivotPoint PivotPoint "{59CD739EE894CFCB}" {
+          m_PivotName "Disk"
+         }
+        }
+       }
+      }
+      MeshObject "{59B115DF4DCBA822}" {
+       Materials {
+        MaterialAssignClass "{59CD739E81D287F1}" {
+         SourceMaterial "Lights"
+         AssignedMaterial "{3C355FD989FA68ED}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/LightsBlue.emat"
+        }
+       }
+      }
+      Hierarchy "{59BB3D4ED0B7F273}" {
+       PivotID "Socket_Lights"
+      }
+     }
+     coords 0 0 0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,16 @@
+LightEntity {
+ ID "59B002DD6DB97381"
+ components {
+  Hierarchy "{59B833273055323C}" {
+  }
+ }
+ Color 0.021 0.074 1 1
+ LV 4.359
+ ProjectionMap "{5B38174CD9F1071B}Assets/Vehicles/Wheeled/Attachments/Lights/EmergencyLightsBase/Data/ProjectionMap.edds"
+ ClipEV -10
+ Type Spot
+ Radius 30.218
+ NearPlane 0.01
+ SpotAngle 170
+ Dynamic 1
+}

@@ -1,0 +1,119 @@
+GenericEntity {
+ ID "59CD3A6459E6C473"
+ components {
+  MeshObject "{59CD3A6213712216}" {
+   Object "{AE18CFF526FE361E}Assets/Vehicles/LightBars/LightBarSquare.xob"
+  }
+  Hierarchy "{59CD3A65B2247924}" {
+  }
+ }
+ {
+  $grp GameEntity : "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/EmergencyLightsBase.et" {
+   {
+    ID "59CD3A6459E6BF32"
+    components {
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left2"
+     }
+    }
+    coords 0 0 0
+    angleY -45
+   }
+   {
+    ID "59CD3A6459E6BF34"
+    components {
+     EL_LightComponent "{59BB3758474323BE}" {
+      m_Lights {
+       EL_LightChild "{59CD3A719017DBD2}" {
+        m_LightPrefab "{43092FD17E08D7F7}Prefabs/Vehicles/EmergencyLights/RedLight.et"
+        m_ConeAngle 130
+        m_PivotPoint PivotPoint "{59CD3A71995B0A72}" {
+         m_PivotName "Disk"
+        }
+       }
+      }
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left3"
+     }
+    }
+    coords 0 0 0
+    angleY -90
+   }
+   {
+    ID "59CD3A6459E6C472"
+    components {
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left1"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CD3A6459E76391"
+    components {
+     MeshObject "{59B115DF4DCBA822}" {
+      Materials {
+       MaterialAssignClass "{59CD3A6EE3933BBD}" {
+        SourceMaterial "Lights"
+        AssignedMaterial "{3C355FD989FA68ED}Assets/Vehicles/Wheeled/Attachments/Lights/EmergencyLightsBase/Data/LightsBlue.emat"
+       }
+      }
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right2"
+     }
+    }
+    coords 0 0 0
+    angleY 135
+   }
+   {
+    ID "59CD3A6459E76392"
+    components {
+     MeshObject "{59B115DF4DCBA822}" {
+      Materials {
+       MaterialAssignClass "{59CD3A6F3695562B}" {
+        SourceMaterial "Lights"
+        AssignedMaterial "{3C355FD989FA68ED}Assets/Vehicles/Wheeled/Attachments/Lights/EmergencyLightsBase/Data/LightsBlue.emat"
+       }
+      }
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right1"
+     }
+    }
+    coords 0 0 0
+    angleY 180
+   }
+   {
+    ID "59CD3A6459E77EBB"
+    components {
+     EL_LightComponent "{59BB3758474323BE}" {
+      m_Lights {
+       EL_LightChild "{59CD3A7159544AAB}" {
+        m_LightPrefab "{0200098267046AE3}Prefabs/Vehicles/EmergencyLights/BlueLight.et"
+        m_ConeAngle 130
+        m_PivotPoint PivotPoint "{59CD3A715CF47A15}" {
+         m_PivotName "Disk"
+        }
+       }
+      }
+     }
+     MeshObject "{59B115DF4DCBA822}" {
+      Materials {
+       MaterialAssignClass "{59CD3A6F2293E8D3}" {
+        SourceMaterial "Lights"
+        AssignedMaterial "{3C355FD989FA68ED}Assets/Vehicles/Wheeled/Attachments/Lights/EmergencyLightsBase/Data/LightsBlue.emat"
+       }
+      }
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right3"
+     }
+    }
+    coords 0 0 0
+    angleY 90
+   }
+  }
+ }
+}

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{3650281D3AE01A8B}Prefabs/Vehicles/Wheeled/M923A1/M923A1_Police_LightBar.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

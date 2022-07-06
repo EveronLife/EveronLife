@@ -1,11 +1,11 @@
 LightEntity {
- ID "59B002DD6DB97381"
+ ID "59CAEEA85F304740"
  components {
-  Hierarchy "{59B833273055323C}" {
+  Hierarchy "{59CAEEA85F304747}" {
   }
  }
- Color 0 0.25 1 1
- LV 4.359
+ Color 1 0 0 1
+ LV 1
  ProjectionMap "{5B38174CD9F1071B}Assets/Vehicles/EmergencyLightsBase/data/ProjectionMap.edds"
  ClipEV -10
  Type Spot

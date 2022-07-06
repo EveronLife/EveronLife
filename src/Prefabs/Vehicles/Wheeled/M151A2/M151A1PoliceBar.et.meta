@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{93294B0D343C2A49}Prefabs/Vehicles/Wheeled/M151A2/M151A1PoliceBar.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
