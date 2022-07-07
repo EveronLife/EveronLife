@@ -12,7 +12,7 @@ class EL_InMemoryDatabase
 		
 		if(table)
 		{
-			table.Set(entity.m_Id, entity);
+			table.Set(entity.GetId(), entity);
 		}
 	}
 	
@@ -22,7 +22,7 @@ class EL_InMemoryDatabase
 		
 		if(table)
 		{
-			table.Remove(entity.m_Id);
+			table.Remove(entity.GetId());
 		}
 	}
 	
@@ -73,6 +73,8 @@ class EL_InMemoryDatabase
 	void EL_InMemoryDatabase(string dbName)
 	{
 		m_DbName = dbName;
+		
+		m_EntityTables = new map<string, ref EL_InMemoryDatabaseTable>();
 	}
 }
 
@@ -139,11 +141,16 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	
 	override array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, EL_TStringArrayArray orderBy = null, int limit = -1, int offset = -1)
 	{
-		array<ref EL_DbEntity> dbEntites = m_Db.GetAll(entityType);
+		array<ref EL_DbEntity> entities = m_Db.GetAll(entityType);
 		
 		array<ref EL_DbEntity> resultEntites();
 		
-		// TODO apply critera, order, limit, offsets
+		// TODO: First filter by condition, then apply ordering, then skip offset, then select until limit reached
+		
+		foreach(int idx, EL_DbEntity entity : entities)
+		{
+			resultEntites.Insert(entity);
+		}
 		
 		return resultEntites;
 	}

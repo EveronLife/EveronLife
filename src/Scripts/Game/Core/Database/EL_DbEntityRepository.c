@@ -1,6 +1,6 @@
 class EL_DbEntityRepositoryBase
 {
-	private EL_DbEntityManager m_EntityManager;
+	private ref EL_DbEntityManager m_EntityManager;
 	
 	protected EL_DbEntityManager GetEntityManager()
 	{
@@ -50,7 +50,7 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	EL_DbOperationStatusCode Remove(notnull TEntityType entity)
 	{
-		return GetEntityManager().RemoveById(TEntityType, entity.m_Id);
+		return GetEntityManager().RemoveById(TEntityType, entity.GetId());
 	}
 	
 	EL_DbOperationStatusCode RemoveById(EL_DbEntityId entityId)
@@ -60,13 +60,15 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	TEntityType Find(EL_DbEntityId entityId)
 	{
-		//Where(query->field:id->value:id, limit:1).FirstOrDefault();
-		return null;
+		return FindFirst(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, entityId));
 	}
 	
 	TEntityType FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
 	{
-		//Where(query, limit:1).FirstOrDefault();
+		array<ref EL_DbEntity> findResults = GetEntityManager().FindAll(TEntityType, condition, orderBy, 1);
+		
+		if(findResults.Count() == 1) return TEntityType.Cast(findResults.Get(0));
+		
 		return null;
 	}
 	
@@ -91,14 +93,12 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 
 	void FindAsync(EL_DbEntityId entityId, EL_DbFindCallbackSingle<TEntityType> callback)
 	{
-		// TODO
-		//Where(query->field:id->value:id, limit:1).FirstOrDefault();
+		return FindFirstAsync(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, entityId), null, callback);
 	}
 	
 	void FindFirstAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, EL_DbFindCallbackSingle<TEntityType> callback = null)
 	{
-		// TODO
-		//Where(query, limit:1).FirstOrDefault();
+		GetEntityManager().FindAllAsync(TEntityType, condition, orderBy, 1, -1, callback);
 	}
 	
 	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallback<TEntityType> callback = null)

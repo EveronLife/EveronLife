@@ -27,8 +27,10 @@ class EL_GatherAction : ScriptedUserAction
 	// play a pickup sound and then add the correct amount to the users inventory
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{	
-		EL_DBDummySaveLoadDemo demo();
-		demo.LoadFromDbVariantWithFunction();
+		EL_PersistentScriptedStateDemo scriptedStateDemo();
+		scriptedStateDemo.Run();
+		
+		return;
 		
 		// ----------------------------------------------
 		

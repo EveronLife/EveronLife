@@ -29,6 +29,8 @@ class EL_DbFindCondition
 	{
 		return new EL_DbFindCompareFieldString(fieldName, comparisonOperator, comparisonValue);
 	}
+	
+	// TODO FieldContains function to array<int>, array<string> etc?
 }
 
 class EL_DbFindConditionWithChildren : EL_DbFindCondition
