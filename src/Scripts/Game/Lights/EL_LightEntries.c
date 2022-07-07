@@ -1,10 +1,21 @@
 [BaseContainerProps()]
 class EL_BaseEntry
 {
+	// The lights affected by the entry
 	protected ref array<EL_LightComponent> m_AffectedLights = {};
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Called when a light is registered, can be used to store only the affected lights by the entry
+	\param light - the light being regisred
+	**/
 	void OnRegister(EL_LightComponent light);
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Called when the entry is executed. Can be used to affect the lights or the flow of the animation
+	\param animation - the animation that is executing the entry
+	**/
 	void OnExecute(EL_LightAnimation animation);
 }
 
@@ -14,6 +25,10 @@ class EL_WaitEntry : EL_BaseEntry
 	[Attribute(desc: "Time in milliseconds that the entry will take", params: "0")]
 	protected int m_DelayMS;
 	
+	/**
+	\brief Sets a delay on the animation
+	\param animation - the affected animation
+	**/
 	override void OnExecute(EL_LightAnimation animation)
 	{
 		animation.SetDelay(m_DelayMS / 1000.0);
@@ -29,23 +44,31 @@ class EL_LoopEntry : EL_BaseEntry
 	[Attribute(desc: "Number of times the loop should be executed. Number 0 means infinite")]
 	protected int m_LoopCount;
 	
+	// Keeps track of remaining loops in the current iteration
 	protected int m_LoopsRemaining = m_LoopCount;
 	
+	//------------------------------------------------------------------------------------------------
 	override void OnExecute(EL_LightAnimation animation)
 	{
+		// if steps is not 0
 		if(m_Steps)
 		{
+			// loops if there are remaining loops or the user set infinite loops
 			if(m_LoopsRemaining > 0 || !m_LoopCount)
 			{
-				if(m_LoopCount)
-					m_LoopsRemaining--;
+				// if loops are not infinite, subtract 1 from remaining loops
+				if(m_LoopCount) m_LoopsRemaining--;
+				// goes back the user defined steps + this loop entry
 				animation.GoBack(m_Steps + 1);
 			}
-			else   
+			// Resets loops remaining when it already looped the user defined amount 
+			// This prevents the loop from occuring only the first time in a nested loop
+			else
 			{
 				m_LoopsRemaining = m_LoopCount;
 			}
 		}
+		// resets the animation if steps is 0
 		else
 		{	
 			animation.Reset();
@@ -54,6 +77,7 @@ class EL_LoopEntry : EL_BaseEntry
 	}
 }
 
+// Light entry types define the name of the entry and will be displayed to the user when selected
 enum EL_LightEntryType
 {
 	TURN_LIGHTS_ON,
@@ -65,7 +89,7 @@ enum EL_LightEntryType
 class EL_LightEntry : EL_WaitEntry
 {
 	
-	
+	// Types displayed to the user on a drop down menu
 	protected ref static const ParamEnumArray enums = 
 	{
 		ParamEnum("Turn On", EL_LightEntryType.TURN_LIGHTS_ON.ToString()),
@@ -79,22 +103,36 @@ class EL_LightEntry : EL_WaitEntry
 	[Attribute(desc: "Names separated by space. Lights that contains the name will be affected by the entry. If left blank all lights are affected.")]
 	protected string m_Name;
 	
-	protected ref array<EL_LightComponent> m_Lights = {};
-	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Called when a light registers itself
+	\param light - the light being registered
+	**/
 	override void OnRegister(EL_LightComponent light)
 	{
-		if(Affects(light)) m_Lights.Insert(light);
+		if(Affects(light)) m_AffectedLights.Insert(light);
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Acts on each light and sets the specified delay
+	\param animation - the affected animation
+	**/
 	override void OnExecute(EL_LightAnimation animation)
 	{
-		foreach(EL_LightComponent light : m_Lights)
+		foreach(EL_LightComponent light : m_AffectedLights)
 		{
 			Act(light);
 		}
 		animation.SetDelay(m_DelayMS / 1000.0);
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief If the light is affected by the entry or not
+	\param light - light that is being checked if is affected or not 
+	\return true if the light is affected by the entry, false if not
+	**/
 	bool Affects(EL_LightComponent light)
 	{
 		if(!m_Name) return true;
@@ -109,6 +147,11 @@ class EL_LightEntry : EL_WaitEntry
 		return false;
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief How the entry affects each affected light
+	\param light - the affected light 
+	**/
 	void Act(EL_LightComponent light)
 	{
 		if(m_Type == EL_LightEntryType.TURN_LIGHTS_ON) light.TurnOn();
@@ -117,6 +160,7 @@ class EL_LightEntry : EL_WaitEntry
 	}
 }
 
+// See EL_LightEntryType
 enum EL_AnimationEntryType
 {
 	TURN_ANIMATION_ON,
@@ -128,6 +172,7 @@ enum EL_AnimationEntryType
 [BaseContainerProps(), EL_BaseContainerCustomTitleEnumReadable(EL_AnimationEntryType, "m_Type")]
 class EL_AnimationEntry : EL_LightEntry
 {
+	// see EL_LightEntry.Act()
 	override void Act(EL_LightComponent light)
 	{
 		if(m_Type == EL_AnimationEntryType.TURN_ANIMATION_ON) light.Play();

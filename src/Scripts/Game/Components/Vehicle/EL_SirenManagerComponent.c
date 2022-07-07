@@ -3,22 +3,28 @@ class EL_SirenManagerComponentClass : ScriptComponentClass
 
 }
 
+
+/**
+\brief Manages siren modes, light animations and knob procedural animation
+**/
 class EL_SirenManagerComponent : ScriptComponent
 {
+	// Sound volume when on/off
 	protected const float SOUND_OFF = 0;
 	protected const float SOUND_ON = 1;
 	
 	[Attribute()]
 	protected ref EL_SirenModes m_Modes;
 	
+	// Used for sending only the necessary signals to m_SoundComp
 	protected EL_SirenMode m_CurrentMode;
+	// For JIPs in MP
 	protected int m_CurrentModeIndex;
-	
-	protected ref EL_LightAnimation m_CurrentAnim;
 	
 	protected EL_SirenKnobComponent m_Knob;
 	protected SignalsManagerComponent m_KnobSigComp;
 	
+	// Sound component of the vehicle
 	protected SoundComponent m_SoundComp;
 	
 	override void OnPostInit(IEntity owner)
@@ -26,13 +32,21 @@ class EL_SirenManagerComponent : ScriptComponent
 		m_SoundComp = SoundComponent.Cast(owner.FindComponent(SoundComponent));
 	}
 	
-	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Called when a light component registers itself
+	\param light - the light that is registering itself
+	**/
 	void RegisterLight(EL_LightComponent light)
 	{
 		if(m_Modes) m_Modes.Insert(light);
-		SetModeStr("default");
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Called when a knob component registers itself
+	\param knob - the knob that is registering itself
+	**/
 	void RegisterKnob(EL_SirenKnobComponent knob)
 	{
 		if(m_Knob) Print("Siren with multiple knobs", LogLevel.WARNING);
@@ -44,6 +58,11 @@ class EL_SirenManagerComponent : ScriptComponent
 		}
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Sets the mode of the siren/horn. Called from SetMode()
+	\param mode - the mode that is going to be set
+	**/
 	protected void SetSirenMode(EL_SirenMode mode)
 	{
 		if(m_CurrentMode)
@@ -56,6 +75,11 @@ class EL_SirenManagerComponent : ScriptComponent
 		m_SoundComp.SetSignalValueStr(mode.GetSirenInactive() + "Inactive", SOUND_ON);
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Sets the signals of the knob procedural animation. Called from SetMode()
+	\param mode - the mode that is going to be set
+	**/
 	protected void SetKnobMode(EL_SirenMode mode)
 	{
 		EL_LightAnimation anim = mode.GetAnimation();
@@ -71,6 +95,10 @@ class EL_SirenManagerComponent : ScriptComponent
 		
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Sets the current mode based on m_CurrentModeIndex. Changes knob position and siren sounds
+	**/
 	protected void SetMode()
 	{
 		EL_SirenMode mode = m_Modes.GetMode(m_CurrentModeIndex);
@@ -84,6 +112,11 @@ class EL_SirenManagerComponent : ScriptComponent
 		m_CurrentMode = mode;
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Sets mode by name. See SetMode()
+	\param name - name of the mode
+	**/
 	void SetModeStr(string name)
 	{
 		if(!m_Modes) return;
@@ -91,23 +124,33 @@ class EL_SirenManagerComponent : ScriptComponent
 		SetMode();
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	override bool RplSave(ScriptBitWriter writer)
 	{
 		writer.WriteInt(m_CurrentModeIndex);
+		writer.WriteFloat(m_CurrentMode.GetAnimation().GetTimeInLoop());
 		return true;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	override bool RplLoad(ScriptBitReader reader)
 	{
+		float timeSlice;
 		reader.ReadInt(m_CurrentModeIndex);
 		SetMode();
+		reader.ReadFloat(timeSlice);
+		m_CurrentMode.GetAnimation().Tick(timeSlice);
 		return true;
 	}
 }
 
+/**
+Contains all the information about the siren mode. Animation, sounds and knob procedural animation signals
+**/
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_Name", "%1")]
 class EL_SirenMode
 {
+	// Available modes to the user
 	static const ref ParamEnumArray MODE_NAMES =
 	{
 		new ParamEnum("default", "0"),
@@ -120,6 +163,7 @@ class EL_SirenMode
 		new ParamEnum("Mode7", "7")
 	};
 	
+	// Available sounds
 	static protected const ref ParamEnumArray SIREN_SOUNDS = 
 	{
 		new ParamEnum("Silent", "0"),
@@ -146,38 +190,54 @@ class EL_SirenMode
 	[Attribute(desc: "Controls the knob position for each mode. Each pair contains the name of the procedural animation signal and it's value.")]
 	protected ref array<ref SignalValuePair> m_KnobSignals;
 	
+	//------------------------------------------------------------------------------------------------
 	string GetName()
 	{
 		return m_Name;
 	}
 	
-	
+	//------------------------------------------------------------------------------------------------
 	string GetSirenActive()
 	{
 		return m_SoundWhenPressed;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	string GetSirenInactive()
 	{
 		return m_SoundWhenReleased;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	EL_LightAnimation GetAnimation()
 	{
 	 	return m_Animation;
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Inserts a light into the animation. Called when a light registers itself
+	\param light - light to be inserted
+	**/
 	void Insert(EL_LightComponent light)
 	{
 		if(m_Animation) m_Animation.Insert(light);
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+	\brief Get the signal value pairs of the knob procedural animation attached to this mode
+	\return signal value pairs
+	**/
 	array<ref SignalValuePair> GetKnobSignals()
 	{
 		return m_KnobSignals;
 	}
 }
 
+/**
+Holds name and value of a procedural animation signal. 
+**/
 [BaseContainerProps()]
 class SignalValuePair
 {
@@ -187,29 +247,39 @@ class SignalValuePair
 	[Attribute(desc: "Value of the procedural animation signal specified above.")]
 	protected float m_Value;
 	
+	//------------------------------------------------------------------------------------------------
 	string GetName()
 	{
 		return m_Name;
 	}
 	
+	//------------------------------------------------------------------------------------------------
 	float GetValue()
 	{
 		return m_Value;
 	}
 }
 
-
+/**
+Holds all the modes tht the user set. Primary function is to enable saving the modes into a single config prefab
+**/
 [BaseContainerProps()]
 class EL_SirenModes
 {
 	[Attribute()]
 	protected ref array<ref EL_SirenMode> m_Modes;
 	
+	//------------------------------------------------------------------------------------------------
 	array<ref EL_SirenMode> GetModes()
 	{
 		return m_Modes;
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+ 	\brief Insert the light into each mode. Called when a light registers itself
+	\param light - the light to be inserted
+	**/
 	void Insert(EL_LightComponent light)
 	{
 		foreach(EL_SirenMode mode : m_Modes)
@@ -218,12 +288,24 @@ class EL_SirenModes
 		}
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+ 	\brief Gets a mode by index
+	\param index - index of the mode
+	\return the mode with specified index, null if index is invalid
+	**/
 	EL_SirenMode GetMode(int index)
 	{
 		if(index < 0 || index > m_Modes.Count() - 1) return null;
 		return m_Modes[index];
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	/**
+ 	\brief Finds a mode by name
+	\param name - name of the mode being searched 
+	\return the index of the found mode or -1 if not found
+	**/
 	int Find(string name)
 	{
 		int i = 0;
