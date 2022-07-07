@@ -9,6 +9,40 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
    m_fVehicleDestroyDamage 10408.7
   }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   ActionContexts {
+    UserActionContext "{59C96A5A0297FE0E}" {
+     Position PointInfo "{59C96A5A09738F6F}" {
+      Angles 0 180 0
+     }
+     Omnidirectional 0
+    }
+   }
+   additionalActions {
+    EL_SirenModeAction "{59C96A5AB0AE3B45}" {
+     UIInfo UIInfo "{59C96A5AB7E8CAEA}" {
+      Name "Siren: Off duty mode"
+     }
+     "Sort Priority" 0
+    }
+    EL_SirenModeAction "{59C96A5A40CE8603}" {
+     UIInfo UIInfo "{59C96A5A4B6A596E}" {
+      Name "Siren: Patrol mode"
+     }
+     "Sort Priority" 1
+    }
+    EL_SirenModeAction "{59C96A5AA18DA368}" {
+     UIInfo UIInfo "{59C96A5AA9C17B0E}" {
+      Name "Siren: Cruise mode"
+     }
+    }
+    EL_SirenModeAction "{59C96A5AAF5D4FA7}" {
+     UIInfo UIInfo "{59C96A5A9762075E}" {
+      Name "Siren: Pursuit mode"
+     }
+    }
+   }
+  }
  }
  coords 0 0 0
  {
