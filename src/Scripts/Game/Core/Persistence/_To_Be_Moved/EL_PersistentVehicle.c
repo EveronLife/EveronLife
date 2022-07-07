@@ -1,7 +1,7 @@
 [EL_DbEntityRepositoryType(EL_PersistentVehicle, EL_PersistentVehicleRepository)]
 class EL_PersistentVehicle : EL_PersistentEntity
 {
-	EL_DbEntityId m_OwnerId;
+	string m_OwnerId;
 	
 	string m_LicensePlate;
 }

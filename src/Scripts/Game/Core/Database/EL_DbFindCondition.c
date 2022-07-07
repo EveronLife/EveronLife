@@ -30,7 +30,12 @@ class EL_DbFindCondition
 		return new EL_DbFindCompareFieldString(fieldName, comparisonOperator, comparisonValue);
 	}
 	
-	// TODO FieldContains function to array<int>, array<string> etc?
+	// TODO: Make generic dot notation property reader for primtives, complex types and collections and use that for db find. 
+	// 		 For array use typename(first match) or index number in notation. -> https://www.mongodb.com/docs/manual/core/document/#dot-notation
+	
+	// TODO: Support for all array items must match vs any item insie array must match?
+	
+	// TODO: ComponentField with component typename parameter as shortcut for m_Components.ComponentType.fieldName?
 }
 
 class EL_DbFindConditionWithChildren : EL_DbFindCondition
@@ -63,9 +68,9 @@ enum EL_DbNumericFieldOperator
 
 class EL_DbFindCompareFieldInt : EL_DbFindCondition
 {
-	protected string m_FieldName;
-	protected EL_DbNumericFieldOperator m_ComparisonOperator;
-	protected int m_ComparisonValue;
+	string m_FieldName;
+	EL_DbNumericFieldOperator m_ComparisonOperator;
+	int m_ComparisonValue;
 	
 	void EL_DbFindCompareFieldInt(string fieldName, EL_DbNumericFieldOperator comparisonOperator, int comparisonValue)
 	{
@@ -77,9 +82,9 @@ class EL_DbFindCompareFieldInt : EL_DbFindCondition
 
 class EL_DbFindCompareFieldFloat : EL_DbFindCondition
 {
-	protected string m_FieldName;
-	protected EL_DbNumericFieldOperator m_ComparisonOperator;
-	protected float m_ComparisonValue;
+	string m_FieldName;
+	EL_DbNumericFieldOperator m_ComparisonOperator;
+	float m_ComparisonValue;
 	
 	void EL_DbFindCompareFieldFloat(string fieldName, EL_DbNumericFieldOperator comparisonOperator, float comparisonValue)
 	{
@@ -91,8 +96,8 @@ class EL_DbFindCompareFieldFloat : EL_DbFindCondition
 
 class EL_DbFindCompareFieldBool : EL_DbFindCondition
 {
-	protected string m_FieldName;
-	protected bool m_ComparisonValue;
+	string m_FieldName;
+	bool m_ComparisonValue;
 	
 	void EL_DbFindCompareFieldBool(string fieldName, bool comparisonValue)
 	{
@@ -111,9 +116,9 @@ enum EL_DbStringFieldOperator
 
 class EL_DbFindCompareFieldString : EL_DbFindCondition
 {
-	protected string m_FieldName;
-	protected EL_DbNumericFieldOperator m_ComparisonOperator;
-	protected string m_ComparisonValue;
+	string m_FieldName;
+	EL_DbStringFieldOperator m_ComparisonOperator;
+	string m_ComparisonValue;
 	
 	void EL_DbFindCompareFieldString(string fieldName, EL_DbStringFieldOperator comparisonOperator, string comparisonValue)
 	{

@@ -26,7 +26,7 @@ class EL_InMemoryDatabase
 		}
 	}
 	
-	EL_DbEntity Get(typename entityType, EL_DbEntityId entityId)
+	EL_DbEntity Get(typename entityType, string entityId)
 	{
 		EL_InMemoryDatabaseTable table = GetTable(entityType);
 		
@@ -128,7 +128,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		return EL_DbOperationStatusCode.SUCCESS;
 	}
 	
-	override EL_DbOperationStatusCode RemoveById(typename entityType, EL_DbEntityId entityId)
+	override EL_DbOperationStatusCode RemoveById(typename entityType, string entityId)
 	{
 		EL_DbEntity entity = m_Db.Get(entityType, entityId);
 		
@@ -143,12 +143,28 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	{
 		array<ref EL_DbEntity> entities = m_Db.GetAll(entityType);
 		
-		array<ref EL_DbEntity> resultEntites();
+		//Only continue with those that match the condition if present
+		if(condition)
+		{
+			entities = EL_DbFindConditionEvaluator.GetFiltered(entities, condition);
+		}
 		
-		// TODO: First filter by condition, then apply ordering, then skip offset, then select until limit reached
+		//Order results if wanted
+		if(orderBy)
+		{
+			entities = EL_DbEntitySorter.GetSorted(entities, orderBy);
+		}
+		
+		array<ref EL_DbEntity> resultEntites();
 		
 		foreach(int idx, EL_DbEntity entity : entities)
 		{
+			//Respect output limit is specified
+			if(limit != -1 && resultEntites.Count() >= limit) break;
+			
+			//Skip the first n records if offset specified (for paginated loading together with limit)
+			if(offset != -1 && idx < offset) continue;
+
 			resultEntites.Insert(entity);
 		}
 		
@@ -166,7 +182,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		}
 	}
 
-	override void RemoveByIdAsync(typename entityType, EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	override void RemoveByIdAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
 		//In memory is blocking, re-use sync api
 		EL_DbOperationStatusCode resultCode = RemoveById(entityType, entityId);

@@ -53,14 +53,14 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 		return GetEntityManager().RemoveById(TEntityType, entity.GetId());
 	}
 	
-	EL_DbOperationStatusCode RemoveById(EL_DbEntityId entityId)
+	EL_DbOperationStatusCode RemoveById(string entityId)
 	{
 		return GetEntityManager().RemoveById(TEntityType, entityId);
 	}
 	
-	TEntityType Find(EL_DbEntityId entityId)
+	TEntityType Find(string entityId)
 	{
-		return FindFirst(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, entityId));
+		return FindFirst(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, String(entityId)));
 	}
 	
 	TEntityType FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
@@ -86,14 +86,14 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 		GetEntityManager().AddOrUpdateAsync(entity, callback);
 	}
 	
-	void RemoveByIdAsync(EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	void RemoveByIdAsync(string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
 		GetEntityManager().RemoveByIdAsync(TEntityType, entityId, callback);
 	}
 
-	void FindAsync(EL_DbEntityId entityId, EL_DbFindCallbackSingle<TEntityType> callback)
+	void FindAsync(string entityId, EL_DbFindCallbackSingle<TEntityType> callback)
 	{
-		return FindFirstAsync(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, entityId), null, callback);
+		FindFirstAsync(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, String(entityId)), null, callback);
 	}
 	
 	void FindFirstAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, EL_DbFindCallbackSingle<TEntityType> callback = null)

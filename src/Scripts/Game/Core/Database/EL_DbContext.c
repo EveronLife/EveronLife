@@ -7,7 +7,7 @@ class EL_DbContext
 		return m_Driver.AddOrUpdate(entity);
 	}
 	
-	EL_DbOperationStatusCode RemoveById(typename entityType, EL_DbEntityId entityId)
+	EL_DbOperationStatusCode RemoveById(typename entityType, string entityId)
 	{
 		return m_Driver.RemoveById(entityType, entityId);
 	}
@@ -22,7 +22,7 @@ class EL_DbContext
 		m_Driver.AddOrUpdateAsync(entity, callback);
 	}
 	
-	void RemoveByIdAsync(typename entityType, EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	void RemoveByIdAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
 		m_Driver.RemoveByIdAsync(entityType, entityId, callback);
 	}

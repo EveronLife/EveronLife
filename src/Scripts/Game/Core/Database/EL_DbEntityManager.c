@@ -15,7 +15,7 @@ class EL_DbEntityManager
 		return m_DbContext.AddOrUpdate(entity);
 	}
 	
-	EL_DbOperationStatusCode RemoveById(typename entityType, EL_DbEntityId entityId)
+	EL_DbOperationStatusCode RemoveById(typename entityType, string entityId)
 	{
 		return m_DbContext.RemoveById(entityType, entityId);
 	}
@@ -30,7 +30,7 @@ class EL_DbEntityManager
 		m_DbContext.AddOrUpdateAsync(entity, callback);
 	}
 	
-	void RemoveByIdAsync(typename entityType, EL_DbEntityId entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	void RemoveByIdAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
 		m_DbContext.RemoveByIdAsync(entityType, entityId, callback);
 	}
