@@ -11,6 +11,38 @@ class EL_Utils
 		
 		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 	}
+	
+	static string IntToHex(int value)
+	{
+		array<string> resultChars = {"0", "0", "0", "0", "0", "0", "0", "0"};
+		
+		int resultIdx = 7;
+		
+        while (value) 
+		{
+            int remainder = value % 16;
+ 
+            if (remainder < 10) 
+			{
+                resultChars.Set(resultIdx--, remainder.ToString());
+            }
+            else
+			{
+                resultChars.Set(resultIdx--, (remainder + 55).AsciiToString());
+            }
+ 			
+            value /= 16;
+        }
+		
+		string result;
+		
+		foreach(string char : resultChars)
+		{
+			result += char;
+		}
+		
+		return result;
+	}
 }
 
 class EL_RefArrayCaster<Class TSourceType, Class TResultType>
