@@ -37,25 +37,31 @@ class EL_PersistentScriptedStateDemo
 		repository.AddOrUpdate(new EL_PersistentExampleState(12345, 3.456, false, "State 5"));
 		repository.AddOrUpdate(new EL_PersistentExampleState(12345, 1.234, false, "State 6"));
 		repository.AddOrUpdate(new EL_PersistentExampleState(12345, 2.345, false, "State 7"));
-		
+
 		//Get all states
 		array<ref EL_PersistentExampleState> allNoOrder = repository.FindAll();
 		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> allNoOrder: %1", allNoOrder);
 		
 		//Find by id
 		EL_PersistentExampleState findByIdResult = repository.Find(state1.GetId());
-		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> findByIdResult: %1", findByIdResult);
-		Print(findByIdResult.m_StringValue);
+		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> findByIdResult: %1(%2)", findByIdResult, findByIdResult.m_StringValue);
 		
 		//Find first by bool field
 		EL_PersistentExampleState findFirstBoolFalse = repository.FindFirst(EL_DbFindCondition.Field("m_BooleanValue", false));
-		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> findFirstBoolFalse: %1", findFirstBoolFalse);
-		Print(findFirstBoolFalse.m_StringValue);
+		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> findFirstBoolFalse: %1(%2)", findFirstBoolFalse, findFirstBoolFalse.m_StringValue);
 		
-		array<ref EL_PersistentExampleState> allOrderedByNameDesc = repository.FindAll(orderBy: {{"m_StringValue", "DESC"}});
-		foreach(EL_PersistentExampleState state : allOrderedByNameDesc)
+		//Find by complex conditions and order results
+		array<ref EL_PersistentExampleState> complexAndOrdered = repository.FindAll(
+			EL_DbFindCondition.And({
+				EL_DbFindCondition.Field("m_StringValue", EL_DbStringFieldOperator.CONTAINS, "State"),
+				EL_DbFindCondition.Field("m_FloatValue", EL_DbNumericFieldOperator.GREATER_THAN_OR_EQUAL, 33.0)
+			}), 
+			orderBy: {{"m_StringValue", "ASC"}});
+		
+		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> complexAndOrdered:",);
+		foreach(EL_PersistentExampleState state : complexAndOrdered)
 		{
-			Print(state.m_StringValue);
+			PrintFormat("%1(%2, %3, %4, '%5')", state.Type().ToString(), state.m_IntegerValue, state.m_FloatValue, state.m_BooleanValue, state.m_StringValue);
 		}
 	}
 

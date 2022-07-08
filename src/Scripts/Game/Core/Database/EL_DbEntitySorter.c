@@ -2,7 +2,7 @@ class EL_DbEntitySorter
 {
 	static array<ref EL_DbEntity> GetSorted(notnull array<ref EL_DbEntity> entities, notnull EL_TStringArrayArray orderBy, int orderByIndex = 0)
 	{
-		if(entities.Count() == 0 || orderByIndex >= orderBy.Count()) return entities;
+		if(entities.Count() < 2 || orderByIndex >= orderBy.Count()) return entities;
 		
 		string fieldName = orderBy.Get(orderByIndex).Get(0);
 		string sortDirection = orderBy.Get(orderByIndex).Get(1);

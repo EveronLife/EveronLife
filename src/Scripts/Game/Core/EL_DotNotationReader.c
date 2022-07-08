@@ -19,7 +19,7 @@ class EL_DotNotationReader<Class T>
 
 		if(!instance.Type().GetVariableValue(instance, vIdx, resultValue)) 
 		{
-			Debug.Error(string.Format("Failed to read field '%1' as 'string' from the '%2'.", fieldName, instance));
+			Debug.Error(string.Format("Failed to read field '%1' as '%2' from the '%3'.", fieldName, T, instance));
 			return false;
 		}
 		
