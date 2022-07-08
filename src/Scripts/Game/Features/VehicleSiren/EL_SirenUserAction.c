@@ -11,12 +11,9 @@ class EL_SirenUserAction: SCR_VehicleActionBase
 	{
 		if (state == false) {
 			audioHandle = soundComponent.SoundEvent("SOUND_SIREN");
-			Print(state);
 			state = true;
 		} else {
 			soundComponent.Terminate(audioHandle);
-
-			Print(state);
 			state = false;
 		}
 	}
