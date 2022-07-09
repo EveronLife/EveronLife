@@ -587,17 +587,6 @@ Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domest
 }
 GenericEntity AppleProcessor : "{1DD3BF6A1A249CDE}Prefabs/Processor/Apple_Processor.et" {
  components {
-  ActionsManagerComponent "{598F21A8710B89C1}" {
-   additionalActions {
-    EL_ProcessAction "{598F21A877BE6DEE}" {
-     m_aProcessingInputs {
-      EL_ProcessingInput "{59C95E228FCD6CC1}" {
-       m_InputPrefab "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et"
-      }
-     }
-    }
-   }
-  }
  }
  coords 108.516 0.899 135.363
 }
