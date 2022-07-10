@@ -99,7 +99,7 @@ After creating the animation in your preferred 3D software, export as fbx with t
 
 You can find detailed information on the [official wiki](https://community.bistudio.com/wiki/Arma_Reforger:Textures). Emissive texture is particularly important.
 
-If you took a modular approach or if your lights are all the same color, different emissive colors should be set in the material, not the texture. This allows for more flexibility. You can make different materials with different emissive colors and swap them on the next step.
+If you took a modular approach or if your lights are all the same color, different emissive colors should be set in `EL_LightComponent`, not the texture. This allows for more flexibility. You can configure the color and emissive multiplier in the `EL_LightComponent`.
 
 #### Enclosure
 
@@ -109,11 +109,11 @@ After making the emissive asset as a `GameEntity` and with the required componen
 
 To work with current animations, lights must be named from left1 to left5 from inside to oustide and same on the right side.
 
-You can change colors of the emissive by selecting the mesh object and dragging the material of different color you made on the [texturing step](#texturing).
+You can change colors and intesity of the emissive by configuring it in `EL_LightComponent`.
 
 ### Light entities
 
-To attach light entities to emissives, create a `LightEntity` prefab with a `Hierarchy` component. Make sure lens flare is set to disabled. Go to the `EL_LightComponent` of the emissive asset and select the created prefab. Set the Pivot Point (even if its 0,0,0 otherwise it wont spawn). There you can attach it to a bone by providing its name, useful for rotary lights.
+To attach light entities to emissives, select the `EL_LightComponent` and configure it there.
 
 To create the illusion that all the emissive assets are projecting the light you need to place the `LightEntity` on a smart way. Utilize the near plane, offset, the parent emissive and the animations in conjunction to achieve a believable effect. Take the LED bar as an example:
 
@@ -162,4 +162,3 @@ For each new vehicle with a different light variation:
 2. Add a light bar as a child (doesnt need to be direct child).
 3. [Configure](advanced_usage.md#configuring-each-mode) the siren modes in `EL_SirenManagerComponent`.
 4. Drag the prefab to the file explorer to save.
-

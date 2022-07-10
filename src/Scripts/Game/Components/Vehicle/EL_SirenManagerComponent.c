@@ -39,7 +39,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	**/
 	void RegisterLight(EL_LightComponent light)
 	{
-		if(m_Modes) m_Modes.Insert(light);
+		if(m_Modes) m_Modes.InsertLight(light);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -144,6 +144,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	}
 }
 
+
 /**
 Contains all the information about the siren mode. Animation, sounds and knob procedural animation signals
 **/
@@ -219,9 +220,9 @@ class EL_SirenMode
 	\brief Inserts a light into the animation. Called when a light registers itself
 	\param light - light to be inserted
 	**/
-	void Insert(EL_LightComponent light)
+	void InsertLight(EL_LightComponent light)
 	{
-		if(m_Animation) m_Animation.Insert(light);
+		if(m_Animation) m_Animation.InsertLight(light);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -234,6 +235,7 @@ class EL_SirenMode
 		return m_KnobSignals;
 	}
 }
+
 
 /**
 Holds name and value of a procedural animation signal. 
@@ -260,6 +262,7 @@ class SignalValuePair
 	}
 }
 
+
 /**
 Holds all the modes tht the user set. Primary function is to enable saving the modes into a single config prefab
 **/
@@ -280,11 +283,11 @@ class EL_SirenModes
  	\brief Insert the light into each mode. Called when a light registers itself
 	\param light - the light to be inserted
 	**/
-	void Insert(EL_LightComponent light)
+	void InsertLight(EL_LightComponent light)
 	{
 		foreach(EL_SirenMode mode : m_Modes)
 		{
-			mode.Insert(light);
+			mode.InsertLight(light);
 		}
 	}
 	

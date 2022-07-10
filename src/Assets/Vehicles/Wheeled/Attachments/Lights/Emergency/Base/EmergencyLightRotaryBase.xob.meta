@@ -6,7 +6,7 @@ MetaFileClass {
    MaterialAssigns {
     MaterialAssignClass "{59A97EA9686B4EA0}" {
      SourceMaterial "Lights"
-     AssignedMaterial "{8D7EEFA355DCE211}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/LightsRed.emat"
+     AssignedMaterial "{8D7EEFA355DCE211}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights.emat"
     }
     MaterialAssignClass "{59AAF19744F285D8}" {
      SourceMaterial "Glass"

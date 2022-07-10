@@ -1,4 +1,3 @@
-[BaseContainerProps()]
 class EL_BaseEntry
 {
 	// The lights affected by the entry
@@ -10,17 +9,85 @@ class EL_BaseEntry
 	\param light - the light being regisred
 	**/
 	void OnRegister(EL_LightComponent light);
+}
+
+// This class allows the entry to have its own timer separate from the light animation timer
+// Can be used for actions that update the lights independently from the animation simulation
+// These entries are executed on the Tick phase and are separate from the main user set animation
+// They act as a separate animation
+class EL_TimedEntry : EL_BaseEntry
+{
+	protected float m_Timer = 0;
+	
+	// \brief Executes every tick, even if the lights arent being simulated
+	void OnTick(float timeSlice);
+}
+
+
+// Updates the LV of the LightEntity
+class EL_UpdateLVEntry : EL_TimedEntry
+{
+	protected const float TEN_SECONDS = 10;
+	
+	protected int m_Day;
+	
 	
 	//------------------------------------------------------------------------------------------------
+	void EL_UpdateLVEntry()
+	{
+		m_Timer = 0;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// \brief Stores the emissives that have LightEntities 
+	// \param light - the light being registered
+	override void OnRegister(EL_LightComponent light)
+	{
+		if(light.HasLights()) m_AffectedLights.Insert(light);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void UpdateLightEntitiesLV()
+	{
+		foreach(EL_LightComponent light : m_AffectedLights)
+		{
+			light.UpdateLightEntitiesLV();
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	protected void EveryTenSeconds()
+	{
+		UpdateLightEntitiesLV();
+	}
+	
+	
+	//------------------------------------------------------------------------------------------------
+	override void OnTick(float timeSlice)
+	{
+		m_Timer -= timeSlice;
+		if(m_Timer <= 0)
+		{
+			EveryTenSeconds();
+			m_Timer += TEN_SECONDS;
+		}
+	}
+}
+
+// All entries that extend this class will be displayed to the user
+// These entries are executed in the Simulation phase
+[BaseContainerProps()]
+class EL_BaseUserEntry : EL_BaseEntry
+{
 	/**
 	\brief Called when the entry is executed. Can be used to affect the lights or the flow of the animation
 	\param animation - the animation that is executing the entry
 	**/
-	void OnExecute(EL_LightAnimation animation);
+	void Execute(EL_LightAnimation animation);
 }
 
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_DelayMS", "Wait %1ms")]
-class EL_WaitEntry : EL_BaseEntry
+class EL_WaitEntry : EL_BaseUserEntry
 {
 	[Attribute(desc: "Time in milliseconds that the entry will take", params: "0")]
 	protected int m_DelayMS;
@@ -29,14 +96,14 @@ class EL_WaitEntry : EL_BaseEntry
 	\brief Sets a delay on the animation
 	\param animation - the affected animation
 	**/
-	override void OnExecute(EL_LightAnimation animation)
+	override void Execute(EL_LightAnimation animation)
 	{
 		animation.SetDelay(m_DelayMS / 1000.0);
 	}
 }
 
 [BaseContainerProps(), SCR_BaseContainerCustomTitleField("m_Steps", "Loop %1 steps")]
-class EL_LoopEntry : EL_BaseEntry
+class EL_LoopEntry : EL_BaseUserEntry
 {
 	[Attribute(desc: "Number of steps to loop. If 0, the animation will loop from the beginning")]
 	protected int m_Steps;
@@ -48,7 +115,7 @@ class EL_LoopEntry : EL_BaseEntry
 	protected int m_LoopsRemaining = m_LoopCount;
 	
 	//------------------------------------------------------------------------------------------------
-	override void OnExecute(EL_LightAnimation animation)
+	override void Execute(EL_LightAnimation animation)
 	{
 		// if steps is not 0
 		if(m_Steps)
@@ -118,7 +185,7 @@ class EL_LightEntry : EL_WaitEntry
 	\brief Acts on each light and sets the specified delay
 	\param animation - the affected animation
 	**/
-	override void OnExecute(EL_LightAnimation animation)
+	override void Execute(EL_LightAnimation animation)
 	{
 		foreach(EL_LightComponent light : m_AffectedLights)
 		{

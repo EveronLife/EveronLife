@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{5B38174CD9F1071B}Assets/Vehicles/Wheeled/Attachments/Lights/Base/Data/ProjectionMap.edds"
+ Name "{5B38174CD9F1071B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/ProjectionMap.edds"
  Configurations {
   PNGResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }

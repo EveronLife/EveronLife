@@ -22,19 +22,20 @@ GenericEntity {
       EL_LightComponent "{59BB3758474323BE}" {
        m_Lights {
         EL_LightChild "{59CD739EFD955811}" {
-         m_LightPrefab "{0200098267046AE3}Prefabs/Vehicles/EmergencyLights/Base/BlueLight.et"
-         m_ConeAngle 120
-         m_PivotPoint PivotPoint "{59CD739EE894CFCB}" {
-          m_PivotName "Disk"
-         }
+         m_eLightType SPOT
+         m_vLightColor 0 0.125 0.502
+         m_PivotPoint "Disk"
         }
        }
+       m_OverrideEmissiveColor 1
+       m_EmissiveColor 0 0.016 1
+       m_EmissiveMultiplier 70
       }
       MeshObject "{59B115DF4DCBA822}" {
        Materials {
         MaterialAssignClass "{59CD739E81D287F1}" {
          SourceMaterial "Lights"
-         AssignedMaterial "{3C355FD989FA68ED}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/LightsBlue.emat"
+         AssignedMaterial "{8D7EEFA355DCE211}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights.emat"
         }
        }
       }

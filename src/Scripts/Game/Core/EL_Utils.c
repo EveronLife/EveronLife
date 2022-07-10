@@ -46,11 +46,11 @@ class PivotPoint
 	[Attribute()]
 	protected vector m_Rotation;
 	
+	
 	string GetName()
 	{
 		return m_PivotName;
 	}
-	
 	
 	vector GetOffset()
 	{

@@ -5,7 +5,9 @@
 class EL_LightAnimation
 {
 	[Attribute(desc: "Entries that will be executed in order when the mode is selected")]
-	protected ref array<ref EL_BaseEntry> m_Entries;
+	protected ref array<ref EL_BaseUserEntry> m_Entries;
+	
+	protected ref EL_UpdateLVEntry m_LVUpdater = new EL_UpdateLVEntry();
 	
 	// When it is 0 or less, it executes entries
 	protected float m_Timer = 0;
@@ -23,12 +25,13 @@ class EL_LightAnimation
  	\brief inserts the light into each entry
 	\param light - light being inserted
 	**/
-	void Insert(EL_LightComponent light)
+	void InsertLight(EL_LightComponent light)
 	{
 		foreach(EL_BaseEntry entry : m_Entries)
 		{
 			entry.OnRegister(light);
 		}
+		m_LVUpdater.OnRegister(light);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -83,7 +86,7 @@ class EL_LightAnimation
 		m_TimeInLoop += timeSlice;
 		while(m_Timer <= 0 && m_EntryIndex < m_Entries.Count()) 
 		{
-			m_Entries[m_EntryIndex].OnExecute(this);
+			m_Entries[m_EntryIndex].Execute(this);
 			m_EntryIndex++;
 		}
 	}
@@ -95,6 +98,7 @@ class EL_LightAnimation
 	**/
 	void Tick(float timeSlice)
 	{
+		m_LVUpdater.OnTick(timeSlice);
 		if(m_EntryIndex < m_Entries.Count())
 		{
 			float step = timeSlice / m_Precision;
