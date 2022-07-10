@@ -1,0 +1,35 @@
+ImageSetClass {
+ RefSize 512 512
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{7B51CC5B05005809}Assets/UI/statsbars.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass Health {
+   Name "Health"
+   Pos 0 0
+   Size 256 256
+   Flags 0
+  }
+  ImageSetDefClass Stamina {
+   Name "Stamina"
+   Pos 256 0
+   Size 256 256
+   Flags 0
+  }
+  ImageSetDefClass Thirst {
+   Name "Thirst"
+   Pos 0 256
+   Size 256 256
+   Flags 0
+  }
+  ImageSetDefClass Hunger {
+   Name "Hunger"
+   Pos 256 256
+   Size 256 256
+   Flags 0
+  }
+ }
+}
