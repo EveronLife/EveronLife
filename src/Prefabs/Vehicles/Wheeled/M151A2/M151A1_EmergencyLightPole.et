@@ -25,6 +25,7 @@ GenericEntity {
          m_eLightType SPOT
          m_vLightColor 0 0.125 0.502
          m_PivotPoint "Disk"
+         m_NightLVAttenuation 1
         }
        }
        m_OverrideEmissiveColor 1

@@ -35,9 +35,11 @@ GenericEntity {
         m_fConeAngle 110
         m_fRadius 30
         m_PivotPoint "Disk"
+        m_NightLVAttenuation 1
         m_DayLV 15
        }
       }
+      m_OverrideEmissiveColor 1
       m_EmissiveColor 0.503 0.007 0
      }
      Hierarchy "{59BB3D4ED0B7F273}" {
@@ -119,6 +121,7 @@ GenericEntity {
         m_eLightType SPOT
         m_vLightColor 0 0.014 0.502
         m_PivotPoint "Disk"
+        m_NightLVAttenuation 1
         m_DayLV 15
        }
       }

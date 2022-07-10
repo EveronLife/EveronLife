@@ -83,7 +83,7 @@ AudioClass {
    id 34829
    name "Signal 34"
    tl -922.857 -61.429
-   res "{3E81E3832430D45B}Sounds/Siren/siren.sig"
+   res "{3E81E3832430D45B}Sounds/Siren/Vehicles_Siren.sig"
    inputsport {
     17 22 23 25 38 40 42 44 48 49
    }
@@ -717,6 +717,7 @@ AudioClass {
      }
     }
    }
+   Volume -10
    "Loop count" 255
    "Infinite loop" 1
    "Fade in time" 50
@@ -746,6 +747,7 @@ AudioClass {
      }
     }
    }
+   Volume -10
    "Loop count" 255
    "Infinite loop" 1
    "Fade in time" 50
