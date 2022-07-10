@@ -67,15 +67,21 @@ class EL_LightComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	protected void SpawnLights()
+	{
+		foreach(EL_LightChild light :  m_Lights)
+		{
+			light.Spawn(GetOwner());
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	void TurnOn()
 	{
 		if(!m_isOn)
 		{
 			if(m_Material) m_Material.SetEmissiveMultiplier(m_EmissiveMultiplier);
-			foreach(EL_LightChild light :  m_Lights)
-			{
-				light.Spawn(GetOwner());
-			}
+			SpawnLights();
 			m_isOn = true;
 		}
 	}
@@ -162,6 +168,21 @@ class EL_LightComponent : ScriptComponent
 	string GetName()
 	{
 		return m_Name;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override bool RplSave(ScriptBitWriter writer)
+	{
+		writer.WriteBool(m_isOn);
+		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override bool RplLoad(ScriptBitReader reader)
+	{
+		reader.ReadBool(m_isOn);
+		if(m_isOn) SpawnLights();
+		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------

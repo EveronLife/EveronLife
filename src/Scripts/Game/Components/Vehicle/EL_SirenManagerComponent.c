@@ -54,7 +54,10 @@ class EL_SirenManagerComponent : ScriptComponent
 		{
 			m_Knob = knob;
 			m_KnobSigComp = SignalsManagerComponent.Cast(knob.GetOwner().FindComponent(SignalsManagerComponent));
+			
+			
 			SetModeStr("default");
+			
 		}
 	}
 	
@@ -102,11 +105,20 @@ class EL_SirenManagerComponent : ScriptComponent
 	protected void SetMode()
 	{
 		EL_SirenMode mode = m_Modes.GetMode(m_CurrentModeIndex);
+		m_SoundComp.SoundEvent("Vehicle_Horn");
 		if(mode)
 		{
 			if(m_Knob) SetKnobMode(mode);
 			
 			if(m_SoundComp) SetSirenMode(mode);
+			if(mode.GetName() != "default") 
+			{
+				m_SoundComp.SetSignalValueStr("animSelector", 1);
+				m_SoundComp.SoundEventBone("SOUND_VEHICLE_HORN", "Scene_Root");
+				
+				m_SoundComp.SetSignalValueStr("animSelector", 0);
+				
+			}
 		}
 		
 		m_CurrentMode = mode;
