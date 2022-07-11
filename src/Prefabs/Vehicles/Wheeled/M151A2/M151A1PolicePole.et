@@ -2,7 +2,7 @@ Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A1PoliceBase.et
  ID "44EC665ABD2FF04B"
  components {
   EL_SirenManagerComponent "{59C243CD49C708B5}" {
-   m_Modes EL_SirenModes "{59CD78F2077DF1F3}" : "{A24DB78BFBC39A07}Configs/Vehicles/Siren/Siren.conf" {
+   m_Modes EL_SirenModes "{59D60B48541D0AAE}" : "{A24DB78BFBC39A07}Configs/Vehicles/Siren/Siren.conf" {
    }
   }
   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {

@@ -19,7 +19,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	// Used for sending only the necessary signals to m_SoundComp
 	protected EL_SirenMode m_CurrentMode;
 	// For JIPs in MP
-	protected int m_CurrentModeIndex;
+	protected int m_CurrentModeIndex = -1;
 	
 	protected EL_SirenKnobComponent m_Knob;
 	protected SignalsManagerComponent m_KnobSigComp;
@@ -30,6 +30,20 @@ class EL_SirenManagerComponent : ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		m_SoundComp = SoundComponent.Cast(owner.FindComponent(SoundComponent));
+		GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesSingle", EActionTrigger.DOWN, CycleModesSingle);
+		GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesDouble", EActionTrigger.DOWN, CycleModesDouble);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void CycleModesSingle()
+	{
+		SetModeStr(m_CurrentMode.GetSingleClickMode());
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void CycleModesDouble()
+	{
+		SetModeStr(m_CurrentMode.GetDoubleClickMode());
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -95,6 +109,7 @@ class EL_SirenManagerComponent : ScriptComponent
 		{
 			m_KnobSigComp.SetSignalValue(m_KnobSigComp.FindSignal(sig.GetName()), sig.GetValue());
 		}
+		m_SoundComp.SoundEventBone("SOUND_VEHICLE_CLOSE_LIGHT_ON", "Scene_Root");
 		
 	}
 	
@@ -132,7 +147,9 @@ class EL_SirenManagerComponent : ScriptComponent
 	void SetModeStr(string name)
 	{
 		if(!m_Modes) return;
-		m_CurrentModeIndex = m_Modes.Find(name);
+		int nextModeIndex = m_Modes.Find(name);
+		if(nextModeIndex == m_CurrentModeIndex) return;
+		m_CurrentModeIndex = nextModeIndex;
 		SetMode();
 	}
 	
@@ -190,6 +207,12 @@ class EL_SirenMode
 	[Attribute("default", uiwidget: UIWidgets.ComboBox, enums: MODE_NAMES)]
 	protected string m_Name;
 	
+	[Attribute("default", uiwidget: UIWidgets.ComboBox, enums: MODE_NAMES)]
+	protected string m_NextModeSingleClick;
+	
+	[Attribute("default", uiwidget: UIWidgets.ComboBox, enums: MODE_NAMES)]
+	protected string m_NextModeDoubleClick;
+	
 	[Attribute()]
 	protected ref EL_LightAnimation m_Animation;
 	
@@ -208,6 +231,19 @@ class EL_SirenMode
 	{
 		return m_Name;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	string GetDoubleClickMode()
+	{
+		return m_NextModeDoubleClick;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	string GetSingleClickMode()
+	{
+		return m_NextModeSingleClick;
+	}
+	
 	
 	//------------------------------------------------------------------------------------------------
 	string GetSirenActive()

@@ -230,8 +230,6 @@ class EL_LightChild
 	
 	protected ref Resource m_LightResource;
 	
-	protected const float E = 2.71828;
-	
 	protected float m_currentLV;
 	
 	protected float m_Sunrise, m_Sunset, m_MidnightOffset, m_NightDuration;
@@ -268,6 +266,7 @@ class EL_LightChild
 												m_vLightConeDirection);
 		m_LightEntity.SetConeAngle(m_fConeAngle);
 		m_LightEntity.SetNearPlane(m_NearPlane);
+		m_LightEntity.SetLensFlareType(LightLensFlareType.Disabled);
 		parent.AddChild(m_LightEntity, parent.GetBoneIndex(m_PivotPoint));
 	}
 	
