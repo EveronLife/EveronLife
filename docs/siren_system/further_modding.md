@@ -120,12 +120,12 @@ With all this set up, you can parent it to a vehicle set up with the knob and ac
 
 Make a model and set up the procedural animation as usual. The knob prefab must have:
 
-- A `MeshObject` with a collider
-- A `RigidBody` set to `AlwaysActive`
-- A `ProcAnimComponent`
-- A `SignalsManagerComponent`
-- A `Hierarchy`
-- An `EL_SirenKnobComponent`
+- `MeshObject` with a collider
+- `RigidBody` set to `AlwaysActive`
+- `ProcAnimComponent`
+- `SignalsManagerComponent`
+- `Hierarchy`
+- `EL_SirenKnobComponent`
 
 You can set the procedural animation signals for each mode in `EL_SirenManagerComponent` under `KnobSignals`.
 
