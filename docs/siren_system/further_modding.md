@@ -27,7 +27,7 @@ With the `.wav` file in hand, just replace the desired audio file located in `So
 ### Adding new sounds
 
 Before adding the sound, think of a good name, such as `MyCoolSiren` (can be whatever you'd like). Put the desired audio file in `Sounds/Siren/` and right click and import it.
-Open `Scripts\Game\Components\Vehicle\EL_SirenManagerComponent.c` and look for this code in the class `EL_SirenMode` around line 115:
+Open `Scripts\Game\Components\Vehicle\EL_SirenManagerComponent.c` and look for this code in the class `EL_SirenMode` around line 115 and add the sound to the bottom of the list:
 
 ```cs
 static protected const ref ParamEnumArray SIREN_SOUNDS = 
