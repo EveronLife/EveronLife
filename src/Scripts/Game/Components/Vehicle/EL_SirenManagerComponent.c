@@ -175,7 +175,7 @@ Contains all the information about the siren mode. Animation, sounds and knob pr
 class EL_SirenMode
 {
 	// Available modes to the user
-	const ref ParamEnumArray MODE_NAMES =
+	static const ref ParamEnumArray MODE_NAMES =
 	{
 		new ParamEnum("default", "0"),
 		new ParamEnum("Mode1", "1"),
@@ -188,7 +188,7 @@ class EL_SirenMode
 	};
 	
 	// Available sounds
-	protected const ref ParamEnumArray SIREN_SOUNDS = 
+	static protected const ref ParamEnumArray SIREN_SOUNDS = 
 	{
 		new ParamEnum("Silent", "0"),
 		new ParamEnum("DefaultHorn", "1"),
