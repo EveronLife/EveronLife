@@ -1,9 +1,6 @@
 class EL_SirenLightComponentClass : ScriptComponentClass
 {
-	
 }
-
-
 
 class EL_SirenLightComponent : ScriptComponent 
 {
@@ -28,7 +25,6 @@ class EL_SirenLightComponent : ScriptComponent
 	// Emissive multiplier when on/off
 	const int EMISSIVE_OFF = 0;
 	
-	
 	protected ParametricMaterialInstanceComponent m_Material;
 	protected AnimationPlayerComponent m_Anim;
 	
@@ -45,8 +41,6 @@ class EL_SirenLightComponent : ScriptComponent
 		}
 		if(m_OverrideEmissiveColor) m_Material.SetEmissiveColor(Color.FromVector(m_EmissiveColor.Normalized()).PackToInt());
 		m_Material.SetEmissiveMultiplier(m_EmissiveMultiplier);
-		
-		
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -91,8 +85,7 @@ class EL_SirenLightComponent : ScriptComponent
 	{
 		if(m_isOn)
 		{
-			if(m_Material)
-				m_Material.SetEmissiveMultiplier(EMISSIVE_OFF);
+			if(m_Material) m_Material.SetEmissiveMultiplier(EMISSIVE_OFF);
 			DestroyLights();
 			m_isOn = false;
 		}
@@ -101,7 +94,7 @@ class EL_SirenLightComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void Toggle()
 	{
-		if(IsOn()) TurnOff();
+		if(m_isOn) TurnOff();
 		else TurnOn();
 	}
 	
@@ -121,22 +114,19 @@ class EL_SirenLightComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void Play()
 	{
-		if(m_Anim && !m_Anim.IsPlaying())
-			m_Anim.Play(GetOwner());
+		if(m_Anim && !m_Anim.IsPlaying()) m_Anim.Play(GetOwner());
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	void Stop()
 	{
-		if(m_Anim && m_Anim.IsPlaying())
-			m_Anim.Stop(GetOwner());
+		if(m_Anim && m_Anim.IsPlaying()) m_Anim.Stop(GetOwner());
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	bool IsPlaying()
 	{
-		if(m_Anim)
-			return m_Anim.IsPlaying();
+		if(m_Anim) return m_Anim.IsPlaying();
 		return false;
 	}
 
@@ -161,7 +151,7 @@ class EL_SirenLightComponent : ScriptComponent
 			parent = parent.GetParent();
 		}
 		if(manager) manager.RegisterLight(this);
-		else if (GetGame()) Print("Light component with no manager", LogLevel.WARNING);
+		else if(GetGame()) Print("Light component with no manager", LogLevel.WARNING);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -197,22 +187,22 @@ class EL_SirenLightComponent : ScriptComponent
 class EL_LightChild
 {
 	[Attribute(defvalue: "0", uiwidget: UIWidgets.ComboBox, enums: ParamEnumArray.FromEnum(LightType), desc: "Point is light that shines to all directions. Spot shines to a specific direction.")]
-	private LightType m_eLightType;	
+	protected LightType m_eLightType;	
 	
 	[Attribute("0 0 0", UIWidgets.EditBox, "Light offset in local space from the pivot point")]
-	private vector m_vLightOffset;
+	protected vector m_vLightOffset;
 	
 	[Attribute("1 1 1", UIWidgets.ColorPicker, "Color of the light")]
-	private vector m_vLightColor;
+	protected vector m_vLightColor;
 	
 	[Attribute("0 0 0", UIWidgets.EditBox, "Direction of the light cone (useful for LightType.SPOT only).")]
-	private vector m_vLightConeDirection;
+	protected vector m_vLightConeDirection;
 	
 	[Attribute("130", UIWidgets.EditBox, "Angle of the light cone (useful for LightType.SPOT only).")]
-	private float m_fConeAngle;
+	protected float m_fConeAngle;
 	
 	[Attribute("30", UIWidgets.EditBox, "Radius of the light effect")]
-	private float m_fRadius;
+	protected float m_fRadius;
 	
 	[Attribute(desc: "Parent bone")]
 	protected string m_PivotPoint;

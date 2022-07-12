@@ -1,4 +1,3 @@
-
 /**
 	\brief Attribute for setting any enum property as custom title.
 	@code

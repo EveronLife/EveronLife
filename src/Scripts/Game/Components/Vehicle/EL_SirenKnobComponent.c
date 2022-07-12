@@ -1,6 +1,5 @@
 class EL_SirenKnobComponentClass : ScriptComponentClass
 {
-
 }
 
 /** 
@@ -47,9 +46,6 @@ class EL_SirenKnobComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override event protected void EOnSimulate(IEntity owner, float timeSlice)
 	{
-		if(m_Animation)
-			m_Animation.Tick(timeSlice);
+		if(m_Animation) m_Animation.Tick(timeSlice);
 	}
-
-	
 }

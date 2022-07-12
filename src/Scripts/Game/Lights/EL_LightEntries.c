@@ -23,14 +23,11 @@ class EL_TimedEntry : EL_BaseEntry
 	void OnTick(float timeSlice);
 }
 
-
 // Updates the LV of the LightEntity
 class EL_UpdateLVEntry : EL_TimedEntry
 {
 	protected const float TEN_SECONDS = 10;
-	
 	protected int m_Day;
-	
 	
 	//------------------------------------------------------------------------------------------------
 	void EL_UpdateLVEntry()
@@ -60,7 +57,6 @@ class EL_UpdateLVEntry : EL_TimedEntry
 	{
 		UpdateLightEntitiesLV();
 	}
-	
 	
 	//------------------------------------------------------------------------------------------------
 	override void OnTick(float timeSlice)
@@ -140,7 +136,6 @@ class EL_LoopEntry : EL_BaseUserEntry
 		{	
 			animation.Reset();
 		}
-	
 	}
 }
 
@@ -207,8 +202,7 @@ class EL_LightEntry : EL_WaitEntry
 		m_Name.Split(" ", names, true);
 		foreach(string name : names)
 		{
-			if(light.GetName().Contains(name))
-				return true;
+			if(light.GetName().Contains(name)) return true;
 		}
 		
 		return false;
@@ -234,7 +228,6 @@ enum EL_AnimationEntryType
 	TURN_ANIMATION_OFF,
 	TOGGLE_ANIMATION
 }
-
 
 [BaseContainerProps(), EL_BaseContainerCustomTitleEnumReadable(EL_AnimationEntryType, "m_Type")]
 class EL_AnimationEntry : EL_LightEntry

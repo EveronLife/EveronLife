@@ -1,8 +1,6 @@
 class EL_SirenManagerComponentClass : ScriptComponentClass
 {
-
 }
-
 
 /**
 \brief Manages siren modes, light animations and knob procedural animation
@@ -69,9 +67,7 @@ class EL_SirenManagerComponent : ScriptComponent
 			m_Knob = knob;
 			m_KnobSigComp = SignalsManagerComponent.Cast(knob.GetOwner().FindComponent(SignalsManagerComponent));
 			
-			
 			SetModeStr("default");
-			
 		}
 	}
 	
@@ -110,7 +106,6 @@ class EL_SirenManagerComponent : ScriptComponent
 			m_KnobSigComp.SetSignalValue(m_KnobSigComp.FindSignal(sig.GetName()), sig.GetValue());
 		}
 		m_SoundComp.SoundEventBone("SOUND_VEHICLE_CLOSE_LIGHT_ON", "Scene_Root");
-		
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -132,7 +127,6 @@ class EL_SirenManagerComponent : ScriptComponent
 				m_SoundComp.SoundEventBone("SOUND_VEHICLE_HORN", "Scene_Root");
 				
 				m_SoundComp.SetSignalValueStr("animSelector", 0);
-				
 			}
 		}
 		
@@ -181,7 +175,7 @@ Contains all the information about the siren mode. Animation, sounds and knob pr
 class EL_SirenMode
 {
 	// Available modes to the user
-	static const ref ParamEnumArray MODE_NAMES =
+	const ref ParamEnumArray MODE_NAMES =
 	{
 		new ParamEnum("default", "0"),
 		new ParamEnum("Mode1", "1"),
@@ -194,7 +188,7 @@ class EL_SirenMode
 	};
 	
 	// Available sounds
-	static protected const ref ParamEnumArray SIREN_SOUNDS = 
+	protected const ref ParamEnumArray SIREN_SOUNDS = 
 	{
 		new ParamEnum("Silent", "0"),
 		new ParamEnum("DefaultHorn", "1"),
@@ -215,7 +209,6 @@ class EL_SirenMode
 	
 	[Attribute()]
 	protected ref EL_LightAnimation m_Animation;
-	
 	
 	[Attribute(desc: "Sound that should be played when the horn is pressed.", uiwidget: UIWidgets.ComboBox, enums: SIREN_SOUNDS)]
 	protected string m_SoundWhenPressed;
@@ -243,7 +236,6 @@ class EL_SirenMode
 	{
 		return m_NextModeSingleClick;
 	}
-	
 	
 	//------------------------------------------------------------------------------------------------
 	string GetSirenActive()
