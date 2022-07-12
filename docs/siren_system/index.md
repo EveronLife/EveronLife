@@ -1,7 +1,7 @@
 
 # Siren system
 
-The siren system introduces selectable light animations and sirens to [Arma Reforger](https://store.steampowered.com/app/1874880).
+The siren system introduces selectable light animations and sirens to Arma Reforger.
 
 - [Basic usage](basic_usage.md#basic-usage)
   - [How does it work?](basic_usage.md#how-does-it-work)

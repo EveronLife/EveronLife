@@ -37,20 +37,6 @@ static protected const ref ParamEnumArray SIREN_SOUNDS =
     new ParamEnum("SlowSiren", "2"),
     new ParamEnum("FastSiren", "3"),
     new ParamEnum("FastestSiren", "4"),
-    new ParamEnum("WarningSiren", "5")
-};
-```
-
-Add the sound to the bottom of the list:
-
-```cs
-static protected const ref ParamEnumArray SIREN_SOUNDS = 
-{
-    new ParamEnum("Silent", "0"),
-    new ParamEnum("DefaultHorn", "1"),
-    new ParamEnum("SlowSiren", "2"),
-    new ParamEnum("FastSiren", "3"),
-    new ParamEnum("FastestSiren", "4"),
     new ParamEnum("WarningSiren", "5"),
     new ParamEnum("MyCoolSiren", "6")     // <--- Your new sound is here
 };
