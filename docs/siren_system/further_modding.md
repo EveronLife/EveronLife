@@ -27,7 +27,7 @@ With the `.wav` file in hand, just replace the desired audio file located in `So
 ### Adding new sounds
 
 Before adding the sound, think of a good name, such as `MyCoolSiren` (can be whatever you'd like). Put the desired audio file in `Sounds/Siren/` and right click and import it.
-Open `Scripts\Game\Components\Vehicle\EL_SirenManagerComponent.c` and look for this code in the class `EL_SirenMode` around line 115:
+Open `Scripts\Game\Components\Vehicle\EL_SirenManagerComponent.c` and look for this code in the class `EL_SirenMode` around line 115 and add the sound to the bottom of the list:
 
 ```cs
 static protected const ref ParamEnumArray SIREN_SOUNDS = 
@@ -120,12 +120,12 @@ With all this set up, you can parent it to a vehicle set up with the knob and ac
 
 Make a model and set up the procedural animation as usual. The knob prefab must have:
 
-- A `MeshObject` with a collider
-- A `RigidBody` set to `AlwaysActive`
-- A `ProcAnimComponent`
-- A `SignalsManagerComponent`
-- A `Hierarchy`
-- An `EL_SirenKnobComponent`
+- `MeshObject` with a collider
+- `RigidBody` set to `AlwaysActive`
+- `ProcAnimComponent`
+- `SignalsManagerComponent`
+- `Hierarchy`
+- `EL_SirenKnobComponent`
 
 You can set the procedural animation signals for each mode in `EL_SirenManagerComponent` under `KnobSignals`.
 
