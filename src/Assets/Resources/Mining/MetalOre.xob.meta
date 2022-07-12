@@ -3,6 +3,16 @@ MetaFileClass {
  Configurations {
   FBXResourceClass PC {
    Scale 0.5 0.5 0.5
+   GeometryParams {
+    GeometryParam UTM_MetalOre {
+     LayerPreset "RockFireView"
+     SurfaceProperties {
+      "{039AB05DD92E078A}Material.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
    Common TXOCommonClass "{59A7112AE1528DB9}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
    }
   }

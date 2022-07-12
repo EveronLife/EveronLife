@@ -18,8 +18,8 @@ $object "" {
     
    }
    #weight 0
-   #material "Material"
-   #layers ""
+   #material "Material.002"
+   #layers "ItemFireView"
    $faces {
      0 3 0 1 2
      0 3 3 4 2

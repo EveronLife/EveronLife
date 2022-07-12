@@ -11,10 +11,11 @@ GenericEntity {
    }
   }
   RigidBody "{59A71C4B89B1959D}" {
-   LayerPreset "Terrain"
+   LayerPreset "RockFireView"
    Mass 1000
    AngularSleepingThreashold 1
    ModelGeometry 1
+   Static 1
   }
   RplComponent "{59A71C4B89B19568}" {
   }
