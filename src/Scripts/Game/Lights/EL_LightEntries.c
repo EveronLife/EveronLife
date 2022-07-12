@@ -102,7 +102,7 @@ class EL_WaitEntry : EL_BaseUserEntry
 class EL_LoopEntry : EL_BaseUserEntry
 {
 	[Attribute(desc: "Number of steps to loop. If 0, the animation will loop from the beginning")]
-	protected int m_Steps;
+	protected int m_StartFrom;
 	
 	[Attribute(desc: "Number of times the loop should be executed. Number 0 means infinite")]
 	protected int m_LoopCount;
@@ -114,7 +114,7 @@ class EL_LoopEntry : EL_BaseUserEntry
 	override void Execute(EL_LightAnimation animation)
 	{
 		// if steps is not 0
-		if(m_Steps)
+		if(m_StartFrom)
 		{
 			// loops if there are remaining loops or the user set infinite loops
 			if(m_LoopsRemaining > 0 || !m_LoopCount)
@@ -122,7 +122,7 @@ class EL_LoopEntry : EL_BaseUserEntry
 				// if loops are not infinite, subtract 1 from remaining loops
 				if(m_LoopCount) m_LoopsRemaining--;
 				// goes back the user defined steps + this loop entry
-				animation.GoBack(m_Steps + 1);
+				animation.GoBack(m_StartFrom + 1);
 			}
 			// Resets loops remaining when it already looped the user defined amount 
 			// This prevents the loop from occuring only the first time in a nested loop
