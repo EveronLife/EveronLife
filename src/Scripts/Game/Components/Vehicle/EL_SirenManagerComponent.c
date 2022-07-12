@@ -51,7 +51,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	\brief Called when a light component registers itself
 	\param light - the light that is registering itself
 	**/
-	void RegisterLight(EL_LightComponent light)
+	void RegisterLight(EL_SirenLightComponent light)
 	{
 		if(m_Modes) m_Modes.InsertLight(light);
 	}
@@ -268,7 +268,7 @@ class EL_SirenMode
 	\brief Inserts a light into the animation. Called when a light registers itself
 	\param light - light to be inserted
 	**/
-	void InsertLight(EL_LightComponent light)
+	void InsertLight(EL_SirenLightComponent light)
 	{
 		if(m_Animation) m_Animation.InsertLight(light);
 	}
@@ -331,7 +331,7 @@ class EL_SirenModes
  	\brief Insert the light into each mode. Called when a light registers itself
 	\param light - the light to be inserted
 	**/
-	void InsertLight(EL_LightComponent light)
+	void InsertLight(EL_SirenLightComponent light)
 	{
 		foreach(EL_SirenMode mode : m_Modes)
 		{

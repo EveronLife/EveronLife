@@ -1,11 +1,11 @@
-class EL_LightComponentClass : ScriptComponentClass
+class EL_SirenLightComponentClass : ScriptComponentClass
 {
 	
 }
 
 
 
-class EL_LightComponent : ScriptComponent 
+class EL_SirenLightComponent : ScriptComponent 
 {
 	
 	[Attribute(desc: "EL_SirenManagerComponent uses this name to animate the light. Can be left blank if all light are changed at once")]
@@ -186,7 +186,7 @@ class EL_LightComponent : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void ~EL_LightComponent()
+	void ~EL_SirenLightComponent()
 	{
 		DestroyLights();
 	}

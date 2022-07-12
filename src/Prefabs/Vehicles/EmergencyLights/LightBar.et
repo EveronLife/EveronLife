@@ -12,12 +12,12 @@ GenericEntity {
    {
     ID "59CD3A6459E6BF32"
     components {
-     EL_LightComponent "{59BB3758474323BE}" {
-      m_OverrideEmissiveColor 1
-      m_EmissiveColor 0.503 0.007 0
-     }
      Hierarchy "{59BB3D4ED0B7F273}" {
       PivotID "Left2"
+     }
+     EL_SirenLightComponent "{59D913E97EE8BE2F}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
      }
     }
     coords 0 0 0
@@ -26,24 +26,19 @@ GenericEntity {
    {
     ID "59CD3A6459E6BF34"
     components {
-     EL_LightComponent "{59BB3758474323BE}" {
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left3"
+     }
+     EL_SirenLightComponent "{59D913E92ADD46B7}" {
       m_Lights {
-       EL_LightChild "{59CD3A719017DBD2}" {
+       EL_LightChild "{59D913E91D143B85}" {
         m_eLightType SPOT
-        m_vLightOffset 0 0 0
-        m_vLightColor 0.502 0.015 0
-        m_fConeAngle 110
-        m_fRadius 30
+        m_vLightColor 0.502 0 0
         m_PivotPoint "Disk"
-        m_NightLVAttenuation 1
-        m_DayLV 15
        }
       }
       m_OverrideEmissiveColor 1
-      m_EmissiveColor 0.503 0.007 0
-     }
-     Hierarchy "{59BB3D4ED0B7F273}" {
-      PivotID "Left3"
+      m_EmissiveColor 0.502 0 0
      }
     }
     coords 0 0 0
@@ -52,12 +47,12 @@ GenericEntity {
    {
     ID "59CD3A6459E6C472"
     components {
-     EL_LightComponent "{59BB3758474323BE}" {
-      m_OverrideEmissiveColor 1
-      m_EmissiveColor 0.503 0.007 0
-     }
      Hierarchy "{59BB3D4ED0B7F273}" {
       PivotID "Left1"
+     }
+     EL_SirenLightComponent "{59D913E96C176D07}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
      }
     }
     coords 0 0 0
@@ -65,10 +60,6 @@ GenericEntity {
    {
     ID "59CD3A6459E76391"
     components {
-     EL_LightComponent "{59BB3758474323BE}" {
-      m_OverrideEmissiveColor 1
-      m_EmissiveColor 0 0.125 0.502
-     }
      MeshObject "{59B115DF4DCBA822}" {
       Materials {
        MaterialAssignClass "{59D40E01CF8016EC}" {
@@ -83,6 +74,10 @@ GenericEntity {
      ParametricMaterialInstanceComponent "{59B115DFB7E548D4}" {
       ColorEmissive 0 0.246 1 1
      }
+     EL_SirenLightComponent "{59D913E95C635F69}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+     }
     }
     coords 0 0 0
     angleY 135
@@ -90,10 +85,6 @@ GenericEntity {
    {
     ID "59CD3A6459E76392"
     components {
-     EL_LightComponent "{59BB3758474323BE}" {
-      m_OverrideEmissiveColor 1
-      m_EmissiveColor 0 0.125 0.502
-     }
      MeshObject "{59B115DF4DCBA822}" {
       Materials {
        MaterialAssignClass "{59D40E00ACF980E6}" {
@@ -108,6 +99,10 @@ GenericEntity {
      ParametricMaterialInstanceComponent "{59B115DFB7E548D4}" {
       ColorEmissive 0 0.246 1 1
      }
+     EL_SirenLightComponent "{59D913E94B1688C7}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+     }
     }
     coords 0 0 0
     angleY 180
@@ -115,17 +110,6 @@ GenericEntity {
    {
     ID "59CD3A6459E77EBB"
     components {
-     EL_LightComponent "{59BB3758474323BE}" {
-      m_Lights {
-       EL_LightChild "{59CD3A7159544AAB}" {
-        m_eLightType SPOT
-        m_vLightColor 0 0.014 0.502
-        m_PivotPoint "Disk"
-        m_NightLVAttenuation 1
-        m_DayLV 15
-       }
-      }
-     }
      MeshObject "{59B115DF4DCBA822}" {
       Materials {
        MaterialAssignClass "{59D40E004D573A07}" {
@@ -139,6 +123,17 @@ GenericEntity {
      }
      ParametricMaterialInstanceComponent "{59B115DFB7E548D4}" {
       ColorEmissive 0 0.246 1 1
+     }
+     EL_SirenLightComponent "{59D913E9B1BB9744}" {
+      m_Lights {
+       EL_LightChild "{59D913E9B416C2D8}" {
+        m_eLightType SPOT
+        m_vLightColor 0 0.125 0.502
+        m_PivotPoint "Disk"
+       }
+      }
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
      }
     }
     coords 0 0 0

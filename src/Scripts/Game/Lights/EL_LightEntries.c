@@ -1,14 +1,14 @@
 class EL_BaseEntry
 {
 	// The lights affected by the entry
-	protected ref array<EL_LightComponent> m_AffectedLights = {};
+	protected ref array<EL_SirenLightComponent> m_AffectedLights = {};
 	
 	//------------------------------------------------------------------------------------------------
 	/**
 	\brief Called when a light is registered, can be used to store only the affected lights by the entry
 	\param light - the light being regisred
 	**/
-	void OnRegister(EL_LightComponent light);
+	void OnRegister(EL_SirenLightComponent light);
 }
 
 // This class allows the entry to have its own timer separate from the light animation timer
@@ -41,7 +41,7 @@ class EL_UpdateLVEntry : EL_TimedEntry
 	//------------------------------------------------------------------------------------------------
 	// \brief Stores the emissives that have LightEntities 
 	// \param light - the light being registered
-	override void OnRegister(EL_LightComponent light)
+	override void OnRegister(EL_SirenLightComponent light)
 	{
 		if(light.HasLights()) m_AffectedLights.Insert(light);
 	}
@@ -49,7 +49,7 @@ class EL_UpdateLVEntry : EL_TimedEntry
 	//------------------------------------------------------------------------------------------------
 	void UpdateLightEntitiesLV()
 	{
-		foreach(EL_LightComponent light : m_AffectedLights)
+		foreach(EL_SirenLightComponent light : m_AffectedLights)
 		{
 			light.UpdateLightEntitiesLV();
 		}
@@ -175,7 +175,7 @@ class EL_LightEntry : EL_WaitEntry
 	\brief Called when a light registers itself
 	\param light - the light being registered
 	**/
-	override void OnRegister(EL_LightComponent light)
+	override void OnRegister(EL_SirenLightComponent light)
 	{
 		if(Affects(light)) m_AffectedLights.Insert(light);
 	}
@@ -187,7 +187,7 @@ class EL_LightEntry : EL_WaitEntry
 	**/
 	override void Execute(EL_LightAnimation animation)
 	{
-		foreach(EL_LightComponent light : m_AffectedLights)
+		foreach(EL_SirenLightComponent light : m_AffectedLights)
 		{
 			Act(light);
 		}
@@ -200,7 +200,7 @@ class EL_LightEntry : EL_WaitEntry
 	\param light - light that is being checked if is affected or not 
 	\return true if the light is affected by the entry, false if not
 	**/
-	bool Affects(EL_LightComponent light)
+	bool Affects(EL_SirenLightComponent light)
 	{
 		if(!m_Name) return true;
 		array<string> names = {};
@@ -219,7 +219,7 @@ class EL_LightEntry : EL_WaitEntry
 	\brief How the entry affects each affected light
 	\param light - the affected light 
 	**/
-	void Act(EL_LightComponent light)
+	void Act(EL_SirenLightComponent light)
 	{
 		if(m_Type == EL_LightEntryType.TURN_LIGHTS_ON) light.TurnOn();
 		else if(m_Type == EL_LightEntryType.TURN_LIGHTS_OFF) light.TurnOff();
@@ -240,7 +240,7 @@ enum EL_AnimationEntryType
 class EL_AnimationEntry : EL_LightEntry
 {
 	// see EL_LightEntry.Act()
-	override void Act(EL_LightComponent light)
+	override void Act(EL_SirenLightComponent light)
 	{
 		if(m_Type == EL_AnimationEntryType.TURN_ANIMATION_ON) light.Play();
 		else if(m_Type == EL_AnimationEntryType.TURN_ANIMATION_OFF) light.Stop();

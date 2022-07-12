@@ -25,7 +25,7 @@ class EL_LightAnimation
  	\brief inserts the light into each entry
 	\param light - light being inserted
 	**/
-	void InsertLight(EL_LightComponent light)
+	void InsertLight(EL_SirenLightComponent light)
 	{
 		foreach(EL_BaseEntry entry : m_Entries)
 		{

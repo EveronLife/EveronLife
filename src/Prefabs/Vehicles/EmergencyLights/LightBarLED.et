@@ -12,20 +12,11 @@ GenericEntity {
    {
     ID "59CAED6D49F8BE49"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED3C76C9EB2}" {
       m_Name "left2"
-      m_Lights {
-       EL_LightChild "{59D41ED02329CF70}" {
-        m_eLightType POINT
-        m_vLightOffset -0.32 0.3 0
-        m_vLightColor 0 0.125 0.502
-        m_NearPlane 0.25
-        m_NightLVAttenuation 2
-        m_DayLV 15
-       }
-      }
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 7
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Left2"
@@ -36,10 +27,11 @@ GenericEntity {
    {
     ID "59CAED6D49F8BE4E"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED21AF27F75}" {
       m_Name "left3"
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Left3"
@@ -50,15 +42,21 @@ GenericEntity {
    {
     ID "59CAED6D49F8CD1A"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED271FE22F2}" {
       m_Name "left1"
       m_Lights {
-       EL_LightChild "{59CD6022D72A94F3}" {
-        m_PivotPoint "PivotPoint"
+       EL_LightChild "{59D923311EB3C4DB}" {
+        m_eLightType POINT
+        m_vLightOffset -0.32 0.3 0
+        m_vLightColor 0 0.125 0.502
+        m_NearPlane 0.25
+        m_NightLVAttenuation 2
+        m_DayLV 14
        }
       }
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Left1"
@@ -68,20 +66,11 @@ GenericEntity {
    {
     ID "59CAED6D49F903CC"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED27BBAFF82}" {
       m_Name "right2"
-      m_Lights {
-       EL_LightChild "{59D41ED008E09FDE}" {
-        m_eLightType POINT
-        m_vLightOffset 0.32 0.3 0
-        m_vLightColor 0 0.125 0.502
-        m_NearPlane 0.25
-        m_NightLVAttenuation 2
-        m_DayLV 15
-       }
-      }
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Right2"
@@ -92,10 +81,21 @@ GenericEntity {
    {
     ID "59CAED6D49F903CD"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED251955619}" {
       m_Name "right1"
+      m_Lights {
+       EL_LightChild "{59D9233152C46859}" {
+        m_eLightType POINT
+        m_vLightOffset 0.32 0.3 0
+        m_vLightColor 0 0.125 0.502
+        m_NearPlane 0.25
+        m_NightLVAttenuation 2
+        m_DayLV 14
+       }
+      }
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Right1"
@@ -106,10 +106,11 @@ GenericEntity {
    {
     ID "59CAED6D49F946DE"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED25D35EEDB}" {
       m_Name "left5"
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Left5"
@@ -120,10 +121,11 @@ GenericEntity {
    {
     ID "59CAED6D49F97163"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED24B94FCDB}" {
       m_Name "left4"
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Left4"
@@ -134,10 +136,11 @@ GenericEntity {
    {
     ID "59CAED6D49F990C3"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED2B5539603}" {
       m_Name "right5"
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Right5"
@@ -148,10 +151,11 @@ GenericEntity {
    {
     ID "59CAED6D49F9B478"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED2BCEAFBA5}" {
       m_Name "right4"
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Right4"
@@ -162,10 +166,11 @@ GenericEntity {
    {
     ID "59CAED6D49F9B47B"
     components {
-     EL_LightComponent "{59CAE48E25716D2B}" {
+     EL_SirenLightComponent "{59D91ED2A805CAB2}" {
       m_Name "right3"
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 10
      }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Right3"
