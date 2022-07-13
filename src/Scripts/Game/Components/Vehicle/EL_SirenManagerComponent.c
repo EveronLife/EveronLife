@@ -25,24 +25,74 @@ class EL_SirenManagerComponent : ScriptComponent
 	// Sound component of the vehicle
 	protected SoundComponent m_SoundComp;
 	
+	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
+		EventHandlerManagerComponent ev = EventHandlerManagerComponent.Cast(owner.FindComponent(EventHandlerManagerComponent));
+		if (ev)
+		{
+			ev.RegisterScriptHandler("OnCompartmentEntered", this, OnCompartmentEntered);
+			ev.RegisterScriptHandler("OnCompartmentLeft", this, OnCompartmentLeft);
+		}
+		
 		m_SoundComp = SoundComponent.Cast(owner.FindComponent(SoundComponent));
 		m_CurrentModeIndex = m_Modes.Find("default");
-		GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesSingle", EActionTrigger.DOWN, CycleModesSingle);
-		GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesDouble", EActionTrigger.DOWN, CycleModesDouble);
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void CycleModesSingle()
+	protected void OnCompartmentLeft(IEntity vehicle, BaseCompartmentManagerComponent mgr, IEntity occupant, int managerId, int slotID)
 	{
-		SetModeStr(m_CurrentMode.GetSingleClickMode());
+		// Disable controls if pilot compartment was left
+		if(mgr.FindCompartment(slotID).Type() == PilotCompartmentSlot)
+		{
+			GetGame().GetInputManager().RemoveActionListener("EL_CycleSirenModesSingle", EActionTrigger.DOWN, CycleModesSingle);
+			GetGame().GetInputManager().RemoveActionListener("EL_CycleSirenModesDouble", EActionTrigger.DOWN, CycleModesDouble);
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void CycleModesDouble()
+	protected void OnCompartmentEntered(IEntity vehicle, BaseCompartmentManagerComponent mgr, IEntity occupant, int managerId, int slotID)
 	{
-		SetModeStr(m_CurrentMode.GetDoubleClickMode());
+		// Enable siren controls if current player entered the pilot compartment
+		if(GetGame().GetPlayerController().GetControlledEntity() == occupant && mgr.FindCompartment(slotID).Type() == PilotCompartmentSlot)
+		{
+			GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesSingle", EActionTrigger.DOWN, CycleModesSingle);
+			GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesDouble", EActionTrigger.DOWN, CycleModesDouble);
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// \brief Broadcasts the next mode to the server
+	protected void CycleModesSingle()
+	{
+		Rpc(RpcAsk_Authority_Method, m_Modes.Find(m_CurrentMode.GetSingleClickMode()));
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// \brief Broadcasts the next mode to the server
+	protected void CycleModesDouble()
+	{
+		Rpc(RpcAsk_Authority_Method, m_Modes.Find(m_CurrentMode.GetDoubleClickMode()));
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// \brief Server side code. Set current mode and broadcasts to all clients
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RpcAsk_Authority_Method(int mode)
+	{
+		m_CurrentModeIndex = mode;
+		SetMode();
+		Rpc(RpcDoBroadcast, mode);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// \brief Called from the server, sets the current selected mode
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	protected void RpcDoBroadcast(int mode)
+	{
+		m_CurrentModeIndex = mode;
+		SetMode();
+		m_CurrentMode.GetAnimation().Tick(Replication.Time());
 	}
 	
 	//------------------------------------------------------------------------------------------------
