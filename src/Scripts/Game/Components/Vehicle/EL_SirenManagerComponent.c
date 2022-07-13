@@ -17,7 +17,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	// Used for sending only the necessary signals to m_SoundComp
 	protected EL_SirenMode m_CurrentMode;
 	// For JIPs in MP
-	protected int m_CurrentModeIndex = -1;
+	protected int m_CurrentModeIndex;
 	
 	protected EL_SirenKnobComponent m_Knob;
 	protected SignalsManagerComponent m_KnobSigComp;
@@ -28,6 +28,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		m_SoundComp = SoundComponent.Cast(owner.FindComponent(SoundComponent));
+		m_CurrentModeIndex = m_Modes.Find("default");
 		GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesSingle", EActionTrigger.DOWN, CycleModesSingle);
 		GetGame().GetInputManager().AddActionListener("EL_CycleSirenModesDouble", EActionTrigger.DOWN, CycleModesDouble);
 	}
@@ -150,7 +151,7 @@ class EL_SirenManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override bool RplSave(ScriptBitWriter writer)
 	{
-		writer.WriteInt(m_CurrentModeIndex);
+		writer.WriteIntRange(m_CurrentModeIndex, 0, EL_SirenMode.N_MODES);
 		writer.WriteFloat(m_CurrentMode.GetAnimation().GetTimeInLoop());
 		return true;
 	}
@@ -159,10 +160,10 @@ class EL_SirenManagerComponent : ScriptComponent
 	override bool RplLoad(ScriptBitReader reader)
 	{
 		float timeSlice;
-		reader.ReadInt(m_CurrentModeIndex);
+		reader.ReadIntRange(m_CurrentModeIndex, 0, EL_SirenMode.N_MODES);
 		SetMode();
 		reader.ReadFloat(timeSlice);
-		m_CurrentMode.GetAnimation().Tick(timeSlice);
+		m_CurrentMode.GetAnimation().Tick(timeSlice + Replication.Time());
 		return true;
 	}
 }
@@ -187,6 +188,8 @@ class EL_SirenMode
 		new ParamEnum("Mode7", "7")
 	};
 	
+	// Number of modes available, used to reduce network traffic. Increase in powers of 2
+	static const int N_MODES = 8;
 	// Available sounds
 	static protected const ref ParamEnumArray SIREN_SOUNDS = 
 	{
