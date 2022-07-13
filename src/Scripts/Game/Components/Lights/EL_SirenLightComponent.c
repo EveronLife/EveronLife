@@ -41,6 +41,7 @@ class EL_SirenLightComponent : ScriptComponent
 		}
 		if(m_OverrideEmissiveColor) m_Material.SetEmissiveColor(Color.FromVector(m_EmissiveColor.Normalized()).PackToInt());
 		m_Material.SetEmissiveMultiplier(m_EmissiveMultiplier);
+		SpawnLights();
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -158,21 +159,6 @@ class EL_SirenLightComponent : ScriptComponent
 	string GetName()
 	{
 		return m_Name;
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	override bool RplSave(ScriptBitWriter writer)
-	{
-		writer.WriteBool(m_isOn);
-		return true;
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	override bool RplLoad(ScriptBitReader reader)
-	{
-		reader.ReadBool(m_isOn);
-		if(m_isOn) SpawnLights();
-		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------
