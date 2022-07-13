@@ -67,8 +67,7 @@ class EL_SirenManagerComponent : ScriptComponent
 		{
 			m_Knob = knob;
 			m_KnobSigComp = SignalsManagerComponent.Cast(knob.GetOwner().FindComponent(SignalsManagerComponent));
-			
-			SetModeStr("default");
+			SetMode();
 		}
 	}
 	
