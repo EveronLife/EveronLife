@@ -237,8 +237,8 @@ class EL_SirenMode
 		new ParamEnum("Mode7", "7")
 	};
 	
-	// Number of modes available, used to reduce network traffic. Increase in powers of 2
-	static const int N_MODES = 8;
+	// Number of modes available, used to reduce network traffic.
+	static const int N_MODES = MODE_NAMES.Count();
 	// Available sounds
 	static protected const ref ParamEnumArray SIREN_SOUNDS = 
 	{
