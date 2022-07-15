@@ -3,6 +3,9 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
  components {
   BaseLightManagerComponent "{51E210F17D2534F7}" {
    LightSlots {
+    BaseLightSlot "{BC5990B6EFDADBAE}Prefabs/Vehicles/Core/Lights/Light_Searchlight.conf" {
+     LightPrefab ""
+    }
    }
    LightAction {
    }
@@ -18,9 +21,9 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
   }
   MeshObject "{51DAA09FEFBFC0E7}" {
    Materials {
-    MaterialAssignClass "{59C243CC611908B5}" {
+    MaterialAssignClass "{59DF663997BC1BD5}" {
      SourceMaterial "M151A2_Body"
-     AssignedMaterial "{EFC1F56477585047}Assets/Vehicles/Wheeled/M151A2/data/M151A2_Body_Police.emat"
+     AssignedMaterial "{51965F0CF2FEE72E}Assets/Vehicles/Wheeled/M151A2/Data/M151A2_Body.emat"
     }
    }
   }
