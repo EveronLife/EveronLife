@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{70C0D41409A3FAC0}Assets/Vehicles/EmergencyLightsSmallBuiltIn/data/Lights_GLOBAL_MASK.edds"
+ Name "{70C0D41409A3FAC0}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/Lights_GLOBAL_MASK.edds"
  Configurations {
   TIFFResourceClass PC : "{2231C67ACC4BB0AC}Configs/System/ResourceTypes/PC/TextureMask.conf" {
   }

@@ -4,13 +4,31 @@ MetaFileClass {
   FBXResourceClass PC {
    ExportSkinning 1
    MaterialAssigns {
-    MaterialAssignClass "{59AB588BF036C696}" {
-     SourceMaterial "Lights"
-     AssignedMaterial "{D894C3B1F52AFCA2}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/Lights.emat"
+    MaterialAssignClass "{59DC690C5F0B09F0}" {
+     SourceMaterial "LightSingleRotaryBody"
+     AssignedMaterial "{71A90819913CECC2}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightSingleRotaryBody.emat"
     }
-    MaterialAssignClass "{59AB588BF036C686}" {
-     SourceMaterial "Glass"
-     AssignedMaterial "{5821C277E1D8E265}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/GlassBlue.emat"
+    MaterialAssignClass "{59DC690C5F0B09FC}" {
+     SourceMaterial "LightSingleRotaryGlass"
+     AssignedMaterial "{ED81A250BCEE408D}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightSingleRotaryGlass.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UTM_LightSingleRotary {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{94B76D276C6A1DE3}Common/Materials/Game/Glass/glass_4mm_min.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+    GeometryParam "UTM_LightSingleRotary.001" {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{EB387D1072E08951}Common/Materials/Game/Metal/metal_7mm.gamemat"
+     }
+     Mass 0
+     Margin 0
     }
    }
    Common TXOCommonClass "{59AB588BF03A3A95}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
