@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{9118D37720D38A75}Assets/Vehicles/Wheeled/Attachments/Lights/Base/Data/Lights_BCR.edds"
+ Name "{E8ADC7B9CDA6F64A}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights_EM.edds"
  Configurations {
   TIFFResourceClass PC : "{EAB5DE3219F9CBA8}Configs/System/ResourceTypes/PC/TextureColorMap.conf" {
   }

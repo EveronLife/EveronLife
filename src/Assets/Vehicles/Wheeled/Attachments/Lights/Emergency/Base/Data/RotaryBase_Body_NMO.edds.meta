@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{0EA1D6B9FFE3CA15}Assets/Vehicles/Wheeled/Attachments/Lights/Base/Data/Lights_NMO.edds"
+ Name "{0EA1D6B9FFE3CA15}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights_NMO.edds"
  Configurations {
   TIFFResourceClass PC : "{A968DA7F9A1E3A3E}Configs/System/ResourceTypes/PC/TextureNType.conf" {
   }

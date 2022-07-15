@@ -4,13 +4,13 @@ MetaFileClass {
   FBXResourceClass PC {
    ExportSkinning 1
    MaterialAssigns {
-    MaterialAssignClass "{59A97EA9686B4EA0}" {
-     SourceMaterial "Lights"
-     AssignedMaterial "{8D7EEFA355DCE211}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights.emat"
+    MaterialAssignClass "{59DC690631DD99FC}" {
+     SourceMaterial "RotaryBase_Body"
+     AssignedMaterial "{DDF2DE9921AE5C3B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/data/RotaryBase_Body.emat"
     }
-    MaterialAssignClass "{59AAF19744F285D8}" {
-     SourceMaterial "Glass"
-     AssignedMaterial "{7F47C0F74A6C96A3}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Glass.emat"
+    MaterialAssignClass "{59DC690631DD99E6}" {
+     SourceMaterial "LightBulb_Glass"
+     AssignedMaterial "{83188C32BD3E3BD0}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/data/LightBulb_Glass.emat"
     }
    }
    Common TXOCommonClass "{59A97EA968511180}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
