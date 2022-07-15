@@ -17,7 +17,7 @@ class EL_SirenLightComponent : ScriptComponent
 	[Attribute("1 1 1", uiwidget: UIWidgets.ColorPicker)]
 	protected vector m_EmissiveColor;
 	
-	[Attribute("2", uiwidget: UIWidgets.Slider, params: "0 100")]
+	[Attribute("2", uiwidget: UIWidgets.Slider, params: "0 1000")]
 	protected int m_EmissiveMultiplier;
 	
 	protected bool m_isOn = true;
