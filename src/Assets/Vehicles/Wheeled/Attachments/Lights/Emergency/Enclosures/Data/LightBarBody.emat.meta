@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{8492736AA0F1378B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

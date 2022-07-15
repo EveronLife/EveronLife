@@ -1,0 +1,31 @@
+MetaFileClass {
+ Name "{D33AC426E5D21410}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightBarRotary2Searchlight.xob"
+ Configurations {
+  FBXResourceClass PC {
+   MaterialAssigns {
+    MaterialAssignClass "{59DC7E8F42650265}" {
+     SourceMaterial "LightBarRotary2Searchlight"
+     AssignedMaterial "{86791548F031635B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarRotary2Searchlight.emat"
+    }
+   }
+   Common TXOCommonClass "{59DC7E8F42692674}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{59DC7E8F426925EE}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{59DC7E8F4269253F}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{59DC7E8F42692541}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{59DC7E8F42692564}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}

@@ -1,0 +1,185 @@
+GenericEntity {
+ ID "59DC7E80C4218844"
+ components {
+  MeshObject "{59DC7E81A67D9D9A}" {
+   Object "{CAA0C91B89675FBC}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightBarRotary2.xob"
+  }
+  Hierarchy "{59DC7E81814687AB}" {
+  }
+ }
+ coords 2.889 3.512 1.401
+ {
+  $grp GameEntity : "{4C0435BCDACC3116}Prefabs/Vehicles/EmergencyLights/Base/LightBarRotary2Emissive.et" {
+   {
+    ID "59DC7E80C4207395"
+    components {
+     EL_SirenLightComponent "{59DC7E8E46E6F6AC}" {
+      m_Name "left"
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 1
+     }
+     Hierarchy "{59DC7E8EB2C3FF3B}" {
+      PivotID "FrontLeft"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59DC7E80C420ABF3"
+    components {
+     EL_SirenLightComponent "{59DC7E8E46E6F6AC}" {
+      m_Name "right"
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+      m_EmissiveMultiplier 1
+     }
+     Hierarchy "{59DC7E8EB2C3FF3B}" {
+      PivotID "FrontRight"
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59DC7E80C420F709"
+    components {
+     EL_SirenLightComponent "{59DC7E8E46E6F6AC}" {
+      m_Name "left"
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 1
+     }
+     Hierarchy "{59DC7E8EB2C3FF3B}" {
+      PivotID "RearLeft"
+     }
+    }
+    coords 0 0 0
+    angleY 180
+   }
+   {
+    ID "59DC7E80C420F905"
+    components {
+     EL_SirenLightComponent "{59DC7E8E46E6F6AC}" {
+      m_Name "right"
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+      m_EmissiveMultiplier 1
+     }
+     Hierarchy "{59DC7E8EB2C3FF3B}" {
+      PivotID "RearRight"
+     }
+    }
+    coords 0 0 0
+    angleY 180
+   }
+  }
+  $grp GameEntity : "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/Base/EmergencyLightsBase.et" {
+   {
+    ID "59DC7E80C4201BE3"
+    components {
+     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+      Enabled 1
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 20
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right2"
+     }
+    }
+    coords 0 0 0
+    angleY 135
+   }
+   {
+    ID "59DC7E80C4203BE8"
+    components {
+     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+      Enabled 1
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 20
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right1"
+     }
+    }
+    coords 0 0 0
+    angleY 180
+   }
+   {
+    ID "59DC7E80C4203BEA"
+    components {
+     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+      Enabled 1
+      m_Lights {
+       EL_LightChild "{59DE49681F113490}" {
+        m_eLightType SPOT
+        m_vLightColor 0.502 0 0
+        m_PivotPoint "Disk"
+        m_NightLVAttenuation 2
+       }
+      }
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+      m_EmissiveMultiplier 20
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left3"
+     }
+    }
+    coords 0 0 0
+    angleY -90
+   }
+   {
+    ID "59DC7E80C4207394"
+    components {
+     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+      m_Lights {
+       EL_LightChild "{59DE49683BE9F116}" {
+        m_eLightType SPOT
+        m_vLightColor 0 0.125 0.502
+        m_PivotPoint "Disk"
+        m_NightLVAttenuation 2
+       }
+      }
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+      m_EmissiveMultiplier 20
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right3"
+     }
+    }
+    coords 0 0 0
+    angleY 90
+   }
+   {
+    ID "59DC7E80C4218846"
+    components {
+     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+      m_EmissiveMultiplier 20
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left1"
+     }
+    }
+   }
+   {
+    ID "59DC7E80C4218849"
+    components {
+     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+      m_EmissiveMultiplier 20
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left2"
+     }
+    }
+    coords 0 0 0
+   }
+  }
+ }
+}
