@@ -4,9 +4,19 @@ MetaFileClass {
   FBXResourceClass PC {
    ExportSkinning 1
    MaterialAssigns {
-    MaterialAssignClass "{59B0024E06990806}" {
-     SourceMaterial "Mount"
-     AssignedMaterial "{EAC6CCAA461F9C7B}Assets/Vehicles/Wheeled/M151A2/data/Mount.emat"
+    MaterialAssignClass "{59DC7E2C5BE978B7}" {
+     SourceMaterial "M151A2_LightMount"
+     AssignedMaterial "{7938A42AF3585E3E}Assets/Vehicles/Wheeled/M151A2/data/M151A2_LightMount.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UTM_M151A2_LightMount {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{EB387D1072E08951}Common/Materials/Game/Metal/metal_7mm.gamemat"
+     }
+     Mass 0
+     Margin 0
     }
    }
    Common TXOCommonClass "{59AB58926A71A666}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {

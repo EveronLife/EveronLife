@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{EFC1F56477585047}Assets/Vehicles/Wheeled/M151A2/data/M151A2_Body_Police.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

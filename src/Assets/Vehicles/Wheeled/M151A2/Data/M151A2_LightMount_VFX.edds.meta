@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{ED8326B3C8E8E1EB}Assets/Vehicles/Wheeled/M151A2/data/Mount_VFX.edds"
+ Name "{ED8326B3C8E8E1EB}Assets/Vehicles/Wheeled/M151A2/Data/Mount_VFX.edds"
  Configurations {
   TIFFResourceClass PC : "{4EC6C20A754D338D}Configs/System/ResourceTypes/PC/TextureEffect.conf" {
   }
