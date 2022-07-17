@@ -8,13 +8,13 @@ Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A2PoliceBase.et
     BaseLightSlot "{59DC7E823257F377}" : "{BC5990B6EFDADBAE}Prefabs/Vehicles/Core/Lights/Light_Searchlight.conf" {
      LightPositionInfo EntitySlotInfo "{51E210F3C28C768C}" {
       Offset -0.9 1.9297 0
-      Angles 0 -90 0
+      Angles -30 -90 0
      }
     }
     BaseLightSlot "{59DC7E82A3DAFF0F}" : "{BC5990B6EFDADBAE}Prefabs/Vehicles/Core/Lights/Light_Searchlight.conf" {
      LightPositionInfo EntitySlotInfo "{51E210F3C28C768C}" {
       Offset 0.9 1.9297 0
-      Angles 0 90 0
+      Angles -30 90 0
      }
     }
    }
