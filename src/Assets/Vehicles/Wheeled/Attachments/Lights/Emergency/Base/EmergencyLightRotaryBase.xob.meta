@@ -6,11 +6,11 @@ MetaFileClass {
    MaterialAssigns {
     MaterialAssignClass "{59DC690631DD99FC}" {
      SourceMaterial "RotaryBase_Body"
-     AssignedMaterial "{DDF2DE9921AE5C3B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/data/RotaryBase_Body.emat"
+     AssignedMaterial "{DDF2DE9921AE5C3B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/RotaryBase_Body.emat"
     }
     MaterialAssignClass "{59DC690631DD99E6}" {
      SourceMaterial "LightBulb_Glass"
-     AssignedMaterial "{83188C32BD3E3BD0}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/data/LightBulb_Glass.emat"
+     AssignedMaterial "{83188C32BD3E3BD0}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/LightBulb_Glass.emat"
     }
    }
    Common TXOCommonClass "{59A97EA968511180}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {

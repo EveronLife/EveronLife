@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{E4C98F852949462B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody_GLOBAL_MASK.edds"
+ Configurations {
+  TIFFResourceClass PC : "{2231C67ACC4BB0AC}Configs/System/ResourceTypes/PC/TextureMask.conf" {
+  }
+  TIFFResourceClass XBOX_ONE : "{3B78A666261DD8B4}Configs/System/ResourceTypes/XBOX_ONE/TextureMask.conf" {
+  }
+  TIFFResourceClass XBOX_SERIES : "{9A79E1F659B378E7}Configs/System/ResourceTypes/XBOX_SERIES/TextureMask.conf" {
+  }
+  TIFFResourceClass PS4 : "{5CB64ED6EEBDE368}Configs/System/ResourceTypes/PS4/TextureMask.conf" {
+  }
+  TIFFResourceClass HEADLESS : "{0B025DFAF55852CD}Configs/System/ResourceTypes/HEADLESS/TextureMask.conf" {
+  }
+ }
+}

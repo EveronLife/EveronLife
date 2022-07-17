@@ -2,6 +2,7 @@ MatPBRBasicGlass {
  Color 0 0.125 0.502 1
  Sort translucent
  BlendMode AlphaBlend
+ CrossFade 0
  MetalnessScale 0.3
  BCRMap "{8B59275E8F260750}Assets/_SharedData/Glass/ST_Glass_Test_01_BCR.edds"
  OpacityMap "{46CF67CB400DECC9}Assets/_SharedData/Glass/ST_Glass_Streaks_01_A.edds"
