@@ -5,29 +5,13 @@ StaticModelEntity : "{81CB1B2631584427}Prefabs/Props/Construction/CementPile.et"
 SCR_DestructibleBuildingEntity : "{A92A5F3B79FF56BE}Prefabs/Structures/Industrial/Houses/ConcretePlant_E_01.et" {
  components {
   ActionsManagerComponent "{59BCA07275D1833B}" {
-   ActionContexts {
-    UserActionContext "{59BCA0726AD71426}" {
-     Position PointInfo "{59BCA07650F9530A}" {
-      Offset -4.1791 1.0323 4.3715
-     }
-     Radius 1
-    }
-   }
    additionalActions {
     EL_ProcessAction "{59BCA072523FC76F}" {
-     ParentContextList {
-      "default"
-     }
-     m_aProcessingOutputs {
-      EL_ProcessingOutput "{59BCA0725583F2F8}" {
-       m_iOutputAmount 12
-      }
-     }
     }
    }
   }
  }
- coords 125.079 0.001 117.409
+ coords 124.256 0.002 117.778
 }
 GenericEntity : "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et" {
  coords 120.029 0.001 135.205

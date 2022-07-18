@@ -6,12 +6,15 @@ SCR_DestructibleBuildingEntity : "{67BB04E9136D6A3E}Prefabs/Structures/Industria
     UserActionContext "{59BCA0726AD71426}" {
      ContextName "default"
      Position PointInfo "{59BCA076A6EF72ED}" {
-      Offset -4.1211 1.0464 4.4313
+      Offset -2.8364 6.1332 0.0439
      }
     }
    }
    additionalActions {
     EL_ProcessAction "{59BCA072523FC76F}" {
+     ParentContextList {
+      "default"
+     }
      UIInfo UIInfo "{59BCB28C1421079B}" {
       Name "Create Concrete Bricks"
      }
