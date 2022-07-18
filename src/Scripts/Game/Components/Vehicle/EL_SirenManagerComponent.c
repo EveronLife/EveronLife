@@ -216,8 +216,6 @@ class EL_SirenManagerComponent : ScriptComponent
 		return true;
 	}
 }
-
-
 /**
 Contains all the information about the siren mode. Animation, sounds and knob procedural animation signals
 **/
