@@ -7,20 +7,20 @@ Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A2PoliceBase.et
     }
     BaseLightSlot "{59DC7E823257F377}" : "{BC5990B6EFDADBAE}Prefabs/Vehicles/Core/Lights/Light_Searchlight.conf" {
      LightPositionInfo EntitySlotInfo "{51E210F3C28C768C}" {
-      Offset -0.9 1.9297 0
+      Offset -0.9 1.9 -0.08
       Angles -30 -90 0
      }
     }
     BaseLightSlot "{59DC7E82A3DAFF0F}" : "{BC5990B6EFDADBAE}Prefabs/Vehicles/Core/Lights/Light_Searchlight.conf" {
      LightPositionInfo EntitySlotInfo "{51E210F3C28C768C}" {
-      Offset 0.9 1.9297 0
+      Offset 0.9 1.9 -0.08
       Angles -30 90 0
      }
     }
    }
    EmissiveSurfaceSlots {
     EmissiveLightSurfaceSlot SearchLight {
-     Offset 0 1.9 0
+     Offset 0 1.88 -0.08
      Prefab "{5D70B2231875D487}Prefabs/Vehicles/EmergencyLights/Base/LightBarRotary2Searchlight.et"
      LightType 1024
     }
@@ -141,6 +141,9 @@ Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A2PoliceBase.et
     RegisteringComponentSlotInfo Roof {
      Prefab "{4E5531CDAE20F9EF}Prefabs/Vehicles/Wheeled/M151A2/M151A2_canvas_roof.et"
     }
+    RegisteringComponentSlotInfo LightbarMount {
+     Prefab "{9EED2B5341F9A0D7}Prefabs/Vehicles/Wheeled/M151A2/M151A2_LightBarMount.et"
+    }
    }
   }
  }
@@ -148,7 +151,7 @@ Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A2PoliceBase.et
  {
   GenericEntity : "{33C174CA50F51145}Prefabs/Vehicles/EmergencyLights/LightbarRotary2.et" {
    ID "59DC7E851DBD70BB"
-   coords 0 1.9 0
+   coords 0 1.878 -0.08
   }
  }
 }

@@ -1,0 +1,14 @@
+GenericEntity {
+ ID "59E2476493453183"
+ components {
+  MeshObject "{59E24764A13A1EB7}" {
+   Object "{A803D7AFF083D0F8}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/M151A2_BarMount.xob"
+  }
+  Hierarchy "{59E24764A6BD8DC4}" {
+  }
+  RigidBody "{59E483DB080654A4}" {
+   Gravity 0
+   ModelGeometry 1
+  }
+ }
+}
