@@ -3,6 +3,7 @@ MatPBRBasic {
  Emissive 0.503 0.402 0.168 1
  EmissiveLV 8
  EmissiveAbsoluteLV 0
+ RoughnessScale 2
  BCRMap "{DDFA1BE6FC945C12}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_BCR.edds"
  NMOMap "{8749778C92A366E3}Assets/_SharedData/VehicleParts/ST_CarMetals_01_NMO.edds"
 }
