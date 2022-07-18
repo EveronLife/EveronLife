@@ -1,4 +1,4 @@
-Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A1PoliceBase.et" {
+Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A2PoliceBase.et" {
  ID "44EC665ABD2FF04B"
  components {
   EL_SirenManagerComponent "{59C243CD49C708B5}" {
@@ -11,9 +11,29 @@ Vehicle : "{9785988280FCCA8C}Prefabs/Vehicles/Wheeled/M151A2/M151A1PoliceBase.et
  }
  coords 0 0 0
  {
-  GenericEntity : "{AC7FCBC268CA2914}Prefabs/Vehicles/Wheeled/M151A2/M151A1_EmergencyLightPole.et" {
+  GenericEntity : "{AC7FCBC268CA2914}Prefabs/Vehicles/Wheeled/M151A2/M151A2_EmergencyLightPole.et" {
    ID "59CD739D09234731"
    coords -0.841 1.44 0.507
+   {
+    GenericEntity {
+     ID "59BB3D4D00ED8431"
+     {
+      GameEntity {
+       ID "59BB3D4D00ED8D9B"
+       components {
+        EL_SirenLightComponent "{59D91CAC4F2752DA}" {
+         m_Lights {
+          EL_LightChild "{59D91CACB334126D}" {
+           m_vLightOffset 0 0.9 0
+           m_NightLVAttenuation 2
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
   }
  }
 }
