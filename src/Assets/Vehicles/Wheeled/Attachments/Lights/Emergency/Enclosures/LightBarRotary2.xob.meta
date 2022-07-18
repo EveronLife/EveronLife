@@ -21,6 +21,32 @@ MetaFileClass {
      AssignedMaterial "{AAF146504F1B313C}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/SearchLightGlass.emat"
     }
    }
+   GeometryParams {
+    GeometryParam UTM_BarBody_GLass {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{1AE7CAD77E3B62D7}Common/Materials/Game/plexiglass.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+    GeometryParam UTM_BarBody_Metal {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{B701566F3B8A0DF6}Common/Materials/Game/metal_sheet.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+    GeometryParam UTM_BarBody_Plastic {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{C17486F3DA1510F6}Common/Materials/Game/Plastic/plastic_3mm.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
    Common TXOCommonClass "{59DC7E5CA7E54BB1}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
    }
   }

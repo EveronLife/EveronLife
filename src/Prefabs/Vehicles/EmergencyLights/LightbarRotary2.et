@@ -6,6 +6,10 @@ GenericEntity {
   }
   Hierarchy "{59DC7E81814687AB}" {
   }
+  RigidBody "{59E483DB30F8AF6E}" {
+   Gravity 0
+   ModelGeometry 1
+  }
  }
  coords 2.889 3.512 1.401
  {
