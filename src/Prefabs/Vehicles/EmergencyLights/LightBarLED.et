@@ -112,6 +112,9 @@ GenericEntity {
       m_EmissiveColor 0 0.125 0.502
       m_EmissiveMultiplier 10
      }
+     MeshObject "{59CAE489CA511B5B}" {
+      Object "{37D3A67A7D37B89C}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/EmergencyLightLEDBaseTip.xob"
+     }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Left5"
      }
@@ -142,11 +145,15 @@ GenericEntity {
       m_EmissiveColor 0 0.125 0.502
       m_EmissiveMultiplier 10
      }
+     MeshObject "{59CAE489CA511B5B}" {
+      Object "{37D3A67A7D37B89C}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/EmergencyLightLEDBaseTip.xob"
+     }
      Hierarchy "{59CAE48E2C5F5137}" {
       PivotID "Right5"
      }
     }
     coords 0 0 0
+    angleY 180
    }
    {
     ID "59CAED6D49F9B478"
