@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{840D530398C0062E}Assets/Structures/Military/Fortifications/DirtMounds/Data/CementCover_01.emat"
+ Name "{840D530398C0062E}Assets/Props/CementMound/Data/CementCover_01.emat"
  Configurations {
   EMATResourceClass PC {
   }
