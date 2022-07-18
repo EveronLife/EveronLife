@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{0D5DA590E223A195}Prefabs/Items/Resources/BucketOfCement.et"
+ Name "{0D5DA590E223A195}Prefabs/Items/Resources/Brick.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

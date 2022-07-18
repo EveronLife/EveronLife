@@ -19,15 +19,15 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      ItemVolume 100
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59BCA073459D6271}" {
-     AnimationInstance "{81E91C367B2A22D6}anims/workspaces/player/player_main_rpg.asi"
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
      AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
-     HandAdditiveRotation 90 0 -90
-     HandAdditiveTranslation 0 0.02 0
+     HandAdditiveRotation 90 -90 90
+     HandAdditiveTranslation 0 0.05 -0.05
     }
     CustomAttributes {
      PreviewRenderAttributes "{59BCA073459D626C}" {
-      CameraOrbitAngles -90 -90 0
-      CameraDistanceToItem 0.9
+      CameraOrbitAngles 90 0 90
+      CameraDistanceToItem 0.45
       CameraOffset 0 0 0
      }
     }
@@ -51,6 +51,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    AngularSleepingThreashold 1
    ModelGeometry 1
    CCDRadius 0.015
+  }
+  SCR_ConsumableItemComponent "{59D8AAEDC78A1242}" {
+   m_eAnimVariable ADRIANOV
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
