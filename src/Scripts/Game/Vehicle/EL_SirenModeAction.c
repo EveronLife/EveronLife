@@ -50,8 +50,7 @@ class EL_SirenModeAction : ScriptedUserAction
 			return false;
 		}
 		// We cannot be pilot nor interior, if we are not seated in vehicle at all.
-		else if (m_bInteriorOnly || m_bPilotOnly)
- 			return false;
+		else if (m_bInteriorOnly || m_bPilotOnly) return false;
 		
 		return true;
 	}

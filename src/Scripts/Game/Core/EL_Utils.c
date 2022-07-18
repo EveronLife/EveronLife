@@ -18,8 +18,7 @@ class EL_Utils
 		
 		Resource resource = Resource.Load(prefab);
 		
-		if (!resource.IsValid()) 
-			return null;
+		if (!resource.IsValid()) return null;
 		
 		vector mat[4];
 		IEntity child = GetGame().SpawnEntityPrefab(resource, parent.GetWorld());
@@ -45,7 +44,6 @@ class PivotPoint
 	
 	[Attribute()]
 	protected vector m_Rotation;
-	
 	
 	string GetName()
 	{

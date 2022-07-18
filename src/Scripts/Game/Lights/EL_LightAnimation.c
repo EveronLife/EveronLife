@@ -116,5 +116,4 @@ class EL_LightAnimation
 		if(precision < 1) m_Precision = 1;
 		else m_Precision = precision;
 	}
-	
 }

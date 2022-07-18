@@ -326,7 +326,6 @@ class EL_SirenMode
 	}
 }
 
-
 /**
 Holds name and value of a procedural animation signal. 
 **/
@@ -351,7 +350,6 @@ class SignalValuePair
 		return m_Value;
 	}
 }
-
 
 /**
 Holds all the modes tht the user set. Primary function is to enable saving the modes into a single config prefab

@@ -150,7 +150,6 @@ enum EL_LightEntryType
 [BaseContainerProps(), EL_BaseContainerCustomTitleEnumReadable(EL_LightEntryType, "m_Type")]
 class EL_LightEntry : EL_WaitEntry
 {
-	
 	// Types displayed to the user on a drop down menu
 	protected ref static const ParamEnumArray enums = 
 	{
