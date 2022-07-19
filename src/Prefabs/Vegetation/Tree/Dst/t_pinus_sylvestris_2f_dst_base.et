@@ -2,6 +2,7 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
  ID "515C604CC7CADD44"
  components {
   InventoryItemComponent "{598695F67B4E3D6D}" {
+   Enabled 0
    Attributes SCR_ItemAttributeCollection "{598695F67AD79D4E}" {
     ItemDisplayName UIInfo "{598695F67C337121}" {
      Name "Big log"
@@ -31,7 +32,39 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
   RigidBody "{5984C2E4CF34F75B}" {
    ModelGeometry 1
   }
+  SCR_DestructionMultiPhaseComponent "{59E108D9CEE7FC26}" {
+   "Additional hit zones" {
+    EL_ToolHitZone HitZone {
+     ColliderNames {
+      "UTM_t_pinus_sylvestris_2f_dst_base_wood"
+     }
+    }
+   }
+   m_DestroySpawnObjects {
+    SCR_PrefabSpawnable "{59E108D9D2AE7AC1}" {
+     m_vOffsetPosition 0 3 0
+     m_vOffsetRotation 0 90 0
+     m_Prefabs {
+      "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et"
+     }
+     m_fDamageToImpulse 0
+     m_fRandomVelocityLinear 0
+     m_fRandomVelocityAngular 0
+    }
+    SCR_PrefabSpawnable "{59E108DA3298A838}" {
+     m_vOffsetPosition 0 6 0
+     m_vOffsetRotation 0 90 0
+     m_Prefabs {
+      "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et"
+     }
+     m_fDamageToImpulse 0
+     m_fRandomVelocityLinear 0
+     m_fRandomVelocityAngular 0
+    }
+   }
+  }
   ActionsManagerComponent "{59868E192E17132D}" {
+   Enabled 0
    ActionContexts {
     UserActionContext "{59868E1921CDA2F2}" {
      ContextName "default"

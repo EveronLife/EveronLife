@@ -1,0 +1,81 @@
+GenericEntity {
+ ID "59E108D9C9FD1407"
+ components {
+  EL_SingleGadgetComponent "{59E51BAC6B50136F}" {
+   m_eAnimVariable NONE
+  }
+  InventoryItemComponent "{59E108D941025CE3}" {
+   Attributes SCR_ItemAttributeCollection "{59E108D940A911E8}" {
+    ItemDisplayName UIInfo "{59E108D94219402E}" {
+     Name "Log"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59E108D9A227B7E3}" {
+     DimensionScaler 0.01
+     RestingUP Up
+     RestingAdditiveRotationLS -90 0 0
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59E108DB000CCEEB}" {
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59E33B494D8FF442}" {
+       AnimGraph "{25CA2A97D9F9F608}Animations/Player/Carry.agr"
+       AnimInstance "{E4F6E5509026D213}Animations/Player/player_carry.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 90 0 0
+     HandAdditiveTranslation -0.135 2.25 -1
+    }
+    CustomAttributes {
+     CharacterModifierAttributes "{59E489793FA8F156}" {
+      SpeedLimit 1
+      ADSSpeedLimit 1
+      SpeedLimitHighready 1
+      CanBeEquippedInVehicle 0
+     }
+     PreviewRenderAttributes "{59E4897D1350DC3B}" {
+      CameraPreset Top
+      CameraDistanceToItem 1
+      CameraOffset 0 -0.05 0.2
+      ItemRenderRotation 0 0 90
+     }
+    }
+    m_SlotType SLOT_GADGETS_STORAGE
+    m_bDraggable 0
+   }
+  }
+  MeshObject "{59E108D90002CAF0}" {
+   Object "{8D73FF908E973C20}Assets/Props/Forest/WoodPile_01/Dst/WoodLog_01_C_dst_01.xob"
+  }
+  RigidBody "{59E108D964704F55}" {
+   Active Active
+   Mass 0.1
+   CenterOfMass 0 0 -2
+   ResponseIndex "SmallDestructible"
+   ModelGeometry 1
+  }
+  SCR_GadgetComponent "{59E33B48CFC6BC4F}" {
+   Enabled 0
+   m_eAnimVariable ADRIANOV
+  }
+  ActionsManagerComponent "{59E108D99C87F391}" {
+   ActionContexts {
+    UserActionContext "{59E108D99F6A317A}" {
+     ContextName "default"
+     Position PointInfo "{59E108D990AC96C3}" {
+      Offset 0 0 -2.027
+     }
+    }
+   }
+   additionalActions {
+    EL_ForceEquipAction "{59E108D9AA7761C3}" {
+     ParentContextList {
+      "default"
+     }
+    }
+   }
+  }
+  RplComponent "{59E108D9663A029B}" {
+  }
+ }
+ coords 121.883 0.001 134.794
+}

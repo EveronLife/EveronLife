@@ -1,0 +1,8 @@
+AnimSetInstanceSource {
+ Template "{1B6ED68BBBEA540F}Animations/Player/player_carry.ast"
+ Lines {
+  AnimSetInstanceSource_Line "Default.Default.Carry" {
+   Resource "{A34D9C09D7E41AE3}Animations/Player/p_carry_log_small.anm"
+  }
+ }
+}

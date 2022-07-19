@@ -563,7 +563,26 @@ Vehicle Ural4320_transport1 : "{16C1F16C9B053801}Prefabs/Vehicles/Wheeled/Ural43
     }
    }
   }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   ActionContexts {
+    UserActionContext "{5916C586BCA518AF}" {
+    }
+   }
+   additionalActions {
+   }
+  }
  }
  coords 128.031 0.001 135
  angleY 90
+}
+SCR_TreePartV2 : "{22DE91EBC56FCB5E}Prefabs/Vegetation/Tree/Dst/t_pinus_sylvestris_2f_dst_base.et" {
+ coords 124.394 0.243 138.626
+}
+GenericEntity : "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et" {
+ components {
+  SCR_ConsumableItemComponent "{597CB6B0AB826EDB}" {
+   Enabled 0
+  }
+ }
+ coords 120.137 0.936 135.27
 }

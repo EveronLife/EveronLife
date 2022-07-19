@@ -3,5 +3,27 @@ Vehicle {
  components {
   EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
   }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   ActionContexts {
+    UserActionContext "{59E6FDCB34FDFD19}" {
+     ContextName "EL_default"
+     Position PointInfo "{59E6FDCB4429108E}" {
+     }
+     Radius 5
+    }
+   }
+   additionalActions {
+    EL_LoadFromHandAction "{59E6FDCB310DB0F9}" {
+     ParentContextList {
+      "EL_default"
+     }
+    }
+    EL_UnloadToHandAction "{59E6FDCB326E1502}" {
+     ParentContextList {
+      "EL_default"
+     }
+    }
+   }
+  }
  }
 }

@@ -1,0 +1,33 @@
+AnimSrcGraphFile {
+ Sheets {
+  AnimSrcGraphSheet player_carry {
+   Nodes {
+    AnimSrcNodeStateMachine MasterControl {
+     EditorPos 629.5 224.2
+     states {
+      AnimSrcNodeState "Carry State" {
+       EditorPos 629.456 225.038
+       Child "Carry Anim"
+       StartCondition "true"
+       IsExit 0
+       PassThrough 0
+      }
+     }
+    }
+    AnimSrcNodeSource "Carry Anim" {
+     EditorPos 629.5 226.3
+     Source "Default.Default.Carry"
+     Interpolate 1
+     Predictions {
+      AnimSrcNodePrediction "{59E4897B0C505BE0}" {
+       Name ""
+      }
+      AnimSrcNodePrediction "{59E4897B0C505BD6}" {
+       Name ""
+      }
+     }
+    }
+   }
+  }
+ }
+}
