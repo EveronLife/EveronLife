@@ -11,9 +11,9 @@
 */
 class EL_BaseContainerCustomTitleEnumReadable : BaseContainerCustomTitle
 {
-	private typename m_EnumType;
-	private string m_PropertyName;
-	private string m_sFormat;
+	protected typename m_EnumType;
+	protected string m_PropertyName;
+	protected string m_sFormat;
 	
 	void EL_BaseContainerCustomTitleEnumReadable(typename enumType, string propertyName, string format = "%1")
 	{
