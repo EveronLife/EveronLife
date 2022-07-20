@@ -582,6 +582,16 @@ GenericEntity AppleTrader {
  }
 }
 Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domestica_2s.et" {
+ components {
+  ActionsManagerComponent "{596540948BBDD481}" {
+   additionalActions {
+    EL_GatherAction "{59654094806921B6}" {
+     m_DelayTimeMilliseconds 6000
+     m_DelayGatherQuantity 3
+    }
+   }
+  }
+ }
  coords 107.432 0 134.812
  angleY -104.782
 }

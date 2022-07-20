@@ -1,0 +1,4 @@
+MatPBRBasic {
+ BCRMap "{AA6169804543EE28}Assets/Resources/Mining/Data/Gold_BCR.edds"
+ NMOMap "{92B9D2129C34BCB6}Assets/Resources/Mining/Data/Gold_NMO.edds"
+}
