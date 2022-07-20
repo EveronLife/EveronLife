@@ -29,8 +29,6 @@ class EL_GatherAction : ScriptedUserAction
 	// play a pickup sound and then add the correct amount to the users inventory
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
-		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
-		
 		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
 		
 		//Spawn items
@@ -46,7 +44,7 @@ class EL_GatherAction : ScriptedUserAction
 		
 		if(anyPickup)
 		{
-			inventoryManager.PlayItemSound(replication.Id(), "SOUND_PICK_UP");
+			inventoryManager.PlayItemSound(pOwnerEntity, "SOUND_PICK_UP");
 			
 			//Show hint what to do with the gathered item
 			EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
