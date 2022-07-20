@@ -7,6 +7,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    }
    OnFrameUpdate 0
   }
+  EL_InventoryQuantityComponent "{597CEBC75EFBA781}" {
+   m_QuantityMax 4
+  }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
@@ -14,9 +17,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      Description "This is an Apple from an Apple Tree"
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
-     Weight 0.2
+     Weight 0
      SizeSetupStrategy Volume
-     ItemVolume 113
+     ItemVolume 0
     }
     ItemAnimationAttributes ItemAnimationAttributes "{5966FD8070F889C7}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{5BDF6F67930B5F90}UI/Layouts/Menus/Dialogs/EL_QuantityDialog.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}
