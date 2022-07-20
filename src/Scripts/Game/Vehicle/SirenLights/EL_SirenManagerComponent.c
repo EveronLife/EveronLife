@@ -36,7 +36,7 @@ class EL_SirenManagerComponent : ScriptComponent
 		}
 		
 		m_SoundComp = SoundComponent.Cast(owner.FindComponent(SoundComponent));
-		m_CurrentModeIndex = m_Modes.Find("default");
+		if(m_Modes) m_CurrentModeIndex = m_Modes.Find("default");
 	}
 	
 	//------------------------------------------------------------------------------------------------
