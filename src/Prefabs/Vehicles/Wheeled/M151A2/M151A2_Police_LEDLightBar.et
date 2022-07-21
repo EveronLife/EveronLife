@@ -1,0 +1,20 @@
+Vehicle : "{C2FF7DB2F822943C}Prefabs/Vehicles/Wheeled/M151A2/M151A2_Police_Base.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  EL_SirenManagerComponent "{59C243CD49C708B5}" {
+   m_Modes EL_SirenModes "{59E9607482911F61}" : "{D5158846A31706AD}Prefabs/Vehicles/EmergencyLights/LightBarLED.conf" {
+   }
+  }
+  SlotManagerComponent "{55BCE45E438E4CFF}" {
+   Slots {
+    RegisteringComponentSlotInfo Roof {
+     Prefab "{4E5531CDAE20F9EF}Prefabs/Vehicles/Wheeled/M151A2/M151A2_canvas_roof.et"
+     RegisterDamage 1
+    }
+    EntitySlotInfo Lightbar {
+     Prefab "{407CE31196067307}Prefabs/Vehicles/Wheeled/M151A2/M151A2_LEDLightBar.et"
+    }
+   }
+  }
+ }
+}

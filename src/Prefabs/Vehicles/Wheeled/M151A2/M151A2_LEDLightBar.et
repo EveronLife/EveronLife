@@ -1,0 +1,21 @@
+GenericEntity {
+ ID "59EAB3AF7A6151C3"
+ components {
+  MeshObject "{59EAB3AF3C591C97}" {
+   Object "{A803D7AFF083D0F8}Assets/Vehicles/Wheeled/M151A2/M151A2_LightBarMount.xob"
+  }
+  Hierarchy "{59EAB3AF283EE20C}" {
+  }
+ }
+ {
+  GenericEntity : "{66AC3570332630F2}Prefabs/Vehicles/EmergencyLights/LightBarLED.et" {
+   ID "59EAB3AF7A6151C2"
+   components {
+    Hierarchy "{59CAED6D27BAD9F3}" {
+     PivotID "LightBar"
+    }
+   }
+   coords 0 -0.042 0
+  }
+ }
+}

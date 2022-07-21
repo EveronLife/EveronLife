@@ -1,0 +1,35 @@
+Vehicle : "{C2FF7DB2F822943C}Prefabs/Vehicles/Wheeled/M151A2/M151A2_Police_Base.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  BaseLightManagerComponent "{51E210F17D2534F7}" {
+   LightAction {
+    SCR_LightsSearchLightUserAction "{59E97712494F6DB4}" {
+     ParentContextList {
+      "light_switch"
+     }
+     UIInfo UIInfo "{59E97712BFA93BDD}" {
+      Name "#AR-UserAction_SearchLight"
+     }
+    }
+   }
+  }
+  EL_SirenManagerComponent "{59C243CD49C708B5}" {
+   m_Modes EL_SirenModes "{59E9607482911F61}" : "{60893F3BA6E0B01C}Prefabs/Vehicles/EmergencyLights/LightBarRotary2.conf" {
+   }
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 10408.7
+  }
+  SlotManagerComponent "{55BCE45E438E4CFF}" {
+   Slots {
+    RegisteringComponentSlotInfo LightBar {
+     Prefab "{9EED2B5341F9A0D7}Prefabs/Vehicles/Wheeled/M151A2/M151A2_LightBarMount.et"
+     RegisterLights 1
+    }
+    RegisteringComponentSlotInfo Roof {
+     Prefab "{4E5531CDAE20F9EF}Prefabs/Vehicles/Wheeled/M151A2/M151A2_canvas_roof.et"
+    }
+   }
+  }
+ }
+}

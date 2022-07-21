@@ -2,7 +2,7 @@ GenericEntity {
  ID "59BB3D4D00ED8435"
  components {
   MeshObject "{59BB3D4EC6A90ADD}" {
-   Object "{5F082069AD35801B}Assets/Vehicles/Wheeled/M151A2/M151A2_lightsMount.xob"
+   Object "{5F082069AD35801B}Assets/Vehicles/Wheeled/M151A2/M151A2_LightMount.xob"
   }
   Hierarchy "{59BB3D4D32816A63}" {
   }
@@ -22,11 +22,13 @@ GenericEntity {
     GameEntity : "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/Base/EmergencyLightsBase.et" {
      ID "59BB3D4D00ED8D9B"
      components {
-      EL_SirenLightComponent "{59D91CAC4F2752DA}" {
+      EL_SirenLightComponent "{59E546A377D34269}" {
        m_Lights {
-        EL_LightChild "{59D91CACB334126D}" {
+        EL_LightChild "{59E942EB3D0E7491}" {
          m_eLightType SPOT
+         m_vLightOffset 0 0.1 0
          m_vLightColor 0 0.125 0.502
+         m_vLightConeDirection 0 0 0
          m_PivotPoint "Disk"
         }
        }

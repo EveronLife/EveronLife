@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{4198EDB25C127965}Prefabs/Vehicles/Wheeled/M151A2/M151A2PoliceLED.et"
+ Name "{3B8CCD962CB9FDA9}Prefabs/Vehicles/Wheeled/M151A2/M151A2_Police_LightPole.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

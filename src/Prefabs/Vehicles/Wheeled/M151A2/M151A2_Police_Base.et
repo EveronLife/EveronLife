@@ -6,6 +6,10 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
     "{D89573B95647C34A}Sounds/Vehicles/Wheeled/M151A2/Vehicles_M151A2_Engine.acp" "{A117C96F2734B916}Sounds/Vehicles/Wheeled/M151A2/Vehicles_M151A2_Dampers.acp" "{653EACB16464519D}Sounds/Vehicles/Wheeled/M151A2/Vehicles_M151A2_Animations.acp" "{ECB3417228190021}Sounds/Siren/Vehicles_Siren.acp" "{BA8A5BD290F5FB34}Sounds/Vehicles/_SharedData/Destruction/Vehicles_Destruction.acp" "{7EA6EFED9CAAA4BE}Sounds/Vehicles/_SharedData/Rain/Vehicles_Rain_NoRoof.acp" "{D2DF25DD8B4A4B62}Sounds/Destruction/Multiphase/Destruction_Multiphase_Glass_Vehicle_Medium.acp" "{465B31754AAAE693}Sounds/Vehicles/_SharedData/Crashes/Cars/Vehicles_Crashes_Cars.acp"
    }
   }
+  EL_SirenManagerComponent "{59C243CD49C708B5}" {
+   m_Modes EL_SirenModes "{59E9607482911F61}" : "{A24DB78BFBC39A07}Prefabs/Vehicles/EmergencyLights/LightBarGeneric.conf" {
+   }
+  }
   MeshObject "{51DAA09FEFBFC0E7}" {
    Materials {
     MaterialAssignClass "{59DF663997BC1BD5}" {
@@ -17,46 +21,15 @@ Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
    m_fVehicleDestroyDamage 10408.7
   }
-  ActionsManagerComponent "{C97BE5489221AE18}" {
-   ActionContexts {
-    UserActionContext "{59C96A5A0297FE0E}" {
-     Position PointInfo "{59C96A5A09738F6F}" {
-      Angles 0 180 0
-     }
-     Omnidirectional 0
-    }
-   }
-   additionalActions {
-    EL_SirenModeAction "{59C96A5AB0AE3B45}" {
-     UIInfo UIInfo "{59C96A5AB7E8CAEA}" {
-      Name "Siren: Off duty mode"
-     }
-     "Sort Priority" 0
-    }
-    EL_SirenModeAction "{59C96A5A40CE8603}" {
-     UIInfo UIInfo "{59C96A5A4B6A596E}" {
-      Name "Siren: Patrol mode"
-     }
-     "Sort Priority" 1
-    }
-    EL_SirenModeAction "{59C96A5AA18DA368}" {
-     UIInfo UIInfo "{59C96A5AA9C17B0E}" {
-      Name "Siren: Cruise mode"
-     }
-    }
-    EL_SirenModeAction "{59C96A5AAF5D4FA7}" {
-     UIInfo UIInfo "{59C96A5A9762075E}" {
-      Name "Siren: Pursuit mode"
-     }
-    }
+  SlotManagerComponent "{55BCE45E438E4CFF}" {
+   Slots {
    }
   }
  }
- coords 0 0 0
  {
   GenericEntity : "{B6742C91E4499F0A}Prefabs/Vehicles/EmergencyLights/EmergencyLightsKnob.et" {
-   ID "59C96A5A87D8A350"
-   coords -0.174 1.081 0.466
+   ID "59EAAC582E9A38C4"
+   coords -0.187 1.074 0.466
   }
  }
 }
