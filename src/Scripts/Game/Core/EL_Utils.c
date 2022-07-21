@@ -12,9 +12,8 @@ class EL_Utils
 		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 	}
 	
-	static IEntity SpawnAsChild(ResourceName prefab, IEntity parent, PivotPoint pivot)
+	static IEntity SpawnAsChild(ResourceName prefab, notnull IEntity parent, notnull PivotPoint pivot)
 	{
-		if(!prefab || !parent || !pivot) return null;
 		
 		Resource resource = Resource.Load(prefab);
 		
