@@ -1,0 +1,4 @@
+MatPBRBasic {
+ BCRMap "{3CAE11A406D2E3E3}Assets/Resources/Mining/Data/Copper_BCR.edds"
+ NMOMap "{0476AA36DFA5B17D}Assets/Resources/Mining/Data/Copper_NMO.edds"
+}

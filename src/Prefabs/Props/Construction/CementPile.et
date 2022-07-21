@@ -1,0 +1,40 @@
+StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortifications/DirtPile_01_base.et" {
+ ID "5272E314F01B2DBE"
+ components {
+  MeshObject "{5272E314F6439B95}" {
+   Object "{155FCD2AE8BA59A3}Assets/Structures/Military/Fortifications/DirtMounds/DirtCover_01_short.xob"
+   Materials {
+    MaterialAssignClass "{59A84535676B3286}" {
+     SourceMaterial "DirtCover_01"
+     AssignedMaterial "{840D530398C0062E}Assets/Props/CementMound/Data/CementCover_01.emat"
+    }
+   }
+  }
+  ActionsManagerComponent "{598A74219C9D30C8}" {
+   ActionContexts {
+    UserActionContext "{598A74218AB2E4A0}" {
+     ContextName "Gather"
+     Position PointInfo "{598A74218D883E45}" {
+     }
+     Radius 1.8
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{598A74217AB52487}" {
+     ParentContextList {
+      "Gather"
+     }
+     UIInfo UIInfo "{598A74215CC71B51}" {
+      Name "Gather"
+      Description "Gather Cement"
+     }
+     Duration 10
+     m_GatherItemDisplayName "Cement Bag"
+     m_GatherItemPrefab "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et"
+    }
+   }
+  }
+  RplComponent "{598A7421B56485BF}" {
+  }
+ }
+}
