@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{106E09E20DEC5730}Prefabs/Vehicles/Core/Lights/VehicleLight_SearchLight.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,9 @@
+LightEntity : "{8E0D13E02E4229A2}Prefabs/Vehicles/Core/Lights/VehicleLight_Head_Base.et" {
+ ID "514ED7499ABC27FE"
+ Color 1 0.969 0.69 1
+ LV 9
+ Radius 100
+ SpotAngle 68
+ Visualization Disabled
+ VolLightOffset 0.05
+}

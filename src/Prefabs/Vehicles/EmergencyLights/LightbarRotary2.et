@@ -1,8 +1,36 @@
 GenericEntity {
  ID "59DC7E80C4218844"
  components {
+  BaseLightManagerComponent "{59E977148743547D}" {
+   LightsEnabled 1
+   LightSlots {
+    BaseLightSlot "{59E977148B62B456}" {
+     LightType SearchLight
+     LightPositionInfo EntitySlotInfo Light {
+      PivotID "SpotlightLeft"
+      Offset 0 0 0
+     }
+     LightPrefab "{106E09E20DEC5730}Prefabs/Vehicles/Core/Lights/VehicleLight_SearchLight.et"
+    }
+    BaseLightSlot "{59E977134866A452}" {
+     LightType SearchLight
+     LightPositionInfo EntitySlotInfo light {
+      PivotID "SpotlightRight"
+      Offset 0 0 0
+     }
+     LightPrefab "{106E09E20DEC5730}Prefabs/Vehicles/Core/Lights/VehicleLight_SearchLight.et"
+    }
+   }
+   EmissiveSurfaceSlots {
+    EmissiveLightSurfaceSlot Searchlight {
+     Prefab "{5D70B2231875D487}Prefabs/Vehicles/EmergencyLights/Base/LightBarRotary2Searchlight.et"
+     LightType 1024
+     EmissiveOnMultiplier 20
+    }
+   }
+  }
   MeshObject "{59DC7E81A67D9D9A}" {
-   Object "{CAA0C91B89675FBC}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightBarRotary2.xob"
+   Object "{CAA0C91B89675FBC}Assets/Vehicles/EmergencyLights/LightBarRotary2.xob"
   }
   Hierarchy "{59DC7E81814687AB}" {
   }
@@ -58,7 +86,6 @@ GenericEntity {
      }
     }
     coords 0 0 0
-    angleY 180
    }
    {
     ID "59DC7E80C420F905"
@@ -74,15 +101,13 @@ GenericEntity {
      }
     }
     coords 0 0 0
-    angleY 180
    }
   }
   $grp GameEntity : "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/Base/EmergencyLightsBase.et" {
    {
     ID "59DC7E80C4201BE3"
     components {
-     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
-      Enabled 1
+     EL_SirenLightComponent "{59E546A377D34269}" {
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
       m_EmissiveMultiplier 20
@@ -92,13 +117,11 @@ GenericEntity {
      }
     }
     coords 0 0 0
-    angleY 135
    }
    {
     ID "59DC7E80C4203BE8"
     components {
-     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
-      Enabled 1
+     EL_SirenLightComponent "{59E546A377D34269}" {
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0 0.125 0.502
       m_EmissiveMultiplier 20
@@ -108,16 +131,15 @@ GenericEntity {
      }
     }
     coords 0 0 0
-    angleY 180
    }
    {
     ID "59DC7E80C4203BEA"
     components {
-     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
-      Enabled 1
+     EL_SirenLightComponent "{59E546A377D34269}" {
       m_Lights {
-       EL_LightChild "{59DE49681F113490}" {
+       EL_LightChild "{59E977159DC443F4}" {
         m_eLightType SPOT
+        m_vLightOffset 0 0.1 0
         m_vLightColor 0.502 0 0
         m_PivotPoint "Disk"
         m_NightLVAttenuation 2
@@ -132,15 +154,15 @@ GenericEntity {
      }
     }
     coords 0 0 0
-    angleY -90
    }
    {
     ID "59DC7E80C4207394"
     components {
-     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+     EL_SirenLightComponent "{59E546A377D34269}" {
       m_Lights {
-       EL_LightChild "{59DE49683BE9F116}" {
+       EL_LightChild "{59E977142DE124D7}" {
         m_eLightType SPOT
+        m_vLightOffset 0 0.1 0
         m_vLightColor 0 0.125 0.502
         m_PivotPoint "Disk"
         m_NightLVAttenuation 2
@@ -155,12 +177,11 @@ GenericEntity {
      }
     }
     coords 0 0 0
-    angleY 90
    }
    {
     ID "59DC7E80C4218846"
     components {
-     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+     EL_SirenLightComponent "{59E546A377D34269}" {
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0.502 0 0
       m_EmissiveMultiplier 20
@@ -173,7 +194,7 @@ GenericEntity {
    {
     ID "59DC7E80C4218849"
     components {
-     EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+     EL_SirenLightComponent "{59E546A377D34269}" {
       m_OverrideEmissiveColor 1
       m_EmissiveColor 0.502 0 0
       m_EmissiveMultiplier 20
@@ -183,7 +204,6 @@ GenericEntity {
      }
     }
     coords 0 0 0
-    angleY -45
    }
   }
  }
