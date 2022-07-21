@@ -1,7 +1,8 @@
 MetaFileClass {
- Name "{A803D7AFF083D0F8}Assets/Vehicles/Wheeled/M151A2/M151A2_BarMount.xob"
+ Name "{A803D7AFF083D0F8}Assets/Vehicles/Wheeled/M151A2/M151A2_LightBarMount.xob"
  Configurations {
   FBXResourceClass PC {
+   ExportSkinning 1
    MaterialAssigns {
     MaterialAssignClass "{59E483DDAD26C5B2}" {
      SourceMaterial "M151A2_LightBarMount"
