@@ -1,24 +1,24 @@
 MetaFileClass {
- Name "{CAA0C91B89675FBC}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightBarRotary2.xob"
+ Name "{CAA0C91B89675FBC}Assets/Vehicles/EmergencyLights/LightBarRotary2.xob"
  Configurations {
   FBXResourceClass PC {
    ExportSkinning 1
    MaterialAssigns {
     MaterialAssignClass "{59DC7E5CA7FAFB59}" {
      SourceMaterial "LightBarBody"
-     AssignedMaterial "{8492736AA0F1378B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody.emat"
+     AssignedMaterial "{8492736AA0F1378B}Assets/Vehicles/EmergencyLights/Data/LightBarBody.emat"
     }
     MaterialAssignClass "{59DC7E5CA7FAFB71}" {
      SourceMaterial "LightBarGlassRight"
-     AssignedMaterial "{BC2FD479FA975972}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarGlassRight.emat"
+     AssignedMaterial "{BC2FD479FA975972}Assets/Vehicles/EmergencyLights/Data/LightBarGlassRight.emat"
     }
     MaterialAssignClass "{59E061F3A25BCAED}" {
      SourceMaterial "LightBarGlassLeft"
-     AssignedMaterial "{7DD7CE75DBD27C3A}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarGlassLeft.emat"
+     AssignedMaterial "{7DD7CE75DBD27C3A}Assets/Vehicles/EmergencyLights/Data/LightBarGlassLeft.emat"
     }
     MaterialAssignClass "{59E203ECA7945DFE}" {
      SourceMaterial "SearchLightGlass"
-     AssignedMaterial "{AAF146504F1B313C}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/SearchLightGlass.emat"
+     AssignedMaterial "{AAF146504F1B313C}Assets/Vehicles/EmergencyLights/Data/SearchLightGlass.emat"
     }
    }
    GeometryParams {
