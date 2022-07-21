@@ -6,7 +6,7 @@ GenericEntity {
   EL_SirenKnobComponent "{59BD4EF13634FA27}" {
   }
   MeshObject "{59B23DD7A2211F0C}" {
-   Object "{90C1B80546AE52D2}Assets/Vehicles/EmergencyLightsKnob/Knob.xob"
+   Object "{90C1B80546AE52D2}Assets/Vehicles/EmergencyLights/Knob.xob"
   }
   Hierarchy "{59B23DD7E039D117}" {
   }
@@ -17,13 +17,69 @@ GenericEntity {
   ProcAnimComponent "{59B35BD12113D2C0}" {
    Parameters {
     ProcAnimParams "{59B35BD120070DA2}" {
-     ResourceName "{D1CA281AFA5122C5}Assets/Vehicles/EmergencyLightsKnob/Anims/Knob.pap"
+     ResourceName "{D1CA281AFA5122C5}Assets/Vehicles/EmergencyLights/Anims/Knob.pap"
      BoneNames {
       "Bone"
      }
      SimulationDistance 5
     }
    }
+  }
+  ActionsManagerComponent "{59E94E7A6BAF99C7}" {
+   ActionContexts {
+    UserActionContext "{59E94E7A6ADC8C18}" {
+     ContextName "siren"
+     Position PointInfo "{59E94E7A56D199E1}" {
+      Offset 0 0 -0.0476
+      Angles 0 180 0
+     }
+     Omnidirectional 0
+    }
+   }
+   additionalActions {
+    EL_SirenModeAction "{59E94E7A4DACF719}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59E94E7AB7DE5A0C}" {
+      Name "Siren: Off Duty Mode"
+     }
+     m_Mode "default"
+    }
+    EL_SirenModeAction "{59E94E7AA8D08575}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59E94E7A98BE8718}" {
+      Name "Siren: Patrol Mode"
+     }
+     "Sort Priority" 1
+     m_Mode "Mode1"
+    }
+    EL_SirenModeAction "{59E94E7AECFC692A}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59E94E7AD0AA0E9A}" {
+      Name "Siren: Cruise Mode"
+     }
+     "Sort Priority" 2
+     m_Mode "Mode2"
+    }
+    EL_SirenModeAction "{59E94E7ADE312751}" {
+     ParentContextList {
+      "siren"
+     }
+     UIInfo UIInfo "{59E94E7AC3BB42DC}" {
+      Name "Siren: Pursuit Mode"
+     }
+     "Sort Priority" 3
+     m_Mode "Mode3"
+    }
+   }
+   AllowCrossHierarchy 1
+  }
+  RplComponent "{59E96E9192CBAAF1}" {
   }
  }
 }

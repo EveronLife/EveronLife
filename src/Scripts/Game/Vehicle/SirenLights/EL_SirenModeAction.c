@@ -14,9 +14,18 @@ class EL_SirenModeAction : ScriptedUserAction
 	
 	protected IEntity m_pOwner;
 
-	override event void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
+	
+	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
 	{
-		if(!m_Manager) m_Manager = EL_SirenManagerComponent.Cast(pOwnerEntity.FindComponent(EL_SirenManagerComponent));
+		m_pOwner = pOwnerEntity.GetParent();
+		if(m_pOwner)
+		{
+			m_Manager = EL_SirenManagerComponent.Cast(m_pOwner.FindComponent(EL_SirenManagerComponent));
+		}
+	}
+	
+	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
+	{
 		m_Manager.SetModeStr(m_Mode);
 	}
 	
