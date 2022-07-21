@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{9C005A256F4C2921}Assets/Resources/Mining/Data/Gold.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

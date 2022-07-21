@@ -1,0 +1,84 @@
+GenericEntity {
+ ID "59A730891E6FD06E"
+ components {
+  SoundComponent "{59A730880E261D19}" {
+   Filenames {
+    "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
+   }
+  }
+  InventoryItemComponent "{59A730880E261CF2}" {
+   Attributes SCR_ItemAttributeCollection "{59A730880E261CF3}" {
+    ItemDisplayName UIInfo "{59A730880E261D0B}" {
+     Name "Iron Bar"
+     Description "Smelted piece of iron"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59A730880E261D0F}" {
+     Weight 5
+     ItemVolume 113
+     ActivePhysicalSimulation Collision
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59A730880E261CF8}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59A730880E261CF9}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 -90 210
+     HandAdditiveTranslation 0 0.05 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{59A730880E261CF0}" {
+      CameraPreset Top
+      CameraOrbitAngles 0 0 0
+      CameraDistanceToItem 0.15
+      CameraOffset 0 -0.02 0
+      ItemRenderRotation 0 0 -90
+     }
+    }
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
+  MeshObject "{59A730880E261CEA}" {
+   Object "{75ABFBE70F78E212}Assets/Resources/Mining/MetalBar.xob"
+   Materials {
+    MaterialAssignClass "{59A730883F49B8C9}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{29473C87C35726A4}Assets/Resources/Mining/Data/Iron.emat"
+    }
+   }
+  }
+  RigidBody "{59A730880E261CEF}" {
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+  }
+  SCR_ConsumableItemComponent "{59A730880E261CE0}" {
+   m_eAnimVariable 2147483647
+  }
+  ActionsManagerComponent "{59A730880E261CC8}" {
+   ActionContexts {
+    UserActionContext "{59A730880E261CDC}" {
+     ContextName "default"
+     Position PointInfo "{59A730880E261CDD}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59A730880E261CC9}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59A730880E261CD6}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{59A730880E261CCA}" {
+  }
+ }
+ coords 110.93 0.909 134.93
+}
