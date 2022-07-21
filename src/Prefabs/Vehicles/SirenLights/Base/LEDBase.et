@@ -1,10 +1,8 @@
 GameEntity {
  ID "59CAE48E18B5F9F6"
  components {
-  EL_LightComponent "{59CAE48E25716D2B}" {
-  }
   MeshObject "{59CAE489CA511B5B}" {
-   Object "{E1C97A9A7D3BD795}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/EmergencyLightLEDBase.xob"
+   Object "{E1C97A9A7D3BD795}Assets/Vehicles/SirenLights/EmergencyLightLEDBase.xob"
   }
   Hierarchy "{59CAE48E2C5F5137}" {
   }
