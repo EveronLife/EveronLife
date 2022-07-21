@@ -29,53 +29,8 @@ Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
   }
   ActionsManagerComponent "{C97BE5489221AE18}" {
    ActionContexts {
-    UserActionContext "{59C96A5A0297FE0E}" {
-     ContextName "siren"
-     Position PointInfo "{59C96A5A09738F6F}" {
-      Offset -0.1756 1.0829 0.42
-     }
-    }
    }
    additionalActions {
-    EL_SirenModeAction "{59C96A5A40CE8603}" {
-     ParentContextList {
-      "siren"
-     }
-     UIInfo UIInfo "{59C96A5A4B6A596E}" {
-      Name "Siren: Mode 1"
-     }
-     m_Mode "Mode1"
-    }
-    EL_SirenModeAction "{59C96A5AB0AE3B45}" {
-     ParentContextList {
-      "siren"
-     }
-     UIInfo UIInfo "{59C96A5AB7E8CAEA}" {
-      Name "Siren: Mode 0"
-     }
-     "Sort Priority" 1
-     m_Mode "default"
-    }
-    EL_SirenModeAction "{59C96A5AA18DA368}" {
-     ParentContextList {
-      "siren"
-     }
-     UIInfo UIInfo "{59C96A5AA9C17B0E}" {
-      Name "Siren: Mode 2"
-     }
-     "Sort Priority" 2
-     m_Mode "Mode2"
-    }
-    EL_SirenModeAction "{59C96A5AAF5D4FA7}" {
-     ParentContextList {
-      "siren"
-     }
-     UIInfo UIInfo "{59C96A5A9762075E}" {
-      Name "Siren: Mode 3"
-     }
-     "Sort Priority" 3
-     m_Mode "Mode3"
-    }
    }
   }
  }
