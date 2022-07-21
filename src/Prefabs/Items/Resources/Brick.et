@@ -21,13 +21,20 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     ItemAnimationAttributes ItemAnimationAttributes "{59BCA073459D6271}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
      AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
-     HandAdditiveRotation 90 -90 90
-     HandAdditiveTranslation 0 0.05 -0.05
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59EA76453456E9E3}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0.005 -0.065
     }
     CustomAttributes {
      PreviewRenderAttributes "{59BCA073459D626C}" {
       CameraOrbitAngles 90 0 90
-      CameraDistanceToItem 0.45
+      CameraDistanceToItem 0.3
       CameraOffset 0 0 0
      }
     }
@@ -59,7 +66,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    ActionContexts {
     UserActionContext "{508AC2ABEC97066C}" {
      Position PointInfo "{508AC2ABEAC4A0F5}" {
-      Offset -0.1 0.2 0
+      Offset 0 0 0
      }
      Radius 0.5
     }
