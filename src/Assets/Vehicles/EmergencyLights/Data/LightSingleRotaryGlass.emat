@@ -1,0 +1,10 @@
+MatPBRBasic {
+ Color 0 0.125 0.502 1
+ Sort translucent
+ AlphaMul 0.904
+ BlendMode AlphaBlend
+ RoughnessScale 5
+ MetalnessScale 0
+ DielectricReflectance 0.03
+ BCRMap "{8B59275E8F260750}Assets/_SharedData/Glass/ST_Glass_Test_01_BCR.edds"
+}

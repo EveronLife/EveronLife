@@ -1,0 +1,19 @@
+Vehicle : "{2C690C1F9F2F91DF}Prefabs/Vehicles/Wheeled/M923A1/M923A1_Police_Base.et" {
+ ID "BBCBA43A9778AE21"
+ components {
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 21809.699
+  }
+  EL_SirenManagerComponent "{59CB10A4C4BB1725}" {
+   m_Modes EL_SirenModes "{59CB10A4CB21F66B}" : "{A24DB78BFBC39A07}Prefabs/Vehicles/Wheeled/M151A2/Siren.conf" {
+   }
+  }
+ }
+ coords 0 0 0
+ {
+  GenericEntity : "{C967EB95C56D6B1D}Prefabs/Vehicles/EmergencyLights/LightBar.et" {
+   ID "59CB10A4EA9B13C6"
+   coords 0 3.671 0.066
+  }
+ }
+}

@@ -1,0 +1,4 @@
+MatPBRBasic {
+ AlphaMul 0.272
+ BlendMode AlphaBlend
+}

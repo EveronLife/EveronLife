@@ -1,0 +1,13 @@
+GenericEntity {
+ ID "59B23DD729906EF6"
+ components {
+  MeshObject "{59B23DD73B6C2B2F}" {
+   Object "{9EC0E3457C577DB1}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightSingleRotary.xob"
+  }
+  Hierarchy "{59B83327238BB490}" {
+  }
+  RigidBody "{59DC7CED7E9CE7C5}" {
+   ModelGeometry 1
+  }
+ }
+}

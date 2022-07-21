@@ -1,0 +1,8 @@
+MatPBRBasic {
+ Emissive 1 1 1 1
+ EmissiveLV 8
+ EmissiveAbsoluteLV 0
+ RoughnessScale 2
+ BCRMap "{DDFA1BE6FC945C12}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_BCR.edds"
+ NMOMap "{E522A07425E30E8C}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_NMO.edds"
+}

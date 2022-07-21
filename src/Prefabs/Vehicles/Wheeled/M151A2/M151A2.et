@@ -1,0 +1,37 @@
+Vehicle : "{1F9BB80C3EC3C891}Prefabs/Vehicles/Core/Wheeled_Car_Base.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  BaseLightManagerComponent "{51E210F17D2534F7}" {
+   LightSlots {
+    BaseLightSlot "{BC5990B6EFDADBAE}Prefabs/Vehicles/Core/Lights/Light_Searchlight.conf" {
+     LightPrefab ""
+    }
+   }
+   LightAction {
+   }
+  }
+  EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
+   m_Plates {
+    EL_LicensePlatePointInfo "{59A37E81FD36C7BB}" {
+     Offset 0 0.6305 1.8237
+    }
+   }
+  }
+  EL_SirenManagerComponent "{59C243CD49C708B5}" {
+  }
+  MeshObject "{51DAA09FEFBFC0E7}" {
+   Materials {
+    MaterialAssignClass "{59DF663997BC1BD5}" {
+     SourceMaterial "M151A2_Body"
+     AssignedMaterial "{51965F0CF2FEE72E}Assets/Vehicles/Wheeled/M151A2/Data/M151A2_Body.emat"
+    }
+   }
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   ActionContexts {
+   }
+   additionalActions {
+   }
+  }
+ }
+}

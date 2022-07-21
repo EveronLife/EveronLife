@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{9476A9CF8190EC9D}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/M151A2_LightBarMount.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

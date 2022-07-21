@@ -1,0 +1,42 @@
+MetaFileClass {
+ Name "{A803D7AFF083D0F8}Assets/Vehicles/Wheeled/M151A2/M151A2_LightBarMount.xob"
+ Configurations {
+  FBXResourceClass PC {
+   ExportSkinning 1
+   MaterialAssigns {
+    MaterialAssignClass "{59E483DDAD26C5B2}" {
+     SourceMaterial "M151A2_LightBarMount"
+     AssignedMaterial "{9476A9CF8190EC9D}Assets/Vehicles/Wheeled/M151A2/Data/M151A2_LightBarMount.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UTM_Arm {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{B701566F3B8A0DF6}Common/Materials/Game/metal_sheet.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
+   Common TXOCommonClass "{59E2477B0BDAF685}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{59E2477B0BDA3366}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{59E2477B0BDA0C63}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{59E2477B0BDA08B0}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{59E2477B0BDA1E5D}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}

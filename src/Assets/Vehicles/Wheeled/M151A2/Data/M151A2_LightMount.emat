@@ -1,0 +1,22 @@
+MatPBRMulti {
+ MaskMap "{5B919374ED8513D0}Assets/Vehicles/Wheeled/M151A2/Data/M151A2_LightMount_GLOBAL_MASK.edds"
+ VFXMap "{ED8326B3C8E8E1EB}Assets/Vehicles/Wheeled/M151A2/Data/M151A2_LightMount_VFX.edds"
+ DirtOpacity 0.362
+ DirtLayerSharpness 1.955
+ DirtColor 0.141 0.125 0.1 1
+ DirtRoughness 1.5
+ DirtBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ DirtMaskMap "{A074608E879A25CB}Assets/_SharedData/DetailMask/ST_Dirt_01_Mask1.edds"
+ Enabled_2 1
+ Color_2 0 0.036 0.144 1
+ BCR_2 "{8EADB31D864DD0FC}Assets/_SharedData/Metal/ST_MetalBare_01_BCR.edds"
+ NMO_2 "{0470164F98BC8DD2}Assets/_SharedData/Metal/ST_MetalBare_01_NMO.edds"
+ Mask_2 "{8A50472D717443E4}Assets/_SharedData/DetailMask/ST_Dirt_02_Mask1.edds"
+ Roughness_2 1.3
+ Metalness_2 0
+ Color_1 0 0.036 0.144 1
+ BCR_1 "{8EADB31D864DD0FC}Assets/_SharedData/Metal/ST_MetalBare_01_BCR.edds"
+ NMO_1 "{0470164F98BC8DD2}Assets/_SharedData/Metal/ST_MetalBare_01_NMO.edds"
+ Roughness_1 1.1
+ Metalness_1 0
+}

@@ -1,0 +1,14 @@
+GameEntity {
+ ID "59DC7E8EA02E84F8"
+ components {
+  EL_SirenLightComponent "{59DC7E8E46E6F6AC}" {
+  }
+  MeshObject "{59DC7E8E6350E41E}" {
+   Object "{54C5F321058A73D8}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightBarRotary2Emissive.xob"
+  }
+  Hierarchy "{59DC7E8EB2C3FF3B}" {
+  }
+  ParametricMaterialInstanceComponent "{59DC7E8E433DDA5E}" {
+  }
+ }
+}

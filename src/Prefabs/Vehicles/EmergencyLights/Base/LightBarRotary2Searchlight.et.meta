@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{5D70B2231875D487}Prefabs/Vehicles/EmergencyLights/Base/LightBarRotary2Searchlight.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

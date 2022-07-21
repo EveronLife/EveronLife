@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4C0435BCDACC3116}Prefabs/Vehicles/EmergencyLights/Base/LightBarRotary2Emissive.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

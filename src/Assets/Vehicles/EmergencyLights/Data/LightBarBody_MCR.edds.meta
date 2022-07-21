@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{8497BD52DE7C5062}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody_MCR.edds"
+ Configurations {
+  TIFFResourceClass PC : "{A6CC0A2F9DB86CBE}Configs/System/ResourceTypes/PC/TextureMCRMap.conf" {
+  }
+  TIFFResourceClass XBOX_ONE : "{224B78299A038E4A}Configs/System/ResourceTypes/XBOX_ONE/TextureMCRMap.conf" {
+  }
+  TIFFResourceClass XBOX_SERIES : "{B5FA7506CF384E79}Configs/System/ResourceTypes/XBOX_SERIES/TextureMCRMap.conf" {
+  }
+  TIFFResourceClass PS4 : "{E7A6FCCE55593073}Configs/System/ResourceTypes/PS4/TextureMCRMap.conf" {
+  }
+  TIFFResourceClass HEADLESS : "{D49C34F7354B6F47}Configs/System/ResourceTypes/HEADLESS/TextureMCRMap.conf" {
+  }
+ }
+}

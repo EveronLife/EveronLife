@@ -1,0 +1,5 @@
+MatPBRBasicGlass {
+ AlphaMul 0.987
+ BCRMap "{8B59275E8F260750}Assets/_SharedData/Glass/ST_Glass_Test_01_BCR.edds"
+ OpacityMap "{A730977A76334925}Assets/_SharedData/Glass/ST_Glass_Test_01_A.edds"
+}

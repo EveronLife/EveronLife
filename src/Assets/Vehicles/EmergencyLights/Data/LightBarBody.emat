@@ -1,0 +1,28 @@
+MatPBRMulti {
+ EnvReflMap "{B360B64D69A3D00E}Terrains/Common/Sky/SkyBox/Data/clearSkyEnv.edds"
+ GlobalMCRMap "{8497BD52DE7C5062}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody_MCR.edds"
+ MaskMap "{E4C98F852949462B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody_GLOBAL_MASK.edds"
+ VFXMap "{305689F92991234E}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody_VFX.edds"
+ NormalPower 2.195
+ GlobalNMOMap "{40248C5175F59222}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarBody_NMO.edds"
+ DirtOpacity 1
+ DirtLayerSharpness 0.655
+ DirtColor 0.141 0.125 0.1 1
+ DirtRoughness 0.527
+ DirtBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ DirtMaskMap "{A074608E879A25CB}Assets/_SharedData/DetailMask/ST_Dirt_01_Mask1.edds"
+ Enabled_2 1
+ Color_2 0.301 0.301 0.301 1
+ BCR_2 "{DDFA1BE6FC945C12}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_BCR.edds"
+ NMO_2 "{E522A07425E30E8C}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_NMO.edds"
+ MaskSharpness_2 10
+ MaskOffset_2 0.406
+ Roughness_2 3
+ Color_1 0.034 0.034 0.034 1
+ BCR_1 "{0236DEFDB2549ADB}Assets/_SharedData/Plastic/ST_PlasticBase_03_BCR.edds"
+ NMO_1 "{3AEE656F6B23C845}Assets/_SharedData/Plastic/ST_PlasticBase_03_NMO.edds"
+ UVTransform_1 MatUVTransform "{59E1469D67AAE732}" {
+  TilingU 10
+  TilingV 10
+ }
+}

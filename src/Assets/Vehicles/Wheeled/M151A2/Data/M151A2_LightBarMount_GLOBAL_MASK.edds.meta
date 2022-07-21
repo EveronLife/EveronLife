@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D2A75DDD799B2695}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/M151A2_LightBarMount_GLOBAL_MASK.edds"
+ Configurations {
+  PNGResourceClass PC : "{2231C67ACC4BB0AC}Configs/System/ResourceTypes/PC/TextureMask.conf" {
+  }
+  PNGResourceClass XBOX_ONE : "{3B78A666261DD8B4}Configs/System/ResourceTypes/XBOX_ONE/TextureMask.conf" {
+  }
+  PNGResourceClass XBOX_SERIES : "{9A79E1F659B378E7}Configs/System/ResourceTypes/XBOX_SERIES/TextureMask.conf" {
+  }
+  PNGResourceClass PS4 : "{5CB64ED6EEBDE368}Configs/System/ResourceTypes/PS4/TextureMask.conf" {
+  }
+  PNGResourceClass HEADLESS : "{0B025DFAF55852CD}Configs/System/ResourceTypes/HEADLESS/TextureMask.conf" {
+  }
+ }
+}

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{ECB3417228190021}Sounds/Vehicles/Wheeled/M151A2/Vehicles_Siren.acp"
+ Configurations {
+  AudioProjectResourceClass PC {
+  }
+  AudioProjectResourceClass XBOX_ONE : PC {
+  }
+  AudioProjectResourceClass XBOX_SERIES : PC {
+  }
+  AudioProjectResourceClass PS4 : PC {
+  }
+  AudioProjectResourceClass HEADLESS : PC {
+  }
+ }
+}

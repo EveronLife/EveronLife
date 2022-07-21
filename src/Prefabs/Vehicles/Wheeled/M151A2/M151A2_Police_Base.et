@@ -1,0 +1,35 @@
+Vehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  SCR_VehicleSoundComponent "{55C2E66AD4EF2CA6}" {
+   Filenames {
+    "{D89573B95647C34A}Sounds/Vehicles/Wheeled/M151A2/Vehicles_M151A2_Engine.acp" "{A117C96F2734B916}Sounds/Vehicles/Wheeled/M151A2/Vehicles_M151A2_Dampers.acp" "{653EACB16464519D}Sounds/Vehicles/Wheeled/M151A2/Vehicles_M151A2_Animations.acp" "{ECB3417228190021}Sounds/Siren/Vehicles_Siren.acp" "{BA8A5BD290F5FB34}Sounds/Vehicles/_SharedData/Destruction/Vehicles_Destruction.acp" "{7EA6EFED9CAAA4BE}Sounds/Vehicles/_SharedData/Rain/Vehicles_Rain_NoRoof.acp" "{D2DF25DD8B4A4B62}Sounds/Destruction/Multiphase/Destruction_Multiphase_Glass_Vehicle_Medium.acp" "{465B31754AAAE693}Sounds/Vehicles/_SharedData/Crashes/Cars/Vehicles_Crashes_Cars.acp"
+   }
+  }
+  EL_SirenManagerComponent "{59C243CD49C708B5}" {
+   m_Modes EL_SirenModes "{59E9607482911F61}" : "{A24DB78BFBC39A07}Prefabs/Vehicles/EmergencyLights/LightBarGeneric.conf" {
+   }
+  }
+  MeshObject "{51DAA09FEFBFC0E7}" {
+   Materials {
+    MaterialAssignClass "{59DF663997BC1BD5}" {
+     SourceMaterial "M151A2_Body"
+     AssignedMaterial "{EFC1F56477585047}Assets/Vehicles/Wheeled/M151A2/Data/M151A2_Body_Police.emat"
+    }
+   }
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 10408.7
+  }
+  SlotManagerComponent "{55BCE45E438E4CFF}" {
+   Slots {
+   }
+  }
+ }
+ {
+  GenericEntity : "{B6742C91E4499F0A}Prefabs/Vehicles/EmergencyLights/EmergencyLightsKnob.et" {
+   ID "59EAAC582E9A38C4"
+   coords -0.187 1.074 0.466
+  }
+ }
+}

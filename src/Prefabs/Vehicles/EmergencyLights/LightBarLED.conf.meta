@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D5158846A31706AD}Prefabs/Vehicles/Wheeled/M151A2/SirenLED.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

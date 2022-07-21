@@ -1,0 +1,12 @@
+MatPBRMulti {
+ MaskMap "{70C0D41409A3FAC0}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightSingleRotaryBody_GLOBAL_MASK.edds"
+ Enabled_2 1
+ BCR_2 "{BEC99809792F49DF}Assets/_SharedData/Metal/ST_Lighthouse_PaintedMetal_Clean_BCR.edds"
+ NMO_2 "{8611239BA0581B41}Assets/_SharedData/Metal/ST_Lighthouse_PaintedMetal_Clean_NMO.edds"
+ MaskSharpness_2 10
+ MaskOffset_2 0.64
+ Color_1 0 0.036 0.144 1
+ BCR_1 "{8EADB31D864DD0FC}Assets/_SharedData/Metal/ST_MetalBare_01_BCR.edds"
+ NMO_1 "{0470164F98BC8DD2}Assets/_SharedData/Metal/ST_MetalBare_01_NMO.edds"
+ Roughness_1 1.3
+}

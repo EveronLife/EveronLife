@@ -1,0 +1,5 @@
+MatPBRBasic {
+ Sort translucent
+ BlendMode AlphaBlend
+ OpacityMap "{A730977A76334925}Assets/_SharedData/Glass/ST_Glass_Test_01_A.edds"
+}

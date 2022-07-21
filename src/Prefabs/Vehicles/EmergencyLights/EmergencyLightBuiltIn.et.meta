@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4BEAB0F5C3DD858D}Prefabs/Vehicles/EmergencyLights/EmergencyLightBuiltIn.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

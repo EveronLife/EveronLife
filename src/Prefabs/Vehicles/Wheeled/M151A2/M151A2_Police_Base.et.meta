@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{C2FF7DB2F822943C}Prefabs/Vehicles/Wheeled/M151A2/M151A2_Police_Base.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

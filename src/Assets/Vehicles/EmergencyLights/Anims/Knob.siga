@@ -1,0 +1,119 @@
+ProcAnimSignalResClass {
+ Inputs {
+  IOPItemInputClass {
+   id 1
+   name "Rotation"
+   tl -319 3
+   children {
+    5
+   }
+   valueMin -30
+   valueMax 30
+  }
+  IOPItemInputClass {
+   id 2
+   name "Translation"
+   tl -318 101
+   children {
+    6
+   }
+   valueMax 0.01
+  }
+ }
+ Ops {
+  IOPItemOpSmootherClass {
+   id 5
+   name "Smoother 5"
+   tl -72 -3
+   children {
+    3
+   }
+   inputs {
+    ConnectionClass connection {
+     id 1
+     port 0
+    }
+   }
+   "Fade In Time" 100
+   "Fade Out Time" 100
+   ResetTimerOnNewInput 1
+  }
+  IOPItemOpSmootherClass {
+   id 6
+   name "Smoother 5"
+   tl -63 104
+   children {
+    4
+   }
+   inputs {
+    ConnectionClass connection {
+     id 2
+     port 0
+    }
+   }
+   "Fade In Time" 100
+   "Fade Out Time" 100
+   ResetTimerOnNewInput 1
+  }
+ }
+ Outputs {
+  IOPItemOutputClass {
+   id 3
+   name "Rotation"
+   tl 155 -3
+   input 5
+  }
+  IOPItemOutputClass {
+   id 4
+   name "Translation"
+   tl 163 98
+   input 6
+  }
+ }
+ compiled IOPCompiledClass {
+  visited {
+   133 135 134 5 7 6
+  }
+  ins {
+   IOPCompiledIn {
+    data {
+     1 3
+    }
+   }
+   IOPCompiledIn {
+    data {
+     1 65539
+    }
+   }
+  }
+  ops {
+   IOPCompiledOp {
+    data {
+     1 2 2 0 0
+    }
+   }
+   IOPCompiledOp {
+    data {
+     1 65538 2 65536 0
+    }
+   }
+  }
+  outs {
+   IOPCompiledOut {
+    data {
+     0
+    }
+   }
+   IOPCompiledOut {
+    data {
+     0
+    }
+   }
+  }
+  processed 6
+  version 2
+  ops_reeval_list {
+   0 1
+  }
+ }
+}

@@ -1,0 +1,26 @@
+GenericEntity {
+ ID "59E2476493453183"
+ components {
+  BaseLightManagerComponent "{59E97712ED811CD8}" {
+   LightsEnabled 1
+  }
+  MeshObject "{59E24764A13A1EB7}" {
+   Object "{A803D7AFF083D0F8}Assets/Vehicles/Wheeled/M151A2/M151A2_LightBarMount.xob"
+  }
+  Hierarchy "{59E24764A6BD8DC4}" {
+  }
+  RigidBody "{59E483DB080654A4}" {
+   Gravity 0
+   ModelGeometry 1
+  }
+  SlotManagerComponent "{59E977139AA8D683}" {
+   Slots {
+    RegisteringComponentSlotInfo LightBar {
+     PivotID "LightBar"
+     Prefab "{33C174CA50F51145}Prefabs/Vehicles/EmergencyLights/LightbarRotary2.et"
+     RegisterLights 1
+    }
+   }
+  }
+ }
+}

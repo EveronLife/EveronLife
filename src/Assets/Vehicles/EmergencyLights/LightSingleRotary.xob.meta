@@ -1,0 +1,54 @@
+MetaFileClass {
+ Name "{9EC0E3457C577DB1}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightSingleRotary.xob"
+ Configurations {
+  FBXResourceClass PC {
+   ExportSkinning 1
+   MaterialAssigns {
+    MaterialAssignClass "{59DC690C5F0B09F0}" {
+     SourceMaterial "LightSingleRotaryBody"
+     AssignedMaterial "{71A90819913CECC2}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightSingleRotaryBody.emat"
+    }
+    MaterialAssignClass "{59DC690C5F0B09FC}" {
+     SourceMaterial "LightSingleRotaryGlass"
+     AssignedMaterial "{ED81A250BCEE408D}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightSingleRotaryGlass.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UTM_LightSingleRotary {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{94B76D276C6A1DE3}Common/Materials/Game/Glass/glass_4mm_min.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+    GeometryParam "UTM_LightSingleRotary.001" {
+     LayerPreset "VehicleFireView"
+     SurfaceProperties {
+      "{EB387D1072E08951}Common/Materials/Game/Metal/metal_7mm.gamemat"
+     }
+     Mass 0
+     Margin 0
+    }
+   }
+   Common TXOCommonClass "{59AB588BF03A3A95}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_ONE : PC {
+   Common TXOCommonClass "{59AB588BF03A3A69}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass XBOX_SERIES : PC {
+   Common TXOCommonClass "{59AB588BF03A39B6}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass PS4 : PC {
+   Common TXOCommonClass "{59AB588BF03A39C0}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   }
+  }
+  FBXResourceClass HEADLESS : PC {
+   Common TXOCommonClass "{59AB588BF03A39E4}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   }
+  }
+ }
+}

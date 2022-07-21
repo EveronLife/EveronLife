@@ -1,0 +1,7 @@
+MatPBRMulti {
+ Color_1 0.001 0.001 0.001 1
+ BCR_1 "{5F54C1714DAA5E23}Assets/_SharedData/Plastic/ST_Plastic_Fine01_1m_BCR.edds"
+ NMO_1 "{678C7AE394DD0CBD}Assets/_SharedData/Plastic/ST_Plastic_Fine01_1m_NMO.edds"
+ Roughness_1 1.709
+ Metalness_1 0
+}

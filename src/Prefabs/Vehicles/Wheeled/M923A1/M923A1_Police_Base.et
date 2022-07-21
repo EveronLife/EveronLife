@@ -1,0 +1,20 @@
+Vehicle : "{CA30296866DB53ED}Prefabs/Vehicles/Wheeled/M923A1/M923A1_policeBase.et" {
+ ID "BBCBA43A9778AE21"
+ components {
+  SCR_VehicleSoundComponent "{55C2E66AD4EF2CA6}" {
+   Filenames {
+    "{CB0DC397D53BD681}Sounds/Vehicles/Wheeled/M923A1/Vehicles_M923A1_Engine.acp" "{333B2E7462DCA36A}Sounds/Vehicles/Wheeled/M923A1/Vehicles_M923A1_Animations.acp" "{C4B7464CCBE1E3AA}Sounds/Vehicles/Wheeled/M923A1/Vehicles_M923A1_Dampers.acp" "{5767E5671BFDBF00}Sounds/Vehicles/_SharedData/Crashes/Truck/Vehicles_Crashes_Truck.acp" "{ECB3417228190021}Sounds/Siren/Vehicles_Siren.acp" "{BA8A5BD290F5FB34}Sounds/Vehicles/_SharedData/Destruction/Vehicles_Destruction.acp" "{7331B63EA1E25383}Sounds/Vehicles/_SharedData/Rain/Vehicles_Rain_MetalRoof.acp" "{D2DF25DD8B4A4B62}Sounds/Destruction/Multiphase/Destruction_Multiphase_Glass_Vehicle_Medium.acp"
+   }
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 21809.699
+  }
+ }
+ coords 0 0 0
+ {
+  GenericEntity : "{B6742C91E4499F0A}Prefabs/Vehicles/EmergencyLights/EmergencyLightsKnob.et" {
+   ID "59CB10A490B2B781"
+   coords -0.425 2.025 1.648
+  }
+ }
+}

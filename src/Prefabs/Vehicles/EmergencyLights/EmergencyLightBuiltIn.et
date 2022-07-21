@@ -1,0 +1,35 @@
+GenericEntity {
+ ID "59DC7E23801D34BA"
+ components {
+  MeshObject "{59DC7E23290D721D}" {
+   Object "{8474C5D4F96CF9D1}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightSingleRotaryBuiltIn.xob"
+  }
+  Hierarchy "{59DC7E2306AC46FD}" {
+  }
+  RigidBody "{59DC7E230BEBF2C4}" {
+   ModelGeometry 1
+  }
+ }
+ {
+  GameEntity : "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/Base/EmergencyLightsBase.et" {
+   ID "59DC7E23801D34BC"
+   components {
+    Hierarchy "{59BB3D4ED0B7F273}" {
+     PivotID "LightSlot"
+    }
+    EL_SirenLightComponent "{59DC7E23B0A478C6}" {
+     m_Lights {
+      EL_LightChild "{59DC7E23B742D697}" {
+       m_eLightType SPOT
+       m_vLightColor 0 0.125 0.502
+      }
+     }
+     m_OverrideEmissiveColor 1
+     m_EmissiveColor 0 0.125 0.502
+     m_EmissiveMultiplier 90
+    }
+   }
+   coords 0 0 0
+  }
+ }
+}

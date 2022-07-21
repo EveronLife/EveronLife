@@ -1,0 +1,25 @@
+GameEntity {
+ ID "59B115DFE60FAA6D"
+ components {
+  EL_SirenLightComponent "{59E546A377D34269}" {
+  }
+  MeshObject "{59B115DF4DCBA822}" {
+   Object "{33ACF11F49BBC84D}Assets/Vehicles/EmergencyLights/EmergencyLightRotaryBase.xob"
+   PixelSizeScale 10
+  }
+  Hierarchy "{59BB3D4ED0B7F273}" {
+  }
+  ParametricMaterialInstanceComponent "{59B115DFB7E548D4}" {
+   UseUserParamOne 0
+   UseUserParamTwo 0
+   UseUserParamThree 0
+   UseUserParamFour 0
+   UseUserParamAlpha 0
+  }
+  AnimationPlayerComponent "{59B115DE1EBA24CB}" {
+   Animation "{D9C3C410344A1499}Assets/Vehicles/EmergencyLights/Anims/EmergencyLightsBase_anim.anm"
+   Speed 1
+   Loop 1
+  }
+ }
+}
