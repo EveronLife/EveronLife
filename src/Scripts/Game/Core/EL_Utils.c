@@ -19,12 +19,12 @@ class EL_Utils
 		
 		if (!resource.IsValid()) return null;
 		
-		vector mat[4];
 		IEntity child = GetGame().SpawnEntityPrefab(resource, parent.GetWorld());
-		
 		parent.AddChild(child, parent.GetBoneIndex(pivot.GetName()));
-		pivot.GetLocalTransform(mat);
-		child.SetLocalTransform(mat);
+		
+		vector tm[4];
+		pivot.GetLocalTransform(tm);
+		child.SetLocalTransform(tm);
 		
 		return child;
 	}
