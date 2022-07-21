@@ -29,13 +29,13 @@ class EL_BaseContainerCustomTitleEnumReadable : BaseContainerCustomTitle
 		{
 			return false;
 		}
-		string _title = typename.EnumToString(m_EnumType, enumValue);
-		string firstLetter = _title[0];
+		string titleValue = typename.EnumToString(m_EnumType, enumValue);
+		string firstLetter = titleValue[0];
 		firstLetter.ToUpper();
-		_title.Replace("_", " ");
-		_title.ToLower();
-		_title = firstLetter + _title.Substring(1, _title.Length() - 1);
-		title = string.Format(m_sFormat, _title);
+		titleValue.Replace("_", " ");
+		titleValue.ToLower();
+		titleValue = firstLetter + titleValue.Substring(1, titleValue.Length() - 1);
+		title = string.Format(m_sFormat, titleValue);
 		return true;
 	}
 }
