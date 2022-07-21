@@ -3,10 +3,10 @@ EL_LoggingArea {
  m_vSize 5 10 5
 }
 GenericEntity : "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et" {
- coords 103.373 0.001 136.717
+ coords 101.764 0.001 136.735
 }
 GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
- coords 102.497 -0.001 135
+ coords 102.013 -0.001 135
 }
 $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
  {
@@ -20,7 +20,7 @@ $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et"
  }
 }
 GenericEntity : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
- coords 102.467 0.898 135.161
+ coords 102.001 0.898 135.065
  angleY 45
  angleZ 90
 }

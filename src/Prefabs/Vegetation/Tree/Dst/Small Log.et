@@ -23,7 +23,7 @@ GenericEntity {
       }
      }
      HandAdditiveRotation 90 0 0
-     HandAdditiveTranslation -0.135 2.25 -1
+     HandAdditiveTranslation -0.147 2.1 -1
     }
     CustomAttributes {
      CharacterModifierAttributes "{59E489793FA8F156}" {
