@@ -1,0 +1,59 @@
+MatPBRMulti {
+ MetalnessScale 0
+ CavityFromAO 1
+ OverlayBlackPower 0.5
+ OverlayWhitePower 0.015
+ UVSrcGlobalMaps "UV set 2"
+ MaskMap "{2DB3BD1D772495CB}Assets/Structures/Military/Fortifications/DirtMounds/Data/DirtPile_01_GLOBAL_MASK.edds"
+ MaskRedScale 0.9
+ MaskGreenScale 0.5
+ VFXMap "{A4BBFAD738F6FB27}Assets/Structures/Military/Fortifications/DirtMounds/Data/DirtPile_01_VFX.edds"
+ MudOpacity 1
+ MudColor 1 0.982 0.896 1
+ MudRoughness 1.049
+ MudMetalness 0
+ MudDetNormal 0.5
+ MudBCRMap "{C6A0995C60084476}Terrains/Common/Surfaces/Data/Dirt_01_BCR.edds"
+ MudNMOMap "{E197D218634E0261}Terrains/Common/Surfaces/Data/Dirt_01_NHO.edds"
+ MudMaskMap "{F4BF2FE292D334B3}Assets/_SharedData/DetailMask/ST_Concrete_01_Mask1.edds"
+ MudUVTransform MatUVTransform "{54FEBD29E4289366}" {
+  TilingU 0.5
+  TilingV 0.5
+ }
+ DirtOpacity 0.864
+ DirtLayerSharpness 1.213
+ DirtColor 1 1 1 1
+ DirtRoughness 1.1
+ DirtBCRMap "{C6A0995C60084476}Terrains/Common/Surfaces/Data/Dirt_01_BCR.edds"
+ DirtMaskMap "{CBD042945A4747A5}Assets/_SharedData/DetailMask/ST_Concrete_03_Mask1.edds"
+ Enabled_4 1
+ Color_4 1 1 1 1
+ BCR_4 "{F192F8B42BCAEBA3}Assets/Clutter/Rocks/Data/c_stones_sharp_01_BCR.edds"
+ NMO_4 "{C94A4326F2BDB93D}Assets/Clutter/Rocks/Data/c_stones_sharp_01_NMO.edds"
+ Mask_4 "{F4BF2FE292D334B3}Assets/_SharedData/DetailMask/ST_Concrete_01_Mask1.edds"
+ Roughness_4 1.15
+ Metalness_4 0
+ Enabled_3 1
+ Color_3 1 1 1 1
+ BCR_3 "{C6A0995C60084476}Terrains/Common/Surfaces/Data/Dirt_01_BCR.edds"
+ NMO_3 "{E197D218634E0261}Terrains/Common/Surfaces/Data/Dirt_01_NHO.edds"
+ MaskOffset_3 0.096
+ Mask_3 "{F4BF2FE292D334B3}Assets/_SharedData/DetailMask/ST_Concrete_01_Mask1.edds"
+ DetNormal_3 1.5
+ Metalness_3 0
+ Enabled_2 1
+ Color_2 1 1 1 1
+ BCR_2 "{A63E46947BDE99D5}Terrains/Common/Surfaces/Data/Debris_Rock_01_BCR.edds"
+ NMO_2 "{81090DD07898DFC2}Terrains/Common/Surfaces/Data/Debris_Rock_01_NHO.edds"
+ MaskSharpness_2 2
+ MaskOffset_2 0.061
+ Mask_2 "{CBD042945A4747A5}Assets/_SharedData/DetailMask/ST_Concrete_03_Mask1.edds"
+ DetNormal_2 2
+ Metalness_2 0
+ Color_1 1 1 1 1
+ BCR_1 "{11331E2BEB74934D}Terrains/Common/Surfaces/Data/Concrete_02_BCR.edds"
+ NMO_1 "{E197D218634E0261}Terrains/Common/Surfaces/Data/Dirt_01_NHO.edds"
+ DetNormal_1 2
+ Roughness_1 1.5
+ Metalness_1 0
+}

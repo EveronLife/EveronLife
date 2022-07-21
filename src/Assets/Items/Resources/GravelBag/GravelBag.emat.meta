@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

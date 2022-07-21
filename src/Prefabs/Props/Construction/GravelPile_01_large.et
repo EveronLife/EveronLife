@@ -1,0 +1,32 @@
+GenericEntity : "{D93A7286584E122C}Prefabs/Props/Construction/GravelPile_01/GravelPile_01_base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{59A84AD20BA3F0D3}" {
+   ActionContexts {
+    UserActionContext "{59A84AD208E079FD}" {
+     ContextName "default"
+     Position PointInfo "{59A84AD1BB699158}" {
+      Offset 0 0.8 0
+     }
+     Radius 5
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{59A84AD20134F93A}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59A84AD1D9DE9F7F}" {
+      Name "Gather Gravel"
+     }
+     Duration 10
+     m_GatherItemDisplayName "Gravel Bag"
+     m_GatherItemPrefab "{344090890C63F4CA}Prefabs/Items/Resources/GravelBag.et"
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+}
