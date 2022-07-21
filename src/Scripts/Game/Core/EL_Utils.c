@@ -33,8 +33,6 @@ class EL_Utils
 [BaseContainerProps()]
 class PivotPoint
 {
-	protected const int POSITION = 3;
-	
 	[Attribute(desc: "Name of the pivot point, if not specified, default is origin")]
 	protected string m_PivotName;
 	
@@ -57,6 +55,6 @@ class PivotPoint
 	void GetLocalTransform(out vector transform[4])
 	{
 		Math3D.AnglesToMatrix(m_Rotation, transform);
-		transform[POSITION] = m_Offset;
+		transform[3] = m_Offset;
 	}
 }
