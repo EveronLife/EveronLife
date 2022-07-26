@@ -7,6 +7,8 @@ EL_GameModeRoleplay {
   }
   SCR_DestructionManagerComponent "{59751432896EFC0B}" {
   }
+  SCR_HintManagerComponent "{59E8CC4E575D1802}" {
+  }
   SCR_NametagConfigComponent "{597514328498E41D}" {
    m_sConfigPath "{8547E1B142411624}Configs/NameTags/NametagRoleplay.conf"
   }

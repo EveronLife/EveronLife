@@ -1,0 +1,24 @@
+GenericEntity {
+ ID "59A73088C02F1385"
+ components {
+  MeshObject "{59A73088DB3D50B3}" {
+   Object "{6399C4DB701BF230}Assets/Resources/Mining/MetalOre.xob"
+   Materials {
+    MaterialAssignClass "{59A73088D2C4BAC0}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{9C005A256F4C2921}Assets/Resources/Mining/Data/Gold.emat"
+    }
+   }
+  }
+  RigidBody "{59A73088DB3D50AF}" {
+   LayerPreset "RockFireView"
+   Mass 1000
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   Static 1
+  }
+  RplComponent "{59A73088DB3D50A3}" {
+  }
+ }
+ coords 105.117 0.097 132.47
+}

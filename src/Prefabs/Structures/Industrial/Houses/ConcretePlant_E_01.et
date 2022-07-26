@@ -1,0 +1,43 @@
+SCR_DestructibleBuildingEntity : "{67BB04E9136D6A3E}Prefabs/Structures/Industrial/Houses/ConcretePlant_E_01_base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{59BCA07275D1833B}" {
+   ActionContexts {
+    UserActionContext "{59BCA0726AD71426}" {
+     ContextName "default"
+     Position PointInfo "{59BCA076A6EF72ED}" {
+      Offset -2.8364 6.1332 0.0439
+     }
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{59BCA072523FC76F}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59BCB28C1421079B}" {
+      Name "Create Concrete Bricks"
+     }
+     Duration 10
+     m_aProcessingInputs {
+      EL_ProcessingInput "{59BCA07251625E0D}" {
+       m_InputPrefab "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et"
+      }
+      EL_ProcessingInput "{59BCA072572E8F38}" {
+       m_InputPrefab "{344090890C63F4CA}Prefabs/Items/Resources/GravelBag.et"
+      }
+      EL_ProcessingInput "{59BCA07257432CD1}" {
+       m_InputPrefab "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{59BCA0725583F2F8}" {
+       m_OutputPrefab "{0D5DA590E223A195}Prefabs/Items/Resources/Brick.et"
+       m_iOutputAmount 10
+      }
+     }
+    }
+   }
+  }
+ }
+}

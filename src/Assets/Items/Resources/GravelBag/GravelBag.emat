@@ -1,0 +1,53 @@
+MatPBRMulti {
+ UVSrcGlobalMaps "UV set 2"
+ MaskMap "{BDBB771B9363B125}Assets/Props/Military/Sandbags/Data/Sandbags_01_End_GLOBAL_MASK.edds"
+ VFXMap "{EEAA1DE0BEE2CBE0}Assets/Props/Military/Sandbags/Data/Sandbags_01_End_GLOBAL_VFX.edds"
+ NormalPower 3
+ GlobalNMOMap "{64211A7D764DAF95}Assets/_SharedData/Fabric/ST_Burlap_01_N.edds"
+ GlobalNMOUVTransform MatUVTransform "{52C430F85B45D5BD}" {
+  TilingU 8
+  TilingV 8
+ }
+ MudColor 0.136 0.12 0.101 1
+ MudRoughness 0.885
+ MudMetalness 0
+ MudDetNormal 1.5
+ MudBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ MudNMOMap "{A48E34C44C8B741F}Assets/_SharedData/Plaster/ST_Plaster_Clean_White_01_NMO.edds"
+ MudMaskMap "{A3B4218CCE57A275}Assets/_SharedData/DetailMask/ST_Paint_peeling_03_Mask1.edds"
+ MudUVTransform MatUVTransform "{52C661E6F673B5DA}" {
+ }
+ DirtOpacity 0.82
+ DirtLayerSharpness 0.4
+ DirtColor 0.202 0.127 0.078 1
+ DirtRoughness 2
+ DirtBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ DirtMaskMap "{DE18086A9CA88FBA}Assets/_SharedData/DetailMask/ST_Dirt_04_Mask1.edds"
+ Enabled_4 1
+ Color_4 0.226 0.231 0.118 1
+ BCR_4 "{6927291AAAA083F0}Assets/Rocks/Granite/Data/Granite_moss_01_BCR.edds"
+ Mask_4 "{CBD042945A4747A5}Assets/_SharedData/DetailMask/ST_Concrete_03_Mask1.edds"
+ MaskUVScale_4 2
+ Roughness_4 5
+ Enabled_3 1
+ Color_3 0.076 0.056 0.04 1
+ BCR_3 "{366028E90066FC57}Assets/_SharedData/Dirt/ST_Dirt_Sand_BCR.edds"
+ MaskSharpness_3 0.2
+ MaskOffset_3 0.2
+ Mask_3 "{CBD042945A4747A5}Assets/_SharedData/DetailMask/ST_Concrete_03_Mask1.edds"
+ Roughness_3 2.899
+ Metalness_3 0
+ Enabled_2 1
+ Color_2 1 0.91 0.784 1
+ BCR_2 "{F43E4B1893E7E393}Assets/Props/Military/Sandbags/Data/Sandbag_01_BCR.edds"
+ NMO_2 "{839677C33FE2848C}Assets/Props/Military/Sandbags/Data/Sandbag_01_Burlap_NMO.edds"
+ UVTransform_2 MatUVTransform "{52C661EC1D008741}" {
+ }
+ Roughness_2 0.7
+ Metalness_2 0
+ Color_1 1 0.913 0.791 1
+ BCR_1 "{D39C285B1BC01FA9}Assets/Props/Military/Sandbags/Data/Sandbag_01_Side_BCR.edds"
+ NMO_1 "{EB4493C9C2B74D37}Assets/Props/Military/Sandbags/Data/Sandbag_01_Side_NMO.edds"
+ Roughness_1 0.7
+ Metalness_1 0
+}
