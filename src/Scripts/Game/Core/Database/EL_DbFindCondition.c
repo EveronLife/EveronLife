@@ -25,7 +25,7 @@ class EL_DbFindCondition
 		PrintFormat("%1:\n%2", this, GetDebugString());
 	}
 	
-	protected string GetDebugString();
+	string GetDebugString();
 }
 
 class EL_DbFindConditionWithChildren : EL_DbFindCondition
@@ -168,63 +168,13 @@ enum EL_DbFindOperator
 	NOT_CONTAINS
 }
 
-/*
-class EL_DbFindCompareFieldValue<Class ValueType> : EL_DbFindFieldCondition
-{
-	private static const ref array<ref EL_DbFindCompareFieldValue<ValueType>> ALLOC_BUFFER_TVALUE = {NULL};
-	
-	EL_DbFindOperator m_ComparisonOperator;
-	ValueType m_ComparisonValue;
-	typename m_ValueType = ValueType;
-	
-	void EL_DbFindCompareFieldValue(string fieldPath, EL_DbFindOperator comparisonOperator, ValueType comparisonValue)
-	{
-		m_FieldPath = fieldPath;
-		m_ComparisonOperator = comparisonOperator;
-		m_ComparisonValue = comparisonValue;
-	}
-	
-	static EL_DbFindCompareFieldValue<ValueType> Create(string fieldPath, EL_DbFindOperator comparisonOperator, ValueType comparisonValue)
-	{
-		auto inst = new EL_DbFindCompareFieldValue<ValueType>(fieldPath, comparisonOperator, comparisonValue);
-		ALLOC_BUFFER_TVALUE.Set(0, inst);
-		return inst;
-	}
-	
-	override protected string GetDebugString()
-	{
-		string valuesString;
-		typename valueType = ValueType;
-		
-		if(valueType.IsInherited(bool))
-		{
-			if(m_ComparisonValue)
-			{
-				valuesString = "true";
-			}
-			else
-			{
-				valuesString = "false";
-			}	
-		}
-		else
-		{
-			valuesString = string.Format("%1", m_ComparisonValue);
-		}
-		
-		return string.Format("Compare(fieldPath:'%1', operator:%2, value:%3)", m_FieldPath, typename.EnumToString(EL_DbFindOperator, m_ComparisonOperator), valuesString);
-	}
-}
-*/
-
 class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
 {
 	private static const ref array<ref EL_DbFindCompareFieldValues<ValueType>> ALLOC_BUFFER_TVALUES = {NULL};
 	
 	EL_DbFindOperator m_ComparisonOperator;
 	ref array<ValueType> m_ComparisonValues;
-	//typename m_ValueType = ValueType;
-	
+
 	void EL_DbFindCompareFieldValues(string fieldPath, EL_DbFindOperator comparisonOperator, notnull array<ValueType> comparisonValues)
 	{
 		m_FieldPath = fieldPath;
@@ -276,26 +226,15 @@ class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
 	}
 }
 
-//typedef EL_DbFindCompareFieldValue<int> EL_DbFindFieldIntSingle;
 typedef EL_DbFindCompareFieldValues<int> EL_DbFindFieldIntMultiple;
-
-//typedef EL_DbFindCompareFieldValue<float> EL_DbFindFieldFloatSingle;
 typedef EL_DbFindCompareFieldValues<float> EL_DbFindFieldFloatMultiple;
-
-//typedef EL_DbFindCompareFieldValue<bool> EL_DbFindFieldBoolSingle;
 typedef EL_DbFindCompareFieldValues<bool> EL_DbFindFieldBoolMultiple;
-
-//typedef EL_DbFindCompareFieldValue<string> EL_DbFindFieldStringSingle;
 typedef EL_DbFindCompareFieldValues<string> EL_DbFindFieldStringMultiple;
-
-//typedef EL_DbFindCompareFieldValue<vector> EL_DbFindFieldVectorSingle;
 typedef EL_DbFindCompareFieldValues<vector> EL_DbFindFieldVectorMultiple;
-
-// ----------
 
 class EL_DbValues<Class T>
 {
-    private static const ref array<ref array<T>> ALLOC_BUFFER = {NULL};
+    protected static ref array<ref array<T>> ALLOC_BUFFER;
 	
 	static array<T> From(notnull array<T> values)
     {
@@ -306,6 +245,8 @@ class EL_DbValues<Class T>
 		{
 			data.Set(nElement, value);
 		}
+		
+		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
 		
 		ALLOC_BUFFER.Set(0, data);
         return data;
@@ -748,13 +689,13 @@ class EL_DbFindFieldCollectionHandlingBuilder : EL_DbFindFieldMainConditionBuild
 		return this;
 	}
 	
-	EL_DbFindFieldMainConditionBuilder Keys()
+	EL_DbFindFieldCollectionHandlingBuilder Keys()
 	{
 		_AppendIfNotPresent(EL_DbFindFieldAnnotations.KEYS);
 		return this;
 	}
 	
-	EL_DbFindFieldMainConditionBuilder Values()
+	EL_DbFindFieldCollectionHandlingBuilder Values()
 	{
 		_AppendIfNotPresent(EL_DbFindFieldAnnotations.VALUES);
 		return this;
@@ -782,49 +723,3 @@ class EL_DbFindFieldCollectionHandlingBuilder : EL_DbFindFieldMainConditionBuild
 		return inst;
 	}
 }
-
-// ----------
-
-/*
-void GTest()
-{
-
-	const EL_DbFindCondition condition1 = EL_DbFind.Field("m_Children").Field("middle").All().Field("m_Values").Any().Null();
-	
-	const EL_DbFindCondition condition2 = EL_DbFind.Field("m_Children").Not().Equals(5);
-	
-	const EL_DbFindCondition condition3 = EL_DbFind.Field("parent").Field("wrapper").Field("Values").All().Not().Null();
-	
-	const EL_DbFindCondition condition4 = EL_DbFind.Field("parent.m_Numbers").ContainsAllOf(EL_DbValues<int>.From({1337, 1338}));
-	
-	const EL_DbFindCondition condition5 = EL_DbFind.Field("parent.m_Numbers").Contains(1337);
-
-	const EL_DbFindCondition condition6 = EL_DbFind.Field("parent.m_Numbers").Not().ContainsAnyOf(EL_DbValues<int>.From({42, 69}));
-	
-	const EL_DbFindCondition condition7 = EL_DbFind.Field("parent.m_Numbers").Not().Equals(EL_DbValues<int>.From({1337, 1338}));
-	
-	const EL_DbFindCondition condition8 = EL_DbFind.Field("someIntValue").EqualsAnyOf(EL_DbValues<int>.From({12, 13}));
-	
-	const EL_DbFindCondition condition9 = EL_DbFind.Field("collection<complex>").FirstOf(Class).Field("someNumber").Not().EqualsAnyOf(EL_DbValues<int>.From({1, 2}));
-	
-	const EL_DbFindCondition condition10 = EL_DbFind.Field("collection<numbers>").At(3).Between(0, 100);
-
-	EL_DbFindCondition condition = EL_DbFind.Or({
-		EL_DbFind.Field("A").Not().Null(),
-		EL_DbFind.Field("B").Empty(),
-		EL_DbFind.And({
-			EL_DbFind.Field("CString").Contains("SubString"),
-			EL_DbFind.Field("DFloatArray").Equals(EL_DbValues<bool>.From({true, false, true, true})),
-			EL_DbFind.And({
-				EL_DbFind.Field("E.m_Numbers").Contains(100),
-				EL_DbFind.Field("F.m_ComplexWrapperSet").FirstOf(Class).Field("someNumber").Not().EqualsAnyOf(EL_DbValues<int>.From({1, 2}))
-			}),
-			EL_DbFind.Or({
-				EL_DbFind.Field("G").EqualsAnyOf(EL_DbValues<int>.From({12, 13})),
-			})
-		}),
-	});
-	
-	condition.Debug();
-}
-*/
