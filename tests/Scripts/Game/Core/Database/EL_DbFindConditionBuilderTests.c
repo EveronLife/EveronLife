@@ -1,5 +1,14 @@
 class EL_DbFindConditionBuilderTests : TestSuite
 {
+	[Step(EStage.Setup)]
+    void Setup()
+    {
+    }
+
+    [Step(EStage.TearDown)]
+    void TearDown()
+    {
+    }
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
@@ -222,5 +231,5 @@ TestResultBase EL_Test_DbFindConditionBuilder_Field_ComplexConstBuild_DebugStrin
     )\n)";
 	compareString.Replace("\r", "");
 
-	return new EL_TestResult(debugString != compareString); 
+	return new EL_TestResult(debugString == compareString); 
 }
