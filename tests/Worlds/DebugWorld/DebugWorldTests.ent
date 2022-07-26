@@ -1,0 +1,6 @@
+SubScene {
+ Parent "{F3AA388E8466788C}Worlds/DebugWorld/DebugWorld.ent"
+}
+Layer default {
+ Index 0
+}

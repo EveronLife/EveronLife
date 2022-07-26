@@ -1,4 +1,3 @@
-[EL_DbEntityRepositoryType(EL_PersistentCharacter, EL_PersistentVehicleRepository)]
 class EL_PersistentCharacter : EL_PersistentEntity
 {
 	string m_AccountId;
@@ -13,7 +12,10 @@ class EL_PersistentCharacter : EL_PersistentEntity
 	*/
 }
 
+[EL_DbEntityRepositoryType(EL_PersistentCharacterRepository, EL_PersistentCharacter)]
 class EL_PersistentCharacterRepository : EL_DbEntityRepository<EL_PersistentCharacter>
 {
+	// TODO find by account id
+	
 	// TODO find by full/lastname
 }

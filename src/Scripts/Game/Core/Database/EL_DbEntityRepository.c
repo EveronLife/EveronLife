@@ -2,7 +2,7 @@ class EL_DbEntityRepositoryBase
 {
 	private ref EL_DbEntityManager m_EntityManager;
 	
-	protected EL_DbEntityManager GetEntityManager()
+	EL_DbEntityManager GetEntityManager()
 	{
 		return m_EntityManager;
 	}
@@ -60,7 +60,7 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	TEntityType Find(string entityId)
 	{
-		return FindFirst(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, String(entityId)));
+		return FindFirst(EL_DbFind.Field("m_Id").Equals(String(entityId)));
 	}
 	
 	TEntityType FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
@@ -93,7 +93,7 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 
 	void FindAsync(string entityId, EL_DbFindCallbackSingle<TEntityType> callback)
 	{
-		FindFirstAsync(EL_DbFindCondition.Field("m_Id", EL_DbStringFieldOperator.EQUAL, String(entityId)), null, callback);
+		FindFirstAsync(EL_DbFind.Field("m_Id").Equals(String(entityId)), null, callback);
 	}
 	
 	void FindFirstAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, EL_DbFindCallbackSingle<TEntityType> callback = null)

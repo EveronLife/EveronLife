@@ -43,6 +43,14 @@ class EL_Utils
 		
 		return result;
 	}
+	
+	static DateTimeUtcAsInt GetCurrentUtcAsInt()
+	{
+		int year, month, day, hour, minute, second;
+		System.GetYearMonthDayUTC(year, month, day);
+		System.GetHourMinuteSecondUTC(hour, minute, second);
+		return ((year - 2000) << 26) | (month << 22) | (day << 17) | (hour << 12) | (minute << 6) | second;
+	}
 }
 
 class EL_RefArrayCaster<Class TSourceType, Class TResultType>

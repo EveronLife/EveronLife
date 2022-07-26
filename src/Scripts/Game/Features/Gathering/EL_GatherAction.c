@@ -21,22 +21,13 @@ class EL_GatherAction : ScriptedUserAction
 	private SCR_InventoryStorageManagerComponent m_InventoryManager;
 	private bool m_CanBePerformed = true;
 	private float m_EndOfDelay;
-	
+
 	//------------------------------------------------------------------------------------------------
 	// User has performed the action
 	// play a pickup sound and then add the correct amount to the users inventory
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
-	{	
-		EL_PersistentScriptedStateDemo scriptedStateDemo();
-		scriptedStateDemo.Run();
-		
-		return;
-		
-		// ----------------------------------------------
-		
-		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
-		
-		m_InventoryManager.PlayItemSound(replication.Id(), "SOUND_PICK_UP");
+	{
+		m_InventoryManager.PlayItemSound(pOwnerEntity, "SOUND_PICK_UP");
 		
 		//Spawn item
 		for (int i = 0; i < m_AmountGathered; i++)

@@ -20,7 +20,7 @@ class EL_DbEntityManager
 		return m_DbContext.RemoveById(entityType, entityId);
 	}
 	
-	array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition, EL_TStringArrayArray orderBy = null, int limit = -1, int offset = -1)
+	array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
 		return m_DbContext.FindAll(entityType, condition, orderBy, limit, offset);
 	}

@@ -6,13 +6,8 @@ class EL_EntityIdGenerator
 	
 	static string Generate()
 	{
-		int year, month, day, hour, minute, second;
-		System.GetYearMonthDayUTC(year, month, day);
-		System.GetHourMinuteSecondUTC(hour, minute, second);
-		DateTimeUtcAsInt timestamp = ((year - 2000) << 26) | (month << 22) | (day << 17) | (hour << 12) | (minute << 6) | second;
-		
 		//No need to look at past generated ids in db for conflict, because they have older timestamps
-		string timeHex = EL_Utils.IntToHex(timestamp);
+		string timeHex = EL_Utils.IntToHex(EL_Utils.GetCurrentUtcAsInt());
 		
 		//Always 1 until hive system is implemented. Makes conflicts across hives impossible
 		string hiveHex = "00000001"; 

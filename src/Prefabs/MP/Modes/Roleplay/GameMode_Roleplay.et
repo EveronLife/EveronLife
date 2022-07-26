@@ -37,6 +37,8 @@ EL_GameModeRoleplay {
    "Rpl State Override" Static
    Streamable Disabled
   }
+  EL_PersistenceManagerComponent "{59D28944F1C3532E}" {
+  }
  }
  coords 0 0 0
  PlayerControllerPrefab "{CC42DCDAD458D66B}Prefabs/Characters/Core/PlayerControllerRoleplayMP.et"

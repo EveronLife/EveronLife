@@ -45,14 +45,14 @@ class EL_PersistentScriptedStateDemo
 		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> findByIdResult: %1(%2)", findByIdResult, findByIdResult.m_StringValue);
 		
 		//Find first by bool field
-		EL_PersistentExampleState findFirstBoolFalse = repository.FindFirst(EL_DbFindCondition.Field("m_BooleanValue", false));
+		EL_PersistentExampleState findFirstBoolFalse = repository.FindFirst(EL_DbFind.Field("m_BooleanValue").Equals(false));
 		PrintFormat("EL_PersistentScriptedStateDemo::SyncApi() -> findFirstBoolFalse: %1(%2)", findFirstBoolFalse, findFirstBoolFalse.m_StringValue);
 		
 		//Find by complex conditions and order results
 		array<ref EL_PersistentExampleState> complexAndOrdered = repository.FindAll(
-			EL_DbFindCondition.And({
-				EL_DbFindCondition.Field("m_StringValue", EL_DbStringFieldOperator.CONTAINS, "State"),
-				EL_DbFindCondition.Field("m_FloatValue", EL_DbNumericFieldOperator.GREATER_THAN_OR_EQUAL, 33.0)
+			EL_DbFind.And({
+				EL_DbFind.Field("m_StringValue").Contains("State"),
+				EL_DbFind.Field("m_FloatValue").GreaterThanOrEqual(33.0)
 			}), 
 			orderBy: {{"m_StringValue", "ASC"}});
 		

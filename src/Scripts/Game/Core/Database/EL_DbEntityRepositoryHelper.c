@@ -1,38 +1,15 @@
 class EL_DbEntityHelper<Class TEntityType>
 {
-	static EL_DbEntityRepository<TEntityType> GetRepository(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useCache = true)
+	static EL_DbEntityRepository<TEntityType> GetRepository(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useDbContextCache = true)
 	{
-		EL_DbContext dbContext = EL_DbContextFactory.GetContext(dataSource, useCache);
-		if(!dbContext) return null;
-		
-		EL_DbEntityRepositoryBase repository = EL_DbEntityRepositoryBase.Cast(EL_DbEntityRepositoryRegistry.Get(TEntityType).Spawn());
-		
-		if(repository)
-		{
-			repository.Configure(dbContext);
-		}
-		
-		return EL_DbEntityRepository<TEntityType>.Cast(repository);
+		return EL_DbEntityRepository<TEntityType>.Cast(EL_DbEntityRepositoryFactory.GetRepository(EL_DbEntityRepositoryType.Get(TEntityType), dataSource, useDbContextCache));
 	}
 }
 
 class EL_DbEntityRepositoryHelper<Class TRepositoryType>
 {
-	static TRepositoryType Get(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useCache = true)
+	static TRepositoryType Get(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useDbContextCache = true)
 	{
-		EL_DbContext dbContext = EL_DbContextFactory.GetContext(dataSource, useCache);
-		if(!dbContext) return null;
-		
-		typename repositoryType = TRepositoryType;
-		
-		EL_DbEntityRepositoryBase repository = EL_DbEntityRepositoryBase.Cast(repositoryType.Spawn());
-		
-		if(repository)
-		{
-			repository.Configure(dbContext);
-		}
-		
-		return TRepositoryType.Cast(repository);
+		return TRepositoryType.Cast(EL_DbEntityRepositoryFactory.GetRepository(repositoryType, dataSource, useDbContextCache));
 	}
 }
-

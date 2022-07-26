@@ -1,51 +1,47 @@
 class EL_DbEntityRepositoryType
 {
-	void EL_DbEntityRepositoryType(typename entityType, typename repositoryType)
-	{
-		EL_DbEntityRepositoryRegistry.Register(entityType, repositoryType);
-	}
-}
-
-class EL_DbEntityRepositoryRegistry
-{
-	protected static ref map<string, typename> m_Repositories;
+	protected static ref map<typename, typename> m_Mapping;
 	
-	static void Register(typename entityType, typename repositoryType)
+	void EL_DbEntityRepositoryType(typename repositoryType, typename entityType)
 	{
-		if(!m_Repositories)
+		if(!m_Mapping) m_Mapping = new map<typename, typename>();
+		
+		typename expectedBase = string.Format("EL_DbEntityRepository<%1>", entityType.ToString()).ToType();
+		
+		if(!repositoryType.IsInherited(expectedBase))
 		{
-			m_Repositories = new map<string, typename>();
+			Debug.Error(string.Format("Failed to register '%1' as repository for '%2'. '%1' must inherit from '%3'.", repositoryType, entityType, expectedBase));
 		}
 		
-		m_Repositories.Set(entityType.ToString(), repositoryType);
+		m_Mapping.Set(entityType, repositoryType);
 	}
 	
 	static typename Get(typename entityType)
 	{
 		typename result = typename.Empty;
 		
-		if(m_Repositories)
+		if(m_Mapping)
 		{
-			m_Repositories.Get(entityType.ToString())
-		}
-		
-		if(!result)
-		{
-			string repositoryTypeStr = string.Format("EL_DbEntityRepository<%1>", entityType.ToString());
-			
-			result = repositoryTypeStr.ToType();
+			result = m_Mapping.Get(entityType);
 			
 			if(!result)
 			{
-				Debug.Error(string.Format("Tried to get unknown entity repository type '%1'. Make sure you use it somewhere in your code e.g.: '%1 repository = ...;'", repositoryTypeStr));
+				string repositoryTypeStr = string.Format("EL_DbEntityRepository<%1>", entityType.ToString());
+				
+				result = repositoryTypeStr.ToType();
+				
+				if(result)
+				{
+					// Save default implementation repository to cache
+					m_Mapping.Set(entityType, result);
+				}
+				else
+				{
+					Debug.Error(string.Format("Tried to get unknown entity repository type '%1'. Make sure you use it somewhere in your code e.g.: '%1 repository = ...;'", repositoryTypeStr));
+				}
 			}
 		}
 
 		return result;
-	}
-	
-	static void Reset()
-	{
-		delete m_Repositories;
 	}
 }

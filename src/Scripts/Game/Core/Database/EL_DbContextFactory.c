@@ -1,4 +1,4 @@
-class EL_DbContextFactory
+sealed class EL_DbContextFactory
 {
 	private const string DEFAULT_SOURCE = "db";
 	
@@ -13,14 +13,14 @@ class EL_DbContextFactory
 	{
 		EL_DbContext context = null;
 		
-		if(!s_ContextCache)
-		{
-			s_ContextCache = new map<string, ref EL_DbContext>();
-		}
-		
 		// Use cached instance if allowed
 		if(useCache)
 		{
+			if(!s_ContextCache)
+			{
+				s_ContextCache = new map<string, ref EL_DbContext>();
+			}
+			
 			context = s_ContextCache.Get(dataSource);
 		}
 		

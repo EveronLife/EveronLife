@@ -1,41 +1,31 @@
+class EL_DbFind
+{
+	static EL_DbFindAnd And(notnull array<ref EL_DbFindCondition> conditions)
+	{
+		return EL_DbFindAnd.Create(conditions);
+	}
+	
+	static EL_DbFindOr Or(notnull array<ref EL_DbFindCondition> conditions)
+	{
+		return EL_DbFindOr.Create(conditions);
+	}
+	
+	static EL_DbFindFieldCollectionHandlingBuilder Field(string fieldPath)
+	{
+		return EL_DbFindFieldCollectionHandlingBuilder.Create(fieldPath);
+	}
+}
+
 class EL_DbFindCondition
 {
-	static EL_DbFindCondition And(notnull array<ref EL_DbFindCondition> conditions)
+	protected static const ref array<ref EL_DbFindCondition> ALLOC_BUFFER = {NULL};
+	
+	sealed void Debug()
 	{
-		return new EL_DbFindAnd(conditions);
+		PrintFormat("%1:\n%2", this, GetDebugString());
 	}
 	
-	static EL_DbFindCondition Or(notnull array<ref EL_DbFindCondition> conditions)
-	{
-		return new EL_DbFindOr(conditions);
-	}
-	
-	static EL_DbFindCondition Field(string fieldName, EL_DbNumericFieldOperator comparisonOperator, int comparisonValue)
-	{
-		return new EL_DbFindCompareFieldInt(fieldName, comparisonOperator, comparisonValue);
-	}
-	
-	static EL_DbFindCondition Field(string fieldName, EL_DbNumericFieldOperator comparisonOperator, float comparisonValue)
-	{
-		return new EL_DbFindCompareFieldFloat(fieldName, comparisonOperator, comparisonValue);
-	}
-	
-	static EL_DbFindCondition Field(string fieldName, bool comparisonValue)
-	{
-		return new EL_DbFindCompareFieldBool(fieldName, comparisonValue);
-	}
-	
-	static EL_DbFindCondition Field(string fieldName, EL_DbStringFieldOperator comparisonOperator, string comparisonValue)
-	{
-		return new EL_DbFindCompareFieldString(fieldName, comparisonOperator, comparisonValue);
-	}
-	
-	// TODO: Make generic dot notation property reader for primtives, complex types and collections and use that for db find. 
-	// 		 For array use typename(first match) or index number in notation. -> https://www.mongodb.com/docs/manual/core/document/#dot-notation
-	
-	// TODO: Support for all array items must match vs any item insie array must match?
-	
-	// TODO: ComponentField with component typename parameter as shortcut for m_Components.ComponentType.fieldName?
+	protected string GetDebugString();
 }
 
 class EL_DbFindConditionWithChildren : EL_DbFindCondition
@@ -46,84 +36,795 @@ class EL_DbFindConditionWithChildren : EL_DbFindCondition
 	{
 		m_Conditions = conditions;
 	}
+	
+	override protected string GetDebugString()
+	{
+		if(!m_Conditions) return "NULL";
+		
+		string dbg = "(";
+		
+		foreach(int nCondtion, EL_DbFindCondition condition : m_Conditions)
+		{
+			dbg += "\n";
+			
+			array<string> conditionLines();
+			condition.GetDebugString().Split("\n", conditionLines, true);
+			
+			foreach(int nLine, string line : conditionLines)
+			{
+				dbg += string.Format("    %1", line);
+				
+				if(nLine != conditionLines.Count() -1) dbg += "\n";
+			}
+			
+			if(nCondtion == m_Conditions.Count() - 1)
+			{
+				 dbg += "\n";
+			}
+			else
+			{
+				dbg += ",";
+			}
+		}
+		
+		return dbg + ")";
+	}
 }
 
 class EL_DbFindAnd : EL_DbFindConditionWithChildren
 {
+	override protected string GetDebugString()
+	{
+		return "And" + super.GetDebugString();
+	}
+	
+	static EL_DbFindAnd Create(notnull array<ref EL_DbFindCondition> conditions)
+	{
+		EL_DbFindAnd inst = new EL_DbFindAnd(conditions);
+		ALLOC_BUFFER.Set(0, inst);
+		return inst;
+	}
 }
 
 class EL_DbFindOr : EL_DbFindConditionWithChildren
 {
+	override protected string GetDebugString()
+	{
+		return "Or" + super.GetDebugString();
+	}
+	
+	static EL_DbFindOr Create(notnull array<ref EL_DbFindCondition> conditions)
+	{
+		EL_DbFindOr inst = new EL_DbFindOr(conditions);
+		ALLOC_BUFFER.Set(0, inst);
+		return inst;
+	}
 }
 
-enum EL_DbNumericFieldOperator
+class EL_DbFindFieldCondition : EL_DbFindCondition
+{
+	string m_FieldPath;
+}
+
+class EL_DbFindCheckFieldNull : EL_DbFindFieldCondition
+{
+	bool m_ShouldBeNull;
+	
+	void EL_DbFindCheckFieldNull(string fieldPath, bool shouldBeNull)
+	{
+		m_FieldPath = fieldPath;
+		m_ShouldBeNull = shouldBeNull;
+	}
+	
+	static EL_DbFindCheckFieldNull Create(string fieldPath, bool shouldBeNull)
+	{
+		auto inst = new EL_DbFindCheckFieldNull(fieldPath, shouldBeNull);
+		ALLOC_BUFFER.Set(0, inst);
+		return inst;
+	}
+	
+	override protected string GetDebugString()
+	{
+		if(m_ShouldBeNull) return string.Format("CheckNull(fieldPath:'%1', shouldBeNull:true)", m_FieldPath);
+		
+		return string.Format("CheckNull(fieldPath:'%1', shouldBeNull:false)", m_FieldPath);
+	}
+}
+
+class EL_DbFindCheckFieldEmpty : EL_DbFindFieldCondition
+{
+	bool m_ShouldBeEmpty;
+	
+	void EL_DbFindCheckFieldEmpty(string fieldPath, bool shouldBeEmpty)
+	{
+		m_FieldPath = fieldPath;
+		m_ShouldBeEmpty = shouldBeEmpty;
+	}
+	
+	static EL_DbFindCheckFieldEmpty Create(string fieldPath, bool shouldBeEmpty)
+	{
+		auto inst = new EL_DbFindCheckFieldEmpty(fieldPath, shouldBeEmpty);
+		ALLOC_BUFFER.Set(0, inst);
+		return inst;
+	}
+	
+	override protected string GetDebugString()
+	{
+		if(m_ShouldBeEmpty) return string.Format("CheckEmpty(fieldPath:'%1', shouldBeEmpty:true)", m_FieldPath);
+		
+		return string.Format("CheckEmpty(fieldPath:'%1', shouldBeEmpty:false)", m_FieldPath);
+	}
+}
+
+enum EL_DbFindOperator
 {
 	EQUAL,
 	NOT_EQUAL,
 	LESS_THAN,
 	LESS_THAN_OR_EQUAL,
 	GREATER_THAN,
-	GREATER_THAN_OR_EQUAL
-}
-
-class EL_DbFindCompareFieldInt : EL_DbFindCondition
-{
-	string m_FieldName;
-	EL_DbNumericFieldOperator m_ComparisonOperator;
-	int m_ComparisonValue;
-	
-	void EL_DbFindCompareFieldInt(string fieldName, EL_DbNumericFieldOperator comparisonOperator, int comparisonValue)
-	{
-		m_FieldName = fieldName;
-		m_ComparisonOperator = comparisonOperator;
-		m_ComparisonValue = comparisonValue;
-	}
-}
-
-class EL_DbFindCompareFieldFloat : EL_DbFindCondition
-{
-	string m_FieldName;
-	EL_DbNumericFieldOperator m_ComparisonOperator;
-	float m_ComparisonValue;
-	
-	void EL_DbFindCompareFieldFloat(string fieldName, EL_DbNumericFieldOperator comparisonOperator, float comparisonValue)
-	{
-		m_FieldName = fieldName;
-		m_ComparisonOperator = comparisonOperator;
-		m_ComparisonValue = comparisonValue;
-	}
-}
-
-class EL_DbFindCompareFieldBool : EL_DbFindCondition
-{
-	string m_FieldName;
-	bool m_ComparisonValue;
-	
-	void EL_DbFindCompareFieldBool(string fieldName, bool comparisonValue)
-	{
-		m_FieldName = fieldName;
-		m_ComparisonValue = comparisonValue;
-	}
-}
-
-enum EL_DbStringFieldOperator
-{
-	EQUAL,
-	NOT_EQUAL,
+	GREATER_THAN_OR_EQUAL,
 	CONTAINS,
 	NOT_CONTAINS
 }
 
-class EL_DbFindCompareFieldString : EL_DbFindCondition
+/*
+class EL_DbFindCompareFieldValue<Class ValueType> : EL_DbFindFieldCondition
 {
-	string m_FieldName;
-	EL_DbStringFieldOperator m_ComparisonOperator;
-	string m_ComparisonValue;
+	private static const ref array<ref EL_DbFindCompareFieldValue<ValueType>> ALLOC_BUFFER_TVALUE = {NULL};
 	
-	void EL_DbFindCompareFieldString(string fieldName, EL_DbStringFieldOperator comparisonOperator, string comparisonValue)
+	EL_DbFindOperator m_ComparisonOperator;
+	ValueType m_ComparisonValue;
+	typename m_ValueType = ValueType;
+	
+	void EL_DbFindCompareFieldValue(string fieldPath, EL_DbFindOperator comparisonOperator, ValueType comparisonValue)
 	{
-		m_FieldName = fieldName;
+		m_FieldPath = fieldPath;
 		m_ComparisonOperator = comparisonOperator;
 		m_ComparisonValue = comparisonValue;
 	}
+	
+	static EL_DbFindCompareFieldValue<ValueType> Create(string fieldPath, EL_DbFindOperator comparisonOperator, ValueType comparisonValue)
+	{
+		auto inst = new EL_DbFindCompareFieldValue<ValueType>(fieldPath, comparisonOperator, comparisonValue);
+		ALLOC_BUFFER_TVALUE.Set(0, inst);
+		return inst;
+	}
+	
+	override protected string GetDebugString()
+	{
+		string valuesString;
+		typename valueType = ValueType;
+		
+		if(valueType.IsInherited(bool))
+		{
+			if(m_ComparisonValue)
+			{
+				valuesString = "true";
+			}
+			else
+			{
+				valuesString = "false";
+			}	
+		}
+		else
+		{
+			valuesString = string.Format("%1", m_ComparisonValue);
+		}
+		
+		return string.Format("Compare(fieldPath:'%1', operator:%2, value:%3)", m_FieldPath, typename.EnumToString(EL_DbFindOperator, m_ComparisonOperator), valuesString);
+	}
 }
+*/
+
+class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
+{
+	private static const ref array<ref EL_DbFindCompareFieldValues<ValueType>> ALLOC_BUFFER_TVALUES = {NULL};
+	
+	EL_DbFindOperator m_ComparisonOperator;
+	ref array<ValueType> m_ComparisonValues;
+	//typename m_ValueType = ValueType;
+	
+	void EL_DbFindCompareFieldValues(string fieldPath, EL_DbFindOperator comparisonOperator, notnull array<ValueType> comparisonValues)
+	{
+		m_FieldPath = fieldPath;
+		m_ComparisonOperator = comparisonOperator;
+		m_ComparisonValues = comparisonValues;
+	}
+	
+	static EL_DbFindCompareFieldValues<ValueType> Create(string fieldPath, EL_DbFindOperator comparisonOperator, notnull array<ValueType> comparisonValues)
+	{
+		auto inst = new EL_DbFindCompareFieldValues<ValueType>(fieldPath, comparisonOperator, comparisonValues);
+		ALLOC_BUFFER_TVALUES.Set(0, inst);
+		return inst;
+	}
+	
+	override protected string GetDebugString()
+	{
+		string valuesString = "{";
+		foreach(int idx, ValueType value : m_ComparisonValues)
+		{
+			if(idx != 0) valuesString += ",";
+				
+			if(idx > 10)
+			{
+				valuesString += "...";
+				break;
+			}
+			
+			typename valueType = ValueType;
+				
+			if(valueType.IsInherited(bool))
+			{
+				if(value)
+				{
+					valuesString += "true";
+				}
+				else
+				{
+					valuesString += "false";
+				}	
+			}
+			else
+			{
+				valuesString += string.Format("%1", value);
+			}
+		}
+		valuesString += "}";
+		
+		return string.Format("Compare(fieldPath:'%1', operator:%2, values:%3)", m_FieldPath, typename.EnumToString(EL_DbFindOperator, m_ComparisonOperator), valuesString);
+	}
+}
+
+//typedef EL_DbFindCompareFieldValue<int> EL_DbFindFieldIntSingle;
+typedef EL_DbFindCompareFieldValues<int> EL_DbFindFieldIntMultiple;
+
+//typedef EL_DbFindCompareFieldValue<float> EL_DbFindFieldFloatSingle;
+typedef EL_DbFindCompareFieldValues<float> EL_DbFindFieldFloatMultiple;
+
+//typedef EL_DbFindCompareFieldValue<bool> EL_DbFindFieldBoolSingle;
+typedef EL_DbFindCompareFieldValues<bool> EL_DbFindFieldBoolMultiple;
+
+//typedef EL_DbFindCompareFieldValue<string> EL_DbFindFieldStringSingle;
+typedef EL_DbFindCompareFieldValues<string> EL_DbFindFieldStringMultiple;
+
+//typedef EL_DbFindCompareFieldValue<vector> EL_DbFindFieldVectorSingle;
+typedef EL_DbFindCompareFieldValues<vector> EL_DbFindFieldVectorMultiple;
+
+// ----------
+
+class EL_DbValues<Class T>
+{
+    private static const ref array<ref array<T>> ALLOC_BUFFER = {NULL};
+	
+	static array<T> From(notnull array<T> values)
+    {
+		auto data = new array<T>();
+		data.Resize(values.Count());
+		
+		foreach (int nElement, T value : values)
+		{
+			data.Set(nElement, value);
+		}
+		
+		ALLOC_BUFFER.Set(0, data);
+        return data;
+    }
+}
+
+class EL_DbFindFieldAnnotations
+{
+	const string SEPERATOR = ".";
+	const string ANY = ":any";
+	const string ALL = ":all";
+	const string COUNT = ":count";
+	const string KEYS = ":keys";
+	const string VALUES = ":values";
+}
+
+class EL_DbFindFieldConditionBuilder
+{
+	string m_FieldPath;
+	bool m_Inverted;
+	
+	void EL_DbFindFieldConditionBuilder(string fieldPath, bool inverted = false)
+	{
+		m_FieldPath = fieldPath;
+		m_Inverted = inverted;
+	}
+	
+	protected void _AppendIfNotPresent(string pathValue)
+	{
+		if(m_FieldPath.EndsWith(pathValue)) return;
+		
+		m_FieldPath += pathValue;
+	}
+	
+	protected array<string> _ConvertTypenameArray(array<typename> values)
+	{
+		array<string> valuesString();
+		valuesString.Resize(values.Count());
+		foreach(int idx, typename type : values)
+		{
+			valuesString.Set(idx, type.ToString());
+		}
+		
+		return valuesString;
+	}
+}
+
+class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
+{
+	EL_DbFindCondition Equals(int comparisonValue) 
+	{
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, {comparisonValue});
+	}
+	
+	EL_DbFindCondition Equals(float comparisonValue) 
+	{
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, {comparisonValue});
+	}
+	
+	EL_DbFindCondition EqualsAnyOf(notnull array<int> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition EqualsAnyOf(notnull array<float> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition LessThan(int comparisonValue)
+	{
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN_OR_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN, {comparisonValue});
+	}
+	
+	EL_DbFindCondition LessThan(float comparisonValue)
+	{
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN_OR_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN, {comparisonValue});
+	}
+	
+	EL_DbFindCondition LessThanOrEqual(int comparisonValue) // TODO: Rename to LessThanOrEquals as soon as https://feedback.bistudio.com/T166821 is fixed
+	{
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN, {comparisonValue});
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN_OR_EQUAL, {comparisonValue});
+	}
+	
+	EL_DbFindCondition LessThanOrEqual(float comparisonValue) // see LessThanOrEqual(int)
+	{
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN, {comparisonValue});
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN_OR_EQUAL, {comparisonValue});
+	}
+	
+	EL_DbFindCondition GreaterThan(int comparisonValue)
+	{
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN_OR_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN, {comparisonValue});
+	}
+	
+	EL_DbFindCondition GreaterThan(float comparisonValue)
+	{
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN_OR_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN, {comparisonValue});
+	}
+	
+	EL_DbFindCondition GreaterThanOrEqual(int comparisonValue) // see LessThanOrEqual(int)
+	{
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN, {comparisonValue});
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN_OR_EQUAL, {comparisonValue});
+	}
+	
+	EL_DbFindCondition GreaterThanOrEqual(float comparisonValue) // see LessThanOrEqual(int)
+	{
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN, {comparisonValue});
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN_OR_EQUAL, {comparisonValue});
+	}
+	
+	EL_DbFindCondition Between(int lowerBound, int upperBound)
+	{
+		if(m_Inverted)
+		{
+			return EL_DbFindOr.Create({
+				 EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN, {lowerBound}),
+				 EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN, {upperBound})
+			});
+		}
+		
+		return EL_DbFindAnd.Create({
+			 EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN_OR_EQUAL, {lowerBound}),
+			 EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN_OR_EQUAL, {upperBound})
+		});
+	}
+	
+	EL_DbFindCondition Between(float lowerBound, float upperBound)
+	{
+		if(m_Inverted)
+		{
+			return EL_DbFindOr.Create({
+				 EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN, {lowerBound}),
+				 EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN, {upperBound})
+			});
+		}
+		
+		return EL_DbFindAnd.Create({
+			 EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN_OR_EQUAL, {lowerBound}),
+			 EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN_OR_EQUAL, {upperBound})
+		});
+	}
+}
+
+class EL_DbFindFieldPrimitiveValueConditonBuilder : EL_DbFindFieldNumericValueConditonBuilder
+{
+	EL_DbFindCondition Equals(bool comparisonValue) 
+	{
+		if(m_Inverted) return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, {comparisonValue});
+	}
+
+	EL_DbFindCondition Equals(string comparisonValue) 
+	{
+		if(m_Inverted) return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, {comparisonValue});
+	}
+
+	EL_DbFindCondition Equals(vector comparisonValue) 
+	{
+		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, {comparisonValue});
+	}
+
+	EL_DbFindCondition EqualsAnyOf(notnull array<string> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition EqualsAnyOf(notnull array<vector> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition Contains(string comparisonValue)
+	{
+		if(m_Inverted) return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, {comparisonValue});
+		
+		return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, {comparisonValue});
+	}
+	
+	EL_DbFindCondition ContainsAnyOf(notnull array<string> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindFieldNumericValueConditonBuilder Length()
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.COUNT);
+		return this;
+	}
+}
+
+class EL_DbFindFieldAllValueConditonBuilder : EL_DbFindFieldPrimitiveValueConditonBuilder
+{
+	EL_DbFindCondition Null()
+	{
+		return EL_DbFindCheckFieldNull.Create(m_FieldPath, !m_Inverted);
+	}
+	
+	EL_DbFindCondition Empty()
+	{
+		return EL_DbFindCheckFieldEmpty.Create(m_FieldPath, !m_Inverted);
+	}
+	
+	EL_DbFindCondition Equals(typename comparisonValue) 
+	{
+		return Equals(comparisonValue.ToString());
+	}
+	
+	EL_DbFindCondition EqualsAnyOf(notnull array<typename> comparisonValues)
+	{
+		return EqualsAnyOf(_ConvertTypenameArray(comparisonValues));
+	}
+	
+	EL_DbFindCondition Equals(notnull array<int> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition Equals(notnull array<float> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition Equals(notnull array<bool> comparisonValues)
+	{
+		if(m_Inverted) return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition Equals(notnull array<string> comparisonValues)
+	{		
+		if(m_Inverted) return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition Equals(notnull array<vector> comparisonValues)
+	{		
+		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
+		
+		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition Equals(notnull array<typename> comparisonValues)
+	{
+		return Equals(_ConvertTypenameArray(comparisonValues));
+	}
+	
+	EL_DbFindCondition Contains(int comparisonValue)
+	{
+		return ContainsAnyOf(EL_DbValues<int>.From({comparisonValue}));
+	}
+	
+	EL_DbFindCondition Contains(float comparisonValue)
+	{
+		return ContainsAnyOf(EL_DbValues<float>.From({comparisonValue}));
+	}
+	
+	EL_DbFindCondition Contains(bool comparisonValue)
+	{
+		return ContainsAnyOf(EL_DbValues<bool>.From({comparisonValue}));
+	}
+	
+	EL_DbFindCondition Contains(vector comparisonValue)
+	{
+		return ContainsAnyOf(EL_DbValues<vector>.From({comparisonValue}));
+	}
+	
+	EL_DbFindCondition Contains(typename comparisonValue)
+	{
+		return ContainsAnyOf(EL_DbValues<string>.From({comparisonValue.ToString()}));
+	}
+	
+	EL_DbFindCondition ContainsAnyOf(notnull array<int> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ANY);
+
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAnyOf(notnull array<float> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ANY);
+		
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAnyOf(notnull array<bool> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ANY);
+		
+		if(m_Inverted) return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+
+	EL_DbFindCondition ContainsAnyOf(notnull array<vector> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ANY);
+		
+		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAnyOf(notnull array<typename> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ANY);
+		
+		return ContainsAnyOf(_ConvertTypenameArray(comparisonValues));
+	}
+	
+	EL_DbFindCondition ContainsAllOf(notnull array<int> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ALL);
+		
+		if(m_Inverted) return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldIntMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAllOf(notnull array<float> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ALL);
+		
+		if(m_Inverted) return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldFloatMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAllOf(notnull array<bool> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ALL);
+		
+		if(m_Inverted) return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldBoolMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAllOf(notnull array<string> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ALL);
+		
+		if(m_Inverted) return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldStringMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAllOf(notnull array<vector> comparisonValues)
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ALL);
+		
+		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_CONTAINS, comparisonValues);
+		
+		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.CONTAINS, comparisonValues);
+	}
+	
+	EL_DbFindCondition ContainsAllOf(notnull array<typename> comparisonValues)
+	{
+		return ContainsAllOf(_ConvertTypenameArray(comparisonValues));
+	}
+	
+	EL_DbFindFieldNumericValueConditonBuilder Count()
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.COUNT);
+		return this;
+	}
+}
+
+class EL_DbFindFieldMainConditionBuilder : EL_DbFindFieldAllValueConditonBuilder
+{
+	EL_DbFindFieldAllValueConditonBuilder Not()
+	{
+		m_Inverted = true;
+		return this;
+	}
+	
+	EL_DbFindFieldCollectionHandlingBuilder Field(string fieldPath)
+	{
+		m_FieldPath += EL_DbFindFieldAnnotations.SEPERATOR + fieldPath;
+		return EL_DbFindFieldCollectionHandlingBuilder.Cast(this);
+	}
+}
+
+class EL_DbFindFieldCollectionHandlingBuilder : EL_DbFindFieldMainConditionBuilder
+{
+	protected static const ref array<ref EL_DbFindFieldCollectionHandlingBuilder>> ALLOC_BUFFER = {NULL};
+	
+	EL_DbFindFieldMainConditionBuilder Any()
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ANY);
+		return this;
+	}
+	
+	EL_DbFindFieldMainConditionBuilder All()
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.ALL);
+		return this;
+	}
+	
+	EL_DbFindFieldMainConditionBuilder Keys()
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.KEYS);
+		return this;
+	}
+	
+	EL_DbFindFieldMainConditionBuilder Values()
+	{
+		_AppendIfNotPresent(EL_DbFindFieldAnnotations.VALUES);
+		return this;
+	}
+	
+	EL_DbFindFieldMainConditionBuilder At(int index)
+	{
+		return Field(index.ToString());
+	}
+	
+	EL_DbFindFieldMainConditionBuilder FirstOf(typename complexType)
+	{
+		return Any().Field(complexType.ToString());
+	}
+	
+	EL_DbFindFieldMainConditionBuilder AllOf(typename complexType)
+	{
+		return All().Field(complexType.ToString());
+	}
+	
+	static EL_DbFindFieldCollectionHandlingBuilder Create(string fieldPath)
+	{
+		auto inst = new EL_DbFindFieldCollectionHandlingBuilder(fieldPath);
+		ALLOC_BUFFER.Set(0, inst);
+		return inst;
+	}
+}
+
+// ----------
+
+/*
+void GTest()
+{
+
+	const EL_DbFindCondition condition1 = EL_DbFind.Field("m_Children").Field("middle").All().Field("m_Values").Any().Null();
+	
+	const EL_DbFindCondition condition2 = EL_DbFind.Field("m_Children").Not().Equals(5);
+	
+	const EL_DbFindCondition condition3 = EL_DbFind.Field("parent").Field("wrapper").Field("Values").All().Not().Null();
+	
+	const EL_DbFindCondition condition4 = EL_DbFind.Field("parent.m_Numbers").ContainsAllOf(EL_DbValues<int>.From({1337, 1338}));
+	
+	const EL_DbFindCondition condition5 = EL_DbFind.Field("parent.m_Numbers").Contains(1337);
+
+	const EL_DbFindCondition condition6 = EL_DbFind.Field("parent.m_Numbers").Not().ContainsAnyOf(EL_DbValues<int>.From({42, 69}));
+	
+	const EL_DbFindCondition condition7 = EL_DbFind.Field("parent.m_Numbers").Not().Equals(EL_DbValues<int>.From({1337, 1338}));
+	
+	const EL_DbFindCondition condition8 = EL_DbFind.Field("someIntValue").EqualsAnyOf(EL_DbValues<int>.From({12, 13}));
+	
+	const EL_DbFindCondition condition9 = EL_DbFind.Field("collection<complex>").FirstOf(Class).Field("someNumber").Not().EqualsAnyOf(EL_DbValues<int>.From({1, 2}));
+	
+	const EL_DbFindCondition condition10 = EL_DbFind.Field("collection<numbers>").At(3).Between(0, 100);
+
+	EL_DbFindCondition condition = EL_DbFind.Or({
+		EL_DbFind.Field("A").Not().Null(),
+		EL_DbFind.Field("B").Empty(),
+		EL_DbFind.And({
+			EL_DbFind.Field("CString").Contains("SubString"),
+			EL_DbFind.Field("DFloatArray").Equals(EL_DbValues<bool>.From({true, false, true, true})),
+			EL_DbFind.And({
+				EL_DbFind.Field("E.m_Numbers").Contains(100),
+				EL_DbFind.Field("F.m_ComplexWrapperSet").FirstOf(Class).Field("someNumber").Not().EqualsAnyOf(EL_DbValues<int>.From({1, 2}))
+			}),
+			EL_DbFind.Or({
+				EL_DbFind.Field("G").EqualsAnyOf(EL_DbValues<int>.From({12, 13})),
+			})
+		}),
+	});
+	
+	condition.Debug();
+}
+*/
