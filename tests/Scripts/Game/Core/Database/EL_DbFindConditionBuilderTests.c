@@ -1,21 +1,9 @@
 class EL_DbFindConditionBuilderTests : TestSuite
 {
-	[Step(EStage.Setup)]
-	void Setup()
-	{
-		Print("EL_DbFindConditionBuilderTests::Setup()");
-	}
-
-	[Step(EStage.TearDown)]
-	void TearDown()
-	{
-		Print("EL_DbFindConditionBuilderTests::TearDown()");
-	}
 }
 
-
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_And_EmptyArgs_EmptyCondition() 
+TestResultBase EL_Test_DbFindConditionBuilder_And_EmptyArgs_EmptyCondition() 
 { 
 	// Act
 	EL_DbFindAnd condition = EL_DbFind.And({});
@@ -25,7 +13,7 @@ TestResultBase EL_Test_FindConditonBuilder_And_EmptyArgs_EmptyCondition()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_And_MultipleConditions_MultipleWrapped() 
+TestResultBase EL_Test_DbFindConditionBuilder_And_MultipleConditions_MultipleWrapped() 
 { 
 	// Act
 	EL_DbFindAnd condition = EL_DbFind.And({new EL_DbFindCondition(), new EL_DbFindCondition()});
@@ -35,7 +23,7 @@ TestResultBase EL_Test_FindConditonBuilder_And_MultipleConditions_MultipleWrappe
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Or_EmptyArgs_EmptyCondition() 
+TestResultBase EL_Test_DbFindConditionBuilder_Or_EmptyArgs_EmptyCondition() 
 { 
 	// Act
 	EL_DbFindOr condition = EL_DbFind.Or({});
@@ -45,7 +33,7 @@ TestResultBase EL_Test_FindConditonBuilder_Or_EmptyArgs_EmptyCondition()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Or_MultipleConditions_MultipleWrapped() 
+TestResultBase EL_Test_DbFindConditionBuilder_Or_MultipleConditions_MultipleWrapped() 
 { 
 	// Act
 	const EL_DbFindOr condition = EL_DbFind.Or({new EL_DbFindCondition(), new EL_DbFindCondition()});
@@ -55,7 +43,7 @@ TestResultBase EL_Test_FindConditonBuilder_Or_MultipleConditions_MultipleWrapped
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Or_ConstMultipleConditions_MultipleWrapped() 
+TestResultBase EL_Test_DbFindConditionBuilder_Or_ConstMultipleConditions_MultipleWrapped() 
 { 
 	// Act
 	EL_DbFindOr condition = EL_DbFind.Or({new EL_DbFindCondition(), new EL_DbFindCondition()});
@@ -65,7 +53,7 @@ TestResultBase EL_Test_FindConditonBuilder_Or_ConstMultipleConditions_MultipleWr
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_SingleField_ValidBuilder() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_SingleField_ValidBuilder() 
 { 
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("fieldName");
@@ -75,7 +63,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_SingleField_ValidBuilder()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_SingleFieldMultiValueInverted_ValidBuilder() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_SingleFieldMultiValueInverted_ValidBuilder() 
 { 
 	// Act
 	EL_DbFindFieldAllValueConditonBuilder builder = EL_DbFind.Field("fieldName.subField").Not();
@@ -85,7 +73,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_SingleFieldMultiValueInverted_V
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_MultiField_FieldsChained() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_MultiField_FieldsChained() 
 { 
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("fieldName").Field("subField");
@@ -95,7 +83,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_MultiField_FieldsChained()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_Length_ModifierPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Length_ModifierPresent() 
 { 
 	// Act
 	EL_DbFindFieldNumericValueConditonBuilder builder = EL_DbFind.Field("stringField").Length();
@@ -105,7 +93,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_Length_ModifierPresent()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_Count_ModifierPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Count_ModifierPresent() 
 { 
 	// Act
 	EL_DbFindFieldNumericValueConditonBuilder builder = EL_DbFind.Field("collectionName").Count();
@@ -115,7 +103,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_Count_ModifierPresent()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_Any_ModifierPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Any_ModifierPresent() 
 { 
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").Any();
@@ -125,7 +113,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_Any_ModifierPresent()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_All_ModifierPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_All_ModifierPresent() 
 { 
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").All();
@@ -135,7 +123,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_All_ModifierPresent()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_Keys_ModifierPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Keys_ModifierPresent() 
 { 
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("collectionName").Keys();
@@ -145,7 +133,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_Keys_ModifierPresent()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_Values_ModifierPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Values_ModifierPresent() 
 { 
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("collectionName").Values();
@@ -155,7 +143,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_Values_ModifierPresent()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_ValuesAny_ModifiersPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_ValuesAny_ModifiersPresent() 
 { 
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").Values().Any();
@@ -165,7 +153,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_ValuesAny_ModifiersPresent()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_At_IndexFieldSet() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_At_IndexFieldSet() 
 { 
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").At(3);
@@ -175,7 +163,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_At_IndexFieldSet()
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_FirstOf_ModiferAndTypefilterPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_FirstOf_ModiferAndTypefilterPresent() 
 { 
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").FirstOf(Class);
@@ -185,7 +173,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_FirstOf_ModiferAndTypefilterPre
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_AllOf_ModiferAndTypefilterPresent() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_AllOf_ModiferAndTypefilterPresent() 
 { 
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").AllOf(Class);
@@ -195,7 +183,7 @@ TestResultBase EL_Test_FindConditonBuilder_Field_AllOf_ModiferAndTypefilterPrese
 }
 
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_FindConditonBuilder_Field_ComplexConstBuild_DebugStringEqual() 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_ComplexConstBuild_DebugStringEqual() 
 { 
 	// Arrange
 	const EL_DbFindCondition condition = EL_DbFind.Or({
