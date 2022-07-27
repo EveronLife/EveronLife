@@ -239,10 +239,10 @@ typedef EL_DbFindCompareFieldValues<vector> EL_DbFindFieldVectorMultiple;
 
 class EL_DbValues<Class T>
 {
-    protected static ref array<ref array<T>> ALLOC_BUFFER;
+	protected static ref array<ref array<T>> ALLOC_BUFFER;
 	
 	static array<T> From(notnull array<T> values)
-    {
+	{
 		auto data = new array<T>();
 		data.Resize(values.Count());
 		
@@ -253,8 +253,8 @@ class EL_DbValues<Class T>
 		
 		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
 		ALLOC_BUFFER.Set(0, data);
-        return data;
-    }
+		return data;
+	}
 }
 
 class EL_DbFindFieldAnnotations
