@@ -257,6 +257,12 @@ class EL_DbValues<Class T>
 	}
 }
 
+typedef EL_DbValues<int> EL_DbValuesInt;
+typedef EL_DbValues<float> EL_DbValuesFloat;
+typedef EL_DbValues<bool> EL_DbValuesBool;
+typedef EL_DbValues<string> EL_DbValuesString;
+typedef EL_DbValues<vector> EL_DbValuesVector;
+
 class EL_DbFindFieldAnnotations
 {
 	const string SEPERATOR = ".";
