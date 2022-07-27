@@ -18,7 +18,7 @@ class EL_DbFind
 
 class EL_DbFindCondition
 {
-	protected static const ref array<ref EL_DbFindCondition> ALLOC_BUFFER = {NULL};
+	protected static ref array<ref EL_DbFindCondition> ALLOC_BUFFER;
 	
 	sealed void Debug()
 	{
@@ -81,6 +81,7 @@ class EL_DbFindAnd : EL_DbFindConditionWithChildren
 	static EL_DbFindAnd Create(notnull array<ref EL_DbFindCondition> conditions)
 	{
 		EL_DbFindAnd inst = new EL_DbFindAnd(conditions);
+		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
@@ -96,6 +97,7 @@ class EL_DbFindOr : EL_DbFindConditionWithChildren
 	static EL_DbFindOr Create(notnull array<ref EL_DbFindCondition> conditions)
 	{
 		EL_DbFindOr inst = new EL_DbFindOr(conditions);
+		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
@@ -119,6 +121,7 @@ class EL_DbFindCheckFieldNull : EL_DbFindFieldCondition
 	static EL_DbFindCheckFieldNull Create(string fieldPath, bool shouldBeNull)
 	{
 		auto inst = new EL_DbFindCheckFieldNull(fieldPath, shouldBeNull);
+		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
@@ -144,6 +147,7 @@ class EL_DbFindCheckFieldEmpty : EL_DbFindFieldCondition
 	static EL_DbFindCheckFieldEmpty Create(string fieldPath, bool shouldBeEmpty)
 	{
 		auto inst = new EL_DbFindCheckFieldEmpty(fieldPath, shouldBeEmpty);
+		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
@@ -170,7 +174,7 @@ enum EL_DbFindOperator
 
 class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
 {
-	private static const ref array<ref EL_DbFindCompareFieldValues<ValueType>> ALLOC_BUFFER_TVALUES = {NULL};
+	private static ref array<ref EL_DbFindCompareFieldValues<ValueType>> ALLOC_BUFFER_TVALUES;
 	
 	EL_DbFindOperator m_ComparisonOperator;
 	ref array<ValueType> m_ComparisonValues;
@@ -185,6 +189,7 @@ class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
 	static EL_DbFindCompareFieldValues<ValueType> Create(string fieldPath, EL_DbFindOperator comparisonOperator, notnull array<ValueType> comparisonValues)
 	{
 		auto inst = new EL_DbFindCompareFieldValues<ValueType>(fieldPath, comparisonOperator, comparisonValues);
+		if(!ALLOC_BUFFER_TVALUES) ALLOC_BUFFER_TVALUES = {NULL};
 		ALLOC_BUFFER_TVALUES.Set(0, inst);
 		return inst;
 	}
@@ -247,7 +252,6 @@ class EL_DbValues<Class T>
 		}
 		
 		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
-		
 		ALLOC_BUFFER.Set(0, data);
         return data;
     }
@@ -448,6 +452,20 @@ class EL_DbFindFieldPrimitiveValueConditonBuilder : EL_DbFindFieldNumericValueCo
 		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.NOT_EQUAL, comparisonValues);
 		
 		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.EQUAL, comparisonValues);
+	}
+	
+	EL_DbFindCondition GreaterThan(vector comparisonValue)
+	{
+		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN_OR_EQUAL, {comparisonValue});
+		
+		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN, {comparisonValue});
+	}
+	
+	EL_DbFindCondition GreaterThanOrEqual(vector comparisonValue) // see LessThanOrEqual(int)
+	{
+		if(m_Inverted) return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.LESS_THAN, {comparisonValue});
+		
+		return EL_DbFindFieldVectorMultiple.Create(m_FieldPath, EL_DbFindOperator.GREATER_THAN_OR_EQUAL, {comparisonValue});
 	}
 	
 	EL_DbFindCondition Contains(string comparisonValue)
@@ -675,7 +693,7 @@ class EL_DbFindFieldMainConditionBuilder : EL_DbFindFieldAllValueConditonBuilder
 
 class EL_DbFindFieldCollectionHandlingBuilder : EL_DbFindFieldMainConditionBuilder
 {
-	protected static const ref array<ref EL_DbFindFieldCollectionHandlingBuilder>> ALLOC_BUFFER = {NULL};
+	protected static ref array<ref EL_DbFindFieldCollectionHandlingBuilder>> ALLOC_BUFFER;
 	
 	EL_DbFindFieldMainConditionBuilder Any()
 	{
@@ -719,6 +737,7 @@ class EL_DbFindFieldCollectionHandlingBuilder : EL_DbFindFieldMainConditionBuild
 	static EL_DbFindFieldCollectionHandlingBuilder Create(string fieldPath)
 	{
 		auto inst = new EL_DbFindFieldCollectionHandlingBuilder(fieldPath);
+		if(!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}

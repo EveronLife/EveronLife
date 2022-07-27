@@ -356,6 +356,33 @@ class EL_DbFindConditionEvaluator
 		// Apply condition to result field value
 		switch(fieldCondition.Type())
 		{
+			case EL_DbFindCheckFieldNull:
+			{
+				if(typeInfo.m_Type.IsInherited(Class))
+				{
+					Class fieldValue;
+					if(!instance.Type().GetVariableValue(instance, typeInfo.m_Variableindex, fieldValue)) return false;
+					return fieldValue == null;
+				}
+				
+				Debug.Error(string.Format("Can no null check field '%1' of a primtive type '%2' on '%3' is not possible.", currentSegment.m_FieldName, typeInfo.m_Type, instance));
+				return false;
+			}
+			
+			case EL_DbFindCheckFieldEmpty:
+			{
+				switch(typeInfo.m_Type)
+				{
+					case int: return EL_DbFindFielEmptyChecker<int>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+					case float: return EL_DbFindFielEmptyChecker<float>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+					case bool: return EL_DbFindFielEmptyChecker<bool>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+					case string: return EL_DbFindFielEmptyChecker<string>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+					case vector: return EL_DbFindFielEmptyChecker<vector>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+				}
+				
+				return EL_DbFindFielEmptyChecker<Class>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+			}
+			
 			case EL_DbFindFieldIntMultiple:
 			{
 				return EL_DbFindFieldValueTypedEvaluator<int>.Evaluate(instance, EL_DbFindFieldIntMultiple.Cast(fieldCondition), currentSegment, typeInfo);
@@ -393,6 +420,55 @@ class EL_DbFindConditionEvaluator
 	}
 }
 
+class EL_DbFindFielEmptyChecker<Class TValueType>
+{
+	static bool Evaluate(Class instance, EL_DbFindCheckFieldEmpty valueCondition, EL_DbFindFieldPathSegment currentSegment, EL_DbFindFieldTypeInfo fieldInfo)
+	{
+		TValueType fieldValue;
+		if(!instance.Type().GetVariableValue(instance, fieldInfo.m_Variableindex, fieldValue)) return false;
+		
+		return IsEmptyOrDefault(fieldValue);
+	}
+	
+	protected static bool IsEmptyOrDefault(int value)
+	{
+		return value == 0;
+	}
+	
+	protected static bool IsEmptyOrDefault(float value)
+	{
+		return float.AlmostEqual(value, 0.0);
+	}
+	
+	protected static bool IsEmptyOrDefault(bool value)
+	{
+		return value == false;
+	}
+	
+	protected static bool IsEmptyOrDefault(string value)
+	{
+		value.Replace(" ", "");
+		return value.IsEmpty();
+	}
+	
+	protected static bool IsEmptyOrDefault(vector value)
+	{
+		return float.AlmostEqual(vector.Distance(value, "0 0 0"), 0.0);
+	}
+	
+	protected static bool IsEmptyOrDefault(Class value)
+	{
+		if(value.Type().IsInherited(array) || value.Type().IsInherited(set) || value.Type().IsInherited(map))
+		{
+			int collectionCount;
+			if(!GetGame().GetScriptModule().Call(value, "Count", false, collectionCount)) return false;
+			return collectionCount == 0;
+		}
+		
+		return value == null;
+	}
+}
+
 class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 {
 	static bool Evaluate(Class instance, EL_DbFindCompareFieldValues<TValueType> valueCondition, EL_DbFindFieldPathSegment currentSegment, EL_DbFindFieldTypeInfo fieldInfo)
@@ -413,6 +489,12 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 			
 			int collectionCount;
 			if(!GetGame().GetScriptModule().Call(collectionHolder, "Count", false, collectionCount)) return false;
+			
+			// Handle count of collection comparison
+			if(currentSegment.m_Flags & EL_DbFindFieldPathSegmentFlags.COUNT)
+			{
+				return CompareCollectionCount(collectionCount, valueCondition.m_ComparisonOperator, valueCondition.m_ComparisonValues);
+			}
 			
 			bool exactOrderedMatch = (valueCondition.m_ComparisonOperator == EL_DbFindOperator.EQUAL) && 
 				((currentSegment.m_Flags & (EL_DbFindFieldPathSegmentFlags.ANY | EL_DbFindFieldPathSegmentFlags.ALL)) == 0);
@@ -473,15 +555,25 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		return Compare(fieldValue, valueCondition.m_ComparisonOperator, valueCondition.m_ComparisonValues);
 	}
 	
+	protected static bool CompareCollectionCount(int collectionCount, EL_DbFindOperator operator, Class comparisonValues)
+	{
+		array<int> strongTypedComparisonValues = array<int>.Cast(comparisonValues);
+		if(!strongTypedComparisonValues) return false;
+		
+		return Compare(collectionCount, operator, strongTypedComparisonValues);
+	}
+	
 	protected static bool Compare(int fieldValue, EL_DbFindOperator operator, array<int> comparisonValues)
 	{
 		switch(operator)
 		{
+			case EL_DbFindOperator.CONTAINS:
 			case EL_DbFindOperator.EQUAL:
 			{
 				return comparisonValues.Contains(fieldValue);
 			}
 			
+			case EL_DbFindOperator.NOT_CONTAINS:
 			case EL_DbFindOperator.NOT_EQUAL:
 			{
 				return !comparisonValues.Contains(fieldValue);
@@ -535,6 +627,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	{
 		switch(operator)
 		{
+			case EL_DbFindOperator.CONTAINS:
 			case EL_DbFindOperator.EQUAL:
 			{
 				foreach(float compare : comparisonValues)
@@ -545,6 +638,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
+			case EL_DbFindOperator.NOT_CONTAINS:
 			case EL_DbFindOperator.NOT_EQUAL:
 			{
 				foreach(float compare : comparisonValues)
@@ -603,11 +697,13 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	{
 		switch(operator)
 		{
+			case EL_DbFindOperator.CONTAINS:
 			case EL_DbFindOperator.EQUAL:
 			{
 				return comparisonValues.Contains(fieldValue);
 			}
 			
+			case EL_DbFindOperator.NOT_CONTAINS:
 			case EL_DbFindOperator.NOT_EQUAL:
 			{
 				return !comparisonValues.Contains(fieldValue);
@@ -659,6 +755,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	{
 		switch(operator)
 		{
+			case EL_DbFindOperator.CONTAINS:
 			case EL_DbFindOperator.EQUAL:
 			{
 				foreach (vector compare : comparisonValues)
@@ -669,6 +766,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
+			case EL_DbFindOperator.NOT_CONTAINS:
 			case EL_DbFindOperator.NOT_EQUAL:
 			{
 				foreach (vector compare : comparisonValues)
