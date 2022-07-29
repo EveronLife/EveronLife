@@ -51,7 +51,7 @@ class EL_PersistentSciptedStateLoader
 		
 		EL_DbEntityRepositoryBase repository = EL_DbEntityRepositoryFactory.GetRepository(EL_DbEntityRepositoryType.Get(saveStructType), dataSource, useDbContextCache);
 		
-		array<ref EL_DbEntity> findResults = repository.GetEntityManager().FindAll(saveStructType, limit: 1);
+		array<ref EL_DbEntity> findResults = repository.GetDbContext().FindAll(saveStructType, limit: 1);
 		
 		if(findResults.Count() != 1) return null;
 		

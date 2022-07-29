@@ -7,9 +7,9 @@ class EL_DbContext
 		return m_Driver.AddOrUpdate(entity);
 	}
 	
-	EL_DbOperationStatusCode RemoveById(typename entityType, string entityId)
+	EL_DbOperationStatusCode Remove(typename entityType, string entityId)
 	{
-		return m_Driver.RemoveById(entityType, entityId);
+		return m_Driver.Remove(entityType, entityId);
 	}
 	
 	array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
@@ -22,12 +22,12 @@ class EL_DbContext
 		m_Driver.AddOrUpdateAsync(entity, callback);
 	}
 	
-	void RemoveByIdAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
+	void RemoveAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
-		m_Driver.RemoveByIdAsync(entityType, entityId, callback);
+		m_Driver.RemoveAsync(entityType, entityId, callback);
 	}
 	
-	void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
+	void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
 	{
 		m_Driver.FindAllAsync(entityType, condition, orderBy, limit, offset, callback);
 	}
@@ -66,9 +66,7 @@ class EL_DbContext
 			return null;
 		}
 		
-		EL_DbContext context();
-		context.m_Driver = driver;
-		return context;
+		return new EL_DbContext(driver);
 	}
 	
 	// Internal use only
@@ -80,12 +78,15 @@ class EL_DbContext
 	}
 	
 	// Use EL_DbContextFactory::GetContext() to get a context instance.
-	protected void EL_DbContext();
+	protected void EL_DbContext(EL_DbDriver driver)
+	{
+		m_Driver = driver;
+	}
 	
 	void ~EL_DbContext()
 	{
 		if(!m_Driver) return;
 		m_Driver.Shutdown();
-		delete m_Driver;
+		m_Driver = null;
 	}
 }
