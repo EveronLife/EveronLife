@@ -48,7 +48,7 @@ class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 		
 		if(m_InvokeInstance && m_InvokeMethodName)
 		{
-			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, false, null, code);
+			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code);
 		}
 	}
 	
@@ -86,7 +86,7 @@ class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 
 		if(m_InvokeInstance && m_InvokeMethodName)
 		{
-			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, false, null, code, strongTypedResults);
+			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code, strongTypedResults);
 		}
 	}
 	
@@ -124,7 +124,7 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 
 		if(m_InvokeInstance && m_InvokeMethodName)
 		{
-			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, false, null, code, typedResult);
+			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code, typedResult);
 		}
 	}
 	
