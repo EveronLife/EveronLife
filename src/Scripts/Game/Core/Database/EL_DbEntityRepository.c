@@ -26,17 +26,17 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 
 	// ---------------------- Sync API (to use with thread) ----------------------
 	
-	EL_DbOperationStatusCode AddOrUpdate(notnull TEntityType entity)
+	EL_EDbOperationStatusCode AddOrUpdate(notnull TEntityType entity)
 	{
 		return GetDbContext().AddOrUpdate(entity);
 	}
 	
-	EL_DbOperationStatusCode Remove(string entityId)
+	EL_EDbOperationStatusCode Remove(string entityId)
 	{
 		return GetDbContext().Remove(TEntityType, entityId);
 	}
 	
-	EL_DbOperationStatusCode Remove(notnull TEntityType entity)
+	EL_EDbOperationStatusCode Remove(notnull TEntityType entity)
 	{
 		return GetDbContext().Remove(TEntityType, entity.GetId());
 	}

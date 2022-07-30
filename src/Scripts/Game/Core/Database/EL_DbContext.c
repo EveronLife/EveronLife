@@ -2,13 +2,13 @@ class EL_DbContext
 {
 	protected ref EL_DbDriver m_Driver;
 	
-	EL_DbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
+	EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
 		if(!entity.HasId()) entity.SetId(EL_EntityIdGenerator.Generate());
 		return m_Driver.AddOrUpdate(entity);
 	}
 	
-	EL_DbOperationStatusCode Remove(typename entityType, string entityId)
+	EL_EDbOperationStatusCode Remove(typename entityType, string entityId)
 	{
 		return m_Driver.Remove(entityType, entityId);
 	}

@@ -33,10 +33,10 @@ TestResultBase EL_Test_InMemoryDbDriver_AddOrUpdate_NewEntity_Inserted()
 	EL_Test_InMemoryDbDriverEntity entity(42.42, "Hello World");
 
 	// Act
-	EL_DbOperationStatusCode resultCode = driver.AddOrUpdate(entity);
+	EL_EDbOperationStatusCode resultCode = driver.AddOrUpdate(entity);
 	
 	// Assert
-	if(!resultCode == EL_DbOperationStatusCode.SUCCESS) return new EL_TestResult(false); 
+	if(!resultCode == EL_EDbOperationStatusCode.SUCCESS) return new EL_TestResult(false); 
 	
 	array<ref EL_DbEntity> results = driver.FindAll(EL_Test_InMemoryDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId()));
 	
@@ -64,10 +64,10 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_ExistingId_Removed()
 	driver.AddOrUpdate(entity);
 	
 	// Act
-	EL_DbOperationStatusCode resultCode = driver.Remove(EL_Test_InMemoryDbDriverEntity, entity.GetId());
+	EL_EDbOperationStatusCode resultCode = driver.Remove(EL_Test_InMemoryDbDriverEntity, entity.GetId());
 	
 	// Assert
-	if(!resultCode == EL_DbOperationStatusCode.SUCCESS) return new EL_TestResult(false); 
+	if(!resultCode == EL_EDbOperationStatusCode.SUCCESS) return new EL_TestResult(false); 
 	
 	array<ref EL_DbEntity> results = driver.FindAll(EL_Test_InMemoryDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId()));
 	
@@ -84,8 +84,8 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_UnknownId_Error()
 	EL_Test_InMemoryDbDriverEntity entity(42.42, "Hello World");
 
 	// Act
-	EL_DbOperationStatusCode resultCode = driver.Remove(EL_Test_InMemoryDbDriverEntity, "I-DO-NOT-EXIST");
+	EL_EDbOperationStatusCode resultCode = driver.Remove(EL_Test_InMemoryDbDriverEntity, "I-DO-NOT-EXIST");
 	
 	// Assert
-	return new EL_TestResult(resultCode == EL_DbOperationStatusCode.FAILURE_ID_NOT_FOUND); 
+	return new EL_TestResult(resultCode == EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND); 
 }

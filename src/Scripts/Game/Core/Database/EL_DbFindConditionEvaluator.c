@@ -496,7 +496,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return CompareCollectionCount(collectionCount, valueCondition.m_ComparisonOperator, valueCondition.m_ComparisonValues);
 			}
 			
-			bool exactOrderedMatch = (valueCondition.m_ComparisonOperator == EL_DbFindOperator.EQUAL) && 
+			bool exactOrderedMatch = (valueCondition.m_ComparisonOperator == EL_EDbFindOperator.EQUAL) && 
 				((currentSegment.m_Flags & (EL_DbFindFieldPathSegmentFlags.ANY | EL_DbFindFieldPathSegmentFlags.ALL)) == 0);
 			
 			// If the count missmatches on full match it can not be equal
@@ -555,7 +555,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		return Compare(fieldValue, valueCondition.m_ComparisonOperator, valueCondition.m_ComparisonValues);
 	}
 	
-	protected static bool CompareCollectionCount(int collectionCount, EL_DbFindOperator operator, Class comparisonValues)
+	protected static bool CompareCollectionCount(int collectionCount, EL_EDbFindOperator operator, Class comparisonValues)
 	{
 		array<int> strongTypedComparisonValues = array<int>.Cast(comparisonValues);
 		if(!strongTypedComparisonValues) return false;
@@ -563,23 +563,23 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		return Compare(collectionCount, operator, strongTypedComparisonValues);
 	}
 	
-	protected static bool Compare(int fieldValue, EL_DbFindOperator operator, array<int> comparisonValues)
+	protected static bool Compare(int fieldValue, EL_EDbFindOperator operator, array<int> comparisonValues)
 	{
 		switch(operator)
 		{
-			case EL_DbFindOperator.CONTAINS:
-			case EL_DbFindOperator.EQUAL:
+			case EL_EDbFindOperator.CONTAINS:
+			case EL_EDbFindOperator.EQUAL:
 			{
 				return comparisonValues.Contains(fieldValue);
 			}
 			
-			case EL_DbFindOperator.NOT_CONTAINS:
-			case EL_DbFindOperator.NOT_EQUAL:
+			case EL_EDbFindOperator.NOT_CONTAINS:
+			case EL_EDbFindOperator.NOT_EQUAL:
 			{
 				return !comparisonValues.Contains(fieldValue);
 			}
 			
-			case EL_DbFindOperator.LESS_THAN:
+			case EL_EDbFindOperator.LESS_THAN:
 			{
 				foreach(int compare : comparisonValues)
 				{
@@ -589,7 +589,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.LESS_THAN_OR_EQUAL:
+			case EL_EDbFindOperator.LESS_THAN_OR_EQUAL:
 			{
 				foreach(int compare : comparisonValues)
 				{
@@ -599,7 +599,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.GREATER_THAN:
+			case EL_EDbFindOperator.GREATER_THAN:
 			{
 				foreach(int compare : comparisonValues)
 				{
@@ -609,7 +609,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.GREATER_THAN_OR_EQUAL:
+			case EL_EDbFindOperator.GREATER_THAN_OR_EQUAL:
 			{
 				foreach(int compare : comparisonValues)
 				{
@@ -623,12 +623,12 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		return false;
 	}
 	
-	protected static bool Compare(float fieldValue, EL_DbFindOperator operator, array<float> comparisonValues)
+	protected static bool Compare(float fieldValue, EL_EDbFindOperator operator, array<float> comparisonValues)
 	{
 		switch(operator)
 		{
-			case EL_DbFindOperator.CONTAINS:
-			case EL_DbFindOperator.EQUAL:
+			case EL_EDbFindOperator.CONTAINS:
+			case EL_EDbFindOperator.EQUAL:
 			{
 				foreach(float compare : comparisonValues)
 				{
@@ -638,8 +638,8 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.NOT_CONTAINS:
-			case EL_DbFindOperator.NOT_EQUAL:
+			case EL_EDbFindOperator.NOT_CONTAINS:
+			case EL_EDbFindOperator.NOT_EQUAL:
 			{
 				foreach(float compare : comparisonValues)
 				{
@@ -649,7 +649,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return true;
 			}
 			
-			case EL_DbFindOperator.LESS_THAN:
+			case EL_EDbFindOperator.LESS_THAN:
 			{
 				foreach(float compare : comparisonValues)
 				{
@@ -659,7 +659,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.LESS_THAN_OR_EQUAL:
+			case EL_EDbFindOperator.LESS_THAN_OR_EQUAL:
 			{
 				foreach(float compare : comparisonValues)
 				{
@@ -669,7 +669,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.GREATER_THAN:
+			case EL_EDbFindOperator.GREATER_THAN:
 			{
 				foreach(float compare : comparisonValues)
 				{
@@ -679,7 +679,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.GREATER_THAN_OR_EQUAL:
+			case EL_EDbFindOperator.GREATER_THAN_OR_EQUAL:
 			{
 				foreach(float compare : comparisonValues)
 				{
@@ -693,18 +693,18 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		return false;
 	}
 	
-	protected static bool Compare(bool fieldValue, EL_DbFindOperator operator, array<bool> comparisonValues)
+	protected static bool Compare(bool fieldValue, EL_EDbFindOperator operator, array<bool> comparisonValues)
 	{
 		switch(operator)
 		{
-			case EL_DbFindOperator.CONTAINS:
-			case EL_DbFindOperator.EQUAL:
+			case EL_EDbFindOperator.CONTAINS:
+			case EL_EDbFindOperator.EQUAL:
 			{
 				return comparisonValues.Contains(fieldValue);
 			}
 			
-			case EL_DbFindOperator.NOT_CONTAINS:
-			case EL_DbFindOperator.NOT_EQUAL:
+			case EL_EDbFindOperator.NOT_CONTAINS:
+			case EL_EDbFindOperator.NOT_EQUAL:
 			{
 				return !comparisonValues.Contains(fieldValue);
 			}
@@ -713,21 +713,21 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		return false;
 	}
 	
-	protected static bool Compare(string fieldValue, EL_DbFindOperator operator, array<string> comparisonValues)
+	protected static bool Compare(string fieldValue, EL_EDbFindOperator operator, array<string> comparisonValues)
 	{
 		switch(operator)
 		{
-			case EL_DbFindOperator.EQUAL:
+			case EL_EDbFindOperator.EQUAL:
 			{
 				return comparisonValues.Contains(fieldValue);
 			}
 			
-			case EL_DbFindOperator.NOT_EQUAL:
+			case EL_EDbFindOperator.NOT_EQUAL:
 			{
 				return !comparisonValues.Contains(fieldValue);
 			}
 			
-			case EL_DbFindOperator.CONTAINS:
+			case EL_EDbFindOperator.CONTAINS:
 			{
 				foreach(string compare : comparisonValues)
 				{
@@ -737,7 +737,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.NOT_CONTAINS:
+			case EL_EDbFindOperator.NOT_CONTAINS:
 			{
 				foreach(string compare : comparisonValues)
 				{
@@ -751,12 +751,12 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		return false;
 	}
 	
-	protected static bool Compare(vector fieldValue, EL_DbFindOperator operator, array<vector> comparisonValues)
+	protected static bool Compare(vector fieldValue, EL_EDbFindOperator operator, array<vector> comparisonValues)
 	{
 		switch(operator)
 		{
-			case EL_DbFindOperator.CONTAINS:
-			case EL_DbFindOperator.EQUAL:
+			case EL_EDbFindOperator.CONTAINS:
+			case EL_EDbFindOperator.EQUAL:
 			{
 				foreach (vector compare : comparisonValues)
 				{
@@ -766,8 +766,8 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.NOT_CONTAINS:
-			case EL_DbFindOperator.NOT_EQUAL:
+			case EL_EDbFindOperator.NOT_CONTAINS:
+			case EL_EDbFindOperator.NOT_EQUAL:
 			{
 				foreach (vector compare : comparisonValues)
 				{
@@ -777,7 +777,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return true;
 			}
 			
-			case EL_DbFindOperator.LESS_THAN:
+			case EL_EDbFindOperator.LESS_THAN:
 			{
 				foreach (vector compare : comparisonValues)
 				{
@@ -789,7 +789,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.LESS_THAN_OR_EQUAL:
+			case EL_EDbFindOperator.LESS_THAN_OR_EQUAL:
 			{
 				foreach(vector compare : comparisonValues)
 				{
@@ -801,7 +801,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.GREATER_THAN:
+			case EL_EDbFindOperator.GREATER_THAN:
 			{
 				foreach (vector compare : comparisonValues)
 				{
@@ -813,7 +813,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 				return false;
 			}
 			
-			case EL_DbFindOperator.GREATER_THAN_OR_EQUAL:
+			case EL_EDbFindOperator.GREATER_THAN_OR_EQUAL:
 			{
 				foreach(vector compare : comparisonValues)
 				{

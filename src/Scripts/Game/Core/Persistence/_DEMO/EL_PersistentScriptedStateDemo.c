@@ -72,9 +72,9 @@ class EL_PersistentScriptedStateDemo
 		repository.FindAllAsync(callback: EL_DbFindCallback<EL_PersistentExampleState>.FromMethod(this, "OnDataLoaded"));
 	}
 	
-	protected void OnDataLoaded(EL_DbOperationStatusCode resultCode, array<ref EL_PersistentExampleState> resultData)
+	protected void OnDataLoaded(EL_EDbOperationStatusCode resultCode, array<ref EL_PersistentExampleState> resultData)
 	{
-		PrintFormat("EL_PersistentScriptedStateDemo::OnDataLoaded(%1, %2)", typename.EnumToString(EL_DbOperationStatusCode, resultCode), resultData);
+		PrintFormat("EL_PersistentScriptedStateDemo::OnDataLoaded(%1, %2)", typename.EnumToString(EL_EDbOperationStatusCode, resultCode), resultData);
 	}
 }
 
@@ -85,8 +85,8 @@ class EL_ExampleScriptedStateFindCallback : EL_DbFindCallback<EL_PersistentExamp
 		PrintFormat("EL_ExampleScriptedStateFindCallback::OnSuccess(%1)", resultData);
 	}
 	
-	override void OnFailure(EL_DbOperationStatusCode resultCode)
+	override void OnFailure(EL_EDbOperationStatusCode resultCode)
 	{
-		PrintFormat("EL_ExampleScriptedStateFindCallback::OnFailure(%1)", typename.EnumToString(EL_DbOperationStatusCode, resultCode));
+		PrintFormat("EL_ExampleScriptedStateFindCallback::OnFailure(%1)", typename.EnumToString(EL_EDbOperationStatusCode, resultCode));
 	}
 }

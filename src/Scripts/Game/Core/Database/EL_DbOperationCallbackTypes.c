@@ -1,13 +1,14 @@
-enum EL_DbOperationStatusCode
+enum EL_EDbOperationStatusCode
 {
 	SUCCESS,
 	
 	// System level failure
 	FAILURE_CONTEXT_INVALID,
+	FAILURE_STORAGE_UNAVAILABLE,
+	FAILURE_DATA_MALFORMED,
 	
 	// User failure
 	FAILURE_ID_NOT_FOUND,
-	FAILURE_REQUEST_INVALID,
 	
 	// Unknown
 	FAILURE_UNKNOWN
@@ -36,9 +37,9 @@ class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 		return callback;
 	}
 	
-	void _SetCompleted(EL_DbOperationStatusCode code)
+	void _SetCompleted(EL_EDbOperationStatusCode code)
 	{
-		if(code == EL_DbOperationStatusCode.SUCCESS)
+		if(code == EL_EDbOperationStatusCode.SUCCESS)
 		{
 			OnSuccess();
 		}
@@ -56,12 +57,12 @@ class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 	
 	void OnSuccess();
 	
-	void OnFailure(EL_DbOperationStatusCode resultCode);
+	void OnFailure(EL_EDbOperationStatusCode resultCode);
 }
 
 class EL_DbFindCallbackBase : EL_DbOperationCallback
 {
-	void _SetCompleted(EL_DbOperationStatusCode code, array<ref EL_DbEntity> findResults);
+	void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults);
 }
 
 class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
@@ -73,11 +74,11 @@ class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 		return callback;
 	}
 	
-	override void _SetCompleted(EL_DbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	override void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		array<ref TEntityType> strongTypedResults = EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults);
 		
-		if(code == EL_DbOperationStatusCode.SUCCESS)
+		if(code == EL_EDbOperationStatusCode.SUCCESS)
 		{
 			OnSuccess(strongTypedResults);
 		}
@@ -95,7 +96,7 @@ class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 	
 	void OnSuccess(array<ref TEntityType> resultData);
 	
-	void OnFailure(EL_DbOperationStatusCode resultCode);
+	void OnFailure(EL_EDbOperationStatusCode resultCode);
 }
 
 class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
@@ -107,7 +108,7 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 		return callback;
 	}
 	
-	override void _SetCompleted(EL_DbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	override void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		TEntityType typedResult;
 		
@@ -116,7 +117,7 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 			typedResult = TEntityType.Cast(findResults.Get(0));
 		}
 		
-		if(code == EL_DbOperationStatusCode.SUCCESS)
+		if(code == EL_EDbOperationStatusCode.SUCCESS)
 		{
 			OnSuccess(typedResult);
 		}
@@ -134,5 +135,5 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 	
 	void OnSuccess(TEntityType resultData);
 	
-	void OnFailure(EL_DbOperationStatusCode resultCode);
+	void OnFailure(EL_EDbOperationStatusCode resultCode);
 }

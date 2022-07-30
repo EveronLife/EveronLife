@@ -4,9 +4,9 @@ class EL_DbDriver
 	
 	void Shutdown();
 	
-	EL_DbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity);
+	EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity);
 	
-	EL_DbOperationStatusCode Remove(typename entityType, string entityId);
+	EL_EDbOperationStatusCode Remove(typename entityType, string entityId);
 	
 	array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1);
 	
