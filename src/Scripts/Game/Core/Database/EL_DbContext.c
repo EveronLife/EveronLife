@@ -4,6 +4,7 @@ class EL_DbContext
 	
 	EL_DbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
+		if(!entity.HasId()) entity.SetId(EL_EntityIdGenerator.Generate());
 		return m_Driver.AddOrUpdate(entity);
 	}
 	
@@ -19,6 +20,7 @@ class EL_DbContext
 
 	void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
 	{
+		if(!entity.HasId()) entity.SetId(EL_EntityIdGenerator.Generate());
 		m_Driver.AddOrUpdateAsync(entity, callback);
 	}
 	

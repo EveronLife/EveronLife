@@ -1,14 +1,11 @@
 class EL_DbEntity
 {
+	static const string FIELD_ID = "m_Id";
+	
 	private string m_Id;
 	
 	string GetId()
 	{
-		if(!m_Id)
-		{
-			m_Id = EL_EntityIdGenerator.Generate();
-		}
-		
 		return m_Id;
 	}
 	

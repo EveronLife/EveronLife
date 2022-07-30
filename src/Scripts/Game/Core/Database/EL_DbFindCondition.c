@@ -14,6 +14,12 @@ class EL_DbFind
 	{
 		return EL_DbFindFieldCollectionHandlingBuilder.Create(fieldPath);
 	}
+	
+	static EL_DbFindFieldPrimitiveValueConditonBuilder Id()
+	{
+		// Return with only primitive field builder options (implicit cast)
+		return EL_DbFindFieldCollectionHandlingBuilder.Create(EL_DbEntity.FIELD_ID);
+	}
 }
 
 class EL_DbFindCondition
