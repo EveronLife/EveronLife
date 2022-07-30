@@ -2,7 +2,8 @@ class EL_DbEntityHelper<Class TEntityType>
 {
 	static EL_DbEntityRepository<TEntityType> GetRepository(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useDbContextCache = true)
 	{
-		return EL_DbEntityRepository<TEntityType>.Cast(EL_DbEntityRepositoryFactory.GetRepository(EL_DbEntityRepositoryType.Get(TEntityType), dataSource, useDbContextCache));
+		typename repositoryType = EL_DbEntityRepositoryType.Get(TEntityType); // Can not be inlined or else illegal read happens because of bug in scriptvm.
+		return EL_DbEntityRepository<TEntityType>.Cast(EL_DbEntityRepositoryFactory.GetRepository(repositoryType, dataSource, useDbContextCache));
 	}
 }
 

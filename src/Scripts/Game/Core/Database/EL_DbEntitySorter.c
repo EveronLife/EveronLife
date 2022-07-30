@@ -5,7 +5,7 @@ class EL_DbEntitySorter
 		if(entities.Count() < 2 || orderByIndex >= orderBy.Count()) return entities;
 		
 		string fieldName = orderBy.Get(orderByIndex).Get(0);
-		array<string> fieldSplits;
+		array<string> fieldSplits();
 		fieldName.Split(".", fieldSplits, true);
 		
 		// Empty sort condition, nothing to do

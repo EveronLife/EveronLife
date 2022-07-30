@@ -18,27 +18,24 @@ class EL_DbEntityRepositoryType
 	
 	static typename Get(typename entityType)
 	{
-		typename result = typename.Empty;
+		if(!m_Mapping) m_Mapping = new map<typename, typename>();
 		
-		if(m_Mapping)
+		typename result = m_Mapping.Get(entityType);
+
+		if(!result)
 		{
-			result = m_Mapping.Get(entityType);
+			string repositoryTypeStr = string.Format("EL_DbEntityRepository<%1>", entityType.ToString());
 			
-			if(!result)
+			result = repositoryTypeStr.ToType();
+			
+			if(result)
 			{
-				string repositoryTypeStr = string.Format("EL_DbEntityRepository<%1>", entityType.ToString());
-				
-				result = repositoryTypeStr.ToType();
-				
-				if(result)
-				{
-					// Save default implementation repository to cache
-					m_Mapping.Set(entityType, result);
-				}
-				else
-				{
-					Debug.Error(string.Format("Tried to get unknown entity repository type '%1'. Make sure you use it somewhere in your code e.g.: '%1 repository = ...;'", repositoryTypeStr));
-				}
+				// Save default implementation repository to cache
+				m_Mapping.Set(entityType, result);
+			}
+			else
+			{
+				Debug.Error(string.Format("Tried to get unknown entity repository type '%1'. Make sure you use it somewhere in your code e.g.: '%1 repository = ...;'", repositoryTypeStr));
 			}
 		}
 

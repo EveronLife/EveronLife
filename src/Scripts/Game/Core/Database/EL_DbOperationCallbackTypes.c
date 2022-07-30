@@ -16,13 +16,11 @@ enum EL_EDbOperationStatusCode
 
 class EL_DbOperationCallback
 {
-	protected ref ScriptCallQueue m_Invoker;
-	protected Managed m_InvokeInstance;
+	protected Class m_InvokeInstance;
 	protected string m_InvokeMethodName;
 	
-	protected void ConfigureInvoker(Managed instance, string functionName)
+	protected void ConfigureInvoker(Class instance, string functionName)
 	{
-		m_Invoker = new ScriptCallQueue();
 		m_InvokeInstance = instance;
 		m_InvokeMethodName = functionName;
 	}
@@ -30,7 +28,7 @@ class EL_DbOperationCallback
 
 class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 {
-	static EL_DbOperationStatusOnlyCallback FromMethod(Managed instance, string functionName)
+	static EL_DbOperationStatusOnlyCallback FromMethod(Class instance, string functionName)
 	{
 		EL_DbOperationStatusOnlyCallback callback();
 		callback.ConfigureInvoker(instance, functionName);
@@ -48,10 +46,9 @@ class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 			OnFailure(code);
 		}
 		
-		if(m_Invoker && m_InvokeInstance && m_InvokeMethodName)
+		if(m_InvokeInstance && m_InvokeMethodName)
 		{
-			m_Invoker.CallByName(m_InvokeInstance, m_InvokeMethodName, code);
-			m_Invoker.Tick(1);
+			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, false, null, code);
 		}
 	}
 	
@@ -87,10 +84,9 @@ class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 			OnFailure(code);
 		}
 
-		if(m_Invoker && m_InvokeInstance && m_InvokeMethodName)
+		if(m_InvokeInstance && m_InvokeMethodName)
 		{
-			m_Invoker.CallByName(m_InvokeInstance, m_InvokeMethodName, code, strongTypedResults);
-			m_Invoker.Tick(1);
+			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, false, null, code, strongTypedResults);
 		}
 	}
 	
@@ -126,10 +122,9 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 			OnFailure(code);
 		}
 
-		if(m_Invoker && m_InvokeInstance && m_InvokeMethodName)
+		if(m_InvokeInstance && m_InvokeMethodName)
 		{
-			m_Invoker.CallByName(m_InvokeInstance, m_InvokeMethodName, code, typedResult);
-			m_Invoker.Tick(1);
+			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, false, null, code, typedResult);
 		}
 	}
 	
