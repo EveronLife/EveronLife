@@ -47,16 +47,16 @@ class EL_PersistentSciptedStateLoader
 	static bool GetSingleton(Class scriptedState, string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useDbContextCache = true)
 	{
 		typename saveStructType = EL_PersistentSciptedStateStruct.Get(scriptedState.Type());
-		if(!saveStructType) return null;
+		if(!saveStructType) return false;
 		
 		EL_DbEntityRepositoryBase repository = EL_DbEntityRepositoryFactory.GetRepository(EL_DbEntityRepositoryType.Get(saveStructType), dataSource, useDbContextCache);
 		
 		array<ref EL_DbEntity> findResults = repository.GetDbContext().FindAll(saveStructType, limit: 1);
 		
-		if(findResults.Count() != 1) return null;
+		if(findResults.Count() != 1) return false;
 		
 		EL_PersistentSciptedState dbData = EL_PersistentSciptedState.Cast(findResults.Get(0));
-		if(!dbData) return null;
+		if(!dbData) return false;
 		
 		return dbData.ApplyTo(scriptedState);
 	}
