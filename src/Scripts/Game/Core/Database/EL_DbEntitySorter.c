@@ -1,3 +1,9 @@
+class EL_DbEntitySortDirection
+{
+	static const string ASCENDING = "ASC";
+	static const string DESCENDING = "DESC";
+}
+
 class EL_DbEntitySorter
 {
 	static array<ref EL_DbEntity> GetSorted(notnull array<ref EL_DbEntity> entities, notnull array<ref TStringArray> orderBy, int orderByIndex = 0)
@@ -140,7 +146,7 @@ class EL_DbEntitySorter
 				//Turn back into strings to get objects from map
 				foreach(int index, vector sortedKey : valueKeysSortedTyped)
 				{
-					valueKeysSorted.Set(index, sortedKey.ToString());
+					valueKeysSorted.Set(index, sortedKey.ToString(false));
 				}
 				
 				break;
@@ -236,7 +242,7 @@ class EL_DbEntitySorter
 			{
 				vector outVal;
 				if(!type.GetVariableValue(instance, vIdx, outVal)) return;
-				sortValue = outVal.ToString();
+				sortValue = outVal.ToString(false);
 				return;
 			}
 		}
