@@ -37,6 +37,13 @@ class EL_DbFindResults<Class TEntityType> : EL_DbFindResultBase
 	{
 		return m_aEntities;
 	}
+		
+	array<ref TEntityType> GetSuccessEntities()
+	{
+		if(m_eStatusCode != EL_EDbOperationStatusCode.SUCCESS) return null;
+		
+		return m_aEntities;
+	}
 	
 	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, array<ref TEntityType> entities)
 	{
@@ -51,6 +58,13 @@ class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
 	
 	TEntityType GetEntity()
 	{
+		return m_pEntity;
+	}
+	
+	TEntityType GetSuccessEntity()
+	{
+		if(m_eStatusCode != EL_EDbOperationStatusCode.SUCCESS) return null;
+		
 		return m_pEntity;
 	}
 	
