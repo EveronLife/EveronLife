@@ -11,6 +11,6 @@ class EL_DbEntityRepositoryHelper<Class TRepositoryType>
 {
 	static TRepositoryType Get(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useDbContextCache = true)
 	{
-		return TRepositoryType.Cast(EL_DbEntityRepositoryFactory.GetRepository(repositoryType, dataSource, useDbContextCache));
+		return TRepositoryType.Cast(EL_DbEntityRepositoryFactory.GetRepository(TRepositoryType, dataSource, useDbContextCache));
 	}
 }

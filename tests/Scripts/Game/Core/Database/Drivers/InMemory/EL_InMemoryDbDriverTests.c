@@ -16,8 +16,9 @@ class EL_Test_InMemoryDbDriverEntity : EL_DbEntity
 	float m_fFloatValue;
 	string m_sStringValue;
 	
-	void EL_Test_InMemoryDbDriverEntity(float floatValue, string stringValue)
+	void EL_Test_InMemoryDbDriverEntity(string id, float floatValue, string stringValue)
 	{
+		SetId(id);
 		m_fFloatValue = floatValue;
 		m_sStringValue = stringValue;
 	}
@@ -30,7 +31,7 @@ TestResultBase EL_Test_InMemoryDbDriver_AddOrUpdate_NewEntity_Inserted()
 	EL_InMemoryDbDriver driver();
 	driver.Initalize("testing");
 	
-	EL_Test_InMemoryDbDriverEntity entity(42.42, "Hello World");
+	EL_Test_InMemoryDbDriverEntity entity("TEST0000-0000-0001-0000-000000000001", 42.42, "Hello World");
 
 	// Act
 	EL_EDbOperationStatusCode resultCode = driver.AddOrUpdate(entity);
@@ -59,7 +60,7 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_ExistingId_Removed()
 	EL_InMemoryDbDriver driver();
 	driver.Initalize("testing");
 	
-	EL_Test_InMemoryDbDriverEntity entity(42.42, "Hello World");
+	EL_Test_InMemoryDbDriverEntity entity("TEST0000-0000-0001-0000-000000000002", 42.42, "Hello World");
 
 	driver.AddOrUpdate(entity);
 	
@@ -81,7 +82,7 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_UnknownId_Error()
 	EL_InMemoryDbDriver driver();
 	driver.Initalize("testing");
 	
-	EL_Test_InMemoryDbDriverEntity entity(42.42, "Hello World");
+	EL_Test_InMemoryDbDriverEntity entity("TEST0000-0000-0001-0000-000000000003", 42.42, "Hello World");
 
 	// Act
 	EL_EDbOperationStatusCode resultCode = driver.Remove(EL_Test_InMemoryDbDriverEntity, "I-DO-NOT-EXIST");

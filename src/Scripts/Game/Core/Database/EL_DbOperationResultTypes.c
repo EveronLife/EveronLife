@@ -8,6 +8,7 @@ enum EL_EDbOperationStatusCode
 	FAILURE_DATA_MALFORMED,
 	
 	// User failure
+	FAILURE_ID_MISSING,
 	FAILURE_ID_NOT_FOUND,
 	
 	// Unknown
@@ -37,15 +38,8 @@ class EL_DbFindResults<Class TEntityType> : EL_DbFindResultBase
 	{
 		return m_aEntities;
 	}
-		
-	array<ref TEntityType> GetSuccessEntities()
-	{
-		if(m_eStatusCode != EL_EDbOperationStatusCode.SUCCESS) return null;
-		
-		return m_aEntities;
-	}
 	
-	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, array<ref TEntityType> entities)
+	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, array<ref TEntityType> entities = null)
 	{
 		m_eStatusCode = statusCode;
 		m_aEntities = entities;
@@ -68,7 +62,7 @@ class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
 		return m_pEntity;
 	}
 	
-	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, TEntityType entity)
+	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, TEntityType entity = null)
 	{
 		m_eStatusCode = statusCode;
 		m_pEntity = entity;

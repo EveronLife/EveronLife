@@ -34,6 +34,8 @@ class EL_FileDbDriverBase : EL_DbDriver
 	
 	override EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
+		if(!entity.HasId()) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
+		
 		FileIO.MakeDirectory(string.Format("%1/%2", m_sDbDir, EL_DbEntityName.Get(entity.Type())));
 		
 		EL_EDbOperationStatusCode statusCode = WriteToDisk(entity);
@@ -50,6 +52,8 @@ class EL_FileDbDriverBase : EL_DbDriver
 	
 	override EL_EDbOperationStatusCode Remove(typename entityType, string entityId)
 	{
+		if(!entityId) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
+		
 		EL_EDbOperationStatusCode statusCode = DeleteFromDisk(entityType, entityId);
 		if(statusCode != EL_EDbOperationStatusCode.SUCCESS) return statusCode;
 		
@@ -91,7 +95,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 				if(statusCode != EL_EDbOperationStatusCode.SUCCESS || !entity)
 				{
 					if(statusCode == EL_EDbOperationStatusCode.SUCCESS) statusCode = EL_EDbOperationStatusCode.FAILURE_DATA_MALFORMED;
-					return new EL_DbFindResults<EL_DbEntity>(statusCode, {});
+					return new EL_DbFindResults<EL_DbEntity>(statusCode);
 				}
 				
 				if(m_UseCache) m_EntityCache.Add(entity);

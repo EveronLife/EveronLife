@@ -43,19 +43,35 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	EL_DbFindResult<TEntityType> Find(string entityId)
 	{
-		return FindFirst(EL_DbFind.Id().Equals(entityId));
+		EL_DbFindResult<TEntityType> findResult = FindFirst(EL_DbFind.Id().Equals(entityId));
+		
+		if(!findResult.Success()) return findResult;
+		
+		if(!findResult.GetEntity())
+		{
+			return new EL_DbFindResult<TEntityType>(EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND); 
+		}
+		
+		return findResult;
 	}
 	
 	EL_DbFindResult<TEntityType> FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
 	{
 		EL_DbFindResults<EL_DbEntity> findResults = GetDbContext().FindAll(TEntityType, condition, orderBy, 1);
 		
-		if(findResults.GetEntities().Count() == 1) 
+		if(!findResults.Success())
 		{
-			return new EL_DbFindResult<TEntityType>(findResults.GetStatusCode(), TEntityType.Cast(findResults.GetEntities().Get(0)));
+			return new EL_DbFindResult<TEntityType>(findResults.GetStatusCode());
 		}
 		
-		return null;
+		TEntityType entity = null;
+		
+		if(findResults.GetEntities().Count() > 0)
+		{
+			entity = TEntityType.Cast(findResults.GetEntities().Get(0));
+		}
+		
+		return new EL_DbFindResult<TEntityType>(findResults.GetStatusCode(), entity);
 	}
 	
 	EL_DbFindResults<TEntityType> FindAll(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1)
