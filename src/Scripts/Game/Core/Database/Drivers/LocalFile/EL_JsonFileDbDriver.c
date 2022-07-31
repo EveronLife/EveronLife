@@ -14,7 +14,7 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 			return EL_EDbOperationStatusCode.FAILURE_DATA_MALFORMED;
 		}
 		
-		if (!writer.SaveToFile(string.Format("%1/%2/%3.json", m_sDbDir, entity.Type().ToString(), entity.GetId())))
+		if (!writer.SaveToFile(string.Format("%1/%2/%3.json", m_sDbDir, EL_DbEntityName.Get(entity.Type()), entity.GetId())))
 		{
 			return EL_EDbOperationStatusCode.FAILURE_STORAGE_UNAVAILABLE;
 		}
@@ -24,7 +24,7 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 	
 	override protected EL_EDbOperationStatusCode ReadFromDisk(typename entityType, string entityId, out EL_DbEntity entity)
 	{
-		string file = string.Format("%1/%2/%3.json", m_sDbDir, entityType, entityId);
+		string file = string.Format("%1/%2/%3.json", m_sDbDir, EL_DbEntityName.Get(entityType), entityId);
 		if (!FileIO.FileExist(file)) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
 
 		SCR_JsonLoadContext reader();

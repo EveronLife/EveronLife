@@ -34,7 +34,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	
 	override EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
-		FileIO.MakeDirectory(string.Format("%1/%2", m_sDbDir, entity.Type()));
+		FileIO.MakeDirectory(string.Format("%1/%2", m_sDbDir, EL_DbEntityName.Get(entity.Type())));
 		
 		EL_EDbOperationStatusCode statusCode = WriteToDisk(entity);
 		if(statusCode != EL_EDbOperationStatusCode.SUCCESS) return statusCode;
@@ -230,7 +230,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	
 	protected EL_EDbOperationStatusCode DeleteFromDisk(typename entityType, string entityId)
 	{
-		string file = string.Format("%1/%2/%3%4", m_sDbDir, entityType, entityId, GetFileExtension());
+		string file = string.Format("%1/%2/%3%4", m_sDbDir, EL_DbEntityName.Get(entityType), entityId, GetFileExtension());
 		
 		if(!FileIO.FileExist(file)) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
 		
