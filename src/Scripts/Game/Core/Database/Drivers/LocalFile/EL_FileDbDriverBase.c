@@ -62,7 +62,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
 	
-	override array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
+	override EL_DbFindResults<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
 		set<string> relevantIds();
 		bool needsFilter = false;
@@ -87,8 +87,12 @@ class EL_FileDbDriverBase : EL_DbDriver
 			{
 				EL_EDbOperationStatusCode statusCode = ReadFromDisk(entityType, entityId, entity);
 				
-				// Ignore entity if it could not be loaded
-				if(statusCode != EL_EDbOperationStatusCode.SUCCESS || !entity) continue;
+				// Abort find process if any entity failed
+				if(statusCode != EL_EDbOperationStatusCode.SUCCESS || !entity)
+				{
+					if(statusCode == EL_EDbOperationStatusCode.SUCCESS) statusCode = EL_EDbOperationStatusCode.FAILURE_DATA_MALFORMED;
+					return new EL_DbFindResults<EL_DbEntity>(statusCode, {});
+				}
 				
 				if(m_UseCache) m_EntityCache.Add(entity);
 			}
@@ -124,7 +128,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 			resultEntites.Insert(resultDeepCopy);
 		}
 		
-		return resultEntites;
+		return new EL_DbFindResults<EL_DbEntity>(EL_EDbOperationStatusCode.SUCCESS, resultEntites);
 	}
 	
 	override void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
@@ -152,11 +156,11 @@ class EL_FileDbDriverBase : EL_DbDriver
 	override void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
 	{
 		// FileIO is blocking, re-use sync api
-		array<ref EL_DbEntity> dbEntites = FindAll(entityType, condition, orderBy, limit, offset);
+		EL_DbFindResults<EL_DbEntity> findResults = FindAll(entityType, condition, orderBy, limit, offset);
 		
 		if(callback)
 		{
-			callback._SetCompleted(EL_EDbOperationStatusCode.SUCCESS, dbEntites);
+			callback._SetCompleted(findResults.GetStatusCode(), findResults.GetEntities());
 		}
 	}
 	

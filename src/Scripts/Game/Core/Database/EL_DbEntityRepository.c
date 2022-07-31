@@ -41,25 +41,28 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 		return GetDbContext().Remove(TEntityType, entity.GetId());
 	}
 	
-	TEntityType Find(string entityId)
+	EL_DbFindResult<TEntityType> Find(string entityId)
 	{
 		return FindFirst(EL_DbFind.Id().Equals(entityId));
 	}
 	
-	TEntityType FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
+	EL_DbFindResult<TEntityType> FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
 	{
-		array<ref EL_DbEntity> findResults = GetDbContext().FindAll(TEntityType, condition, orderBy, 1);
+		EL_DbFindResults<EL_DbEntity> findResults = GetDbContext().FindAll(TEntityType, condition, orderBy, 1);
 		
-		if(findResults.Count() == 1) return TEntityType.Cast(findResults.Get(0));
+		if(findResults.GetEntities().Count() == 1) 
+		{
+			return new EL_DbFindResult<TEntityType>(findResults.GetStatusCode(), TEntityType.Cast(findResults.GetEntities().Get(0)));
+		}
 		
 		return null;
 	}
 	
-	array<ref TEntityType> FindAll(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1)
+	EL_DbFindResults<TEntityType> FindAll(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1)
 	{
-		array<ref EL_DbEntity> findResults = GetDbContext().FindAll(TEntityType, condition, orderBy, limit, offset);
-		
-		return EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults);
+		EL_DbFindResults<EL_DbEntity> findResults = GetDbContext().FindAll(TEntityType, condition, orderBy, limit, offset);
+
+		return new EL_DbFindResults<TEntityType>(findResults.GetStatusCode(), EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults.GetEntities()));
 	}
 	
 	// -------------------------------- ASYNC API --------------------------------

@@ -85,7 +85,7 @@ class EL_Test_BinaryFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully 
 			return;
 		} 
 		
-		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_BinFileDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId()));
+		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_BinFileDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId())).GetEntities();
 		
 		if(results.Count() != 1)
 		{

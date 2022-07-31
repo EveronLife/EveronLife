@@ -14,6 +14,53 @@ enum EL_EDbOperationStatusCode
 	FAILURE_UNKNOWN
 }
 
+class EL_DbFindResultBase
+{
+	protected EL_EDbOperationStatusCode m_eStatusCode;
+	
+	EL_EDbOperationStatusCode GetStatusCode()
+	{
+		return m_eStatusCode;
+	}
+	
+	bool Success()
+	{
+		return m_eStatusCode == EL_EDbOperationStatusCode.SUCCESS;
+	}
+}
+
+class EL_DbFindResults<Class TEntityType> : EL_DbFindResultBase
+{
+	protected ref array<ref TEntityType> m_aEntities;
+	
+	array<ref TEntityType> GetEntities()
+	{
+		return m_aEntities;
+	}
+	
+	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, array<ref TEntityType> entities)
+	{
+		m_eStatusCode = statusCode;
+		m_aEntities = entities;
+	}
+}
+
+class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
+{
+	protected ref TEntityType m_pEntity;
+	
+	TEntityType GetEntity()
+	{
+		return m_pEntity;
+	}
+	
+	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, TEntityType entity)
+	{
+		m_eStatusCode = statusCode;
+		m_pEntity = entity;
+	}
+}
+
 class EL_DbOperationCallback
 {
 	protected Class m_InvokeInstance;

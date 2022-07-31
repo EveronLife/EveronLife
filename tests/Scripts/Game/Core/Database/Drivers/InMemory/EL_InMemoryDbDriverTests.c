@@ -38,7 +38,7 @@ TestResultBase EL_Test_InMemoryDbDriver_AddOrUpdate_NewEntity_Inserted()
 	// Assert
 	if(!resultCode == EL_EDbOperationStatusCode.SUCCESS) return new EL_TestResult(false); 
 	
-	array<ref EL_DbEntity> results = driver.FindAll(EL_Test_InMemoryDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId()));
+	array<ref EL_DbEntity> results = driver.FindAll(EL_Test_InMemoryDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId())).GetEntities();
 	
 	if(results.Count() != 1) return new EL_TestResult(false);
 	
@@ -69,7 +69,7 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_ExistingId_Removed()
 	// Assert
 	if(!resultCode == EL_EDbOperationStatusCode.SUCCESS) return new EL_TestResult(false); 
 	
-	array<ref EL_DbEntity> results = driver.FindAll(EL_Test_InMemoryDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId()));
+	array<ref EL_DbEntity> results = driver.FindAll(EL_Test_InMemoryDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId())).GetEntities();
 	
 	return new EL_TestResult(results.Count() == 0);
 }

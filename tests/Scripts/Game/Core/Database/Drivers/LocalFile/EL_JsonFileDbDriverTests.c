@@ -85,7 +85,7 @@ class EL_Test_JsonFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully : 
 			return;
 		} 
 		
-		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_JsonFileDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId()));
+		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_JsonFileDbDriverEntity, EL_DbFind.Id().Equals(entity.GetId())).GetEntities();
 		
 		if(results.Count() != 1)
 		{
@@ -171,7 +171,7 @@ class EL_Test_JsonFileDbDriver_FindAll_IdOnly_ExactLoadAndCache : EL_Test_JsonFi
 		EL_DbFindCondition condition = EL_DbFind.Id().EqualsAnyOf(EL_DbValues<string>.From({"TEST0000-0000-0001-0000-000000001001", "TEST0000-0000-0001-0000-000000001005"}));
 		
 		// Act
-		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_JsonFileDbDriverEntity, condition);
+		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_JsonFileDbDriverEntity, condition).GetEntities();
 	
 		// Assert
 		SetResult(new EL_TestResult((results.Count() == 2) && (driver._GetEntityCache().m_EntityInstances.Count() == 2)));
@@ -211,7 +211,7 @@ class EL_Test_JsonFileDbDriver_FindAll_ContentField_AllLoadedAndCached : EL_Test
 			EL_DbFind.Field("m_fFloatValue").GreaterThanOrEqual(42.5)
 		});
 		
-		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_JsonFileDbDriverEntity, condition);
+		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_JsonFileDbDriverEntity, condition).GetEntities();
 
 		// Assert
 		SetResult(new EL_TestResult((results.Count() == 2) && (driver._GetEntityCache().m_EntityInstances.Count() == 5)));

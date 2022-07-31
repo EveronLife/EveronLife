@@ -63,7 +63,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
 	
-	override array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
+	override EL_DbFindResults<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
 		array<ref EL_DbEntity> entities = m_Db.GetAll(entityType);
 		
@@ -96,7 +96,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 			resultEntites.Insert(resultDeepCopy);
 		}
 		
-		return resultEntites;
+		return new EL_DbFindResults<EL_DbEntity>(EL_EDbOperationStatusCode.SUCCESS, resultEntites);
 	}
 	
 	override void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
@@ -124,11 +124,11 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	override void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
 	{
 		// In memory is blocking, re-use sync api
-		array<ref EL_DbEntity> dbEntites = FindAll(entityType, condition, orderBy, limit, offset);
+		EL_DbFindResults<EL_DbEntity> findResults = FindAll(entityType, condition, orderBy, limit, offset);
 		
 		if(callback)
 		{
-			callback._SetCompleted(EL_EDbOperationStatusCode.SUCCESS, dbEntites);
+			callback._SetCompleted(findResults.GetStatusCode(), findResults.GetEntities());
 		}
 	}
 	

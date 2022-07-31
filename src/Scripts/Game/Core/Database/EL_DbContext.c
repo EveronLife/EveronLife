@@ -13,7 +13,7 @@ class EL_DbContext
 		return m_Driver.Remove(entityType, entityId);
 	}
 	
-	array<ref EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
+	EL_DbFindResults<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
 		return m_Driver.FindAll(entityType, condition, orderBy, limit, offset);
 	}
