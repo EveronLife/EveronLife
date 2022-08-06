@@ -32,6 +32,38 @@ class EL_DbFindCondition
 	}
 	
 	string GetDebugString();
+	
+	// Collects id field comparision values and returns true if there are no other fields that conditions need to be applied to
+	static bool CollectConditionIds(EL_DbFindCondition condition, out set<string> ids)
+	{
+		EL_DbFindFieldStringMultiple stringMultipleCondition = EL_DbFindFieldStringMultiple.Cast(condition);
+		if (stringMultipleCondition)
+		{
+			if (stringMultipleCondition.m_FieldPath != EL_DbEntity.FIELD_ID ||
+				stringMultipleCondition.m_ComparisonOperator != EL_EDbFindOperator.EQUAL) return false;
+			
+			foreach(string id : stringMultipleCondition.m_ComparisonValues)
+			{
+				ids.Insert(id);
+			}
+			
+			return true;
+		}
+		
+		EL_DbFindConditionWithChildren conditionWithChildren = EL_DbFindConditionWithChildren.Cast(condition);
+		if(conditionWithChildren)
+		{
+			foreach(EL_DbFindCondition childCondition : conditionWithChildren.m_Conditions)
+			{
+				if(!CollectConditionIds(childCondition, ids)) return false;
+			}
+			
+			return true;
+		}
+		
+		// TODO: Can be optimized to check if id field is part of AND, and there are no other toplevel ORs, so we can know that only specific ids need to be loaded and then filters applied.
+		return false;
+	}
 }
 
 class EL_DbFindConditionWithChildren : EL_DbFindCondition

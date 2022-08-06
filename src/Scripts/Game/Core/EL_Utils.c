@@ -12,6 +12,11 @@ class EL_Utils
 		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 	}
 	
+	static ResourceName GetPrefabName(IEntity entity)
+	{
+		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
+	}
+	
 	static string IntToHex(int value)
 	{
 		array<string> resultChars = {"0", "0", "0", "0", "0", "0", "0", "0"};
@@ -51,12 +56,55 @@ class EL_Utils
 		System.GetHourMinuteSecondUTC(hour, minute, second);
 		return ((year - 2000) << 26) | (month << 22) | (day << 17) | (hour << 12) | (minute << 6) | second;
 	}
+	
+	static array<typename> SortTypenameHierarchy(array<typename> typenames)
+	{
+		map<typename, int> hierachyCount();
+		
+		foreach(typename possibleRootClass : typenames)
+		{
+			hierachyCount.Set(possibleRootClass, 0);
+			
+			foreach(typename compareRootClass : typenames)
+			{
+				if(possibleRootClass.IsInherited(compareRootClass))
+				{
+					hierachyCount.Set(possibleRootClass, hierachyCount.Get(possibleRootClass) + 1);
+				}
+			}
+		}
+		
+		array<string> sortedHierachyTuples();
+		sortedHierachyTuples.Resize(hierachyCount.Count());
+		
+		int hierachyIdx = 0;
+		foreach(typename type, int count : hierachyCount)
+		{
+			sortedHierachyTuples.Set(hierachyIdx++, string.Format("%1:%2", count.ToString(3), type.ToString()));
+		}
+		
+		sortedHierachyTuples.Sort(true);
+		
+		array<typename> sortedHierachy();
+		sortedHierachy.Resize(hierachyCount.Count());
+		
+		foreach(int idx, string tuple : sortedHierachyTuples)
+		{
+			int typenameStart = tuple.IndexOf(":") + 1;
+			string typenameString = tuple.Substring(typenameStart, tuple.Length() - typenameStart);
+			sortedHierachy.Set(idx, typenameString.ToType());
+		}
+		
+		return sortedHierachy;
+	}
 }
 
 class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 {
 	static array<ref TResultType> Convert(array<ref TSourceType> sourceArray)
 	{
+		if(!sourceArray) return null;
+		
 		array<ref TResultType> castedResult();
 		castedResult.Resize(sourceArray.Count());
 		

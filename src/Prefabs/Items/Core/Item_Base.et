@@ -1,8 +1,12 @@
 GenericEntity {
  ID "508AB2013EEE1E00"
  components {
-  EL_PersistenceComponent "{59D2ACDDA8D931BF}" {
-   m_pSaveStructType EL_PersistentEntity "{59E2B5DC991B1574}" {
+  EL_PersistenceComponent "{5A0D2D213B33ECD8}" {
+   m_pSaveData EL_ItemSaveData "{5A0D2D2139A3D7EC}" {
+    m_aComponents {
+     EL_TransformationSaveData "{5A0D2D213754AF24}" {
+     }
+    }
    }
   }
  }

@@ -1,6 +1,6 @@
 class EL_DbEntityRepositoryBase
 {
-	private ref EL_DbContext m_DbContext;
+	protected ref EL_DbContext m_DbContext;
 	
 	void Configure(EL_DbContext dbContext)
 	{
@@ -12,7 +12,7 @@ class EL_DbEntityRepositoryBase
 	{
 		return m_DbContext;
 	}
-
+	
 	// Creation only through EL_DbEntityRepositoryFactory::GetRepository
 	private void EL_DbEntityRepositoryBase();
 }
@@ -28,17 +28,17 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	EL_EDbOperationStatusCode AddOrUpdate(notnull TEntityType entity)
 	{
-		return GetDbContext().AddOrUpdate(entity);
+		return m_DbContext.AddOrUpdate(entity);
 	}
 	
 	EL_EDbOperationStatusCode Remove(string entityId)
 	{
-		return GetDbContext().Remove(TEntityType, entityId);
+		return m_DbContext.Remove(TEntityType, entityId);
 	}
 	
 	EL_EDbOperationStatusCode Remove(notnull TEntityType entity)
 	{
-		return GetDbContext().Remove(TEntityType, entity.GetId());
+		return m_DbContext.Remove(TEntityType, entity.GetId());
 	}
 	
 	EL_DbFindResult<TEntityType> Find(string entityId)
@@ -57,7 +57,7 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	EL_DbFindResult<TEntityType> FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
 	{
-		EL_DbFindResults<EL_DbEntity> findResults = GetDbContext().FindAll(TEntityType, condition, orderBy, 1);
+		EL_DbFindResults<EL_DbEntity> findResults = m_DbContext.FindAll(TEntityType, condition, orderBy, 1);
 		
 		if(!findResults.Success())
 		{
@@ -76,7 +76,7 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	EL_DbFindResults<TEntityType> FindAll(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1)
 	{
-		EL_DbFindResults<EL_DbEntity> findResults = GetDbContext().FindAll(TEntityType, condition, orderBy, limit, offset);
+		EL_DbFindResults<EL_DbEntity> findResults = m_DbContext.FindAll(TEntityType, condition, orderBy, limit, offset);
 
 		return new EL_DbFindResults<TEntityType>(findResults.GetStatusCode(), EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults.GetEntities()));
 	}
@@ -85,17 +85,17 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	void AddOrUpdateAsync(notnull TEntityType entity, EL_DbOperationStatusOnlyCallback callback = null)
 	{
-		GetDbContext().AddOrUpdateAsync(entity, callback);
+		m_DbContext.AddOrUpdateAsync(entity, callback);
 	}
 	
 	void RemoveAsync(string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
-		GetDbContext().RemoveAsync(TEntityType, entityId, callback);
+		m_DbContext.RemoveAsync(TEntityType, entityId, callback);
 	}
 	
 	void RemoveAsync(TEntityType entity, EL_DbOperationStatusOnlyCallback callback = null)
 	{
-		GetDbContext().RemoveAsync(TEntityType, entity.GetId(), callback);
+		m_DbContext.RemoveAsync(TEntityType, entity.GetId(), callback);
 	}
 	
 	void FindAsync(string entityId, EL_DbFindCallbackSingle<TEntityType> callback)
@@ -105,11 +105,11 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	
 	void FindFirstAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, EL_DbFindCallbackSingle<TEntityType> callback = null)
 	{
-		GetDbContext().FindAllAsync(TEntityType, condition, orderBy, 1, -1, callback);
+		m_DbContext.FindAllAsync(TEntityType, condition, orderBy, 1, -1, callback);
 	}
 	
 	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallback<TEntityType> callback = null)
 	{
-		GetDbContext().FindAllAsync(TEntityType, condition, orderBy, limit, offset, callback);
+		m_DbContext.FindAllAsync(TEntityType, condition, orderBy, limit, offset, callback);
 	}
 }

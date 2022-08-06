@@ -1,3 +1,78 @@
-GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
- coords 119.591 0.898 135.462
+$grp GenericEntity : "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et" {
+ PersistentBottle1 {
+  coords 110.623 0.807 137.876
+ }
+ PersistentBottle2 {
+  coords 110.62 0.807 138.231
+ }
+}
+GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et" {
+ components {
+  ActionsManagerComponent "{5A02A4484BCE008C}" {
+   ActionContexts {
+    UserActionContext "{5A02A44848D46F98}" {
+     ContextName "default"
+     Position PointInfo "{5A02A44846C1FFA2}" {
+      Offset 0 0.8045 0
+     }
+     Radius 1
+    }
+   }
+   additionalActions {
+    EL_TriggerSaveAction "{5A02A4491479BBD4}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5A02A44913D17583}" {
+      Name "Trigger persistence save"
+     }
+     Duration 0.5
+    }
+   }
+  }
+  RplComponent "{5A02A44851B24758}" {
+  }
+ }
+ coords 110.062 0.001 138.042
+ angleY 90
+}
+GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et" {
+ components {
+  ActionsManagerComponent "{5A0CC6181ABC68A1}" {
+   ActionContexts {
+    UserActionContext "{5A0CC6181BF26743}" {
+     ContextName "default"
+     Position PointInfo "{5A0CC618140D8F1C}" {
+      Offset 0 0.9993 0
+     }
+     Radius 2
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{5A0CC6180BC74501}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5A0CC6180931D3BE}" {
+      Name "Get Bottle"
+     }
+     Duration 0.5
+     m_GatherItemDisplayName "Bottle"
+     m_GatherItemPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+ coords 112.382 0.001 138.475
+}
+Vehicle PersistentTestVehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
+ components {
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 10408.7
+  }
+ }
+ coords 106.95 0.001 138.732
 }

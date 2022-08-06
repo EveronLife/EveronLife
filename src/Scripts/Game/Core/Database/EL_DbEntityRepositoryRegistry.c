@@ -21,7 +21,7 @@ class EL_DbEntityRepositoryType
 		if(!m_Mapping) m_Mapping = new map<typename, typename>();
 		
 		typename result = m_Mapping.Get(entityType);
-
+		
 		if(!result)
 		{
 			string repositoryTypeStr = string.Format("EL_DbEntityRepository<%1>", entityType.ToString());
@@ -38,7 +38,7 @@ class EL_DbEntityRepositoryType
 				Debug.Error(string.Format("Tried to get unknown entity repository type '%1'. Make sure you use it somewhere in your code e.g.: '%1 repository = ...;'", repositoryTypeStr));
 			}
 		}
-
+		
 		return result;
 	}
 }

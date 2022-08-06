@@ -7,7 +7,7 @@ modded class SCR_VehicleInventoryStorageManagerComponent
         
         EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
         
-        if(persistenceComponent) persistenceComponent.OnParentChanged(item, storageOwner.GetOwner());
+        if(persistenceComponent) persistenceComponent.OnStorageParentChanged(item, storageOwner.GetOwner());
     }
 
     //------------------------------------------------------------------------------------------------
@@ -17,6 +17,6 @@ modded class SCR_VehicleInventoryStorageManagerComponent
         
         EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
         
-        if(persistenceComponent) persistenceComponent.OnParentChanged(item, null);
+        if(persistenceComponent) persistenceComponent.OnStorageParentChanged(item, null);
     }
 }

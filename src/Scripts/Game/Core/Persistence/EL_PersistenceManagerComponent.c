@@ -1,34 +1,80 @@
 class EL_PersistenceManagerComponentClass : SCR_BaseGameModeComponentClass
 {
+	[Attribute(defvalue: "1", desc: "Enable or disable auto-save globally", category: "Auto-Save")]
+	bool m_bEnabled;
+	
+	[Attribute(defvalue: "600", desc: "Time between auto-save in seconds.", category: "Auto-Save")]
+	float m_fInterval;
+	
+	[Attribute(defvalue: "5", uiwidget: UIWidgets.Slider, desc: "Maximum number of entities processed during a single update tick.", params: "1 128 1", category: "Auto-Save")]
+	int m_iIterations;
+	
+	[Attribute(defvalue: "0.33", uiwidget: UIWidgets.Slider, desc: "Distance between surface and camera on y-axis", params: "0.01 10 0.01", category: "Advanced", precision: 2)]
+	float m_fUpdateRate;
 }
 
 class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 {
-	override void OnWorldPostProcess(World world)
+	protected float m_fAccumulator;
+	protected float m_fUpdateRateSetting;
+	
+	override event void OnWorldPostProcess(World world)
 	{
 		super.OnWorldPostProcess(world);
 		
-		EL_PersistenceManager.GetInstance().OnWorldPostProcess(world);
+		if(!IsActive()) return;
+		
+		GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnWorldPostProcessThreadImpl", true, null, world);
 	}
 	
-	override void OnGameEnd()
+	override event void OnGameEnd()
 	{
 		super.OnGameEnd();
 		
-		EL_PersistenceManager.GetInstance().OnGameEnd();
+		if(!IsActive()) return;
+		
+		// TODO: On game and with web api let it check the game state and if end game then instead of sleep doe while trupe loop blocking http calls.
+		GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnGameEnd", false, null);
 	}
 	
-	/*
-	override void EOnPostFrame(IEntity owner, float timeSlice)
+	override event void EOnPostFrame(IEntity owner, float timeSlice)
 	{
-		EL_PersistenceManager.GetInstance().OnPostFrame(timeSlice);
+		super.EOnPostFrame(owner, timeSlice);
+		
+		if(!IsActive()) return;
+		
+		m_fAccumulator += timeSlice;
+		
+		if(m_fAccumulator >= m_fUpdateRateSetting)
+		{
+			GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnPostFrame", false, null, m_fAccumulator);
+			m_fAccumulator = 0;
+		}
 	}
 	
-	override void OnPostInit(IEntity owner)
+	override event void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
 		
+		// Persistence logic only runs on the server machine
+		if(!EL_PersistenceManager.IsPersistenceMaster())
+		{
+			Deactivate(owner);
+			return;
+		}
+		
+		EL_PersistenceManagerComponentClass settings = EL_PersistenceManagerComponentClass.Cast(GetComponentData(owner));
+		if(settings.m_fInterval < settings.m_fUpdateRate)
+		{
+			Debug.Error(string.Format("Update rate '%1' must be smaller than auto-save interval '%2'.", settings.m_fUpdateRate, settings.m_fInterval));
+			Deactivate(owner);
+			return;
+		}
+		
+		m_fUpdateRateSetting = settings.m_fUpdateRate;
+		
 		SetEventMask(owner, EntityEvent.POSTFRAME);
+		
+		GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnPostInit", false, null, owner);
 	}
-	*/
 }

@@ -4,8 +4,16 @@ class EL_DbContext
 	
 	EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
-		if(!entity.HasId()) entity.SetId(EL_EntityIdGenerator.Generate());
+		if(!entity.HasId()) entity.SetId(EL_DbEntityIdGenerator.Generate());
 		return m_Driver.AddOrUpdate(entity);
+	}
+	
+	EL_EDbOperationStatusCode Remove(notnull EL_DbEntity entity)
+	{
+		// Save as vars because script vm invalid pointer bug if passed diretly
+		typename type = entity.Type();
+		string id = entity.GetId();
+		return m_Driver.Remove(type, id);
 	}
 	
 	EL_EDbOperationStatusCode Remove(typename entityType, string entityId)
@@ -20,8 +28,16 @@ class EL_DbContext
 
 	void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
 	{
-		if(!entity.HasId()) entity.SetId(EL_EntityIdGenerator.Generate());
+		if(!entity.HasId()) entity.SetId(EL_DbEntityIdGenerator.Generate());
 		m_Driver.AddOrUpdateAsync(entity, callback);
+	}
+	
+	void RemoveAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
+	{
+		// Save as vars because script vm invalid pointer bug if passed diretly
+		typename type = entity.Type();
+		string id = entity.GetId();
+		m_Driver.RemoveAsync(type, id, callback);
 	}
 	
 	void RemoveAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
@@ -75,7 +91,8 @@ class EL_DbContext
 	private static bool _TryGetConnectionString(string dataSource, out string connectionString)
 	{
 		// Todo remove hardcode
-		connectionString = string.Format("inmemory://%1?someoption=true&anotheroption=false", dataSource);
+		//connectionString = string.Format("inmemory://%1?someoption=true&anotheroption=false", dataSource);
+		connectionString = string.Format("jsonfile://EveronLife?cache=true", dataSource);
 		return true;
 	}
 	

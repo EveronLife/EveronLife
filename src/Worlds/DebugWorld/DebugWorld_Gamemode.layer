@@ -1,2 +1,17 @@
 EL_GameModeRoleplay GameMode_Roleplay1 : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
+ components {
+  EL_PersistenceManagerComponent "{59D28944F1C3532E}" {
+  }
+ }
+ {
+  GarbageManager {
+   ID "59751433747F9391"
+   CollectorIterations 128
+   CollectorInterval 0
+   CharacterCollect 0
+   VehicleCollect 0
+   ItemCollect 0
+   ItemLifetime 5
+  }
+ }
 }

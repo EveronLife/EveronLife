@@ -3,10 +3,10 @@ sealed class EL_DbContextFactory
 	private const string DEFAULT_SOURCE = "db";
 	
 	private static ref map<string, ref EL_DbContext> s_ContextCache;
-	
-	void ResetCache()
+
+	static void ResetCache()
 	{
-		delete s_ContextCache;
+		s_ContextCache = null;
 	}
 	
 	static EL_DbContext GetContext(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useCache = true)
@@ -19,6 +19,7 @@ sealed class EL_DbContextFactory
 			if(!s_ContextCache)
 			{
 				s_ContextCache = new map<string, ref EL_DbContext>();
+				GetGame().m_OnMissionSetInvoker.Insert(ResetCache);
 			}
 			
 			context = s_ContextCache.Get(dataSource);

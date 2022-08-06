@@ -4,6 +4,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	protected static ref map<string, ref EL_InMemoryDatabase> m_Databases;
 	
 	protected EL_InMemoryDatabase m_Db;
+	protected bool m_UseCache;
 	
 	override bool Initalize(string connectionString = string.Empty)
 	{
@@ -15,7 +16,13 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		
 		if(!m_Databases) return false;
 		
-		// No params yet to the connection data is just the db name
+		// Placeholder until we either have proper query string parsing or connection settings object
+		connectionString.Replace("?cache=false", "");	
+		if(connectionString.Replace("?cache=true", "") > 0)
+		{
+			m_UseCache = true;
+		}
+		
 		string dbName = connectionString;
 		
 		m_Db = m_Databases.Get(dbName);
@@ -46,10 +53,14 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		if(!entity.HasId()) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
 		
 		// Make a copy so after insert you can not accidently change anything on the instance passed into the driver later.
-		EL_DbEntity deepCopy = EL_DbEntity.Cast(entity.Type().Spawn());
-		EL_DbEntityUtils.ApplyDbEntityTo(entity, deepCopy);
+		if(m_UseCache)
+		{
+			EL_DbEntity deepCopy = EL_DbEntity.Cast(entity.Type().Spawn());
+			EL_DbEntityUtils.ApplyDbEntityTo(entity, deepCopy);
+			entity = deepCopy;
+		}
 		
-		m_Db.AddOrUpdate(deepCopy);
+		m_Db.AddOrUpdate(entity);
 		
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
@@ -69,15 +80,30 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	
 	override EL_DbFindResults<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
-		array<ref EL_DbEntity> entities = m_Db.GetAll(entityType);
+		array<ref EL_DbEntity> entities;
 		
-		// Only continue with those that match the condition if present
-		if(condition)
+		// See if we can only load selected few entities by id or we need the entire collection to search through
+		set<string> relevantIds();
+		bool needsFilter = false;
+		if(condition && EL_DbFindCondition.CollectConditionIds(condition, relevantIds))
+		{
+			entities.Resize(relevantIds.Count());
+			foreach(int idx, string relevantId : relevantIds)
+			{
+				entities.Set(idx, m_Db.Get(entityType, relevantId));
+			}
+		}
+		else
+		{
+			entities = m_Db.GetAll(entityType);
+			needsFilter = true;
+		}
+
+		if(needsFilter && condition)
 		{
 			entities = EL_DbFindConditionEvaluator.GetFiltered(entities, condition);
 		}
 		
-		// Order results if wanted
 		if(orderBy)
 		{
 			entities = EL_DbEntitySorter.GetSorted(entities, orderBy);

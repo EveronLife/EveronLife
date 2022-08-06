@@ -1,11 +1,13 @@
-class EL_EntityIdGenerator
+class EL_DbEntityIdGenerator
 {
 	protected static int m_Sequence;
 	
-	protected static ref RandomGenerator m_Random = new RandomGenerator();
+	protected static ref RandomGenerator m_Random;
 	
 	static string Generate()
 	{
+		if(!m_Random) m_Random = new RandomGenerator();
+		
 		//No need to look at past generated ids in db for conflict, because they have older timestamps
 		string timeHex = EL_Utils.IntToHex(EL_Utils.GetCurrentUtcAsInt());
 		

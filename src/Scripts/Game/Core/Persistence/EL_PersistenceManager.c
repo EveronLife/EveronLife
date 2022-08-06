@@ -1,4 +1,4 @@
-enum EL_PersistenceManagerState
+enum EL_EPersistenceManagerState
 {
 	WORLD_INIT,
 	ACTIVE,
@@ -9,58 +9,394 @@ class EL_PersistenceManager
 {
 	protected static ref EL_PersistenceManager s_pInstance;
 	
-	protected EL_PersistenceManagerState m_eState;
+	protected EL_EPersistenceManagerState m_eState;
 	
-	EL_PersistenceManagerState GetState()
+	// Auto save system
+	protected ref set<EL_PersistenceComponent> m_AutoSaveComponents;
+	protected float m_fAutoSaveInterval;
+	protected float m_fAutoSaveAccumultor;
+	protected int m_iAutoSaveIterations;
+	
+	// Root entity tracking
+	protected ref EL_PersistentRootEntityCollection m_pRootEntityCollection;
+	protected bool m_bRootEntityFlushRequested;
+	
+	// Only used during setup
+	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
+	protected ref map<string, IEntity> m_mBackedEntities;
+	protected string m_sPersistentIdBuffer;
+	
+	static bool IsPersistenceMaster()
+	{
+		return GetGame().InPlayMode() && Replication.IsServer();
+	}
+	
+	bool IsActive()
+	{
+		return GetGame().InPlayMode() && m_eState == EL_EPersistenceManagerState.ACTIVE;
+	}
+	
+	EL_EPersistenceManagerState GetState()
 	{
 		return m_eState;
 	}
 	
-	void StartTacking(Class trackableInstance)
+	EL_DbContext GetDbContext()
 	{
-		
+		// TODO: Read persistence db source from server config.
+		return EL_DbContextFactory.GetContext();
 	}
 	
-	void StopTacking(Class trackableInstance)
+	protected void SubscribeAutoSave(notnull IEntity worldEntity)
 	{
-		//can not delete entries on stop tracking instantly, cause it would mess up the auto save state.
-		//extra function to "removelater" for autosave (which is triggered just before shutdown?) to delete world objects etc together with new being created etc
-		//if object still exists but is not toplevel anymore, then its not tracked but not deleted either.
+		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		if(!persistenceComponent) return;
 		
-		//no extra function, on stop tracking get the id for it and the instance as weak ref. on next autosave check if it has become null, and mass remove all that were deleted.
-		//for scripted states aka not inherit from IEntity we need to make a mapping in this manager to associate instance with an ID anyway :)
+		m_AutoSaveComponents.Insert(persistenceComponent);
+	}	
+	
+	protected void UnsubscribeAutoSave(notnull IEntity worldEntity)
+	{
+		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		if(!persistenceComponent) return;
+		
+		int idx = m_AutoSaveComponents.Find(persistenceComponent);
+		if(idx != -1) m_AutoSaveComponents.Remove(idx);
 	}
 	
-	void SaveAll()
+	void AutoSave()
 	{
+		m_fAutoSaveAccumultor = 0;
 		
+		thread AutoSaveThreadImpl();
 	}
 	
-	void OnWorldPostProcess(World world)
+	protected void AutoSaveThreadImpl()
 	{
-		m_eState = EL_PersistenceManagerState.ACTIVE;
+		foreach(int idx, EL_PersistenceComponent persistenceComponent : m_AutoSaveComponents)
+		{
+			if((m_eState == EL_EPersistenceManagerState.ACTIVE) && (idx > 0) && (idx % m_iAutoSaveIterations == 0))
+			{
+				Print("Waiting a few frames");
+				Sleep(100); //Wait a few frames
+			}
+			
+			Print("saving " + persistenceComponent);
+			persistenceComponent.Save();
+		}
 	}
 	
-	void OnGameEnd()
+	protected void RegisterRootEntity(typename saveDataType, string persistentId, bool baked, bool flush = false)
 	{
-		m_eState = EL_PersistenceManagerState.SHUTDOWN;
+		if(baked)
+		{
+			int idx = m_pRootEntityCollection.m_aRemovedBackedEntities.Find(persistentId);
+			if(idx != -1) m_pRootEntityCollection.m_aRemovedBackedEntities.Remove(idx);
+		}
+		else
+		{
+			set<string> ids = m_pRootEntityCollection.m_mAddtionalDynamicEntities.Get(saveDataType);
+			
+			if(!ids)
+			{
+				ids = new set<string>();
+				m_pRootEntityCollection.m_mAddtionalDynamicEntities.Set(saveDataType, ids);
+			}
+			
+			ids.Insert(persistentId);
+		}
 		
-		//Flush changes into persistency -> TODO: How to best make this blocking?
-		SaveAll();
+		if(flush) m_bRootEntityFlushRequested = true;
+	}
+
+	protected void UnregisterRootEntity(typename saveDataType, string persistentId, bool baked, bool flush = false)
+	{
+		if(baked)
+		{
+			m_pRootEntityCollection.m_aRemovedBackedEntities.Insert(persistentId);
+		}
+		else
+		{
+			set<string> ids = m_pRootEntityCollection.m_mAddtionalDynamicEntities.Get(saveDataType);
+		
+			if(ids)
+			{
+				int idx = ids.Find(persistentId);
+				if(idx != -1) ids.Remove(idx);
+			}
+		}
+		
+		if(flush) m_bRootEntityFlushRequested = true;
+	}
+		
+	protected void FlushRootEntityRegistrationsThreadImpl()
+	{
+		m_bRootEntityFlushRequested = false;
+		
+		// Remove collection if it only holds default values
+		if (m_pRootEntityCollection.m_aRemovedBackedEntities.Count() == 0 && 
+			m_pRootEntityCollection.m_mAddtionalDynamicEntities.Count() == 0)
+		{
+			// Only need to call db if it was previously saved (aka it has an id)
+			if(m_pRootEntityCollection.HasId()) GetDbContext().RemoveAsync(m_pRootEntityCollection);
+		}
+		else
+		{
+			GetDbContext().AddOrUpdateAsync(m_pRootEntityCollection);
+		}
+	}
+	
+	protected string GeneratePersistentId(notnull IEntity worldEntity)
+	{
+		string id;
+
+		// Load if from baked object name->id mapping
+		if(m_eState == EL_EPersistenceManagerState.WORLD_INIT)
+		{
+			string name = worldEntity.GetName();
+			if(!name)
+			{
+				Debug.Error(string.Format("Baked world entity '%1'@%2 needs to have a name to be trackable by the persistence system.", 
+					EL_Utils.GetPrefabName(worldEntity), 
+					worldEntity.GetOrigin()));
+				
+				return string.Empty;
+			}
+			
+			id = m_pBakedEntityNameIdMapping.GetIdByName(name);
+			
+			// Name was not yet mapped so generate and id for it and add it to the mapping
+			if(!id)
+			{
+				id = EL_DbEntityIdGenerator.Generate();
+				
+				EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+				if(!persistenceComponent) string.Empty;
+				EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
+				m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
+			}
+			
+			m_mBackedEntities.Set(id, worldEntity);
+		}
+		else if(m_sPersistentIdBuffer)
+		{
+			id = m_sPersistentIdBuffer;
+			m_sPersistentIdBuffer = string.Empty;
+		}
+		else
+		{
+			id = EL_DbEntityIdGenerator.Generate();
+		}
+		
+		Print(string.Format("EL_PersistenceManager: Entity '%1'@%2 was assigned persistent id '%3'.", EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin(), id));
+		
+		return id;
+	}
+
+	event void OnWorldPostProcessThreadImpl(World world)
+	{
+		m_eState = EL_EPersistenceManagerState.ACTIVE;
+		
+		UpdateBakedEntityNameIdMapping();
+		
+		PrepareInitalWorldState();
+	}
+	
+	protected void UpdateBakedEntityNameIdMapping()
+	{
+		// Save any changes to the mapping
+		m_pBakedEntityNameIdMapping.Save(GetDbContext());
+
+		// Free the mapping as it no longer needed
+		m_pBakedEntityNameIdMapping = null;
+	}
+	
+	protected void PrepareInitalWorldState()
+	{	
+		// 1. Remove baked entities that shall no longer be root entities in the world
+		array<string> staleIds();
+		foreach(string persistentId : m_pRootEntityCollection.m_aRemovedBackedEntities)
+		{
+			IEntity worldEntity = m_mBackedEntities.Get(persistentId);
+			if(!worldEntity)
+			{
+				staleIds.Insert(persistentId);
+				continue;
+			}
+			
+			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting baked entity '%1'@%2.", EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin()), LogLevel.SPAM);
+			SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
+		}
+		
+		// 1.1. Remove any removal entries for baked objects that no longer exist
+		foreach(string staleId : staleIds)
+		{
+			int idx = m_pRootEntityCollection.m_aRemovedBackedEntities.Find(staleId);
+			if(idx != -1) m_pRootEntityCollection.m_aRemovedBackedEntities.Remove(idx);
+		}
+		if(staleIds.Count() > 0)
+		{
+			m_bRootEntityFlushRequested = true;
+			Print("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting stale baked entity removal ids.");
+		}
+		
+		// 2. Load all known root entity types from db, both baked and dynamic in one bulk operation
+		map<typename, ref set<string>> bulkLoad();
+		foreach(typename saveType, set<string> persistentIds: m_pRootEntityCollection.m_mAddtionalDynamicEntities)
+		{
+			set<string> loadIds();
+			loadIds.Copy(persistentIds);
+			bulkLoad.Set(saveType, loadIds);
+		}
+		foreach(string persistentId, IEntity bakedEntity : m_mBackedEntities)
+		{
+			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(bakedEntity.FindComponent(EL_PersistenceComponent));
+			if(!persistenceComponent) continue;
+			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(bakedEntity));
+			
+			set<string> loadIds = bulkLoad.Get(settings.m_tSaveDataTypename);
+			
+			if(!loadIds)
+			{
+				loadIds = new set<string>();
+				bulkLoad.Set(settings.m_tSaveDataTypename, loadIds);
+			}
+			
+			loadIds.Insert(persistentId);
+		}
+
+		foreach(typename saveDataType, set<string> persistentIds : bulkLoad)
+		{
+			array<string> loadIds();
+			loadIds.Resize(persistentIds.Count());
+			foreach(int idx, string id : persistentIds)
+			{
+				loadIds.Set(idx, id);
+			}
+			
+			array<ref EL_DbEntity> findResults = GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(loadIds)).GetEntities();
+			if(!findResults) continue;
+			
+			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Found %1 entities of type '%2'.", findResults.Count(), saveDataType));
+			
+			// 2.1. Apply save data to existing world entity or spawn a dynamic one to apply to
+			foreach(EL_DbEntity findResult : findResults)
+			{
+				Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Loading entity '%1:%2'.", saveDataType,findResult.GetId()));
+				
+				EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(findResult);
+				if(!saveData)
+				{
+					Debug.Error(string.Format("Unexpected database find result type '%1' encountered during world setup. Ignored.", findResult.Type()));
+					continue;
+				}
+				
+				IEntity worldEntity = m_mBackedEntities.Get(saveData.GetId());
+				if(!worldEntity)
+				{
+					Resource resource = Resource.Load(saveData.m_Prefab);
+					if(!resource.IsValid())
+					{
+						Debug.Error(string.Format("Invalid prefab type '%1' on '%2:%3' could not be spawned. Ignored.", saveData.m_Prefab, saveData.Type(), saveData.GetId()));
+						continue;
+					}
+					
+					m_sPersistentIdBuffer = saveData.GetId();
+					worldEntity = GetGame().SpawnEntityPrefab(resource);
+					if(!worldEntity)
+					{
+						Debug.Error(string.Format("Failed to spawn entity '%1:%2'. Ignored.", saveData.Type(), saveData.GetId()));
+						continue;
+					}
+				}
+				
+				if(!saveData.ApplyTo(worldEntity))
+				{
+					Debug.Error(string.Format("Failed apply save data to '%1:%2'. Ignored.", saveData.Type(), saveData.GetId()));
+					SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
+				}
+			}
+		}
+		
+		// 3. Free memory as it not needed after setup
+		m_mBackedEntities = null;
+		
+		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.");
+	}
+	
+	protected event void OnGameEnd()
+	{
+		m_eState = EL_EPersistenceManagerState.SHUTDOWN;
+		
+		// Call without thread to be blocking on shutdown
+		AutoSaveThreadImpl();
 		
 		//Cleanup after end of current session
-		Reset();
+		Reset(); // TODO: Test if this event is called when existing server and returning to main menu (assuming player hosted instance)
 	}
 	
-	/*
-	void OnPostFrame(float timeSlice)
+	protected event void OnPostFrame(float timeSlice)
 	{
-		Print(timeSlice);
+		m_fAutoSaveAccumultor += timeSlice;
+		
+		if((m_fAutoSaveInterval > 0) && (m_fAutoSaveAccumultor >= m_fAutoSaveInterval))
+		{
+			AutoSave();
+		}
+		
+		if(m_bRootEntityFlushRequested)
+		{
+			thread FlushRootEntityRegistrationsThreadImpl();
+		}
 	}
-	*/
+	
+	protected event void OnPostInit(IEntity gameMode)
+	{
+		EL_PersistenceManagerComponent managerComponent = EL_PersistenceManagerComponent.Cast(gameMode.FindComponent(EL_PersistenceManagerComponent));
+		EL_PersistenceManagerComponentClass settings = EL_PersistenceManagerComponentClass.Cast(managerComponent.GetComponentData(gameMode));
+		
+		if(settings.m_bEnabled)
+		{
+			m_fAutoSaveInterval = settings.m_fInterval;
+			m_iAutoSaveIterations = Math.Clamp(settings.m_iIterations, 1, 128);
+		}
+	}
+	
+	protected void LoadBakedEntityNameIdMapping()
+	{
+		// TODO: Singleton wrapper
+		array<ref EL_DbEntity> findResults = GetDbContext().FindAll(EL_PersistentBakedEntityNameIdMapping, limit: 1).GetEntities();
+
+		if(findResults && findResults.Count() > 0)
+		{
+			m_pBakedEntityNameIdMapping = EL_PersistentBakedEntityNameIdMapping.Cast(findResults.Get(0));
+		}
+		else
+		{
+			m_pBakedEntityNameIdMapping = new EL_PersistentBakedEntityNameIdMapping();
+		}
+	}
+	
+	protected void LoadRootEntityCollection()
+	{
+		// TODO: Singleton wrapper
+		array<ref EL_DbEntity> findResults = GetDbContext().FindAll(EL_PersistentRootEntityCollection, limit: 1).GetEntities();
+
+		if(findResults && findResults.Count() > 0)
+		{
+			m_pRootEntityCollection = EL_PersistentRootEntityCollection.Cast(findResults.Get(0));
+		}
+		else
+		{
+			m_pRootEntityCollection = new EL_PersistentRootEntityCollection();
+		}
+	}
 	
 	static EL_PersistenceManager GetInstance()
 	{
+		// Persistence logic only runs on the server machine
+		if(!IsPersistenceMaster()) return null;
+		
 		if(!s_pInstance)
 		{
 			s_pInstance = new EL_PersistenceManager();
@@ -72,13 +408,18 @@ class EL_PersistenceManager
 		return s_pInstance;
 	}
 	
+	protected void EL_PersistenceManager()
+	{
+		m_eState = EL_EPersistenceManagerState.WORLD_INIT;
+		m_AutoSaveComponents = new set<EL_PersistenceComponent>();
+		m_mBackedEntities = new map<string, IEntity>();
+
+		LoadBakedEntityNameIdMapping();
+		LoadRootEntityCollection();
+	}
+	
 	protected static void Reset()
 	{
 		s_pInstance = null;
-	}
-	
-	protected void EL_PersistenceManager()
-	{
-		m_eState = EL_PersistenceManagerState.WORLD_INIT;
 	}
 }

@@ -36,7 +36,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		if(!entity.HasId()) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
 		
-		FileIO.MakeDirectory(string.Format("%1/%2", m_sDbDir, EL_DbEntityName.Get(entity.Type())));
+		FileIO.MakeDirectory(GetTypeDirectory(entity.Type()));
 		
 		EL_EDbOperationStatusCode statusCode = WriteToDisk(entity);
 		if(statusCode != EL_EDbOperationStatusCode.SUCCESS) return statusCode;
@@ -61,18 +61,24 @@ class EL_FileDbDriverBase : EL_DbDriver
 		
 		// Remove id from pool of all known ids
 		set<string> ids = GetIdsByType(entityType);
-		ids.Remove(ids.Find(entityId));
+        int idx = ids.Find(entityId);
+		if(idx >= 0) ids.Remove(idx);
+		
+		// If collection of that entity type is empty remove the folder too to keep the file structure clean
+		if(ids.Count() == 0)
+		{
+			FileIO.DeleteFile(GetTypeDirectory(entityType));
+		}
 		
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
 	
 	override EL_DbFindResults<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
+		// See if we can only load selected few entities by id or we need the entire collection to search through
 		set<string> relevantIds();
 		bool needsFilter = false;
-		
-		// See if we can only load selected few entities by id or we need the entire collection to search through
-		if(!condition || !CollectConditionIds(condition, relevantIds))
+		if(!condition || !EL_DbFindCondition.CollectConditionIds(condition, relevantIds))
 		{
 			// Condition(s) require more information than just ids so all need to be loaded and also filtered by condition
 			relevantIds = GetIdsByType(entityType);
@@ -86,7 +92,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 			EL_DbEntity entity;
 			
 			if(m_UseCache) entity = m_EntityCache.Get(entityId);
-			
+
 			if(!entity)
 			{
 				EL_EDbOperationStatusCode statusCode = ReadFromDisk(entityType, entityId, entity);
@@ -109,7 +115,6 @@ class EL_FileDbDriverBase : EL_DbDriver
 			entities = EL_DbFindConditionEvaluator.GetFiltered(entities, condition);
 		}
 		
-		// Order results if wanted
 		if(orderBy)
 		{
 			entities = EL_DbEntitySorter.GetSorted(entities, orderBy);
@@ -125,11 +130,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 			// Skip the first n records if offset specified (for paginated loading together with limit)
 			if(offset != -1 && idx < offset) continue;
 			
-			// Return a deep copy so you can not accidentially change the db reference instance in the result handling code
-			EL_DbEntity resultDeepCopy = EL_DbEntity.Cast(entityType.Spawn());
-			EL_DbEntityUtils.ApplyDbEntityTo(entity, resultDeepCopy);
-			
-			resultEntites.Insert(resultDeepCopy);
+			resultEntites.Insert(entity);
 		}
 		
 		return new EL_DbFindResults<EL_DbEntity>(EL_EDbOperationStatusCode.SUCCESS, resultEntites);
@@ -180,41 +181,11 @@ class EL_FileDbDriverBase : EL_DbDriver
 		
 		return ids;
 	}
-	
-	protected bool CollectConditionIds(EL_DbFindCondition condition, out set<string> ids)
-	{
-		EL_DbFindFieldStringMultiple stringMultipleCondition = EL_DbFindFieldStringMultiple.Cast(condition);
-		if (stringMultipleCondition)
-		{
-			if (stringMultipleCondition.m_FieldPath != EL_DbEntity.FIELD_ID ||
-				stringMultipleCondition.m_ComparisonOperator != EL_EDbFindOperator.EQUAL) return false;
-			
-			foreach(string id : stringMultipleCondition.m_ComparisonValues)
-			{
-				ids.Insert(id);
-			}
-			
-			return true;
-		}
-		
-		EL_DbFindConditionWithChildren conditionWithChildren = EL_DbFindConditionWithChildren.Cast(condition);
-		if(conditionWithChildren)
-		{
-			foreach(EL_DbFindCondition childCondition : conditionWithChildren.m_Conditions)
-			{
-				if(!CollectConditionIds(childCondition, ids)) return false;
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
+
 	protected set<string> GetIdsOnDisk(typename entityType)
 	{
 		EL_FileDbDriverFindIdsCallback callback();
-		System.FindFiles(callback.AddFile, m_sDbDir, GetFileExtension());
+		System.FindFiles(callback.AddFile, GetTypeDirectory(entityType), GetFileExtension());
 		
 		set<string> ids();
 		
@@ -226,6 +197,22 @@ class EL_FileDbDriverBase : EL_DbDriver
 		return ids;
 	}
 	
+	protected string GetTypeDirectory(typename entityType)
+	{
+		string entityName = EL_DbName.Get(entityType);
+		
+		if(entityName.EndsWith("y"))
+		{
+			entityName = string.Format("%1ies", entityName.Substring(0, entityName.Length() - 1));
+		}
+		else
+		{
+			entityName += "s";
+		}
+		
+		return string.Format("%1/%2", m_sDbDir, entityName);
+	}
+	
 	protected string GetFileExtension();
 	
 	protected EL_EDbOperationStatusCode WriteToDisk(EL_DbEntity entity);
@@ -234,7 +221,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	
 	protected EL_EDbOperationStatusCode DeleteFromDisk(typename entityType, string entityId)
 	{
-		string file = string.Format("%1/%2/%3%4", m_sDbDir, EL_DbEntityName.Get(entityType), entityId, GetFileExtension());
+		string file = string.Format("%1/%2%3", GetTypeDirectory(entityType), entityId, GetFileExtension());
 		
 		if(!FileIO.FileExist(file)) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
 		

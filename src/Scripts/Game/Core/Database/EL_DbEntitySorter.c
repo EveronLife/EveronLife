@@ -47,6 +47,7 @@ class EL_DbEntitySorter
 		array<string> valueKeysSorted();
 		valueKeysSorted.Resize(distinctValues.Count());
 		
+		// TODO: Use fixed lengh padded numbers to rely only on string sort without conversion
 		switch(fieldType)
 		{
 			case int:
