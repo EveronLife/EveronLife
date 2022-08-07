@@ -1,12 +1,12 @@
-class EL_DbEntityRepositoryType
+class EL_DbRepositoryType
 {
 	protected static ref map<typename, typename> m_Mapping;
 	
-	void EL_DbEntityRepositoryType(typename repositoryType, typename entityType)
+	void EL_DbRepositoryType(typename repositoryType, typename entityType)
 	{
 		if(!m_Mapping) m_Mapping = new map<typename, typename>();
 		
-		typename expectedBase = string.Format("EL_DbEntityRepository<%1>", entityType.ToString()).ToType();
+		typename expectedBase = string.Format("EL_DbRepository<%1>", entityType.ToString()).ToType();
 		
 		if(!repositoryType.IsInherited(expectedBase))
 		{
@@ -24,7 +24,7 @@ class EL_DbEntityRepositoryType
 		
 		if(!result)
 		{
-			string repositoryTypeStr = string.Format("EL_DbEntityRepository<%1>", entityType.ToString());
+			string repositoryTypeStr = string.Format("EL_DbRepository<%1>", entityType.ToString());
 			
 			result = repositoryTypeStr.ToType();
 			
@@ -32,10 +32,6 @@ class EL_DbEntityRepositoryType
 			{
 				// Save default implementation repository to cache
 				m_Mapping.Set(entityType, result);
-			}
-			else
-			{
-				Debug.Error(string.Format("Tried to get unknown entity repository type '%1'. Make sure you use it somewhere in your code e.g.: '%1 repository = ...;'", repositoryTypeStr));
 			}
 		}
 		

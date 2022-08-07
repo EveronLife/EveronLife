@@ -4,7 +4,6 @@ Vehicle {
   EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
   }
   EL_PersistenceComponent "{5A0D2D215F2F2559}" {
-   Enabled 0
    m_pSaveData EL_VehicleSaveData "{5A0D2D215C6BFA59}" {
     m_aComponents {
      EL_TransformationSaveData "{5A0D2D215AEF2E93}" {

@@ -8,7 +8,7 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 	
 	override protected EL_EDbOperationStatusCode WriteToDisk(EL_DbEntity entity)
 	{
-		SCR_JsonSaveContext writer();
+		SCR_JsonSaveContext writer(false); //Remove false when https://feedback.bistudio.com/T166982 is fixed
 		if (!writer.WriteValue("data", entity))
 		{
 			return EL_EDbOperationStatusCode.FAILURE_DATA_MALFORMED;
@@ -27,7 +27,7 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 		string file = string.Format("%1/%2.json", GetTypeDirectory(entityType), entityId);
 		if (!FileIO.FileExist(file)) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
 
-		SCR_JsonLoadContext reader();
+		SCR_JsonLoadContext reader(false); //Remove false when https://feedback.bistudio.com/T166982 is fixed
 		if (!reader.LoadFromFile(file)) return EL_EDbOperationStatusCode.FAILURE_STORAGE_UNAVAILABLE;
 		
 		entity = EL_DbEntity.Cast(entityType.Spawn());

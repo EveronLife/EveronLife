@@ -1,12 +1,12 @@
 class EL_DbEntityUtils
 {
-	static void ApplyDbEntityTo(EL_DbEntity entity, notnull Class other)
+	static bool StructAutoCopy(notnull Class from, notnull Class to)
 	{
 		SCR_JsonSaveContext writer();
-		writer.WriteValue("entity", entity);
+		writer.WriteValue("data", from);
 		
 		SCR_JsonLoadContext reader();
 		reader.ImportFromString(writer.ExportToString());
-		reader.ReadValue("entity", other);
+		return reader.ReadValue("data", to);
 	}
 }

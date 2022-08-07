@@ -1,4 +1,4 @@
-class EL_DbEntityRepositoryBase
+class EL_DbRepositoryBase
 {
 	protected ref EL_DbContext m_DbContext;
 	
@@ -13,11 +13,11 @@ class EL_DbEntityRepositoryBase
 		return m_DbContext;
 	}
 	
-	// Creation only through EL_DbEntityRepositoryFactory::GetRepository
-	private void EL_DbEntityRepositoryBase();
+	// Creation only through EL_DbRepositoryFactory::GetRepository
+	protected void EL_DbRepositoryBase();
 }
 
-class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
+class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 {
 	typename GetEntityType()
 	{
@@ -111,5 +111,13 @@ class EL_DbEntityRepository<Class TEntityType> : EL_DbEntityRepositoryBase
 	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallback<TEntityType> callback = null)
 	{
 		m_DbContext.FindAllAsync(TEntityType, condition, orderBy, limit, offset, callback);
+	}
+	
+	protected void EL_DbRepository()
+	{
+		if(!GetEntityType().IsInherited(EL_DbEntity))
+		{
+			Debug.Error(string.Format("Db repository '%1' created with entity type '%2' that does not inherit from '%3'. Results will be invalid!", this, TEntityType, EL_DbEntity));
+		}
 	}
 }

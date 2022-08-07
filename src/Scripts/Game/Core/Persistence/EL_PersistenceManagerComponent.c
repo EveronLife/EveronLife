@@ -33,7 +33,6 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		
 		if(!IsActive()) return;
 		
-		// TODO: On game and with web api let it check the game state and if end game then instead of sleep doe while trupe loop blocking http calls.
 		GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnGameEnd", false, null);
 	}
 	

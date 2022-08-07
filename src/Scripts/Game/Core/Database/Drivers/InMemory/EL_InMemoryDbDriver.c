@@ -56,7 +56,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		if(m_UseCache)
 		{
 			EL_DbEntity deepCopy = EL_DbEntity.Cast(entity.Type().Spawn());
-			EL_DbEntityUtils.ApplyDbEntityTo(entity, deepCopy);
+			EL_DbEntityUtils.StructAutoCopy(entity, deepCopy);
 			entity = deepCopy;
 		}
 		
@@ -121,7 +121,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 			
 			// Return a deep copy so you can not accidentially change the db reference instance in the result handling code
 			EL_DbEntity resultDeepCopy = EL_DbEntity.Cast(entityType.Spawn());
-			EL_DbEntityUtils.ApplyDbEntityTo(entity, resultDeepCopy);
+			EL_DbEntityUtils.StructAutoCopy(entity, resultDeepCopy);
 			
 			resultEntites.Insert(resultDeepCopy);
 		}
@@ -133,33 +133,21 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	{
 		// In memory is blocking, re-use sync api
 		EL_EDbOperationStatusCode resultCode = AddOrUpdate(entity);
-		
-		if(callback)
-		{
-			callback._SetCompleted(resultCode);
-		}
+		if(callback) callback._SetCompleted(resultCode);
 	}
 
 	override void RemoveAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
 		// In memory is blocking, re-use sync api
 		EL_EDbOperationStatusCode resultCode = Remove(entityType, entityId);
-		
-		if(callback)
-		{
-			callback._SetCompleted(resultCode);
-		}
+		if(callback) callback._SetCompleted(resultCode);
 	}
 
 	override void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
 	{
 		// In memory is blocking, re-use sync api
 		EL_DbFindResults<EL_DbEntity> findResults = FindAll(entityType, condition, orderBy, limit, offset);
-		
-		if(callback)
-		{
-			callback._SetCompleted(findResults.GetStatusCode(), findResults.GetEntities());
-		}
+		if(callback) callback._SetCompleted(findResults.GetStatusCode(), findResults.GetEntities());
 	}
 	
 	protected void ~EL_InMemoryDbDriver()

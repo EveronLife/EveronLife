@@ -1,8 +1,15 @@
 [BaseContainerProps()]
 class EL_ComponentSaveDataBase
 {
-	bool ReadFrom(GenericComponent worldEntityComponent);
-	bool ApplyTo(GenericComponent worldEntityComponent);
+	bool ReadFrom(GenericComponent worldEntityComponent)
+	{
+		return EL_DbEntityUtils.StructAutoCopy(worldEntityComponent, this);
+	}
+	
+	bool ApplyTo(GenericComponent worldEntityComponent)
+	{
+		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
+	}
 	
 	bool IsFor(GenericComponent worldEntityComponent)
 	{

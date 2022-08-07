@@ -4,6 +4,8 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	[NonSerialized(), Attribute(desc: "Sava-data types for components to persist.")]
 	ref array<ref EL_ComponentSaveDataBase> m_aComponents;
 	
+	DateTimeUtcAsInt m_iLastSaved;
+	
 	ResourceName m_Prefab;
 	ref array<ref EL_TComponentDataTuple> m_aComponentsSaveData;
 	
@@ -13,6 +15,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
 		
 		SetId(persistenceComponent.GetPersistentId());
+		m_iLastSaved = persistenceComponent.GetLastSaved();
 		
 		m_Prefab = EL_Utils.GetPrefabName(worldEntity);
 		
@@ -61,10 +64,23 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		
 		return true;
 	}
-
+	
+	IEntity Spawn()
+	{
+		return EL_PersistenceManager.GetInstance().SpawnWorldEntity(this);
+	}
+	
 	bool ApplyTo(IEntity worldEntity)
 	{
-		set<Managed> processed()
+		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		if(!persistenceComponent) return false;
+		
+		// Copy last saved to protected member
+		SCR_JsonLoadContext reader();
+		reader.ImportFromString(string.Format("{\"data\":{\"m_iLastSaved\":%1}}", m_iLastSaved));
+		reader.ReadValue("data", persistenceComponent);
+		
+		set<Managed> processed();
 		foreach(EL_TComponentDataTuple componentTuple : m_aComponentsSaveData)
 		{
 			PrintFormat("Loading component type '%1' with %2 instances.", componentTuple.m_tType, componentTuple.m_aSaveData.Count());
@@ -112,10 +128,10 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		
 		saveContext.WriteValue("dataLayoutVersion", 1);
 		saveContext.WriteValue("id", GetId());
+		saveContext.WriteValue("dateTime", m_iLastSaved);
 		saveContext.WriteValue("prefab", m_Prefab.Substring(1, m_Prefab.IndexOf("}") - 1));
 		
 		saveContext.StartObject("components");
-		saveContext.WriteValue("dataLayoutVersion", 1); // Workaround until https://feedback.bistudio.com/T166982 is fixed
 		
 		// Include components order info so they can be read back in the same order again (important for binary formats)
 		array<string> componentTypesInOrder();
@@ -151,17 +167,17 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		
 		int dataLayoutVersion;
 		loadContext.ReadValue("dataLayoutVersion", dataLayoutVersion);
-	
+		
 		string id;
 		loadContext.ReadValue("id", id);
 		SetId(id);
-	
-		string prefab;
-		loadContext.ReadValue("prefab", prefab);
-		m_Prefab = string.Format("{%1}", prefab);
-	
+		
+		loadContext.ReadValue("dateTime", m_iLastSaved);
+		
+		loadContext.ReadValue("prefab", m_Prefab);
+		m_Prefab = string.Format("{%1}", m_Prefab);
+		
 		loadContext.StartObject("components");
-		loadContext.ReadValue("dataLayoutVersion", dataLayoutVersion); // Workaround until https://feedback.bistudio.com/T166982 is fixed
 		
 		array<string> componentNamesInOrder;
 		loadContext.ReadValue("order", componentNamesInOrder);
@@ -169,7 +185,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		m_aComponentsSaveData = new array<ref EL_TComponentDataTuple>();
 		
 		EL_TComponentDataTuple currentTuple;
-	
+		
 		foreach(int idx, string componentName : componentNamesInOrder)
 		{
 			typename componentType = EL_DbName.GetTypeByName(componentName);

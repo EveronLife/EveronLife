@@ -1,11 +1,3 @@
-$grp GenericEntity : "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et" {
- PersistentBottle1 {
-  coords 110.623 0.807 137.876
- }
- PersistentBottle2 {
-  coords 110.62 0.807 138.231
- }
-}
 GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et" {
  components {
   ActionsManagerComponent "{5A02A4484BCE008C}" {
@@ -33,8 +25,20 @@ GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et"
   RplComponent "{5A02A44851B24758}" {
   }
  }
- coords 110.062 0.001 138.042
- angleY 90
+ coords 109.987 0.001 145.024
+ angleY -90.88
+ {
+  $grp GenericEntity : "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et" {
+   PersistentBottle1 {
+    coords 0.166 0.806 0.561
+    angleY -90
+   }
+   PersistentBottle2 {
+    coords -0.189 0.806 0.558
+    angleY -90
+   }
+  }
+ }
 }
 GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et" {
  components {
@@ -66,13 +70,15 @@ GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et"
    Enabled 1
   }
  }
- coords 112.382 0.001 138.475
+ coords 107.46 0.001 144.663
 }
 Vehicle PersistentTestVehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
  components {
+  EL_PersistenceComponent "{5A0D2D215F2F2559}" {
+  }
   SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
    m_fVehicleDestroyDamage 10408.7
   }
  }
- coords 106.95 0.001 138.732
+ coords 113.545 0.001 144.386
 }

@@ -42,6 +42,8 @@ class EL_PersistenceComponent : ScriptComponent
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		
+		m_iLastSaved = EL_Utils.GetCurrentUtcAsInt();
+		
 		EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(settings.m_tSaveDataTypename.Spawn());		
 		if(!saveData || !saveData.ReadFrom(owner))
 		{
@@ -51,9 +53,7 @@ class EL_PersistenceComponent : ScriptComponent
 			
 			return null;
 		}
-		
-		m_iLastSaved = EL_Utils.GetCurrentUtcAsInt();
-		
+
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		
 		if(m_bStorageRoot)
@@ -178,6 +178,9 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	override event void OnDelete(IEntity owner)
     {
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		if(!persistenceManager || !persistenceManager.IsActive()) return;
+
 		Delete();
     }
 	
@@ -185,25 +188,29 @@ class EL_PersistenceComponent : ScriptComponent
 	{
 		if(!IsActive()) return;
 		
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		if(!persistenceManager || !persistenceManager.IsActive()) return;
+		IEntity owner = GetOwner();
 		
-		GetGame().GetScriptModule().Call(persistenceManager, "UnsubscribeAutoSave", false, null, GetOwner());
+		// Once deleted this world entity becomes inactive in terms of persistence
+		Deactivate(owner);
+		
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		
+		GetGame().GetScriptModule().Call(persistenceManager, "UnsubscribeAutoSave", false, null, owner);
 		
 		if(!m_bSavedAsStorageRoot) return;
 		
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+		if(!settings.m_bSelfDelete) return;
 
 		if(settings.m_bSelfSpawn || m_bBaked)
 		{
 			GetGame().GetScriptModule().Call(persistenceManager, "UnregisterRootEntity", false, null, settings.m_tSaveDataTypename, m_sId, m_bBaked, true);
 		}
 		
-		// Delete save-data if entity is removed during active gameplay and not session dtor
-		if(settings.m_bSelfDelete && m_sId)
-		{
-			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
-		}
+		persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
+		
+		m_sId = string.Empty;
+		m_iLastSaved = 0;
 	}
 	
 	#ifdef WORKBENCH
