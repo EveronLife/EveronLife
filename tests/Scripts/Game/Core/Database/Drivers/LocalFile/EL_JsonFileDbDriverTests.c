@@ -25,14 +25,15 @@ class EL_JsonFileDbDriverTests : TestSuite
 	
 	static void WriteEntity(string dbDir, EL_Test_JsonFileDbDriverEntity entity)
 	{
-		SCR_JsonSaveContext writer();
-		writer.WriteValue("entity", entity);
-		writer.SaveToFile(string.Format("%1/%2/%3.json", dbDir, entity.Type().ToString(), entity.GetId()));
+		SCR_JsonSaveContext writer(false);
+		writer.WriteValue("data", entity);
+		FileIO.MakeDirectory(dbDir);
+		writer.SaveToFile(string.Format("%1/%2.json", dbDir, entity.GetId()));
 	}
 	
 	static void DeleteEntity(string dbDir, string entityId)
 	{
-		FileIO.DeleteFile(string.Format("%1/%2/%3.json", dbDir, EL_Test_JsonFileDbDriverEntity, entityId));
+		FileIO.DeleteFile(string.Format("%1/%2.json", dbDir, entityId));
 	}
 }
 
@@ -110,7 +111,7 @@ class EL_Test_JsonFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully : 
 	[Step(EStage.TearDown)]
 	void Cleanup()
 	{
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000000001");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000000001");
 	}
 }
 
@@ -139,14 +140,14 @@ class EL_Test_JsonFileDbDriver_Remove_ExistingEntity_FileDeleted : EL_Test_JsonF
 			return; 
 		}
 		
-		string file = string.Format("%1/%2/%3.json", driver._GetDbDir(), EL_Test_JsonFileDbDriverEntity, entity.GetId());
+		string file = string.Format("%1/%2.json", driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), entity.GetId());
 		SetResult(new EL_TestResult(!FileIO.FileExist(file)));
 	}
 	
 	[Step(EStage.TearDown)]
 	void Cleanup()
 	{
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000000002");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000000002");
 	}
 }
 
@@ -158,11 +159,11 @@ class EL_Test_JsonFileDbDriver_FindAll_IdOnly_ExactLoadAndCache : EL_Test_JsonFi
 	{
 		driver.Initalize(string.Format("%1?cache=true", EL_JsonFileDbDriverTests.DB_NAME));
 		
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001001", 41.1, "Existing 1001"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001002", 41.2, "Existing 1002"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001003", 41.3, "Existing 1003"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001004", 41.4, "Existing 1004"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001005", 41.5, "Existing 1005"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001001", 41.1, "Existing 1001"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001002", 41.2, "Existing 1002"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001003", 41.3, "Existing 1003"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001004", 41.4, "Existing 1004"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001005", 41.5, "Existing 1005"));
 	}
 	
 	[Step(EStage.Main)]
@@ -180,11 +181,11 @@ class EL_Test_JsonFileDbDriver_FindAll_IdOnly_ExactLoadAndCache : EL_Test_JsonFi
 	[Step(EStage.TearDown)]
 	void Cleanup()
 	{
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000001001");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000001002");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000001003");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000001004");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000001005");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000001001");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000001002");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000001003");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000001004");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000001005");
 	}
 }
 
@@ -196,11 +197,11 @@ class EL_Test_JsonFileDbDriver_FindAll_ContentField_AllLoadedAndCached : EL_Test
 	{
 		driver.Initalize(string.Format("%1?cache=true", EL_JsonFileDbDriverTests.DB_NAME));
 		
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002001", 42.1, "Existing 2001"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002002", 42.2, "Existing 2002"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002003", 42.3, "Existing 2003"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002004", 42.4, "Existing 2004"));
-		EL_JsonFileDbDriverTests.WriteEntity(driver._GetDbDir(), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002005", 42.5, "Existing 2005"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002001", 42.1, "Existing 2001"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002002", 42.2, "Existing 2002"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002003", 42.3, "Existing 2003"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002004", 42.4, "Existing 2004"));
+		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002005", 42.5, "Existing 2005"));
 	}
 	
 	[Step(EStage.Main)]
@@ -220,10 +221,10 @@ class EL_Test_JsonFileDbDriver_FindAll_ContentField_AllLoadedAndCached : EL_Test
 	[Step(EStage.TearDown)]
 	void Cleanup()
 	{
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000002001");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000002002");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000002003");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000002004");
-		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000002005");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000002001");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000002002");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000002003");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000002004");
+		EL_JsonFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), "TEST0000-0000-0001-0000-000000002005");
 	}
 }

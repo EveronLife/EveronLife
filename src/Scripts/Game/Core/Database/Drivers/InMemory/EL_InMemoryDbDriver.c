@@ -4,7 +4,6 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	protected static ref map<string, ref EL_InMemoryDatabase> m_Databases;
 	
 	protected EL_InMemoryDatabase m_Db;
-	protected bool m_UseCache;
 	
 	override bool Initalize(string connectionString = string.Empty)
 	{
@@ -15,13 +14,6 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		}
 		
 		if(!m_Databases) return false;
-		
-		// Placeholder until we either have proper query string parsing or connection settings object
-		connectionString.Replace("?cache=false", "");	
-		if(connectionString.Replace("?cache=true", "") > 0)
-		{
-			m_UseCache = true;
-		}
 		
 		string dbName = connectionString;
 		
@@ -51,16 +43,12 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	override EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
 		if(!entity.HasId()) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
-		
+        
 		// Make a copy so after insert you can not accidently change anything on the instance passed into the driver later.
-		if(m_UseCache)
-		{
-			EL_DbEntity deepCopy = EL_DbEntity.Cast(entity.Type().Spawn());
-			EL_DbEntityUtils.StructAutoCopy(entity, deepCopy);
-			entity = deepCopy;
-		}
+		EL_DbEntity deepCopy = EL_DbEntity.Cast(entity.Type().Spawn());
+		EL_DbEntityUtils.StructAutoCopy(entity, deepCopy);
 		
-		m_Db.AddOrUpdate(entity);
+		m_Db.AddOrUpdate(deepCopy);
 		
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
@@ -87,10 +75,11 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		bool needsFilter = false;
 		if(condition && EL_DbFindCondition.CollectConditionIds(condition, relevantIds))
 		{
-			entities.Resize(relevantIds.Count());
-			foreach(int idx, string relevantId : relevantIds)
+			entities = new array<ref EL_DbEntity>();
+			foreach(string relevantId : relevantIds)
 			{
-				entities.Set(idx, m_Db.Get(entityType, relevantId));
+				EL_DbEntity entity = m_Db.Get(entityType, relevantId);
+				if(entity) entities.Insert(entity);
 			}
 		}
 		else
@@ -120,10 +109,10 @@ class EL_InMemoryDbDriver : EL_DbDriver
 			if(offset != -1 && idx < offset) continue;
 			
 			// Return a deep copy so you can not accidentially change the db reference instance in the result handling code
-			EL_DbEntity resultDeepCopy = EL_DbEntity.Cast(entityType.Spawn());
-			EL_DbEntityUtils.StructAutoCopy(entity, resultDeepCopy);
+			EL_DbEntity deepCopy = EL_DbEntity.Cast(entityType.Spawn());
+			EL_DbEntityUtils.StructAutoCopy(entity, deepCopy);
 			
-			resultEntites.Insert(resultDeepCopy);
+			resultEntites.Insert(deepCopy);
 		}
 		
 		return new EL_DbFindResults<EL_DbEntity>(EL_EDbOperationStatusCode.SUCCESS, resultEntites);

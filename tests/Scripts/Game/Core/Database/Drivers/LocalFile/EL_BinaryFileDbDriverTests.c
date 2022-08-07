@@ -25,14 +25,15 @@ class EL_BinaryFileDbDriverTests : TestSuite
 	
 	static void WriteEntity(string dbDir, EL_Test_BinFileDbDriverEntity entity)
 	{
-		SCR_JsonSaveContext writer();
-		writer.WriteValue("entity", entity);
-		writer.SaveToFile(string.Format("%1/%2/%3.bin", dbDir, entity.Type().ToString(), entity.GetId()));
+		SCR_BinSaveContext writer();
+		writer.WriteValue("data", entity);
+		FileIO.MakeDirectory(dbDir);
+		writer.SaveToFile(string.Format("%1/%2.bin", dbDir, entity.GetId()));
 	}
 	
 	static void DeleteEntity(string dbDir, string entityId)
 	{
-		FileIO.DeleteFile(string.Format("%1/%2/%3.bin", dbDir, EL_Test_BinFileDbDriverEntity, entityId));
+		FileIO.DeleteFile(string.Format("%1/%2.bin", dbDir, entityId));
 	}
 }
 
@@ -110,6 +111,6 @@ class EL_Test_BinaryFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully 
 	[Step(EStage.TearDown)]
 	void Cleanup()
 	{
-		EL_BinaryFileDbDriverTests.DeleteEntity(driver._GetDbDir(), "TEST0000-0000-0001-0000-000000000001");
+		EL_BinaryFileDbDriverTests.DeleteEntity(driver._GetTypeDirectory(EL_Test_BinFileDbDriverEntity), "TEST0000-0000-0001-0000-000000000001");
 	}
 }

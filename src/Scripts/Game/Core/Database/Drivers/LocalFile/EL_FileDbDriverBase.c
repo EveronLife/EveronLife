@@ -36,7 +36,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		if(!entity.HasId()) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
 		
-		FileIO.MakeDirectory(GetTypeDirectory(entity.Type()));
+		FileIO.MakeDirectory(_GetTypeDirectory(entity.Type()));
 		
 		EL_EDbOperationStatusCode statusCode = WriteToDisk(entity);
 		if(statusCode != EL_EDbOperationStatusCode.SUCCESS) return statusCode;
@@ -67,7 +67,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 		// If collection of that entity type is empty remove the folder too to keep the file structure clean
 		if(ids.Count() == 0)
 		{
-			FileIO.DeleteFile(GetTypeDirectory(entityType));
+			FileIO.DeleteFile(_GetTypeDirectory(entityType));
 		}
 		
 		return EL_EDbOperationStatusCode.SUCCESS;
@@ -173,7 +173,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	protected set<string> GetIdsOnDisk(typename entityType)
 	{
 		EL_FileDbDriverFindIdsCallback callback();
-		System.FindFiles(callback.AddFile, GetTypeDirectory(entityType), GetFileExtension());
+		System.FindFiles(callback.AddFile, _GetTypeDirectory(entityType), GetFileExtension());
 		
 		set<string> ids();
 		
@@ -185,7 +185,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 		return ids;
 	}
 	
-	protected string GetTypeDirectory(typename entityType)
+	string _GetTypeDirectory(typename entityType)
 	{
 		string entityName = EL_DbName.Get(entityType);
 		
@@ -209,7 +209,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	
 	protected EL_EDbOperationStatusCode DeleteFromDisk(typename entityType, string entityId)
 	{
-		string file = string.Format("%1/%2%3", GetTypeDirectory(entityType), entityId, GetFileExtension());
+		string file = string.Format("%1/%2%3", _GetTypeDirectory(entityType), entityId, GetFileExtension());
 		
 		if(!FileIO.FileExist(file)) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
 		
@@ -226,11 +226,6 @@ class EL_FileDbDriverBase : EL_DbDriver
 	map<typename, ref set<string>> _GetEntityIds()
 	{
 		return m_EntityIds;
-	}
-	
-	string _GetDbDir()
-	{
-		return m_sDbDir;
 	}
 }
 

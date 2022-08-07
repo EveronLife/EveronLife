@@ -26,7 +26,7 @@ class EL_Test_DbEntityUtilsOtherClassType
 }
 
 [Test("EL_DbEntityUtilsTests")]
-TestResultBase EL_Test_DbEntityUtils_ApplyDbEntityTo_ValidInput_MatchingOutput() 
+TestResultBase EL_Test_DbEntityUtils_StructAutoCopy_ValidInput_MatchingOutput() 
 { 
 	// Arrange
 	EL_Test_DbEntityUtilsSaveStruct saveStruct();
@@ -36,7 +36,7 @@ TestResultBase EL_Test_DbEntityUtils_ApplyDbEntityTo_ValidInput_MatchingOutput()
 	EL_Test_DbEntityUtilsOtherClassType otherClass = EL_Test_DbEntityUtilsOtherClassType.Cast(String("EL_Test_DbEntityUtilsOtherClassType").ToType().Spawn());
 
 	// Act
-	EL_DbEntityUtils.ApplyDbEntityTo(saveStruct, otherClass);
+	EL_DbEntityUtils.StructAutoCopy(saveStruct, otherClass);
 	
 	// Assert
 	return new EL_TestResult(otherClass && (otherClass.m_fFloatValue == saveStruct.m_fFloatValue) && (otherClass.m_sStringValue == saveStruct.m_sStringValue)); 
