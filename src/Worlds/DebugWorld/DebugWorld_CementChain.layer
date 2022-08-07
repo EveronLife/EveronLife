@@ -13,7 +13,7 @@ SCR_DestructibleBuildingEntity : "{A92A5F3B79FF56BE}Prefabs/Structures/Industria
  }
  coords 124.256 0.002 117.778
 }
-GenericEntity : "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et" {
+GenericEntity CementBag_5A0E821DC5FD235C : "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et" {
  coords 120.029 0.001 135.205
  angleY -0.072
 }

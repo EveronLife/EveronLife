@@ -205,4 +205,23 @@ class EL_PersistenceComponent : ScriptComponent
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
 		}
 	}
+	
+	#ifdef WORKBENCH
+	override event void _WB_OnInit(IEntity owner, inout vector mat[4], IEntitySource src)
+	{
+		super._WB_OnInit(owner, mat, src);
+
+		if(owner.GetName()) return;
+
+		WorldEditorAPI worldEditorApi = GenericEntity.Cast(owner)._WB_GetEditorAPI();
+		if(!worldEditorApi) return;
+
+		string prefabNameOnly = FilePath.StripExtension(FilePath.StripPath(EL_Utils.GetPrefabName(owner)));
+		string uuid = Workbench.GenerateGloballyUniqueID64();
+		
+		worldEditorApi.BeginEntityAction("Fix persistent baked entity name");
+		worldEditorApi.RenameEntity(owner, string.Format("%1_%2", prefabNameOnly, uuid));
+		worldEditorApi.EndEntityAction("Fix persistent baked entity name");
+	}
+	#endif
 }
