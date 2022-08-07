@@ -15,7 +15,7 @@ class EL_DbName
 	
 	static string Get(typename entityType)
 	{
-		//if(!entityType) return string.Empty;
+		if(!entityType) return string.Empty;
 		
 		if(!m_Mapping) m_Mapping = new map<typename, string>();
 		
