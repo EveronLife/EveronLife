@@ -16,15 +16,13 @@ class EL_PersistenceManager
 	protected ref Managed m_pSaveDataBuffer;
 	
 	// Auto save system
-	protected ref set<EL_PersistenceComponent> m_aAutoSaveComponents;
-	protected ref set<EL_PersistentScriptedStateBase> m_aAutoSaveScriptedState;
 	protected float m_fAutoSaveInterval;
 	protected float m_fAutoSaveAccumultor;
 	protected int m_iAutoSaveIterations;
 	
-	// Root entity tracking
+	// Root instance tracking
 	protected ref EL_PersistentRootEntityCollection m_pRootEntityCollection;
-	protected bool m_bRootEntityFlushRequested;
+	protected ref map<EL_PersistentScriptedStateBase, bool> m_mRootScriptedStates;
 	
 	// Only used during setup
 	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
@@ -50,10 +48,13 @@ class EL_PersistenceManager
 	{
 		if(!m_pDbContext)
 		{
+			// TODO: A buffered dbcontext/driver could be added that collects all AddOrUpdate and Remove calls per dbentity type and bulk processes them when it makes sense
+			//			- e.g. BufferedJsonWebApiDbDriver
+			
 			// TODO: Read persistence db source from server config.
 			m_pDbContext = EL_DbContextFactory.GetContext();
 		}
-
+		
 		return m_pDbContext;
 	}
 	
@@ -68,12 +69,10 @@ class EL_PersistenceManager
 	{
 		int nSaveOperation = 0;
 		
-		// Work on copies of the data for auto save because during save operations there are likely subscribe changes
-		
-		set<EL_PersistenceComponent> componentsCopy();
-		componentsCopy.Copy(m_aAutoSaveComponents);
-		foreach(EL_PersistenceComponent persistenceComponent : componentsCopy)
+		foreach(EL_PersistenceComponent persistenceComponent, bool autoSaveEnabled : m_pRootEntityCollection.m_mRootPersistenceComponents)
 		{
+			if(!autoSaveEnabled) continue;
+			
 			if((IsActive()) && (nSaveOperation > 0) && (nSaveOperation % m_iAutoSaveIterations == 0))
 			{
 				Sleep(100); //Wait a few frames
@@ -83,10 +82,10 @@ class EL_PersistenceManager
 			nSaveOperation++;
 		}
 		
-		set<EL_PersistentScriptedStateBase> scriptedStateCopy();
-		scriptedStateCopy.Copy(m_aAutoSaveScriptedState);
-		foreach(EL_PersistentScriptedStateBase scriptedState : scriptedStateCopy)
+		foreach(EL_PersistentScriptedStateBase scriptedState, bool autoSaveEnabled : m_mRootScriptedStates)
 		{
+			if(!autoSaveEnabled) continue;
+			
 			if((IsActive()) && (nSaveOperation > 0) && (nSaveOperation % m_iAutoSaveIterations == 0))
 			{
 				Sleep(100); //Wait a few frames
@@ -95,23 +94,28 @@ class EL_PersistenceManager
 			scriptedState.Save();
 			nSaveOperation++;
 		}
+		
+		m_pRootEntityCollection.Save(GetDbContext());
 	}
 	
-	protected void FlushRootEntityRegistrationsThreadImpl()
+	protected void ShutDownSave()
 	{
-		m_bRootEntityFlushRequested = false;
+		foreach(EL_PersistenceComponent persistenceComponent, auto _ : m_pRootEntityCollection.m_mRootPersistenceComponents)
+		{
+			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
+			if(!settings.m_bShutdownsave) continue;
+			
+			persistenceComponent.Save();
+		}
 		
-		// Remove collection if it only holds default values
-		if (m_pRootEntityCollection.m_aRemovedBackedEntities.Count() == 0 && 
-			m_pRootEntityCollection.m_mAddtionalDynamicEntities.Count() == 0)
+		foreach(EL_PersistentScriptedStateBase scriptedState, auto _ : m_mRootScriptedStates)
 		{
-			// Only need to call db if it was previously saved (aka it has an id)
-			if(m_pRootEntityCollection.HasId()) GetDbContext().RemoveAsync(m_pRootEntityCollection);
+			if(!EL_PersistentScriptedStateSettings.Get(scriptedState.Type()).m_bShutDownSave) continue;
+			
+			scriptedState.Save();
 		}
-		else
-		{
-			GetDbContext().AddOrUpdateAsync(m_pRootEntityCollection);
-		}
+		
+		m_pRootEntityCollection.Save(GetDbContext());
 	}
 	
 	string GeneratePersistentId()
@@ -142,14 +146,9 @@ class EL_PersistenceManager
 			int idx = m_pRootEntityCollection.m_aRemovedBackedEntities.Find(staleId);
 			if(idx != -1) m_pRootEntityCollection.m_aRemovedBackedEntities.Remove(idx);
 		}
-		if(staleIds.Count() > 0)
-		{
-			m_bRootEntityFlushRequested = true;
-			Print("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting stale baked entity removal ids.");
-		}
 		
 		// Spawn additional entities from the previously bulk loaded data
-		foreach(auto _, set<string> persistentIds : m_pRootEntityCollection.m_mAddtionalDynamicEntities)
+		foreach(auto _, set<string> persistentIds : m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
 		{
 			foreach(string persistentId : persistentIds)
 			{
@@ -157,8 +156,9 @@ class EL_PersistenceManager
 			}
 		}
 		
-		// Save any changes to the mapping
+		// Save any mapping or root entity changes detected during world init
 		m_pBakedEntityNameIdMapping.Save(GetDbContext());
+		if(staleIds.Count() > 0) m_pRootEntityCollection.Save(GetDbContext());
 		
 		// Free memory as it not needed after setup
 		m_mBackedEntities = null;
@@ -207,7 +207,7 @@ class EL_PersistenceManager
 	{
 		if(!saveData || !saveData.GetId()) return null;
 
-		typename scriptedStateType = EL_ScriptedStateSaveDataType.GetScriptedStateType(saveData.Type());
+		typename scriptedStateType = EL_PersistentScriptedStateSettings.GetScriptedStateType(saveData.Type());
 		
 		m_pSaveDataBuffer = saveData;
 		EL_PersistentScriptedStateBase state = EL_PersistentScriptedStateBase.Cast(scriptedStateType.Spawn());
@@ -229,7 +229,7 @@ class EL_PersistenceManager
 		
 		// Collect type and ids of inital world entities for bulk load
 		map<typename, ref set<string>> bulkLoad();
-		foreach(typename saveType, set<string> persistentIds: m_pRootEntityCollection.m_mAddtionalDynamicEntities)
+		foreach(typename saveType, set<string> persistentIds: m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
 		{
 			set<string> loadIds();
 			loadIds.Copy(persistentIds);
@@ -300,11 +300,11 @@ class EL_PersistenceManager
 	{
 		m_eState = EL_EPersistenceManagerState.WORLD_INIT;
 		
-		m_aAutoSaveComponents = new set<EL_PersistenceComponent>();
-		m_aAutoSaveScriptedState = new set<EL_PersistentScriptedStateBase>();
+		m_mRootScriptedStates = new map<EL_PersistentScriptedStateBase, bool>();
+		
 		m_mInitEntitySaveData = new map<string, ref EL_EntitySaveDataBase>();
 		m_mBackedEntities = new map<string, IEntity>();
-
+		
 		LoadSetupData();
 	}
 	
@@ -320,78 +320,27 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	{
 		return EL_PersistenceManagerInternal.Cast(GetInstance());
 	}
-	
-	void SubscribeAutoSave(notnull IEntity worldEntity)
+
+	void RegisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool baked, typename selfSpawnType, bool autoSave)
 	{
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
-		if(!persistenceComponent) return;
-		
-		m_aAutoSaveComponents.Insert(persistenceComponent);
+		m_pRootEntityCollection.Add(persistenceComponent, baked, selfSpawnType, autoSave, m_eState);
 	}
 	
-	void SubscribeAutoSave(notnull EL_PersistentScriptedStateBase scripedState)
+	void RegisterSaveRoot(notnull EL_PersistentScriptedStateBase scripedState, bool autoSave)
 	{
-		m_aAutoSaveScriptedState.Insert(scripedState);
+		m_mRootScriptedStates.Set(scripedState, autoSave);
 	}
 	
-	void UnsubscribeAutoSave(notnull IEntity worldEntity)
+	void UnregisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool baked, typename selfSpawnType)
 	{
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
-		if(!persistenceComponent) return;
-		
-		int idx = m_aAutoSaveComponents.Find(persistenceComponent);
-		if(idx != -1) m_aAutoSaveComponents.Remove(idx);
+		m_pRootEntityCollection.Remove(persistenceComponent, baked, selfSpawnType);
 	}
 	
-	void UnsubscribeAutoSave(notnull EL_PersistentScriptedStateBase scripedState)
+	void UnregisterSaveRoot(notnull EL_PersistentScriptedStateBase scripedState)
 	{
-		int idx = m_aAutoSaveScriptedState.Find(scripedState);
-		if(idx != -1) m_aAutoSaveScriptedState.Remove(idx);
+		m_mRootScriptedStates.Remove(scripedState);
 	}
 	
-	void RegisterRootEntity(typename saveDataType, string persistentId, bool baked, bool flush = false)
-	{
-		if(baked)
-		{
-			int idx = m_pRootEntityCollection.m_aRemovedBackedEntities.Find(persistentId);
-			if(idx != -1) m_pRootEntityCollection.m_aRemovedBackedEntities.Remove(idx);
-		}
-		else
-		{
-			set<string> ids = m_pRootEntityCollection.m_mAddtionalDynamicEntities.Get(saveDataType);
-			
-			if(!ids)
-			{
-				ids = new set<string>();
-				m_pRootEntityCollection.m_mAddtionalDynamicEntities.Set(saveDataType, ids);
-			}
-			
-			ids.Insert(persistentId);
-		}
-		
-		if(flush) m_bRootEntityFlushRequested = true;
-	}
-	
-	void UnregisterRootEntity(typename saveDataType, string persistentId, bool baked, bool flush = false)
-	{
-		if(baked)
-		{
-			m_pRootEntityCollection.m_aRemovedBackedEntities.Insert(persistentId);
-		}
-		else
-		{
-			set<string> ids = m_pRootEntityCollection.m_mAddtionalDynamicEntities.Get(saveDataType);
-		
-			if(ids)
-			{
-				int idx = ids.Find(persistentId);
-				if(idx != -1) ids.Remove(idx);
-			}
-		}
-		
-		if(flush) m_bRootEntityFlushRequested = true;
-	}
-			
 	string GetPersistentId(notnull IEntity worldEntity)
 	{
 		string id;
@@ -430,13 +379,6 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		return id;
 	}
 	
-	event void OnWorldPostProcess(World world)
-	{
-		m_eState = EL_EPersistenceManagerState.ACTIVE;
-
-		thread PrepareInitalWorldStateThreadImpl();
-	}
-	
 	void SetSaveDataBuffer(Managed saveData)
 	{
 		m_pSaveDataBuffer = saveData;
@@ -464,20 +406,16 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		return EL_ScriptedStateSaveDataBase.Cast(m_pSaveDataBuffer);
 	}
 	
-	event void OnGameEnd()
+	event void OnPostInit(IEntity gameMode)
 	{
-		m_eState = EL_EPersistenceManagerState.SHUTDOWN;
+		EL_PersistenceManagerComponent managerComponent = EL_PersistenceManagerComponent.Cast(gameMode.FindComponent(EL_PersistenceManagerComponent));
+		EL_PersistenceManagerComponentClass settings = EL_PersistenceManagerComponentClass.Cast(managerComponent.GetComponentData(gameMode));
 		
-		// Call without thread to be blocking on shutdown
-		AutoSaveThreadImpl();
-		
-		if(m_bRootEntityFlushRequested)
+		if(settings.m_bEnabled)
 		{
-			FlushRootEntityRegistrationsThreadImpl();
+			m_fAutoSaveInterval = settings.m_fInterval;
+			m_iAutoSaveIterations = Math.Clamp(settings.m_iIterations, 1, 128);
 		}
-		
-		//Cleanup after end of current session
-		Reset(); // TODO: Test game end vs game mode end. which one is guaranteed to trigger before any world entity dtors
 	}
 	
 	event void OnPostFrame(float timeSlice)
@@ -489,23 +427,23 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		{
 			AutoSave();
 		}
-		
-		// Keep the persistent root entity list up to date
-		if(m_bRootEntityFlushRequested)
-		{
-			thread FlushRootEntityRegistrationsThreadImpl();
-		}
 	}
 	
-	event void OnPostInit(IEntity gameMode)
+	event void OnWorldPostProcess(World world)
 	{
-		EL_PersistenceManagerComponent managerComponent = EL_PersistenceManagerComponent.Cast(gameMode.FindComponent(EL_PersistenceManagerComponent));
-		EL_PersistenceManagerComponentClass settings = EL_PersistenceManagerComponentClass.Cast(managerComponent.GetComponentData(gameMode));
+		m_eState = EL_EPersistenceManagerState.ACTIVE;
+
+		thread PrepareInitalWorldStateThreadImpl();
+	}
+	
+	event void OnGameEnd()
+	{
+		m_eState = EL_EPersistenceManagerState.SHUTDOWN;
 		
-		if(settings.m_bEnabled)
-		{
-			m_fAutoSaveInterval = settings.m_fInterval;
-			m_iAutoSaveIterations = Math.Clamp(settings.m_iIterations, 1, 128);
-		}
+		// Call without thread to be blocking on shutdown
+		ShutDownSave();
+		
+		//Cleanup after end of current session
+		Reset(); // TODO: Test game end vs game mode end. which one is guaranteed to trigger before any world entity dtors
 	}
 }

@@ -53,14 +53,14 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 		typename resultType = TScriptedState;
 		if(!resultType.IsInherited(EL_PersistentScriptedStateBase)) return false;
 
-	    Tuple3<typename, bool, bool> settings = EL_ScriptedStateSaveDataType.GetSettings(TScriptedState);
-		if(!settings || !settings.param1)
+	    EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(TScriptedState);
+		if(!settings || !settings.m_tSaveDataType)
 		{
 			Debug.Error(string.Format("Scripted state type '%1' needs to have no save-data configured to be loaded!", TScriptedState));
 			return false;
 		}
 		
-		saveDataType = settings.param1;
+		saveDataType = settings.m_tSaveDataType;
 		
 		return true;
 	}

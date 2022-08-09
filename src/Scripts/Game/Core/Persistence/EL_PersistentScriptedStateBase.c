@@ -19,9 +19,9 @@ class EL_PersistentScriptedStateBase
 		
 		m_iLastSaved = EL_Utils.GetCurrentUtcAsInt();
 		
-		Tuple3<typename, bool, bool> settings = EL_ScriptedStateSaveDataType.GetSettings(Type());
-		
-		EL_ScriptedStateSaveDataBase saveData = EL_ScriptedStateSaveDataBase.Cast(settings.param1.Spawn());		
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+
+		EL_ScriptedStateSaveDataBase saveData = EL_ScriptedStateSaveDataBase.Cast(settings.m_tSaveDataType.Spawn());		
 		if(!saveData || !saveData.ReadFrom(this))
 		{
 			Debug.Error(string.Format("Failed to persist scripted state '%1'. Save-data could not be read.", this));
@@ -41,23 +41,29 @@ class EL_PersistentScriptedStateBase
 		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
-		persistenceManager.UnsubscribeAutoSave(this);
+		persistenceManager.UnregisterSaveRoot(this);
 		
-		Tuple3<typename, bool, bool> settings = EL_ScriptedStateSaveDataType.GetSettings(Type());
-		if(!settings || !settings.param3) return;
-		
-		persistenceManager.GetDbContext().RemoveAsync(settings.param1, m_sId);
+		if(m_iLastSaved > 0)
+		{
+			// Only attempt to remove it if it was ever saved
+			EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataType, m_sId);
+		}
 		
 		m_sId = string.Empty;
 		m_iLastSaved = 0;
 	}
-		
+	
 	void EL_PersistentScriptedStateBase()
 	{
-		Tuple3<typename, bool, bool> settings = EL_ScriptedStateSaveDataType.GetSettings(Type());
-		if(!settings) return;
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+		if(!settings)
+		{
+			Debug.Error(string.Format("Missing settings annotation for scripted state type '%1'.", Type()));
+			return;
+		}
 		
-		if(!settings.param1 || settings.param1 == EL_ScriptedStateSaveDataBase)
+		if(!settings.m_tSaveDataType || settings.m_tSaveDataType == EL_ScriptedStateSaveDataBase)
 		{
 			Debug.Error(string.Format("Missing or invalid save-data type on persistend scripted state '%1'. State will not be persisted!", this));
 			return;
@@ -84,16 +90,18 @@ class EL_PersistentScriptedStateBase
 			m_sId = persistenceManager.GeneratePersistentId();
 		}
 		
-		if(settings.param2)
-		{
-			persistenceManager.SubscribeAutoSave(this);
-		}
+		persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
 	}
 	
 	void ~EL_PersistentScriptedStateBase()
 	{
+		// Check that we are not in session dtor phase.
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		if(!persistenceManager || !persistenceManager.IsActive()) return;
+		
+		// Only auto self delete if setting for it is enabled
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+		if(!settings.m_bSelfDelete) return;
 		
 		Delete();
 	}
@@ -119,38 +127,43 @@ class EL_ScriptedStateSaveDataBase : EL_DbEntity
 	}
 }
 
-class EL_ScriptedStateSaveDataType
+class EL_PersistentScriptedStateSettings
 {
-    protected static ref map<typename, ref Tuple3<typename, bool, bool>> m_Mapping;
+	protected static ref map<typename, ref EL_PersistentScriptedStateSettings> m_Settings;
     protected static ref map<typename, typename> m_ReverseMapping;
-    
-    void EL_ScriptedStateSaveDataType(typename saveDataType, typename scriptedStateType, bool enableAutoSave = true, bool selfDelete = true, string saveDataDbEntityName = "")
-    {
-        if(!m_Mapping)
-		{
-			m_Mapping = new map<typename, ref Tuple3<typename, bool, bool>>();
-			m_ReverseMapping = new map<typename, typename>();
-		}
-        
+	
+	typename m_tSaveDataType;
+	bool m_bAutosave;
+	bool m_bShutDownSave;
+	bool m_bSelfDelete;
+	
+	void EL_PersistentScriptedStateSettings(typename scriptedStateType, typename saveDataType, bool autoSave = true, bool shutDownSave = true, bool selfDelete = true)
+	{
         if(!saveDataType.IsInherited(EL_ScriptedStateSaveDataBase))
         {
             Debug.Error(string.Format("Failed to register '%1' as persistence save struct for '%2'. '%1' must inherit from '%3'.", saveDataType, scriptedStateType, EL_ScriptedStateSaveDataBase));
         }
-        
-        m_Mapping.Set(scriptedStateType, new Tuple3<typename, bool, bool>(saveDataType, enableAutoSave, selfDelete));
+		
+		if(!m_Settings)
+		{
+			m_Settings = new map<typename, ref EL_PersistentScriptedStateSettings>();
+			m_ReverseMapping = new map<typename, typename>();
+		}
+		
+		m_tSaveDataType = saveDataType;
+		m_bAutosave = autoSave;
+		m_bShutDownSave = shutDownSave;
+		m_bSelfDelete = selfDelete;
+		
+		m_Settings.Set(scriptedStateType, this);
         m_ReverseMapping.Set(saveDataType, scriptedStateType);
-        
-        if(saveDataDbEntityName)
-        {
-            EL_DbName.Set(saveDataType, saveDataDbEntityName);
-        }
-    }
-    
-    static Tuple3<typename, bool, bool> GetSettings(typename scriptedStateType)
+	}
+	
+    static EL_PersistentScriptedStateSettings Get(typename scriptedStateType)
     {
-        if(!m_Mapping) return null;
+        if(!m_Settings) return null;
         
-        return m_Mapping.Get(scriptedStateType);
+        return m_Settings.Get(scriptedStateType);
     }
 	
 	static typename GetScriptedStateType(typename saveDataType)

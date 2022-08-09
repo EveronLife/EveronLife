@@ -1,4 +1,4 @@
-[EL_ScriptedStateSaveDataType(EL_PlayerAccountSaveData, EL_PlayerAccount, true, false, "Account")]
+[EL_DbName(EL_PlayerAccountSaveData, "Account")]
 class EL_PlayerAccountSaveData : EL_ScriptedStateSaveDataBase
 {
 	ref array<string> m_aCharacterIds;

@@ -29,11 +29,15 @@ GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et"
  angleY -90.88
  {
   $grp GenericEntity : "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et" {
-   PersistentBottle1 {
+   PersistentBottle2 {
     coords 0.166 0.806 0.561
     angleY -90
    }
-   PersistentBottle2 {
+   PersistentBottle1 {
+    components {
+     EL_PersistenceComponent "{5A0D2D213B33ECD8}" {
+     }
+    }
     coords -0.189 0.806 0.558
     angleY -90
    }

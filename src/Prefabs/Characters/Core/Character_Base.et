@@ -1,14 +1,14 @@
 SCR_ChimeraCharacter {
  ID "520EC961A090B1EE"
  components {
-  EL_PersistenceComponent "{5A10A33570B87CC7}" {
+  EL_PersistenceComponent "{5A12CE2A8F7F6DA3}" {
    m_bSelfSpawn 0
    m_bSelfDelete 0
-   m_pSaveData EL_CharacterSaveData "{5A10A3356D8A3B6C}" {
+   m_pSaveData EL_CharacterSaveData "{5A12CE2A897B69C8}" {
     m_aComponents {
-     EL_TransformationSaveData "{5A10A3356BB634A2}" {
+     EL_TransformationSaveData "{5A12CE2A879E82CC}" {
      }
-     EL_HitZoneContainerComponentSaveData "{5A128677B0B041C9}" {
+     EL_HitZoneContainerComponentSaveData "{5A12CE2A8481EF72}" {
      }
     }
    }
