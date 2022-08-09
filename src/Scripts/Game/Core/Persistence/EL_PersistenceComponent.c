@@ -37,7 +37,7 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	EL_EntitySaveDataBase Save()
 	{
-		if(!m_sId) return null;
+		if(!IsActive()) return null;
 		
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
@@ -54,7 +54,7 @@ class EL_PersistenceComponent : ScriptComponent
 			return null;
 		}
 
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
 		if(m_bStorageRoot)
 		{
@@ -64,7 +64,7 @@ class EL_PersistenceComponent : ScriptComponent
 			{
 				if(settings.m_bSelfSpawn || m_bBaked)
 				{
-					GetGame().GetScriptModule().Call(persistenceManager, "RegisterRootEntity", false, null, settings.m_tSaveDataTypename, m_sId, m_bBaked, true);
+					persistenceManager.RegisterRootEntity(settings.m_tSaveDataTypename, m_sId, m_bBaked, true)
 				}
 				
 				m_bSavedAsStorageRoot = true;
@@ -81,7 +81,7 @@ class EL_PersistenceComponent : ScriptComponent
 		return saveData;
 	}
 	
-	override event void OnPostInit(IEntity owner)
+	override protected void EOnInit(IEntity owner)
 	{
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		
@@ -90,7 +90,6 @@ class EL_PersistenceComponent : ScriptComponent
 		{
 			// Free memory
 			settings.m_pSaveData = null;
-			Deactivate(owner);
 			return;
 		}
 
@@ -136,24 +135,44 @@ class EL_PersistenceComponent : ScriptComponent
 			settings.m_pSaveData = null;
 		}
 		
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
-		GetGame().GetScriptModule().Call(persistenceManager, "GeneratePersistentId", false, m_sId, owner);
-		if(!m_sId)
+		if(persistenceManager.GetState() == EL_EPersistenceManagerState.WORLD_INIT)
 		{
-			// In case we were unable to get an id (most likely due to invalid data e.g. no name on baked entity) this entity will not be persisted.
-			Deactivate(owner);
-			return;
+			m_sId = persistenceManager.GetPersistentId(owner);
+			m_bBaked = true;
+		}
+
+		EL_EntitySaveDataBase saveData = persistenceManager.GetEntitySaveDataBuffer(m_sId);
+		if(saveData)
+		{
+			// Apply existing save data
+			if(!saveData.ApplyTo(owner))
+			{
+				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type(), saveData.GetId()));
+				Deactivate(owner);
+				return;
+			}
+			
+			m_sId = saveData.GetId();
+			m_iLastSaved = saveData.m_iLastSaved;
+		}
+		else if(!m_sId) // Non baked entities without save data need a new one generated
+		{
+			m_sId = persistenceManager.GeneratePersistentId();
 		}
 		
 		m_bStorageRoot = true;
-
-		m_bBaked = persistenceManager.GetState() == EL_EPersistenceManagerState.WORLD_INIT;
-
+		
 		if(settings.m_bAutosave)
 		{
-			GetGame().GetScriptModule().Call(persistenceManager, "SubscribeAutoSave", false, null, owner);
+			persistenceManager.SubscribeAutoSave(owner);
 		}
+	}
+	
+	override event void OnPostInit(IEntity owner)
+	{
+		SetEventMask(owner, EntityEvent.INIT);
 	}
 	
 	event void OnStorageParentChanged(IEntity owner, IEntity storageParent)
@@ -162,17 +181,17 @@ class EL_PersistenceComponent : ScriptComponent
 		
 		m_bStorageRoot = !storageParent;
 		
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		
 		// Unscubscribe for when no longer storage root
 		// Also need to unsubscribe just in case it was subscribed already, as scriptinvoker will call autosave multiple times otherwise.
-		GetGame().GetScriptModule().Call(persistenceManager, "UnsubscribeAutoSave", false, null, owner);
-
+		persistenceManager.UnsubscribeAutoSave(owner);
+		
 		if(m_bStorageRoot && settings.m_bAutosave)
 		{
 			// Entity is storage root and needs to be subscribed to auto-save
-			GetGame().GetScriptModule().Call(persistenceManager, "SubscribeAutoSave", false, null, owner);
+			persistenceManager.SubscribeAutoSave(owner);
 		}
 	}
 	
@@ -180,7 +199,7 @@ class EL_PersistenceComponent : ScriptComponent
     {
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		if(!persistenceManager || !persistenceManager.IsActive()) return;
-
+		
 		Delete();
     }
 	
@@ -193,21 +212,22 @@ class EL_PersistenceComponent : ScriptComponent
 		// Once deleted this world entity becomes inactive in terms of persistence
 		Deactivate(owner);
 		
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
-		GetGame().GetScriptModule().Call(persistenceManager, "UnsubscribeAutoSave", false, null, owner);
-		
-		if(!m_bSavedAsStorageRoot) return;
-		
+		persistenceManager.UnsubscribeAutoSave(owner);
+
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		if(!settings.m_bSelfDelete) return;
 
 		if(settings.m_bSelfSpawn || m_bBaked)
 		{
-			GetGame().GetScriptModule().Call(persistenceManager, "UnregisterRootEntity", false, null, settings.m_tSaveDataTypename, m_sId, m_bBaked, true);
+			persistenceManager.UnregisterRootEntity(settings.m_tSaveDataTypename, m_sId, m_bBaked, true);
 		}
 		
-		persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
+		if(m_bSavedAsStorageRoot)
+		{
+			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
+		}
 		
 		m_sId = string.Empty;
 		m_iLastSaved = 0;

@@ -24,7 +24,8 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		
 		if(!IsActive()) return;
 		
-		GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnWorldPostProcessThreadImpl", true, null, world);
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		persistenceManager.OnWorldPostProcess(world);
 	}
 	
 	override event void OnGameEnd()
@@ -33,7 +34,8 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		
 		if(!IsActive()) return;
 		
-		GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnGameEnd", false, null);
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		persistenceManager.OnGameEnd();
 	}
 	
 	override event void EOnPostFrame(IEntity owner, float timeSlice)
@@ -46,7 +48,8 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		
 		if(m_fAccumulator >= m_fUpdateRateSetting)
 		{
-			GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnPostFrame", false, null, m_fAccumulator);
+			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+			persistenceManager.OnPostFrame(m_fAccumulator);
 			m_fAccumulator = 0;
 		}
 	}
@@ -74,6 +77,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		
 		SetEventMask(owner, EntityEvent.POSTFRAME);
 		
-		GetGame().GetScriptModule().Call(EL_PersistenceManager.GetInstance(), "OnPostInit", false, null, owner);
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		persistenceManager.OnPostInit(owner);
 	}
 }

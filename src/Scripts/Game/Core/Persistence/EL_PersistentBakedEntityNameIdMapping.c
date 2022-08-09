@@ -1,19 +1,13 @@
 [EL_DbName(EL_PersistentBakedEntityNameIdMapping, "BakedEntityNameIdMapping")]
 class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 {
-	protected ref map<string, ref Tuple2<string, typename>> m_mNameIdMapping = new map<string, ref Tuple2<string, typename>>();
+	ref map<string, ref Tuple2<string, typename>> m_mNameIdMapping = new map<string, ref Tuple2<string, typename>>();
 	protected ref set<string> m_aNamesRequested = new set<string>();
 	bool m_bHasChanges;
 	
 	void Insert(string name, string id, typename saveDataType)
 	{
 		m_mNameIdMapping.Set(name, new Tuple2<string, typename>(id, saveDataType));
-		m_bHasChanges = true;
-	}
-	
-	void Remove(string name)
-	{
-		m_mNameIdMapping.Remove(name);
 		m_bHasChanges = true;
 	}
 	
@@ -36,7 +30,7 @@ class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 				stale.Insert(name);
 				
 				// Delete the associated baked entity entry in db for the object that no longer exists
-				if(tuple.param2 && tuple.param1) dbContext.RemoveAsync(tuple.param2, tuple.param1);
+				dbContext.RemoveAsync(tuple.param2, tuple.param1);
 			}
 		}
 

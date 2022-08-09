@@ -1,4 +1,4 @@
-[EL_DbName(EL_PersistentRootEntityCollection, "PersistentWorldEntityCollection")]
+[EL_DbName(EL_PersistentRootEntityCollection, "RootEntityCollection")]
 class EL_PersistentRootEntityCollection : EL_DbEntity
 {
 	ref set<string> m_aRemovedBackedEntities = new set<string>();

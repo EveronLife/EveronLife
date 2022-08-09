@@ -1,8 +1,5 @@
 class EL_PersistentScriptedStateBase
 {
-	[NonSerialized()]
-	protected bool m_bActive;
-	
 	protected string m_sId;
 	protected DateTimeUtcAsInt m_iLastSaved;
 	
@@ -18,7 +15,7 @@ class EL_PersistentScriptedStateBase
 	
 	EL_ScriptedStateSaveDataBase Save()
 	{
-		if(!m_bActive) return null;
+		if(!m_sId) return null;
 		
 		m_iLastSaved = EL_Utils.GetCurrentUtcAsInt();
 		
@@ -31,19 +28,20 @@ class EL_PersistentScriptedStateBase
 			return null;
 		}
 		
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		
+		persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
+		
 		return saveData;
 	}
 	
 	void Delete()
 	{
-		if(!m_bActive) return;
+		if(!m_sId) return;
 		
-		// Once deleted this scripted state becomes inactive in terms of persistence
-		m_bActive = false;
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		
-		GetGame().GetScriptModule().Call(persistenceManager, "UnsubscribeAutoSave", false, null, this);
+		persistenceManager.UnsubscribeAutoSave(this);
 		
 		Tuple3<typename, bool, bool> settings = EL_ScriptedStateSaveDataType.GetSettings(Type());
 		if(!settings || !settings.param3) return;
@@ -53,7 +51,7 @@ class EL_PersistentScriptedStateBase
 		m_sId = string.Empty;
 		m_iLastSaved = 0;
 	}
-	
+		
 	void EL_PersistentScriptedStateBase()
 	{
 		Tuple3<typename, bool, bool> settings = EL_ScriptedStateSaveDataType.GetSettings(Type());
@@ -62,19 +60,34 @@ class EL_PersistentScriptedStateBase
 		if(!settings.param1 || settings.param1 == EL_ScriptedStateSaveDataBase)
 		{
 			Debug.Error(string.Format("Missing or invalid save-data type on persistend scripted state '%1'. State will not be persisted!", this));
+			return;
 		}
 		
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
-		GetGame().GetScriptModule().Call(persistenceManager, "GeneratePersistentId", false, m_sId, this);
-		if(!m_sId) return;
+		EL_ScriptedStateSaveDataBase saveData = persistenceManager.GetScriptedStateSaveDataBuffer();
+		if(saveData)
+		{
+			// Apply existing save data
+			if(!saveData.ApplyTo(this))
+			{
+				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type(), saveData.GetId()));
+				m_sId = string.Empty;
+				return;
+			}
+			
+			m_iLastSaved = saveData.m_iLastSaved;
+		}
+		else
+		{
+			// Create from scratch, so we need to generate an id
+			m_sId = persistenceManager.GeneratePersistentId();
+		}
 		
 		if(settings.param2)
 		{
-			GetGame().GetScriptModule().Call(persistenceManager, "SubscribeAutoSave", false, null, this);
+			persistenceManager.SubscribeAutoSave(this);
 		}
-		
-		m_bActive = true;
 	}
 	
 	void ~EL_PersistentScriptedStateBase()
@@ -111,9 +124,13 @@ class EL_ScriptedStateSaveDataType
     protected static ref map<typename, ref Tuple3<typename, bool, bool>> m_Mapping;
     protected static ref map<typename, typename> m_ReverseMapping;
     
-    void EL_ScriptedStateSaveDataType(typename scriptedStateType, typename saveDataType, bool enableAutoSave = true, bool selfDelete = true, string saveDataDbEntityName = "")
+    void EL_ScriptedStateSaveDataType(typename saveDataType, typename scriptedStateType, bool enableAutoSave = true, bool selfDelete = true, string saveDataDbEntityName = "")
     {
-        if(!m_Mapping) m_Mapping = new map<typename, ref Tuple3<typename, bool, bool>>();
+        if(!m_Mapping)
+		{
+			m_Mapping = new map<typename, ref Tuple3<typename, bool, bool>>();
+			m_ReverseMapping = new map<typename, typename>();
+		}
         
         if(!saveDataType.IsInherited(EL_ScriptedStateSaveDataBase))
         {

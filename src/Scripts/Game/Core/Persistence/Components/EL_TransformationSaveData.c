@@ -21,12 +21,10 @@ class EL_TransformationSaveData : EL_ComponentSaveDataBase
 		if (baseGameEntity)
 		{
 			baseGameEntity.Teleport(transform);
-		}
-		else
-		{
-			worldEntity.SetWorldTransform(transform);
+			return true;
 		}
 		
+		worldEntity.SetWorldTransform(transform);
 		return true;
 	}
 }

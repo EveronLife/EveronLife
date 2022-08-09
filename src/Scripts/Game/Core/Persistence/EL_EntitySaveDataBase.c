@@ -7,7 +7,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	DateTimeUtcAsInt m_iLastSaved;
 	
 	ResourceName m_Prefab;
-	ref array<ref EL_TComponentDataTuple> m_aComponentsSaveData;
+	ref map<typename, ref array<ref EL_ComponentSaveDataBase>> m_aComponentsSaveData;
 	
 	bool ReadFrom(IEntity worldEntity)
 	{
@@ -19,10 +19,8 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		
 		m_Prefab = EL_Utils.GetPrefabName(worldEntity);
 		
-		m_aComponentsSaveData = new array<ref EL_TComponentDataTuple>();
+		m_aComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveDataBase>>();
 		bool transformationHandled = false;
-		
-		set<typename> proccessed();
 		
 		// Go through hierarchy sorted component types
 		foreach(typename componentSaveDataType : settings.m_aComponentSaveDataTypenames)
@@ -49,7 +47,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 					typename componentType = componentRef.Type();
 					
 					// Ingore base class find machtes if the parent class was already processed
-					if(proccessed.Contains(componentType)) continue;
+					if(m_aComponentsSaveData.Contains(componentType)) continue;
 					
 					EL_ComponentSaveDataBase componentSaveData = EL_ComponentSaveDataBase.Cast(componentSaveDataType.Spawn());
 					if(!componentSaveData || !componentSaveData.ReadFrom(GenericComponent.Cast(componentRef))) return false;
@@ -58,8 +56,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 				}
 			}
 			
-			m_aComponentsSaveData.Insert(new EL_TComponentDataTuple(componentSaveDataType, componentsSaveData));
-			proccessed.Insert(componentSaveDataType);
+			m_aComponentsSaveData.Set(componentSaveDataType, componentsSaveData);
 		}
 		
 		return true;
@@ -75,27 +72,22 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
 		if(!persistenceComponent) return false;
 		
-		// Copy last saved to protected member
-		SCR_JsonLoadContext reader();
-		reader.ImportFromString(string.Format("{\"data\":{\"m_iLastSaved\":%1}}", m_iLastSaved));
-		reader.ReadValue("data", persistenceComponent);
-		
 		set<Managed> processed();
-		foreach(EL_TComponentDataTuple componentTuple : m_aComponentsSaveData)
+		foreach(typename saveDataType, array<ref EL_ComponentSaveDataBase> componentsSaveData : m_aComponentsSaveData)
 		{
-			PrintFormat("Loading component type '%1' with %2 instances.", componentTuple.m_tType, componentTuple.m_aSaveData.Count());
+			//PrintFormat("Loading component type '%1' with %2 instances.", saveDataType, componentsSaveData.Count());
 			
 			// Special handling for transformation as its not really a "component"
-			if(componentTuple.m_tType.IsInherited(EL_TransformationSaveData))
+			if(saveDataType.IsInherited(EL_TransformationSaveData))
 			{
-				EL_TransformationSaveData.Cast(componentTuple.m_aSaveData.Get(0)).ApplyTo(worldEntity);
+				EL_TransformationSaveData.Cast(componentsSaveData.Get(0)).ApplyTo(worldEntity);
 				continue;
 			}
 			
 			array<Managed> outComponents();
-			worldEntity.FindComponents(EL_ComponentSaveDataType.Get(componentTuple.m_tType), outComponents);
+			worldEntity.FindComponents(EL_ComponentSaveDataType.Get(saveDataType), outComponents);
 			
-			foreach(EL_ComponentSaveDataBase componentSaveData : componentTuple.m_aSaveData)
+			foreach(EL_ComponentSaveDataBase componentSaveData : componentsSaveData)
 			{
 				bool applied = false;
 				
@@ -117,7 +109,11 @@ class EL_EntitySaveDataBase : EL_DbEntity
 			}
 		}
 		
-		worldEntity.Update();
+		// Update any non character entity. On character this can cause fall through ground.
+		if(!ChimeraCharacter.Cast(worldEntity))
+		{
+			worldEntity.Update();
+		}
 		
 		return true;
 	}
@@ -137,12 +133,12 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		array<string> componentTypesInOrder();
 		array<EL_ComponentSaveDataBase> writeComponents();
 	
-		foreach(EL_TComponentDataTuple componentTuple : m_aComponentsSaveData)
+		foreach(typename saveDataType, array<ref EL_ComponentSaveDataBase> componentsSaveData : m_aComponentsSaveData)
 		{
 			// If the same component type is included multiple times its written mutiple times
-			foreach(EL_ComponentSaveDataBase component : componentTuple.m_aSaveData)
+			foreach(EL_ComponentSaveDataBase component : componentsSaveData)
 			{
-				componentTypesInOrder.Insert(EL_DbName.Get(componentTuple.m_tType));
+				componentTypesInOrder.Insert(EL_DbName.Get(saveDataType));
 				writeComponents.Insert(component);
 			}
 		}
@@ -182,40 +178,25 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		array<string> componentNamesInOrder;
 		loadContext.ReadValue("order", componentNamesInOrder);
 		
-		m_aComponentsSaveData = new array<ref EL_TComponentDataTuple>();
-		
-		EL_TComponentDataTuple currentTuple;
+		m_aComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveDataBase>>();
 		
 		foreach(int idx, string componentName : componentNamesInOrder)
 		{
 			typename componentType = EL_DbName.GetTypeByName(componentName);
 			EL_ComponentSaveDataBase componentSaveData = EL_ComponentSaveDataBase.Cast(componentType.Spawn());
 			loadContext.ReadValue(idx.ToString(), componentSaveData);
-		
-			if(!currentTuple || currentTuple.m_tType != componentType)
+			
+			if(!m_aComponentsSaveData.Contains(componentType))
 			{
-				currentTuple = new EL_TComponentDataTuple(componentType, {componentSaveData});
-				m_aComponentsSaveData.Insert(currentTuple);
+				m_aComponentsSaveData.Set(componentType, {componentSaveData});
 				continue;
 			}
-		
-			currentTuple.m_aSaveData.Insert(componentSaveData);
+			
+			m_aComponentsSaveData.Get(componentType).Insert(componentSaveData);
 		}
 		
 		loadContext.EndObject();
 		
 		return true;
-	}
-}
-
-class EL_TComponentDataTuple
-{
-	typename m_tType;
-	ref array<ref EL_ComponentSaveDataBase> m_aSaveData;
-	
-	void EL_TComponentDataTuple(typename type, array<ref EL_ComponentSaveDataBase> saveData)
-	{
-		m_tType = type;
-		m_aSaveData = saveData;
 	}
 }

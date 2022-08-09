@@ -1,5 +1,25 @@
 class EL_Utils
 {
+	static string GetPlayerUID(IEntity player)
+	{
+		return GetPlayerUID(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player));
+	}
+	
+	static string GetPlayerUID(int playerId)
+	{
+		#ifdef WORKBENCH
+		return "MAIN_WORKBENCH_GUID";
+		#endif
+		
+		string peerToolUid;
+		if(System.GetCLIParam("peer-tool-uid", peerToolUid))
+		{
+			return peerToolUid;
+		}
+		
+		return GetGame().GetBackendApi().GetPlayerUID(playerId);
+	}
+	
 	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0")
 	{
 		EntitySpawnParams spawnParams();

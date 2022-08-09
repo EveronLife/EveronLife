@@ -55,6 +55,15 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 		return findResult;
 	}
 	
+	EL_DbFindResult<TEntityType> FindSingleton()
+	{
+		EL_DbFindResult<TEntityType> findResult = FindFirst();
+		
+		if(!findResult.Success() || findResult.GetEntity()) return findResult;
+		
+		return new EL_DbFindResult<TEntityType>(EL_EDbOperationStatusCode.SUCCESS, new TEntityType());
+	}
+	
 	EL_DbFindResult<TEntityType> FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
 	{
 		EL_DbFindResults<EL_DbEntity> findResults = m_DbContext.FindAll(TEntityType, condition, orderBy, 1);
@@ -98,9 +107,14 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 		m_DbContext.RemoveAsync(TEntityType, entity.GetId(), callback);
 	}
 	
-	void FindAsync(string entityId, EL_DbFindCallbackSingle<TEntityType> callback)
+	void FindAsync(string entityId, notnull EL_DbFindCallbackSingle<TEntityType> callback)
 	{
-		FindFirstAsync(EL_DbFind.Id().Equals(entityId), null, callback);
+		m_DbContext.FindAllAsync(TEntityType, EL_DbFind.Id().Equals(entityId), null, 1, -1, callback);
+	}
+	
+	void FindSingletonAsync(notnull EL_DbFindCallbackSingleton<TEntityType> callback)
+	{
+		m_DbContext.FindAllAsync(TEntityType, null, null, 1, -1, callback);
 	}
 	
 	void FindFirstAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, EL_DbFindCallbackSingle<TEntityType> callback = null)
@@ -108,7 +122,7 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 		m_DbContext.FindAllAsync(TEntityType, condition, orderBy, 1, -1, callback);
 	}
 	
-	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallback<TEntityType> callback = null)
+	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, notnull EL_DbFindCallback<TEntityType> callback = null)
 	{
 		m_DbContext.FindAllAsync(TEntityType, condition, orderBy, limit, offset, callback);
 	}

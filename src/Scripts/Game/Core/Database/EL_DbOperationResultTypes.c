@@ -176,7 +176,49 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 		{
 			OnFailure(code);
 		}
+		
+		if(m_InvokeInstance && m_InvokeMethodName)
+		{
+			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code, typedResult);
+		}
+	}
+	
+	void OnSuccess(TEntityType resultData);
+	
+	void OnFailure(EL_EDbOperationStatusCode resultCode);
+}
 
+class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
+{
+	static EL_DbFindCallbackSingleton<TEntityType> FromMethod(Managed instance, string functionName)
+	{
+		EL_DbFindCallbackSingleton<TEntityType> callback();
+		callback.ConfigureInvoker(instance, functionName);
+		return callback;
+	}
+	
+	override void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	{
+		TEntityType typedResult;
+		
+		if(findResults.Count() > 0)
+		{
+			typedResult = TEntityType.Cast(findResults.Get(0));
+		}
+		else
+		{
+			typedResult = new TEntityType();
+		}
+		
+		if(code == EL_EDbOperationStatusCode.SUCCESS)
+		{
+			OnSuccess(typedResult);
+		}
+		else
+		{
+			OnFailure(code);
+		}
+		
 		if(m_InvokeInstance && m_InvokeMethodName)
 		{
 			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code, typedResult);
