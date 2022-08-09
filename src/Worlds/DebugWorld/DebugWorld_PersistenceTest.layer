@@ -1,3 +1,26 @@
+GenericEntity PaperMap_01_folded_5A12DE85771376B7 : "{13772C903CB5E4F7}Prefabs/Items/Equipment/Maps/PaperMap_01_folded.et" {
+ coords 110.137 0.806 144.877
+}
+GenericEntity Backpack_Kolobok_5A12DE85DCF80A48 : "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et" {
+ components {
+ }
+ coords 110.465 0.807 145.084
+ angleY -180
+}
+GenericEntity ArmyCrackers_Soviet_01_5A12DE84BB44EF42 : "{50A68300B537EDFA}Prefabs/Items/Food/ArmyCrackers_Soviet_01.et" {
+ coords 109.751 0.807 144.961
+}
+GameEntity Flashlight_Soviet_01_5A12DE841C7F2A4F : "{575EA58E67448C2A}Prefabs/Items/Equipment/Flashlights/Flashlight_Soviet_01.et" {
+ coords 110.3 0.821 144.663
+ angleX 90
+ angleZ -180
+}
+GenericEntity Compass_SY183_5A12DE851B89A121 : "{61D4F80E49BF9B12}Prefabs/Items/Equipment/Compass/Compass_SY183.et" {
+ coords 110.399 0.834 144.71
+}
+GenericEntity Radio_ANPRC68_5A12DE856E9AE71D : "{73950FBA2D7DB5C5}Prefabs/Items/Equipment/Radios/Radio_ANPRC68.et" {
+ coords 110.156 0.807 145.343
+}
 GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et" {
  components {
   ActionsManagerComponent "{5A02A4484BCE008C}" {
@@ -75,6 +98,15 @@ GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et"
   }
  }
  coords 107.46 0.001 144.663
+}
+GenericEntity AspirinBottle_5A12DE84BF2FF3A1 : "{C98FCC6CA6C56069}Prefabs/Items/Medicine/AspirinBottle.et" {
+ coords 109.713 0.807 145.085
+}
+GenericEntity MRE_5A12DE84284E375D : "{EB21D26B8D5A3232}Prefabs/Items/Food/MRE.et" {
+ coords 109.741 0.807 144.778
+}
+GenericEntity Binoculars_B12_5A12DE85C35BA3D4 : "{F2539FA5706E51E4}Prefabs/Items/Equipment/Binoculars/Binoculars_B12.et" {
+ coords 110.558 0.845 144.745
 }
 Vehicle PersistentTestVehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
  components {

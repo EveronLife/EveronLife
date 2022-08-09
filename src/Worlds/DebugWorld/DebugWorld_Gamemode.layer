@@ -5,7 +5,7 @@ EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Role
   EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
   }
   EL_RespawnSytemComponent "{5A10698A884816E6}" {
-   m_rDefaultCharacterPrefab "{1E1884289029DCA4}Prefabs/Characters/Factions/INDFOR/FIA/Character_FIA_M9_Empty.et"
+   m_rDefaultCharacterPrefab "{BEDCB7AC0146B76F}Prefabs/Characters/Core/DefaultRoleplayCharacter.et"
   }
  }
  {
