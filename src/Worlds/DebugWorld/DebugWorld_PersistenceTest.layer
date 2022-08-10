@@ -87,9 +87,20 @@ GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et"
      UIInfo UIInfo "{5A0CC6180931D3BE}" {
       Name "Get Bottle"
      }
-     Duration 0.5
+     Duration 0.25
      m_GatherItemDisplayName "Bottle"
      m_GatherItemPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+    }
+    EL_GatherAction "{5A134DC0FAD9CAE8}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5A134DC0F99F6846}" {
+      Name "Spawn backpack"
+     }
+     Duration 0.25
+     m_GatherItemDisplayName "Backpack"
+     m_GatherItemPrefab "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
     }
    }
   }
@@ -102,8 +113,18 @@ GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et"
 GenericEntity AspirinBottle_5A12DE84BF2FF3A1 : "{C98FCC6CA6C56069}Prefabs/Items/Medicine/AspirinBottle.et" {
  coords 109.713 0.807 145.085
 }
+Vehicle M923A1_transport_covered_closed_MERDC1 : "{DC21E543DF39D2C0}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered_closed_MERDC.et" {
+ coords 104.803 0.001 144.09
+}
 GenericEntity MRE_5A12DE84284E375D : "{EB21D26B8D5A3232}Prefabs/Items/Food/MRE.et" {
  coords 109.741 0.807 144.778
+}
+GenericEntity Vest_Type56_5A132582AF214A16 : "{ED5574EA7F63B457}Prefabs/Characters/Vests/Vest_Type56/Vest_Type56.et" {
+ components {
+  DebugStorageManagerComponent "{5A149351168BF111}" {
+  }
+ }
+ coords 110.143 0.001 142.603
 }
 GenericEntity Binoculars_B12_5A12DE85C35BA3D4 : "{F2539FA5706E51E4}Prefabs/Items/Equipment/Binoculars/Binoculars_B12.et" {
  coords 110.558 0.845 144.745

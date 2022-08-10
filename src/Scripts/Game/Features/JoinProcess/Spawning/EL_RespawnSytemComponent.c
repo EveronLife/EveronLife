@@ -5,8 +5,10 @@ class EL_RespawnSytemComponentClass : SCR_RespawnSystemComponentClass
 
 class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 {
-	[Attribute(desc: "Character prefab", category: "New character defaults")]
+	[Attribute(defvalue: "{37578B1666981FCE}Prefabs/Characters/Core/Character_Base.et", desc: "Character prefab", category: "New character defaults")]
 	protected ResourceName m_rDefaultCharacterPrefab;
+	
+	// TODO: Options to configure new character spawn loadout
 	
 	protected ref map<int, ref EL_CharacterSaveData> m_mSpawnData = new map<int, ref EL_CharacterSaveData>();
 	

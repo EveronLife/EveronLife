@@ -14,6 +14,10 @@ EL_GameModeRoleplay {
    "Rpl State Override" Static
    Streamable Disabled
   }
+  EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
+  }
+  EL_RespawnSytemComponent "{5A10698A884816E6}" {
+  }
  }
  coords 0 0 0
  PlayerControllerPrefab "{CC42DCDAD458D66B}Prefabs/Characters/Core/PlayerControllerRoleplayMP.et"

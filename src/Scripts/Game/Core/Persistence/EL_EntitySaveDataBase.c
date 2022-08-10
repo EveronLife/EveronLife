@@ -4,7 +4,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	[NonSerialized(), Attribute(desc: "Sava-data types for components to persist.")]
 	ref array<ref EL_ComponentSaveDataBase> m_aComponents;
 	
-	DateTimeUtcAsInt m_iLastSaved;
+	EL_DateTimeUtcAsInt m_iLastSaved;
 	
 	ResourceName m_Prefab;
 	ref map<typename, ref array<ref EL_ComponentSaveDataBase>> m_aComponentsSaveData;
@@ -125,7 +125,8 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		saveContext.WriteValue("dataLayoutVersion", 1);
 		saveContext.WriteValue("id", GetId());
 		saveContext.WriteValue("dateTime", m_iLastSaved);
-		saveContext.WriteValue("prefab", m_Prefab.Substring(1, m_Prefab.IndexOf("}") - 1));
+		//saveContext.WriteValue("prefab", m_Prefab.Substring(1, m_Prefab.IndexOf("}") - 1));
+		saveContext.WriteValue("prefab", m_Prefab);
 		
 		saveContext.StartObject("components");
 		
@@ -171,7 +172,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		loadContext.ReadValue("dateTime", m_iLastSaved);
 		
 		loadContext.ReadValue("prefab", m_Prefab);
-		m_Prefab = string.Format("{%1}", m_Prefab);
+		//m_Prefab = string.Format("{%1}", m_Prefab);
 		
 		loadContext.StartObject("components");
 		

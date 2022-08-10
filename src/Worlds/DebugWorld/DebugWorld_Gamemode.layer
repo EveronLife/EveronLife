@@ -1,11 +1,6 @@
 EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
  components {
-  EL_PersistenceManagerComponent "{59D28944F1C3532E}" {
-  }
-  EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
-  }
   EL_RespawnSytemComponent "{5A10698A884816E6}" {
-   m_rDefaultCharacterPrefab "{BEDCB7AC0146B76F}Prefabs/Characters/Core/DefaultRoleplayCharacter.et"
   }
  }
  {

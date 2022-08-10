@@ -1,14 +1,14 @@
 class EL_PersistentScriptedStateBase
 {
 	protected string m_sId;
-	protected DateTimeUtcAsInt m_iLastSaved;
+	protected EL_DateTimeUtcAsInt m_iLastSaved;
 	
 	string GetPersistentId()
 	{
 		return m_sId;
 	}
 	
-	DateTimeUtcAsInt GetLastSaved()
+	EL_DateTimeUtcAsInt GetLastSaved()
 	{
 		return m_iLastSaved;
 	}
@@ -17,7 +17,7 @@ class EL_PersistentScriptedStateBase
 	{
 		if(!m_sId) return null;
 		
-		m_iLastSaved = EL_Utils.GetCurrentUtcAsInt();
+		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 		
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
 
@@ -109,7 +109,7 @@ class EL_PersistentScriptedStateBase
 
 class EL_ScriptedStateSaveDataBase : EL_DbEntity
 {
-	DateTimeUtcAsInt m_iLastSaved;
+	EL_DateTimeUtcAsInt m_iLastSaved;
 	
 	bool ReadFrom(EL_PersistentScriptedStateBase scriptedState)
 	{

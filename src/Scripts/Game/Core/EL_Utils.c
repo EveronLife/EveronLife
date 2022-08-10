@@ -8,14 +8,8 @@ class EL_Utils
 	static string GetPlayerUID(int playerId)
 	{
 		#ifdef WORKBENCH
-		return "MAIN_WORKBENCH_GUID";
+		return string.Format("LOCAL_UID_%1", playerId);
 		#endif
-		
-		string peerToolUid;
-		if(System.GetCLIParam("peer-tool-uid", peerToolUid))
-		{
-			return peerToolUid;
-		}
 		
 		return GetGame().GetBackendApi().GetPlayerUID(playerId);
 	}
@@ -67,14 +61,6 @@ class EL_Utils
 		}
 		
 		return result;
-	}
-	
-	static DateTimeUtcAsInt GetCurrentUtcAsInt()
-	{
-		int year, month, day, hour, minute, second;
-		System.GetYearMonthDayUTC(year, month, day);
-		System.GetHourMinuteSecondUTC(hour, minute, second);
-		return ((year - 2000) << 26) | (month << 22) | (day << 17) | (hour << 12) | (minute << 6) | second;
 	}
 	
 	static array<typename> SortTypenameHierarchy(array<typename> typenames)

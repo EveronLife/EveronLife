@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{285FB4BFAE87D26F}Prefabs/MP/Spawning/SpawnPoint_LIFE.et"
+ Name "{09D6A1C9543E4A95}Prefabs/Items/Core/Backpack_Base.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

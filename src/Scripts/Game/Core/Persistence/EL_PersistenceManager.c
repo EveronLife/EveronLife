@@ -125,6 +125,8 @@ class EL_PersistenceManager
 	
 	protected void PrepareInitalWorldStateThreadImpl()
 	{	
+		Sleep(0); // Push to next frame to not disturb world hash calculation
+		
 		// Remove baked entities that shall no longer be root entities in the world
 		array<string> staleIds();
 		foreach(string persistentId : m_pRootEntityCollection.m_aRemovedBackedEntities)
@@ -136,6 +138,7 @@ class EL_PersistenceManager
 				continue;
 			}
 			
+			m_mBackedEntities.Remove(persistentId);
 			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting baked entity '%1'@%2.", EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin()), LogLevel.SPAM);
 			SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
 		}
@@ -145,6 +148,13 @@ class EL_PersistenceManager
 		{
 			int idx = m_pRootEntityCollection.m_aRemovedBackedEntities.Find(staleId);
 			if(idx != -1) m_pRootEntityCollection.m_aRemovedBackedEntities.Remove(idx);
+		}
+		
+		// Apply the buffered save data to all remaining baked objects
+		foreach(auto _, IEntity bakedEntity : m_mBackedEntities)
+		{
+			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(bakedEntity.FindComponent(EL_PersistenceComponent));
+			persistenceComponent.OnWorldPostProcess(bakedEntity);
 		}
 		
 		// Spawn additional entities from the previously bulk loaded data
@@ -324,6 +334,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	void RegisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool baked, typename selfSpawnType, bool autoSave)
 	{
 		m_pRootEntityCollection.Add(persistenceComponent, baked, selfSpawnType, autoSave, m_eState);
+		//PrintFormat("%1 is now REGISTERED as root.", EL_Utils.GetPrefabName(persistenceComponent.GetOwner()));
 	}
 	
 	void RegisterSaveRoot(notnull EL_PersistentScriptedStateBase scripedState, bool autoSave)
@@ -334,6 +345,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	void UnregisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool baked, typename selfSpawnType)
 	{
 		m_pRootEntityCollection.Remove(persistenceComponent, baked, selfSpawnType);
+		//PrintFormat("%1 is now UNREGISTERED as root.", EL_Utils.GetPrefabName(persistenceComponent.GetOwner()));
 	}
 	
 	void UnregisterSaveRoot(notnull EL_PersistentScriptedStateBase scripedState)

@@ -6,14 +6,14 @@ class EL_ComponentSaveDataBase
 		return EL_DbEntityUtils.StructAutoCopy(worldEntityComponent, this);
 	}
 	
-	bool ApplyTo(GenericComponent worldEntityComponent)
-	{
-		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
-	}
-	
 	bool IsFor(GenericComponent worldEntityComponent)
 	{
 		return true;
+	}
+	
+	bool ApplyTo(GenericComponent worldEntityComponent)
+	{
+		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
 	}
 }
 

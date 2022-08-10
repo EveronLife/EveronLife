@@ -10,6 +10,8 @@ SCR_ChimeraCharacter {
      }
      EL_HitZoneContainerComponentSaveData "{5A12D8F4D807DD8A}" {
      }
+     EL_BaseInventoryStorageComponentSaveData "{5A13263CEDD3593B}" {
+     }
     }
    }
   }

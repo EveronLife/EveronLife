@@ -25,12 +25,14 @@ class EL_SpawnPoint : SCR_Position
 		return s_aSpawnPoints;
 	}
 	
+	#ifdef WORKBENCH
 	//------------------------------------------------------------------------------------------------
 	override void SetColorAndText()
 	{
 		m_sText = "Global Spawn";
 		m_iColor = Color.CYAN;
 	}
+	#endif
 	
 	//------------------------------------------------------------------------------------------------
 	void GetPosAngles(out vector position, out vector angles)

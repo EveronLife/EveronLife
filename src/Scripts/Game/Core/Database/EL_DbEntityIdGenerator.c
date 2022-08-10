@@ -9,7 +9,7 @@ class EL_DbEntityIdGenerator
 		if(!m_Random) m_Random = new RandomGenerator();
 		
 		//No need to look at past generated ids in db for conflict, because they have older timestamps
-		string timeHex = EL_Utils.IntToHex(EL_Utils.GetCurrentUtcAsInt());
+		string timeHex = EL_Utils.IntToHex(EL_DateTimeUtcAsInt.Now());
 		
 		//Always 1 until hive system is implemented. Makes conflicts across hives impossible
 		string hiveHex = "00000001"; 

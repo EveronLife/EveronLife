@@ -12,6 +12,8 @@ Vehicle {
      }
      EL_HitZoneContainerComponentSaveData "{5A0D2D2153DEF1D3}" {
      }
+     EL_BaseInventoryStorageComponentSaveData "{5A13060F41A7788F}" {
+     }
     }
    }
   }

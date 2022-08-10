@@ -26,14 +26,17 @@ class EL_PersistenceComponent : ScriptComponent
 	protected bool m_bStorageRoot;
 	protected bool m_bSavedAsStorageRoot;
 	protected string m_sId;
-	protected DateTimeUtcAsInt m_iLastSaved;
+	protected EL_DateTimeUtcAsInt m_iLastSaved;
+	
+	// Used for deferred loading during world init 
+	protected ref EL_EntitySaveDataBase m_pSaveDataBuffer;
 	
 	string GetPersistentId()
 	{
 		return m_sId;
 	}
 	
-	DateTimeUtcAsInt GetLastSaved()
+	EL_DateTimeUtcAsInt GetLastSaved()
 	{
 		return m_iLastSaved;
 	}
@@ -45,7 +48,7 @@ class EL_PersistenceComponent : ScriptComponent
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		
-		m_iLastSaved = EL_Utils.GetCurrentUtcAsInt();
+		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 		
 		EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(settings.m_tSaveDataTypename.Spawn());		
 		if(!saveData || !saveData.ReadFrom(owner))
@@ -145,8 +148,12 @@ class EL_PersistenceComponent : ScriptComponent
 		EL_EntitySaveDataBase saveData = persistenceManager.GetEntitySaveDataBuffer(m_sId);
 		if(saveData)
 		{
-			// Apply existing save data
-			if(!saveData.ApplyTo(owner))
+			if(m_bBaked)
+			{
+				// Save the data for world post init
+				m_pSaveDataBuffer = saveData;
+			}
+			else if(!saveData.ApplyTo(owner))
 			{
 				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type(), saveData.GetId()));
 				Deactivate(owner);
@@ -166,6 +173,20 @@ class EL_PersistenceComponent : ScriptComponent
 		typename selfSpawnType = typename.Empty;
 		if(settings.m_bSelfSpawn) selfSpawnType = settings.m_tSaveDataTypename;
 		persistenceManager.RegisterSaveRoot(this, m_bBaked, selfSpawnType, settings.m_bAutosave);
+	}
+
+	event void OnWorldPostProcess(IEntity owner)
+	{
+		if(!m_pSaveDataBuffer) return;
+		
+		if(m_pSaveDataBuffer.ApplyTo(owner))
+		{
+			m_pSaveDataBuffer = null;
+			return;
+		}
+		
+		Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", m_pSaveDataBuffer.Type(), m_pSaveDataBuffer.GetId()));
+		Deactivate(owner);
 	}
 	
 	event void OnStorageParentChanged(IEntity owner, IEntity storageParent)
