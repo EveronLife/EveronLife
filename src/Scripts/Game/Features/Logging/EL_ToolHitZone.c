@@ -1,9 +1,13 @@
 class EL_ToolHitZone : ScriptedHitZone
 {
-	[Attribute("0", UIWidgets.EditBox, "Scale of received damage that will be passed to parent vehicle", "0 10 0.01")]
-	private float m_f;
+
+	[Attribute("", UIWidgets.ResourceNamePicker, "Particle to spawn on hit", "et")]
+	ResourceName m_HitVFX;
+	
 	DamageManagerComponent m_DamageManager;
 	bool m_bAddedDamage;
+	
+	
 	//------------------------------------------------------------------------------------------------
 	override void OnInit(IEntity pOwnerEntity, GenericComponent pManagerComponent)
 	{
@@ -31,11 +35,15 @@ class EL_ToolHitZone : ScriptedHitZone
 	{
 		super.OnDamage(type, damage, pOriginalHitzone, instigator, hitTransform, speed, colliderID, nodeID);
 		
+		Print("DAMAGE AT: " + hitTransform[0]);
+		EL_Utils.SpawnEntityPrefab(m_HitVFX, hitTransform[0], hitTransform[1]);
 		if (m_bAddedDamage)
+		{
 			return;
+			m_bAddedDamage = false;
+		}
 		
 		m_bAddedDamage = true;
-		
 		if (this != pOriginalHitzone)
 			return;
 		

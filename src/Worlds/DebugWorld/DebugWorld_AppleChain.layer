@@ -581,13 +581,16 @@ GenericEntity AppleTrader {
   }
  }
 }
+SCR_ParticleEmitter {
+ coords 102.75 0.001 138.153
+ m_EffectPath "{12571DF1E334C899}Wood_Small.ptc"
+ m_PlayInEditor 0
+}
 Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domestica_2s.et" {
  components {
   ActionsManagerComponent "{596540948BBDD481}" {
    additionalActions {
     EL_GatherAction "{59654094806921B6}" {
-     m_DelayTimeMilliseconds 6000
-     m_DelayGatherQuantity 3
     }
    }
   }

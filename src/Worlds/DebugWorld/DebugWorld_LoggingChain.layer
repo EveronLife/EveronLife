@@ -2,6 +2,96 @@ EL_LoggingArea {
  coords 101.769 0.001 126.733
  m_vSize 5 10 5
 }
+GenericEntity {
+ components {
+  EL_SingleGadgetComponent "{59EB26902F62B8DE}" {
+   m_eAnimVariable ADRIANOV
+  }
+  InventoryItemComponent "{59EB26902F62BBBB}" {
+   Attributes SCR_ItemAttributeCollection "{59EB26902F62BBB9}" {
+    ItemDisplayName UIInfo "{59EB26902F62BB13}" {
+     Name "Log"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59EB26902F62BB07}" {
+     DimensionScaler 0.01
+     RestingUP Up
+     RestingAdditiveRotationLS -90 0 0
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59EB26902F62BB5C}" {
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59EB26902F62BB62}" {
+       AnimGraph "{25CA2A97D9F9F608}Animations/Player/Carry.agr"
+       AnimInstance "{E4F6E5509026D213}Animations/Player/player_carry.asi"
+       StartNode "BoxHeavy"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 0 -10 -90
+     HandAdditiveTranslation 0.43 0.3 -0.85
+    }
+    CustomAttributes {
+     CharacterModifierAttributes "{59EB26902F62BB51}" {
+      SpeedLimit 1
+      ADSSpeedLimit 1
+      SpeedLimitHighready 1
+      CanBeEquippedInVehicle 0
+     }
+     PreviewRenderAttributes "{59EB26902F62BB42}" {
+      CameraPreset Top
+      CameraDistanceToItem 1
+      CameraOffset 0 -0.05 0.2
+      ItemRenderRotation 0 0 90
+     }
+    }
+    m_SlotType SLOT_GADGETS_STORAGE
+   }
+  }
+  MeshObject "{59EB26902F62BBAC}" {
+   Object "{FBAAA2A4E0C74664}Prefabs/Items/box_heavy.xob"
+   Materials {
+    MaterialAssignClass "{59EB2691EBA74DEA}" {
+     SourceMaterial "BoxMaterial"
+     AssignedMaterial "{F3F4767A4C4B158E}Prefabs/Items/box_heavy.emat"
+    }
+   }
+  }
+  Hierarchy "{59EB2EA51026D32C}" {
+   PivotID "LeftHand"
+  }
+  RigidBody "{59EB26902F62BB99}" {
+   Mass 0.1
+   CenterOfMass 0 0 -2
+   ResponseIndex "SmallDestructible"
+  }
+  BoxGeometry "{59EB26916B059582}" {
+   LayerPreset "Debris"
+  }
+  SCR_GadgetComponent "{59EB26902F62BB93}" {
+   Enabled 0
+   m_eAnimVariable ADRIANOV
+  }
+  ActionsManagerComponent "{59EB26902F62BBD9}" {
+   ActionContexts {
+    UserActionContext "{59EB26902F62BBE9}" {
+     ContextName "default"
+     Position PointInfo "{59EB26902F62BBEE}" {
+      Offset 0 0 -2.027
+     }
+    }
+   }
+   additionalActions {
+    EL_ForceEquipAction "{59EB26902F62BBDF}" {
+     ParentContextList {
+      "default"
+     }
+    }
+   }
+  }
+  RplComponent "{59EB26902F62BBD4}" {
+  }
+ }
+ coords 110.482 0 142.788
+}
 GenericEntity : "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et" {
  coords 101.764 0.001 136.735
 }
@@ -10,6 +100,14 @@ GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/Table
 }
 $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
  {
+  components {
+   SCR_DestructionMultiPhaseComponent "{598E73985119A506}" {
+    "Additional hit zones" {
+     EL_ToolHitZone Tree {
+     }
+    }
+   }
+  }
   coords 102.585 0.001 130.021
  }
  {

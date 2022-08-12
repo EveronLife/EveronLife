@@ -3,12 +3,13 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
  components {
   SCR_DestructionMultiPhaseComponent "{598E73985119A506}" {
    "Additional hit zones" {
-    HitZone Tree {
+    EL_ToolHitZone Tree {
      ColliderNames {
       "UTM_F"
      }
      HZDefault 1
      "Kinetic multiplier" 0.1
+     m_HitVFX "{8DB2E11855C71E31}Prefabs/VFX/Logging_Small.et"
     }
    }
    EnableDamage 0
