@@ -144,7 +144,7 @@ class EL_PersistenceComponent : ScriptComponent
 			m_sId = persistenceManager.GetPersistentId(owner);
 			m_bBaked = true;
 		}
-
+		
 		EL_EntitySaveDataBase saveData = persistenceManager.GetEntitySaveDataBuffer(m_sId);
 		if(saveData)
 		{
@@ -174,7 +174,7 @@ class EL_PersistenceComponent : ScriptComponent
 		if(settings.m_bSelfSpawn) selfSpawnType = settings.m_tSaveDataTypename;
 		persistenceManager.RegisterSaveRoot(this, m_bBaked, selfSpawnType, settings.m_bAutosave);
 	}
-
+	
 	event void OnWorldPostProcess(IEntity owner)
 	{
 		if(!m_pSaveDataBuffer) return;
@@ -262,12 +262,13 @@ class EL_PersistenceComponent : ScriptComponent
 		WorldEditorAPI worldEditorApi = GenericEntity.Cast(owner)._WB_GetEditorAPI();
 		if(!worldEditorApi) return;
 
+		string worldPath;
+		worldEditorApi.GetWorldPath(worldPath);
+		if(worldPath.IsEmpty()) return;
+		
 		string prefabNameOnly = FilePath.StripExtension(FilePath.StripPath(EL_Utils.GetPrefabName(owner)));
 		string uuid = Workbench.GenerateGloballyUniqueID64();
-		
-		worldEditorApi.BeginEntityAction("Fix persistent baked entity name");
 		worldEditorApi.RenameEntity(owner, string.Format("%1_%2", prefabNameOnly, uuid));
-		worldEditorApi.EndEntityAction("Fix persistent baked entity name");
 	}
 	#endif
 }

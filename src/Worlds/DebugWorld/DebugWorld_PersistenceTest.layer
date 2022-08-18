@@ -121,8 +121,6 @@ GenericEntity MRE_5A12DE84284E375D : "{EB21D26B8D5A3232}Prefabs/Items/Food/MRE.e
 }
 GenericEntity Vest_Type56_5A132582AF214A16 : "{ED5574EA7F63B457}Prefabs/Characters/Vests/Vest_Type56/Vest_Type56.et" {
  components {
-  DebugStorageManagerComponent "{5A149351168BF111}" {
-  }
  }
  coords 110.143 0.001 142.603
 }
