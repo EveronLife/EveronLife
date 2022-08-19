@@ -114,6 +114,13 @@ GenericEntity AspirinBottle_5A12DE84BF2FF3A1 : "{C98FCC6CA6C56069}Prefabs/Items/
  coords 109.713 0.807 145.085
 }
 Vehicle M923A1_transport_covered_closed_MERDC1 : "{DC21E543DF39D2C0}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered_closed_MERDC.et" {
+ components {
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 21809.699
+  }
+  SCR_VehicleInventoryStorageManagerComponent "{591056FA3B752FE6}" {
+  }
+ }
  coords 104.803 0.001 144.09
 }
 GenericEntity MRE_5A12DE84284E375D : "{EB21D26B8D5A3232}Prefabs/Items/Food/MRE.et" {
