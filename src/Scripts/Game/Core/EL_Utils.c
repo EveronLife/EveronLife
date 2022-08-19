@@ -70,6 +70,11 @@ class EL_Utils
 			physics.SetVelocity(vector.Zero);
 			physics.SetAngularVelocity(vector.Zero);
 		}
+		
+		if(!ChimeraCharacter.Cast(entity))
+		{
+			entity.Update();
+		}
 	}
 	
 	static string IntToHex(int value)

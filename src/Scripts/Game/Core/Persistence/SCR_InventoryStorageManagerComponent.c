@@ -5,9 +5,6 @@ modded class SCR_InventoryStorageManagerComponent
     {
         super.OnItemAdded(storageOwner, item);
         
-		InventoryItemComponent invItem = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
-		PrintFormat("Item %1 now has parent %2.", EL_Utils.GetPrefabName(item), invItem.GetParentSlot());
-		
         EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
         
         if(persistenceComponent) persistenceComponent.OnStorageParentChanged(item, storageOwner.GetOwner());
@@ -18,9 +15,6 @@ modded class SCR_InventoryStorageManagerComponent
     {
         super.OnItemRemoved(storageOwner, item);
         
-		InventoryItemComponent invItem = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
-		PrintFormat("Item %1 now has parent %2.", EL_Utils.GetPrefabName(item), invItem.GetParentSlot());
-		
         EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
         
         if(persistenceComponent) persistenceComponent.OnStorageParentChanged(item, null);

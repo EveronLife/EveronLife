@@ -167,13 +167,7 @@ class EL_PersistenceManager
 		foreach(string persistentId, IEntity bakedEntity : m_mBackedEntities)
 		{
 			EL_EntitySaveDataBase saveData = m_mInitEntitySaveData.Get(persistentId);
-			if(!saveData)
-			{
-				// Create "empty" save data to assign ids to new baked entities
-				saveData = new EL_EntitySaveDataBase();
-				saveData.SetId(persistentId);
-				saveData.m_aComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveDataBase>>();
-			}
+			if(!saveData) continue;
 			
 			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(bakedEntity.FindComponent(EL_PersistenceComponent));
 			if(persistenceComponent) persistenceComponent.Load(saveData);
@@ -185,9 +179,7 @@ class EL_PersistenceManager
 			foreach(string persistentId : persistentIds)
 			{
 				EL_EntitySaveDataBase saveData = m_mInitEntitySaveData.Get(persistentId);
-				PrintFormat("Self spawn: %1 -> %2", persistentId, saveData);
-				if(!saveData) continue;
-				SpawnWorldEntity(saveData);
+				if(saveData) SpawnWorldEntity(saveData);
 			}
 		}
 		
