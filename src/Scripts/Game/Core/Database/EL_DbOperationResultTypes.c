@@ -8,7 +8,7 @@ enum EL_EDbOperationStatusCode
 	FAILURE_DATA_MALFORMED,
 	
 	// User failure
-	FAILURE_ID_MISSING,
+	FAILURE_ID_NOT_SET,
 	FAILURE_ID_NOT_FOUND,
 	
 	// Unknown

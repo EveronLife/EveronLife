@@ -42,7 +42,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	
 	override EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
-		if(!entity.HasId()) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
+		if(!entity.HasId()) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_SET;
         
 		// Make a copy so after insert you can not accidently change anything on the instance passed into the driver later.
 		EL_DbEntity deepCopy = EL_DbEntity.Cast(entity.Type().Spawn());
@@ -55,7 +55,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	
 	override EL_EDbOperationStatusCode Remove(typename entityType, string entityId)
 	{
-		if(!entityId) return EL_EDbOperationStatusCode.FAILURE_ID_MISSING;
+		if(!entityId) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_SET;
 		
 		EL_DbEntity entity = m_Db.Get(entityType, entityId);
 		
