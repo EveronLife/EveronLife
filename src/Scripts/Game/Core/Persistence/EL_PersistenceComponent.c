@@ -33,6 +33,8 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	string GetPersistentId()
 	{
+		if(!m_sId) m_sId = EL_PersistenceManagerInternal.GetInternalInstance().GetPersistentId(this);
+		
 		return m_sId;
 	}
 	
@@ -43,7 +45,7 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	EL_EntitySaveDataBase Save()
 	{
-		if(!IsActive()) return null;
+		if(!GetPersistentId()) return null;
 		
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
@@ -62,7 +64,15 @@ class EL_PersistenceComponent : ScriptComponent
 		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
-		if(m_bStorageRoot)
+		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
+		bool storageRoot = m_bStorageRoot;
+		InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(GetOwner().FindComponent(InventoryItemComponent));
+		if(storageRoot && inventoryItemComponent && inventoryItemComponent.GetParentSlot())
+		{
+			storageRoot = false;
+		}
+		
+		if(storageRoot)
 		{
 			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
 			m_bSavedAsStorageRoot = true;
@@ -71,19 +81,28 @@ class EL_PersistenceComponent : ScriptComponent
 		{
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
 			// The save data will be present inside the storage parent instead.	
-			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
+			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
 			m_bSavedAsStorageRoot = false;
 		}
 		
 		return saveData;
 	}
 	
-	override event void OnPostInit(IEntity owner)
+	bool Load(notnull EL_EntitySaveDataBase saveData)
 	{
-		SetEventMask(owner, EntityEvent.INIT);
+		if(!saveData.GetId() || !saveData.ApplyTo(GetOwner()))
+		{
+			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
+			return false;
+		}
+		
+		m_sId = saveData.GetId();
+		m_iLastSaved = saveData.m_iLastSaved;
+		
+		return true;
 	}
 	
-	override protected void EOnInit(IEntity owner)
+	override event void OnPostInit(IEntity owner)
 	{
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		
@@ -139,76 +158,30 @@ class EL_PersistenceComponent : ScriptComponent
 		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
-		if(persistenceManager.GetState() == EL_EPersistenceManagerState.WORLD_INIT)
-		{
-			m_sId = persistenceManager.GetPersistentId(owner);
-			m_bBaked = true;
-		}
+		m_sId = persistenceManager.GetPersistentId(this);
+		if(!m_sId) return;
 		
-		EL_EntitySaveDataBase saveData = persistenceManager.GetEntitySaveDataBuffer(m_sId);
-		if(saveData)
-		{
-			if(m_bBaked)
-			{
-				// Save the data for world post init
-				m_pSaveDataBuffer = saveData;
-			}
-			else if(!saveData.ApplyTo(owner))
-			{
-				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type(), saveData.GetId()));
-				Deactivate(owner);
-				return;
-			}
-			
-			m_sId = saveData.GetId();
-			m_iLastSaved = saveData.m_iLastSaved;
-		}
-		else if(!m_sId) // Non baked entities without save data need a new one generated
-		{
-			m_sId = persistenceManager.GeneratePersistentId();
-		}
+		m_bBaked = persistenceManager.GetState() == EL_EPersistenceManagerState.WORLD_INIT;
 		
+		persistenceManager.RegisterSaveRoot(this, m_bBaked, settings.m_bAutosave);
 		m_bStorageRoot = true;
-		
-		typename selfSpawnType = typename.Empty;
-		if(settings.m_bSelfSpawn) selfSpawnType = settings.m_tSaveDataTypename;
-		persistenceManager.RegisterSaveRoot(this, m_bBaked, selfSpawnType, settings.m_bAutosave);
-	}
-	
-	event void OnWorldPostProcess(IEntity owner)
-	{
-		if(!m_pSaveDataBuffer) return;
-		
-		if(m_pSaveDataBuffer.ApplyTo(owner))
-		{
-			m_pSaveDataBuffer = null;
-			return;
-		}
-		
-		Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", m_pSaveDataBuffer.Type(), m_pSaveDataBuffer.GetId()));
-		Deactivate(owner);
 	}
 	
 	event void OnStorageParentChanged(IEntity owner, IEntity storageParent)
 	{
-		if(!IsActive()) return;
-		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		
-		typename selfSpawnType = typename.Empty;
-		if(settings.m_bSelfSpawn) selfSpawnType = settings.m_tSaveDataTypename;
 		
 		if(m_bStorageRoot && storageParent)
 		{
 			// Entity was previously the save root, but now got a parent assigned, so unregister
-			persistenceManager.UnregisterSaveRoot(this, m_bBaked, selfSpawnType);
+			persistenceManager.UnregisterSaveRoot(this, m_bBaked);
 			m_bStorageRoot = false;
 		}
 		else if(!m_bStorageRoot && !storageParent)
 		{
 			// Entity was previously a save child, but now has no parent anymore and thus needs to be registerd as own root
-			persistenceManager.RegisterSaveRoot(this, m_bBaked, selfSpawnType, settings.m_bAutosave);
+			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+			persistenceManager.RegisterSaveRoot(this, m_bBaked, settings.m_bAutosave);
 			m_bStorageRoot = true;
 		}
 	}
@@ -228,23 +201,18 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	void Delete()
 	{
-		if(!IsActive()) return;
+		if(!m_sId) return;
 		
 		IEntity owner = GetOwner();
-		
-		// Once deleted this world entity becomes inactive in terms of persistence
-		Deactivate(owner);
-		
+
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		
-		typename selfSpawnType = typename.Empty;
-		if(settings.m_bSelfSpawn) selfSpawnType = settings.m_tSaveDataTypename;
-		persistenceManager.UnregisterSaveRoot(this, m_bBaked, selfSpawnType);
+
+		persistenceManager.UnregisterSaveRoot(this, m_bBaked);
 		
 		if (m_bSavedAsStorageRoot)
 		{
 			// Only attempt to delete if there is a chance it was already saved as own entity in db
+			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
 		}
 		

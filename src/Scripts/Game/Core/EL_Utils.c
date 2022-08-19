@@ -31,6 +31,47 @@ class EL_Utils
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
 	}
 	
+	static void Teleport(IEntity entity, vector position, vector ypr = "-1 -1 -1", float scale = -1)
+	{
+		vector transform[4];
+		
+		if(ypr != "-1 -1 -1")
+		{
+			Math3D.AnglesToMatrix(ypr, transform);
+			transform[3] = position;
+		}
+		else
+		{
+			entity.GetWorldTransform(transform);
+			transform[3] = position;
+			SCR_TerrainHelper.OrientToTerrain(transform);
+		}
+		
+		if(scale != -1) SCR_Math3D.ScaleMatrix(transform, scale);
+
+		TeleportTM(entity, transform);
+	}
+	
+	static void TeleportTM(IEntity entity, vector transform[4])
+	{
+		BaseGameEntity baseGameEntity = BaseGameEntity.Cast(entity);
+		if (baseGameEntity)
+		{
+			baseGameEntity.Teleport(transform);
+		}
+		else
+		{
+			entity.SetWorldTransform(transform);
+		}
+		
+		Physics physics = entity.GetPhysics();
+		if (physics)
+		{
+			physics.SetVelocity(vector.Zero);
+			physics.SetAngularVelocity(vector.Zero);
+		}
+	}
+	
 	static string IntToHex(int value)
 	{
 		array<string> resultChars = {"0", "0", "0", "0", "0", "0", "0", "0"};

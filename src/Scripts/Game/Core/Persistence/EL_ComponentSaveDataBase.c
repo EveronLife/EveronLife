@@ -1,17 +1,17 @@
 [BaseContainerProps()]
 class EL_ComponentSaveDataBase
 {
-	bool ReadFrom(GenericComponent worldEntityComponent)
+	bool ReadFrom(notnull GenericComponent worldEntityComponent)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(worldEntityComponent, this);
 	}
 	
-	bool IsFor(GenericComponent worldEntityComponent)
+	bool IsFor(notnull GenericComponent worldEntityComponent)
 	{
 		return true;
 	}
 	
-	bool ApplyTo(GenericComponent worldEntityComponent)
+	bool ApplyTo(notnull GenericComponent worldEntityComponent)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
 	}

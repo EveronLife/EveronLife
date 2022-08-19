@@ -5,6 +5,8 @@ class EL_PersistentScriptedStateBase
 	
 	string GetPersistentId()
 	{
+		if(!m_sId) m_sId = EL_PersistenceManagerInternal.GetInternalInstance().GetPersistentId(this);
+		
 		return m_sId;
 	}
 	
@@ -15,12 +17,11 @@ class EL_PersistentScriptedStateBase
 	
 	EL_ScriptedStateSaveDataBase Save()
 	{
-		if(!m_sId) return null;
+		if(!GetPersistentId()) return null;
 		
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 		
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
-
 		EL_ScriptedStateSaveDataBase saveData = EL_ScriptedStateSaveDataBase.Cast(settings.m_tSaveDataType.Spawn());		
 		if(!saveData || !saveData.ReadFrom(this))
 		{
@@ -29,10 +30,20 @@ class EL_PersistentScriptedStateBase
 		}
 		
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		
 		persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
 		
 		return saveData;
+	}
+	
+	bool Load(notnull EL_ScriptedStateSaveDataBase saveData)
+	{
+		if(!saveData.GetId() || !saveData.ApplyTo(this))
+		{
+			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
+			return false;
+		}
+		
+		return true;
 	}
 	
 	void Delete()
@@ -70,26 +81,7 @@ class EL_PersistentScriptedStateBase
 		}
 		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		
-		EL_ScriptedStateSaveDataBase saveData = persistenceManager.GetScriptedStateSaveDataBuffer();
-		if(saveData)
-		{
-			// Apply existing save data
-			if(!saveData.ApplyTo(this))
-			{
-				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type(), saveData.GetId()));
-				m_sId = string.Empty;
-				return;
-			}
-			
-			m_iLastSaved = saveData.m_iLastSaved;
-		}
-		else
-		{
-			// Create from scratch, so we need to generate an id
-			m_sId = persistenceManager.GeneratePersistentId();
-		}
-		
+		m_sId = persistenceManager.GetPersistentId(this);
 		persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
 	}
 	
@@ -111,7 +103,7 @@ class EL_ScriptedStateSaveDataBase : EL_DbEntity
 {
 	EL_DateTimeUtcAsInt m_iLastSaved;
 	
-	bool ReadFrom(EL_PersistentScriptedStateBase scriptedState)
+	bool ReadFrom(notnull EL_PersistentScriptedStateBase scriptedState)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(scriptedState, this);
 	}
@@ -121,7 +113,7 @@ class EL_ScriptedStateSaveDataBase : EL_DbEntity
 		return EL_PersistenceManager.GetInstance().SpawnScriptedState(this);
 	}
 	
-	bool ApplyTo(EL_PersistentScriptedStateBase scriptedState)
+	bool ApplyTo(notnull EL_PersistentScriptedStateBase scriptedState)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, scriptedState);
 	}
@@ -173,5 +165,3 @@ class EL_PersistentScriptedStateSettings
 		return m_ReverseMapping.Get(saveDataType);
 	}
 }
-
-// TODO: Proxy variant with proxy save-data?

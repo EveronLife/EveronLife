@@ -6,10 +6,10 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	
 	EL_DateTimeUtcAsInt m_iLastSaved;
 	
-	ResourceName m_Prefab;
+	ResourceName m_rPrefab;
 	ref map<typename, ref array<ref EL_ComponentSaveDataBase>> m_aComponentsSaveData;
 	
-	bool ReadFrom(IEntity worldEntity)
+	bool ReadFrom(notnull IEntity worldEntity)
 	{
 		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
@@ -17,10 +17,9 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		SetId(persistenceComponent.GetPersistentId());
 		m_iLastSaved = persistenceComponent.GetLastSaved();
 		
-		m_Prefab = EL_Utils.GetPrefabName(worldEntity);
+		m_rPrefab = EL_Utils.GetPrefabName(worldEntity);
 		
 		m_aComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveDataBase>>();
-		bool transformationHandled = false;
 		
 		// Go through hierarchy sorted component types
 		foreach(typename componentSaveDataType : settings.m_aComponentSaveDataTypenames)
@@ -28,11 +27,8 @@ class EL_EntitySaveDataBase : EL_DbEntity
 			array<ref EL_ComponentSaveDataBase> componentsSaveData();
 			
 			// Special handling for transformation as its not really a "component"
-			if(componentSaveDataType.IsInherited(EL_TransformationSaveData))
+			if(componentSaveDataType == EL_TransformationSaveData)
 			{
-				if(transformationHandled) return false;
-				transformationHandled = true;
-				
 				EL_TransformationSaveData transformationSaveData = EL_TransformationSaveData.Cast(componentSaveDataType.Spawn());
 				if(!transformationSaveData || !transformationSaveData.ReadFrom(worldEntity)) return false;
 				
@@ -56,7 +52,10 @@ class EL_EntitySaveDataBase : EL_DbEntity
 				}
 			}
 			
-			m_aComponentsSaveData.Set(componentSaveDataType, componentsSaveData);
+			if(componentsSaveData.Count() > 0)
+			{
+				m_aComponentsSaveData.Set(componentSaveDataType, componentsSaveData);
+			}
 		}
 		
 		return true;
@@ -67,22 +66,17 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		return EL_PersistenceManager.GetInstance().SpawnWorldEntity(this);
 	}
 	
-	bool ApplyTo(IEntity worldEntity)
-	{
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
-		if(!persistenceComponent) return false;
+	bool ApplyTo(notnull IEntity worldEntity)
+	{	
+		// Special handling for transformation as its not really a "component" and it helps other component loads if the entity position is already set.
+		array<ref EL_ComponentSaveDataBase> transformData = m_aComponentsSaveData.Get(EL_TransformationSaveData);
+		if(transformData && transformData.Count() > 0) EL_TransformationSaveData.Cast(transformData.Get(0)).ApplyTo(worldEntity);
 		
 		set<Managed> processed();
 		foreach(typename saveDataType, array<ref EL_ComponentSaveDataBase> componentsSaveData : m_aComponentsSaveData)
 		{
-			//PrintFormat("Loading component type '%1' with %2 instances.", saveDataType, componentsSaveData.Count());
-			
-			// Special handling for transformation as its not really a "component"
-			if(saveDataType.IsInherited(EL_TransformationSaveData))
-			{
-				EL_TransformationSaveData.Cast(componentsSaveData.Get(0)).ApplyTo(worldEntity);
-				continue;
-			}
+			// Skip already processed transformation save data
+			if(saveDataType == EL_TransformationSaveData) continue;
 			
 			array<Managed> outComponents();
 			worldEntity.FindComponents(EL_ComponentSaveDataType.Get(saveDataType), outComponents);
@@ -104,7 +98,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 				
 				if(!applied)
 				{
-					Print(string.Format("No matching component for '%1' found on entity '%2'@%3", componentSaveData.Type(), EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin()), LogLevel.VERBOSE);
+					Print(string.Format("No matching component for '%1' found on entity '%2'@%3", componentSaveData.Type().ToString(), EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin()), LogLevel.VERBOSE);
 				}
 			}
 		}
@@ -126,7 +120,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		saveContext.WriteValue("id", GetId());
 		saveContext.WriteValue("dateTime", m_iLastSaved);
 		//saveContext.WriteValue("prefab", m_Prefab.Substring(1, m_Prefab.IndexOf("}") - 1));
-		saveContext.WriteValue("prefab", m_Prefab);
+		saveContext.WriteValue("prefab", m_rPrefab);
 		
 		saveContext.StartObject("components");
 		
@@ -171,7 +165,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		
 		loadContext.ReadValue("dateTime", m_iLastSaved);
 		
-		loadContext.ReadValue("prefab", m_Prefab);
+		loadContext.ReadValue("prefab", m_rPrefab);
 		//m_Prefab = string.Format("{%1}", m_Prefab);
 		
 		loadContext.StartObject("components");
@@ -183,17 +177,17 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		
 		foreach(int idx, string componentName : componentNamesInOrder)
 		{
-			typename componentType = EL_DbName.GetTypeByName(componentName);
-			EL_ComponentSaveDataBase componentSaveData = EL_ComponentSaveDataBase.Cast(componentType.Spawn());
+			typename componentSaveDataType = EL_DbName.GetTypeByName(componentName);
+			EL_ComponentSaveDataBase componentSaveData = EL_ComponentSaveDataBase.Cast(componentSaveDataType.Spawn());
 			loadContext.ReadValue(idx.ToString(), componentSaveData);
 			
-			if(!m_aComponentsSaveData.Contains(componentType))
-			{
-				m_aComponentsSaveData.Set(componentType, {componentSaveData});
+			if(!m_aComponentsSaveData.Contains(componentSaveDataType))
+			{				
+				m_aComponentsSaveData.Set(componentSaveDataType, {componentSaveData});
 				continue;
 			}
 			
-			m_aComponentsSaveData.Get(componentType).Insert(componentSaveData);
+			m_aComponentsSaveData.Get(componentSaveDataType).Insert(componentSaveData);
 		}
 		
 		loadContext.EndObject();

@@ -1,48 +1,41 @@
 [EL_DbName(EL_PersistentRootEntityCollection, "RootEntityCollection")]
 class EL_PersistentRootEntityCollection : EL_DbEntity
 {
-	ref map<EL_PersistenceComponent, bool> m_mRootPersistenceComponents = new map<EL_PersistenceComponent, bool>();
-		
-	// Save-data
 	ref set<string> m_aRemovedBackedEntities = new set<string>();
 	ref map<typename, ref set<string>> m_mSelfSpawnDynamicEntities = new map<typename, ref set<string>>();
 	
-	void Add(EL_PersistenceComponent persistenceComponent, bool baked, typename selfSpawnType, bool autoSave, EL_EPersistenceManagerState managerState)
-	{
-		m_mRootPersistenceComponents.Set(persistenceComponent, autoSave);
+	void Add(EL_PersistenceComponent persistenceComponent, bool baked)
+	{	
+		int idx = m_aRemovedBackedEntities.Find(persistenceComponent.GetPersistentId());
+		if(idx != -1) m_aRemovedBackedEntities.Remove(idx);
 		
-		// Ingore root add during world load as entities that shall be later removed will still try to add themselves
-		if(managerState != EL_EPersistenceManagerState.WORLD_INIT)
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
+		if(!baked && settings.m_bSelfSpawn)
 		{
-			int idx = m_aRemovedBackedEntities.Find(persistenceComponent.GetPersistentId());
-			if(idx != -1) m_aRemovedBackedEntities.Remove(idx);
-		}
-		
-		if(!baked && selfSpawnType)
-		{
-			set<string> ids = m_mSelfSpawnDynamicEntities.Get(selfSpawnType);
+			set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 			
 			if(!ids)
 			{
 				ids = new set<string>();
-				m_mSelfSpawnDynamicEntities.Set(selfSpawnType, ids);
+				m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
 			}
-			
+
 			ids.Insert(persistenceComponent.GetPersistentId());
 		}
 	}
 	
-	void Remove(EL_PersistenceComponent persistenceComponent, bool baked, typename selfSpawnType)
+	void Remove(EL_PersistenceComponent persistenceComponent, bool baked)
 	{
-		m_mRootPersistenceComponents.Remove(persistenceComponent);
-		
 		if(baked)
 		{
 			m_aRemovedBackedEntities.Insert(persistenceComponent.GetPersistentId());
+			return;
 		}
-		else if(selfSpawnType)
+		
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
+		if(settings.m_bSelfSpawn)
 		{
-			set<string> ids = m_mSelfSpawnDynamicEntities.Get(selfSpawnType);
+			set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		
 			if(ids)
 			{

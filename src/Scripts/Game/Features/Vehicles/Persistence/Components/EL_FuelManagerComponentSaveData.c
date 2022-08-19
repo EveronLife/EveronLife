@@ -3,7 +3,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveDataBase
 {
 	ref array<ref EL_PersistentFuelNode> m_aFuelNodes;
 
-	override bool ReadFrom(GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
 	{
 		m_aFuelNodes = new array<ref EL_PersistentFuelNode>();
 		
@@ -25,7 +25,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveDataBase
 		return true;
 	}
 	
-	override bool ApplyTo(GenericComponent worldEntityComponent)
+	override bool ApplyTo(notnull GenericComponent worldEntityComponent)
 	{
 		array<BaseFuelNode> outNodes();
 		FuelManagerComponent.Cast(worldEntityComponent).GetFuelNodesList(outNodes);

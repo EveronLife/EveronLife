@@ -3,7 +3,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 {
 	ref array<ref EL_PersistentHitZone> m_aHitzones;
 
-	override bool ReadFrom(GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
 	{
 		m_aHitzones = new array<ref EL_PersistentHitZone>();
 		
@@ -21,7 +21,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 		return true;
 	}
 	
-	override bool ApplyTo(GenericComponent worldEntityComponent)
+	override bool ApplyTo(notnull GenericComponent worldEntityComponent)
 	{
 		array<HitZone> outHitZones();
 		HitZoneContainerComponent.Cast(worldEntityComponent).GetAllHitZones(outHitZones);

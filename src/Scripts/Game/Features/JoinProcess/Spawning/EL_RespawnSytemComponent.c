@@ -36,7 +36,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		spawnPoint.GetPosAngles(position, angles);
 		
 		EL_CharacterSaveData saveData = m_mSpawnData.Get(playerId);
-		if(saveData && saveData.m_Prefab)
+		if(saveData && saveData.m_rPrefab)
 		{
 			//PrintFormat("Spawning existing character with id '%1'.", saveData.GetId());
 

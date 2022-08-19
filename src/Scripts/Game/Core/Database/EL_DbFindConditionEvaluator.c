@@ -87,7 +87,7 @@ class EL_DbFindFieldTypeInfo
 			s_TypeCache = new map<string, ref EL_DbFindFieldTypeInfo>();
 		}
 		
-		string typeCacheKey = string.Format("%1::%2", instance.Type(), fieldName);
+		string typeCacheKey = string.Format("%1::%2", instance.Type().ToString(), fieldName);
 		
 		EL_DbFindFieldTypeInfo info = s_TypeCache.Get(typeCacheKey);
 		
@@ -410,7 +410,7 @@ class EL_DbFindConditionEvaluator
 			
 			default:
 			{
-				Debug.Error(string.Format("Unknown condition type '%1'.", fieldCondition.Type()));
+				Debug.Error(string.Format("Unknown condition type '%1'.", fieldCondition.Type().ToString()));
 				return false;
 			}
 		}
