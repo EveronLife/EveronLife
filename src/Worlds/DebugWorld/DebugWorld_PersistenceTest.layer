@@ -167,7 +167,7 @@ GenericEntity MRE_5A12DE84284E375D : "{EB21D26B8D5A3232}Prefabs/Items/Food/MRE.e
 GenericEntity Vest_Type56_5A132582AF214A16 : "{ED5574EA7F63B457}Prefabs/Characters/Vests/Vest_Type56/Vest_Type56.et" {
  components {
  }
- coords 110.143 0.001 142.603
+ coords 109.889 0.807 145.285
 }
 GenericEntity Binoculars_B12_5A12DE85C35BA3D4 : "{F2539FA5706E51E4}Prefabs/Items/Equipment/Binoculars/Binoculars_B12.et" {
  coords 110.558 0.845 144.745
