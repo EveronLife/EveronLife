@@ -5,7 +5,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	ref map<typename, ref set<string>> m_mSelfSpawnDynamicEntities = new map<typename, ref set<string>>();
 	
 	void Add(EL_PersistenceComponent persistenceComponent, bool baked)
-	{	
+	{
 		int idx = m_aRemovedBackedEntities.Find(persistenceComponent.GetPersistentId());
 		if(idx != -1) m_aRemovedBackedEntities.Remove(idx);
 		

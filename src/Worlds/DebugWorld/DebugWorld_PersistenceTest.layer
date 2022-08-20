@@ -102,6 +102,44 @@ GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et"
      m_GatherItemDisplayName "Backpack"
      m_GatherItemPrefab "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
     }
+    EL_GatherAction "{5A274D801DF5CEC0}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{5A274D8019A8DCE6}" {
+      Name "jacket"
+     }
+     m_GatherItemDisplayName "jacket"
+     m_GatherItemPrefab "{BBA08EC4EC40FA94}Prefabs/Characters/Uniforms/Jacket_M70.et"
+    }
+    EL_GatherAction "{5A274D80011198FD}" {
+     ParentContextList {
+      "default"
+     }
+     m_GatherItemDisplayName "pants"
+     m_GatherItemPrefab "{06BC3F18B47799AE}Prefabs/Characters/Uniforms/Pants_M70.et"
+    }
+    EL_GatherAction "{5A274D803168650F}" {
+     ParentContextList {
+      "default"
+     }
+     m_GatherItemDisplayName "binoculars"
+     m_GatherItemPrefab "{0CF54B9A85D8E0D4}Prefabs/Items/Equipment/Binoculars/Binoculars_M22.et"
+    }
+    EL_GatherAction "{5A274D8023EE0BFD}" {
+     ParentContextList {
+      "default"
+     }
+     m_GatherItemDisplayName "pew pew"
+     m_GatherItemPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+    }
+    EL_GatherAction "{5A28749A11371161}" {
+     ParentContextList {
+      "default"
+     }
+     m_GatherItemDisplayName "boots"
+     m_GatherItemPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+    }
    }
   }
   RplComponent "{5624A88DC2D9928D}" {

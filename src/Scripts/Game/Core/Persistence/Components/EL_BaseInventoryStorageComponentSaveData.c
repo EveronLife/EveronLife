@@ -17,7 +17,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 		for(int i = 0, nSlot = 0, slots = storageComponent.GetSlotsCount(); i < slots; i++)
 		{
 			IEntity slotEntity = storageComponent.Get(i);
-			if(!slotEntity)continue;
+			if(!slotEntity) continue;
 			
 			EL_PersistenceComponent slotPersistenceComponent = EL_PersistenceComponent.Cast(slotEntity.FindComponent(EL_PersistenceComponent));
 			if(!slotPersistenceComponent) continue;
@@ -59,7 +59,15 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 				continue;
 			}
 			
-			storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId);
+			if(m_ePurposeFlags & EStoragePurpose.PURPOSE_LOADOUT_PROXY)
+			{
+				BaseLoadoutManagerComponent loadout = BaseLoadoutManagerComponent.Cast(storageComponent.GetOwner().FindComponent(BaseLoadoutManagerComponent));
+				loadout.Wear(slotEntity);
+			}
+			else
+			{
+				storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId);
+			}
 			
 			InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(slotEntity.FindComponent(InventoryItemComponent));
 			if(inventoryItemComponent && !inventoryItemComponent.GetParentSlot())

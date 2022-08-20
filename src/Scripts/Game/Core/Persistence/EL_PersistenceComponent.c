@@ -169,6 +169,10 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	event void OnStorageParentChanged(IEntity owner, IEntity storageParent)
 	{
+		// If not currently tracked by persistence ignore changes.
+		// This can happen on delete from inventory manager where the event comes after OnDelete of this component
+		if(!m_sId) return;
+		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
 		if(m_bStorageRoot && storageParent)

@@ -1,6 +1,7 @@
 enum EL_EPersistenceManagerState
 {
 	WORLD_INIT,
+	SETUP,
 	ACTIVE,
 	SHUTDOWN
 }
@@ -191,6 +192,8 @@ class EL_PersistenceManager
 		m_mInitEntitySaveData = null;
 		m_pBakedEntityNameIdMapping = null;
 		
+		m_eState = EL_EPersistenceManagerState.ACTIVE;
+		
 		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.");
 	}
 	
@@ -375,13 +378,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
         {
 			IEntity worldEntity = persistenceComponent.GetOwner();
             string name = worldEntity.GetName();
-            if(!name)
-            {
-                Debug.Error(string.Format("Baked world entity '%1'@%2 needs to have a name to be trackable by the persistence system.", 
-                    EL_Utils.GetPrefabName(worldEntity), 
-                    worldEntity.GetOrigin()));
-                return string.Empty;
-            }
+            if(!name) return string.Empty;
             
 			id = m_pBakedEntityNameIdMapping.GetIdByName(name);
 			
@@ -447,7 +444,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	
 	event void OnWorldPostProcess(World world)
 	{
-		m_eState = EL_EPersistenceManagerState.ACTIVE;
+		m_eState = EL_EPersistenceManagerState.SETUP;
 		
 		thread PrepareInitalWorldStateThreadImpl();
 	}
