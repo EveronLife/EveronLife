@@ -1,5 +1,7 @@
 class EL_DbDriver
 {
+	static bool s_bForceSyncApi; //Used to forced drivers to rely on sync api during session teardown
+	
 	bool Initalize(string connectionString = string.Empty);
 	
 	void Shutdown();

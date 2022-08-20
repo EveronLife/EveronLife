@@ -1,7 +1,5 @@
 class EL_DbContext
 {
-	static bool s_bForceSyncApi; //Used to make any db context do blocking operations during session teardown
-	
 	protected ref EL_DbDriver m_Driver;
 	
 	EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
@@ -31,14 +29,7 @@ class EL_DbContext
 	void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
 	{
 		if(!entity.HasId()) entity.SetId(EL_DbEntityIdGenerator.Generate());
-		
-		if(s_bForceSyncApi)
-		{
-			EL_EDbOperationStatusCode resultCode = m_Driver.AddOrUpdate(entity);
-			if(callback) callback._SetCompleted(resultCode);
-			return;
-		}
-		
+
 		m_Driver.AddOrUpdateAsync(entity, callback);
 	}
 	
@@ -48,37 +39,16 @@ class EL_DbContext
 		typename entityType = entity.Type();
 		string entityId = entity.GetId();
 		
-		if(s_bForceSyncApi)
-		{
-			EL_EDbOperationStatusCode resultCode = m_Driver.Remove(entityType, entityId);
-			if(callback) callback._SetCompleted(resultCode);
-			return;
-		}
-		
 		m_Driver.RemoveAsync(entityType, entityId, callback);
 	}
 	
 	void RemoveAsync(typename entityType, string entityId, EL_DbOperationStatusOnlyCallback callback = null)
 	{
-		if(s_bForceSyncApi)
-		{
-			EL_EDbOperationStatusCode resultCode = m_Driver.Remove(entityType, entityId);
-			if(callback) callback._SetCompleted(resultCode);
-			return;
-		}
-		
 		m_Driver.RemoveAsync(entityType, entityId, callback);
 	}
 	
 	void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
 	{
-		if(s_bForceSyncApi)
-		{
-			EL_DbFindResults<EL_DbEntity> findResults = m_Driver.FindAll(entityType, condition, orderBy, limit, offset);
-			if(callback) callback._SetCompleted(findResults.GetStatusCode(), findResults.GetEntities());
-			return;
-		}
-		
 		m_Driver.FindAllAsync(entityType, condition, orderBy, limit, offset, callback);
 	}
 	
