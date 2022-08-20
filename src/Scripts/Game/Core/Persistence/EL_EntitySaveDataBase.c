@@ -119,7 +119,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		saveContext.WriteValue("dataLayoutVersion", 1);
 		saveContext.WriteValue("id", GetId());
 		saveContext.WriteValue("dateTime", m_iLastSaved);
-		saveContext.WriteValue("prefab", m_Prefab.Substring(1, m_Prefab.IndexOf("}") - 1));
+		saveContext.WriteValue("prefab", m_rPrefab.Substring(1, m_rPrefab.IndexOf("}") - 1));
 		
 		saveContext.StartObject("components");
 		
