@@ -28,6 +28,8 @@ class EL_Utils
 	
 	static ResourceName GetPrefabName(IEntity entity)
 	{
+		if(!entity) return string.Empty;
+		
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
 	}
 	
