@@ -31,6 +31,14 @@ class EL_PersistenceComponent : ScriptComponent
 	// Used for deferred loading during world init 
 	protected ref EL_EntitySaveDataBase m_pSaveDataBuffer;
 	
+	static string GetPersistentId(IEntity worldEntity)
+	{
+		if(!worldEntity) return string.Empty;
+		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		if(!persistence) return string.Empty;
+		return persistence.GetPersistentId();
+	}
+	
 	string GetPersistentId()
 	{
 		if(!m_sId) m_sId = EL_PersistenceManagerInternal.GetInternalInstance().GetPersistentId(this);
@@ -193,8 +201,10 @@ class EL_PersistenceComponent : ScriptComponent
 	override event void OnDelete(IEntity owner)
     {
 		// Check that we are not in session dtor phase
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		if(!persistenceManager || !persistenceManager.IsActive()) return;
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		if(!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
+		
+		persistenceManager.UnloadPersistentId(m_sId);
 		
 		// Only auto self delete if setting for it is enabled
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));

@@ -88,8 +88,10 @@ class EL_PersistentScriptedStateBase
 	void ~EL_PersistentScriptedStateBase()
 	{
 		// Check that we are not in session dtor phase.
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		if(!persistenceManager || !persistenceManager.IsActive()) return;
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		if(!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
+		
+		persistenceManager.UnloadPersistentId(m_sId);
 		
 		// Only auto self delete if setting for it is enabled
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
@@ -101,6 +103,7 @@ class EL_PersistentScriptedStateBase
 
 class EL_ScriptedStateSaveDataBase : EL_DbEntity
 {
+	int m_iDataLayoutVersion = 1;
 	EL_DateTimeUtcAsInt m_iLastSaved;
 	
 	bool ReadFrom(notnull EL_PersistentScriptedStateBase scriptedState)

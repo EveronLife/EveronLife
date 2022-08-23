@@ -12,6 +12,8 @@ SCR_ChimeraCharacter {
      }
      EL_BaseInventoryStorageComponentSaveData "{5A13263CEDD3593B}" {
      }
+     EL_EquipedWeaponStorageComponentSaveData "{5A2EDE88639C8657}" {
+     }
     }
    }
   }

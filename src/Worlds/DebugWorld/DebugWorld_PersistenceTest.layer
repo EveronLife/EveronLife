@@ -140,6 +140,13 @@ GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et"
      m_GatherItemDisplayName "boots"
      m_GatherItemPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
     }
+    EL_GatherAction "{5A2D405EF8DFF962}" {
+     ParentContextList {
+      "default"
+     }
+     m_GatherItemDisplayName "pistol"
+     m_GatherItemPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+    }
    }
   }
   RplComponent "{5624A88DC2D9928D}" {

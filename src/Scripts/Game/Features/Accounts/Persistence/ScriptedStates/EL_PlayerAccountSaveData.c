@@ -7,7 +7,7 @@ class EL_PlayerAccountSaveData : EL_ScriptedStateSaveDataBase
 	{
 		if (!saveContext.IsValid()) return false;
 		
-		saveContext.WriteValue("dataLayoutVersion", 1);
+		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		
 		saveContext.WriteValue("m_sId", GetId());
 		
@@ -22,8 +22,7 @@ class EL_PlayerAccountSaveData : EL_ScriptedStateSaveDataBase
 	{
 		if (!loadContext.IsValid()) return false;
 		
-		int dataLayoutVersion;
-		loadContext.ReadValue("dataLayoutVersion", dataLayoutVersion);
+		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		
 		string id;
 		loadContext.ReadValue("m_sId", id);

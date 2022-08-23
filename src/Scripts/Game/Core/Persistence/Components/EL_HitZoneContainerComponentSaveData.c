@@ -69,7 +69,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 	{
 		if (!saveContext.IsValid()) return false;
 		
-		saveContext.WriteValue("dataLayoutVersion", 1);
+		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		saveContext.WriteValue("m_aHitzones", m_aHitzones);
 		
 		return true;
@@ -79,8 +79,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 	{
 		if (!loadContext.IsValid()) return false;
 		
-		int dataLayoutVersion;
-		loadContext.ReadValue("dataLayoutVersion", dataLayoutVersion);
+		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		loadContext.ReadValue("m_aHitzones", m_aHitzones);
 		
 		return true;

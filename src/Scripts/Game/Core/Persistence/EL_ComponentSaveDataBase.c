@@ -1,6 +1,8 @@
 [BaseContainerProps()]
 class EL_ComponentSaveDataBase
 {
+	int m_iDataLayoutVersion = 1;
+	
 	array<typename> Requires(); // TODO: Implement automatic entity source changes on prefab edit.
 	
 	//array<typename> CannotCombine(); // TODO: Implement

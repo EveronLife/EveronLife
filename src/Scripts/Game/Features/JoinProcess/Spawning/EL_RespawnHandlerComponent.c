@@ -45,7 +45,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnFrame(IEntity owner, float timeSlice)
 	{
-		if (!m_pGameMode.IsMaster() || !EL_PersistenceManager.GetInstance().IsActive()) return;
+		if (!m_pGameMode.IsMaster() || (EL_PersistenceManager.GetInstance().GetState() < EL_EPersistenceManagerState.ACTIVE)) return;
 		
 		// Wait until the player uid is available for the queued join players
 		array<int> removeIds;
