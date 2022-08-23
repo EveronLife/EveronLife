@@ -26,7 +26,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 			if(!saveData) continue;
 			
 			// Remove transformation data, as that won't be needed for stored entites
-			saveData.m_aComponentsSaveData.Remove(EL_TransformationSaveData);
+			saveData.m_mComponentsSaveData.Remove(EL_TransformationSaveData);
 			
 			EL_PersistentInventoryStorageSlot slotInfo();
 			slotInfo.m_iSlotId = nSlot++;

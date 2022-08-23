@@ -117,6 +117,8 @@ class EL_Utils
 		
 		foreach(typename possibleRootClass : typenames)
 		{
+			if(hierachyCount.Contains(possibleRootClass)) continue;
+			
 			hierachyCount.Set(possibleRootClass, 0);
 			
 			foreach(typename compareRootClass : typenames)

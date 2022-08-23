@@ -149,7 +149,7 @@ class EL_PersistenceComponent : ScriptComponent
 				
 				componentSaveDataTypes.Insert(componentSaveDataType);
 			}
-
+			
 			settings.m_aComponentSaveDataTypenames = EL_Utils.SortTypenameHierarchy(componentSaveDataTypes);
 			
 			// Free memory on shared component data instance
@@ -228,15 +228,14 @@ class EL_PersistenceComponent : ScriptComponent
 	override event void _WB_OnInit(IEntity owner, inout vector mat[4], IEntitySource src)
 	{
 		super._WB_OnInit(owner, mat, src);
-
+		
 		if(owner.GetName()) return;
 
+		WorldEditor worldEditor = Workbench.GetModule(WorldEditor);
+		if(!worldEditor || worldEditor.IsPrefabEditMode()) return;
+		
 		WorldEditorAPI worldEditorApi = GenericEntity.Cast(owner)._WB_GetEditorAPI();
 		if(!worldEditorApi) return;
-
-		string worldPath;
-		worldEditorApi.GetWorldPath(worldPath);
-		if(worldPath.IsEmpty()) return;
 		
 		string prefabNameOnly = FilePath.StripExtension(FilePath.StripPath(EL_Utils.GetPrefabName(owner)));
 		string uuid = Workbench.GenerateGloballyUniqueID64();

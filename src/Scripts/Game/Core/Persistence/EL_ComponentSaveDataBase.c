@@ -1,6 +1,10 @@
 [BaseContainerProps()]
 class EL_ComponentSaveDataBase
 {
+	array<typename> Requires(); // TODO: Implement automatic entity source changes on prefab edit.
+	
+	//array<typename> CannotCombine(); // TODO: Implement
+	
 	bool ReadFrom(notnull GenericComponent worldEntityComponent)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(worldEntityComponent, this);
