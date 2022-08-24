@@ -1,5 +1,5 @@
 [EL_ComponentSaveDataType(EL_CarControllerSaveData, CarControllerComponent, "CarController"), BaseContainerProps()]
-class EL_CarControllerSaveData : EL_ComponentSaveDataBase
+class EL_CarControllerSaveData : EL_VehicleControllerSaveData
 {
 	bool m_bHandBrake;
 
