@@ -55,8 +55,8 @@ class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 		
-		saveContext.WriteValue("dataLayoutVersion", 1);
-		saveContext.WriteValue("id", GetId());
+		saveContext.WriteValue("m_iDataLayoutVersion", 1);
+		saveContext.WriteValue("m_sId", GetId());
 		
 		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
 		foreach(string name, Tuple2<string, typename> tuple : m_mNameIdMapping)
@@ -67,7 +67,7 @@ class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 			entry.m_sSaveDataType = EL_DbName.Get(tuple.param2);
 			entries.Insert(entry);
 		}
-		saveContext.WriteValue("entries", entries);
+		saveContext.WriteValue("m_aEntries", entries);
 		
 		return true;
 	}
@@ -76,15 +76,15 @@ class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 		
-		int dataLayoutVersion;
-		loadContext.ReadValue("dataLayoutVersion", dataLayoutVersion);
+		int m_iDataLayoutVersion;
+		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		
 		string id;
-		loadContext.ReadValue("id", id);
+		loadContext.ReadValue("m_sId", id);
 		SetId(id);
 		
 		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
-		loadContext.ReadValue("entries", entries);
+		loadContext.ReadValue("m_aEntries", entries);
 		
 		foreach(EL_PersistentBakedEntityNameIdMappingEntry entry : entries)
 		{

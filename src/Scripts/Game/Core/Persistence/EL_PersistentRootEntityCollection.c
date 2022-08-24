@@ -63,9 +63,9 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 		
-		saveContext.WriteValue("dataLayoutVersion", 1);
-		saveContext.WriteValue("id", GetId());
-		saveContext.WriteValue("removeBakedIds", m_aRemovedBackedEntities);
+		saveContext.WriteValue("m_iDataLayoutVersion", 1);
+		saveContext.WriteValue("m_sId", GetId());
+		saveContext.WriteValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 		
 		array<ref EL_SelfSpawnDynamicEntity> selfSpawnDynamicEntities();
 		selfSpawnDynamicEntities.Resize(m_mSelfSpawnDynamicEntities.Count());
@@ -79,7 +79,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 			selfSpawnDynamicEntities.Set(idx++, entry);
 		}
 		
-		saveContext.WriteValue("selfSpawnDynamicEntities", selfSpawnDynamicEntities);
+		saveContext.WriteValue("m_aSelfSpawnDynamicEntities", selfSpawnDynamicEntities);
 		
 		return true;
 	}
@@ -88,17 +88,17 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 		
-		int dataLayoutVersion;
-		loadContext.ReadValue("dataLayoutVersion", dataLayoutVersion);
+		int m_iDataLayoutVersion;
+		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		
 		string id;
-		loadContext.ReadValue("id", id);
+		loadContext.ReadValue("m_sId", id);
 		SetId(id);
 		
-		loadContext.ReadValue("removeBakedIds", m_aRemovedBackedEntities);
+		loadContext.ReadValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 		
 		array<ref EL_SelfSpawnDynamicEntity> selfSpawnDynamicEntities();
-		loadContext.ReadValue("selfSpawnDynamicEntities", selfSpawnDynamicEntities);
+		loadContext.ReadValue("m_aSelfSpawnDynamicEntities", selfSpawnDynamicEntities);
 		
 		foreach(EL_SelfSpawnDynamicEntity entry : selfSpawnDynamicEntities)
 		{
@@ -106,7 +106,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 		}
 		
 		return true;
-	}	
+	}
 }
 
 class EL_SelfSpawnDynamicEntity
