@@ -64,26 +64,6 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 		
 		return true;
 	}
-	
-	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
-	{
-		if (!saveContext.IsValid()) return false;
-		
-		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-		saveContext.WriteValue("m_aHitzones", m_aHitzones);
-		
-		return true;
-	}
-	
-	protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
-	{
-		if (!loadContext.IsValid()) return false;
-		
-		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-		loadContext.ReadValue("m_aHitzones", m_aHitzones);
-		
-		return true;
-	}
 }
 
 class EL_PersistentHitZone

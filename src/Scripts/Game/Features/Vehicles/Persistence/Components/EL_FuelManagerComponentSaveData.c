@@ -69,26 +69,6 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveDataBase
 		
 		return true;
 	}
-	
-	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
-	{
-		if (!saveContext.IsValid()) return false;
-		
-		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-		saveContext.WriteValue("m_aFuelNodes", m_aFuelNodes);
-		
-		return true;
-	}
-	
-	protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
-	{
-		if (!loadContext.IsValid()) return false;
-		
-		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-		loadContext.ReadValue("m_aFuelNodes", m_aFuelNodes);
-		
-		return true;
-	}
 }
 
 class EL_PersistentFuelNode
