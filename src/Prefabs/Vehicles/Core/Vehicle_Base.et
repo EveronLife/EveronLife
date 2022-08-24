@@ -8,11 +8,13 @@ Vehicle {
     m_aComponents {
      EL_TransformationSaveData "{5A0D2D215AEF2E93}" {
      }
-     EL_FuelManagerComponentSaveData "{5A0D2D215839814D}" {
-     }
      EL_HitZoneContainerComponentSaveData "{5A0D2D2153DEF1D3}" {
      }
      EL_BaseInventoryStorageComponentSaveData "{5A13060F41A7788F}" {
+     }
+     EL_VehicleControllerSaveData "{5A308829FFA1BEC6}" {
+     }
+     EL_FuelManagerComponentSaveData "{5A308829FB2663B7}" {
      }
     }
    }
