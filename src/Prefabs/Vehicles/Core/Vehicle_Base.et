@@ -16,6 +16,8 @@ Vehicle {
      }
      EL_FuelManagerComponentSaveData "{5A308829FB2663B7}" {
      }
+     EL_BaseLightManagerComponentSaveData "{5A309BE3FE6421AC}" {
+     }
     }
    }
   }
