@@ -3,6 +3,10 @@ EL_GameModeRoleplay {
  components {
   EL_PersistenceManagerComponent "{59D28944F1C3532E}" {
   }
+  EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
+  }
+  EL_RespawnSytemComponent "{5A10698A884816E6}" {
+  }
   SCR_DestructionManagerComponent "{59751432896EFC0B}" {
   }
   SCR_HintManagerComponent "{59E8CC4E575D1802}" {
@@ -13,10 +17,6 @@ EL_GameModeRoleplay {
   RplComponent "{597514327E500A0C}" {
    "Rpl State Override" Static
    Streamable Disabled
-  }
-  EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
-  }
-  EL_RespawnSytemComponent "{5A10698A884816E6}" {
   }
  }
  coords 0 0 0
@@ -34,9 +34,8 @@ EL_GameModeRoleplay {
    ID "59751433747F9C02"
    coords 0 0 0
   }
-  GarbageManager GarbageManager : "{9B883A7D8EBB282A}Prefabs/MP/Managers/GarbageManager.et" {
+  SCR_GarbageManager GarbageManager {
    ID "59751433747F9391"
-   coords 0 0 0
    VehicleLifetime 600
   }
   SCR_MPDestructionManager MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {

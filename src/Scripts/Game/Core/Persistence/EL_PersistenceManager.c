@@ -10,8 +10,9 @@ class EL_PersistenceManager
 {
 	protected static ref EL_PersistenceManager s_pInstance;
 	
-	protected EL_EPersistenceManagerState m_eState;
 	protected EL_DbContext m_pDbContext;
+	protected EL_EPersistenceManagerState m_eState;
+	protected ref ScriptInvoker m_pOnStateChange;
 	
 	// Auto save system
 	protected float m_fAutoSaveInterval;
@@ -20,6 +21,9 @@ class EL_PersistenceManager
 	
 	// Component init
 	protected string m_sNextPersistentId;
+	
+	// GarbageManager handling
+	protected ref EL_PersistentEntityLifetimeCollection m_pEntityLifetimeCollection;
 	
 	// Root instance tracking
 	protected ref EL_PersistentRootEntityCollection m_pRootEntityCollection;
@@ -40,9 +44,22 @@ class EL_PersistenceManager
 		return GetGame().InPlayMode() && Replication.IsServer();
 	}
 	
+	protected void SetState(EL_EPersistenceManagerState state)
+	{
+		m_eState = state;
+		if(m_pOnStateChange) m_pOnStateChange.Invoke(this, state);
+	}
+	
 	EL_EPersistenceManagerState GetState()
 	{
 		return m_eState;
+	}
+	
+	ScriptInvoker GetOnStateChangeEvent()
+	{
+		if(!m_pOnStateChange) m_pOnStateChange = new ScriptInvoker();
+		
+		return m_pOnStateChange;
 	}
 	
 	EL_DbContext GetDbContext()
@@ -106,6 +123,7 @@ class EL_PersistenceManager
 		}
 		
 		m_pRootEntityCollection.Save(GetDbContext());
+		m_pEntityLifetimeCollection.Save(GetDbContext());
 	}
 	
 	protected void ShutDownSave()
@@ -128,6 +146,7 @@ class EL_PersistenceManager
 		}
 		
 		m_pRootEntityCollection.Save(GetDbContext());
+		m_pEntityLifetimeCollection.Save(GetDbContext());
 	}
 	
 	protected void UpdateRootEntityCollection(EL_PersistenceComponent persistenceComponent, Tuple2<bool, bool> infoTuple)
@@ -139,10 +158,12 @@ class EL_PersistenceManager
 		if(!inventoryItemComponent.GetParentSlot())
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, infoTuple.param2);
+			m_pEntityLifetimeCollection.Add(persistenceComponent);
 		}
 		else
 		{
 			m_pRootEntityCollection.Remove(persistenceComponent, infoTuple.param2);
+			m_pEntityLifetimeCollection.Remove(persistenceComponent.GetPersistentId());
 		}
 	}
 	
@@ -201,7 +222,7 @@ class EL_PersistenceManager
 		m_mInitEntitySaveData = null;
 		m_pBakedEntityNameIdMapping = null;
 		
-		m_eState = EL_EPersistenceManagerState.ACTIVE;
+		SetState(EL_EPersistenceManagerState.ACTIVE);
 		
 		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.");
 	}
@@ -256,6 +277,7 @@ class EL_PersistenceManager
 	protected void LoadSetupData()
 	{
 		m_pBakedEntityNameIdMapping = EL_DbEntityHelper<EL_PersistentBakedEntityNameIdMapping>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
+		m_pEntityLifetimeCollection = EL_DbEntityHelper<EL_PersistentEntityLifetimeCollection>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
 		m_pRootEntityCollection = EL_DbEntityHelper<EL_PersistentRootEntityCollection>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
 		
 		// Collect type and ids of inital world entities for bulk load
@@ -327,7 +349,7 @@ class EL_PersistenceManager
 	
 	protected void EL_PersistenceManager()
 	{
-		m_eState = EL_EPersistenceManagerState.WORLD_INIT;
+		SetState(EL_EPersistenceManagerState.WORLD_INIT);
 		
 		m_mRootPersistenceComponents = new map<EL_PersistenceComponent, ref Tuple2<bool, bool>>();
 		m_mRootScriptedStates = new map<EL_PersistentScriptedStateBase, bool>();
@@ -361,6 +383,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		if(m_eState != EL_EPersistenceManagerState.WORLD_INIT)
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, baked);
+			m_pEntityLifetimeCollection.Add(persistenceComponent);
 		}
 	}
 	
@@ -373,6 +396,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	{
 		m_mRootPersistenceComponents.Remove(persistenceComponent);
 		m_pRootEntityCollection.Remove(persistenceComponent, baked);
+		m_pEntityLifetimeCollection.Remove(persistenceComponent.GetPersistentId());
 	}
 	
 	void UnregisterSaveRoot(notnull EL_PersistentScriptedStateBase scripedState)
@@ -439,6 +463,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	{
 		m_mAllEntities.Remove(persistentId);
 		m_mAllScriptedStates.Remove(persistentId);
+		m_pEntityLifetimeCollection.Remove(persistentId);
 	}
 	
 	event void OnPostInit(IEntity gameMode)
@@ -466,14 +491,14 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	
 	event void OnWorldPostProcess(World world)
 	{
-		m_eState = EL_EPersistenceManagerState.SETUP;
+		SetState(EL_EPersistenceManagerState.SETUP);
 		
 		thread PrepareInitalWorldStateThreadImpl();
 	}
 	
 	event void OnGameEnd()
 	{
-		m_eState = EL_EPersistenceManagerState.SHUTDOWN;
+		SetState(EL_EPersistenceManagerState.SHUTDOWN);
 		
 		// Call without thread to be blocking on shutdown
 		ShutDownSave();

@@ -29,14 +29,10 @@ EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Role
   }
  }
  {
-  GarbageManager {
+  SCR_GarbageManager {
    ID "59751433747F9391"
-   CollectorIterations 128
-   CollectorInterval 0
    CharacterCollect 0
    VehicleCollect 0
-   ItemCollect 0
-   ItemLifetime 5
   }
  }
 }
