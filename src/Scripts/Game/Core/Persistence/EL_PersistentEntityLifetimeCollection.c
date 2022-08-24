@@ -16,7 +16,12 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 			if(lifetime == 0) lifetime = -1;
 		}
 		
-		garbageManager.Insert(persistenceComponent.GetOwner(), lifetime);
+		// Only remove characters with known lifetime (aka dead chars)
+		if(!ChimeraCharacter.Cast(persistenceComponent.GetOwner()) || lifetime != -1)
+		{
+			garbageManager.Insert(persistenceComponent.GetOwner(), lifetime);
+		}
+		
 		m_mTrackedEntites.Set(persistenceComponent.GetPersistentId(), persistenceComponent.GetOwner());
 	}
 	
@@ -41,9 +46,12 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 		{
 			m_mLifetimes = new map<string, float>();
 			
+			PlayerManager playerManager = GetGame().GetPlayerManager();
+			
 			foreach (string persistentId, IEntity entity: m_mTrackedEntites)
 			{
-				if (!persistentId || !entity) continue;
+				// Do not allow controlled characters to be saved in GC
+				if (!persistentId || !entity || playerManager.GetPlayerIdFromControlledEntity(entity)) continue;
 				
 				float lifeTime = garbageManager.GetLifetime(entity);
 				if (lifeTime == -1) continue;

@@ -375,7 +375,12 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	{
 		return EL_PersistenceManagerInternal.Cast(GetInstance());
 	}
-
+	
+	EL_PersistentRootEntityCollection GetRootEntityCollection()
+	{
+		return m_pRootEntityCollection;
+	}
+	
 	void RegisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool baked, bool autoSave)
 	{
 		m_mRootPersistenceComponents.Set(persistenceComponent, new Tuple2<bool, bool>(baked, autoSave));

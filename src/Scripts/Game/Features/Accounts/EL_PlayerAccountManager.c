@@ -4,7 +4,7 @@ class EL_PlayerAccountManager
 	
 	protected ref map<string, ref EL_PlayerAccount> m_mAccounts;
 	
-	EL_PlayerAccount GetAccount(string playerUid, bool create = true)
+	EL_PlayerAccount GetAccount(string playerUid, bool create = false)
 	{
 		EL_PlayerAccount account = m_mAccounts.Get(playerUid);
 		if(!account)
@@ -28,6 +28,16 @@ class EL_PlayerAccountManager
 	EL_PlayerAccount GetAccount(IEntity player)
 	{
 		return GetAccount(EL_Utils.GetPlayerUID(player));
+	}
+	
+	void UnloadAccount(string playerUid)
+	{
+		EL_PlayerAccount account = m_mAccounts.Get(playerUid);
+		if(!account) return;
+		
+		account.Save();
+		account.Detach();
+		m_mAccounts.Remove(playerUid);
 	}
 	
 	static EL_PlayerAccountManager GetInstance()

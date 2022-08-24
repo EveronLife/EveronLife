@@ -25,15 +25,14 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 
 class EL_PersistenceComponent : ScriptComponent
 {
-	protected bool m_bBaked;
-	protected bool m_bStorageRootState;
-	protected bool m_bSavedAsStorageRoot;
 	protected string m_sId;
 	protected EL_DateTimeUtcAsInt m_iLastSaved;
 	
-	// Used for deferred loading during world init 
-	protected ref EL_EntitySaveDataBase m_pSaveDataBuffer;
-	
+	protected bool m_bBaked;
+	protected bool m_bStorageRootState;
+	protected bool m_bSavedAsStorageRoot;
+	protected bool m_bDetatched;
+		
 	static string GetPersistentId(IEntity worldEntity)
 	{
 		if(!worldEntity) return string.Empty;
@@ -209,37 +208,42 @@ class EL_PersistenceComponent : ScriptComponent
 		// Check that we are not in session dtor phase
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		if(!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
-		
-		persistenceManager.UnloadPersistentId(m_sId);
-		
-		// Only auto self delete if setting for it is enabled
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if(!settings.m_bSelfDelete) return;
-		
-		Delete();
-    }
-	
-	void Delete()
-	{
-		if(!m_sId) return;
-		
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
 		
 		if (settings.m_bStorageRoot)
 		{
 			persistenceManager.UnregisterSaveRoot(this, m_bBaked);
 		}
 		
+		persistenceManager.UnloadPersistentId(m_sId);
+		
+		// Only auto self delete if setting for it is enabled
+		if(m_bDetatched || !settings.m_bSelfDelete) return;
+
+		Delete();
+    }
+	
+	void Delete()
+	{
+		if(!m_sId) return;
+
 		if (m_bSavedAsStorageRoot)
 		{
 			// Only attempt to delete if there is a chance it was already saved as own entity in db
+			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
 		}
 		
 		m_sId = string.Empty;
 		m_iLastSaved = 0;
 	}
+	
+	void Detach()
+	{
+		m_bDetatched = true;
+	}
+	
 	
 	#ifdef WORKBENCH
 	override event void _WB_OnInit(IEntity owner, inout vector mat[4], IEntitySource src)

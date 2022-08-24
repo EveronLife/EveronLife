@@ -31,7 +31,6 @@ EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Role
  {
   SCR_GarbageManager {
    ID "59751433747F9391"
-   CharacterCollect 0
    VehicleCollect 0
   }
  }

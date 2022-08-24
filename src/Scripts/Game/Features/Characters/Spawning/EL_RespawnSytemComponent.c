@@ -20,6 +20,12 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	bool HasSpawnData(int playerId)
+	{
+		return m_mSpawnData.Contains(playerId);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	protected override GenericEntity RequestSpawn(int playerId)
 	{
 		GenericEntity playerEntity;

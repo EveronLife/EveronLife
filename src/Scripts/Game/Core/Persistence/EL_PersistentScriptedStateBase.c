@@ -3,6 +3,8 @@ class EL_PersistentScriptedStateBase
 	protected string m_sId;
 	protected EL_DateTimeUtcAsInt m_iLastSaved;
 	
+	protected bool m_bDetatched;
+	
 	string GetPersistentId()
 	{
 		if(!m_sId) m_sId = EL_PersistenceManagerInternal.GetInternalInstance().GetPersistentId(this);
@@ -49,20 +51,22 @@ class EL_PersistentScriptedStateBase
 	void Delete()
 	{
 		if(!m_sId) return;
-		
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		
-		persistenceManager.UnregisterSaveRoot(this);
-		
+
 		if(m_iLastSaved > 0)
 		{
 			// Only attempt to remove it if it was ever saved
+			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 			EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataType, m_sId);
 		}
 		
 		m_sId = string.Empty;
 		m_iLastSaved = 0;
+	}
+	
+	void Detach()
+	{
+		m_bDetatched = true;
 	}
 	
 	void EL_PersistentScriptedStateBase()
@@ -91,11 +95,12 @@ class EL_PersistentScriptedStateBase
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		if(!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
 		
+		persistenceManager.UnregisterSaveRoot(this);
 		persistenceManager.UnloadPersistentId(m_sId);
 		
 		// Only auto self delete if setting for it is enabled
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
-		if(!settings.m_bSelfDelete) return;
+		if(m_bDetatched || !settings.m_bSelfDelete) return;
 		
 		Delete();
 	}

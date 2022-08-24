@@ -4,13 +4,13 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	ref set<string> m_aRemovedBackedEntities = new set<string>();
 	ref map<typename, ref set<string>> m_mSelfSpawnDynamicEntities = new map<typename, ref set<string>>();
 	
-	void Add(EL_PersistenceComponent persistenceComponent, bool baked)
+	void Add(EL_PersistenceComponent persistenceComponent, bool baked, bool forceSelfSpawn = false)
 	{
 		int idx = m_aRemovedBackedEntities.Find(persistenceComponent.GetPersistentId());
 		if(idx != -1) m_aRemovedBackedEntities.Remove(idx);
 		
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
-		if(!baked && settings.m_bSelfSpawn)
+		if(!baked && settings.m_bSelfSpawn || forceSelfSpawn)
 		{
 			set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 			
@@ -33,16 +33,11 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 		}
 		
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
-		if(settings.m_bSelfSpawn)
-		{
-			set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
+		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
+		if(!ids) return;
 		
-			if(ids)
-			{
-				int idx = ids.Find(persistenceComponent.GetPersistentId());
-				if(idx != -1) ids.Remove(idx);
-			}
-		}
+		int idx = ids.Find(persistenceComponent.GetPersistentId());
+		if(idx != -1) ids.Remove(idx);
 	}
 	
 	void Save(EL_DbContext dbContext)
