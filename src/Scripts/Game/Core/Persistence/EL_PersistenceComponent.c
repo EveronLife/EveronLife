@@ -255,6 +255,8 @@ class EL_PersistenceComponent : ScriptComponent
 		if(!worldEditorApi) return;
 		
 		string prefabNameOnly = FilePath.StripExtension(FilePath.StripPath(EL_Utils.GetPrefabName(owner)));
+		if(!prefabNameOnly) prefabNameOnly = owner.ClassName();
+		
 		string uuid = Workbench.GenerateGloballyUniqueID64();
 		worldEditorApi.RenameEntity(owner, string.Format("%1_%2", prefabNameOnly, uuid));
 	}
