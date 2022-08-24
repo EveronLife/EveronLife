@@ -1,12 +1,15 @@
 class EL_PersistenceComponentClass : ScriptComponentClass
 {
-	[Attribute(defvalue: "1", desc: "Regulary save this entity during active session. The interval is configured in the persitence manager component on your game mode.")]
+	[Attribute(defvalue: "1", desc: "Only storage root entities can be saved in the open world.\nIf disabled the entity will only be saved if inside another storage root (e.g. character, vehicle).")]
+	bool m_bStorageRoot;
+	
+	[Attribute(defvalue: "1", desc: "Regulary save this entity during active session.\nThe interval is configured in the persitence manager component on your game mode.")]
 	bool m_bAutosave;
 	
-	[Attribute(defvalue: "1", desc: "Save entity on session shutdown. Only disable this, if you know what you are doing!")]
+	[Attribute(defvalue: "1", desc: "Save entity on session shutdown.\nOnly disable this, if you know what you are doing!")]
 	bool m_bShutdownsave;
 	
-	[Attribute(defvalue: "1", desc: "If enabled the entity will spawn back into the world automatically after session restart. Always true for baked map objects.")]
+	[Attribute(defvalue: "1", desc: "If enabled the entity will spawn back into the world automatically after session restart.\nAlways true for baked map objects.")]
 	bool m_bSelfSpawn;
 	
 	[Attribute(defvalue: "1", desc: "If enabled the entity will deleted from persistence when deleted from the world automatically.")]
@@ -23,7 +26,7 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 class EL_PersistenceComponent : ScriptComponent
 {
 	protected bool m_bBaked;
-	protected bool m_bStorageRoot;
+	protected bool m_bStorageRootState;
 	protected bool m_bSavedAsStorageRoot;
 	protected string m_sId;
 	protected EL_DateTimeUtcAsInt m_iLastSaved;
@@ -73,7 +76,7 @@ class EL_PersistenceComponent : ScriptComponent
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
 		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
-		bool storageRoot = m_bStorageRoot;
+		bool storageRoot = m_bStorageRootState;
 		InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(GetOwner().FindComponent(InventoryItemComponent));
 		if(storageRoot && inventoryItemComponent && inventoryItemComponent.GetParentSlot())
 		{
@@ -171,30 +174,33 @@ class EL_PersistenceComponent : ScriptComponent
 		
 		m_bBaked = persistenceManager.GetState() == EL_EPersistenceManagerState.WORLD_INIT;
 		
-		persistenceManager.RegisterSaveRoot(this, m_bBaked, settings.m_bAutosave);
-		m_bStorageRoot = true;
+		if(settings.m_bStorageRoot)
+		{
+			persistenceManager.RegisterSaveRoot(this, m_bBaked, settings.m_bAutosave);
+			m_bStorageRootState = true;
+		}
 	}
 	
 	event void OnStorageParentChanged(IEntity owner, IEntity storageParent)
 	{
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+		
 		// If not currently tracked by persistence ignore changes.
 		// This can happen on delete from inventory manager where the event comes after OnDelete of this component
-		if(!m_sId) return;
+		if(!m_sId || !settings.m_bStorageRoot) return;
 		
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		
-		if(m_bStorageRoot && storageParent)
+		if(m_bStorageRootState && storageParent)
 		{
 			// Entity was previously the save root, but now got a parent assigned, so unregister
 			persistenceManager.UnregisterSaveRoot(this, m_bBaked);
-			m_bStorageRoot = false;
+			m_bStorageRootState = false;
 		}
-		else if(!m_bStorageRoot && !storageParent)
+		else if(!m_bStorageRootState && !storageParent)
 		{
 			// Entity was previously a save child, but now has no parent anymore and thus needs to be registerd as own root
-			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 			persistenceManager.RegisterSaveRoot(this, m_bBaked, settings.m_bAutosave);
-			m_bStorageRoot = true;
+			m_bStorageRootState = true;
 		}
 	}
 	
@@ -217,23 +223,24 @@ class EL_PersistenceComponent : ScriptComponent
 	{
 		if(!m_sId) return;
 		
-		IEntity owner = GetOwner();
-
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-
-		persistenceManager.UnregisterSaveRoot(this, m_bBaked);
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
+		
+		if (settings.m_bStorageRoot)
+		{
+			persistenceManager.UnregisterSaveRoot(this, m_bBaked);
+		}
 		
 		if (m_bSavedAsStorageRoot)
 		{
 			// Only attempt to delete if there is a chance it was already saved as own entity in db
-			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
 		}
 		
 		m_sId = string.Empty;
 		m_iLastSaved = 0;
 	}
-		
+	
 	#ifdef WORKBENCH
 	override event void _WB_OnInit(IEntity owner, inout vector mat[4], IEntitySource src)
 	{
