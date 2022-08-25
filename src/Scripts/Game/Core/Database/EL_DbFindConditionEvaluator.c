@@ -475,7 +475,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	{
 		typename valueType = TValueType;
 		
-		if(valueCondition.m_ComparisonValues.Count() == 0)
+		if(valueCondition.m_ComparisonValues.IsEmpty())
 		{
 			Debug.Error(string.Format("Can not compare field '%1' on '%2' with empty condition.", currentSegment.m_FieldName, instance));
 			return false;

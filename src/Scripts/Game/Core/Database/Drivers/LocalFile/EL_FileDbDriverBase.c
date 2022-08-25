@@ -65,7 +65,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 		if(idx >= 0) ids.Remove(idx);
 		
 		// If collection of that entity type is empty remove the folder too to keep the file structure clean
-		if(ids.Count() == 0)
+		if(ids.IsEmpty())
 		{
 			FileIO.DeleteFile(_GetTypeDirectory(entityType));
 		}

@@ -39,7 +39,7 @@ class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 			m_mNameIdMapping.Remove(removeName);
 		}
 		
-		if(m_mNameIdMapping.Count() == 0)
+		if(m_mNameIdMapping.IsEmpty())
 		{
 			// Mapping can be removed when there are no baked map objects with persistence components anymore
 			if(GetId()) dbContext.RemoveAsync(this); 

@@ -98,7 +98,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		
 		// Make sure required save data is already applied
 		array<ref EL_ComponentSaveDataBase> componentsSaveData = m_mComponentsSaveData.Get(componentSaveDataType);
-		if(!componentsSaveData || componentsSaveData.Count() == 0) return true;
+		if(!componentsSaveData || componentsSaveData.IsEmpty()) return true;
 		
 		array<typename> requiredSaveDataTypes = componentsSaveData.Get(0).Requires();
 		if(requiredSaveDataTypes)

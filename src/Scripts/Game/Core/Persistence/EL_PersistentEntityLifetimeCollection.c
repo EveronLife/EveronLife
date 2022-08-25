@@ -61,7 +61,7 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 		}
 		
 		// Remove collection if it only holds default values
-		if (!m_mLifetimes || m_mLifetimes.Count() == 0)
+		if (!m_mLifetimes || m_mLifetimes.IsEmpty())
 		{
 			// Only need to call db if it was previously saved (aka it has an id)
 			if(HasId()) dbContext.RemoveAsync(this);

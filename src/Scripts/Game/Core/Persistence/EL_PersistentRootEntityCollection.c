@@ -43,7 +43,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	void Save(EL_DbContext dbContext)
 	{
 		// Remove collection if it only holds default values
-		if (m_aRemovedBackedEntities.Count() == 0 && m_mSelfSpawnDynamicEntities.Count() == 0)
+		if (m_aRemovedBackedEntities.IsEmpty() && m_mSelfSpawnDynamicEntities.IsEmpty())
 		{
 			// Only need to call db if it was previously saved (aka it has an id)
 			if(HasId()) dbContext.RemoveAsync(this);

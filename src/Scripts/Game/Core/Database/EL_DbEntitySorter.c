@@ -15,7 +15,7 @@ class EL_DbEntitySorter
 		fieldName.Split(".", fieldSplits, true);
 		
 		// Empty sort condition, nothing to do
-		if(fieldSplits.Count() == 0) return entities;
+		if(fieldSplits.IsEmpty()) return entities;
 		
 		string sortDirection = orderBy.Get(orderByIndex).Get(1);
 		sortDirection.ToLower();

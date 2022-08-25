@@ -15,7 +15,7 @@ class EL_SpawnPoint : SCR_Position
 	//------------------------------------------------------------------------------------------------
 	static EL_SpawnPoint GetDefaultSpawnPoint()
 	{
-		if(s_aSpawnPoints.Count() == 0) return null;
+		if(s_aSpawnPoints.IsEmpty()) return null;
 		return s_aSpawnPoints.Get(0);
 	}
 	
