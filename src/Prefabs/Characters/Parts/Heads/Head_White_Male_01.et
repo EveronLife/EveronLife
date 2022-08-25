@@ -1,0 +1,13 @@
+GameEntity : "{2F3375E395C46AB3}Prefabs/Characters/Heads/Head_BaseBody_01.et" {
+ ID "529C89342C390093"
+ components {
+  MeshObject "{529C8934211B4893}" {
+   Materials {
+    MaterialAssignClass "{5A32AEB9B4440145}" {
+     SourceMaterial "Common/Materials/Default"
+     AssignedMaterial "{2ABF1A7A74E02B82}Assets/Characters/Basebody/Data/Basebody_01_Male_Head.emat"
+    }
+   }
+  }
+ }
+}

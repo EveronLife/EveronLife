@@ -1,6 +1,7 @@
 EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
  components {
   EL_RespawnSytemComponent "{5A10698A884816E6}" {
+   m_rDefaultCharacterPrefab "{9B5BB216CC7FF18E}Prefabs/Characters/Core/Character_Roleplay.et"
    m_aDefaultCharacterItems {
     EL_DefaultCharacterLoadoutSlot "{5A2882A2E1E3D609}" {
      m_eArea ELA_Jacket
@@ -26,12 +27,6 @@ EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Role
      }
     }
    }
-  }
- }
- {
-  SCR_GarbageManager {
-   ID "59751433747F9391"
-   VehicleCollect 0
   }
  }
 }
