@@ -19,6 +19,7 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 	ref EL_EntitySaveDataBase m_pSaveData;
 	
 	// Derived from inital engine-created instance
+	typename m_tSaveDataTypename;
 	ref array<typename> m_aComponentSaveDataTypenames;
 }
 
@@ -61,7 +62,7 @@ class EL_PersistenceComponent : ScriptComponent
 		
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 		
-		EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(settings.m_pSaveData.Type().Spawn());		
+		EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(settings.m_tSaveDataTypename.Spawn());
 		if(!saveData || !saveData.ReadFrom(owner))
 		{
 			Debug.Error(string.Format("Failed to persist world entity '%1'@%2. Save-data could not be read.", 
@@ -90,7 +91,7 @@ class EL_PersistenceComponent : ScriptComponent
 		{
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
 			// The save data will be present inside the storage parent instead.	
-			persistenceManager.GetDbContext().RemoveAsync(settings.m_pSaveData.Type(), GetPersistentId());
+			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
 			m_bSavedAsStorageRoot = false;
 		}
 		
@@ -126,7 +127,7 @@ class EL_PersistenceComponent : ScriptComponent
 		}
 		
 		// Cache save-data typename on shared instance. We do not need the object instance after that.
-		if(!settings.m_aComponentSaveDataTypenames)
+		if(!settings.m_tSaveDataTypename)
 		{
 			if(!settings.m_pSaveData || settings.m_pSaveData.Type() == EL_EntitySaveDataBase)
 			{
@@ -136,6 +137,8 @@ class EL_PersistenceComponent : ScriptComponent
 				
 				return;
 			}
+			
+			settings.m_tSaveDataTypename = settings.m_pSaveData.Type();
 			
 			array<typename> componentSaveDataTypes();
 			foreach(EL_ComponentSaveDataBase componentSaveData : settings.m_pSaveData.m_aComponents)
@@ -227,7 +230,7 @@ class EL_PersistenceComponent : ScriptComponent
 			// Only attempt to delete if there is a chance it was already saved as own entity in db
 			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
-			persistenceManager.GetDbContext().RemoveAsync(settings.m_pSaveData.Type(), m_sId);
+			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
 		}
 		
 		m_sId = string.Empty;

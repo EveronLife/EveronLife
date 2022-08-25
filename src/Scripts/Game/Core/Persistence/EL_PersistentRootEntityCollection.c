@@ -12,12 +12,12 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
 		if(!baked && settings.m_bSelfSpawn || forceSelfSpawn)
 		{
-			set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_pSaveData.Type());
+			set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 			
 			if(!ids)
 			{
 				ids = new set<string>();
-				m_mSelfSpawnDynamicEntities.Set(settings.m_pSaveData.Type(), ids);
+				m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
 			}
 
 			ids.Insert(persistenceComponent.GetPersistentId());
@@ -33,7 +33,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 		}
 		
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
-		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_pSaveData.Type());
+		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		if(!ids) return;
 		
 		int idx = ids.Find(persistenceComponent.GetPersistentId());
