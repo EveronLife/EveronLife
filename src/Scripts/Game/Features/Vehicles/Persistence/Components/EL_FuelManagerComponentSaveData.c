@@ -19,7 +19,10 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveDataBase
 				continue;
 			}
 			
-			m_aFuelNodes.Insert(new EL_PersistentFuelNode(fuelNode.GetFuelTankID(), fuelNode.GetFuel()));
+			EL_PersistentFuelNode persistentFuelNode();
+			persistentFuelNode.m_iTankId = fuelNode.GetFuelTankID();
+			persistentFuelNode.m_fFuel = fuelNode.GetFuel();
+			m_aFuelNodes.Insert(persistentFuelNode);
 		}
 		
 		return true;
@@ -75,10 +78,4 @@ class EL_PersistentFuelNode
 {
 	int m_iTankId;
 	float m_fFuel;
-	
-	void EL_PersistentFuelNode(int tankId, float fuel)
-	{
-		m_iTankId = tankId;
-		m_fFuel = fuel;
-	}
 }
