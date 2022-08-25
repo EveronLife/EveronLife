@@ -61,7 +61,8 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 		
 		if(!findResult.Success() || findResult.GetEntity()) return findResult;
 		
-		return new EL_DbFindResult<TEntityType>(EL_EDbOperationStatusCode.SUCCESS, new TEntityType());
+		typename spawnType = TEntityType;
+		return new EL_DbFindResult<TEntityType>(EL_EDbOperationStatusCode.SUCCESS, TEntityType.Cast(spawnType.Spawn()));
 	}
 	
 	EL_DbFindResult<TEntityType> FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)

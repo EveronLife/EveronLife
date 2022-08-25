@@ -207,7 +207,8 @@ class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 		}
 		else
 		{
-			typedResult = new TEntityType();
+			typename spawnType = TEntityType;
+			typedResult = TEntityType.Cast(spawnType.Spawn());
 		}
 		
 		if(code == EL_EDbOperationStatusCode.SUCCESS)
