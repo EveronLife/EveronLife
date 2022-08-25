@@ -409,6 +409,11 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		m_mRootScriptedStates.Remove(scripedState);
 	}
 	
+	void SetNextPersistentId(string persistentId)
+	{
+		m_sNextPersistentId = persistentId;
+	}
+	
 	string GetPersistentId(notnull EL_PersistenceComponent persistenceComponent)
 	{
 		string id;

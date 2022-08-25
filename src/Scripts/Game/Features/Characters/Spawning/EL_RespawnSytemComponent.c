@@ -47,11 +47,16 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		{
 			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 			
-			playerEntity = GenericEntity.Cast(persistenceManager.SpawnWorldEntity(saveData));
+			//playerEntity = GenericEntity.Cast(persistenceManager.SpawnWorldEntity(saveData));
 			
+			persistenceManager.SetNextPersistentId(saveData.GetId());
+			EL_TransformationSaveData tmData = EL_TransformationSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_TransformationSaveData).Get(0));
+			saveData.m_mComponentsSaveData.Remove(EL_TransformationSaveData);
+			playerEntity = DoSpawn(saveData.m_rPrefab, tmData.m_vOrigin, Vector(tmData.m_vAngles[1], tmData.m_vAngles[0], tmData.m_vAngles[2]));
+						
 			// Validate and return if persistence component is active, aka save data loaded and entity ready to be used.
 			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
-			if(persistenceComponent && persistenceComponent.IsActive()) return playerEntity;
+			if(persistenceComponent && persistenceComponent.Load(saveData) && persistenceComponent.IsActive()) return playerEntity;
 			
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to character.", saveData.Type(), saveData.GetId()));
 			SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);

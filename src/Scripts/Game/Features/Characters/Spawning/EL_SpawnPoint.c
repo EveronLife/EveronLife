@@ -38,7 +38,7 @@ class EL_SpawnPoint : SCR_Position
 	void GetPosAngles(out vector position, out vector angles)
 	{
 		position = GetOrigin();
-		angles = GetYawPitchRoll();
+		angles = GetAngles();
 		SCR_WorldTools.FindEmptyTerrainPosition(position, position, m_fSpawnRadius);
 	}
 	
