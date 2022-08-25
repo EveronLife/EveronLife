@@ -119,8 +119,10 @@ class EL_PersistenceComponent : ScriptComponent
 		// Persistence logic only runs on the server
 		if(!EL_PersistenceManager.IsPersistenceMaster())
 		{
+			#ifndef WORKBENCH
 			// Free memory
 			settings.m_pSaveData = null;
+			#endif
 			return;
 		}
 		
