@@ -1,5 +1,7 @@
 modded class SCR_CharacterInventoryStorageComponent
 {
+	protected int EL_m_DebounceTime = -1;
+	
 	//------------------------------------------------------------------------------------------------
 	override void StoreItemToQuickSlot(notnull IEntity pItem, int iSlotIndex = -1, bool isForced = false)
 	{
@@ -7,10 +9,26 @@ modded class SCR_CharacterInventoryStorageComponent
 		
 		// Debounce sync to 30 seconds after the last change.
 		RplComponent replication = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		if(replication && replication.IsOwner())
+		if (replication && replication.IsOwner())
 		{
-			GetGame().GetCallqueue().Remove(EL_SyncQuickSlots);
-			GetGame().GetCallqueue().CallLater(EL_SyncQuickSlots, 30000);
+			if (EL_m_DebounceTime == -1)
+			{
+				EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(GetOwner().FindComponent(EL_PersistenceComponent));
+				if (persistence)
+				{
+					EL_CharacterSaveData charSaveDataSettings = EL_CharacterSaveData.Cast(persistence.GetAttributeInstance(EL_CharacterSaveData));
+					if (charSaveDataSettings)
+					{
+						EL_m_DebounceTime = charSaveDataSettings.m_iMaxQuickbackSaveTime * 1000; // Convert to ms from seconds
+					}
+				}
+			}
+			
+			if (EL_m_DebounceTime != -1)
+			{
+				GetGame().GetCallqueue().Remove(EL_SyncQuickSlots);
+				GetGame().GetCallqueue().CallLater(EL_SyncQuickSlots, EL_m_DebounceTime);
+			}
 		}
 	}
 	
@@ -44,7 +62,7 @@ modded class SCR_CharacterInventoryStorageComponent
 		
 		// Dequeue any pending update if we just received data from server
 		RplComponent replication = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		if(replication && replication.IsOwner())
+		if (replication && replication.IsOwner() && (EL_m_DebounceTime != -1))
 		{
 			GetGame().GetCallqueue().Remove(EL_SyncQuickSlots);
 		}

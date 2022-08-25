@@ -430,7 +430,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
             {
                 id = EL_DbEntityIdGenerator.Generate();
                 EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
-                m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
+                m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_pSaveData.Type());
             }
 			
 			m_mBackedEntities.Set(id, worldEntity);

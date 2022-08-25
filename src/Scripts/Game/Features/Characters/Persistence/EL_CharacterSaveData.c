@@ -1,6 +1,9 @@
 [EL_DbName(EL_CharacterSaveData, "Character"), BaseContainerProps()]
 class EL_CharacterSaveData : EL_EntitySaveDataBase
 {
+	[Attribute(defvalue: "30", uiwidget: UIWidgets.Slider, desc: "Maximum time until the quickbar is synced after a change in SECONDS. Higher values reduce traffic.", params: "1 1000 1"), NonSerialized()]
+	int m_iMaxQuickbackSaveTime;
+	
 	ECharacterStance m_eStance;
 	
 	string m_sLeftHandItemId;

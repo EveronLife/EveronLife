@@ -1,7 +1,7 @@
 [BaseContainerProps()]
 class EL_EntitySaveDataBase : EL_DbEntity
 {
-	[NonSerialized(), Attribute(desc: "Sava-data types for components to persist.")]
+	[Attribute(desc: "Sava-data types for components to persist."), NonSerialized()]
 	ref array<ref EL_ComponentSaveDataBase> m_aComponents;
 	
 	int m_iDataLayoutVersion = 1;
