@@ -41,7 +41,6 @@ class EL_FileDbDriverBase : EL_DbDriver
 		EL_EDbOperationStatusCode statusCode = WriteToDisk(entity);
 		if(statusCode != EL_EDbOperationStatusCode.SUCCESS) return statusCode;
 		
-		// TODO: Buffer FileIO and flush later over multiple frames to smooth out db operation spikes
 		if(m_UseCache) m_EntityCache.Add(entity);
 		
 		// Add id to pool of all known ids

@@ -514,6 +514,6 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		ShutDownSave();
 		
 		//Cleanup after end of current session
-		Reset(); // TODO: Test game end vs game mode end. which one is guaranteed to trigger before any world entity dtors
+		Reset();
 	}
 }
