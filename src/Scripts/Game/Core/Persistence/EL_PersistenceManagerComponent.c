@@ -22,7 +22,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	{
 		super.OnWorldPostProcess(world);
 		
-		if(!IsActive()) return;
+		if(!EL_PersistenceManager.IsPersistenceMaster()) return;
 		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		persistenceManager.OnWorldPostProcess(world);
@@ -32,7 +32,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	{
 		super.OnGameEnd();
 		
-		if(!IsActive()) return;
+		if(!EL_PersistenceManager.IsPersistenceMaster()) return;
 		
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		persistenceManager.OnGameEnd();
@@ -41,8 +41,6 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	override event void EOnPostFrame(IEntity owner, float timeSlice)
 	{
 		super.EOnPostFrame(owner, timeSlice);
-		
-		if(!IsActive()) return;
 		
 		m_fAccumulator += timeSlice;
 		
@@ -59,17 +57,12 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		super.OnPostInit(owner);
 		
 		// Persistence logic only runs on the server machine
-		if(!EL_PersistenceManager.IsPersistenceMaster())
-		{
-			Deactivate(owner);
-			return;
-		}
+		if(!EL_PersistenceManager.IsPersistenceMaster()) return;
 		
 		EL_PersistenceManagerComponentClass settings = EL_PersistenceManagerComponentClass.Cast(GetComponentData(owner));
 		if(settings.m_fInterval < settings.m_fUpdateRate)
 		{
 			Debug.Error(string.Format("Update rate '%1' must be smaller than auto-save interval '%2'.", settings.m_fUpdateRate, settings.m_fInterval));
-			Deactivate(owner);
 			return;
 		}
 		
