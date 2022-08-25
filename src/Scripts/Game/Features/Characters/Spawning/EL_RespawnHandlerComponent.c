@@ -12,8 +12,6 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	{
 		if (!m_pGameMode.IsMaster()) return;
 		
-		PrintFormat("OnPlayerConnected(%1)", playerId);
-		
 		// Hard override to ignore all the base component logic we do not need
 		m_sEnqueuedPlayers.Insert(playerId);
 	}
@@ -29,8 +27,6 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	//------------------------------------------------------------------------------------------------
 	protected void OnPlayerKilledThreadImpl(int playerId, IEntity player, IEntity killer)
 	{
-		PrintFormat("OnPlayerKilledThreadImpl(%1, %2, %3)", playerId, player, killer);
-		
 		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(player.FindComponent(EL_PersistenceComponent));
 		
 		// Add the dead body root entity collection so it spawns back after restart for looting
@@ -56,8 +52,6 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	//------------------------------------------------------------------------------------------------
 	protected void OnPlayerDisconnectedThreadImpl(int playerId)
 	{
-		PrintFormat("OnPlayerDisconnectedThreadImpl(%1)", playerId);
-		
 		int idx = m_sEnqueuedPlayers.Find(playerId);
 		if(idx != -1) m_sEnqueuedPlayers.Remove(idx);
 		
