@@ -53,7 +53,8 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 					IEntity leftHandEntity = persistenceManager.FindEntityByPersistentId(saveData.m_sLeftHandItemId);
 					if(leftHandEntity)
 					{
-						state.m_pLeftHandItemRplId = Replication.FindId(leftHandEntity);
+						RplComponent replication = RplComponent.Cast(leftHandEntity.FindComponent(RplComponent));
+						if(replication) state.m_pLeftHandItemRplId = replication.Id();
 					}
 					else
 					{

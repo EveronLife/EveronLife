@@ -124,20 +124,19 @@ modded class SCR_RespawnComponent
 	override protected void RpcAsk_NotifyOnPlayerSpawned()
 	{
 		super.RpcAsk_NotifyOnPlayerSpawned();
-		
 		GetGame().GetCallqueue().Call(ApplyDeferredPhase1);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	protected void ApplyDeferredPhase1()
 	{
-		if(!EL_m_pRespawnCharacterState) return;
+		if (!EL_m_pRespawnCharacterState) return;
 		
 		ChimeraCharacter character = ChimeraCharacter.Cast(m_PlayerController.GetControlledEntity());
-		if(!character) return;
+		if (!character) return;
 		
 		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(character.FindComponent(CharacterControllerComponent));
-		if(!characterController) return;
+		if (!characterController) return;
 		
 		// Apply stance
 		characterController.ForceStance(EL_m_pRespawnCharacterState.m_eStance);
@@ -146,26 +145,26 @@ modded class SCR_RespawnComponent
 		SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(character.FindComponent(SCR_CharacterInventoryStorageComponent));
 		inventoryStorage.EL_Rpc_UpdateQuickSlotItems(EL_m_pRespawnCharacterState.m_aQuickBarRplIds);	
 		
-		// Split off stance into second phase to avoid crash when handitem + PRONE happen on the same frame
-		GetGame().GetCallqueue().Call(ApplyDeferredPhase2, character, characterController);
+		// Split off into second phase to avoid crash when handitem + stance happen at the same time
+		GetGame().GetCallqueue().CallLater(ApplyDeferredPhase2, 100, false, character, characterController);
 	}
 	
 	protected void ApplyDeferredPhase2(ChimeraCharacter character, CharacterControllerComponent characterController)
 	{
 		// Apply hand items
-		IEntity leftHandEntity = EL_Utils.FindEntityByRplId(EL_m_pRespawnCharacterState.m_pLeftHandItemRplId);
-		if(leftHandEntity)
-		{
-			SCR_GadgetManagerComponent gadgetMgr = SCR_GadgetManagerComponent.GetGadgetManager(character);
-			GetGame().GetScriptModule().Call(gadgetMgr, "InitComponent", false, null, character);
-			gadgetMgr.HandleInput(leftHandEntity, 1);
-		}
-		
 		IEntity rightHandEntity = EL_Utils.FindEntityByRplId(EL_m_pRespawnCharacterState.m_pRightHandItemRplId);
-		if(rightHandEntity)
+		if (rightHandEntity)
 		{
 			characterController.TryEquipRightHandItem(rightHandEntity, EL_m_pRespawnCharacterState.m_eRightHandType, false);
 			characterController.SetWeaponRaised(EL_m_pRespawnCharacterState.m_bRightHandRaised);
+		}
+		
+		// Left has to be second or else right hand weapon will remove left hand gadget again
+		IEntity leftHandEntity = EL_Utils.FindEntityByRplId(EL_m_pRespawnCharacterState.m_pLeftHandItemRplId);
+		if (leftHandEntity)
+		{
+			SCR_GadgetManagerComponent gadgetMgr = SCR_GadgetManagerComponent.GetGadgetManager(character);
+			if (gadgetMgr) gadgetMgr.HandleInput(leftHandEntity, 1);
 		}
 	}
 }
