@@ -33,6 +33,19 @@ class EL_Utils
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
 	}
 	
+	static IEntity FindEntityByRplId(RplId rplId)
+	{
+		IEntity entity = null;
+		
+		if (rplId.IsValid())
+		{
+			RplComponent entityRpl = RplComponent.Cast(Replication.FindItem(rplId));
+			if (entityRpl) entity = IEntity.Cast(entityRpl.GetEntity());
+		}
+		
+		return entity;
+	}
+	
 	static void Teleport(IEntity entity, vector position, vector ypr = "-1 -1 -1", float scale = -1)
 	{
 		vector transform[4];

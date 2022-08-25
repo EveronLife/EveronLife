@@ -8,6 +8,8 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 	EEquipItemType m_eRightHandType;
 	bool m_bRightHandRaised;
 	
+	ref array<ref EL_PersistentQuickSlotItem> m_aQuickSlotEntities;
+	
 	override bool ReadFrom(notnull IEntity worldEntity)
 	{
 		if(!super.ReadFrom(worldEntity)) return false;
@@ -35,44 +37,26 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 			}
 		}
 		
-		return true;
-	}
-	
-	override bool ApplyTo(notnull IEntity worldEntity)
-	{
-		if(!super.ApplyTo(worldEntity)) return false;
+		m_aQuickSlotEntities = new array<ref EL_PersistentQuickSlotItem>();
 		
-		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(worldEntity.FindComponent(CharacterControllerComponent));
-		if(characterController)
+		SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(worldEntity.FindComponent(SCR_CharacterInventoryStorageComponent));
+		if (inventoryStorage)
 		{
-			characterController.ForceStance(m_eStance);
-			
-			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-			
-			if (m_sLeftHandItemId)
+			foreach (int idx, IEntity item : inventoryStorage.GetQuickSlotItems())
 			{
-				IEntity leftHandEntity = persistenceManager.FindEntityByPersistentId(m_sLeftHandItemId);
-				if(leftHandEntity)
+				string persistentId = EL_PersistenceComponent.GetPersistentId(item);
+				if (persistentId)
 				{
-					SCR_GadgetManagerComponent gadgetMgr = SCR_GadgetManagerComponent.GetGadgetManager(worldEntity);
-					GetGame().GetScriptModule().Call(gadgetMgr, "InitComponent", false, null, worldEntity);
-					gadgetMgr.HandleInput(leftHandEntity, 1);
-				} 
-			}
-			
-			if (m_sRightHandItemId)
-			{
-				IEntity rightHandEntity = persistenceManager.FindEntityByPersistentId(m_sRightHandItemId);
-				if(rightHandEntity)
-				{
-					characterController.TryEquipRightHandItem(rightHandEntity, m_eRightHandType, false);
-					characterController.SetWeaponRaised(m_bRightHandRaised);
+					EL_PersistentQuickSlotItem slot();
+					slot.m_iIndex = idx;
+					slot.m_sEntityId = persistentId;
+					m_aQuickSlotEntities.Insert(slot);
 				}
 			}
 		}
 		
 		return true;
-	}	
+	}
 	
 	override protected bool SerializationSave(BaseSerializationSaveContext saveContext)
 	{
@@ -83,7 +67,7 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 		saveContext.WriteValue("m_sRightHandItemId", m_sRightHandItemId);
 		saveContext.WriteValue("m_eRightHandType", m_eRightHandType);
 		saveContext.WriteValue("m_bRightHandRaised", m_bRightHandRaised);
-		
+		saveContext.WriteValue("m_aQuickSlotEntities", m_aQuickSlotEntities);
 		return true;
 	}
 	
@@ -96,7 +80,13 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 		loadContext.ReadValue("m_sRightHandItemId", m_sRightHandItemId);
 		loadContext.ReadValue("m_eRightHandType", m_eRightHandType);
 		loadContext.ReadValue("m_bRightHandRaised", m_bRightHandRaised);
-		
+		loadContext.ReadValue("m_aQuickSlotEntities", m_aQuickSlotEntities);
 		return true;
 	}
+}
+
+class EL_PersistentQuickSlotItem
+{
+	int m_iIndex;
+	string m_sEntityId;
 }

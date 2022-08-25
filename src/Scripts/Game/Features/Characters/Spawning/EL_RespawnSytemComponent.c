@@ -42,7 +42,69 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 						
 			// Validate and return if persistence component is active, aka save data loaded and entity ready to be used.
 			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
-			if(!persistenceComponent || !persistenceComponent.Load(saveData))
+			if(persistenceComponent && persistenceComponent.Load(saveData))
+			{
+				SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
+				if (respawnComponent)
+				{
+					EL_RespawnCharacterState state();
+					state.m_eStance = saveData.m_eStance;
+					
+					IEntity leftHandEntity = persistenceManager.FindEntityByPersistentId(saveData.m_sLeftHandItemId);
+					if(leftHandEntity)
+					{
+						state.m_pLeftHandItemRplId = Replication.FindId(leftHandEntity);
+					}
+					else
+					{
+						state.m_pLeftHandItemRplId = RplId.Invalid();
+					}
+					
+					IEntity rightHandEntity = persistenceManager.FindEntityByPersistentId(saveData.m_sRightHandItemId);
+					if(rightHandEntity)
+					{
+						RplComponent replication = RplComponent.Cast(rightHandEntity.FindComponent(RplComponent));
+						if(replication)
+						{
+							state.m_pRightHandItemRplId = replication.Id();
+							state.m_eRightHandType = saveData.m_eRightHandType;
+							state.m_bRightHandRaised = saveData.m_bRightHandRaised;
+						}
+					}
+					else
+					{
+						state.m_pRightHandItemRplId = RplId.Invalid();
+					}
+					
+					state.m_aQuickBarRplIds = new array<RplId>();
+					SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(playerEntity.FindComponent(SCR_CharacterInventoryStorageComponent));
+					if (inventoryStorage)
+					{
+						// Init with invalid ids
+						state.m_aQuickBarRplIds.Resize(inventoryStorage.GetQuickSlotItems().Count());
+						for(int i = 0, count = state.m_aQuickBarRplIds.Count(); i < count; i++)
+						{
+							state.m_aQuickBarRplIds.Set(i, RplId.Invalid());
+						}
+						
+						foreach(EL_PersistentQuickSlotItem quickSlot : saveData.m_aQuickSlotEntities)
+						{
+							IEntity slotEntity = persistenceManager.FindEntityByPersistentId(quickSlot.m_sEntityId);
+							if(slotEntity && quickSlot.m_iIndex < state.m_aQuickBarRplIds.Count())
+							{
+								RplComponent replication = RplComponent.Cast(slotEntity.FindComponent(RplComponent));
+								if(replication) state.m_aQuickBarRplIds.Set(quickSlot.m_iIndex, replication.Id());
+							}
+						}
+						
+						// Apply quick item slots serverside to avoid inital sync back from client with same data
+						inventoryStorage.EL_Rpc_UpdateQuickSlotItems(state.m_aQuickBarRplIds);
+					}
+					
+					respawnComponent.SetRespawnCharacterState(state);
+				}
+			}
+			else
 			{
 				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to character.", saveData.Type(), saveData.GetId()));
 				SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
