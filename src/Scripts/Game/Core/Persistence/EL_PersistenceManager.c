@@ -331,12 +331,12 @@ class EL_PersistenceManager
 		}
 	}
 	
-	static EL_PersistenceManager GetInstance()
+	static EL_PersistenceManager GetInstance(bool create = true)
 	{
 		// Persistence logic only runs on the server machine
 		if(!IsPersistenceMaster()) return null;
 		
-		if(!s_pInstance)
+		if(!s_pInstance && create)
 		{
 			s_pInstance = new EL_PersistenceManagerInternal();
 			
@@ -371,9 +371,9 @@ class EL_PersistenceManager
 
 class EL_PersistenceManagerInternal : EL_PersistenceManager
 {
-	static EL_PersistenceManagerInternal GetInternalInstance()
+	static EL_PersistenceManagerInternal GetInternalInstance(bool create = true)
 	{
-		return EL_PersistenceManagerInternal.Cast(GetInstance());
+		return EL_PersistenceManagerInternal.Cast(GetInstance(create));
 	}
 	
 	EL_PersistentRootEntityCollection GetRootEntityCollection()

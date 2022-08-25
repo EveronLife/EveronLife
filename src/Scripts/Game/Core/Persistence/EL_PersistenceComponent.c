@@ -204,7 +204,7 @@ class EL_PersistenceComponent : ScriptComponent
 	override event void OnDelete(IEntity owner)
     {
 		// Check that we are not in session dtor phase
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance(false);
 		if(!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		
