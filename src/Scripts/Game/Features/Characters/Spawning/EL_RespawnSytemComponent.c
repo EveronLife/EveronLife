@@ -5,8 +5,8 @@ class EL_RespawnSytemComponentClass : SCR_RespawnSystemComponentClass
 
 class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 {
-	[Attribute(defvalue: "{37578B1666981FCE}Prefabs/Characters/Core/Character_Base.et", category: "New character defaults")]
-	protected ResourceName m_rDefaultCharacterPrefab;
+	[Attribute(category: "New character defaults")]
+	protected ref array<ResourceName> m_rDefaultCharacterPrefabs;
 	
 	[Attribute(category: "New character defaults")]
 	protected ref array<ref EL_DefaultCharacterLoadoutSlot> m_aDefaultCharacterItems;
@@ -30,24 +30,10 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	{
 		GenericEntity playerEntity;
 		
-		vector position;
-		vector angles;
-		
-		EL_SpawnPoint spawnPoint = EL_SpawnPoint.GetDefaultSpawnPoint();
-		if(!spawnPoint)
-		{
-			Print("Could not spawn character, no default spawn point configured.", LogLevel.ERROR);
-			return null;
-		}
-		
-		spawnPoint.GetPosAngles(position, angles);
-		
 		EL_CharacterSaveData saveData = m_mSpawnData.Get(playerId);
 		if(saveData && saveData.m_rPrefab)
 		{
 			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-			
-			//playerEntity = GenericEntity.Cast(persistenceManager.SpawnWorldEntity(saveData));
 			
 			persistenceManager.SetNextPersistentId(saveData.GetId());
 			EL_TransformationSaveData tmData = EL_TransformationSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_TransformationSaveData).Get(0));
@@ -56,44 +42,63 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 						
 			// Validate and return if persistence component is active, aka save data loaded and entity ready to be used.
 			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
-			if(persistenceComponent && persistenceComponent.Load(saveData) && persistenceComponent.IsActive()) return playerEntity;
-			
-			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to character.", saveData.Type(), saveData.GetId()));
-			SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
+			if(!persistenceComponent || !persistenceComponent.Load(saveData))
+			{
+				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to character.", saveData.Type(), saveData.GetId()));
+				SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
+				playerEntity = null;
+			}
 		}
 		
-		if(!m_rDefaultCharacterPrefab)
+		if(!playerEntity)
 		{
-			Print("Could not create new character, no default prefab configured. Go to EL_GameModeRoleplay > EL_RespawnSytemComponent and choose one.", LogLevel.ERROR);
-			return null;
-		}
-		
-		playerEntity = DoSpawn(m_rDefaultCharacterPrefab, position, angles);
-		
-		InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(InventoryStorageManagerComponent));
-		BaseLoadoutManagerComponent loadoutManager = BaseLoadoutManagerComponent.Cast(playerEntity.FindComponent(BaseLoadoutManagerComponent));
-		foreach(EL_DefaultCharacterLoadoutSlot defaultLoadoutSlot : m_aDefaultCharacterItems)
-		{
-			if(defaultLoadoutSlot.m_eArea == ELoadoutArea.ELA_None || !defaultLoadoutSlot.m_pItem) continue;
+			if(m_rDefaultCharacterPrefabs.IsEmpty())
+			{
+				Print("Could not create new character, no default prefabs configured. Go to EL_GameModeRoleplay > EL_RespawnSytemComponent and add at least one.", LogLevel.ERROR);
+				return null;
+			}
 			
-			IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, defaultLoadoutSlot.m_pItem);
-			if(!slotEntity) continue;
+			vector position;
+			vector angles;
 			
-			loadoutManager.Wear(slotEntity);
+			EL_SpawnPoint spawnPoint = EL_SpawnPoint.GetDefaultSpawnPoint();
+			if(!spawnPoint)
+			{
+				Print("Could not spawn character, no default spawn point configured.", LogLevel.ERROR);
+				return null;
+			}
+			
+			spawnPoint.GetPosAngles(position, angles);
+			
+			ResourceName charPrefab = m_rDefaultCharacterPrefabs.GetRandomElement();
+			
+			playerEntity = DoSpawn(charPrefab, position, angles);
+			
+			InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(InventoryStorageManagerComponent));
+			BaseLoadoutManagerComponent loadoutManager = BaseLoadoutManagerComponent.Cast(playerEntity.FindComponent(BaseLoadoutManagerComponent));
+			foreach(EL_DefaultCharacterLoadoutSlot defaultLoadoutSlot : m_aDefaultCharacterItems)
+			{
+				if(defaultLoadoutSlot.m_eArea == ELoadoutArea.ELA_None || !defaultLoadoutSlot.m_pItem) continue;
+				
+				IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, defaultLoadoutSlot.m_pItem);
+				if(!slotEntity) continue;
+				
+				loadoutManager.Wear(slotEntity);
+			}
+			
+			// Add new character to account
+			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
+			if(!persistenceComponent)
+			{
+				Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", charPrefab, EL_PersistenceComponent), LogLevel.ERROR);
+				SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
+				return null;
+			}
+			
+			// Add new character to account
+			EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetAccount(EL_Utils.GetPlayerUID(playerId));
+			account.m_aCharacterIds.Insert(persistenceComponent.GetPersistentId());
 		}
-		
-		// Add new character to account
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
-		if(!persistenceComponent)
-		{
-			Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", m_rDefaultCharacterPrefab, EL_PersistenceComponent), LogLevel.ERROR);
-			SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
-			return null;
-		}
-		
-		// Add new character to account
-		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetAccount(EL_Utils.GetPlayerUID(playerId));
-		account.m_aCharacterIds.Insert(persistenceComponent.GetPersistentId());
 		
 		return playerEntity;
 	}

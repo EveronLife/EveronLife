@@ -1,7 +1,9 @@
 EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
  components {
   EL_RespawnSytemComponent "{5A10698A884816E6}" {
-   m_rDefaultCharacterPrefab "{9B5BB216CC7FF18E}Prefabs/Characters/Core/Character_Roleplay.et"
+   m_rDefaultCharacterPrefabs {
+    "{CE23D4366B47E9B9}Prefabs/Characters/Presets/White_Male_01.et" "{C465F15DDF56A6D8}Prefabs/Characters/Presets/Asian_Male_02.et" "{BFD6AFB8A1D8E2F9}Prefabs/Characters/Presets/Black_Male_02.et"
+   }
    m_aDefaultCharacterItems {
     EL_DefaultCharacterLoadoutSlot "{5A2882A2E1E3D609}" {
      m_eArea ELA_Jacket
