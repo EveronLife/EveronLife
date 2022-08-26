@@ -55,13 +55,18 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		int idx = m_sEnqueuedPlayers.Find(playerId);
 		if(idx != -1) m_sEnqueuedPlayers.Remove(idx);
 		
+		m_pRespawnSystem.RemoveSpawnData(playerId);
+		
 		PlayerController playerController = GetGame().GetPlayerManager().GetPlayerController(playerId);
 		if(playerController)
 		{
 			IEntity player = playerController.GetControlledEntity();
-			EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(player.FindComponent(EL_PersistenceComponent));
-			persistence.Save();
-			persistence.Detach();
+			if (player)
+			{
+				EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(player.FindComponent(EL_PersistenceComponent));
+				persistence.Save();
+				persistence.Detach();
+			}
 		}
 		
 		EL_PlayerAccountManager.GetInstance().UnloadAccount(EL_Utils.GetPlayerUID(playerId));

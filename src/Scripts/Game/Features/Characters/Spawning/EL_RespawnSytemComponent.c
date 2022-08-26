@@ -20,6 +20,12 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	void RemoveSpawnData(int playerId)
+	{
+		m_mSpawnData.Remove(playerId);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	bool HasSpawnData(int playerId)
 	{
 		return m_mSpawnData.Contains(playerId);
