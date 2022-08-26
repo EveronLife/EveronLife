@@ -7,11 +7,9 @@ class EL_Utils
 	
 	static string GetPlayerUID(int playerId)
 	{
-		#ifdef WORKBENCH
-		return string.Format("LOCAL_UID_%1", playerId);
-		#endif
-		
-		return GetGame().GetBackendApi().GetPlayerUID(playerId);
+		string uid = GetGame().GetBackendApi().GetPlayerUID(playerId);
+		if(!uid) uid = string.Format("LOCAL_UID_%1", playerId);
+		return uid;
 	}
 	
 	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0")
