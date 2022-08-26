@@ -58,21 +58,18 @@ class EL_PersistenceComponent : ScriptComponent
 		if(!GetPersistentId()) return null;
 		
 		IEntity owner = GetOwner();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 		
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(settings.m_tSaveDataTypename.Spawn());
 		if(!saveData || !saveData.ReadFrom(owner))
 		{
 			Debug.Error(string.Format("Failed to persist world entity '%1'@%2. Save-data could not be read.", 
 				EL_Utils.GetPrefabName(owner), 
 				owner.GetOrigin()));
-			
 			return null;
 		}
-		
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
 		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
 		bool storageRoot = m_bStorageRootState;
@@ -81,6 +78,8 @@ class EL_PersistenceComponent : ScriptComponent
 		{
 			storageRoot = false;
 		}
+		
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		
 		if(storageRoot)
 		{
@@ -134,7 +133,6 @@ class EL_PersistenceComponent : ScriptComponent
 				Debug.Error(string.Format("Missing or invalid save-data type in persistence component on entity '%1'@%2. Entity will not be persisted!", 
 					EL_Utils.GetPrefabName(owner), 
 					owner.GetOrigin()));
-				
 				return;
 			}
 			
@@ -151,7 +149,6 @@ class EL_PersistenceComponent : ScriptComponent
 						EL_ComponentSaveDataBase,	
 						EL_Utils.GetPrefabName(owner), 
 						owner.GetOrigin()));
-					
 					continue;
 				}
 				

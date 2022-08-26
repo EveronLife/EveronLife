@@ -31,7 +31,7 @@ class EL_PersistentScriptedStateBase
 			return null;
 		}
 		
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 		persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
 		
 		return saveData;

@@ -57,8 +57,7 @@ class EL_PersistenceManager
 	
 	ScriptInvoker GetOnStateChangeEvent()
 	{
-		if(!m_pOnStateChange) m_pOnStateChange = new ScriptInvoker();
-		
+		if (!m_pOnStateChange) m_pOnStateChange = new ScriptInvoker();
 		return m_pOnStateChange;
 	}
 	
