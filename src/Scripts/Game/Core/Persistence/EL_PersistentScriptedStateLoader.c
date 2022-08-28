@@ -16,13 +16,13 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResults.Get(0))));
 	}
 	
-	static void GetSingletonAsync(notnull EL_PersistenceLoaderCallbackSingle<TScriptedState> callback)
+	static void GetSingletonAsync(notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return;
 		
-		EL_ScriptStateLoaderCallbackInvokerSingle<TScriptedState> callbackInvoker(callback);
-		EL_ScriptStateLoaderCallbackSingle processorCallback();
+		EL_ScriptedStateLoaderCallbackInvokerSingle<TScriptedState> callbackInvoker(callback);
+		EL_ScriptedStateLoaderProcessorCallbackSingle processorCallback();
 		processorCallback.Setup(callbackInvoker, true, TScriptedState);
 	    EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, limit: 1, callback: processorCallback);
 	}
@@ -39,13 +39,13 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResults.Get(0))));
 	}
 	
-	static void GetAsync(string persistentId, notnull EL_PersistenceLoaderCallbackSingle<TScriptedState> callback)
+	static void GetAsync(string persistentId, notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return;
 		
-		EL_ScriptStateLoaderCallbackInvokerSingle<TScriptedState> callbackInvoker(callback);
-		EL_ScriptStateLoaderCallbackSingle processorCallback();
+		EL_ScriptedStateLoaderCallbackInvokerSingle<TScriptedState> callbackInvoker(callback);
+		EL_ScriptedStateLoaderProcessorCallbackSingle processorCallback();
 		processorCallback.Setup(callbackInvoker, false, TScriptedState);
 	    EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1, callback: processorCallback);
 	}
@@ -71,13 +71,13 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    return resultStates;
 	}
 	
-	static void GetAsync(array<string> persistentIds, notnull EL_PersistenceLoaderCallbackMultiple<TScriptedState> callback)
+	static void GetAsync(array<string> persistentIds, notnull EL_ScriptedStateLoaderCallbackMultiple<TScriptedState> callback)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return;
 		
-		EL_ScriptStateLoaderCallbackInvokerMultiple<TScriptedState> callbackInvoker(callback);
-		EL_ScriptStateLoaderCallbackMultiple processorCallback(callbackInvoker);
+		EL_ScriptedStateLoaderCallbackInvokerMultiple<TScriptedState> callbackInvoker(callback);
+		EL_ScriptedStateLoaderProcessorCallbackMultiple processorCallback(callbackInvoker);
 		processorCallback.Setup(callbackInvoker);
 		EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds), callback: processorCallback);
 	}
@@ -100,9 +100,41 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	}
 }
 
-class EL_ScriptStateLoaderCallbackSingle : EL_DbFindCallbackSingle<EL_ScriptedStateSaveDataBase>
+class EL_ScriptedStateLoaderCallback : EL_Callback
 {
-	ref EL_ScriptStateLoaderCallbackInvokerBase m_pCallbackInvoker;
+}
+
+class EL_ScriptedStateLoaderCallbackSingle<Class T> : EL_ScriptedStateLoaderCallback
+{
+    void Invoke(T data)
+    {
+        if (m_pInvokeInstance && 
+            m_sInvokeMethodName &&
+            GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
+        
+        OnComplete(m_pContext, data);
+    }
+    
+    void OnComplete(Managed context, T data);
+}
+
+class EL_ScriptedStateLoaderCallbackMultiple<Class T> : EL_ScriptedStateLoaderCallback
+{
+    void Invoke(array<ref T> data)
+    {
+        if (m_pInvokeInstance && 
+            m_sInvokeMethodName &&
+            GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
+        
+        OnComplete(m_pContext, data);
+    }
+    
+    void OnComplete(Managed context, array<ref T> data);
+}
+
+class EL_ScriptedStateLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_ScriptedStateSaveDataBase>
+{
+	ref EL_ScriptedStateLoaderCallbackInvokerBase m_pCallbackInvoker;
 	bool m_bCreateSingleton;
 	typename m_tCreateType;
 	
@@ -129,7 +161,7 @@ class EL_ScriptStateLoaderCallbackSingle : EL_DbFindCallbackSingle<EL_ScriptedSt
 		GetGame().GetScriptModule().Call(m_pCallbackInvoker, "Invoke", false, null, null);
 	}
 	
-	void Setup(EL_ScriptStateLoaderCallbackInvokerBase callbackInvoker, bool createSingleton, typename createType)
+	void Setup(EL_ScriptedStateLoaderCallbackInvokerBase callbackInvoker, bool createSingleton, typename createType)
 	{
 		m_pCallbackInvoker = callbackInvoker;
 		m_bCreateSingleton = createSingleton;
@@ -137,9 +169,9 @@ class EL_ScriptStateLoaderCallbackSingle : EL_DbFindCallbackSingle<EL_ScriptedSt
 	}
 }
 
-class EL_ScriptStateLoaderCallbackMultiple : EL_DbFindCallback<EL_ScriptedStateSaveDataBase>
+class EL_ScriptedStateLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_ScriptedStateSaveDataBase>
 {
-	ref EL_ScriptStateLoaderCallbackInvokerBase m_pCallbackInvoker;
+	ref EL_ScriptedStateLoaderCallbackInvokerBase m_pCallbackInvoker;
 	
 	override void OnSuccess(Managed context, array<ref EL_ScriptedStateSaveDataBase> resultData)
 	{
@@ -162,34 +194,34 @@ class EL_ScriptStateLoaderCallbackMultiple : EL_DbFindCallback<EL_ScriptedStateS
 		GetGame().GetScriptModule().Call(m_pCallbackInvoker, "Invoke", false, null);
 	}
 	
-	void Setup(EL_ScriptStateLoaderCallbackInvokerBase callbackInvoker)
+	void Setup(EL_ScriptedStateLoaderCallbackInvokerBase callbackInvoker)
 	{
 		m_pCallbackInvoker = callbackInvoker;
 	}
 }
 
-// Seperate invoker because we can't strong type the EL_ScriptStateLoaderCallback via template directly until https://feedback.bistudio.com/T167295 is fixed.
-class EL_ScriptStateLoaderCallbackInvokerBase 
+// Seperate invoker because we can't strong type the EL_ScriptedStateLoaderCallback via template directly until https://feedback.bistudio.com/T167295 is fixed.
+class EL_ScriptedStateLoaderCallbackInvokerBase 
 {
-	ref EL_PersistenceLoaderCallback m_pCallback;
+	ref EL_ScriptedStateLoaderCallback m_pCallback;
 	
-	void EL_ScriptStateLoaderCallbackInvokerBase(EL_PersistenceLoaderCallback callback)
+	void EL_ScriptedStateLoaderCallbackInvokerBase(EL_ScriptedStateLoaderCallback callback)
 	{
 		m_pCallback = callback;
 	}
 }
 
-class EL_ScriptStateLoaderCallbackInvokerSingle<Class T> : EL_ScriptStateLoaderCallbackInvokerBase
+class EL_ScriptedStateLoaderCallbackInvokerSingle<Class T> : EL_ScriptedStateLoaderCallbackInvokerBase
 {
 	void Invoke(EL_PersistentScriptedStateBase resultScriptedState)
 	{
 		T typedResult = T.Cast(resultScriptedState);
-		auto typedCallback = EL_PersistenceLoaderCallbackSingle<T>.Cast(m_pCallback);
+		auto typedCallback = EL_ScriptedStateLoaderCallbackSingle<T>.Cast(m_pCallback);
 		if (typedCallback) typedCallback.Invoke(typedResult);
 	}
 }
 
-class EL_ScriptStateLoaderCallbackInvokerMultiple<Class T> : EL_ScriptStateLoaderCallbackInvokerBase
+class EL_ScriptedStateLoaderCallbackInvokerMultiple<Class T> : EL_ScriptedStateLoaderCallbackInvokerBase
 {
 	ref array<ref T> m_aResultBuffer = {};
 	
@@ -201,7 +233,7 @@ class EL_ScriptStateLoaderCallbackInvokerMultiple<Class T> : EL_ScriptStateLoade
 	
 	void Invoke()
 	{
-		auto typedCallback = EL_PersistenceLoaderCallbackMultiple<T>.Cast(m_pCallback);
+		auto typedCallback = EL_ScriptedStateLoaderCallbackMultiple<T>.Cast(m_pCallback);
 		if (typedCallback) typedCallback.Invoke(m_aResultBuffer);
 	}
 }

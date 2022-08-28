@@ -59,7 +59,7 @@ class EL_PlayerAccountManager
 	}
 }
 
-class EL_PlayerAccountManagerProcessorCallback : EL_PersistenceLoaderCallbackSingle<EL_PlayerAccount>
+class EL_PlayerAccountManagerProcessorCallback : EL_ScriptedStateLoaderCallbackSingle<EL_PlayerAccount>
 {
 	string m_sPlayerUid
 	bool m_bCreate;
@@ -83,6 +83,6 @@ class EL_PlayerAccountManagerProcessorCallback : EL_PersistenceLoaderCallbackSin
 	}
 }
 
-class EL_PlayerAccountCallback : EL_PersistenceLoaderCallbackSingle<EL_PlayerAccount>
+class EL_PlayerAccountCallback : EL_ScriptedStateLoaderCallbackSingle<EL_PlayerAccount>
 {
 }
