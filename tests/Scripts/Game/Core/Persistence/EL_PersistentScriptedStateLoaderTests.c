@@ -185,7 +185,7 @@ class EL_Test_PersistentScriptedStateLoader_GetAsync_Existing_Returned : TestBas
 	}
 }
 
-[Test("EL_PersistentScriptedStateLoaderTests")]
+[Test("EL_PersistentScriptedStateLoaderTests", 3)]
 class EL_Test_PersistentScriptedStateLoader_GetAsync_MultipleExisting_AllReturned : TestBase
 { 
 	ref EL_Test_ScriptedStateLoaderDummy m_pExisting1;
