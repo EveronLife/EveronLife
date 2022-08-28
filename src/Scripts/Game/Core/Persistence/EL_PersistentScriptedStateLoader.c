@@ -1,6 +1,6 @@
 class EL_PersistentScriptedStateLoader<Class TScriptedState>
 {
-	static TScriptedState GetSingleton()
+	static TScriptedState LoadSingleton()
 	{	
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return null;
@@ -16,7 +16,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResults.Get(0))));
 	}
 	
-	static void GetSingletonAsync(notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
+	static void LoadSingletonAsync(notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return;
@@ -27,7 +27,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, limit: 1, callback: processorCallback);
 	}
 	
-	static TScriptedState Get(string persistentId)
+	static TScriptedState Load(string persistentId)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return null;
@@ -39,7 +39,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResults.Get(0))));
 	}
 	
-	static void GetAsync(string persistentId, notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
+	static void LoadAsync(string persistentId, notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return;
@@ -50,7 +50,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1, callback: processorCallback);
 	}
 	
-	static array<ref TScriptedState> Get(array<string> persistentIds)
+	static array<ref TScriptedState> Load(array<string> persistentIds)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return null;
@@ -59,19 +59,19 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	    
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 	    array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
-	    if(!findResults) return resultStates;
-	    
-	    foreach(EL_DbEntity findResult : findResults)
-	    {
-	        TScriptedState state = TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResult)));
-	        
-	        if(state) resultStates.Insert(state);			
-	    }
+	    if (findResults)
+		{
+		    foreach(EL_DbEntity findResult : findResults)
+		    {
+		        TScriptedState state = TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResult)));
+		        if(state) resultStates.Insert(state);
+		    }
+		}
 	    
 	    return resultStates;
 	}
 	
-	static void GetAsync(array<string> persistentIds, notnull EL_ScriptedStateLoaderCallbackMultiple<TScriptedState> callback)
+	static void LoadAsync(array<string> persistentIds, notnull EL_ScriptedStateLoaderCallbackMultiple<TScriptedState> callback)
 	{
 		typename saveDataType;
 		if(!TypeAndSettingsValidation(saveDataType)) return;

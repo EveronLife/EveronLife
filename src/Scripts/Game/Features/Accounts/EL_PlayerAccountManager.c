@@ -14,7 +14,7 @@ class EL_PlayerAccountManager
 		}
 		
 		auto processorCallback = EL_PlayerAccountManagerProcessorCallback.Create(playerUid, create, callback);
-		EL_PersistentScriptedStateLoader<EL_PlayerAccount>.GetAsync(playerUid, processorCallback);			
+		EL_PersistentScriptedStateLoader<EL_PlayerAccount>.LoadAsync(playerUid, processorCallback);			
 	}
 	
 	void SaveAndReleaseAccount(string playerUid)

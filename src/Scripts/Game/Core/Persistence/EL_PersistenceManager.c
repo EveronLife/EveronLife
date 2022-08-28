@@ -243,9 +243,9 @@ class EL_PersistenceManager
 		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.");
 	}
 	
-	IEntity SpawnWorldEntity(notnull EL_EntitySaveDataBase saveData)
+	IEntity SpawnWorldEntity(EL_EntitySaveDataBase saveData)
 	{
-		if(!saveData.GetId()) return null;
+		if(!saveData || !saveData.GetId()) return null;
 		
 		Resource resource = Resource.Load(saveData.m_rPrefab);
 		if(!resource.IsValid())
@@ -272,9 +272,9 @@ class EL_PersistenceManager
 		return worldEntity;
 	} 
 	
-	EL_PersistentScriptedStateBase SpawnScriptedState(notnull EL_ScriptedStateSaveDataBase saveData)
+	EL_PersistentScriptedStateBase SpawnScriptedState(EL_ScriptedStateSaveDataBase saveData)
 	{
-		if(!saveData.GetId()) return null;
+		if(!saveData || !saveData.GetId()) return null;
 
 		typename scriptedStateType = EL_PersistentScriptedStateSettings.GetScriptedStateType(saveData.Type());
 		m_sNextPersistentId = saveData.GetId();

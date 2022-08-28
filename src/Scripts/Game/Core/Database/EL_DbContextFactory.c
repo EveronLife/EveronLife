@@ -14,25 +14,21 @@ sealed class EL_DbContextFactory
 		EL_DbContext context = null;
 		
 		// Use cached instance if allowed
-		if(useCache)
+		if (useCache)
 		{
-			if(!s_ContextCache)
-			{
-				s_ContextCache = new map<string, ref EL_DbContext>();
-				GetGame().m_OnMissionSetInvoker.Insert(ResetCache);
-			}
+			if (!s_ContextCache) s_ContextCache = new map<string, ref EL_DbContext>();
 			
 			context = s_ContextCache.Get(dataSource);
 		}
 		
 		// No valid context found, create a new one
-		if(!context)
+		if (!context)
 		{
 			context = EL_DbContext._Create(dataSource);
 		}
 		
 		// Cache context to be re-used if allowed
-		if(useCache)
+		if (useCache)
 		{
 			s_ContextCache.Set(dataSource, context);
 		}
