@@ -56,7 +56,7 @@ class EL_DbContext
 	static EL_DbContext _Create(string dataSource)
 	{
 		string connectionString;
-		if(!_TryGetConnectionString(dataSource, connectionString))
+		if(!TryGetConnectionString(dataSource, connectionString))
 		{
 			Debug.Error(string.Format("Could not get find connection string for data source '%1'. Please check your server config!", dataSource));
 			return null;
@@ -90,11 +90,19 @@ class EL_DbContext
 	}
 	
 	// Internal use only
-	private static bool _TryGetConnectionString(string dataSource, out string connectionString)
+	protected static bool TryGetConnectionString(string dataSource, out string connectionString)
 	{
 		// Todo remove hardcode
-		//connectionString = string.Format("inmemory://%1?someoption=true&anotheroption=false", dataSource);
-		connectionString = string.Format("jsonfile://EveronLife?cache=true", dataSource);
+		
+		if(dataSource == "testing")
+		{
+			connectionString = "inmemory://EveronLife";
+		}
+		else
+		{
+			connectionString = "jsonfile://EveronLife?cache=true";
+		}
+
 		return true;
 	}
 	

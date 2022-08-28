@@ -24,7 +24,7 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 		return TEntityType;
 	}
 
-	// ---------------------- Sync API (to use with thread) ----------------------
+	// ---------------------- Sync API (Best used with thread once working: https://feedback.bistudio.com/T167281) ----------------------
 	
 	EL_EDbOperationStatusCode AddOrUpdate(notnull TEntityType entity)
 	{

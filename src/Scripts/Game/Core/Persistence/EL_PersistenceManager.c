@@ -10,14 +10,18 @@ class EL_PersistenceManager
 {
 	protected static ref EL_PersistenceManager s_pInstance;
 	
-	protected EL_DbContext m_pDbContext;
+	protected ref EL_DbContext m_pDbContext;
 	protected EL_EPersistenceManagerState m_eState;
 	protected ref ScriptInvoker m_pOnStateChange;
 	
 	// Auto save system
+	protected int m_iAutoSaveIterations;
 	protected float m_fAutoSaveInterval;
 	protected float m_fAutoSaveAccumultor;
-	protected int m_iAutoSaveIterations;
+	protected bool m_bAutoSaveActive;
+	protected int m_iSaveOperation;
+	protected MapIterator m_iAutoSaveEntityIt;
+	protected MapIterator m_iAutoSaveScriptedStateIt;
 	
 	// Component init
 	protected string m_sNextPersistentId;
@@ -84,45 +88,62 @@ class EL_PersistenceManager
 	
 	void AutoSave()
 	{
+		if (m_bAutoSaveActive) return;
+		m_bAutoSaveActive = true;
 		m_fAutoSaveAccumultor = 0;
-		
-		thread AutoSaveThreadImpl();
+		m_iSaveOperation = 0;
+		m_iAutoSaveEntityIt = m_mRootPersistenceComponents.Begin();
+		m_iAutoSaveScriptedStateIt = m_mRootScriptedStates.Begin();
 	}
 	
-	protected void AutoSaveThreadImpl()
+	protected void AutoSaveTick()
 	{
-		int nSaveOperation = 0;
+		if (!m_bAutoSaveActive) return;
 		
-		foreach(EL_PersistenceComponent persistenceComponent, Tuple2<bool, bool> infoTuple : m_mRootPersistenceComponents)
-		{
-			if(!infoTuple.param1) continue; //Ignore if no auto-save
+		while (m_iAutoSaveEntityIt != m_mRootPersistenceComponents.End())
+		{			
+			EL_PersistenceComponent persistenceComponent = m_mRootPersistenceComponents.GetIteratorKey(m_iAutoSaveEntityIt);
+			Tuple2<bool, bool> infoTuple = m_mRootPersistenceComponents.GetIteratorElement(m_iAutoSaveEntityIt);
+			
+			m_iAutoSaveEntityIt = m_mRootPersistenceComponents.Next(m_iAutoSaveEntityIt);
+			
+			if (!infoTuple.param1) continue; //Ignore if no auto-save
 			
 			UpdateRootEntityCollection(persistenceComponent, infoTuple);
-			
-			if((m_eState == EL_EPersistenceManagerState.ACTIVE) && (nSaveOperation > 0) && (nSaveOperation % m_iAutoSaveIterations == 0))
-			{
-				Sleep(100); //Wait a few frames
-			}
-			
 			persistenceComponent.Save();
-			nSaveOperation++;
+			m_iSaveOperation++;
+			
+			if ((m_eState == EL_EPersistenceManagerState.ACTIVE) && 
+				((m_iSaveOperation + 1) % m_iAutoSaveIterations == 0))
+			{
+				PrintFormat("AutoSaveTick() #1 m_iSaveOperation:%1 -> Pausing till next frame.", m_iSaveOperation);
+				return; // Pause execution until next tick
+			}
 		}
 		
-		foreach(EL_PersistentScriptedStateBase scriptedState, bool autoSaveEnabled : m_mRootScriptedStates)
-		{
-			if(!autoSaveEnabled) continue;
+		while (m_iAutoSaveScriptedStateIt != m_mRootScriptedStates.End())
+		{			
+			EL_PersistentScriptedStateBase scriptedState = m_mRootScriptedStates.GetIteratorKey(m_iAutoSaveScriptedStateIt);
+			bool autoSaveEnabled = m_mRootScriptedStates.GetIteratorElement(m_iAutoSaveScriptedStateIt);
 			
-			if((m_eState == EL_EPersistenceManagerState.ACTIVE) && (nSaveOperation > 0) && (nSaveOperation % m_iAutoSaveIterations == 0))
-			{
-				Sleep(100); //Wait a few frames
-			}
+			m_iAutoSaveScriptedStateIt = m_mRootScriptedStates.Next(m_iAutoSaveScriptedStateIt);
+			
+			if (!autoSaveEnabled) continue; //Ignore if no auto-save
 			
 			scriptedState.Save();
-			nSaveOperation++;
+			m_iSaveOperation++;
+			
+			if ((m_eState == EL_EPersistenceManagerState.ACTIVE) && 
+				((m_iSaveOperation + 1) % m_iAutoSaveIterations == 0))
+			{
+				PrintFormat("AutoSaveTick() #2 m_iSaveOperation:%1 -> Pausing till next frame.", m_iSaveOperation);
+				return; // Pause execution until next tick
+			}
 		}
 		
 		m_pRootEntityCollection.Save(GetDbContext());
 		m_pEntityLifetimeCollection.Save(GetDbContext());
+		m_bAutoSaveActive = false;
 	}
 	
 	protected void ShutDownSave()
@@ -133,7 +154,6 @@ class EL_PersistenceManager
 			if(!settings.m_bShutdownsave) continue;
 			
 			UpdateRootEntityCollection(persistenceComponent, infoTuple);
-			
 			persistenceComponent.Save();
 		}
 		
@@ -166,10 +186,8 @@ class EL_PersistenceManager
 		}
 	}
 	
-	protected void PrepareInitalWorldStateThreadImpl()
+	protected void PrepareInitalWorldState()
 	{	
-		Sleep(0); // Push to next frame to not disturb world hash calculation
-		
 		// Remove baked entities that shall no longer be root entities in the world
 		array<string> staleIds();
 		foreach(string persistentId : m_pRootEntityCollection.m_aRemovedBackedEntities)
@@ -222,7 +240,6 @@ class EL_PersistenceManager
 		m_pBakedEntityNameIdMapping = null;
 		
 		SetState(EL_EPersistenceManagerState.ACTIVE);
-		
 		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.");
 	}
 	
@@ -375,6 +392,11 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		return EL_PersistenceManagerInternal.Cast(GetInstance(create));
 	}
 	
+	void SetDbContext(notnull EL_DbContext dbContext)
+	{
+		m_pDbContext = dbContext;
+	}
+	
 	EL_PersistentRootEntityCollection GetRootEntityCollection()
 	{
 		return m_pRootEntityCollection;
@@ -492,27 +514,25 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		// Handle auto-save
 		m_fAutoSaveAccumultor += timeSlice;
 		
-		if((m_fAutoSaveInterval > 0) && (m_fAutoSaveAccumultor >= m_fAutoSaveInterval))
+		if ((m_fAutoSaveInterval > 0) && 
+			(m_fAutoSaveAccumultor >= m_fAutoSaveInterval))
 		{
 			AutoSave();
 		}
+		
+		AutoSaveTick();
 	}
 	
 	event void OnWorldPostProcess(World world)
 	{
 		SetState(EL_EPersistenceManagerState.SETUP);
-		
-		thread PrepareInitalWorldStateThreadImpl();
+		GetGame().GetCallqueue().Call(PrepareInitalWorldState);
 	}
 	
 	event void OnGameEnd()
 	{
 		SetState(EL_EPersistenceManagerState.SHUTDOWN);
-		
-		// Call without thread to be blocking on shutdown
 		ShutDownSave();
-		
-		//Cleanup after end of current session
 		Reset();
 	}
 }

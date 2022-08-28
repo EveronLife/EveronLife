@@ -7,8 +7,6 @@ class EL_PersistentScriptedStateBase
 	
 	string GetPersistentId()
 	{
-		if(!m_sId) m_sId = EL_PersistenceManagerInternal.GetInternalInstance().GetPersistentId(this);
-		
 		return m_sId;
 	}
 	
@@ -19,7 +17,7 @@ class EL_PersistentScriptedStateBase
 	
 	EL_ScriptedStateSaveDataBase Save()
 	{
-		if(!GetPersistentId()) return null;
+		if(!m_sId) return null;
 		
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 		

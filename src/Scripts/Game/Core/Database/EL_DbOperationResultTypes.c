@@ -69,139 +69,100 @@ class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
 	}
 }
 
-class EL_DbOperationCallback
+class EL_DbOperationCallback : EL_Callback
 {
-	protected Class m_InvokeInstance;
-	protected string m_InvokeMethodName;
-	
-	protected void ConfigureInvoker(Class instance, string functionName)
-	{
-		m_InvokeInstance = instance;
-		m_InvokeMethodName = functionName;
-	}
 }
 
 class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 {
-	static EL_DbOperationStatusOnlyCallback FromMethod(Class instance, string functionName)
+	void Invoke(EL_EDbOperationStatusCode code)
 	{
-		EL_DbOperationStatusOnlyCallback callback();
-		callback.ConfigureInvoker(instance, functionName);
-		return callback;
-	}
-	
-	void _SetCompleted(EL_EDbOperationStatusCode code)
-	{
-		if(code == EL_EDbOperationStatusCode.SUCCESS)
+		if (m_pInvokeInstance && 
+			m_sInvokeMethodName &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code)) return;
+		
+		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
-			OnSuccess();
+			OnSuccess(m_pContext);
 		}
 		else
 		{
-			OnFailure(code);
-		}
-		
-		if(m_InvokeInstance && m_InvokeMethodName)
-		{
-			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code);
+			OnFailure(m_pContext, code);
 		}
 	}
 	
-	void OnSuccess();
+	void OnSuccess(Managed context);
 	
-	void OnFailure(EL_EDbOperationStatusCode resultCode);
+	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 }
 
 class EL_DbFindCallbackBase : EL_DbOperationCallback
 {
-	void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults);
+	void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults);
 }
 
 class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 {
-	static EL_DbFindCallback<TEntityType> FromMethod(Managed instance, string functionName)
-	{
-		EL_DbFindCallback<TEntityType> callback();
-		callback.ConfigureInvoker(instance, functionName);
-		return callback;
-	}
-	
-	override void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		array<ref TEntityType> strongTypedResults = EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults);
 		
-		if(code == EL_EDbOperationStatusCode.SUCCESS)
+		if (m_pInvokeInstance && 
+			m_sInvokeMethodName && 
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code, strongTypedResults)) return;
+		
+		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
-			OnSuccess(strongTypedResults);
+			OnSuccess(m_pContext, strongTypedResults);
 		}
 		else
 		{
-			OnFailure(code);
-		}
-
-		if(m_InvokeInstance && m_InvokeMethodName)
-		{
-			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code, strongTypedResults);
+			OnFailure(m_pContext, code);
 		}
 	}
 	
-	void OnSuccess(array<ref TEntityType> resultData);
+	void OnSuccess(Managed context, array<ref TEntityType> resultData);
 	
-	void OnFailure(EL_EDbOperationStatusCode resultCode);
+	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 }
 
 class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 {
-	static EL_DbFindCallbackSingle<TEntityType> FromMethod(Managed instance, string functionName)
-	{
-		EL_DbFindCallbackSingle<TEntityType> callback();
-		callback.ConfigureInvoker(instance, functionName);
-		return callback;
-	}
-	
-	override void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		TEntityType typedResult;
 		
-		if(findResults.Count() > 0)
+		if (findResults.Count() > 0)
 		{
 			typedResult = TEntityType.Cast(findResults.Get(0));
 		}
 		
-		if(code == EL_EDbOperationStatusCode.SUCCESS)
+		if (m_pInvokeInstance && 
+			m_sInvokeMethodName &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code, typedResult)) return;
+		
+		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
-			OnSuccess(typedResult);
+			OnSuccess(m_pContext, typedResult);
 		}
 		else
 		{
-			OnFailure(code);
-		}
-		
-		if(m_InvokeInstance && m_InvokeMethodName)
-		{
-			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code, typedResult);
+			OnFailure(m_pContext, code);
 		}
 	}
 	
-	void OnSuccess(TEntityType resultData);
+	void OnSuccess(Managed context, TEntityType resultData);
 	
-	void OnFailure(EL_EDbOperationStatusCode resultCode);
+	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 }
 
 class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 {
-	static EL_DbFindCallbackSingleton<TEntityType> FromMethod(Managed instance, string functionName)
-	{
-		EL_DbFindCallbackSingleton<TEntityType> callback();
-		callback.ConfigureInvoker(instance, functionName);
-		return callback;
-	}
-	
-	override void _SetCompleted(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		TEntityType typedResult;
 		
-		if(findResults.Count() > 0)
+		if (findResults.Count() > 0)
 		{
 			typedResult = TEntityType.Cast(findResults.Get(0));
 		}
@@ -211,22 +172,21 @@ class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 			typedResult = TEntityType.Cast(spawnType.Spawn());
 		}
 		
-		if(code == EL_EDbOperationStatusCode.SUCCESS)
+		if (m_pInvokeInstance && 
+			m_sInvokeMethodName &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code, typedResult)) return;
+		
+		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
-			OnSuccess(typedResult);
+			OnSuccess(m_pContext, typedResult);
 		}
 		else
 		{
-			OnFailure(code);
-		}
-		
-		if(m_InvokeInstance && m_InvokeMethodName)
-		{
-			GetGame().GetScriptModule().Call(m_InvokeInstance, m_InvokeMethodName, true, null, code, typedResult);
+			OnFailure(m_pContext, code);
 		}
 	}
 	
-	void OnSuccess(TEntityType resultData);
+	void OnSuccess(Managed context, TEntityType resultData);
 	
-	void OnFailure(EL_EDbOperationStatusCode resultCode);
+	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 }

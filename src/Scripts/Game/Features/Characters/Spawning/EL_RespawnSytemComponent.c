@@ -165,8 +165,8 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 			}
 			
 			// Add new character to account
-			EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetAccount(EL_Utils.GetPlayerUID(playerId));
-			account.m_aCharacterIds.Insert(persistenceComponent.GetPersistentId());
+			EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(EL_Utils.GetPlayerUID(playerId));
+			if (account) account.m_aCharacterIds.Insert(persistenceComponent.GetPersistentId());
 		}
 		
 		return playerEntity;

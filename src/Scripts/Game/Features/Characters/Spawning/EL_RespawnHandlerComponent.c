@@ -1,4 +1,4 @@
-[ComponentEditorProps(category: "EveronLife/Core/Spawning", description: "Compatibility class, does nothing")]
+[ComponentEditorProps(category: "EveronLife/Core/Spawning", description: "Custom roleplay respawn system")]
 class EL_RespawnHandlerComponentClass: SCR_RespawnHandlerComponentClass
 {
 }
@@ -21,19 +21,13 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	{
 		if (!m_pGameMode.IsMaster()) return;
 		
-		thread OnPlayerKilledThreadImpl(playerId, player, killer);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	protected void OnPlayerKilledThreadImpl(int playerId, IEntity player, IEntity killer)
-	{
 		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(player.FindComponent(EL_PersistenceComponent));
 		
 		// Add the dead body root entity collection so it spawns back after restart for looting
 		EL_PersistenceManagerInternal.GetInternalInstance().GetRootEntityCollection().Add(persistence, false, true);
 		
 		// Delete the dead char from account
-		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetAccount(player);
+		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(player);
 		if(account) account.m_aCharacterIds.RemoveItem(persistence.GetPersistentId());
 		
 		// Prepare and execute fresh character spawn
@@ -46,12 +40,6 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	{
 		if (!m_pGameMode.IsMaster()) return;
 		
-		thread OnPlayerDisconnectedThreadImpl(playerId);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	protected void OnPlayerDisconnectedThreadImpl(int playerId)
-	{
 		int idx = m_sEnqueuedPlayers.Find(playerId);
 		if(idx != -1) m_sEnqueuedPlayers.Remove(idx);
 		
@@ -69,7 +57,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 			}
 		}
 		
-		EL_PlayerAccountManager.GetInstance().UnloadAccount(EL_Utils.GetPlayerUID(playerId));
+		EL_PlayerAccountManager.GetInstance().SaveAndReleaseAccount(EL_Utils.GetPlayerUID(playerId));
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -102,44 +90,59 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	//------------------------------------------------------------------------------------------------
 	protected void LoadPlayerData(int playerId, string playerUid)
 	{
-		thread LoadPlayerDataThreadImpl(playerId, playerUid);
+		if (m_pRespawnSystem.HasSpawnData(playerId))
+		{
+			// Player data already known from previous event e.g. respawn, skip loading ...
+			GetGame().GetPlayerManager().GetPlayerController(playerId).RequestRespawn();
+			return;
+		}
+		
+		EL_PlayerAccountCallback callback(new Tuple2<int, string>(playerId, playerUid));
+		callback.ConfigureInvoker(this, "OnAccountLoaded");
+		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(playerUid, true, callback);
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	protected void LoadPlayerDataThreadImpl(int playerId, string playerUid)
+	protected void OnAccountLoaded(Managed context, EL_PlayerAccount account)
 	{
-		if(!m_pRespawnSystem.HasSpawnData(playerId))
+		Tuple2<int, string> playerInfo = Tuple2<int, string>.Cast(context);
+		
+		if (account.m_aCharacterIds.IsEmpty())
 		{
-			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-			
-			EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetAccount(playerUid, true);
-			
-			/*
-				TODO: Use respawn component system for pre spawn communication with player so they can choose the char to spawn with and where potentially
-					- Component is on the player controller and is allowed to send rpcs to server (s. SCR_RespawnComponent for example setup)
-					- Spawn on last location (if previously spawned)
-					- Select spawns on map (depending on which job is active to enable things such as police spawns)
-						- Maybe list with addtional spawns per job + city spawns every person has.
-					- different position would just need to override the saveData transformation component data.
-			*/
-			
-			EL_CharacterSaveData characterData;
-			if(account.m_aCharacterIds.Count() > 0)
-			{
-				EL_DbRepository<EL_CharacterSaveData> characterRepository = EL_DbEntityHelper<EL_CharacterSaveData>.GetRepository(persistenceManager.GetDbContext());
-				characterData = characterRepository.Find(account.m_aCharacterIds.Get(0)).GetEntity();
-				
-				if(!characterData)
-				{
-					Print(string.Format("Failed to load existing character '%1' from account '%2'.", account.m_aCharacterIds.Get(0), playerUid), LogLevel.ERROR);
-				}
-			}
-			
-			// Prepare spawn data buffer with last known player data and spawn character
-			m_pRespawnSystem.SetSpawnData(playerId, characterData);
+			m_pRespawnSystem.SetSpawnData(playerInfo.param1, null);
+			GetGame().GetPlayerManager().GetPlayerController(playerInfo.param1).RequestRespawn();
+			return;
 		}
 		
-		GetGame().GetPlayerManager().GetPlayerController(playerId).RequestRespawn();
+		string characterId = account.m_aCharacterIds.Get(0);
+		Tuple3<int, string, string> characterContext(playerInfo.param1, playerInfo.param2, characterId);
+		EL_DbFindCallbackSingle<EL_CharacterSaveData> characterDataCallback(characterContext);
+		characterDataCallback.ConfigureInvoker(this, "OnCharacterDataLoaded");
+		EL_PersistenceRepository<EL_CharacterSaveData>.Get().FindAsync(characterId, characterDataCallback);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	protected void OnCharacterDataLoaded(Managed context, EL_EDbOperationStatusCode statusCode, EL_CharacterSaveData characterData)
+	{
+		/*
+			TODO: Use respawn component system for pre spawn communication with player so they can choose the char to spawn with and where potentially
+				- Component is on the player controller and is allowed to send rpcs to server (s. SCR_RespawnComponent for example setup)
+				- Spawn on last location (if previously spawned)
+				- Select spawns on map (depending on which job is active to enable things such as police spawns)
+					- Maybe list with addtional spawns per job + city spawns every person has.
+				- different position would just need to override the saveData transformation component data.
+		*/
+		
+		Tuple3<int, string, string> characterInfo = Tuple3<int, string, string>.Cast(context);
+		
+		if (!characterData)
+		{
+			Print(string.Format("Failed to load existing character '%1' from account '%2'.", characterInfo.param3, characterInfo.param2), LogLevel.ERROR);
+		}
+		
+		// Prepare spawn data buffer with last known player data (null for fresh accounts) and spawn character
+		m_pRespawnSystem.SetSpawnData(characterInfo.param1, characterData);
+		GetGame().GetPlayerManager().GetPlayerController(characterInfo.param1).RequestRespawn();
 	}
 	
 	//------------------------------------------------------------------------------------------------

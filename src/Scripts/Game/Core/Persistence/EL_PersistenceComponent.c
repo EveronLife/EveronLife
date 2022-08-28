@@ -43,8 +43,6 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	string GetPersistentId()
 	{
-		if(!m_sId) m_sId = EL_PersistenceManagerInternal.GetInternalInstance().GetPersistentId(this);
-		
 		return m_sId;
 	}
 	
@@ -55,7 +53,7 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	EL_EntitySaveDataBase Save()
 	{
-		if(!GetPersistentId()) return null;
+		if(!m_sId) return null;
 		
 		IEntity owner = GetOwner();
 		
