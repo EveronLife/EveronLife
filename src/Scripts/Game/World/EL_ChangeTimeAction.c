@@ -6,9 +6,11 @@ class EL_ChangeTimeAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
+		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
+		if (replication && !replication.IsOwner()) return;
+		
 		TimeAndWeatherManagerEntity weatherManager = GetGame().GetTimeAndWeatherManager();
-		if (!weatherManager) 
-			return;
+		if (!weatherManager) return;
 		
 		weatherManager.SetTimeOfTheDay(m_fTargetTime, true);
 	}
@@ -18,5 +20,4 @@ class EL_ChangeTimeAction : ScriptedUserAction
  	{
 		return true;
  	}
-
 }
