@@ -90,9 +90,15 @@ class EL_Utils
 		}
 	}
 	
-	static string IntToHex(int value)
+	static string IntToHex(int value, bool upperCase = false, int fixedLength = -1)
 	{
 		array<string> resultChars = {"0", "0", "0", "0", "0", "0", "0", "0"};
+		
+		int asciiOffset = 87;
+		if (upperCase) asciiOffset = 55;
+		
+		int padUntil = 7;
+		if (fixedLength != -1) padUntil = 8 - Math.Min(fixedLength, 8);
 		
 		int resultIdx = 7;
 		
@@ -106,16 +112,19 @@ class EL_Utils
             }
             else
 			{
-                resultChars.Set(resultIdx--, (remainder + 55).AsciiToString());
+                resultChars.Set(resultIdx--, (remainder + asciiOffset).AsciiToString());
             }
  			
             value /= 16;
         }
 		
 		string result;
+		bool nonZero;
 		
-		foreach(string char : resultChars)
+		foreach(int nChar, string char : resultChars)
 		{
+			if (char == "0" && nChar < padUntil && !nonZero) continue;
+			nonZero = true;
 			result += char;
 		}
 		
