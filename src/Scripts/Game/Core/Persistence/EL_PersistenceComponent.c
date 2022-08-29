@@ -111,18 +111,11 @@ class EL_PersistenceComponent : ScriptComponent
 	
 	override event void OnPostInit(IEntity owner)
 	{
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		
 		// Persistence logic only runs on the server
-		if(!EL_PersistenceManager.IsPersistenceMaster())
-		{
-			#ifndef WORKBENCH
-			// Free memory
-			settings.m_pSaveData = null;
-			#endif
-			return;
-		}
+		if(!EL_PersistenceManager.IsPersistenceMaster()) return;
 		
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+
 		// Cache save-data typename on shared instance. We do not need the object instance after that.
 		if(!settings.m_tSaveDataTypename)
 		{

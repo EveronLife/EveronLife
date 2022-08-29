@@ -90,7 +90,7 @@ class EL_PersistentScriptedStateBase
 	void ~EL_PersistentScriptedStateBase()
 	{
 		// Check that we are not in session dtor phase.
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance(false);
 		if(!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
 		
 		persistenceManager.UnregisterSaveRoot(this);

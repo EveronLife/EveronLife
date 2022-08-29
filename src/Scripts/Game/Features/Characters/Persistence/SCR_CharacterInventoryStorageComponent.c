@@ -7,9 +7,9 @@ modded class SCR_CharacterInventoryStorageComponent
 	{
 		super.StoreItemToQuickSlot(pItem, iSlotIndex, isForced);
 		
-		// Debounce sync to 30 seconds after the last change.
+		// Debounce sync to configured interval after the last change.
 		RplComponent replication = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		if (replication && replication.IsOwner())
+		if (replication && replication.IsOwnerProxy())
 		{
 			if (EL_m_DebounceTime == -1)
 			{

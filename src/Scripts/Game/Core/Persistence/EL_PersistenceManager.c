@@ -116,7 +116,6 @@ class EL_PersistenceManager
 			if ((m_eState == EL_EPersistenceManagerState.ACTIVE) && 
 				((m_iSaveOperation + 1) % m_iAutoSaveIterations == 0))
 			{
-				PrintFormat("AutoSaveTick() #1 m_iSaveOperation:%1 -> Pausing till next frame.", m_iSaveOperation);
 				return; // Pause execution until next tick
 			}
 		}
@@ -136,7 +135,6 @@ class EL_PersistenceManager
 			if ((m_eState == EL_EPersistenceManagerState.ACTIVE) && 
 				((m_iSaveOperation + 1) % m_iAutoSaveIterations == 0))
 			{
-				PrintFormat("AutoSaveTick() #2 m_iSaveOperation:%1 -> Pausing till next frame.", m_iSaveOperation);
 				return; // Pause execution until next tick
 			}
 		}
