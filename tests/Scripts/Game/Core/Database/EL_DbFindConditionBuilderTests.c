@@ -1,189 +1,209 @@
 class EL_DbFindConditionBuilderTests : TestSuite
 {
+	//------------------------------------------------------------------------------------------------
 	[Step(EStage.Setup)]
     void Setup()
     {
     }
 
+	//------------------------------------------------------------------------------------------------
     [Step(EStage.TearDown)]
     void TearDown()
     {
     }
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_And_EmptyArgs_EmptyCondition() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_And_EmptyArgs_EmptyCondition()
+{
 	// Act
 	EL_DbFindAnd condition = EL_DbFind.And({});
-	
+
 	// Assert
-	return new EL_TestResult(condition.m_Conditions.Count() == 0); 
+	return new EL_TestResult(condition.m_Conditions.Count() == 0);
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_And_MultipleConditions_MultipleWrapped() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_And_MultipleConditions_MultipleWrapped()
+{
 	// Act
 	EL_DbFindAnd condition = EL_DbFind.And({new EL_DbFindCondition(), new EL_DbFindCondition()});
-	
+
 	// Assert
-	return new EL_TestResult(condition.m_Conditions.Count() == 2); 
+	return new EL_TestResult(condition.m_Conditions.Count() == 2);
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Or_EmptyArgs_EmptyCondition() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Or_EmptyArgs_EmptyCondition()
+{
 	// Act
 	EL_DbFindOr condition = EL_DbFind.Or({});
-	
+
 	// Assert
-	return new EL_TestResult(condition.m_Conditions.Count() == 0); 
+	return new EL_TestResult(condition.m_Conditions.Count() == 0);
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Or_MultipleConditions_MultipleWrapped() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Or_MultipleConditions_MultipleWrapped()
+{
 	// Act
 	EL_DbFindOr condition = EL_DbFind.Or({new EL_DbFindCondition(), new EL_DbFindCondition()});
-	
+
 	// Assert
-	return new EL_TestResult(condition.m_Conditions.Count() == 2); 
+	return new EL_TestResult(condition.m_Conditions.Count() == 2);
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_SingleField_ValidBuilder() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_SingleField_ValidBuilder()
+{
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("fieldName");
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath == "fieldName" && builder.m_Inverted == false); 
+	return new EL_TestResult(builder.m_sFieldPath == "fieldName" && builder.m_bInverted == false);
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_SingleFieldMultiValueInverted_ValidBuilder() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_SingleFieldMultiValueInverted_ValidBuilder()
+{
 	// Act
 	EL_DbFindFieldAllValueConditonBuilder builder = EL_DbFind.Field("fieldName.subField").Not();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath == "fieldName.subField" && builder.m_Inverted == true); 
+	return new EL_TestResult(builder.m_sFieldPath == "fieldName.subField" && builder.m_bInverted == true);
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_MultiField_FieldsChained() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_MultiField_FieldsChained()
+{
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("fieldName").Field("subField");
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath == "fieldName.subField"); 
+	return new EL_TestResult(builder.m_sFieldPath == "fieldName.subField");
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_Length_ModifierPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Length_ModifierPresent()
+{
 	// Act
 	EL_DbFindFieldNumericValueConditonBuilder builder = EL_DbFind.Field("stringField").Length();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath.EndsWith("stringField:count")); 
+	return new EL_TestResult(builder.m_sFieldPath.EndsWith("stringField:count"));
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_Count_ModifierPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Count_ModifierPresent()
+{
 	// Act
 	EL_DbFindFieldNumericValueConditonBuilder builder = EL_DbFind.Field("collectionName").Count();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath.EndsWith("collectionName:count")); 
+	return new EL_TestResult(builder.m_sFieldPath.EndsWith("collectionName:count"));
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_Any_ModifierPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Any_ModifierPresent()
+{
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").Any();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath.EndsWith(":any")); 
+	return new EL_TestResult(builder.m_sFieldPath.EndsWith(":any"));
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_All_ModifierPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_All_ModifierPresent()
+{
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").All();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath.EndsWith(":all")); 
+	return new EL_TestResult(builder.m_sFieldPath.EndsWith(":all"));
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_Keys_ModifierPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Keys_ModifierPresent()
+{
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("collectionName").Keys();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath.EndsWith(":keys")); 
+	return new EL_TestResult(builder.m_sFieldPath.EndsWith(":keys"));
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_Values_ModifierPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_Values_ModifierPresent()
+{
 	// Act
 	EL_DbFindFieldCollectionHandlingBuilder builder = EL_DbFind.Field("collectionName").Values();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath.EndsWith(":values")); 
+	return new EL_TestResult(builder.m_sFieldPath.EndsWith(":values"));
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_ValuesAny_ModifiersPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_ValuesAny_ModifiersPresent()
+{
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").Values().Any();
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath.EndsWith(":values:any")); 
+	return new EL_TestResult(builder.m_sFieldPath.EndsWith(":values:any"));
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_At_IndexFieldSet() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_At_IndexFieldSet()
+{
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").At(3);
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath == "collectionName.3"); 
+	return new EL_TestResult(builder.m_sFieldPath == "collectionName.3");
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_FirstOf_ModiferAndTypefilterPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_FirstOf_ModiferAndTypefilterPresent()
+{
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").FirstOf(Class);
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath == "collectionName:any.Class"); 
+	return new EL_TestResult(builder.m_sFieldPath == "collectionName:any.Class");
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
-TestResultBase EL_Test_DbFindConditionBuilder_Field_AllOf_ModiferAndTypefilterPresent() 
-{ 
+TestResultBase EL_Test_DbFindConditionBuilder_Field_AllOf_ModiferAndTypefilterPresent()
+{
 	// Act
 	EL_DbFindFieldMainConditionBuilder builder = EL_DbFind.Field("collectionName").AllOf(Class);
-	
+
 	// Assert
-	return new EL_TestResult(builder.m_FieldPath == "collectionName:all.Class"); 
+	return new EL_TestResult(builder.m_sFieldPath == "collectionName:all.Class");
 }
 
+//------------------------------------------------------------------------------------------------
 [Test("EL_DbFindConditionBuilderTests")]
 class EL_Test_DbFindConditionBuilder_Field_ComplexBuild_DebugStringEqual : TestBase
-{ 
+{
 	[Step(EStage.Main)]
 	void DoTest()
 	{
@@ -203,12 +223,12 @@ class EL_Test_DbFindConditionBuilder_Field_ComplexBuild_DebugStringEqual : TestB
 				})
 			})
 		});
-		
+
 		// Act
 		string debugString = condition.GetDebugString();
 		debugString.Replace("\t", "");
 		debugString.Replace("    ", "");
-		
+
 		// Assert
 		string compareString = "Or(\
 	    CheckNull(fieldPath:'A', shouldBeNull:false),\
@@ -227,7 +247,7 @@ class EL_Test_DbFindConditionBuilder_Field_ComplexBuild_DebugStringEqual : TestB
 		compareString.Replace("\r", "");
 		compareString.Replace("\t", "");
 		compareString.Replace("    ", "");
-	
+
 		SetResult(new EL_TestResult(debugString == compareString));
 	}
 }

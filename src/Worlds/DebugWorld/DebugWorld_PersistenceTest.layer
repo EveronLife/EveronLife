@@ -1,26 +1,3 @@
-GenericEntity PaperMap_01_folded_5A12DE85771376B7 : "{13772C903CB5E4F7}Prefabs/Items/Equipment/Maps/PaperMap_01_folded.et" {
- coords 110.137 0.806 144.877
-}
-GenericEntity Backpack_Kolobok_5A12DE85DCF80A48 : "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et" {
- components {
- }
- coords 110.465 0.807 145.084
- angleY -180
-}
-GenericEntity ArmyCrackers_Soviet_01_5A12DE84BB44EF42 : "{50A68300B537EDFA}Prefabs/Items/Food/ArmyCrackers_Soviet_01.et" {
- coords 109.751 0.807 144.961
-}
-GameEntity Flashlight_Soviet_01_5A12DE841C7F2A4F : "{575EA58E67448C2A}Prefabs/Items/Equipment/Flashlights/Flashlight_Soviet_01.et" {
- coords 110.3 0.821 144.663
- angleX 90
- angleZ -180
-}
-GenericEntity Compass_SY183_5A12DE851B89A121 : "{61D4F80E49BF9B12}Prefabs/Items/Equipment/Compass/Compass_SY183.et" {
- coords 110.399 0.834 144.71
-}
-GenericEntity Radio_ANPRC68_5A12DE856E9AE71D : "{73950FBA2D7DB5C5}Prefabs/Items/Equipment/Radios/Radio_ANPRC68.et" {
- coords 110.156 0.807 145.343
-}
 GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et" {
  components {
   ActionsManagerComponent "{5A02A4484BCE008C}" {
@@ -34,14 +11,86 @@ GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et"
     }
    }
    additionalActions {
-    EL_TriggerSaveAction "{5A02A4491479BBD4}" {
+    EL_TriggerSaveAction "{5A3CE72E48642793}" {
      ParentContextList {
       "default"
      }
-     UIInfo UIInfo "{5A02A44913D17583}" {
-      Name "Trigger persistence save"
+     UIInfo UIInfo "{5A3CE72FBA6D1043}" {
+      Name "Trigger global persistence \"Auto-save\""
      }
-     Duration 0.5
+     Duration 0.25
+    }
+    EL_GatherAction "{5A274D8023EE0BFD}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 1
+     m_GatherItemDisplayName "AK74"
+     m_GatherItemPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
+    }
+    EL_GatherAction "{5A2D405EF8DFF962}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 2
+     m_GatherItemDisplayName "Pistol"
+     m_GatherItemPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+    }
+    EL_GatherAction "{5A0CC6180BC74501}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 3
+     m_GatherItemDisplayName "Apple juice"
+     m_GatherItemPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+    }
+    EL_GatherAction "{5A134DC0FAD9CAE8}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 4
+     m_GatherItemDisplayName "Backpack"
+     m_GatherItemPrefab "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
+    }
+    EL_GatherAction "{5A274D801DF5CEC0}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 5
+     m_GatherItemDisplayName "Jacket"
+     m_GatherItemPrefab "{BBA08EC4EC40FA94}Prefabs/Characters/Uniforms/Jacket_M70.et"
+    }
+    EL_GatherAction "{5A274D80011198FD}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 6
+     m_GatherItemDisplayName "Pants"
+     m_GatherItemPrefab "{06BC3F18B47799AE}Prefabs/Characters/Uniforms/Pants_M70.et"
+    }
+    EL_GatherAction "{5A28749A11371161}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 7
+     m_GatherItemDisplayName "Boots"
+     m_GatherItemPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+    }
+    EL_GatherAction "{5A274D803168650F}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.25
+     "Sort Priority" 8
+     m_GatherItemDisplayName "Binoculars"
+     m_GatherItemPrefab "{0CF54B9A85D8E0D4}Prefabs/Items/Equipment/Binoculars/Binoculars_M22.et"
     }
    }
   }
@@ -51,6 +100,10 @@ GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et"
  coords 109.987 0.001 145.024
  angleY -90.88
  {
+  GenericEntity PaperMap_01_folded_5A12DE85771376B7 : "{13772C903CB5E4F7}Prefabs/Items/Equipment/Maps/PaperMap_01_folded.et" {
+   coords -0.149 0.805 -0.148
+   angleY 90.88
+  }
   $grp GenericEntity : "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et" {
    PersistentBottle2 {
     coords 0.166 0.806 0.561
@@ -65,98 +118,48 @@ GenericEntity : "{B3283803059E2750}Prefabs/Props/Crates/CrateWooden_01_plain.et"
     angleY -90
    }
   }
- }
-}
-GenericEntity : "{B724309521EEFC42}Prefabs/Props/Agriculture/WaterTank_01_v2.et" {
- components {
-  ActionsManagerComponent "{5A0CC6181ABC68A1}" {
-   ActionContexts {
-    UserActionContext "{5A0CC6181BF26743}" {
-     ContextName "default"
-     Position PointInfo "{5A0CC618140D8F1C}" {
-      Offset 0 0.9993 0
-     }
-     Radius 2
-    }
+  GenericEntity Backpack_Kolobok_5A12DE85DCF80A48 : "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et" {
+   components {
    }
-   additionalActions {
-    EL_GatherAction "{5A0CC6180BC74501}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{5A0CC6180931D3BE}" {
-      Name "Get Bottle"
-     }
-     Duration 0.25
-     m_GatherItemDisplayName "Bottle"
-     m_GatherItemPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
-    }
-    EL_GatherAction "{5A134DC0FAD9CAE8}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{5A134DC0F99F6846}" {
-      Name "Spawn backpack"
-     }
-     Duration 0.25
-     m_GatherItemDisplayName "Backpack"
-     m_GatherItemPrefab "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
-    }
-    EL_GatherAction "{5A274D801DF5CEC0}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{5A274D8019A8DCE6}" {
-      Name "jacket"
-     }
-     m_GatherItemDisplayName "jacket"
-     m_GatherItemPrefab "{BBA08EC4EC40FA94}Prefabs/Characters/Uniforms/Jacket_M70.et"
-    }
-    EL_GatherAction "{5A274D80011198FD}" {
-     ParentContextList {
-      "default"
-     }
-     m_GatherItemDisplayName "pants"
-     m_GatherItemPrefab "{06BC3F18B47799AE}Prefabs/Characters/Uniforms/Pants_M70.et"
-    }
-    EL_GatherAction "{5A274D803168650F}" {
-     ParentContextList {
-      "default"
-     }
-     m_GatherItemDisplayName "binoculars"
-     m_GatherItemPrefab "{0CF54B9A85D8E0D4}Prefabs/Items/Equipment/Binoculars/Binoculars_M22.et"
-    }
-    EL_GatherAction "{5A274D8023EE0BFD}" {
-     ParentContextList {
-      "default"
-     }
-     m_GatherItemDisplayName "pew pew"
-     m_GatherItemPrefab "{FA5C25BF66A53DCF}Prefabs/Weapons/Rifles/AK74/Rifle_AK74.et"
-    }
-    EL_GatherAction "{5A28749A11371161}" {
-     ParentContextList {
-      "default"
-     }
-     m_GatherItemDisplayName "boots"
-     m_GatherItemPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
-    }
-    EL_GatherAction "{5A2D405EF8DFF962}" {
-     ParentContextList {
-      "default"
-     }
-     m_GatherItemDisplayName "pistol"
-     m_GatherItemPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
-    }
-   }
+   coords 0.053 0.806 -0.479
+   angleY -89.12
   }
-  RplComponent "{5624A88DC2D9928D}" {
-   Enabled 1
+  GenericEntity ArmyCrackers_Soviet_01_5A12DE84BB44EF42 : "{50A68300B537EDFA}Prefabs/Items/Food/ArmyCrackers_Soviet_01.et" {
+   coords -0.059 0.806 0.237
+   angleY 90.88
+  }
+  GameEntity Flashlight_Soviet_01_5A12DE841C7F2A4F : "{575EA58E67448C2A}Prefabs/Items/Equipment/Flashlights/Flashlight_Soviet_01.et" {
+   coords -0.366 0.82 -0.307
+   angleX 89.966
+   angleY -89.12
+  }
+  GenericEntity Compass_SY183_5A12DE851B89A121 : "{61D4F80E49BF9B12}Prefabs/Items/Equipment/Compass/Compass_SY183.et" {
+   coords -0.32 0.833 -0.407
+   angleY 90.88
+  }
+  GenericEntity Radio_ANPRC68_5A12DE856E9AE71D : "{73950FBA2D7DB5C5}Prefabs/Items/Equipment/Radios/Radio_ANPRC68.et" {
+   coords 0.316 0.806 -0.174
+   angleY 90.88
+  }
+  GenericEntity AspirinBottle_5A12DE84BF2FF3A1 : "{C98FCC6CA6C56069}Prefabs/Items/Medicine/AspirinBottle.et" {
+   coords 0.065 0.806 0.273
+   angleY 90.88
+  }
+  GenericEntity MRE_5A12DE84284E375D : "{EB21D26B8D5A3232}Prefabs/Items/Food/MRE.et" {
+   coords -0.242 0.806 0.25
+   angleY 90.88
+  }
+  GenericEntity Vest_Type56_5A132582AF214A16 : "{ED5574EA7F63B457}Prefabs/Characters/Vests/Vest_Type56/Vest_Type56.et" {
+   components {
+   }
+   coords 0.262 0.806 0.094
+   angleY 90.88
+  }
+  GenericEntity Binoculars_B12_5A12DE85C35BA3D4 : "{F2539FA5706E51E4}Prefabs/Items/Equipment/Binoculars/Binoculars_B12.et" {
+   coords -0.288 0.844 -0.567
+   angleY 90.88
   }
  }
- coords 107.46 0.001 144.663
-}
-GenericEntity AspirinBottle_5A12DE84BF2FF3A1 : "{C98FCC6CA6C56069}Prefabs/Items/Medicine/AspirinBottle.et" {
- coords 109.713 0.807 145.085
 }
 Vehicle M923A1_transport_covered_closed_MERDC1 : "{DC21E543DF39D2C0}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered_closed_MERDC.et" {
  components {
@@ -167,17 +170,6 @@ Vehicle M923A1_transport_covered_closed_MERDC1 : "{DC21E543DF39D2C0}Prefabs/Vehi
   }
  }
  coords 104.803 0.001 144.09
-}
-GenericEntity MRE_5A12DE84284E375D : "{EB21D26B8D5A3232}Prefabs/Items/Food/MRE.et" {
- coords 109.741 0.807 144.778
-}
-GenericEntity Vest_Type56_5A132582AF214A16 : "{ED5574EA7F63B457}Prefabs/Characters/Vests/Vest_Type56/Vest_Type56.et" {
- components {
- }
- coords 109.889 0.807 145.285
-}
-GenericEntity Binoculars_B12_5A12DE85C35BA3D4 : "{F2539FA5706E51E4}Prefabs/Items/Equipment/Binoculars/Binoculars_B12.et" {
- coords 110.558 0.845 144.745
 }
 Vehicle PersistentTestVehicle : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
  components {

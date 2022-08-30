@@ -3,35 +3,36 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 {
 	[Attribute(defvalue: "30", uiwidget: UIWidgets.Slider, desc: "Maximum time until the quickbar is synced after a change in SECONDS. Higher values reduce traffic.", params: "1 1000 1"), NonSerialized()]
 	int m_iMaxQuickbackSaveTime;
-	
+
 	ECharacterStance m_eStance;
-	
+
 	string m_sLeftHandItemId;
 	string m_sRightHandItemId;
 	EEquipItemType m_eRightHandType;
 	bool m_bRightHandRaised;
-	
+
 	ref array<ref EL_PersistentQuickSlotItem> m_aQuickSlotEntities;
-	
+
+	//------------------------------------------------------------------------------------------------
 	override bool ReadFrom(notnull IEntity worldEntity)
 	{
-		if(!super.ReadFrom(worldEntity)) return false;
-		
+		if (!super.ReadFrom(worldEntity)) return false;
+
 		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(worldEntity.FindComponent(CharacterControllerComponent));
-		if(characterController)
+		if (characterController)
 		{
 			m_eStance = characterController.GetStance();
-			
-			m_sLeftHandItemId = EL_PersistenceComponent.GetPersistentId(characterController.GetAttachedGadgetAtLeftHandSlot());			
+
+			m_sLeftHandItemId = EL_PersistenceComponent.GetPersistentId(characterController.GetAttachedGadgetAtLeftHandSlot());
 			m_sRightHandItemId = EL_PersistenceComponent.GetPersistentId(characterController.GetRightHandItem());
-			if(m_sRightHandItemId)
+			if (m_sRightHandItemId)
 			{
 				m_eRightHandType = EEquipItemType.EEquipTypeGeneric;
 			}
 			else
 			{
 				BaseWeaponManagerComponent weaponManager = characterController.GetWeaponManagerComponent();
-				if(weaponManager && weaponManager.GetCurrentSlot())
+				if (weaponManager && weaponManager.GetCurrentSlot())
 				{
 					m_sRightHandItemId = EL_PersistenceComponent.GetPersistentId(weaponManager.GetCurrentSlot().GetWeaponEntity());
 					m_eRightHandType = EEquipItemType.EEquipTypeWeapon;
@@ -39,9 +40,9 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 				}
 			}
 		}
-		
+
 		m_aQuickSlotEntities = new array<ref EL_PersistentQuickSlotItem>();
-		
+
 		SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(worldEntity.FindComponent(SCR_CharacterInventoryStorageComponent));
 		if (inventoryStorage)
 		{
@@ -57,14 +58,15 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
+	//------------------------------------------------------------------------------------------------
 	override protected bool SerializationSave(BaseSerializationSaveContext saveContext)
 	{
-		if(!super.SerializationSave(saveContext)) return false;
-		
+		if (!super.SerializationSave(saveContext)) return false;
+
 		saveContext.WriteValue("m_eStance", m_eStance);
 		saveContext.WriteValue("m_sLeftHandItemId", m_sLeftHandItemId);
 		saveContext.WriteValue("m_sRightHandItemId", m_sRightHandItemId);
@@ -73,11 +75,12 @@ class EL_CharacterSaveData : EL_EntitySaveDataBase
 		saveContext.WriteValue("m_aQuickSlotEntities", m_aQuickSlotEntities);
 		return true;
 	}
-	
+
+	//------------------------------------------------------------------------------------------------
 	override protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
 	{
-		if(!super.SerializationLoad(loadContext)) return false;
-		
+		if (!super.SerializationLoad(loadContext)) return false;
+
 		loadContext.ReadValue("m_eStance", m_eStance);
 		loadContext.ReadValue("m_sLeftHandItemId", m_sLeftHandItemId);
 		loadContext.ReadValue("m_sRightHandItemId", m_sRightHandItemId);

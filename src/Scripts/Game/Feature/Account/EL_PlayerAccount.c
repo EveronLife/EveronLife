@@ -2,7 +2,8 @@
 class EL_PlayerAccount : EL_PersistentScriptedStateBase
 {
 	ref array<string> m_aCharacterIds;
-	
+
+	//------------------------------------------------------------------------------------------------
 	static EL_PlayerAccount Create(string playerUid)
 	{
 		EL_PlayerAccount account();

@@ -4,7 +4,8 @@ class EL_TransformationSaveData : EL_ComponentSaveDataBase
 	vector	m_vOrigin;
 	vector	m_vAngles;
 	float	m_fScale;
-	
+
+	//------------------------------------------------------------------------------------------------
 	bool ReadFrom(IEntity worldEntity)
 	{
 		m_vOrigin	= worldEntity.GetOrigin();
@@ -12,7 +13,8 @@ class EL_TransformationSaveData : EL_ComponentSaveDataBase
 		m_fScale	= worldEntity.GetScale();
 		return true;
 	}
-	
+
+	//------------------------------------------------------------------------------------------------
 	bool ApplyTo(IEntity worldEntity)
 	{
 		EL_Utils.Teleport(worldEntity, m_vOrigin, m_vAngles, m_fScale);
