@@ -47,7 +47,7 @@ As primary reference for how to write your code pelase see these:
 - [Values](https://community.bistudio.com/wiki/Arma_Reforger:Scripting:_Values)
 
 #### Flavour choices
-There are some "flavour" choices left for the individual developer. Please respect other peoples choices and do not reformat their code to use your flavor if you do not *need* to touch that piece of code fo the task at hand.
+There are some "flavour" choices left for the individual developer. Please respect other people's choices and do not reformat their code to use your flavor if you do not *need* to touch that piece of code fo the task at hand.
 
 #### Variable names
 Keep variable names as short as possible and as long as needed to convey their meaning. E.g. `int vehicleArrayCount` could be turned into `int vehiclesCount` or just `int nVehicles`.
@@ -124,7 +124,7 @@ The [Arma Reforger Discord](https://discord.gg/arma) contains additional (often 
 - [Substance painter export remarks](https://discordapp.com/channels/105462288051380224/976231628785475624/977154368526753812)
 
 ### File sizes
-One important factor in deciding if an asset will be included is its filesize. Because of the size limitations for console mods the framework needs to shave off every KB it can to give the individual servers as much room for addtional asset mods as possible. Metrics for triangle counts and texture sizes depend heavily on the pyhsical size and if it is a hand helt item or not.
+One important factor in deciding if an asset will be included is its file size. Because of the size limitations for console mods the framework needs to shave off every KB it can to give the individual servers as much room for additional asset mods as possible. Metrics for triangle counts and texture sizes depend heavily on the physical size and if it is a hand held item or not.
 Most assets (mesh + textures + materials) will be between `100-250kb`. Some might be as big as 1-2mb, but **never more than 5mb**. Get in touch with the maintainers as early as possible to talk about what kind of asset you want to contribute and how much space can be allocated for it. A **few selected** assets might be allowed with larger file sizes if their value for the gameplay allows it.
 It is recommended to use techniques such as overlapping UV islands and tiling to reduce the texture sizes.
 
