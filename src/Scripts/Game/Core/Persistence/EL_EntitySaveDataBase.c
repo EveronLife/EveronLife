@@ -1,4 +1,4 @@
-[BaseContainerProps()]
+[EL_DbName(EL_EntitySaveDataBase, "Entity"), BaseContainerProps()]
 class EL_EntitySaveDataBase : EL_DbEntity
 {
 	[Attribute(desc: "Sava-data types for components to persist."), NonSerialized()]
@@ -163,32 +163,18 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		saveContext.WriteValue("m_iLastSaved", m_iLastSaved);
 		saveContext.WriteValue("m_rPrefab", m_rPrefab.Substring(1, m_rPrefab.IndexOf("}") - 1));
 
-		saveContext.StartObject("components");
-
-		// Include components order info so they can be read back in the same order again (important for binary formats)
-		array<string> componentTypesInOrder();
-		array<EL_ComponentSaveDataBase> writeComponents();
-
-		foreach (typename saveDataType, array<ref EL_ComponentSaveDataBase> componentsSaveData : m_mComponentsSaveData)
+		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
+		foreach (auto _, array<ref EL_ComponentSaveDataBase> componentsSaveData : m_mComponentsSaveData)
 		{
-			// If the same component type is included multiple times its written mutiple times
 			foreach (EL_ComponentSaveDataBase component : componentsSaveData)
 			{
-				componentTypesInOrder.Insert(EL_DbName.Get(saveDataType));
-				writeComponents.Insert(component);
+				EL_PersistentComponentSaveData container();
+				container.m_pData = component;
+				componentSaveDataWrapper.Insert(container);
 			}
 		}
 
-		// Order needs to be written first for binary file types
-		saveContext.WriteValue("order", componentTypesInOrder);
-
-		// Then component data block can be written
-		foreach (int idx, EL_ComponentSaveDataBase component : writeComponents)
-		{
-			saveContext.WriteValue(idx.ToString(), component);
-		}
-
-		saveContext.EndObject();
+		saveContext.WriteValue("m_aComponents", componentSaveDataWrapper);
 
 		return true;
 	}
@@ -209,29 +195,54 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		loadContext.ReadValue("m_rPrefab", m_rPrefab);
 		m_rPrefab = string.Format("{%1}", m_rPrefab);
 
-		loadContext.StartObject("components");
-
-		array<string> componentNamesInOrder;
-		loadContext.ReadValue("order", componentNamesInOrder);
-
 		m_mComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveDataBase>>();
 
-		foreach (int idx, string componentName : componentNamesInOrder)
+		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
+		loadContext.ReadValue("m_aComponents", componentSaveDataWrapper);
+		foreach (EL_PersistentComponentSaveData container : componentSaveDataWrapper)
 		{
-			typename componentSaveDataType = EL_DbName.GetTypeByName(componentName);
-			EL_ComponentSaveDataBase componentSaveData = EL_ComponentSaveDataBase.Cast(componentSaveDataType.Spawn());
-			loadContext.ReadValue(idx.ToString(), componentSaveData);
+			typename componentSaveDataType = container.m_pData.Type();
 
 			if (!m_mComponentsSaveData.Contains(componentSaveDataType))
 			{
-				m_mComponentsSaveData.Set(componentSaveDataType, {componentSaveData});
+				m_mComponentsSaveData.Set(componentSaveDataType, {container.m_pData});
 				continue;
 			}
 
-			m_mComponentsSaveData.Get(componentSaveDataType).Insert(componentSaveData);
+			m_mComponentsSaveData.Get(componentSaveDataType).Insert(container.m_pData);
 		}
 
-		loadContext.EndObject();
+		return true;
+	}
+}
+
+class EL_PersistentComponentSaveData
+{
+	ref EL_ComponentSaveDataBase m_pData;
+
+	//------------------------------------------------------------------------------------------------
+	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
+	{
+		if (!saveContext.IsValid()) return false;
+
+		saveContext.WriteValue("dataType", EL_DbName.Get(m_pData.Type()));
+		saveContext.WriteValue("m_pData", m_pData);
+
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
+	{
+		if (!loadContext.IsValid()) return false;
+
+		string dataTypeString;
+		loadContext.ReadValue("dataType", dataTypeString);
+		typename dataType = EL_DbName.GetTypeByName(dataTypeString);
+		if (!dataType) return false;
+
+		m_pData = EL_ComponentSaveDataBase.Cast(dataType.Spawn());
+		loadContext.ReadValue("m_pData", m_pData);
 
 		return true;
 	}

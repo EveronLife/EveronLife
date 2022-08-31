@@ -95,4 +95,34 @@ class EL_PersistentInventoryStorageSlot
 {
 	int m_iSlotId;
 	ref EL_EntitySaveDataBase m_pEntity;
+
+	//------------------------------------------------------------------------------------------------
+	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
+	{
+		if (!saveContext.IsValid()) return false;
+
+		saveContext.WriteValue("m_iSlotId", m_iSlotId);
+		saveContext.WriteValue("entityType", EL_DbName.Get(m_pEntity.Type()));
+		saveContext.WriteValue("m_pEntity", m_pEntity);
+
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
+	{
+		if (!loadContext.IsValid()) return false;
+
+		loadContext.ReadValue("m_iSlotId", m_iSlotId);
+
+		string entityTypeString;
+		loadContext.ReadValue("entityType", entityTypeString);
+		typename entityType = EL_DbName.GetTypeByName(entityTypeString);
+		if (!entityType) return false;
+
+		m_pEntity = EL_EntitySaveDataBase.Cast(entityType.Spawn());
+		loadContext.ReadValue("m_pEntity", m_pEntity);
+
+		return true;
+	}
 }
