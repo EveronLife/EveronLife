@@ -46,7 +46,7 @@ The UUID is generated in script to avoid any round trips to the database and all
 | 5a3ea1c5     | - | 0000      | - | 0001     | - | 0000          | - | 0018         | 21094200 |
 |--------------|---|-----------|---|----------|---|---------------|---|--------------|----------|
 | DateTime UTC |   | Hive High |   | Hive Low |   | Sequence High |   | Sequence Low | Random   |
-- `DateTime UTC` (not UNIX, see `EL_DateTimeUtcAsInt`) gives the ID general sortability for binary tree-based storage systems and minimizes collisions as each ID becomes unique per second
+- `DateTime UTC` (not UNIX, see [`EL_DateTimeUtcAsInt`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/EL_DateTimeUtcAsInt.c)) gives the ID general sortability for binary tree-based storage systems and minimizes collisions as each ID becomes unique per second
 - `Hive` is an index given to each hive connected to the database system. As long as hives are not needed this is always index `1`.
 - `Sequence` gives guaranteed uniqueness to the ID due to the combination with the timestamp. Starts at 0 per session. There can be skips in the sequence number.
 - `Random` aims to minimize predictability by malicious actors. 
