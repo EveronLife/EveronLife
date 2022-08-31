@@ -126,19 +126,19 @@ EL_DbFind.And({
 Combining all of this together provides various ways to write precise database queries:
 ```cs
 EL_DbFindCondition condition = EL_DbFind.Or({
-    EL_DbFind.Field("A").Not().Null(),
-    EL_DbFind.Field("B").Empty(),
-    EL_DbFind.And({
-        EL_DbFind.Field("CString").Contains("SubString"),
-        EL_DbFind.Field("DFloatArray").Equals(EL_DbValues<bool>.From({true, false, true, true})),
-        EL_DbFind.And({
-            EL_DbFind.Field("E.m_Numbers").Contains(100),
-            EL_DbFind.Field("F.m_ComplexWrapperSet").FirstOf(Class).Field("someNumber").Not().EqualsAnyOf(EL_DbValues<int>.From({1, 2}))
-        }),
-        EL_DbFind.Or({
-            EL_DbFind.Field("G").EqualsAnyOf(EL_DbValues<int>.From({12, 13}))
-        })
-    })
+	EL_DbFind.Field("A").Not().Null(),
+	EL_DbFind.Field("B").Empty(),
+	EL_DbFind.And({
+		EL_DbFind.Field("CString").Contains("SubString"),
+		EL_DbFind.Field("DFloatArray").Equals(EL_DbValues<bool>.From({true, false, true, true})),
+		EL_DbFind.And({
+			EL_DbFind.Field("E.m_Numbers").Contains(100),
+			EL_DbFind.Field("F.m_ComplexWrapperSet").FirstOf(Class).Field("someNumber").Not().EqualsAnyOf(EL_DbValues<int>.From({1, 2}))
+		}),
+		EL_DbFind.Or({
+			EL_DbFind.Field("G").EqualsAnyOf(EL_DbValues<int>.From({12, 13}))
+		})
+	})
 });
 ```
 
