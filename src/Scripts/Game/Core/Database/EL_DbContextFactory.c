@@ -4,6 +4,10 @@ sealed class EL_DbContextFactory
 	private static ref map<string, ref EL_DbContext> s_ContextCache;
 
 	//------------------------------------------------------------------------------------------------
+	//! Gets or creates a databse context instance
+	//! \param dataSource Data source name defined in the server configuration
+	//! \param useCache If true the context is cached per data source and returned on the next GetContext use
+	//! \return context instance or null on missconfiguration of the data source.
 	static EL_DbContext GetContext(string dataSource = EL_DbContextFactory.DEFAULT_SOURCE, bool useCache = true)
 	{
 		EL_DbContext context = null;
