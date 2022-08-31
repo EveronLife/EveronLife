@@ -99,7 +99,7 @@ auto myVeryLongComponent = EL_SomeVeryLongComponentName.Cast(entity.FindComponen
 The core of the framework will only ship assets that are needed for the minimal gameplay prototype. More variants or visual styles that do not fit with other existing assets are instead to be included within a seperate or even third party asset pack. Triple-check that the base game or the framework does not already have an asset that could be re-purposed with new materials/textures.
 
 ### Shared directories
-For some asset types there might be many of the same type. E.g. mutliple kinds of food like `Apple`, `Orange`, `Plum`. They are allowed to be put into one directory, then also sharing the same `Data` folder, as they are distinct by their names. If there is a logical grouping of many sub variants that belong together they can of course be put into a seperate sub folder that has its own `Data` folder then.
+For some asset types there might be many of the same type. E.g. multiple kinds of food like `Apple`, `Orange`, `Plum`. They are allowed to be put into one directory, then also sharing the same `Data` folder, as they are distinct by their names. If there is a logical grouping of many sub variants that belong together they can of course be put into a separate sub folder that has its own `Data` folder then.
 
 ### Data directory
 On import the game automatically creates a data folder for textures and materials used. Due to a [bug](https://feedback.bistudio.com/T165764) in the workbench the casing is incorrect. Always **manually** create a `Data` folder in the directory you want to import the object into.
