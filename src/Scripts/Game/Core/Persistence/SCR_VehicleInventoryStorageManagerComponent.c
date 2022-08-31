@@ -1,22 +1,22 @@
 modded class SCR_VehicleInventoryStorageManagerComponent
 {
-    //------------------------------------------------------------------------------------------------
-    override protected void OnItemAdded(BaseInventoryStorageComponent storageOwner, IEntity item)
-    {
-        super.OnItemAdded(storageOwner, item);
+	//------------------------------------------------------------------------------------------------
+	override protected void OnItemAdded(BaseInventoryStorageComponent storageOwner, IEntity item)
+	{
+		super.OnItemAdded(storageOwner, item);
 
-        EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
+		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
 
-        if (persistenceComponent) persistenceComponent.OnStorageParentChanged(item, storageOwner.GetOwner());
-    }
+		if (persistenceComponent) persistenceComponent.OnStorageParentChanged(item, storageOwner.GetOwner());
+	}
 
-    //------------------------------------------------------------------------------------------------
-    override protected void OnItemRemoved(BaseInventoryStorageComponent storageOwner, IEntity item)
-    {
-        super.OnItemRemoved(storageOwner, item);
+	//------------------------------------------------------------------------------------------------
+	override protected void OnItemRemoved(BaseInventoryStorageComponent storageOwner, IEntity item)
+	{
+		super.OnItemRemoved(storageOwner, item);
 
-        EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
+		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
 
-        if (persistenceComponent) persistenceComponent.OnStorageParentChanged(item, null);
-    }
+		if (persistenceComponent) persistenceComponent.OnStorageParentChanged(item, null);
+	}
 }

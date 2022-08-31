@@ -492,22 +492,22 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 		string id;
 
 		if (m_eState == EL_EPersistenceManagerState.WORLD_INIT)
-        {
+		{
 			IEntity worldEntity = persistenceComponent.GetOwner();
-            string name = worldEntity.GetName();
-            if (!name) return string.Empty;
+			string name = worldEntity.GetName();
+			if (!name) return string.Empty;
 
 			id = m_pBakedEntityNameIdMapping.GetIdByName(name);
 
-            if (!id)
-            {
-                id = EL_DbEntityIdGenerator.Generate();
-                EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
-                m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
-            }
+			if (!id)
+			{
+				id = EL_DbEntityIdGenerator.Generate();
+				EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
+				m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
+			}
 
 			m_mBackedEntities.Set(id, worldEntity);
-        }
+		}
 		else if (m_sNextPersistentId)
 		{
 			id = m_sNextPersistentId;

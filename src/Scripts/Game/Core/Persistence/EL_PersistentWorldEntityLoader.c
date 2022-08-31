@@ -45,9 +45,9 @@ class EL_PersistentWorldEntityLoader
 	static IEntity Load(typename saveDataType, string persistentId)
 	{
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-	    array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1).GetEntities();
-	    if (!findResults || findResults.Count() != 1) return null;
-	    return persistenceManager.SpawnWorldEntity(EL_EntitySaveDataBase.Cast(findResults.Get(0)));
+		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1).GetEntities();
+		if (!findResults || findResults.Count() != 1) return null;
+		return persistenceManager.SpawnWorldEntity(EL_EntitySaveDataBase.Cast(findResults.Get(0)));
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ class EL_PersistentWorldEntityLoader
 	{
 		EL_WorldEntityLoaderProcessorCallbackSingle processorCallback();
 		processorCallback.Setup(callback);
-	    EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1, callback: processorCallback);
+		EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1, callback: processorCallback);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -88,17 +88,17 @@ class EL_PersistentWorldEntityLoader
 		array<IEntity> resultWorldEntities();
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-	    array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
-	    if (findResults)
+		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
+		if (findResults)
 		{
-		    foreach (EL_DbEntity findResult : findResults)
-		    {
-		        IEntity worldEntity = persistenceManager.SpawnWorldEntity(EL_EntitySaveDataBase.Cast(findResult));
-		        if (worldEntity) resultWorldEntities.Insert(worldEntity);
-		    }
+			foreach (EL_DbEntity findResult : findResults)
+			{
+				IEntity worldEntity = persistenceManager.SpawnWorldEntity(EL_EntitySaveDataBase.Cast(findResult));
+				if (worldEntity) resultWorldEntities.Insert(worldEntity);
+			}
 		}
 
-	    return resultWorldEntities;
+		return resultWorldEntities;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -138,32 +138,32 @@ class EL_WorldEntityLoaderCallbackSingle : EL_WorldEntityLoaderCallback
 {
 	//------------------------------------------------------------------------------------------------
 	void Invoke(IEntity data)
-    {
-        if (m_pInvokeInstance &&
-            m_sInvokeMethodName &&
-            GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
+	{
+		if (m_pInvokeInstance &&
+			m_sInvokeMethodName &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
 
-        OnComplete(m_pContext, data);
-    }
+		OnComplete(m_pContext, data);
+	}
 
 	//------------------------------------------------------------------------------------------------
-    void OnComplete(Managed context, IEntity data);
+	void OnComplete(Managed context, IEntity data);
 }
 
 class EL_WorldEntityLoaderCallbackMultiple : EL_WorldEntityLoaderCallback
 {
-    //------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------
 	void Invoke(array<IEntity> data)
-    {
-        if (m_pInvokeInstance &&
-            m_sInvokeMethodName &&
-            GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
+	{
+		if (m_pInvokeInstance &&
+			m_sInvokeMethodName &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
 
-        OnComplete(m_pContext, data);
-    }
+		OnComplete(m_pContext, data);
+	}
 
 	//------------------------------------------------------------------------------------------------
-    void OnComplete(Managed context, array<IEntity> data);
+	void OnComplete(Managed context, array<IEntity> data);
 }
 
 class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_EntitySaveDataBase>

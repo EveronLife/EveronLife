@@ -139,21 +139,21 @@ class EL_Utils
 
 		int resultIdx = 7;
 
-        while (value)
+		while (value)
 		{
-            int remainder = value % 16;
+			int remainder = value % 16;
 
-            if (remainder < 10)
+			if (remainder < 10)
 			{
-                resultChars.Set(resultIdx--, remainder.ToString());
-            }
-            else
+				resultChars.Set(resultIdx--, remainder.ToString());
+			}
+			else
 			{
-                resultChars.Set(resultIdx--, (remainder + asciiOffset).AsciiToString());
-            }
+				resultChars.Set(resultIdx--, (remainder + asciiOffset).AsciiToString());
+			}
 
-            value /= 16;
-        }
+			value /= 16;
+		}
 
 		string result;
 		bool nonZero;

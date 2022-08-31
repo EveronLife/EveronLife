@@ -151,7 +151,7 @@ class EL_ScriptedStateSaveDataBase : EL_DbEntity
 class EL_PersistentScriptedStateSettings
 {
 	protected static ref map<typename, ref EL_PersistentScriptedStateSettings> m_Settings;
-    protected static ref map<typename, typename> m_ReverseMapping;
+	protected static ref map<typename, typename> m_ReverseMapping;
 
 	typename m_tSaveDataType;
 	bool m_bAutosave;
@@ -159,12 +159,12 @@ class EL_PersistentScriptedStateSettings
 	bool m_bSelfDelete;
 
 	//------------------------------------------------------------------------------------------------
-    static EL_PersistentScriptedStateSettings Get(typename scriptedStateType)
-    {
-        if (!m_Settings) return null;
+	static EL_PersistentScriptedStateSettings Get(typename scriptedStateType)
+	{
+		if (!m_Settings) return null;
 
-        return m_Settings.Get(scriptedStateType);
-    }
+		return m_Settings.Get(scriptedStateType);
+	}
 
 	//------------------------------------------------------------------------------------------------
 	static typename GetScriptedStateType(typename saveDataType)
@@ -177,10 +177,10 @@ class EL_PersistentScriptedStateSettings
 	//------------------------------------------------------------------------------------------------
 	void EL_PersistentScriptedStateSettings(typename scriptedStateType, typename saveDataType, bool autoSave = true, bool shutDownSave = true, bool selfDelete = true)
 	{
-        if (!saveDataType.IsInherited(EL_ScriptedStateSaveDataBase))
-        {
-            Debug.Error(string.Format("Failed to register '%1' as persistence save struct for '%2'. '%1' must inherit from '%3'.", saveDataType, scriptedStateType, EL_ScriptedStateSaveDataBase));
-        }
+		if (!saveDataType.IsInherited(EL_ScriptedStateSaveDataBase))
+		{
+			Debug.Error(string.Format("Failed to register '%1' as persistence save struct for '%2'. '%1' must inherit from '%3'.", saveDataType, scriptedStateType, EL_ScriptedStateSaveDataBase));
+		}
 
 		if (!m_Settings)
 		{
@@ -194,6 +194,6 @@ class EL_PersistentScriptedStateSettings
 		m_bSelfDelete = selfDelete;
 
 		m_Settings.Set(scriptedStateType, this);
-        m_ReverseMapping.Set(saveDataType, scriptedStateType);
+		m_ReverseMapping.Set(saveDataType, scriptedStateType);
 	}
 }
