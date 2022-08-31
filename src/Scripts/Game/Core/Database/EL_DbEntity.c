@@ -1,3 +1,32 @@
+[EL_DbName(EL_DbEntity, "DbEntity")]
+class EL_DbEntity
+{
+	static const string FIELD_ID = "m_sId";
+
+	private string m_sId;
+
+	//------------------------------------------------------------------------------------------------
+	//! Get the unique id of the db entity. Guaranteed to remain a string in any future version
+	string GetId()
+	{
+		return m_sId;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Set the unique id on the db entity. Must always be a string!
+	void SetId(string id)
+	{
+		m_sId = id;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Check if an id has been assigned
+	bool HasId()
+	{
+		return m_sId;
+	}
+}
+
 class EL_DbName
 {
 	protected static ref map<typename, string> m_mMapping;
@@ -49,33 +78,4 @@ class EL_DbName
 		Set(entityType, name);
 	}
 
-}
-
-[EL_DbName(EL_DbEntity, "DbEntity")]
-class EL_DbEntity
-{
-	static const string FIELD_ID = "m_sId";
-
-	private string m_sId;
-
-	//------------------------------------------------------------------------------------------------
-	//! Get the unique id of the db entity. Guaranteed to remain a string in any future version
-	string GetId()
-	{
-		return m_sId;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Set the unique id on the db entity. Must always be a string!
-	void SetId(string id)
-	{
-		m_sId = id;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Check if an id has been assigned
-	bool HasId()
-	{
-		return m_sId;
-	}
 }
