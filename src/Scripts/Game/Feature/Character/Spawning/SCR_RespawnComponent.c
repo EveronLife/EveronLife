@@ -128,7 +128,7 @@ modded class SCR_RespawnComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Start applying save data clientside after taking control of the character
+	//! Start applying save-data clientside after taking control of the character
 	protected void ApplyDeferredPhase1()
 	{
 		if (!EL_m_pRespawnCharacterState) return;

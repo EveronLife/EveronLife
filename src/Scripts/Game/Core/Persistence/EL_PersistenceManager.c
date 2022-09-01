@@ -231,7 +231,7 @@ class EL_PersistenceManager
 			if (idx != -1) m_pRootEntityCollection.m_aRemovedBackedEntities.Remove(idx);
 		}
 
-		// Apply save data to baked entities
+		// Apply save-data to baked entities
 		foreach (string persistentId, IEntity bakedEntity : m_mBackedEntities)
 		{
 			EL_EntitySaveDataBase saveData = m_mInitEntitySaveData.Get(persistentId);

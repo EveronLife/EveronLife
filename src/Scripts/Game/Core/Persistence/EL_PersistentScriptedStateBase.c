@@ -23,7 +23,7 @@ class EL_PersistentScriptedStateBase
 
 	//------------------------------------------------------------------------------------------------
 	//! Save the scripted state to the database
-	//! \return the save data instance that was submitted to the database
+	//! \return the save-data instance that was submitted to the database
 	EL_ScriptedStateSaveDataBase Save()
 	{
 		if (m_bDetatched || !m_sId) return null;
@@ -45,7 +45,7 @@ class EL_PersistentScriptedStateBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load existing save data to apply to this scripted state
+	//! Load existing save-data to apply to this scripted state
 	bool Load(notnull EL_ScriptedStateSaveDataBase saveData)
 	{
 		if (m_bDetatched || !saveData.GetId() || !saveData.ApplyTo(this))

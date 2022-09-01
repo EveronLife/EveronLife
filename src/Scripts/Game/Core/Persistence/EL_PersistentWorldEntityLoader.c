@@ -3,43 +3,8 @@ class EL_PersistentWorldEntityLoader
 	protected static ref map<string, typename> m_SaveDataTypeCache;
 
 	//------------------------------------------------------------------------------------------------
-	protected static typename GetSaveDataType(string prefab)
-	{
-		if (!m_SaveDataTypeCache) m_SaveDataTypeCache = new map<string, typename>();
-
-		typename resultType = m_SaveDataTypeCache.Get(prefab);
-
-		if (!resultType)
-		{
-			Resource resource = Resource.Load(prefab);
-			if (resource && resource.IsValid())
-			{
-				IEntitySource entitySource = resource.GetResource().ToEntitySource();
-				for (int nComponentSource = 0, count = entitySource.GetComponentCount(); nComponentSource < count; nComponentSource++)
-				{
-					IEntityComponentSource componentSource = entitySource.GetComponent(nComponentSource);
-					typename componentType = componentSource.GetClassName().ToType();
-					if (componentType.IsInherited(EL_PersistenceComponent))
-					{
-						BaseContainer saveDataContainer = componentSource.GetObject("m_pSaveData");
-						if (saveDataContainer)
-						{
-							resultType = saveDataContainer.GetClassName().ToType();
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		m_SaveDataTypeCache.Set(prefab, resultType);
-
-		return resultType;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Load and spawn an entity by save data type and persistent id
-	//! \param saveDataType Save data type of the entity
+	//! Load and spawn an entity by save-data type and persistent id
+	//! \param saveDataType save-data type of the entity
 	//! \param persistentId Persistent id
 	//! \return Spawned entity or null on failure
 	static IEntity Load(typename saveDataType, string persistentId)
@@ -79,8 +44,8 @@ class EL_PersistentWorldEntityLoader
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load and spawn multiple entities by save data type and persistent ids
-	//! \param saveDataType Save data type of the entities
+	//! Load and spawn multiple entities by save-data type and persistent ids
+	//! \param saveDataType save-data type of the entities
 	//! \param persistentId Array of persistent ids
 	//! \return array of entities if spawned successfully, else empty
 	static array<IEntity> Load(typename saveDataType, array<string> persistentIds)
@@ -127,6 +92,41 @@ class EL_PersistentWorldEntityLoader
 	{
 		typename type = GetSaveDataType(prefab); // Can not be inlined because of typename crash bug
 		LoadAsync(type, persistentIds, callback);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected static typename GetSaveDataType(string prefab)
+	{
+		if (!m_SaveDataTypeCache) m_SaveDataTypeCache = new map<string, typename>();
+
+		typename resultType = m_SaveDataTypeCache.Get(prefab);
+
+		if (!resultType)
+		{
+			Resource resource = Resource.Load(prefab);
+			if (resource && resource.IsValid())
+			{
+				IEntitySource entitySource = resource.GetResource().ToEntitySource();
+				for (int nComponentSource = 0, count = entitySource.GetComponentCount(); nComponentSource < count; nComponentSource++)
+				{
+					IEntityComponentSource componentSource = entitySource.GetComponent(nComponentSource);
+					typename componentType = componentSource.GetClassName().ToType();
+					if (componentType.IsInherited(EL_PersistenceComponent))
+					{
+						BaseContainer saveDataContainer = componentSource.GetObject("m_pSaveData");
+						if (saveDataContainer)
+						{
+							resultType = saveDataContainer.GetClassName().ToType();
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		m_SaveDataTypeCache.Set(prefab, resultType);
+
+		return resultType;
 	}
 }
 

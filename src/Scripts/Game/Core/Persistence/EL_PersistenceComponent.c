@@ -62,7 +62,7 @@ class EL_PersistenceComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Save the entity to the database
-	//! \return the save data instance that was submitted to the database
+	//! \return the save-data instance that was submitted to the database
 	EL_EntitySaveDataBase Save()
 	{
 		if (m_bDetatched || !m_sId) return null;
@@ -99,7 +99,7 @@ class EL_PersistenceComponent : ScriptComponent
 		else if (m_bSavedAsStorageRoot)
 		{
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
-			// The save data will be present inside the storage parent instead.
+			// The save-data will be present inside the storage parent instead.
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
 			m_bSavedAsStorageRoot = false;
 		}
@@ -108,7 +108,7 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load existing save data to apply to this entity
+	//! Load existing save-data to apply to this entity
 	bool Load(notnull EL_EntitySaveDataBase saveData)
 	{
 		if (m_bDetatched || !saveData.GetId() || !saveData.ApplyTo(GetOwner()))
@@ -252,9 +252,9 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Get the instance of save data or component save data that was configured in the prefab/world editor. Used only to derive configuration attributes.
-	//! \param attributeHolderType typename of the entity or component save data which should be returned
-	//! \return instance of the save data or null if not found
+	//! Get the instance of save-data or component save-data that was configured in the prefab/world editor. Used only to derive configuration attributes.
+	//! \param attributeHolderType typename of the entity or component save-data which should be returned
+	//! \return instance of the save-data or null if not found
 	Class GetAttributeInstance(typename attributeHolderType)
 	{
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));

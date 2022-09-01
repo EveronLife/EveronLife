@@ -67,7 +67,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Spawn the world entity based on this save data instance
+	//! Spawn the world entity based on this save-data instance
 	//! \return world entity or null if it could not be correctly spawned/loaded
 	IEntity Spawn()
 	{
@@ -75,9 +75,9 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Applies the save data a world entity
+	//! Applies the save-data a world entity
 	//! \param worldEntity the entity to apply the data to
-	//! \return true if save data could be applied, false if something failed.
+	//! \return true if save-data could be applied, false if something failed.
 	bool ApplyTo(notnull IEntity worldEntity)
 	{
 		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
@@ -104,11 +104,11 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	//------------------------------------------------------------------------------------------------
 	protected bool ApplyComponentTo(typename componentSaveDataType, IEntity worldEntity, set<typename> processedSaveDataTypes, set<Managed> processedInstances, EL_PersistenceComponentClass settings)
 	{
-		// Skip already processed save data
+		// Skip already processed save-data
 		if (processedSaveDataTypes.Contains(componentSaveDataType)) return true;
 		processedSaveDataTypes.Insert(componentSaveDataType);
 
-		// Make sure required save data is already applied
+		// Make sure required save-data is already applied
 		array<ref EL_ComponentSaveDataBase> componentsSaveData = m_mComponentsSaveData.Get(componentSaveDataType);
 		if (!componentsSaveData || componentsSaveData.IsEmpty()) return true;
 
@@ -126,7 +126,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 			}
 		}
 
-		// Apply save data to matching components
+		// Apply save-data to matching components
 		array<Managed> outComponents();
 		worldEntity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataType), outComponents);
 		foreach (EL_ComponentSaveDataBase componentSaveData : componentsSaveData)
