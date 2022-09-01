@@ -120,7 +120,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		Tuple3<int, string, string> characterContext(playerInfo.param1, playerInfo.param2, characterId);
 		EL_DbFindCallbackSingle<EL_CharacterSaveData> characterDataCallback(characterContext);
 		characterDataCallback.ConfigureInvoker(this, "OnCharacterDataLoaded");
-		EL_PersistenceRepository<EL_CharacterSaveData>.Get().FindAsync(characterId, characterDataCallback);
+		EL_PersistenceEntityHelper<EL_CharacterSaveData>.GetRepository().FindAsync(characterId, characterDataCallback);
 	}
 
 	//------------------------------------------------------------------------------------------------

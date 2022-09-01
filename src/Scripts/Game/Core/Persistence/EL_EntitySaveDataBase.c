@@ -161,7 +161,10 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		saveContext.WriteValue("m_sId", GetId());
 		saveContext.WriteValue("m_iLastSaved", m_iLastSaved);
-		saveContext.WriteValue("m_rPrefab", m_rPrefab.Substring(1, m_rPrefab.IndexOf("}") - 1));
+		
+		string prefabString = m_rPrefab;
+		if (prefabString.StartsWith("{")) prefabString = m_rPrefab.Substring(1, m_rPrefab.IndexOf("}") - 1);
+		saveContext.WriteValue("m_rPrefab", prefabString);
 
 		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
 		foreach (auto _, array<ref EL_ComponentSaveDataBase> componentsSaveData : m_mComponentsSaveData)
@@ -193,7 +196,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 		loadContext.ReadValue("m_iLastSaved", m_iLastSaved);
 
 		loadContext.ReadValue("m_rPrefab", m_rPrefab);
-		m_rPrefab = string.Format("{%1}", m_rPrefab);
+		if (m_rPrefab) m_rPrefab = string.Format("{%1}", m_rPrefab);
 
 		m_mComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveDataBase>>();
 

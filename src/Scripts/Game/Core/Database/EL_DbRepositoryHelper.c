@@ -7,7 +7,6 @@ class EL_DbEntityHelper<Class TEntityType>
 	static EL_DbRepository<TEntityType> GetRepository(notnull EL_DbContext dbContext)
 	{
 		typename repositoryType = EL_DbRepositoryType.Get(TEntityType); // Can not be inlined or else illegal read happens because of bug in scriptvm.
-
 		if (!repositoryType)
 		{
 			string repositoryTypeStr = string.Format("EL_DbRepository<%1>", TEntityType);
