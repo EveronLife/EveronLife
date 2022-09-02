@@ -70,32 +70,35 @@ GenericEntity TomatoTrader {
     Flags 1027
    }
    TomatoTraderTestItems {
-    coords -0.774 0.956 0.18
+    coords -0.774 0.899 0.18
     {
      $grp GenericEntity : "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et" {
       {
-       coords 0.096 -0.025 -0.048
+       coords 0.168 -0 0.18
       }
       {
-       coords 0.096 -0.025 0.084
+       coords 0.086 -0.001 0.18
       }
       {
-       coords 0.201 -0.025 0.012
+       coords 0.001 -0.001 0.18
       }
       {
-       coords -0.008 -0.025 0.012
+       coords 0.125 -0 0.089
       }
       {
-       coords -0.008 -0.025 0.146
+       coords 0.043 -0 0.089
       }
       {
-       coords -0.123 -0.025 0.108
+       coords -0.042 -0 0.089
       }
       {
-       coords -0.123 -0.025 -0.019
+       coords 0.158 -0 -0.012
       }
       {
-       coords -0.02 -0.025 -0.105
+       coords 0.076 -0 -0.012
+      }
+      {
+       coords -0.009 -0 -0.012
       }
      }
     }

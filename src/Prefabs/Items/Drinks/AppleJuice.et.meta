@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+ Name "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

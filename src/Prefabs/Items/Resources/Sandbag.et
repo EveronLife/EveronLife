@@ -5,7 +5,6 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    Filenames {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
-   OnFrameUpdate 0
   }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
@@ -32,7 +31,6 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      }
     }
     m_Size SLOT_2x1
-    m_SlotType SLOT_ANY
    }
   }
   MeshObject "{598A687919431AE1}" {
@@ -63,10 +61,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      Position PointInfo "{508AC2ABEAC4A0F5}" {
       Offset -0.1 0.2 0
      }
-     Radius 0.5
     }
-   }
-   additionalActions {
    }
   }
  }

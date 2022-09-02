@@ -5,7 +5,6 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    Filenames {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
-   OnFrameUpdate 0
   }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
@@ -31,11 +30,6 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      HandAdditiveRotation 90 0 -90
      HandAdditiveTranslation 0 0.02 0
     }
-    CustomAttributes {
-     ItemActionAnimAttributes "{5966FD80994B5908}" {
-      ActionType Bandage
-     }
-    }
    }
   }
   MeshObject "{59652C0ACB87CEB7}" {
@@ -43,20 +37,8 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    LODScale 0.1
    PixelSizeScale 10
   }
-  RigidBody "{59652C0ACB87CE82}" {
-   Enabled 0
-   LinearDamping 0.5
-   AngularDamping 0.5
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-   CCDRadius 0.015
-  }
   SCR_ConsumableItemComponent "{5966FECAA294E6A7}" {
    m_eAnimVariable ADRIANOV
-  }
-  ActionsManagerComponent "{508AB5952B584B2E}" {
-   additionalActions {
-   }
   }
  }
 }
