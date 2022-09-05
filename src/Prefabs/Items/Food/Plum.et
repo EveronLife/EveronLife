@@ -1,12 +1,6 @@
-GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "508AB2013EEE1E00"
  components {
-  SoundComponent "{597CB6B0AB826EED}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-   OnFrameUpdate 0
-  }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
@@ -29,33 +23,15 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
       }
      }
      HandAdditiveRotation 65.9 0 0
-     HandAdditiveTranslation -0.025 0.03 0
-    }
-    CustomAttributes {
-     ItemActionAnimAttributes "{597CB6B0AB826EDE}" {
-      ActionType Bandage
-     }
+     HandAdditiveTranslation -0.025 0.011 0
     }
    }
   }
-  MeshObject "{597CB6B0AB826ED8}" {
-   Object "{1768DEF76C703B91}Assets/Items/Food/Plum/Plum.xob"
-  }
-  RigidBody "{597CB6B0AB826ED9}" {
-   Enabled 0
-   LinearDamping 0.5
-   AngularDamping 0.5
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-   CCDRadius 0.015
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{3EB653D9ECE9E4E9}Assets/Items/Food/Plum/Plum.xob"
   }
   SCR_ConsumableItemComponent "{597CB6B0AB826EDB}" {
    m_eAnimVariable ADRIANOV
   }
-  ActionsManagerComponent "{508AB5952B584B2E}" {
-   additionalActions {
-   }
-  }
  }
- coords 3118.714 15.855 2738.387
 }

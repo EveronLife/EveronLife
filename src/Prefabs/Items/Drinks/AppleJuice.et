@@ -1,4 +1,4 @@
-GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "508AB2013EEE1E00"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
@@ -11,9 +11,8 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     }
    }
   }
-  MeshObject "{598F21A81E1F41BF}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{240D853DBB045D05}Assets/Props/Civilian/BeerBottle_01/BeerBottle_01.xob"
   }
  }
- coords 110.025 0.917 134.781
 }

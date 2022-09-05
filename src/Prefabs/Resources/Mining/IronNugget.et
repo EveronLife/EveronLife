@@ -1,23 +1,22 @@
-GenericEntity {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "59A730891D62ED4E"
  components {
-  SoundComponent "{59A730880E261EDA}" {
+  SoundComponent "{5A4ADB24952425BA}" {
    Filenames {
     "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
    }
   }
-  InventoryItemComponent "{59A730880E261EB0}" {
-   Attributes SCR_ItemAttributeCollection "{59A730880E261EB1}" {
-    ItemDisplayName UIInfo "{59A730880E261EC8}" {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Iron Nugget"
      Description "A piece of iron ore"
     }
-    ItemPhysAttributes ItemPhysicalAttributes "{59A730880E261ECE}" {
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
      Weight 0.8
      SizeSetupStrategy Scaler
      ItemDimensions 0.01 0.01 0.01
      ItemVolume 0.01
-     ActivePhysicalSimulation Collision
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59A730880E261EBB}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
@@ -29,22 +28,21 @@ GenericEntity {
        BindingName "Gadget"
       }
      }
-     HandAdditiveRotation 0 0 0
-     HandAdditiveTranslation 0 0 0
+     HandAdditiveRotation 0 90 180
+     HandAdditiveTranslation 0 0.01 -0.015
     }
     CustomAttributes {
      PreviewRenderAttributes "{59A730880E261EBE}" {
       CameraPreset Top
       CameraOrbitAngles 0 0 0
-      CameraDistanceToItem 0.15
-      CameraOffset 0 0 0
-      ItemRenderRotation 0 0 90
+      CameraDistanceToItem 0.19
+      CameraOffset 0 -0.01 0
+      ItemRenderRotation 0 0 0
      }
     }
-    m_SlotType SLOT_LOOT_STORAGE
    }
   }
-  MeshObject "{59A730880E261EAB}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{6E7678CE6CD95DFD}Assets/Resources/Mining/MetalNugget.xob"
    Materials {
     MaterialAssignClass "{59A730883D27F65B}" {
@@ -53,34 +51,8 @@ GenericEntity {
     }
    }
   }
-  RigidBody "{59A730880E261EAD}" {
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-  }
   SCR_ConsumableItemComponent "{59A730880E261EA1}" {
-   m_eAnimVariable 2147483647
-  }
-  ActionsManagerComponent "{59A730880E26C329}" {
-   ActionContexts {
-    UserActionContext "{59A730880E26C326}" {
-     ContextName "default"
-     Position PointInfo "{59A730880E261E9B}" {
-     }
-    }
-   }
-   additionalActions {
-    SCR_PickUpItemAction "{59A730880E26C328}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{59A730880E26C32F}" {
-      Name "#AR-Inventory_PickUp"
-     }
-    }
-   }
-  }
-  RplComponent "{59A730880E26C32A}" {
+   m_eAnimVariable ADRIANOV
   }
  }
- coords 111.037 0.91 134.95
 }

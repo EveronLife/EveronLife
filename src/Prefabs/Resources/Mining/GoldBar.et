@@ -1,21 +1,20 @@
-GenericEntity {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "59A73089E432894C"
  components {
-  SoundComponent "{59A730880E2662BF}" {
+  SoundComponent "{5A4ADB24952425BA}" {
    Filenames {
     "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
    }
   }
-  InventoryItemComponent "{59A730880E26624C}" {
-   Attributes SCR_ItemAttributeCollection "{59A730880E26624D}" {
-    ItemDisplayName UIInfo "{59A730880E26627B}" {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Gold Bar"
      Description "Smelted piece of gold. Shiny"
     }
-    ItemPhysAttributes ItemPhysicalAttributes "{59A730880E266272}" {
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
      Weight 12.5
      ItemVolume 113
-     ActivePhysicalSimulation Collision
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59A730880E26625E}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
@@ -39,10 +38,10 @@ GenericEntity {
       ItemRenderRotation 0 0 -90
      }
     }
-    m_SlotType SLOT_LOOT_STORAGE
+    m_Size SLOT_2x1
    }
   }
-  MeshObject "{59A730880E266233}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{75ABFBE70F78E212}Assets/Resources/Mining/MetalBar.xob"
    Materials {
     MaterialAssignClass "{59A7308807FEF850}" {
@@ -51,34 +50,8 @@ GenericEntity {
     }
    }
   }
-  RigidBody "{59A730880E26622B}" {
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-  }
   SCR_ConsumableItemComponent "{59A730880E266221}" {
-   m_eAnimVariable 2147483647
-  }
-  ActionsManagerComponent "{59A730880E2665FC}" {
-   ActionContexts {
-    UserActionContext "{59A730880E266209}" {
-     ContextName "default"
-     Position PointInfo "{59A730880E266217}" {
-     }
-    }
-   }
-   additionalActions {
-    SCR_PickUpItemAction "{59A730880E2665FA}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{59A730880E2665FB}" {
-      Name "#AR-Inventory_PickUp"
-     }
-    }
-   }
-  }
-  RplComponent "{59A730880E2665F1}" {
+   m_eAnimVariable ADRIANOV
   }
  }
- coords 110.627 0.909 134.909
 }
