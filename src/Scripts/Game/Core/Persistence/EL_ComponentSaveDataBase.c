@@ -39,27 +39,27 @@ class EL_ComponentSaveDataBase
 
 class EL_ComponentSaveDataType
 {
-	static ref map<typename, typename> m_Mapping;
+	static ref map<typename, typename> s_mMapping;
 
 	//------------------------------------------------------------------------------------------------
 	static typename Get(typename saveDataType)
 	{
-		if (!m_Mapping) return typename.Empty;
+		if (!s_mMapping) return typename.Empty;
 
-		return m_Mapping.Get(saveDataType);
+		return s_mMapping.Get(saveDataType);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void EL_ComponentSaveDataType(typename saveDataType, typename componentType, string dbEntityName = "")
 	{
-		if (!m_Mapping) m_Mapping = new map<typename, typename>();
+		if (!s_mMapping) s_mMapping = new map<typename, typename>();
 
 		if (!saveDataType.IsInherited(EL_ComponentSaveDataBase))
 		{
 			Debug.Error(string.Format("Failed to register '%1' as persistence save-data type for '%2'. '%1' must inherit from '%3'.", saveDataType, componentType, EL_ComponentSaveDataBase));
 		}
 
-		m_Mapping.Set(saveDataType, componentType);
+		s_mMapping.Set(saveDataType, componentType);
 
 		if (dbEntityName)
 		{

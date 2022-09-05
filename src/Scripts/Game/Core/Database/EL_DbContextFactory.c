@@ -1,7 +1,7 @@
 sealed class EL_DbContextFactory
 {
 	private const string DEFAULT_SOURCE = "db";
-	private static ref map<string, ref EL_DbContext> s_ContextCache;
+	private static ref map<string, ref EL_DbContext> s_mContextCache;
 
 	//------------------------------------------------------------------------------------------------
 	//! Gets or creates a databse context instance
@@ -15,9 +15,9 @@ sealed class EL_DbContextFactory
 		// Use cached instance if allowed
 		if (useCache)
 		{
-			if (!s_ContextCache) s_ContextCache = new map<string, ref EL_DbContext>();
+			if (!s_mContextCache) s_mContextCache = new map<string, ref EL_DbContext>();
 
-			context = s_ContextCache.Get(dataSource);
+			context = s_mContextCache.Get(dataSource);
 		}
 
 		// No valid context found, create a new one
@@ -29,7 +29,7 @@ sealed class EL_DbContextFactory
 		// Cache context to be re-used if allowed
 		if (useCache)
 		{
-			s_ContextCache.Set(dataSource, context);
+			s_mContextCache.Set(dataSource, context);
 		}
 
 		return context;
@@ -38,6 +38,6 @@ sealed class EL_DbContextFactory
 	//------------------------------------------------------------------------------------------------
 	static void ResetCache()
 	{
-		s_ContextCache = null;
+		s_mContextCache = null;
 	}
 }

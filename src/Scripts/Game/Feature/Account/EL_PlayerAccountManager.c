@@ -1,6 +1,6 @@
 class EL_PlayerAccountManager
 {
-	protected static ref EL_PlayerAccountManager s_Instance;
+	protected static ref EL_PlayerAccountManager s_pInstance;
 	protected ref map<string, ref EL_PlayerAccount> m_mAccounts;
 
 	//------------------------------------------------------------------------------------------------
@@ -57,14 +57,14 @@ class EL_PlayerAccountManager
 	//------------------------------------------------------------------------------------------------
 	static EL_PlayerAccountManager GetInstance()
 	{
-		if (!s_Instance) s_Instance = new EL_PlayerAccountManager();
-		return s_Instance;
+		if (!s_pInstance) s_pInstance = new EL_PlayerAccountManager();
+		return s_pInstance;
 	}
 
 	//------------------------------------------------------------------------------------------------
 	static void Reset()
 	{
-		s_Instance = null;
+		s_pInstance = null;
 	}
 
 	//------------------------------------------------------------------------------------------------

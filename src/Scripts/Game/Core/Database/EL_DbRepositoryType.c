@@ -1,13 +1,13 @@
 class EL_DbRepositoryType
 {
-	protected static ref map<typename, typename> m_Mapping;
+	protected static ref map<typename, typename> s_mMapping;
 
 	//------------------------------------------------------------------------------------------------
 	static typename Get(typename entityType)
 	{
-		if (!m_Mapping) m_Mapping = new map<typename, typename>();
+		if (!s_mMapping) s_mMapping = new map<typename, typename>();
 
-		typename result = m_Mapping.Get(entityType);
+		typename result = s_mMapping.Get(entityType);
 		if (!result)
 		{
 			string repositoryTypeStr = string.Format("EL_DbRepository<%1>", entityType.ToString());
@@ -17,7 +17,7 @@ class EL_DbRepositoryType
 			if (result)
 			{
 				// Save default implementation repository to cache
-				m_Mapping.Set(entityType, result);
+				s_mMapping.Set(entityType, result);
 			}
 		}
 
@@ -27,7 +27,7 @@ class EL_DbRepositoryType
 	//------------------------------------------------------------------------------------------------
 	void EL_DbRepositoryType(typename repositoryType, typename entityType)
 	{
-		if (!m_Mapping) m_Mapping = new map<typename, typename>();
+		if (!s_mMapping) s_mMapping = new map<typename, typename>();
 
 		typename expectedBase = string.Format("EL_DbRepository<%1>", entityType.ToString()).ToType();
 		if (!repositoryType.IsInherited(expectedBase))
@@ -35,6 +35,6 @@ class EL_DbRepositoryType
 			Debug.Error(string.Format("Failed to register '%1' as repository for '%2'. '%1' must inherit from '%3'.", repositoryType, entityType, expectedBase));
 		}
 
-		m_Mapping.Set(entityType, repositoryType);
+		s_mMapping.Set(entityType, repositoryType);
 	}
 }
