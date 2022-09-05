@@ -14,14 +14,14 @@ When loading back an entity by prefab only the previously extracted information 
 > After version 1.0 any update will have a guarantee to be backward compatible.
 
 ## Persistence manager
-The persistence is managed through the [`EL_PersistenceManager`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceManager.c) that is connected to the gamemode via the [`EL_PersistenceManagerComponent`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceManagerComponent.c) on it.
+The persistence is managed through the [`EL_PersistenceManager`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceManager.c) that is connected to the gamemode via the [`EL_PersistenceManagerComponent`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceManagerComponent.c) on it.
 All save and load operations go through this manager. It keeps track of all entities that are part of the persistence system and offers "auto-save" functionality. Besides the "auto-save", it also saves the world state on server shutdown.
 
 Some central settings like if "auto-save" is enabled, the interval for it as well as the overall update rate can be configured through the `EL_PersistenceManagerComponent` attributes.
-The `EL_PersistenceManagerComponent` is already added to the [`GameMode_Roleplay.et`](enfusion://ResourceManager/~EveronLife:Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et) base prefab which all derived mods should use.
+The `EL_PersistenceManagerComponent` is already added to the [`GameMode_Roleplay.et`](https://wb.reforger.dev/redirect?to=enfusion://ResourceManager/~EveronLife:Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et) base prefab which all derived mods should use.
 
 ## World entities
-To connect an `IEntity` to the persistence manager the [`EL_PersistenceComponent`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceComponent.c) is used. 
+To connect an `IEntity` to the persistence manager the [`EL_PersistenceComponent`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceComponent.c) is used. 
 Only world entities with the component present and enabled will be persisted. By default, all relevant base prefabs for characters, their equipment, items, and vehicles already have the component.
 You can selectively *disable* persistence as well. A "special" entity/prefab can be exempt from being persisted inside an inventory or on the ground by unchecking the `Enabled` attribute on the `EL_PersistenceComponent`.
 This will also cancel the loading of an entity/prefab if it was previously saved, but after a mod-update should no longer be part of persistence.  
@@ -81,7 +81,7 @@ The `"MyCustomComponent"` argument following that is a shortcut to the `EL_DbNam
 
 ##### Multiple component instances
 It is possible to have multiple instances of a component type on an entity e.g. `StorageComponent`. To select which instance gets which save-data applied the `EL_ComponentSaveDataBase::IsFor()` method can be implemented.
-It is called for each of the component instances to find the matching one. A use case example of this can be found [here](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/Components/EL_BaseInventoryStorageComponentSaveData.c;42).
+It is called for each of the component instances to find the matching one. A use case example of this can be found [here](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/Components/EL_BaseInventoryStorageComponentSaveData.c;42).
 
 ##### Load order requirements
 Sometimes one component requires that other components are already loaded to function correctly. To control the order in which save-data is applied the method `EL_ComponentSaveDataBase::Requires()` can be implemented.
@@ -130,12 +130,12 @@ When the entity is saved a record for it in the database will be created. In thi
 
 ### Loading world entities
 Entities that were spawned into the world and have `Self Spawn` enabled in their `EL_PersistenceComponent` attributes will automatically be spawned back right after the world initialization.
-To quickly spawn and load a world entity manually from the persistence system the [`EL_PersistentWorldEntityLoader`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentWorldEntityLoader.c;23) utlity class can be used. It offers functions for sync and asnyc loading by *prefab + id* or *save-data type + id*.  
+To quickly spawn and load a world entity manually from the persistence system the [`EL_PersistentWorldEntityLoader`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentWorldEntityLoader.c;23) utlity class can be used. It offers functions for sync and asnyc loading by *prefab + id* or *save-data type + id*.  
 If the save-data was retrieved through different means it can be spawned by calling the `EL_EntitySaveDataBase::Spawn()` method. Avoid manually spawning the prefab and then applying data to it, as this can cause a temporary miss-match of the persistent id on the entity.
 
 ## Scripted states
 Besides persisting entities, it is also possible to save and load scripted states. The example below shows the minimal setup required. 
-For more information on the available script API for them please refer to the inline documentation inside [`EL_PersistentScriptedStateBase`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentScriptedStateBase.c).
+For more information on the available script API for them please refer to the inline documentation inside [`EL_PersistentScriptedStateBase`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentScriptedStateBase.c).
 ```
 [EL_PersistentScriptedStateSettings(TAG_MyLogic, TAG_MyLogicSaveData, autoSave: true, shutDownSave: true, selfDelete: false)]
 class TAG_MyLogic : EL_PersistentScriptedStateBase
@@ -149,19 +149,19 @@ class TAG_MyLogicSaveData : EL_ScriptedStateSaveDataBase
 	ref array<string> m_aNames;
 }
 ```
-The [`EL_PersistentScriptedStateSettings`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentScriptedStateBase.c;178) associates a save-data type with the scripted state as well as configures the options normally found on the persistence component.
+The [`EL_PersistentScriptedStateSettings`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentScriptedStateBase.c;178) associates a save-data type with the scripted state as well as configures the options normally found on the persistence component.
 Inherited states must register an inherited save-data type even if the data to be persisted is the same for both.
 
 ### Loading scripted states
-Scripted states are not automatically loaded back on world init. To instantiate them use the [`EL_PersistentScriptedStateLoader<T>`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentScriptedStateLoader.c) utility class.  
+Scripted states are not automatically loaded back on world init. To instantiate them use the [`EL_PersistentScriptedStateLoader<T>`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistentScriptedStateLoader.c) utility class.  
 If the save-data of a scripted state was retrieved manually it can be spawned by calling `EL_ScriptedStateSaveDataBase::Spawn()`.
 
 ## Serialization support
 Depending on the complexity of the data structures used and the design of the `ReadFrom` and `ApplyTo` methods it might be useful or even required to override the serialization behavior of save-data classes. 
 More information on how this can be achieved can be found [here](https://community.bistudio.com/wiki/Arma_Reforger:Serialisation#Advanced).
 During DB operations most drivers will serialize/deserialize the data at least once. To support something like a `map<K, V>` as a save-data member variable, it needs to be translated into an array first. 
-An example of this can be found [here](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_EntitySaveDataBase.c;170).
-Another example where it might be needed is if polymorphic types are used in the save-data as seen [here](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_EntitySaveDataBase.c;231).
+An example of this can be found [here](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_EntitySaveDataBase.c;170).
+Another example where it might be needed is if polymorphic types are used in the save-data as seen [here](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_EntitySaveDataBase.c;231).
 
 ## Automatic data mapping
 When dealing with save-data that is a subset of the original entity/component/state in terms of member variable types and names, the utility function `EL_DbEntityUtils.StructAutoCopy()` can be used to make a deep auto copy of all matching properties. 
@@ -188,5 +188,5 @@ The system also supports "deleting" baked entities. If for example an inventory 
 
 To use the same `EL_DbContext` as the persistence system, any custom logic can access it through `EL_PersistenceManager::GetDbContext()`.
 There are also utility classes to get an `EL_DbRepository<T>` that is already connected to the persistence DB context:
-- [`EL_PersistenceEntityHelper<TEntityType>`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceRepository.c)
-- [`EL_PersistenceRepositoryHelper<TRepositoryType>`](enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceRepository.c;22)
+- [`EL_PersistenceEntityHelper<TEntityType>`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceRepository.c)
+- [`EL_PersistenceRepositoryHelper<TRepositoryType>`](https://wb.reforger.dev/redirect?to=enfusion://ScriptEditor/Scripts/Game/Core/Persistence/EL_PersistenceRepository.c;22)
