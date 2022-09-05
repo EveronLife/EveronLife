@@ -35,12 +35,11 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      PreviewRenderAttributes "{59A730880E261BD6}" {
       CameraPreset Top
       CameraOrbitAngles 0 0 0
-      CameraDistanceToItem 0.15
-      CameraOffset 0 0 0
-      ItemRenderRotation 0 0 90
+      CameraDistanceToItem 0.19
+      CameraOffset 0 -0.01 0
+      ItemRenderRotation 0 0 0
      }
     }
-    m_Size SLOT_2x1
    }
   }
   MeshObject "{59A730880E261BC5}" {
