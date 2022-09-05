@@ -1,4 +1,4 @@
-GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "59A730891D62ED4E"
  components {
   SoundComponent "{5A44B6354D80260D}" {
@@ -42,7 +42,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     }
    }
   }
-  MeshObject "{59A730880E261EAB}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{6E7678CE6CD95DFD}Assets/Resources/Mining/MetalNugget.xob"
    Materials {
     MaterialAssignClass "{59A730883D27F65B}" {

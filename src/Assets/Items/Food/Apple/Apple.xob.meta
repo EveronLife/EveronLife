@@ -8,6 +8,14 @@ MetaFileClass {
      AssignedMaterial "{A2DEDA91509615F3}Assets/Items/Food/Apple/Data/Apple.emat"
     }
    }
+   GeometryParams {
+    GeometryParam USP_Main {
+     LayerPreset "ItemFireView"
+     SurfaceProperties {
+      "{7898C33735EFBBB0}Common/Materials/Game/Core/default.gamemat"
+     }
+    }
+   }
    Common TXOCommonClass "{598C2CD724E6E55C}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
    }
   }

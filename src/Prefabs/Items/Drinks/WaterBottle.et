@@ -1,4 +1,4 @@
-GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "508AB2013EEE1E00"
  components {
   SoundComponent "{5A44B6354D80260D}" {
@@ -27,7 +27,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     }
    }
   }
-  MeshObject "{5A44B63528B67DCB}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{1F941A15AF4D93BF}Assets/Items/Drinks/WaterBottle/Bottle.xob"
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {

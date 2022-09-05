@@ -1,4 +1,4 @@
-GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "59A73089E432894C"
  components {
   SoundComponent "{5A44B6354D80260D}" {
@@ -41,7 +41,7 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     m_Size SLOT_2x1
    }
   }
-  MeshObject "{59A730880E266233}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{75ABFBE70F78E212}Assets/Resources/Mining/MetalBar.xob"
    Materials {
     MaterialAssignClass "{59A7308807FEF850}" {

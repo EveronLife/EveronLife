@@ -4,8 +4,24 @@ $object "" {
  #tag Coords "XZY"
  #tag Scale "1.000000"
  $materials {
-  $material "Material" {
+  $material "Plum" {
    #UVset 0
+  }
+ }
+ $colliders {
+  $capsule "UCS_Main" {
+   $frame {
+     1 0 0
+     0 1 0
+     0 -0 1
+     0.0006441 0.0313801 0.001402
+    
+   }
+   #weight 0
+   #material "Default_7898C33735EFBBB0"
+   #layers "ItemFireView"
+   #radius 0.023
+   #length 0.0084
   }
  }
  $lod 0 {
