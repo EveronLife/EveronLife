@@ -1,0 +1,16 @@
+AnimSrcGraphFile {
+ Sheets {
+  AnimSrcGraphSheet Master {
+   Nodes {
+    AnimSrcNodeSource Idle {
+     Tags {
+      "TagItemUpdateColliders"
+     }
+     EditorPos 246 97
+     Source "Idles.Default.Idle"
+     Looptype Loop
+    }
+   }
+  }
+ }
+}

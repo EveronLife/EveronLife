@@ -1,0 +1,45 @@
+EL_NpcBaseEntity : "{68C6EB0CCDD55E3F}Prefabs/Characters/Core/Npc_Base.et" {
+ ID "5A4B0B84EF6F2840"
+ components {
+  BaseLoadoutManagerComponent "{5A4B0B84C86D5843}" {
+   Slots {
+    LoadoutSlotInfo Back {
+     PivotID "scene_root"
+     Name "Backpack"
+     Area Backpack
+    }
+    LoadoutSlotInfo Vest {
+     Name "Vest"
+     Area Vest
+    }
+    LoadoutSlotInfo Boots {
+     Prefab "{DAAFD15478BDE1C3}Prefabs/Characters/Footwear/CombatBoots_US_01.et"
+     Name "Boots"
+     Area Boots
+    }
+    LoadoutSlotInfo Hat {
+     Enabled 0
+     Prefab "{B02281435AED8274}Prefabs/Characters/HeadGear/Hat_M70_01/Hat_M70_01.et"
+     Name "Helmet"
+     Area HeadCover
+    }
+    LoadoutSlotInfo Jacket {
+     Prefab "{E44990162EBC47B7}Prefabs/Characters/Uniforms/Jacket_M88_base.et"
+     Name "Jacket"
+     Area Jacket
+     MeshesToHide {
+      "Torso" "Arm_L" "Arm_R" "ArmUpper_L" "ArmUpper_R"
+     }
+    }
+    LoadoutSlotInfo Pants {
+     Prefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
+     Name "Pants"
+     Area Pants
+     MeshesToHide {
+      "Leg_L" "Leg_R" "Groin" "Calf_L" "Calf_R"
+     }
+    }
+   }
+  }
+ }
+}
