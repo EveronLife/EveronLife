@@ -150,8 +150,8 @@ class EL_ScriptedStateSaveDataBase : EL_DbEntity
 
 class EL_PersistentScriptedStateSettings
 {
-	protected static ref map<typename, ref EL_PersistentScriptedStateSettings> m_Settings;
-	protected static ref map<typename, typename> m_ReverseMapping;
+	protected static ref map<typename, ref EL_PersistentScriptedStateSettings> s_mSettings;
+	protected static ref map<typename, typename> s_mReverseMapping;
 
 	typename m_tSaveDataType;
 	bool m_bAutosave;
@@ -161,17 +161,17 @@ class EL_PersistentScriptedStateSettings
 	//------------------------------------------------------------------------------------------------
 	static EL_PersistentScriptedStateSettings Get(typename scriptedStateType)
 	{
-		if (!m_Settings) return null;
+		if (!s_mSettings) return null;
 
-		return m_Settings.Get(scriptedStateType);
+		return s_mSettings.Get(scriptedStateType);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	static typename GetScriptedStateType(typename saveDataType)
 	{
-		if (!m_ReverseMapping) return typename.Empty;
+		if (!s_mReverseMapping) return typename.Empty;
 
-		return m_ReverseMapping.Get(saveDataType);
+		return s_mReverseMapping.Get(saveDataType);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -182,10 +182,10 @@ class EL_PersistentScriptedStateSettings
 			Debug.Error(string.Format("Failed to register '%1' as persistence save struct for '%2'. '%1' must inherit from '%3'.", saveDataType, scriptedStateType, EL_ScriptedStateSaveDataBase));
 		}
 
-		if (!m_Settings)
+		if (!s_mSettings)
 		{
-			m_Settings = new map<typename, ref EL_PersistentScriptedStateSettings>();
-			m_ReverseMapping = new map<typename, typename>();
+			s_mSettings = new map<typename, ref EL_PersistentScriptedStateSettings>();
+			s_mReverseMapping = new map<typename, typename>();
 		}
 
 		m_tSaveDataType = saveDataType;
@@ -193,7 +193,7 @@ class EL_PersistentScriptedStateSettings
 		m_bShutDownSave = shutDownSave;
 		m_bSelfDelete = selfDelete;
 
-		m_Settings.Set(scriptedStateType, this);
-		m_ReverseMapping.Set(saveDataType, scriptedStateType);
+		s_mSettings.Set(scriptedStateType, this);
+		s_mReverseMapping.Set(saveDataType, scriptedStateType);
 	}
 }

@@ -17,31 +17,31 @@ class EL_DbDriverName
 
 class EL_DbDriverRegistry
 {
-	protected static ref map<string, typename> m_Drivers;
+	protected static ref map<string, typename> s_mDrivers;
 
 	//------------------------------------------------------------------------------------------------
 	static void Register(string driverName, typename driverType)
 	{
-		if (!m_Drivers)
+		if (!s_mDrivers)
 		{
-			m_Drivers = new map<string, typename>();
+			s_mDrivers = new map<string, typename>();
 		}
 
 		string driverNameInvariant = driverName;
 		driverNameInvariant.ToLower();
 
-		m_Drivers.Set(driverNameInvariant, driverType);
+		s_mDrivers.Set(driverNameInvariant, driverType);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	static void Unregister(string driverName)
 	{
-		if (!m_Drivers) return;
+		if (!s_mDrivers) return;
 
 		string driverNameInvariant = driverName;
 		driverNameInvariant.ToLower();
 
-		m_Drivers.Remove(driverNameInvariant);
+		s_mDrivers.Remove(driverNameInvariant);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -50,9 +50,9 @@ class EL_DbDriverRegistry
 		string driverNameInvariant = driverName;
 		driverNameInvariant.ToLower();
 
-		if (!m_Drivers || !m_Drivers.Contains(driverNameInvariant)) return typename.Empty;
+		if (!s_mDrivers || !s_mDrivers.Contains(driverNameInvariant)) return typename.Empty;
 
-		return m_Drivers.Get(driverNameInvariant);
+		return s_mDrivers.Get(driverNameInvariant);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -60,11 +60,11 @@ class EL_DbDriverRegistry
 	{
 		set<typename> result();
 
-		if (m_Drivers)
+		if (s_mDrivers)
 		{
-			for (int nElement = 0; nElement < m_Drivers.Count(); nElement++)
+			for (int nElement = 0; nElement < s_mDrivers.Count(); nElement++)
 			{
-				result.Insert(m_Drivers.GetElement(nElement));
+				result.Insert(s_mDrivers.GetElement(nElement));
 			}
 		}
 
@@ -74,6 +74,6 @@ class EL_DbDriverRegistry
 	//------------------------------------------------------------------------------------------------
 	static void Reset()
 	{
-		delete m_Drivers;
+		delete s_mDrivers;
 	}
 }

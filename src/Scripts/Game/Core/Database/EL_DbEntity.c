@@ -29,13 +29,13 @@ class EL_DbEntity
 
 class EL_DbName
 {
-	protected static ref map<typename, string> m_mMapping;
+	protected static ref map<typename, string> s_mMapping;
 
 	//------------------------------------------------------------------------------------------------
 	static void Set(typename entityType, string name)
 	{
-		if (!m_mMapping) m_mMapping = new map<typename, string>();
-		m_mMapping.Set(entityType, name);
+		if (!s_mMapping) s_mMapping = new map<typename, string>();
+		s_mMapping.Set(entityType, name);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -43,14 +43,14 @@ class EL_DbName
 	{
 		if (!entityType) return string.Empty;
 
-		if (!m_mMapping) m_mMapping = new map<typename, string>();
+		if (!s_mMapping) s_mMapping = new map<typename, string>();
 
-		string result = m_mMapping.Get(entityType);
+		string result = s_mMapping.Get(entityType);
 
 		if (result.IsEmpty())
 		{
 			result = entityType.ToString();
-			m_mMapping.Set(entityType, result);
+			s_mMapping.Set(entityType, result);
 		}
 
 		return result;
@@ -59,14 +59,14 @@ class EL_DbName
 	//------------------------------------------------------------------------------------------------
 	static typename GetTypeByName(string name)
 	{
-		if (!m_mMapping) m_mMapping = new map<typename, string>();
+		if (!s_mMapping) s_mMapping = new map<typename, string>();
 
-		typename result = m_mMapping.GetKeyByValue(name);
+		typename result = s_mMapping.GetKeyByValue(name);
 
 		if (!result)
 		{
 			result = name.ToType();
-			m_mMapping.Set(result, name);
+			s_mMapping.Set(result, name);
 		}
 
 		return result;

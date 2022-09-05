@@ -1,6 +1,6 @@
 class EL_PersistentWorldEntityLoader
 {
-	protected static ref map<string, typename> m_SaveDataTypeCache;
+	protected static ref map<string, typename> s_mSaveDataTypeCache;
 
 	//------------------------------------------------------------------------------------------------
 	//! Load and spawn an entity by save-data type and persistent id
@@ -97,9 +97,9 @@ class EL_PersistentWorldEntityLoader
 	//------------------------------------------------------------------------------------------------
 	protected static typename GetSaveDataType(string prefab)
 	{
-		if (!m_SaveDataTypeCache) m_SaveDataTypeCache = new map<string, typename>();
+		if (!s_mSaveDataTypeCache) s_mSaveDataTypeCache = new map<string, typename>();
 
-		typename resultType = m_SaveDataTypeCache.Get(prefab);
+		typename resultType = s_mSaveDataTypeCache.Get(prefab);
 
 		if (!resultType)
 		{
@@ -124,7 +124,7 @@ class EL_PersistentWorldEntityLoader
 			}
 		}
 
-		m_SaveDataTypeCache.Set(prefab, resultType);
+		s_mSaveDataTypeCache.Set(prefab, resultType);
 
 		return resultType;
 	}

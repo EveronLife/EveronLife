@@ -1,31 +1,31 @@
 [EL_DbDriverName(EL_InMemoryDbDriver, {"InMemory"})]
 class EL_InMemoryDbDriver : EL_DbDriver
 {
-	protected static ref map<string, ref EL_InMemoryDatabase> m_Databases;
+	protected static ref map<string, ref EL_InMemoryDatabase> s_mDatabases;
 	protected EL_InMemoryDatabase m_Db;
 
 	//------------------------------------------------------------------------------------------------
 	override bool Initalize(string connectionString = string.Empty)
 	{
 		// Only create the db holder if at least one driver is initalized. (Avoids allocation on clients)
-		if (!m_Databases)
+		if (!s_mDatabases)
 		{
-			m_Databases = new map<string, ref EL_InMemoryDatabase>();
+			s_mDatabases = new map<string, ref EL_InMemoryDatabase>();
 		}
 
-		if (!m_Databases) return false;
+		if (!s_mDatabases) return false;
 
 		string dbName = connectionString;
 
-		m_Db = m_Databases.Get(dbName);
+		m_Db = s_mDatabases.Get(dbName);
 
 		// Init db if driver was the first one to trying to access it
 		if (!m_Db)
 		{
-			m_Databases.Set(dbName, new EL_InMemoryDatabase(dbName));
+			s_mDatabases.Set(dbName, new EL_InMemoryDatabase(dbName));
 
 			// Strong ref is held by map, so we need to get it from there
-			m_Db = m_Databases.Get(dbName);
+			m_Db = s_mDatabases.Get(dbName);
 		}
 
 		return true;
@@ -34,11 +34,11 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	//------------------------------------------------------------------------------------------------
 	override void Shutdown()
 	{
-		if (!m_Databases) return;
+		if (!s_mDatabases) return;
 
 		if (!m_Db) return;
 
-		m_Databases.Remove(m_Db.m_DbName);
+		s_mDatabases.Remove(m_Db.m_DbName);
 	}
 
 	//------------------------------------------------------------------------------------------------
