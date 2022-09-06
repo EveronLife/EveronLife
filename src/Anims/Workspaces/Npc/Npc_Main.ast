@@ -1,0 +1,13 @@
+AnimSetTemplateSource {
+ Groups {
+  AnimSetTemplateSource_AnimationGroup "{5A4B0503DDB8F8A6}" {
+   Name "Idles"
+   Animations {
+    "Idle"
+   }
+   Columns {
+    "Default"
+   }
+  }
+ }
+}
