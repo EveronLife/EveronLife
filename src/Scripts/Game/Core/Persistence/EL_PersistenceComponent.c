@@ -130,6 +130,7 @@ class EL_PersistenceComponent : ScriptComponent
 		if (!EL_PersistenceManager.IsPersistenceMaster()) return;
 
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+		if (!settings) return;
 
 		// Cache save-data typename on shared instance. We do not need the object instance after that.
 		if (!settings.m_tSaveDataTypename)

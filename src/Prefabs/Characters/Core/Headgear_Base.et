@@ -6,8 +6,6 @@ GameEntity {
     m_aComponents {
      EL_TransformationSaveData "{5A28749C38D790EB}" {
      }
-     EL_BaseInventoryStorageComponentSaveData "{5A28749C393FA53A}" {
-     }
     }
    }
   }

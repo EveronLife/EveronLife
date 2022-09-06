@@ -6,8 +6,6 @@ GenericEntity {
     m_aComponents {
      EL_TransformationSaveData "{5A28749CA2B26F11}" {
      }
-     EL_BaseInventoryStorageComponentSaveData "{5A28749F245B111B}" {
-     }
     }
    }
   }

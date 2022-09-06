@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{69FC0AAC5FFE1288}Prefabs/Weapons/Core/Melee_Base.et"
+ Name "{D7EB24176E5CEAA6}Prefabs/Weapons/Core/Grenade_Base.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

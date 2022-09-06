@@ -42,7 +42,6 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 	override bool IsFor(notnull GenericComponent worldEntityComponent)
 	{
 		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
-
 		return (storageComponent.GetPriority() == m_iPriority) && (storageComponent.GetPurpose() == m_ePurposeFlags);
 	}
 
