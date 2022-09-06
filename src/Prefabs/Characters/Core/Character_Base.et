@@ -1,0 +1,21 @@
+SCR_ChimeraCharacter {
+ ID "520EC961A090B1EE"
+ components {
+  EL_PersistenceComponent "{5A12D8F4DFED6D84}" {
+   m_bSelfSpawn 0
+   m_bSelfDelete 0
+   m_pSaveData EL_CharacterSaveData "{5A12D8F4DA8632DC}" {
+    m_aComponents {
+     EL_TransformationSaveData "{5A12D8F4DBF138B7}" {
+     }
+     EL_HitZoneContainerComponentSaveData "{5A12D8F4D807DD8A}" {
+     }
+     EL_BaseInventoryStorageComponentSaveData "{5A13263CEDD3593B}" {
+     }
+     EL_EquipedWeaponStorageComponentSaveData "{5A2EDE88639C8657}" {
+     }
+    }
+   }
+  }
+ }
+}

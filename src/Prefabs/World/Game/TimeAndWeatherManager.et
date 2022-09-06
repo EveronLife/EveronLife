@@ -1,0 +1,9 @@
+TimeAndWeatherManagerEntity {
+ ID "5244F08C9618CADD"
+ components {
+  EL_PersistenceComponent "{5A2F39DFADA7F441}" {
+   m_pSaveData EL_TimeAndWeatherSaveData "{5A2F39DFA8805B14}" {
+   }
+  }
+ }
+}

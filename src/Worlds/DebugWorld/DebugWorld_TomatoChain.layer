@@ -73,32 +73,32 @@ GenericEntity TomatoTrader {
     coords -0.774 0.899 0.18
     {
      $grp GenericEntity : "{0815D91FDF997A0A}Prefabs/Items/Food/Tomato.et" {
-      {
-       coords 0.168 -0 0.18
+      Tomato_5A4C5C558992D7AF {
+       coords 0.168 0 0.18
       }
-      {
+      Tomato_5A4C5C558992D772 {
        coords 0.086 -0.001 0.18
       }
-      {
+      Tomato_5A4C5C558992D74E {
        coords 0.001 -0.001 0.18
       }
-      {
-       coords 0.125 -0 0.089
+      Tomato_5A4C5C558992D71B {
+       coords 0.125 0 0.089
       }
-      {
-       coords 0.043 -0 0.089
+      Tomato_5A4C5C558992D6F2 {
+       coords 0.043 0 0.089
       }
-      {
-       coords -0.042 -0 0.089
+      Tomato_5A4C5C558992D6CA {
+       coords -0.042 0 0.089
       }
-      {
-       coords 0.158 -0 -0.012
+      Tomato_5A4C5C558992D6A3 {
+       coords 0.158 0 -0.012
       }
-      {
-       coords 0.076 -0 -0.012
+      Tomato_5A4C5C558992D67A {
+       coords 0.076 0 -0.012
       }
-      {
-       coords -0.009 -0 -0.012
+      Tomato_5A4C5C558992D657 {
+       coords -0.009 0 -0.012
       }
      }
     }

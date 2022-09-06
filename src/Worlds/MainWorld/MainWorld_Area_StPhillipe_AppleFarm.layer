@@ -159,25 +159,25 @@ $grp GenericEntity {
   coords 4441.516 20.372 10568.072
   {
    $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
-    {
+    Apple_5A3EA6019AFB3B9E {
      coords -0.137 -0.036 -0.08
     }
-    {
+    Apple_5A3EA6019AFB3A8E {
      coords -0.074 -0.043 0.152
     }
-    {
+    Apple_5A3EA6019AFB3A4A {
      coords 0.168 -0.036 0.057
     }
-    {
+    Apple_5A3EA6019AFB3A18 {
      coords -0.002 -0.036 0.074
     }
-    {
+    Apple_5A3EA6019AFB3D9C {
      coords -0.165 -0.036 0.08
     }
-    {
+    Apple_5A3EA6019AFB3D62 {
      coords -0.052 -0.036 -0.034
     }
-    {
+    Apple_5A3EA6019AFB3D35 {
      coords 0.1 -0.036 -0.035
     }
    }

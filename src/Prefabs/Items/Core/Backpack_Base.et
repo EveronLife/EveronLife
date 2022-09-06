@@ -1,0 +1,15 @@
+GenericEntity {
+ ID "511E9C6ADE70F798"
+ components {
+  EL_PersistenceComponent "{5A130610DFD33448}" {
+   m_pSaveData EL_ItemSaveData "{5A130610DB652337}" {
+    m_aComponents {
+     EL_TransformationSaveData "{5A130610D6AF4E8E}" {
+     }
+     EL_BaseInventoryStorageComponentSaveData "{5A130610D740F86A}" {
+     }
+    }
+   }
+  }
+ }
+}

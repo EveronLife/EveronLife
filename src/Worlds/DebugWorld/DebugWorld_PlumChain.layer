@@ -73,28 +73,28 @@ GenericEntity PlumTrader {
     coords -0.627 0.899 0.343
     {
      $grp GenericEntity : "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et" {
-      {
+      Plum_5A4C5C558992D31E {
        coords -0.115 0 -0.073
       }
-      {
+      Plum_5A4C5C558992D5AA {
        coords -0.029 0 -0.073
       }
-      {
+      Plum_5A4C5C558992D56B {
        coords 0.046 0 -0.073
       }
-      {
+      Plum_5A4C5C558992D539 {
        coords 0.126 0 -0.073
       }
-      {
+      Plum_5A4C5C558992D515 {
        coords -0.029 0 0.012
       }
-      {
+      Plum_5A4C5C558992D4E0 {
        coords 0.046 0 0.012
       }
-      {
+      Plum_5A4C5C558992D4BB {
        coords 0.126 0 0.012
       }
-      {
+      Plum_5A4C5C558992D495 {
        coords -0.115 0 0.012
       }
      }

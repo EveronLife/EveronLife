@@ -45,9 +45,6 @@ class EL_GatherAction : ScriptedUserAction
 		if(anyPickup)
 		{
 			inventoryManager.PlayItemSound(pOwnerEntity, "SOUND_PICK_UP");
-			
-			//Show hint what to do with the gathered item
-			EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
 		}
 		
 		//Replenish gathering count

@@ -1,0 +1,32 @@
+GenericEntity Testbench : "{467951CEFC8F345B}PrefabLibrary/Props/Civilian/SignPub_01.et" {
+ components {
+  RigidBody "{5872F0EB7DFB5A9D}" {
+  }
+  ActionsManagerComponent "{59F476F7C381B69B}" {
+   ActionContexts {
+    UserActionContext "{59F476F7C0EF5E15}" {
+     ContextName "default"
+     Position PointInfo "{59F476F7FDE6E75B}" {
+      Offset 0.0088 0.9801 -0.0058
+     }
+    }
+   }
+   additionalActions {
+    EL_RunTestsAction "{59F476F7EDF9DCC0}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59F476F7E5681EF3}" {
+      Name "Run Tests"
+     }
+     Duration 0.25
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+   Streamable Disabled
+  }
+ }
+ coords 109.995 0.001 137.935
+}
