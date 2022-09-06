@@ -1,9 +1,0 @@
-EL_SpawnPoint {
- coords 4471.854 21.689 10535.136
-}
-SCR_VehicleSpawn TestVehicleSpawner {
- coords 4450.412 20.187 10557.14
- angleY 180
- m_rnPrefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
- respawnDelay 0
-}
