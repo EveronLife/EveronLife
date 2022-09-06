@@ -2,11 +2,20 @@ MetaFileClass {
  Name "{1F941A15AF4D93BF}Assets/Items/Drinks/WaterBottle/Bottle.xob"
  Configurations {
   FBXResourceClass PC {
-   Scale 0.55 0.55 0.55
    MaterialAssigns {
-    MaterialAssignClass "{598B1327FCEBF02C}" {
-     SourceMaterial "DefaultGeneratedMaterial"
+    MaterialAssignClass "{5A4ABC0B87EF7A8C}" {
+     SourceMaterial "Bottle"
      AssignedMaterial "{A0A194FFC39525F3}Assets/Items/Drinks/WaterBottle/Data/Bottle.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UCL_Main {
+     LayerPreset "ItemFireView"
+     SurfaceProperties {
+      "{7898C33735EFBBB0}Common/Materials/Game/Core/default.gamemat"
+     }
+     Mass 0
+     Margin 0
     }
    }
    Common TXOCommonClass "{598B1327FCE38026}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {

@@ -79,394 +79,6 @@ $grp GenericEntity {
     angleY -14.907
     Flags 1027
    }
-   SCR_ChimeraCharacter Npc {
-    components {
-     ControllersManagerComponent "{59670CC3FB6839B0}" {
-     }
-     SCR_CharacterControllerComponent "{59670CC3FB68396D}" {
-      LeftHandPosition EntitySlotInfo "{520EA1D2F659CEAB}" {
-       PivotID "lefthandprop"
-       ChildPivotID "snap_weapon"
-      }
-      RightHandPosition InventoryStorageSlot RightHand {
-       PivotID "RightHandProp"
-       Enabled 0
-       Prefab ""
-      }
-      WaterMovementLimits {
-       0 0 0.221 0 0.375 0.247 0.562 0.395 0.715 0.457 0.828 0.628 1 0.75
-      }
-      LeanSpeed 5
-     }
-     SignalsManagerComponent "{59670CC3FB683962}" {
-     }
-     CharacterSoundComponent "{59670CC3FB683957}" {
-      Filenames {
-       "{81D32DC765A2B68D}Sounds/Character/Character_Movement_Foley_Locomotion.acp" "{4D7D189EAFF7AC12}Sounds/Character/Character_Footsteps.acp" "{67007BA2E4D81B0D}Sounds/Character/Character_Movement_Foley_Additive.acp" "{685F8084FD1F0569}Sounds/Vegetation/Collisions/Vegetation_Collision.acp" "{B3C8216759E0809B}Sounds/Character/Character_Movement_Vehicles.acp" "{5A6E4C9089CB9606}Sounds/Character/Character_Movement_Swim.acp" "{E59C77F94B1AE155}Sounds/Character/Character_Jump_Landing.acp" "{FC1845C71FCA50CC}Sounds/Character/Character_Prone.acp"
-      }
-      FoliageCollisionLayer "Foliage"
-     }
-     AIControlComponent "{59670CC3FB683668}" {
-      components {
-       AICharacterAimingComponent "{59670CC3FB6836AA}" {
-        AimingPID 0.3 0 0
-        UsePID 1
-       }
-       AICharacterHeadAimingComponent "{59670CC3FB6836A1}" {
-       }
-       AICharacterMovementComponent "{59670CC3FB6836A2}" {
-       }
-       AIPathfindingComponent "{59670CC3FB68369E}" {
-        NavmeshProject "Soldiers"
-       }
-      }
-      Agenttemplate "{B4C861A6DA2F5E05}AI/AIAgents/SCR_ChimeraAIAgentFull.et"
-      OverrideAIBehaviorData "{990D4960E5206005}AI/BehaviorTrees/Chimera/Soldier/Soldier.bt"
-      EnableAI 0
-      PhysicsLayerPreset "CharacterAI"
-     }
-     BaseFlattenGrassComponent "{59670CC3FB683640}" {
-      ParametersCollection {
-       FlattenGrassParametersObject "{59670CC3FB68365E}" {
-        SideX 0.6
-        ShapeOfGrassFlattening "Ellipse"
-       }
-       FlattenGrassParametersObject "{59670CC3FB683649}" {
-        SideX 0.9
-        SideZ 0.7
-        CenterLerp 0.5
-        TimeDown 0.75
-        MaxHeight 1
-        ShapeOfGrassFlattening "Ellipse"
-       }
-       FlattenGrassParametersObject "{59670CC3FB68364E}" {
-        SideX 2
-        SideZ 0.8
-        Offset 0
-        CenterLerp 0.5
-        TimeDown 0.75
-        MaxHeight 1
-        ShapeOfGrassFlattening "Ellipse"
-       }
-      }
-     }
-     BaseWeaponManagerComponent "{59670CC3FB683631}" {
-      SlingPosition PointInfo "{59670CC3FB68363E}" {
-       PivotID "stomach3"
-       Angles 0 140 -90
-      }
-     }
-     CharacterAimingComponent "{59670CC3FB68361F}" {
-      SignalsSourceAccess SignalsSourceAccessClass "{59670CC3FB683626}" {
-       signalsSuffix "Weapon"
-      }
-      LimitsHoriz -80 80
-      LimitsVert -80 80
-      AimingMaxSpeed 0.7 4
-      AimingSpeedControls 1.5 0.75
-      ProneLimitsVertical -40 20
-      AimModifiers {
-       OneHandAimModifier "{59670CC3FB68361C}" {
-       }
-      }
-     }
-     CharacterHeadAimingComponent "{59670CC3FB6829F5}" {
-      SignalsSourceAccess SignalsSourceAccessClass "{59670CC3FB6829F2}" {
-       signalsSuffix "Head"
-      }
-      ProvideAimingType Head
-      LimitsHoriz -180 180
-      LimitsVert -90 90
-      AimingMaxSpeed 10 5
-      AimingSpeedControls 1.5 0.75
-     }
-     FactionAffiliationComponent "{59670CC3FB68290F}" {
-      "faction affiliation" "US"
-     }
-     MeshObject "{59670CC3FB682904}" {
-      Object "{9F3AF591CD6DFE1A}Assets/Characters/Basebody/Basebody_Male_01.xob"
-     }
-     SCR_BaseHUDComponent "{59670CC3FB6828DB}" {
-      InfoDisplays {
-       SCR_WeaponInfo "{59670CC3FB6828E1}" {
-       }
-       SCR_WeaponSwitchingBaseUI "{59670CC3FB6828D8}" {
-        VisibleAtParent 1
-        m_LayoutPath "{2A1E1E023967C5A8}UI/layouts/HUD/QuickSelectBar.layout"
-        m_eLayer OVERLAY
-       }
-      }
-     }
-     SCR_CompartmentAccessComponent "{59670CC3FB68C011}" {
-      CompartmentLayerPreset "CharNoCollide"
-     }
-     SCR_EditableCharacterComponent "{59670CC3FB68C08A}" {
-      m_EntityType CHARACTER
-      m_UIInfo SCR_EditableEntityUIInfo "{59670CC3FB68C039}" {
-       Name "#AR-Role_Unarmed"
-       Icon "{9164E45B9A237FE9}UI/Textures/Editor/EditableEntities/Characters/EditableEntity_Character_Unarmed.edds"
-       IconSetName ""
-       m_Image "{0F62C575785D87CD}UI/Textures/EditorPreviews/Characters/INDFOR/FIA/Character_FIA_Unarmed.edds"
-       m_sFaction "FIA"
-       m_aAuthoredLabels {
-        2 12 22
-       }
-       m_aAutoLabels {
-        122
-       }
-      }
-      m_sIconBoneName "spine5"
-      m_PrefabGroup "{000CD338713F2B5A}Prefabs/AI/Groups/Group_Base.et"
-      m_AccessKey 769
-      m_Flags 69
-     }
-     TagComponent "{59670CC3FB68C749}" {
-      "Tag categories" 1
-     }
-     CharacterIdentityComponent "{59670CC3FB68C7F4}" {
-      Override 1
-      Identity Identity "{59670CC3FB68C7F2}" {
-       VisualIdentity VisualIdentity "{59670CC3FB68C7DD}" {
-        Head "{EAF055495BA85CA1}Prefabs/Characters/Heads/Head_White_02.et"
-        Body "{0023F898C0FF18AA}Prefabs/Characters/Basebody/CharacterBasebody.et"
-        BodyMeshesConfig MeshConfig "{59670CC3FB68C7C9}" {
-         SubmeshesOfBody {
-          IdentityBodyMesh "{59670CC3FB68C773}" {
-           PartType "Arm_L"
-           HealthyVersion "Basebody_Arm_L"
-           WoundVersion "Basebody_Arm_L_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C776}" {
-           PartType "Arm_R"
-           HealthyVersion "Basebody_Arm_R"
-           WoundVersion "Basebody_Arm_R_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C779}" {
-           PartType "ArmUpper_L"
-           HealthyVersion "Basebody_ArmUpper_L"
-           WoundVersion "Basebody_ArmUpper_L_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C703}" {
-           PartType "ArmUpper_R"
-           HealthyVersion "Basebody_ArmUpper_R"
-           WoundVersion "Basebody_ArmUpper_R_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C704}" {
-           PartType "Calf_L"
-           HealthyVersion "Basebody_Calf_L"
-           WoundVersion "Basebody_Calf_L_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C70D}" {
-           PartType "Calf_R"
-           HealthyVersion "Basebody_Calf_R"
-           WoundVersion "Basebody_Calf_R_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C710}" {
-           PartType "Foot_L"
-           HealthyVersion "Basebody_Foot_L"
-           WoundVersion "Basebody_Foot_L_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C718}" {
-           PartType "Foot_R"
-           HealthyVersion "Basebody_Foot_R"
-           WoundVersion "Basebody_Foot_R_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C723}" {
-           PartType "Groin"
-           HealthyVersion "Basebody_Groin"
-           WoundVersion "Basebody_Groin_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C724}" {
-           PartType "Hand_L"
-           HealthyVersion "Basebody_Hand_L"
-           WoundVersion "Basebody_Hand_L_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C728}" {
-           PartType "Hand_R"
-           HealthyVersion "Basebody_Hand_R"
-           WoundVersion "Basebody_Hand_R_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C733}" {
-           PartType "Leg_L"
-           HealthyVersion "Basebody_Leg_L"
-           WoundVersion "Basebody_Leg_L_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C736}" {
-           PartType "Leg_R"
-           HealthyVersion "Basebody_Leg_R"
-           WoundVersion "Basebody_Leg_R_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C73A}" {
-           PartType "Torso"
-           HealthyVersion "Basebody_Torso"
-           WoundVersion "Basebody_Torso_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C73D}" {
-           PartType "Head"
-           HealthyVersion "Head"
-           WoundVersion "Head_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C7C7}" {
-           PartType "CalfLower_L"
-           HealthyVersion "Basebody_CalfLower_L"
-           WoundVersion "Basebody_CalfLower_L_wound"
-          }
-          IdentityBodyMesh "{59670CC3FB68C7CB}" {
-           PartType "CalfLower_R"
-           HealthyVersion "Basebody_CalfLower_R"
-           WoundVersion "Basebody_CalfLower_R_wound"
-          }
-         }
-        }
-       }
-       SoundIdentity SoundIdentity "{59670CC3FB68C7E4}" {
-        VoiceID 100
-       }
-       Name "Apple Trader"
-       Alias ""
-       Surname ""
-      }
-     }
-     BaseLoadoutManagerComponent "{59670CC3FB68C637}" {
-      Slots {
-       LoadoutSlotInfo Back {
-        PivotID "scene_root"
-        Name "Backpack"
-        Area Backpack
-       }
-       LoadoutSlotInfo Vest {
-        Name "Vest"
-        Area Vest
-       }
-       LoadoutSlotInfo Boots {
-        Prefab "{DAAFD15478BDE1C3}Prefabs/Characters/Footwear/CombatBoots_US_01.et"
-        Name "Boots"
-        Area Boots
-       }
-       LoadoutSlotInfo Hat {
-        Enabled 0
-        Prefab "{B02281435AED8274}Prefabs/Characters/HeadGear/Hat_M70_01/Hat_M70_01.et"
-        Name "Helmet"
-        Area HeadCover
-       }
-       LoadoutSlotInfo Jacket {
-        Prefab "{E44990162EBC47B7}Prefabs/Characters/Uniforms/Jacket_M88_base.et"
-        Name "Jacket"
-        Area Jacket
-        MeshesToHide {
-         "Torso" "Arm_L" "Arm_R" "ArmUpper_L" "ArmUpper_R"
-        }
-       }
-       LoadoutSlotInfo Pants {
-        Prefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
-        Name "Pants"
-        Area Pants
-        MeshesToHide {
-         "Leg_L" "Leg_R" "Groin" "Calf_L" "Calf_R"
-        }
-       }
-      }
-     }
-     CharacterAnimationComponent "{59670CC3FB68C50A}" {
-      components {
-       SCR_CharacterCommandHandlerComponent "{59670CC3FB68C567}" {
-        "Ladders Layers" 65536
-        LadderDetectMaxDist 1.7
-        "Body Offset Reference Point" PointInfo "{59670CC3FB68C6B9}" {
-         PivotID "RightShoulder"
-         Offset 0 -0.144 -0.04
-        }
-        ObstructionLayers 32
-        MoveSettings ScriptCharacterCommandMoveSettings "{59670CC3FB68C560}" {
-         MovementFilterMaxChange 16
-         MaxSprintAngle 3.14
-         OnTurnSpeedReducFactor 0.2
-         OnTurnNoReducAngle 1.57
-         BankingAngleCurve {
-          0 0 0.075 0 1 1
-         }
-         AdjustedStanceChangeTime 0.025
-         AdjustedStanceChangeMaxSpeed 4
-         AdjustedStanceTraceLength 1
-         AdjustedStanceUpperThreshold 1.4
-         AdjustedStanceLowerThreshold 0.7
-         DetectLadders 0
-         MaxEnterLadderAngle 55
-         MaxLadderTangentAngle 110
-         m_fSpeed_Crouch_Fast_Forward 4
-         m_fSpeed_Crouch_Fast_Strafe 3.5
-         m_fSpeed_Prone_Normal_Forward 0.9
-         m_fSpeed_Prone_Normal_Strafe 0.9
-         m_fSpeed_Prone_Fast_Forward 1.1
-         m_fSpeed_Prone_Fast_Strafe 1
-         InnertiaCurve {
-          0 1 0.25 1 0.497 0.691 0.754 0.658 1 0.497
-         }
-         HeadingAdjustmentSpeedReduction {
-          0 0.597 0.353 0.552 0.507 0.503 0.804 0 1 0
-         }
-        }
-       }
-      }
-      AnimGraph "{DFFC0A34A77ADCB4}anims/workspaces/player/player_main.agr"
-      AnimInstance "{32965FEFBB738E5A}anims/workspaces/player/player_main.asi"
-      StartNode "MasterControl"
-      "Collision bone" "collision"
-      "Server LOD" 1
-      "LOD camera distances" {
-       5 20
-      }
-      DefaultShapeLayer 524288
-      FreshwaterLayer 4194304
-      LayerPreset "Character"
-      ColliderStand PhysAgentCollisionShapeItem "{59670CC3FB68C56D}" {
-       Shape Capsule
-       Size 0.75 1.8 0
-       Offset 0.05 0 0
-       StepHeight 0.55
-      }
-      ColliderCrouch PhysAgentCollisionShapeItem "{59670CC3FB68C570}" {
-       Shape Capsule
-       Size 0.8 1.4 0
-       Offset 0.125 0 0.1
-       DynamicOffset 0 0 0.25
-       StepHeight 0.4
-      }
-      ColliderProne PhysAgentCollisionShapeItem "{59670CC3FB68C575}" {
-       Size 0.6 0.4 1.8
-       StepHeight 0.25
-      }
-      ColliderJump PhysAgentCollisionShapeItem "{59670CC3FB68C579}" {
-       Shape Capsule
-       Size 0.9 1.8 0
-       Offset 0.05 0 0.15
-       DynamicOffset 0 0 0.35
-       StepHeight 0.65
-      }
-      ColliderSwim PhysAgentCollisionShapeItem "{59670CC3FB68C57D}" {
-       Size 1 1.35 2
-       StepHeight 1
-      }
-      ColliderLadder PhysAgentCollisionShapeItem "{59670CC3FB68C500}" {
-       Shape Capsule
-       Size 0.4 2 0.4
-       StepHeight 1
-      }
-      ColliderVehicle PhysAgentCollisionShapeItem "{59670CC3FB68C50B}" {
-       Size 0.4 0.85 0.4
-       StepHeight 0.25
-      }
-     }
-     SCR_CharacterCameraHandlerComponent "{59670CC3FB68C511}" {
-      "Camera entity prefab" "{2DF95AB3CCDF4FA5}Prefabs/Characters/Core/DefaultPlayerCamera.et"
-      "CameraSet name" "CharacterCameraSet"
-     }
-     RplComponent "{59670CC3FB68C515}" {
-     }
-    }
-    coords -0.023 -0.143 0.87
-    angleY 171.533
-   }
    $grp GenericEntity : "{43E4371F76A8706A}PrefabLibrary/Props/Industrial/Pallet_01.et" {
     {
      coords -2.428 -0.057 -0.018
@@ -500,6 +112,18 @@ $grp GenericEntity {
     angleY 96.122
     angleZ -3.882
     scale 0.921
+   }
+   EL_NpcBaseEntity Npc : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Default_01.et" {
+    components {
+     CharacterIdentityComponent "{5A4B0B84AEEDE9BA}" {
+      Identity Identity "{5A4B0B84AF44A913}" {
+       Name "Apple"
+       Surname "Trader"
+      }
+     }
+    }
+    coords -0.023 -0.143 0.87
+    angleY 171.533
    }
    GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01_white.et" {
     coords -1.331 -0.243 0.668
@@ -535,25 +159,25 @@ $grp GenericEntity {
   coords 4441.516 20.372 10568.072
   {
    $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
-    {
+    Apple_5A3EA6019AFB3B9E {
      coords -0.137 -0.036 -0.08
     }
-    {
+    Apple_5A3EA6019AFB3A8E {
      coords -0.074 -0.043 0.152
     }
-    {
+    Apple_5A3EA6019AFB3A4A {
      coords 0.168 -0.036 0.057
     }
-    {
+    Apple_5A3EA6019AFB3A18 {
      coords -0.002 -0.036 0.074
     }
-    {
+    Apple_5A3EA6019AFB3D9C {
      coords -0.165 -0.036 0.08
     }
-    {
+    Apple_5A3EA6019AFB3D62 {
      coords -0.052 -0.036 -0.034
     }
-    {
+    Apple_5A3EA6019AFB3D35 {
      coords 0.1 -0.036 -0.035
     }
    }

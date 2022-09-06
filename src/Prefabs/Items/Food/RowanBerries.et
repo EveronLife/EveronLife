@@ -1,12 +1,6 @@
-GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "508AB2013EEE1E00"
  components {
-  SoundComponent "{599CBA8421350DF1}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-   OnFrameUpdate 0
-  }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
@@ -31,32 +25,15 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      HandAdditiveRotation 90 45 40
      HandAdditiveTranslation -0.02 0.032 0
     }
-    CustomAttributes {
-     ItemActionAnimAttributes "{599CBA8421350C01}" {
-      ActionType Bandage
-     }
-    }
    }
   }
-  MeshObject "{599CBA8421350C0B}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{B09DB5A4E4B8AD7B}Assets/Items/Food/Rowan Berries/rowan_berries.xob"
    LODScale 0.1
    PixelSizeScale 10
   }
-  RigidBody "{599CBA8421350C0F}" {
-   Enabled 0
-   LinearDamping 0.5
-   AngularDamping 0.5
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-   CCDRadius 0.015
-  }
   SCR_ConsumableItemComponent "{599CBA8421350C0D}" {
    m_eAnimVariable ADRIANOV
-  }
-  ActionsManagerComponent "{508AB5952B584B2E}" {
-   additionalActions {
-   }
   }
  }
 }

@@ -6,20 +6,17 @@ class EL_ChangeWeatherAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
+		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
+		if (replication && !replication.IsOwner()) return;
+		
 		TimeAndWeatherManagerEntity weatherManager = GetGame().GetTimeAndWeatherManager();
-		if (!weatherManager) 
-			return;
+		if (!weatherManager) return;
 				
 		array<ref WeatherState> weatherStates = new array<ref WeatherState>;
 		weatherManager.GetWeatherStatesList(weatherStates);
+		if (m_fTargetWeatherID >= weatherStates.Count()) return;
 		
-		//Valid state
-		if (weatherStates.IsEmpty() || m_fTargetWeatherID >= weatherStates.Count())
-			return;
-		
-		WeatherState weatherToSet = weatherStates[m_fTargetWeatherID];
-
-		weatherManager.ForceWeatherTo(true, weatherToSet.GetStateName());
+		weatherManager.ForceWeatherTo(true, weatherStates[m_fTargetWeatherID].GetStateName());
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -27,5 +24,4 @@ class EL_ChangeWeatherAction : ScriptedUserAction
  	{
 		return true;
  	}
-
 }

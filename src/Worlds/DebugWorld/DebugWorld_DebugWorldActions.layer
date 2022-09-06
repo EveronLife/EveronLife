@@ -9,7 +9,7 @@ GenericEntity {
     coords -1.065 0 0
    }
   }
-  GenericEntity : "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et" {
+  GenericEntity WaterBottle_5A4C5C558992CAD2 : "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et" {
    coords 0.299 0.9 -0.186
   }
   GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {

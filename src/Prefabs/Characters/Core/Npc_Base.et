@@ -1,0 +1,125 @@
+EL_NpcBaseEntity {
+ ID "5A4B0B84EF6F2840"
+ components {
+  MeshObject "{5A4B0B849B69776C}" {
+   Object "{9F3AF591CD6DFE1A}Assets/Characters/Basebody/Basebody_Male_01.xob"
+  }
+  RigidBody "{5A4B0B8485DCC657}" {
+   LayerPreset "BuildingFireView"
+   SimState Collision
+   ResponseIndex "Normal"
+   ModelGeometry 1
+  }
+  CharacterIdentityComponent "{5A4B0B84AEEDE9BA}" {
+   Override 1
+   Identity Identity "{5A4B0B84AF44A913}" {
+    VisualIdentity VisualIdentity "{5A4B0B84AC1757C4}" {
+     Head "{EAF055495BA85CA1}Prefabs/Characters/Heads/Head_White_02.et"
+     Body "{0023F898C0FF18AA}Prefabs/Characters/Basebody/CharacterBasebody.et"
+     BodyMeshesConfig MeshConfig "{59670CC3FB68C7C9}" {
+      SubmeshesOfBody {
+       IdentityBodyMesh "{59670CC3FB68C773}" {
+        PartType "Arm_L"
+        HealthyVersion "Basebody_Arm_L"
+        WoundVersion "Basebody_Arm_L_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C776}" {
+        PartType "Arm_R"
+        HealthyVersion "Basebody_Arm_R"
+        WoundVersion "Basebody_Arm_R_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C779}" {
+        PartType "ArmUpper_L"
+        HealthyVersion "Basebody_ArmUpper_L"
+        WoundVersion "Basebody_ArmUpper_L_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C703}" {
+        PartType "ArmUpper_R"
+        HealthyVersion "Basebody_ArmUpper_R"
+        WoundVersion "Basebody_ArmUpper_R_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C704}" {
+        PartType "Calf_L"
+        HealthyVersion "Basebody_Calf_L"
+        WoundVersion "Basebody_Calf_L_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C70D}" {
+        PartType "Calf_R"
+        HealthyVersion "Basebody_Calf_R"
+        WoundVersion "Basebody_Calf_R_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C710}" {
+        PartType "Foot_L"
+        HealthyVersion "Basebody_Foot_L"
+        WoundVersion "Basebody_Foot_L_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C718}" {
+        PartType "Foot_R"
+        HealthyVersion "Basebody_Foot_R"
+        WoundVersion "Basebody_Foot_R_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C723}" {
+        PartType "Groin"
+        HealthyVersion "Basebody_Groin"
+        WoundVersion "Basebody_Groin_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C724}" {
+        PartType "Hand_L"
+        HealthyVersion "Basebody_Hand_L"
+        WoundVersion "Basebody_Hand_L_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C728}" {
+        PartType "Hand_R"
+        HealthyVersion "Basebody_Hand_R"
+        WoundVersion "Basebody_Hand_R_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C733}" {
+        PartType "Leg_L"
+        HealthyVersion "Basebody_Leg_L"
+        WoundVersion "Basebody_Leg_L_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C736}" {
+        PartType "Leg_R"
+        HealthyVersion "Basebody_Leg_R"
+        WoundVersion "Basebody_Leg_R_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C73A}" {
+        PartType "Torso"
+        HealthyVersion "Basebody_Torso"
+        WoundVersion "Basebody_Torso_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C73D}" {
+        PartType "Head"
+        HealthyVersion "Head"
+        WoundVersion "Head_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C7C7}" {
+        PartType "CalfLower_L"
+        HealthyVersion "Basebody_CalfLower_L"
+        WoundVersion "Basebody_CalfLower_L_wound"
+       }
+       IdentityBodyMesh "{59670CC3FB68C7CB}" {
+        PartType "CalfLower_R"
+        HealthyVersion "Basebody_CalfLower_R"
+        WoundVersion "Basebody_CalfLower_R_wound"
+       }
+      }
+     }
+    }
+    Name ""
+    Alias ""
+    Surname ""
+   }
+  }
+  BaseLoadoutManagerComponent "{5A4B0B84C86D5843}" {
+  }
+  ActionsManagerComponent "{5A4B13A9811FB113}" {
+  }
+  BaseItemAnimationComponent "{5A4B0B84C51B59C3}" {
+   AnimGraph "{3E2216C930B15594}Anims/Workspaces/Npc/Npc_Main.agr"
+   AnimInstance "{D34843122CB8077A}Anims/Workspaces/Npc/Npc_Main.asi"
+   StartNode "Idle"
+   AlwaysActive 1
+  }
+ }
+}

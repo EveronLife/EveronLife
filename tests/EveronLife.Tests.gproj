@@ -1,0 +1,8 @@
+GameProject {
+ ID "EveronLife.Tests"
+ GUID "59F474FABECFB846"
+ TITLE "EveronLife.Tests"
+ Dependencies {
+  "59636E668EA37AD7" "58D0FB3206B6F859"
+ }
+}
