@@ -1,20 +1,19 @@
 MetaFileClass {
- Name "{B09DB5A4E4B8AD7B}Assets/Items/Food/Rowan Berries/rowan_berries.xob"
+ Name "{B09DB5A4E4B8AD7B}Assets/Items/Food/Rowan Berries/RowanBerries.xob"
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {
-    MaterialAssignClass "{599CB82244B8E50B}" {
-     SourceMaterial "DefaultGeneratedMaterial"
-     AssignedMaterial "{602DF06606D57B36}Assets/Items/Food/Rowan Berries/Data/Rowan Berries.emat"
+    MaterialAssignClass "{5A4ACE704CF566A1}" {
+     SourceMaterial "RowanBerries"
+     AssignedMaterial "{602DF06606D57B36}Assets/Items/Food/Rowan Berries/Data/RowanBerries.emat"
     }
    }
    GeometryParams {
-    GeometryParam USP_berries {
+    GeometryParam UCL_cyllinder {
+     LayerPreset "ItemFireView"
      SurfaceProperties {
-      "{536BF67B2052B869}material/metal.gamemat"
+      "{7898C33735EFBBB0}Common/Materials/Game/Core/default.gamemat"
      }
-     Mass 0
-     Margin 0
     }
    }
    Common TXOCommonClass "{599CB82244B51841}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {

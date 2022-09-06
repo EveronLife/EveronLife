@@ -70,32 +70,32 @@ GenericEntity PlumTrader {
     Flags 1027
    }
    PlumTraderTestItems {
-    coords -0.627 0.918 0.343
+    coords -0.627 0.899 0.343
     {
      $grp GenericEntity : "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et" {
-      Plum_5A0E821DC5FD0122 {
-       coords -0.115 0.019 -0.073
+      {
+       coords -0.115 0 -0.073
       }
-      Plum_5A0E821DC5FD05EC {
-       coords -0.029 0.019 -0.073
+      {
+       coords -0.029 0 -0.073
       }
-      Plum_5A0E821DC5FD0718 {
-       coords 0.046 0.019 -0.073
+      {
+       coords 0.046 0 -0.073
       }
-      Plum_5A0E821DC5FD3812 {
-       coords 0.126 0.019 -0.073
+      {
+       coords 0.126 0 -0.073
       }
-      Plum_5A0E821DC5FD3D33 {
-       coords -0.029 0.019 0.012
+      {
+       coords -0.029 0 0.012
       }
-      Plum_5A0E821DC5FD3E1F {
-       coords 0.046 0.019 0.012
+      {
+       coords 0.046 0 0.012
       }
-      Plum_5A0E821DC5FD3355 {
-       coords 0.126 0.019 0.012
+      {
+       coords 0.126 0 0.012
       }
-      Plum_5A0E821DC5FD346E {
-       coords -0.115 0.019 0.012
+      {
+       coords -0.115 0 0.012
       }
      }
     }

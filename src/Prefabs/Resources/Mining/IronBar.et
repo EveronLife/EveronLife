@@ -1,21 +1,20 @@
-GenericEntity {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "59A730891E6FD06E"
  components {
-  SoundComponent "{59A730880E261D19}" {
+  SoundComponent "{5A4ADB24952425BA}" {
    Filenames {
     "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
    }
   }
-  InventoryItemComponent "{59A730880E261CF2}" {
-   Attributes SCR_ItemAttributeCollection "{59A730880E261CF3}" {
-    ItemDisplayName UIInfo "{59A730880E261D0B}" {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Iron Bar"
      Description "Smelted piece of iron"
     }
-    ItemPhysAttributes ItemPhysicalAttributes "{59A730880E261D0F}" {
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
      Weight 5
      ItemVolume 113
-     ActivePhysicalSimulation Collision
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59A730880E261CF8}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
@@ -39,10 +38,10 @@ GenericEntity {
       ItemRenderRotation 0 0 -90
      }
     }
-    m_SlotType SLOT_LOOT_STORAGE
+    m_Size SLOT_2x1
    }
   }
-  MeshObject "{59A730880E261CEA}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{75ABFBE70F78E212}Assets/Resources/Mining/MetalBar.xob"
    Materials {
     MaterialAssignClass "{59A730883F49B8C9}" {
@@ -51,34 +50,8 @@ GenericEntity {
     }
    }
   }
-  RigidBody "{59A730880E261CEF}" {
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-  }
   SCR_ConsumableItemComponent "{59A730880E261CE0}" {
-   m_eAnimVariable 2147483647
-  }
-  ActionsManagerComponent "{59A730880E261CC8}" {
-   ActionContexts {
-    UserActionContext "{59A730880E261CDC}" {
-     ContextName "default"
-     Position PointInfo "{59A730880E261CDD}" {
-     }
-    }
-   }
-   additionalActions {
-    SCR_PickUpItemAction "{59A730880E261CC9}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{59A730880E261CD6}" {
-      Name "#AR-Inventory_PickUp"
-     }
-    }
-   }
-  }
-  RplComponent "{59A730880E261CCA}" {
+   m_eAnimVariable ADRIANOV
   }
  }
- coords 110.93 0.909 134.93
 }

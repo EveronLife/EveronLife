@@ -1,12 +1,6 @@
-GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "508AB2013EEE1E00"
  components {
-  SoundComponent "{598A687919431AF0}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-   OnFrameUpdate 0
-  }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
@@ -32,10 +26,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
      }
     }
     m_Size SLOT_2x1
-    m_SlotType SLOT_ANY
    }
   }
-  MeshObject "{598A687919431AE1}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{F4A6B9CC408CD0F4}Assets/Props/Military/Sandbags/Sandbag_01_single.xob"
    Materials {
     MaterialAssignClass "{598A687AE4725D3B}" {
@@ -50,23 +43,13 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    LODScale 0.1
    PixelSizeScale 10
   }
-  RigidBody "{598A687919431ADD}" {
-   LinearDamping 0.5
-   AngularDamping 0.5
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-   CCDRadius 0.015
-  }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
     UserActionContext "{508AC2ABEC97066C}" {
      Position PointInfo "{508AC2ABEAC4A0F5}" {
       Offset -0.1 0.2 0
      }
-     Radius 0.5
     }
-   }
-   additionalActions {
    }
   }
  }
