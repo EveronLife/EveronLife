@@ -166,6 +166,10 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected void ShutDownSave()
 	{
+		// Make sure all pending garbage removal is processed to avoid saving something that would be deleted next frame anyway ...
+		GarbageManager garbageManager = GetGame().GetGarbageManager();
+		if (garbageManager) garbageManager.Flush();
+		
 		foreach (EL_PersistenceComponent persistenceComponent, Tuple2<bool, bool> infoTuple : m_mRootPersistenceComponents)
 		{
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
@@ -238,7 +242,11 @@ class EL_PersistenceManager
 			if (!saveData) continue;
 
 			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(bakedEntity.FindComponent(EL_PersistenceComponent));
-			if (persistenceComponent) persistenceComponent.Load(saveData);
+			if (persistenceComponent && persistenceComponent.Load(saveData))
+			{
+				// Apply remaining lifetime
+				m_pEntityLifetimeCollection.Apply(persistenceComponent);
+			}
 		}
 
 		// Spawn additional entities from the previously bulk loaded data
@@ -247,7 +255,13 @@ class EL_PersistenceManager
 			foreach (string persistentId : persistentIds)
 			{
 				EL_EntitySaveDataBase saveData = m_mInitEntitySaveData.Get(persistentId);
-				if (saveData) SpawnWorldEntity(saveData);
+				IEntity spawnedEntity = SpawnWorldEntity(saveData);
+				if (spawnedEntity)
+				{
+					// Apply remaining lifetime
+					EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(spawnedEntity.FindComponent(EL_PersistenceComponent));
+					m_pEntityLifetimeCollection.Apply(persistenceComponent);
+				}
 			}
 		}
 
@@ -448,11 +462,14 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 	{
 		m_mRootPersistenceComponents.Set(persistenceComponent, new Tuple2<bool, bool>(baked, autoSave));
 
+		// During world init, before the inital state was processed by PrepareInitalWorldState() ignore all baked entnties
+		// otherwise they will add themselves back as known root entity reversing their yet pending possible removal.
 		if (m_eState != EL_EPersistenceManagerState.WORLD_INIT)
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, baked);
-			m_pEntityLifetimeCollection.Add(persistenceComponent);
 		}
+		
+		m_pEntityLifetimeCollection.Add(persistenceComponent);
 	}
 
 	//------------------------------------------------------------------------------------------------
