@@ -1,8 +1,5 @@
 class EL_GatherAction : ScriptedUserAction
 {
-	[Attribute(desc: "Display name of what is being gathered", category: "General")]
-	protected string m_GatherItemDisplayName;
-	
 	[Attribute(desc: "Prefab what item is gathered", category: "General")]
 	protected ResourceName m_GatherItemPrefab;
 	
@@ -23,6 +20,8 @@ class EL_GatherAction : ScriptedUserAction
 	
 	protected int m_iRemainingGathers;
 	protected float m_fNextQuantityRestock;
+	
+	protected string m_sDisplayName;
 	
 	//------------------------------------------------------------------------------------------------
 	// User has performed the action
@@ -64,7 +63,15 @@ class EL_GatherAction : ScriptedUserAction
 	// Formats name for action when hovering
 	override bool GetActionNameScript(out string outName)
 	{
-		outName = string.Format("Gather %1", m_GatherItemDisplayName);
+		if (!m_sDisplayName)
+		{
+			m_sDisplayName = "Unknown";
+			EL_UIInfo uiInfo = EL_UIInfo.FromPrefab(m_GatherItemPrefab);
+			if (uiInfo) m_sDisplayName = uiInfo.GetName();
+			m_sDisplayName = string.Format("Gather %1", m_sDisplayName);
+		}
+		
+		outName = m_sDisplayName;
 		return true;
 	}
 	
