@@ -31,8 +31,9 @@ class EL_PersistenceManager
 
 	// Root instance tracking
 	protected ref EL_PersistentRootEntityCollection m_pRootEntityCollection;
-	protected ref map<EL_PersistenceComponent, ref Tuple2<bool, bool>> m_mRootPersistenceComponents;
+	protected ref map<EL_PersistenceComponent, bool> m_mRootPersistenceComponents;
 	protected ref map<EL_PersistentScriptedStateBase, bool> m_mRootScriptedStates;
+	protected ref set<string> m_aBackedEntityIds;
 
 	// Only used during setup
 	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
@@ -103,6 +104,12 @@ class EL_PersistenceManager
 	}
 
 	//------------------------------------------------------------------------------------------------
+	protected bool IsBaked(EL_PersistenceComponent persistenceComponent)
+	{
+		return m_aBackedEntityIds.Contains(persistenceComponent.GetPersistentId());
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Manually trigger the global auto-save. Resets the timer until the next auto-save cycle. If an auto-save is in progress it will do nothing.
 	void AutoSave()
 	{
@@ -122,13 +129,13 @@ class EL_PersistenceManager
 		while (m_iAutoSaveEntityIt != m_mRootPersistenceComponents.End())
 		{
 			EL_PersistenceComponent persistenceComponent = m_mRootPersistenceComponents.GetIteratorKey(m_iAutoSaveEntityIt);
-			Tuple2<bool, bool> infoTuple = m_mRootPersistenceComponents.GetIteratorElement(m_iAutoSaveEntityIt);
+			bool autoSave = m_mRootPersistenceComponents.GetIteratorElement(m_iAutoSaveEntityIt);
 
 			m_iAutoSaveEntityIt = m_mRootPersistenceComponents.Next(m_iAutoSaveEntityIt);
 
-			if (!infoTuple.param1) continue; //Ignore if no auto-save
+			if (!autoSave) continue; //Ignore if no auto-save
 
-			UpdateRootEntityCollection(persistenceComponent, infoTuple);
+			UpdateRootEntityCollection(persistenceComponent);
 			persistenceComponent.Save();
 			m_iSaveOperation++;
 
@@ -169,13 +176,13 @@ class EL_PersistenceManager
 		// Make sure all pending garbage removal is processed to avoid saving something that would be deleted next frame anyway ...
 		GarbageManager garbageManager = GetGame().GetGarbageManager();
 		if (garbageManager) garbageManager.Flush();
-		
-		foreach (EL_PersistenceComponent persistenceComponent, Tuple2<bool, bool> infoTuple : m_mRootPersistenceComponents)
+
+		foreach (EL_PersistenceComponent persistenceComponent, auto _ : m_mRootPersistenceComponents)
 		{
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
 			if (!settings.m_bShutdownsave) continue;
 
-			UpdateRootEntityCollection(persistenceComponent, infoTuple);
+			UpdateRootEntityCollection(persistenceComponent);
 			persistenceComponent.Save();
 		}
 
@@ -191,7 +198,7 @@ class EL_PersistenceManager
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void UpdateRootEntityCollection(EL_PersistenceComponent persistenceComponent, Tuple2<bool, bool> infoTuple)
+	protected void UpdateRootEntityCollection(EL_PersistenceComponent persistenceComponent)
 	{
 		// Double check all root entites as some of them might have been stored or unstored without a manager noticing. Remove once ground item manipulation events are exposed.
 		InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(persistenceComponent.GetOwner().FindComponent(InventoryItemComponent));
@@ -199,12 +206,12 @@ class EL_PersistenceManager
 
 		if (!inventoryItemComponent.GetParentSlot())
 		{
-			m_pRootEntityCollection.Add(persistenceComponent, infoTuple.param2);
+			m_pRootEntityCollection.Add(persistenceComponent, IsBaked(persistenceComponent));
 			m_pEntityLifetimeCollection.Add(persistenceComponent);
 		}
 		else
 		{
-			m_pRootEntityCollection.Remove(persistenceComponent, infoTuple.param2);
+			m_pRootEntityCollection.Remove(persistenceComponent, IsBaked(persistenceComponent));
 			m_pEntityLifetimeCollection.Remove(persistenceComponent.GetPersistentId());
 		}
 	}
@@ -415,8 +422,9 @@ class EL_PersistenceManager
 	{
 		SetState(EL_EPersistenceManagerState.WORLD_INIT);
 
-		m_mRootPersistenceComponents = new map<EL_PersistenceComponent, ref Tuple2<bool, bool>>();
+		m_mRootPersistenceComponents = new map<EL_PersistenceComponent, bool>();
 		m_mRootScriptedStates = new map<EL_PersistentScriptedStateBase, bool>();
+		m_aBackedEntityIds = new set<string>();
 
 		m_mInitEntitySaveData = new map<string, ref EL_EntitySaveDataBase>();
 		m_mBackedEntities = new map<string, IEntity>();
@@ -458,17 +466,17 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 
 	//------------------------------------------------------------------------------------------------
 	//! Register entity that is on the ground to start custom tracking for it
-	void RegisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool baked, bool autoSave)
+	void RegisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool autoSave)
 	{
-		m_mRootPersistenceComponents.Set(persistenceComponent, new Tuple2<bool, bool>(baked, autoSave));
+		m_mRootPersistenceComponents.Set(persistenceComponent, autoSave);
 
 		// During world init, before the inital state was processed by PrepareInitalWorldState() ignore all baked entnties
 		// otherwise they will add themselves back as known root entity reversing their yet pending possible removal.
 		if (m_eState != EL_EPersistenceManagerState.WORLD_INIT)
 		{
-			m_pRootEntityCollection.Add(persistenceComponent, baked);
+			m_pRootEntityCollection.Add(persistenceComponent, IsBaked(persistenceComponent));
 		}
-		
+
 		m_pEntityLifetimeCollection.Add(persistenceComponent);
 	}
 
@@ -481,10 +489,10 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 
 	//------------------------------------------------------------------------------------------------
 	//! Unregister entity if deleted or stored inside a non ground item storage root
-	void UnregisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent, bool baked)
+	void UnregisterSaveRoot(notnull EL_PersistenceComponent persistenceComponent)
 	{
 		m_mRootPersistenceComponents.Remove(persistenceComponent);
-		m_pRootEntityCollection.Remove(persistenceComponent, baked);
+		m_pRootEntityCollection.Remove(persistenceComponent, IsBaked(persistenceComponent));
 		m_pEntityLifetimeCollection.Remove(persistenceComponent.GetPersistentId());
 	}
 
@@ -524,6 +532,7 @@ class EL_PersistenceManagerInternal : EL_PersistenceManager
 			}
 
 			m_mBackedEntities.Set(id, worldEntity);
+			m_aBackedEntityIds.Insert(id);
 		}
 		else if (m_sNextPersistentId)
 		{
