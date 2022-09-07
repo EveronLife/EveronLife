@@ -13,6 +13,7 @@ class EL_ClearDatabasePlugin: WorkbenchPlugin
 	override void Run()
 	{
 		System.FindFiles(DeleteFileCallback, DB_BASE_DIR, ".json");
+		System.FindFiles(DeleteFileCallback, DB_BASE_DIR, ".bin");
 		System.FindFiles(DeleteFileCallback, DB_BASE_DIR, string.Empty);
 		Print("-- DATABASE CLEARED --", LogLevel.WARNING);
 	}
