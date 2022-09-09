@@ -173,10 +173,6 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected void ShutDownSave()
 	{
-		// Make sure all pending garbage removal is processed to avoid saving something that would be deleted next frame anyway ...
-		GarbageManager garbageManager = GetGame().GetGarbageManager();
-		if (garbageManager) garbageManager.Flush();
-
 		foreach (EL_PersistenceComponent persistenceComponent, auto _ : m_mRootPersistenceComponents)
 		{
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));

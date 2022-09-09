@@ -24,15 +24,8 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 	void Apply(EL_PersistenceComponent persistenceComponent)
 	{
 		GarbageManager garbageManager = GetGame().GetGarbageManager();
-		if (!garbageManager) return;
-
-		float lifetime;
-		if (m_mLifetimes)
-		{
-			lifetime = m_mLifetimes.Get(persistenceComponent.GetPersistentId());
-		}
-
-		if (lifetime) garbageManager.Insert(persistenceComponent.GetOwner(), lifetime);
+		if (!garbageManager || !m_mLifetimes || !m_mLifetimes.Contains(persistenceComponent.GetPersistentId())) return;
+		garbageManager.Insert(persistenceComponent.GetOwner(), m_mLifetimes.Get(persistenceComponent.GetPersistentId()));
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -51,7 +44,7 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 				if (!persistentId || !entity || playerManager.GetPlayerIdFromControlledEntity(entity)) continue;
 
 				float lifeTime = garbageManager.GetLifetime(entity);
-				if (lifeTime <= 0) continue;
+				if (lifeTime == -1) continue;
 
 				m_mLifetimes.Set(persistentId, lifeTime);
 			}
