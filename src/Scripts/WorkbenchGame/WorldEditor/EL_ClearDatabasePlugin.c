@@ -1,4 +1,4 @@
-[WorkbenchPluginAttribute("Clear Database", "Deletes the .db folder!", "", "", {"WorldEditor", "ResourceManager"}, "", 0xf1c0)]
+[WorkbenchPluginAttribute("Clear Database", "Deletes the .db folder!", "alt+c", "", {"WorldEditor", "ResourceManager"}, "", 0xf1c0)]
 class EL_ClearDatabasePlugin: WorkbenchPlugin
 {
 	const string DB_BASE_DIR = "$profile:/.db";
