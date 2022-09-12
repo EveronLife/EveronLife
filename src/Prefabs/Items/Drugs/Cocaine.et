@@ -1,0 +1,84 @@
+GenericEntity {
+ ID "59C6B0702D1E4E67"
+ components {
+  SoundComponent "{59C6B0702D1E4E5A}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+   OnFrameUpdate 0
+  }
+  InventoryItemComponent "{59C6B0702D1E4E56}" {
+   Attributes SCR_ItemAttributeCollection "{59C6B0702D1E4E53}" {
+    ItemDisplayName UIInfo "{59C6B0702D1E4E48}" {
+     Name "Cocaine Pouch"
+     Description "A Full Pouch of Cocaine"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59C6B0702D1E4E4A}" {
+     Weight 0.2
+     SizeSetupStrategy Volume
+     ItemVolume 113
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59C6B0702D1E4E45}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59C6B0702D1E4E46}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 90 0 -90
+     HandAdditiveTranslation -0.02 0.018 0
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59C6B0702D1E4E41}" {
+     }
+    }
+    m_Size SLOT_1x1
+    m_SlotType SLOT_LOADOUT_STORAGE
+   }
+  }
+  MeshObject "{59C6B0702D1E4EBC}" {
+   Object "{250B64167B3A6475}Assets/Items/Food/MRE_01.xob"
+   Materials {
+    MaterialAssignClass "{59C6B0737083B6D3}" {
+     SourceMaterial "MRE_01"
+     AssignedMaterial "{230D1A596DBC9DCA}Assets/Items/Drugs/CocainePackage/Data/Cocaine_Package.emat"
+    }
+   }
+   LODScale 1
+   PixelSizeScale 10
+  }
+  Hierarchy "{59C881B1307B550C}" {
+  }
+  RigidBody "{59C6B0702D1E4EBD}" {
+   LinearDamping 0.5
+   AngularDamping 0.5
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   CCDRadius 0.015
+  }
+  ActionsManagerComponent "{59C6B0702D1E4EBF}" {
+   ActionContexts {
+    UserActionContext "{59C6B0702D1E4EB9}" {
+     ContextName "default"
+     Position PointInfo "{59C6B0702D1E4EBA}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59C6B0702D1E4EB5}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59C6B0702D1E4EB6}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{59C6B0702D1E4EB0}" {
+  }
+ }
+}

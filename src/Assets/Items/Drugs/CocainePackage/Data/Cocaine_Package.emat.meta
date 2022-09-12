@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{230D1A596DBC9DCA}Assets/Items/Drugs/CocainePackage/Data/Cocaine_Package.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

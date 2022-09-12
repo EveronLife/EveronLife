@@ -1,0 +1,7 @@
+MatPBRBasic {
+ Color 1 0.905 0.905 1
+ SurfaceProperties "{5EAA7FB0A83F90CF}Common/Materials/Game/plastic.gamemat"
+ RoughnessScale 0.294
+ MetalnessScale 0
+ NMOMap "{0D81402BE2CE568B}Assets/Items/Food/Data/MRE_01_N.edds"
+}

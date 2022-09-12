@@ -1,0 +1,47 @@
+GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
+ ID "598F21A86EB5B48E"
+ components {
+  MeshObject "{598F21A867C4015C}" {
+   Object "{D73D5FE0EEFBCD9B}Assets/Props/Industrial/BarrelMetal_01/BarrelMetal_01.xob"
+  }
+  Hierarchy "{59C89AB25AA377D4}" {
+  }
+  ActionsManagerComponent "{598F21A8710B89C1}" {
+   ActionContexts {
+    UserActionContext "{598F21A871DA7304}" {
+     Position PointInfo "{598F21A875320722}" {
+      Offset 0 0.3718 0.1281
+     }
+     Radius 1
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{598F21A877BE6DEE}" {
+     UIInfo UIInfo "{59C6B07C18596B22}" {
+      Name "Process Cocaine"
+     }
+     Duration 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{59C6B07C18596B11}" {
+       m_InputPrefab "{DD593D31D4F3DFBF}Prefabs/Items/Drugs/Coca_leaves.et"
+      }
+      EL_ProcessingInput "{59C6B071949BA2BE}" {
+       m_InputPrefab "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et"
+      }
+      EL_ProcessingInput "{59C6B07194C31264}" {
+       m_InputPrefab "{D06287F32CEE1EE2}Prefabs/Items/Resources/Diesel_jerrycan.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{59C6B07C18596B0C}" {
+       m_OutputPrefab "{B854F08E28254CB8}Prefabs/Items/Drugs/Cocaine.et"
+      }
+     }
+    }
+   }
+  }
+  RplComponent "{59C6B07C18596B0F}" {
+  }
+ }
+ coords 109.747 0.917 134.929
+}

@@ -1,0 +1,48 @@
+Tree : "{D7163D1B571F4C0C}Prefabs/Vegetation/Core/Bush_Base.et" {
+ ID "2272273384468550"
+ components {
+  MeshObject "{545B01F41F2EA5C4}" {
+   Object "{CCFDD1DC40D55B77}Assets/Vegetation/Bush/Rosa_Canina/B_Rosa_canina_1s.xob"
+   LODFactors {
+    100 50 5 1
+   }
+  }
+  Hierarchy "{59C881B082A258AB}" {
+  }
+  SlotManagerComponent "{59C88DEE4CB2C47B}" {
+   Slots {
+    EntitySlotInfo stick {
+     Offset 0 -0.409 0
+     Prefab "{7F921C04980D991E}PrefabLibrary/Props/Infrastructure/FlowerpotStreet_01_rect_short.et"
+    }
+   }
+  }
+  ActionsManagerComponent "{59C6B072EC6E17CB}" {
+   ActionContexts {
+    UserActionContext "{59C6B072E1AE4FFB}" {
+     ContextName "default"
+     Position PointInfo "{59C6B072D992F62E}" {
+      Offset 0 0.1868 0
+     }
+     Radius 5
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{59C6B072D69ABAAC}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59C881B08A3AEE19}" {
+      Name "Gather Coca Leaves"
+     }
+     Duration 2
+     m_GatherItemPrefab "{DD593D31D4F3DFBF}Prefabs/Items/Drugs/Coca_leaves.et"
+    }
+   }
+  }
+  RplComponent "{598CB325F69348C6}" {
+  }
+ }
+ coords 2316.863 0.002 2516.04
+ angleY 142
+}
