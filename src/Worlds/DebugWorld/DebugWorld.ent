@@ -28,3 +28,12 @@ Layer GravelChain {
 Layer CementChain {
  Index 9
 }
+Layer CocaineChain {
+ Index 5
+}
+Layer HerionChain {
+ Index 11
+}
+Layer MushroomChain {
+ Index 12
+}

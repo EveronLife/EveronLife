@@ -1,0 +1,8 @@
+$grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+ {
+  coords 101.835 0.003 141.903
+ }
+ {
+  coords 104.286 0.001 141.903
+ }
+}

@@ -1,0 +1,37 @@
+GenericEntity : "{1EA06AA76191AE7A}Prefabs/Processor/Cocaine_Processor.et" {
+ coords 115.529 0.001 141.938
+}
+Tree : "{30549DAE871F6E7E}Prefabs/Vegetation/Bush/Coca_bush.et" {
+ coords 112.736 0.403 141.94
+ angleY 0
+}
+$grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+ {
+  coords 114.336 0.004 142.007
+ }
+ {
+  coords 116.705 0.004 142.007
+ }
+}
+$grp GenericEntity : "{B854F08E28254CB8}Prefabs/Items/Drugs/Cocaine.et" {
+ {
+  coords 116.522 0.899 141.994
+ }
+ {
+  coords 116.734 0.899 141.975
+ }
+ {
+  coords 116.925 0.9 141.97
+ }
+}
+GenericEntity : "{D06287F32CEE1EE2}Prefabs/Items/Resources/Diesel_jerrycan.et" {
+ coords 114.099 0.9 142.312
+ angleY 71.041
+}
+GenericEntity CementBag_5A595083E21C80B7 : "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et" {
+ coords 114.324 0.903 141.855
+}
+GenericEntity : "{DD593D31D4F3DFBF}Prefabs/Items/Drugs/Coca_leaves.et" {
+ coords 114.905 0.914 142.291
+ angleZ -71.066
+}
