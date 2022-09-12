@@ -1,0 +1,85 @@
+GenericEntity {
+ ID "59D414C37421630A"
+ components {
+  SoundComponent "{59D414C374216303}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+   OnFrameUpdate 0
+  }
+  InventoryItemComponent "{59D414C37421637A}" {
+   Attributes SCR_ItemAttributeCollection "{59D414C37421636C}" {
+    ItemDisplayName UIInfo "{59D414C37421636F}" {
+     Name "Picked Mushroom"
+     Description "A Mushroom with a bluish color"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59D414C37421636A}" {
+     Weight 0.2
+     SizeSetupStrategy Volume
+     ItemVolume 113
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59D414C374216365}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59D414C374216367}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 90 0 -90
+     HandAdditiveTranslation -0.02 0.018 0
+    }
+    CustomAttributes {
+     ItemActionAnimAttributes "{59D414C374216362}" {
+     }
+    }
+    m_Size SLOT_1x1
+    m_SlotType SLOT_LOADOUT_STORAGE
+   }
+  }
+  MeshObject "{59D414C37421635D}" {
+   Object "{82DB58D6480BD552}Assets/Clutter/Vegetation/Mushrooms/c_mushrooms_01.xob"
+   Materials {
+    MaterialAssignClass "{59D414C35A78384F}" {
+     SourceMaterial "mushroom_01"
+     AssignedMaterial "{F10A1F11E9AAC092}Assets/Vegetation/Mushrooms/Data/mushrooms.emat"
+    }
+   }
+   LODScale 0.1
+   PixelSizeScale 10
+  }
+  Hierarchy "{59D414C37421635A}" {
+  }
+  RigidBody "{59D414C37421635B}" {
+   LinearDamping 0.5
+   AngularDamping 0.5
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   CCDRadius 0.015
+  }
+  ActionsManagerComponent "{59D414C374216355}" {
+   ActionContexts {
+    UserActionContext "{59D414C374216357}" {
+     ContextName "default"
+     Position PointInfo "{59D414C374216352}" {
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{59D414C37421634C}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59D414C37421634D}" {
+      Name "#AR-Inventory_PickUp"
+     }
+    }
+   }
+  }
+  RplComponent "{59D414C374216348}" {
+  }
+ }
+ scale 0.1
+}

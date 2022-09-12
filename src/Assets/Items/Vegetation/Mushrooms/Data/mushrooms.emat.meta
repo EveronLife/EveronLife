@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F10A1F11E9AAC092}Assets/Clutter/Vegetation/Mushrooms/Data/mushrooms.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}
