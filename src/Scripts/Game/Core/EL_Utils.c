@@ -49,6 +49,18 @@ class EL_Utils
 	}
 
 	//------------------------------------------------------------------------------------------------
+	static RplId GetRplId(IEntity entity)
+	{
+		if (entity)
+		{
+			RplComponent replication = RplComponent.Cast(entity.FindComponent(RplComponent));
+			if (replication) return replication.Id();
+		}
+
+		return RplId.Invalid();
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Finds an entity by its repliction id
 	//! \param rplId Replication id to search for
 	//! \return the the entity found or null if not found or invalid replication id
@@ -213,6 +225,20 @@ class EL_Utils
 		}
 
 		return sortedHierachy;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MaxInt(int a, int b)
+	{
+		if(a > b) return a;
+		return b;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MinInt(int a, int b)
+	{
+		if(a < b) return a;
+		return b;
 	}
 }
 
