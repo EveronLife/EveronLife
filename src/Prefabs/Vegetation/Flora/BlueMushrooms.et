@@ -1,0 +1,46 @@
+Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
+ ID "0F2AA6B42CA78628"
+ components {
+  MeshObject "{59C960BA20036BDF}" {
+   Object "{82DB58D6480BD552}Assets/Clutter/Vegetation/Mushrooms/c_mushrooms_01.xob"
+   Materials {
+    MaterialAssignClass "{59C960BA0C2E0FBE}" {
+     SourceMaterial "mushroom_01"
+     AssignedMaterial "{F10A1F11E9AAC092}Assets/Items/Vegetation/Mushrooms/Data/BlueMushrooms.emat"
+    }
+   }
+  }
+  RigidBody "{59C960BA20036BD5}" {
+   ResponseIndex "HugeDestructible"
+  }
+  SphereGeometry "{59D414C155FF5052}" {
+   LayerPreset "ItemFireView"
+   Radius 0.3
+  }
+  ActionsManagerComponent "{59C960BBE96A0A2C}" {
+   ActionContexts {
+    UserActionContext "{59D414C10926AC5E}" {
+     ContextName "default"
+     Position PointInfo "{59D414C10267E5FA}" {
+      Offset 0 0.0689 0
+     }
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{59D414C104A6527C}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 1
+     m_GatherItemPrefab "{70362BBD986B21C2}Prefabs/Items/Drugs/PickedMushroom.et"
+    }
+   }
+  }
+  RplComponent "{59C960BBF2246170}" {
+  }
+ }
+ coords 1.665 2.467 -0.717
+ scale 0.6
+ SoundType Leafy
+ m_iFoliageHeight 3
+}

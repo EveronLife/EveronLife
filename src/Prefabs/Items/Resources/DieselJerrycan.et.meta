@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{D06287F32CEE1EE2}Prefabs/Items/Resources/Diesel_jerrycan.et"
+ Name "{6F9C6411DD19E01F}Prefabs/Items/Resources/DieselJerrycan.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

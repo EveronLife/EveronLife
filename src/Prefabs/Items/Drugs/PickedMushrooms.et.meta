@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{70362BBD986B21C2}Prefabs/Items/Drugs/PickedMushroom.et"
+ Name "{81EB845892EF593C}Prefabs/Items/Resources/PickedMushrooms.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }
