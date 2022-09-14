@@ -36,12 +36,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
   }
   MeshObject "{5A4ACD10B8DA304F}" {
    Object "{FEC338E88366A268}Assets/Props/Civilian/Jerrycan_01/Jerrycan_01.xob"
-   Materials {
-    MaterialAssignClass "{5A5B25AC9CE5972E}" {
-     SourceMaterial "Assets/Structures/Walls/Brick/Data/BrickWall_01_bricks"
-     AssignedMaterial "{F91EF4F5C90B9DF8}Assets/Rocks/Granite/Data/GraniteCluster_01.emat"
-    }
-   }
    LODScale 0.1
    PixelSizeScale 10
   }

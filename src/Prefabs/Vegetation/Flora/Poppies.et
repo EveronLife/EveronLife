@@ -3,12 +3,6 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
  components {
   MeshObject "{5A5B376F640CA3AC}" {
    Object "{5090CAA4A7BA34C4}Assets/Items/Vegetation/Poppies/Poppies.xob"
-   Materials {
-    MaterialAssignClass "{5A5B376F640CA3A6}" {
-     SourceMaterial "mushroom_01"
-     AssignedMaterial "{F10A1F11E9AAC092}Assets/Items/Vegetation/Mushrooms/Data/BlueMushrooms.emat"
-    }
-   }
   }
   RigidBody "{5A5B376F640CA3BC}" {
    ResponseIndex "HugeDestructible"
