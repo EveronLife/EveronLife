@@ -1,8 +1,21 @@
-$grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
- {
-  coords 101.835 0.003 141.903
+Tree : "{810295C28C854208}Prefabs/Vegetation/Flora/BlueMushrooms.et" {
+ coords 98.022 0.509 142.127
+ scale 0.5
+}
+$grp GenericEntity : "{81EB845892EF593C}Prefabs/Items/Drugs/PickedMushrooms.et" {
+ PickedMushrooms_5A5B376DCAF348F7 {
+  coords 99.051 0.899 142.142
  }
- {
-  coords 104.286 0.001 141.903
+ PickedMushrooms_5A5B376DC9E4F136 {
+  coords 99.639 0.899 142.084
  }
+ PickedMushrooms_5A5B376DC7057BFB {
+  coords 98.947 0.899 142.69
+ }
+ PickedMushrooms_5A5B376DC67D927D {
+  coords 99.57 0.899 142.581
+ }
+}
+GenericEntity : "{DC22AFC5AB59E001}Prefabs/Props/Decorations/Flowerpots/FlowerpotStreet_01/FlowerpotStreet_01_rect_short_Empty.et" {
+ coords 97.973 0.004 142.144
 }
