@@ -210,8 +210,6 @@ modded class SCR_InventoryMenuUI
 	//------------------------------------------------------------------------------------------------
 	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
 	{
-		PrintFormat("OnAction(%1)", action);
-
 		if (m_pELSelectedQuantitySlot)
 		{
 			switch (action)
