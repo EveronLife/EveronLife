@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{047016EA7C86B69A}Assets/Items/Drugs/CocainePackage/Data/Herion_Package.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

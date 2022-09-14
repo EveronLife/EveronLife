@@ -1,0 +1,45 @@
+Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
+ ID "0F2AA6B42CA78628"
+ components {
+  MeshObject "{5A5B376F640CA3AC}" {
+   Object "{5090CAA4A7BA34C4}Assets/Items/Vegetation/Poppies/Poppies.xob"
+   Materials {
+    MaterialAssignClass "{5A5B376F640CA3A6}" {
+     SourceMaterial "mushroom_01"
+     AssignedMaterial "{F10A1F11E9AAC092}Assets/Items/Vegetation/Mushrooms/Data/BlueMushrooms.emat"
+    }
+   }
+  }
+  RigidBody "{5A5B376F640CA3BC}" {
+   ResponseIndex "HugeDestructible"
+  }
+  SphereGeometry "{5A5B376F0C574360}" {
+   LayerPreset "ItemFireView"
+   Radius 0.15
+  }
+  ActionsManagerComponent "{5A5B376F640CA3B3}" {
+   ActionContexts {
+    UserActionContext "{5A5B376F640CA3B5}" {
+     ContextName "default"
+     Position PointInfo "{5A5B376F640CA3B7}" {
+     }
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{5A5B376F640CA248}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 1
+     m_GatherItemPrefab "{F18EF6233EADE5E5}Prefabs/Items/Drugs/PickedPoppies.et"
+    }
+   }
+  }
+  RplComponent "{5A5B376F640CA24C}" {
+  }
+ }
+ coords 1.665 2.467 -0.717
+ scale 0.45
+ SoundType Leafy
+ m_iFoliageHeight 3
+}

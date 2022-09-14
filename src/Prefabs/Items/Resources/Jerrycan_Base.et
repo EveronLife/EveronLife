@@ -4,19 +4,19 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
-     Name "Blue Mushrooms"
-     Description "A Mushroom with a bluish color"
+     Name "Empty Jerrycan"
+     Description "A empty jerrycan"
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
-     Weight 0.2
+     Weight 2
      SizeSetupStrategy Volume
      ItemVolume 113
     }
-    ItemAnimationAttributes ItemAnimationAttributes "{5A5B25ACADFCDA53}" {
+    ItemAnimationAttributes ItemAnimationAttributes "{5A5B25AC9CE59715}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
      AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
      AnimationAttachments {
-      AnimationAttachmentInfo "{5A5B25ACADFCDA68}" {
+      AnimationAttachmentInfo "{5A5B25AC9CE59729}" {
        AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
        AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
        BindingName "Gadget"
@@ -26,46 +26,37 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      HandAdditiveTranslation -0.02 0.018 0
     }
     CustomAttributes {
-     PreviewRenderAttributes "{5A5B25ACADFCDA6C}" {
-      CameraOrbitAngles -17.37 44.7 0
-      CameraDistanceToItem 0.24
-      CameraOffset 0 0 -0.5
+     PreviewRenderAttributes "{5A5B25AC9CE5972A}" {
+      CameraOrbitAngles 0 90 0
+      CameraDistanceToItem 0.65
      }
     }
     m_SlotType SLOT_ANY
    }
   }
   MeshObject "{5A4ACD10B8DA304F}" {
-   Object "{82DB58D6480BD552}Assets/Clutter/Vegetation/Mushrooms/c_mushrooms_01.xob"
+   Object "{FEC338E88366A268}Assets/Props/Civilian/Jerrycan_01/Jerrycan_01.xob"
    Materials {
-    MaterialAssignClass "{5A5B25AA80643AC1}" {
-     SourceMaterial "mushroom_01"
-     AssignedMaterial "{F10A1F11E9AAC092}Assets/Items/Vegetation/Mushrooms/Data/BlueMushrooms.emat"
+    MaterialAssignClass "{5A5B25AC9CE5972E}" {
+     SourceMaterial "Assets/Structures/Walls/Brick/Data/BrickWall_01_bricks"
+     AssignedMaterial "{F91EF4F5C90B9DF8}Assets/Rocks/Granite/Data/GraniteCluster_01.emat"
     }
    }
    LODScale 0.1
    PixelSizeScale 10
   }
-  RigidBody "{5A4ACBB1A0084DA1}" {
-   ModelGeometry 0
-  }
-  SCR_ConsumableItemComponent "{5A5B25ACADFCDA64}" {
+  SCR_ConsumableItemComponent "{5A5B25AC9CE59723}" {
    m_eAnimVariable ADRIANOV
-  }
-  SphereGeometry "{5A5B25A9B163AB54}" {
-   LayerPreset "ItemFireView"
-   Radius 0.3
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
     UserActionContext "{508AC2ABEC97066C}" {
      Position PointInfo "{508AC2ABEAC4A0F5}" {
-      Offset 0 0 0
+      Offset 0 0.5121 0.0401
      }
-     Radius 1
+     Radius 0.5
     }
    }
   }
  }
- scale 0.6
 }

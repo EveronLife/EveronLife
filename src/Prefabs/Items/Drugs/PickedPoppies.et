@@ -4,8 +4,8 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
-     Name "Picked Mushroom"
-     Description "A Mushroom with a bluish color"
+     Name "Poppies"
+     Description "A handful of poppies"
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
      Weight 0.2
@@ -27,8 +27,8 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
     }
     CustomAttributes {
      PreviewRenderAttributes "{5A5B3769292294AB}" {
-      CameraOrbitAngles 90 0 90
-      CameraDistanceToItem 0.3
+      CameraOrbitAngles -16 144 0
+      CameraDistanceToItem 0.7
       CameraOffset 0 0 0
      }
     }
@@ -60,7 +60,7 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
    ActionContexts {
     UserActionContext "{508AC2ABEC97066C}" {
      Position PointInfo "{508AC2ABEAC4A0F5}" {
-      Offset 0 0 0
+      Offset 0 0.1613 0
      }
      Radius 1
     }

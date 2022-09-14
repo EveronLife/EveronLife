@@ -23,18 +23,18 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
      Duration 1
      m_aProcessingInputs {
       EL_ProcessingInput "{59C6B07C18596B11}" {
-       m_InputPrefab "{DD593D31D4F3DFBF}Prefabs/Items/Drugs/Coca_leaves.et"
+       m_InputPrefab "{BBAC42E6A4F3B251}Prefabs/Items/Drugs/CocaLeaves.et"
       }
       EL_ProcessingInput "{59C6B071949BA2BE}" {
        m_InputPrefab "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et"
       }
       EL_ProcessingInput "{59C6B07194C31264}" {
-       m_InputPrefab "{D06287F32CEE1EE2}Prefabs/Items/Resources/Diesel_jerrycan.et"
+       m_InputPrefab "{B4A13C5D1D049FFB}Prefabs/Items/Resources/Jerrycan_Diesel.et"
       }
      }
      m_aProcessingOutputs {
       EL_ProcessingOutput "{59C6B07C18596B0C}" {
-       m_OutputPrefab "{B854F08E28254CB8}Prefabs/Items/Drugs/Cocaine.et"
+       m_OutputPrefab "{DCF75A3923FCEF7E}Prefabs/Items/Drugs/Cocaine.et"
       }
      }
     }

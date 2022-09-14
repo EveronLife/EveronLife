@@ -32,7 +32,7 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
       "default"
      }
      Duration 1
-     m_GatherItemPrefab "{70362BBD986B21C2}Prefabs/Items/Drugs/PickedMushroom.et"
+     m_GatherItemPrefab "{81EB845892EF593C}Prefabs/Items/Drugs/PickedMushrooms.et"
     }
    }
   }
