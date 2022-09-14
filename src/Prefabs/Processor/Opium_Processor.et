@@ -24,7 +24,7 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
    additionalActions {
     EL_ProcessAction "{598F21A877BE6DEE}" {
      UIInfo UIInfo "{5A5B376614CF16B2}" {
-      Name "Process Cocaine"
+      Name "Process Opium"
      }
      Duration 1
      m_aProcessingInputs {
