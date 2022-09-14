@@ -11,6 +11,8 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      Weight 0.2
      SizeSetupStrategy Volume
      ItemVolume 113
+     RestingAdditiveRotationLS 80 0 0
+     RestingAdditiveOffsetLS 0 -0.3 0
     }
     ItemAnimationAttributes ItemAnimationAttributes "{5A5B25ACC0961326}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
