@@ -37,4 +37,10 @@ modded class SCR_InventorySlotUI
 		m_wStackNumber.SetText(displayQuantity);
 		m_wStackNumber.SetVisible(m_widget.IsVisible() && (quantity > 1));
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	void EL_SetLockState(bool state)
+	{
+		if (m_wItemLockThrobber) m_wItemLockThrobber.SetVisible(m_pItem && state);
+	}
 }

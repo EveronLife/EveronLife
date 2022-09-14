@@ -1,37 +1,17 @@
 modded class SCR_InventoryMenuUI
 {
-	protected ref set<IEntity> m_aELRefreshSources = new set<IEntity>();
-	protected bool m_bELQuantityRefreshBlock;
 	protected SCR_InventorySlotUI m_pELSelectedQuantitySlot;
+	protected bool m_bELKeepQuantitySeperate;
+
+	protected ref set<IEntity> m_aELRefreshEntities = new set<IEntity>();
+	protected SCR_InventorySlotUI m_aELQuantityOperationSourceSlotUi;
+	protected SCR_InventorySlotUI m_aELQuantityOperationDestinationSlotUi;
+	protected bool m_bELQuantityRefreshBlock;
 
 	//------------------------------------------------------------------------------------------------
 	override void MoveItemToStorageSlot()
 	{
-		EL_FixSelection();
-
-		InventoryItemComponent itemDestination;
-		EL_QuantityComponent quantityDestionation;
-		if (m_pFocusedSlotUI)
-		{
-			/*
-			auto storageSlot = SCR_InventorySlotStorageUI.Cast(m_pFocusedSlotUI);
-			if (storageSlot)
-			{
-				SCR_InventoryStorageBaseUI storageUi = storageSlot.GetStorageUI();
-				if (storageUi)
-				{
-					//Target slot was no combineable entity but a storage slot, so move the item into it
-					MoveItem(storageUi);
-					return;
-				}
-			}
-			*/
-
-			itemDestination = m_pFocusedSlotUI.GetInventoryItemComponent();
-			if (itemDestination) quantityDestionation = EL_ComponentFinder<EL_QuantityComponent>.Find(itemDestination.GetOwner());
-		}
-
-
+		bool skipMove;
 		InventoryItemComponent itemSource;
 		EL_QuantityComponent quantitySource;
 		if(m_pSelectedSlotUI)
@@ -40,44 +20,51 @@ modded class SCR_InventoryMenuUI
 			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
 		}
 
-		if (quantitySource && quantityDestionation && quantityDestionation.CanCombine(quantitySource))
+		if (quantitySource)
 		{
-			if (quantitySource.GetQuantity() > quantityDestionation.GetRemainingCapacity())
+			InventoryItemComponent itemDestination;
+			EL_QuantityComponent quantityDestination;
+			if (m_pFocusedSlotUI)
 			{
-				m_InventoryManager.EL_RequestQuantityTransfer(quantitySource.GetOwner(), quantityDestionation.GetOwner());
-				SCR_UISoundEntity.SoundEvent("SOUND_INV_HOTKEY_CONFIRM");
-				return; // Purely scripted transfer, no actualy inventory operation takes place
+				itemDestination = m_pFocusedSlotUI.GetInventoryItemComponent();
+				if (itemDestination) quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(itemDestination.GetOwner());
+			}
+
+			if (quantityDestination)
+			{
+				if (quantityDestination.CanCombine(quantitySource))
+				{
+					m_InventoryManager.EL_RequestQuantityTransfer(quantitySource.GetOwner(), quantityDestination.GetOwner());
+					skipMove = true; // Only quantity transfer, no actual inventory operation
+				}
 			}
 			else
 			{
-				m_InventoryManager.EL_SetQuantityTargetIntent(quantitySource.GetOwner(), quantityDestionation.GetOwner());
+				m_InventoryManager.EL_SetTransferIntent(quantitySource.GetOwner(), m_bELKeepQuantitySeperate);
 			}
+
+			m_aELQuantityOperationSourceSlotUi = m_pSelectedSlotUI;
+			m_aELQuantityOperationDestinationSlotUi = m_pFocusedSlotUI;
 		}
-		else if (itemSource && itemDestination)
+
+		if (skipMove)
 		{
-			InventoryStorageSlot sourceSlot = itemSource.GetParentSlot();
-			BaseInventoryStorageComponent sourceStorage;
-			if (sourceSlot) sourceStorage = sourceSlot.GetStorage();
-
-			InventoryStorageSlot destinationSlot = itemDestination.GetParentSlot();
-			BaseInventoryStorageComponent destinationStorage;
-			if (destinationSlot) destinationStorage = destinationSlot.GetStorage();
-
-			// Abort action if origin and target storage are the same and no quantity change was possible
-			// Not really needed but fixes vanilla AR behavior that forgot to cover this scenario
-			if (sourceStorage == destinationStorage) return;
+			// "Fake" the UI experience as if it was a real inventory operation
+			SCR_UISoundEntity.SoundEvent("SOUND_INV_HOTKEY_CONFIRM");
+			m_pSelectedSlotUI.EL_SetLockState(true);
+			m_pSelectedSlotUI.SetSelected(false);
+		}
+		else
+		{
+			super.MoveItemToStorageSlot();
 		}
 
 		EL_ResetQuantitySelection();
-
-		super.MoveItemToStorageSlot();
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override void MoveItem(SCR_InventoryStorageBaseUI pStorageBaseUI = null)
 	{
-		EL_FixSelection();
-
 		// Drag and drop onto a selected target storage transfers stack as is
 		IEntity transferEntity;
 		if (m_pSelectedSlotUI)
@@ -85,36 +72,41 @@ modded class SCR_InventoryMenuUI
 			InventoryItemComponent item = m_pSelectedSlotUI.GetInventoryItemComponent();
 			if (item) transferEntity = item.GetOwner();
 		}
+		if (transferEntity && transferEntity.FindComponent(EL_QuantityComponent))
+		{
+			BaseInventoryStorageComponent targetStorage = m_pActiveHoveredStorageUI.GetCurrentNavigationStorage();
+			if (targetStorage) m_InventoryManager.EL_SetTransferIntent(transferEntity, m_bELKeepQuantitySeperate);
 
-		BaseInventoryStorageComponent targetStorage = m_pActiveHoveredStorageUI.GetCurrentNavigationStorage();
-		if (transferEntity && targetStorage) m_InventoryManager.EL_SetQuantityTargetIntent(transferEntity, transferEntity);
-
-		EL_ResetQuantitySelection();
+			m_aELQuantityOperationSourceSlotUi = m_pSelectedSlotUI;
+			m_aELQuantityOperationDestinationSlotUi = null;
+		}
 
 		super.MoveItem(pStorageBaseUI);
-	}
 
-	//------------------------------------------------------------------------------------------------
-	protected void EL_FixSelection()
-	{
-		//m_pSelectedSlotUI can be lost when opening nested storages. So we recover the info from the inital selection we remember
-		if (!m_pSelectedSlotUI) m_pSelectedSlotUI = m_pELSelectedQuantitySlot;
+		EL_ResetQuantitySelection();
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void EL_ResetQuantitySelection()
 	{
-		if (!m_pELSelectedQuantitySlot) return;
+		m_bELKeepQuantitySeperate = false;
 		m_pELSelectedQuantitySlot = null;
-		SetStorageSwitchMode(false);
-		NavigationBarUpdateGamepad();
+		if(m_bStorageSwitchMode) SetStorageSwitchMode(false);
+		NavigationBarUpdate();
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_Refresh(IEntity refreshSource = null)
+	void EL_Refresh(IEntity refreshEntity = null)
 	{
 		m_bELQuantityRefreshBlock = true;
-		if (refreshSource) m_aELRefreshSources.Insert(refreshSource);
+		if (refreshEntity)
+		{
+			if (m_aELQuantityOperationSourceSlotUi && m_aELQuantityOperationSourceSlotUi.GetInventoryItemComponent().GetOwner() != refreshEntity ||
+				m_aELQuantityOperationDestinationSlotUi && m_aELQuantityOperationDestinationSlotUi.GetInventoryItemComponent().GetOwner() != refreshEntity)
+			{
+				m_aELRefreshEntities.Insert(refreshEntity);
+			}
+		}
 		ScriptCallQueue queue = GetGame().GetCallqueue();
 		queue.Remove(EL_RefreshDebounced);
 		queue.CallLater(EL_RefreshDebounced, 10);
@@ -124,9 +116,9 @@ modded class SCR_InventoryMenuUI
 	protected void EL_RefreshDebounced()
 	{
 		m_bELQuantityRefreshBlock = false;
+		bool fullRefresh = !m_aELQuantityOperationSourceSlotUi && !m_aELQuantityOperationDestinationSlotUi;
 
-		// Refresh only specific ui elements affected the by source entities
-		if (!m_aELRefreshSources.IsEmpty())
+		if (!m_aELRefreshEntities.IsEmpty())
 		{
 			array<SCR_InventoryStorageBaseUI> allStorages();
 			allStorages.InsertAll(m_aStorages);
@@ -140,7 +132,7 @@ modded class SCR_InventoryMenuUI
 				{
 					if (!slot.GetWidget().IsVisible()) continue;
 					InventoryItemComponent item = slot.GetInventoryItemComponent();
-					if (item && m_aELRefreshSources.Contains(item.GetOwner()))
+					if (item && m_aELRefreshEntities.Contains(item.GetOwner()))
 					{
 						storage.Refresh();
 						break;
@@ -148,15 +140,46 @@ modded class SCR_InventoryMenuUI
 				}
 			}
 
-			m_aELRefreshSources.Clear();
-			return;
+			m_aELRefreshEntities.Clear();
+			fullRefresh = false;
 		}
 
-		// General refresh
-		if (m_pVicinity) m_pVicinity.ManipulationComplete();
-		ShowStoragesList();
-		ShowAllStoragesInList();
-		RefreshLootUIListener();
+		if (m_aELQuantityOperationSourceSlotUi)
+		{
+			IEntity selectedEntity = m_aELQuantityOperationSourceSlotUi.GetInventoryItemComponent().GetOwner();
+			SCR_InventoryStorageBaseUI storageUi = m_aELQuantityOperationSourceSlotUi.GetStorageUI();
+			storageUi.Refresh();
+			if (IsUsingGamepad())
+			{
+				bool focusSet;
+				if (selectedEntity)
+				{
+					foreach(SCR_InventorySlotUI slot : storageUi.GetUISlots())
+					{
+						InventoryItemComponent item = slot.GetInventoryItemComponent();
+						if (item && item.GetOwner() == selectedEntity)
+						{
+							GetGame().GetWorkspace().SetFocusedWidget(slot.GetButtonWidget());
+							focusSet = true;
+							break;
+						}
+					}
+				}
+
+				if (!focusSet) FocusOnSlotInStorage(storageUi);
+			}
+		}
+		if (m_aELQuantityOperationDestinationSlotUi) m_aELQuantityOperationDestinationSlotUi.GetStorageUI().Refresh();
+
+		if (fullRefresh)
+		{
+			// General refresh
+			if (m_pVicinity) m_pVicinity.ManipulationComplete();
+			ShowStoragesList();
+			ShowAllStoragesInList();
+			RefreshLootUIListener();
+		}
+
 		NavigationBarUpdate();
 	}
 
@@ -185,17 +208,18 @@ modded class SCR_InventoryMenuUI
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnAction( SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1 )
+	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
 	{
+		PrintFormat("OnAction(%1)", action);
+
 		if (m_pELSelectedQuantitySlot)
 		{
 			switch (action)
 			{
 				case "Inventory_Select":
 				{
-					m_bStorageSwitchMode = true;
-					action = "Inventory_Move";
-					break;
+					Action_Drop();
+					return;
 				}
 
 				case "Inventory_OpenStorage":
@@ -211,6 +235,12 @@ modded class SCR_InventoryMenuUI
 		}
 
 		super.OnAction(comp, action, pParentStorage, traverseStorageIndex);
+
+		// Fix selected slot being overriden by TraverseActualSlot() on controller
+		if (!m_pSelectedSlotUI && m_pELSelectedQuantitySlot)
+		{
+			m_pSelectedSlotUI = m_pELSelectedQuantitySlot;
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -247,19 +277,19 @@ modded class SCR_InventoryMenuUI
 		super.NavigationBarUpdateGamepad();
 	}
 
-
 	//------------------------------------------------------------------------------------------------
 	override protected void SimpleFSM(EMenuAction EAction = EMenuAction.ACTION_SELECT)
 	{
 		super.SimpleFSM(EAction);
 
-		if (!m_pSelectedSlotUI) return;
+		if (EAction != EMenuAction.ACTION_SELECT || !IsUsingGamepad() || !m_pSelectedSlotUI) return;
 
 		InventoryItemComponent itemSource = m_pSelectedSlotUI.GetInventoryItemComponent();
 		if (!itemSource) return;
 
 		if (!itemSource.GetOwner().FindComponent(EL_QuantityComponent)) return;
 		m_pELSelectedQuantitySlot = m_pSelectedSlotUI;
+		SetStorageSwitchMode(true);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -282,4 +312,20 @@ modded class SCR_InventoryMenuUI
 
 		return super.FocusOnSlotInStorage(storage, id, focus);
 	}
+
+	/*
+	//------------------------------------------------------------------------------------------------
+	override void SetActiveStorage(SCR_InventoryStorageBaseUI storageUI)
+	{
+		//PrintFormat("SetActiveStorage(%1)", storageUI);
+		super.SetActiveStorage(storageUI);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void SetSlotFocused( SCR_InventorySlotUI pFocusedSlot, SCR_InventoryStorageBaseUI pFromStorageUI, bool bFocused )
+	{
+		//PrintFormat("SetSlotFocused(%1, %2, %3)", pFocusedSlot, pFromStorageUI, bFocused);
+		super.SetSlotFocused(pFocusedSlot, pFromStorageUI, bFocused);
+	}
+	*/
 }
