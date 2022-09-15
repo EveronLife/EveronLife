@@ -5,7 +5,7 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Heroin Pouch"
-     Description "A Full Pouch of Herion"
+     Description "A Full Pouch of Heroin"
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
      Weight 0.2
@@ -40,7 +40,7 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
    Materials {
     MaterialAssignClass "{5A5B37667D98C9C1}" {
      SourceMaterial "MRE_01"
-     AssignedMaterial "{047016EA7C86B69A}Assets/Items/Drugs/HeroinPackage/Data/HerionPackage.emat"
+     AssignedMaterial "{047016EA7C86B69A}Assets/Items/Drugs/HeroinPackage/Data/HeroinPackage.emat"
     }
    }
    LODScale 0.1

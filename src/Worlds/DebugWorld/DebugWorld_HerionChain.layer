@@ -35,17 +35,6 @@ $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/
   coords 115.406 0.003 142.599
  }
 }
-$grp GenericEntity : "{860FD10180850F0A}Prefabs/Items/Drugs/Herion.et" {
- Herion_5A5B3766720AEB5E {
-  coords 116.626 0.902 142.46
- }
- Herion_5A5B3766339E73F2 {
-  coords 116.847 0.901 142.246
- }
- Herion_5A5B3766329A0F64 {
-  coords 117.166 0.901 142.442
- }
-}
 $grp GenericEntity : "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et" {
  WaterBottle_5A5B376B1EBF425B {
   coords 111.902 0.901 142.074
@@ -59,9 +48,6 @@ $grp GenericEntity : "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et" {
 }
 GenericEntity : "{A4558C7E13204146}Prefabs/Processor/Opium_Processor.et" {
  coords 112.873 0.002 142.533
-}
-GenericEntity : "{A4558C7E13204147}Prefabs/Processor/Herion_Processor.et" {
- coords 115.382 0.902 142.5
 }
 GenericEntity : "{CEA849CDC759ED4B}Prefabs/Props/Decorations/Flowerpots/FlowerpotStreet_01/FlowerpotStreet_01_rect_long_Empty.et" {
  coords 110.168 0.004 142.262
