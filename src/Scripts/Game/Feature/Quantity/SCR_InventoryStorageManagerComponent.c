@@ -39,6 +39,12 @@ modded class SCR_InventoryStorageManagerComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	protected void EL_RemoveTransferIntent(notnull IEntity sourceEntity)
+	{
+		if(m_mELQuantityTransferIntents) m_mELQuantityTransferIntents.Remove(sourceEntity);
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	protected bool EL_CanManipulate(IEntity entity)
 	{
 		const int maxManipulationRange = 10;
@@ -57,7 +63,11 @@ modded class SCR_InventoryStorageManagerComponent
 			if (m_mELQuantityTransferIntents)
 			{
 				intentSet = m_mELQuantityTransferIntents.Find(item, keepSeperate);
-				if (intentSet) m_mELQuantityTransferIntents.Remove(item);
+				if (intentSet)
+				{
+					// Delay removal to next frame because OnItemAdded is invoked twice due to bug in inventory programming. Remove once https://feedback.bistudio.com/T167517 is fixed
+					GetGame().GetCallqueue().Call(EL_RemoveTransferIntent, item);
+				}
 			}
 
 			if (!keepSeperate)
