@@ -36,14 +36,14 @@ $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/
  }
 }
 $grp GenericEntity : "{860FD10180850F0A}Prefabs/Items/Drugs/Heroin.et" {
- Herion_5A5B3766720AEB5E {
-  coords 116.626 0.902 142.46
+ Heroin_5A5D1317A894FD94 {
+  coords 116.733 0.901 142.534
  }
- Herion_5A5B3766339E73F2 {
-  coords 116.847 0.901 142.246
+ Heroin_5A5D1317A69A01DC {
+  coords 116.994 0.901 142.409
  }
- Herion_5A5B3766329A0F64 {
-  coords 117.166 0.901 142.442
+ Heroin_5A5D1317A4DD39C3 {
+  coords 117.162 0.901 142.741
  }
 }
 $grp GenericEntity : "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et" {
