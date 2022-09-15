@@ -1,0 +1,13 @@
+GenericEntity {
+ ID "5A5E6C84A56627FB"
+ components {
+  Hierarchy "{5A5E6C8524AA8AC5}" {
+  }
+  RigidBody "{5A5E6C85B41FB3F5}" {
+   Static 1
+  }
+  RplComponent "{5A5E6C8533FCF140}" {
+  }
+ }
+ coords 96.629 0.001 131.234
+}

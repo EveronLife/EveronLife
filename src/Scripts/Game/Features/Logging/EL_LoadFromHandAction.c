@@ -5,11 +5,9 @@ class EL_LoadFromHandAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
-		
 		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(pUserEntity.FindComponent(CharacterControllerComponent));
 		IEntity handItem = characterController.GetAttachedGadgetAtLeftHandSlot();
-		EL_SingleGadgetComponent gadgetComponent = EL_SingleGadgetComponent.Cast(handItem.FindComponent(EL_SingleGadgetComponent));
-		gadgetComponent.SetLoading(true);
+		EL_ForcedHandGadgetComponent gadgetComponent = EL_ForcedHandGadgetComponent.Cast(handItem.FindComponent(EL_ForcedHandGadgetComponent));
 		SCR_VehicleInventoryStorageManagerComponent inventoryManager = SCR_VehicleInventoryStorageManagerComponent.Cast(pOwnerEntity.FindComponent(SCR_VehicleInventoryStorageManagerComponent));
 		inventoryManager.TryMoveItemToStorage(handItem, inventoryManager.FindStorageForItem(handItem, EStoragePurpose.PURPOSE_ANY ));
 	}
@@ -28,7 +26,6 @@ class EL_LoadFromHandAction : ScriptedUserAction
 		IEntity handItem = characterController.GetAttachedGadgetAtLeftHandSlot();
 		if (!handItem)
 			return false;
-		
 		SCR_VehicleInventoryStorageManagerComponent inventoryManager = SCR_VehicleInventoryStorageManagerComponent.Cast(GetOwner().FindComponent(SCR_VehicleInventoryStorageManagerComponent));
 		if (!inventoryManager)
 			return false;

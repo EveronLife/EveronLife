@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{CB66EA1A9317B9C8}Prefabs/Vehicles/Cargo/Single_Log.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

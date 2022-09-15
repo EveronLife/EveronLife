@@ -1,18 +1,20 @@
 GenericEntity {
  ID "59E108D9C9FD1407"
  components {
-  EL_SingleGadgetComponent "{59E51BAC6B50136F}" {
-   m_eAnimVariable NONE
+  EL_ForcedHandGadgetComponent "{5A58B47A3942AEE3}" {
+   m_eAnimVariable ADRIANOV
   }
   InventoryItemComponent "{59E108D941025CE3}" {
    Attributes SCR_ItemAttributeCollection "{59E108D940A911E8}" {
     ItemDisplayName UIInfo "{59E108D94219402E}" {
      Name "Log"
+     Description "Do not right click to move :)"
     }
     ItemPhysAttributes ItemPhysicalAttributes "{59E108D9A227B7E3}" {
      DimensionScaler 0.01
      RestingUP Up
-     RestingAdditiveRotationLS -90 0 0
+     RestingAdditiveRotationLS 0 0 0
+     RestingAdditiveOffsetLS 0 0 0
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59E108DB000CCEEB}" {
      AnimationAttachments {
@@ -39,15 +41,15 @@ GenericEntity {
       ItemRenderRotation 0 0 90
      }
     }
-    m_SlotType SLOT_GADGETS_STORAGE
-    m_bDraggable 0
+    m_SlotType SLOT_LOADOUT_STORAGE
+    m_bDraggable 1
    }
   }
   MeshObject "{59E108D90002CAF0}" {
    Object "{8D73FF908E973C20}Assets/Props/Forest/WoodPile_01/Dst/WoodLog_01_C_dst_01.xob"
   }
   RigidBody "{59E108D964704F55}" {
-   Active Active
+   Active Inactive
    Mass 0.1
    CenterOfMass 0 0 -2
    ResponseIndex "SmallDestructible"
@@ -67,9 +69,12 @@ GenericEntity {
     }
    }
    additionalActions {
-    EL_ForceEquipAction "{59E108D9AA7761C3}" {
+    SCR_PickUpItemAction "{59E108D9AA7761C3}" {
      ParentContextList {
       "default"
+     }
+     UIInfo UIInfo "{5A58B47A2293A020}" {
+      Name "Pick up"
      }
     }
    }

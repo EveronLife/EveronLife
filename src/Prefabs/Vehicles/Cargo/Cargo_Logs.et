@@ -1,0 +1,64 @@
+GenericEntity : "{F0C7AA56E7A4E781}Prefabs/Vehicles/Cargo/Cargo_Base.et" {
+ ID "5A5E6C84A56627FB"
+ coords 95.802 0.001 129.823
+ {
+  $grp GenericEntity : "{CB66EA1A9317B9C8}Prefabs/Vehicles/Cargo/Single_Log.et" {
+   {
+    ID "5A5E6C84CCAD3A27"
+    coords 0.341 0.179 2.152
+   }
+   {
+    ID "5A5E6C84CCAD8BB9"
+    coords 0.012 0.014 2.152
+   }
+   {
+    ID "5A5E6C84CCAD97A4"
+    coords -0.141 0.179 2.152
+   }
+   {
+    ID "5A5E6C84CCAD97A5"
+    coords 0.118 0.179 2.152
+   }
+   {
+    ID "5A5E6C84CCADC7DD"
+    coords -0.379 0.179 2.152
+   }
+   {
+    ID "5A5E6C84CCAE1DC1"
+    coords -0.499 0.014 2.152
+   }
+   {
+    ID "5A5E6C84CCAE1DFE"
+    coords 0.243 0.014 2.152
+   }
+   {
+    ID "5A5E6C84CCAE1F48"
+    coords -0.151 0.472 2.152
+   }
+   {
+    ID "5A5E6C84CCAE401C"
+    coords -0.241 0.014 2.152
+   }
+   {
+    ID "5A5E6C84CCAE8B18"
+    coords -0.021 0.319 2.152
+   }
+   {
+    ID "5A5E6C84CCAE8B19"
+    coords -0.266 0.309 2.152
+   }
+   {
+    ID "5A5E6C84CCAEA044"
+    coords 0.444 0.014 2.152
+   }
+   {
+    ID "5A5E6C84CCAEA046"
+    coords 0.217 0.319 2.152
+   }
+   {
+    ID "5A5E6C84CCAED288"
+    coords 0.067 0.472 2.152
+   }
+  }
+ }
+}

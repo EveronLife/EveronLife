@@ -1,6 +1,47 @@
 class EL_Utils
 {
 	//------------------------------------------------------------------------------------------------
+	//! Deletes and spawns the same item on the ground
+	//! \param player Instance of the player
+	//! \param item Item Entity to move
+	//! \return true if move was successful
+	static bool MoveToVicinity(notnull IEntity player, notnull IEntity item)
+	{
+		ResourceName itemPrefab = SCR_BaseContainerTools.GetPrefabResourceName(item.GetPrefabData().GetPrefab());
+		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (item && inventoryManager.TryDeleteItem(item))
+		{
+			vector fwdPos = player.GetOrigin() + player.GetTransformAxis(2) * 1;
+			IEntity ItemOnGround = EL_Utils.SpawnEntityPrefab(itemPrefab, fwdPos);
+			return true;
+		} 
+		else
+			return false;
+		
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Removes any Weapon or Gadget in hand
+	//! \param player Instance of the player
+	static void ClearHands(notnull IEntity player)
+	{
+		SCR_GadgetManagerComponent gadgetManager = SCR_GadgetManagerComponent.GetGadgetManager(player);
+		if (gadgetManager && gadgetManager.GetHeldGadgetComponent())
+		{
+			gadgetManager.RemoveHeldGadget();
+			return;
+		}
+		
+		CharacterControllerComponent controller = CharacterControllerComponent.Cast(player.FindComponent(CharacterControllerComponent));
+		if (controller)
+		{
+			controller.RemoveGadgetFromHand();
+			controller.TryEquipRightHandItem(null, EEquipItemType.EEquipTypeUnarmed, true);
+		}
+	}
+	
+		
+	//------------------------------------------------------------------------------------------------
 	//! Gets the Bohemia UID
 	//! \param playerId Index of the player inside player manager
 	//! \return the uid as string
