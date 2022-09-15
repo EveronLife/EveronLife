@@ -37,6 +37,10 @@ modded class SCR_InventoryMenuUI
 					m_InventoryManager.EL_RequestQuantityTransfer(quantitySource.GetOwner(), quantityDestination.GetOwner());
 					skipMove = true; // Only quantity transfer, no actual inventory operation
 				}
+				else
+				{
+					return;
+				}
 			}
 			else
 			{
