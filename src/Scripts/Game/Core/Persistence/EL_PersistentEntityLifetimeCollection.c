@@ -7,44 +7,31 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 	//------------------------------------------------------------------------------------------------
 	void Add(EL_PersistenceComponent persistenceComponent)
 	{
-		GarbageManager garbageManager = GetGame().GetGarbageManager();
-		if (!garbageManager) return;
-
-		float lifetime = -1;
-		if (m_mLifetimes)
-		{
-			lifetime = m_mLifetimes.Get(persistenceComponent.GetPersistentId());
-			if (lifetime == 0) lifetime = -1;
-		}
-
-		// Only remove characters with known lifetime (aka dead chars)
-		if (!ChimeraCharacter.Cast(persistenceComponent.GetOwner()) || lifetime != -1)
-		{
-			garbageManager.Insert(persistenceComponent.GetOwner(), lifetime);
-		}
-
 		m_mTrackedEntites.Set(persistenceComponent.GetPersistentId(), persistenceComponent.GetOwner());
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void Remove(string persistentId)
 	{
-		GarbageManager garbageManager = GetGame().GetGarbageManager();
-		if (!garbageManager) return;
-
 		IEntity entity = m_mTrackedEntites.Get(persistentId);
 		if (!entity) return;
 
-		garbageManager.Withdraw(entity);
 		m_mTrackedEntites.Remove(persistentId);
 		if (m_mLifetimes) m_mLifetimes.Remove(persistentId);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void Apply(EL_PersistenceComponent persistenceComponent)
+	{
+		GarbageManager garbageManager = GetGame().GetGarbageManager();
+		if (!garbageManager || !m_mLifetimes || !m_mLifetimes.Contains(persistenceComponent.GetPersistentId())) return;
+		garbageManager.Insert(persistenceComponent.GetOwner(), m_mLifetimes.Get(persistenceComponent.GetPersistentId()));
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void Save(EL_DbContext dbContext)
 	{
 		GarbageManager garbageManager = GetGame().GetGarbageManager();
-
 		if (garbageManager)
 		{
 			m_mLifetimes = new map<string, float>();

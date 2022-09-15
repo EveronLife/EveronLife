@@ -7,7 +7,9 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	//------------------------------------------------------------------------------------------------
 	void Add(EL_PersistenceComponent persistenceComponent, bool baked, bool forceSelfSpawn = false)
 	{
-		int idx = m_aRemovedBackedEntities.Find(persistenceComponent.GetPersistentId());
+		string persistentId = persistenceComponent.GetPersistentId();
+
+		int idx = m_aRemovedBackedEntities.Find(persistentId);
 		if (idx != -1) m_aRemovedBackedEntities.Remove(idx);
 
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
@@ -21,16 +23,18 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 				m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
 			}
 
-			ids.Insert(persistenceComponent.GetPersistentId());
+			ids.Insert(persistentId);
 		}
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void Remove(EL_PersistenceComponent persistenceComponent, bool baked)
 	{
+		string persistentId = persistenceComponent.GetPersistentId();
+
 		if (baked)
 		{
-			m_aRemovedBackedEntities.Insert(persistenceComponent.GetPersistentId());
+			m_aRemovedBackedEntities.Insert(persistentId);
 			return;
 		}
 
@@ -38,7 +42,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		if (!ids) return;
 
-		int idx = ids.Find(persistenceComponent.GetPersistentId());
+		int idx = ids.Find(persistentId);
 		if (idx != -1) ids.Remove(idx);
 	}
 

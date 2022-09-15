@@ -189,19 +189,22 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 
 			foreach (EL_DefaultCharacterLoadoutItem storedItem : loadoutItem.m_aStoredItems)
 			{
-				IEntity spawnedItem = SpawnDefaultCharacterItem(storageManager, storedItem);
-
-				foreach (Managed componentRef : outComponents)
+				for (int i = 0; i < storedItem.m_iAmount; i++)
 				{
-					BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(componentRef);
-					if (storageComponent.GetPurpose() & storedItem.m_ePurpose)
+					IEntity spawnedItem = SpawnDefaultCharacterItem(storageManager, storedItem);
+
+					foreach (Managed componentRef : outComponents)
 					{
-						if (!storageManager.TryInsertItemInStorage(spawnedItem, storageComponent)) continue;
+						BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(componentRef);
+						if (storageComponent.GetPurpose() & storedItem.m_ePurpose)
+						{
+							if (!storageManager.TryInsertItemInStorage(spawnedItem, storageComponent)) continue;
 
-						InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(spawnedItem.FindComponent(InventoryItemComponent));
-						if (inventoryItemComponent && !inventoryItemComponent.GetParentSlot()) continue;
+							InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(spawnedItem.FindComponent(InventoryItemComponent));
+							if (inventoryItemComponent && !inventoryItemComponent.GetParentSlot()) continue;
 
-						break;
+							break;
+						}
 					}
 				}
 			}
@@ -243,6 +246,9 @@ class EL_DefaultCharacterLoadoutItem
 {
 	[Attribute()]
 	ResourceName m_rPrefab;
+
+	[Attribute(defvalue: "1")]
+	int m_iAmount;
 
 	[Attribute(defvalue: EStoragePurpose.PURPOSE_DEPOSIT.ToString(), uiwidget: UIWidgets.ComboBox, enums: ParamEnumArray.FromEnum(EStoragePurpose))]
 	EStoragePurpose m_ePurpose;

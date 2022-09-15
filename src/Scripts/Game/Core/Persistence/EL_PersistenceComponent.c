@@ -29,7 +29,6 @@ class EL_PersistenceComponent : ScriptComponent
 	protected string m_sId;
 	protected EL_DateTimeUtcAsInt m_iLastSaved;
 
-	protected bool m_bBaked;
 	protected bool m_bStorageRootState;
 	protected bool m_bSavedAsStorageRoot;
 	protected bool m_bDetatched;
@@ -173,11 +172,9 @@ class EL_PersistenceComponent : ScriptComponent
 		m_sId = persistenceManager.GetPersistentId(this);
 		if (!m_sId) return;
 
-		m_bBaked = persistenceManager.GetState() == EL_EPersistenceManagerState.WORLD_INIT;
-
 		if (settings.m_bStorageRoot)
 		{
-			persistenceManager.RegisterSaveRoot(this, m_bBaked, settings.m_bAutosave);
+			persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
 			m_bStorageRootState = true;
 		}
 	}
@@ -195,13 +192,13 @@ class EL_PersistenceComponent : ScriptComponent
 		if (m_bStorageRootState && storageParent)
 		{
 			// Entity was previously the save root, but now got a parent assigned, so unregister
-			persistenceManager.UnregisterSaveRoot(this, m_bBaked);
+			persistenceManager.UnregisterSaveRoot(this);
 			m_bStorageRootState = false;
 		}
 		else if (!m_bStorageRootState && !storageParent)
 		{
 			// Entity was previously a save child, but now has no parent anymore and thus needs to be registerd as own root
-			persistenceManager.RegisterSaveRoot(this, m_bBaked, settings.m_bAutosave);
+			persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
 			m_bStorageRootState = true;
 		}
 	}
@@ -216,7 +213,7 @@ class EL_PersistenceComponent : ScriptComponent
 
 		if (settings.m_bStorageRoot)
 		{
-			persistenceManager.UnregisterSaveRoot(this, m_bBaked);
+			persistenceManager.UnregisterSaveRoot(this);
 		}
 
 		persistenceManager.UnloadPersistentId(m_sId);
