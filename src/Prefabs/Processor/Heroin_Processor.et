@@ -24,7 +24,7 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
    additionalActions {
     EL_ProcessAction "{598F21A877BE6DEE}" {
      UIInfo UIInfo "{5A5B37614DDE7295}" {
-      Name "Process Herion"
+      Name "Process Heroin"
      }
      Duration 1
      m_aProcessingInputs {
@@ -37,7 +37,7 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
      }
      m_aProcessingOutputs {
       EL_ProcessingOutput "{5A5B37614DDE72A3}" {
-       m_OutputPrefab "{860FD10180850F0A}Prefabs/Items/Drugs/Herion.et"
+       m_OutputPrefab "{860FD10180850F0A}Prefabs/Items/Drugs/Heroin.et"
       }
      }
     }
