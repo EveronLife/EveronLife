@@ -230,52 +230,6 @@ modded class SCR_InventoryMenuUI
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
-	{
-		if (action == "EL_Inventory_TransferStack")
-		{
-			m_bELKeepQuantitySeperate = true;
-			if (m_pELSelectedQuantitySlot)
-			{
-				Action_Drop();
-			}
-			else
-			{
-				Action_MoveBetween();
-			}
-		}
-		else if (m_pELSelectedQuantitySlot)
-		{
-			switch (action)
-			{
-				case "Inventory_Select":
-				{
-					Action_Drop();
-					return;
-				}
-
-				case "Inventory_OpenStorage":
-				{
-					if (!m_pFocusedSlotUI || !m_pFocusedSlotUI.Type().IsInherited(SCR_InventorySlotStorageEmbeddedUI))
-					{
-						action = "Inventory_Select";
-					}
-
-					break;
-				}
-			}
-		}
-
-		super.OnAction(comp, action, pParentStorage, traverseStorageIndex);
-
-		// Fix selected slot being overriden by TraverseActualSlot() on controller
-		if (!m_pSelectedSlotUI && m_pELSelectedQuantitySlot)
-		{
-			m_pSelectedSlotUI = m_pELSelectedQuantitySlot;
-		}
-	}
-
-	//------------------------------------------------------------------------------------------------
 	override void NavigationBarUpdateGamepad()
 	{
 		if (m_pSelectedSlotUI)
@@ -323,6 +277,52 @@ modded class SCR_InventoryMenuUI
 		}
 
 		super.NavigationBarUpdateGamepad();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
+	{
+		if (action == "EL_Inventory_TransferStack")
+		{
+			m_bELKeepQuantitySeperate = true;
+			if (m_pELSelectedQuantitySlot)
+			{
+				Action_Drop();
+			}
+			else
+			{
+				Action_MoveBetween();
+			}
+		}
+		else if (m_pELSelectedQuantitySlot)
+		{
+			switch (action)
+			{
+				case "Inventory_Select":
+				{
+					Action_Drop();
+					return;
+				}
+
+				case "Inventory_OpenStorage":
+				{
+					if (!m_pFocusedSlotUI || !m_pFocusedSlotUI.Type().IsInherited(SCR_InventorySlotStorageEmbeddedUI))
+					{
+						action = "Inventory_Select";
+					}
+
+					break;
+				}
+			}
+		}
+
+		super.OnAction(comp, action, pParentStorage, traverseStorageIndex);
+
+		// Fix selected slot being overriden by TraverseActualSlot() on controller
+		if (!m_pSelectedSlotUI && m_pELSelectedQuantitySlot)
+		{
+			m_pSelectedSlotUI = m_pELSelectedQuantitySlot;
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------
