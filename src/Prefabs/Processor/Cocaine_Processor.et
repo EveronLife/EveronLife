@@ -40,8 +40,6 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
     }
    }
   }
-  RplComponent "{59C6B07C18596B0F}" {
-  }
  }
  coords 109.747 0.917 134.929
 }
