@@ -18,8 +18,8 @@ FrameWidgetClass {
             SCR_NavigationBarUI "{58E0C2B35EF2421A}" {
              m_aEntries {
               NavigationButtonEntry "{5A5CE5568DC23379}" {
-               m_sAction "EL_Inventory_TransferStack"
-               m_sButtonID "EL_ButtonTransferStack"
+               m_sAction "EL_Inventory_MoveStack"
+               m_sButtonID "EL_ButtonMoveStack"
               }
              }
             }

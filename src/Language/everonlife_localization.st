@@ -2,20 +2,19 @@ StringTable {
  TargetPrefix "Target_"
  ItemClassName "CustomStringTableItem"
  Items {
-  CustomStringTableItem "{5A5EAC09A82CFF44}" {
-   Id "AR-EL_Inventory_TransferStack"
-   Target_en_us "Transfer stack"
-   Target_de_de "Stapel übertragen"
-   DevNote "Duplicate entry of EL-Keybinds_Inventory_TransferStack until https://feedback.bistudio.com/T167518 is fixed"
-   Modified 1516155653
+  CustomStringTableItem "{5A60AE2B8D435CE9}" {
+   Id "EL-Keybinds_Inventory_MoveStack"
+   Target_en_us "Move stack"
+   Target_de_de "Stapel verschieben"
+   Modified 1516286250
    Author "Arkensor"
    LastChanged "Arkensor"
   }
   CustomStringTableItem "{5A5EA70E9C33566A}" {
-   Id "EL-Keybinds_Inventory_TransferStack"
-   Target_en_us "Transfer stack"
-   Target_de_de "Stapel übertragen"
-   Modified 1516154105
+   Id "EL-Keybinds_Inventory_PickUpStack"
+   Target_en_us "Pick up stack"
+   Target_de_de "Stapel aufsammeln"
+   Modified 1516286197
    Author "Arkensor"
    LastChanged "Arkensor"
   }

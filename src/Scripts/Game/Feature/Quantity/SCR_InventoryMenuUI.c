@@ -264,7 +264,7 @@ modded class SCR_InventoryMenuUI
 			if (isValidTargetStorage)
 			{
 				m_pNavigationBar.SetButtonEnabled("ButtonOpenStorage", true);
-				if (canTransfer) m_pNavigationBar.SetButtonEnabled("EL_ButtonTransferStack", true);
+				if (canTransfer) m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveStack", true, "#EL-Keybinds_Inventory_MoveStack");
 			}
 
 			return;
@@ -275,7 +275,7 @@ modded class SCR_InventoryMenuUI
 			if (itemSource && itemSource.GetOwner().FindComponent(EL_QuantityComponent))
 			{
 				super.NavigationBarUpdateGamepad();
-				m_pNavigationBar.SetButtonEnabled("EL_ButtonTransferStack", true);
+				m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveStack", true, "#EL-Keybinds_Inventory_PickUpStack");
 				return;
 			}
 		}
@@ -286,7 +286,7 @@ modded class SCR_InventoryMenuUI
 	//------------------------------------------------------------------------------------------------
 	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
 	{
-		if (action == "EL_Inventory_TransferStack")
+		if (action == "EL_Inventory_MoveStack")
 		{
 			m_bELKeepQuantitySeperate = true;
 			if (m_pELSelectedQuantitySlot)
@@ -370,8 +370,8 @@ modded class SCR_InventoryMenuUI
 	{
 		super.OnMenuOpen();
 
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_TransferStack", EActionTrigger.UP, EL_OnTransferStackPressed);
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_TransferStack", EActionTrigger.DOWN, EL_OnTransferStackPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.UP, EL_OnTransferStackPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.DOWN, EL_OnTransferStackPressed);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -379,8 +379,8 @@ modded class SCR_InventoryMenuUI
 	{
 		super.Action_CloseInventory();
 
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_TransferStack", EActionTrigger.UP, EL_OnTransferStackPressed);
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_TransferStack", EActionTrigger.DOWN, EL_OnTransferStackPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.UP, EL_OnTransferStackPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.DOWN, EL_OnTransferStackPressed);
 	}
 
 	//------------------------------------------------------------------------------------------------
