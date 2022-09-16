@@ -2,100 +2,8 @@ EL_LoggingArea {
  coords 101.769 0.001 127.525
  m_vSize 3 10 4
 }
-GenericEntity {
- components {
-  InventoryItemComponent "{59EB26902F62BBBB}" {
-   Attributes SCR_ItemAttributeCollection "{59EB26902F62BBB9}" {
-    ItemDisplayName UIInfo "{59EB26902F62BB13}" {
-     Name "Log"
-    }
-    ItemPhysAttributes ItemPhysicalAttributes "{59EB26902F62BB07}" {
-     DimensionScaler 0.01
-     RestingUP Up
-     RestingAdditiveRotationLS -90 0 0
-    }
-    ItemAnimationAttributes ItemAnimationAttributes "{59EB26902F62BB5C}" {
-     AnimationAttachments {
-      AnimationAttachmentInfo "{59EB26902F62BB62}" {
-       AnimGraph "{25CA2A97D9F9F608}Animations/Player/Carry.agr"
-       AnimInstance "{E4F6E5509026D213}Animations/Player/player_carry.asi"
-       StartNode "BoxHeavy"
-       BindingName "Gadget"
-      }
-     }
-     HandAdditiveRotation 0 -10 -90
-     HandAdditiveTranslation 0.43 0.3 -0.85
-    }
-    CustomAttributes {
-     CharacterModifierAttributes "{59EB26902F62BB51}" {
-      SpeedLimit 1
-      ADSSpeedLimit 1
-      SpeedLimitHighready 1
-      CanBeEquippedInVehicle 0
-     }
-     PreviewRenderAttributes "{59EB26902F62BB42}" {
-      CameraPreset Top
-      CameraDistanceToItem 1
-      CameraOffset 0 -0.05 0.2
-      ItemRenderRotation 0 0 90
-     }
-    }
-    m_SlotType SLOT_GADGETS_STORAGE
-   }
-  }
-  MeshObject "{59EB26902F62BBAC}" {
-   Object "{FBAAA2A4E0C74664}Prefabs/Items/box_heavy.xob"
-   Materials {
-    MaterialAssignClass "{59EB2691EBA74DEA}" {
-     SourceMaterial "BoxMaterial"
-     AssignedMaterial "{F3F4767A4C4B158E}Prefabs/Items/box_heavy.emat"
-    }
-   }
-  }
-  Hierarchy "{59EB2EA51026D32C}" {
-   PivotID "LeftHand"
-  }
-  RigidBody "{59EB26902F62BB99}" {
-   Mass 0.1
-   CenterOfMass 0 0 -2
-   ResponseIndex "SmallDestructible"
-  }
-  BoxGeometry "{59EB26916B059582}" {
-   LayerPreset "Debris"
-  }
-  SCR_GadgetComponent "{59EB26902F62BB93}" {
-   Enabled 0
-   m_eAnimVariable ADRIANOV
-  }
-  ActionsManagerComponent "{59EB26902F62BBD9}" {
-   ActionContexts {
-    UserActionContext "{59EB26902F62BBE9}" {
-     ContextName "default"
-     Position PointInfo "{59EB26902F62BBEE}" {
-      Offset 0 0 -2.027
-     }
-    }
-   }
-   additionalActions {
-    EL_ForceEquipAction "{59EB26902F62BBDF}" {
-     ParentContextList {
-      "default"
-     }
-    }
-   }
-  }
-  RplComponent "{59EB26902F62BBD4}" {
-  }
- }
- coords 110.482 0 142.788
-}
-$grp GenericEntity : "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et" {
- {
-  coords 103.677 0.001 137.157
- }
- {
-  coords 103.304 0.001 137.266
- }
+GenericEntity : "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et" {
+ coords 102.104 0.001 135.812
 }
 Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
  components {
@@ -119,12 +27,34 @@ GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
  angleY 66.466
  {
   GenericEntity Axe_5A4CD09401492ECC : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+   components {
+    SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
+     m_fDamage 20.22
+    }
+    SimpleSoundComponent "{59072B578A46AF84}" {
+    }
+   }
    coords -0.019 0.95 -0.278
    angleX -60.98
    angleY 180
    angleZ 180
   }
  }
+}
+GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
+ components {
+  MeshObject "{598F21A867C4015C}" {
+   Object "{820BEDD412EF4AA4}Assets/Structures/BuildingsParts/Industrial/Sawmill/Sawmill_E_01_SmallSaw.xob"
+  }
+  ActionsManagerComponent "{598F21A8710B89C1}" {
+   additionalActions {
+    EL_ProcessAction "{598F21A877BE6DEE}" {
+     Duration 1
+    }
+   }
+  }
+ }
+ coords 96.969 0.001 132.588
 }
 $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
  {
@@ -150,36 +80,4 @@ $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et"
  {
   coords 102.585 0.001 119.914
  }
-}
-GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
- components {
-  MeshObject "{598F21A867C4015C}" {
-   Object "{820BEDD412EF4AA4}Assets/Structures/BuildingsParts/Industrial/Sawmill/Sawmill_E_01_SmallSaw.xob"
-  }
-  ActionsManagerComponent "{598F21A8710B89C1}" {
-   ActionContexts {
-    UserActionContext "{598F21A871DA7304}" {
-     Position PointInfo "{598F21A875320722}" {
-      Offset 0.1833 0.9885 0
-     }
-     Radius 1
-    }
-   }
-   additionalActions {
-    EL_ProcessAction "{598F21A877BE6DEE}" {
-     m_aProcessingInputs {
-      EL_ProcessingInput "{5A5ED68552B69CB3}" {
-       m_InputPrefab "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et"
-      }
-     }
-     m_aProcessingOutputs {
-      EL_ProcessingOutput "{5A5ED68560A274BB}" {
-       m_OutputPrefab "{6697C9B8CEB5234C}Prefabs/Items/Resources/WoodKindling.et"
-      }
-     }
-    }
-   }
-  }
- }
- coords 97.081 0.001 132.703
 }

@@ -1,25 +1,42 @@
 class EL_Utils
 {
 	//------------------------------------------------------------------------------------------------
+	//! Returns the Owner of the storage the item is in
+	//! \param item Item Entity to get Owner from
+	//! \return Entity Storage Owner
+	static IEntity GetStorageOwner(notnull IEntity item)
+	{
+		InventoryItemComponent itemComponent = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
+		InventoryStorageSlot slot = itemComponent.GetParentSlot();
+		if (!slot) return null;
+
+		BaseInventoryStorageComponent itemParentStorage = slot.GetStorage();
+		if (!itemParentStorage) return null;
+
+		InventoryStorageSlot parentSlot = itemParentStorage.GetParentSlot();
+		if (!parentSlot) return null;
+
+		return parentSlot.GetStorage().GetOwner();
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Deletes and spawns the same item on the ground
+	//! Needs to be called from Authority
 	//! \param player Instance of the player
 	//! \param item Item Entity to move
 	//! \return true if move was successful
-	static bool MoveToVicinity(notnull IEntity player, notnull IEntity item)
+	static void MoveToVicinity(notnull IEntity player, notnull IEntity item)
 	{
-		ResourceName itemPrefab = SCR_BaseContainerTools.GetPrefabResourceName(item.GetPrefabData().GetPrefab());
 		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (item && inventoryManager.TryDeleteItem(item))
-		{
-			vector fwdPos = player.GetOrigin() + player.GetTransformAxis(2) * 1;
-			IEntity ItemOnGround = EL_Utils.SpawnEntityPrefab(itemPrefab, fwdPos);
-			return true;
-		} 
-		else
-			return false;
-		
+		InventoryItemComponent itemComponent = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
+		if (!itemComponent) return;
+		InventoryStorageSlot parentSlot = itemComponent.GetParentSlot();
+		if (!parentSlot) return;
+		BaseInventoryStorageComponent itemParentStorage = parentSlot.GetStorage();
+		ClearHands(player);
+		inventoryManager.TryRemoveItemFromStorage(item, itemParentStorage);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Removes any Weapon or Gadget in hand
 	//! \param player Instance of the player
@@ -31,7 +48,7 @@ class EL_Utils
 			gadgetManager.RemoveHeldGadget();
 			return;
 		}
-		
+
 		CharacterControllerComponent controller = CharacterControllerComponent.Cast(player.FindComponent(CharacterControllerComponent));
 		if (controller)
 		{
@@ -39,8 +56,8 @@ class EL_Utils
 			controller.TryEquipRightHandItem(null, EEquipItemType.EEquipTypeUnarmed, true);
 		}
 	}
-	
-		
+
+
 	//------------------------------------------------------------------------------------------------
 	//! Gets the Bohemia UID
 	//! \param playerId Index of the player inside player manager
