@@ -19,7 +19,7 @@ class EL_ToolHitZone : ScriptedHitZone
 			return;
 
 		EL_Utils.SpawnEntityPrefab(m_HitVFX, hitTransform[0], hitTransform[1]);
-		Print("Server");
+
 		HandleDamage(damage * 2, EDamageType.MELEE, instigator);
 	}
 	

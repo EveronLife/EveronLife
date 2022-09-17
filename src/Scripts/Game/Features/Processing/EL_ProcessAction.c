@@ -19,7 +19,6 @@ class EL_ProcessingOutput
 	int m_iOutputAmount;
 }
 
-
 class EL_ProcessAction : ScriptedUserAction
 {
 	[Attribute("", UIWidgets.Object, "List of inputs")]
@@ -34,15 +33,20 @@ class EL_ProcessAction : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-		
+
 		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
 			//Set search to new input prefab
 			m_pPrefabNamePredicate.prefabName = processingInput.m_InputPrefab;
-			
+
 			for (int i = 0; i < processingInput.m_iInputAmount; i++)
 			{
-				inventoryManager.TryDeleteItem(inventoryManager.FindItem(m_pPrefabNamePredicate));
+				//Check if we are holding a forced hand gadget
+				EL_ForcedHandGadgetComponent gadget = EL_ForcedHandGadgetComponent.Cast(SCR_GadgetManagerComponent.GetGadgetManager(pUserEntity).GetHeldGadgetComponent());
+				if (gadget)
+					gadget.Delete();
+				else
+					inventoryManager.TryDeleteItem(inventoryManager.FindItem(m_pPrefabNamePredicate));
 			}
 		}
 
@@ -59,6 +63,7 @@ class EL_ProcessAction : ScriptedUserAction
 				}
 			}
 		}
+
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -82,4 +87,5 @@ class EL_ProcessAction : ScriptedUserAction
 	{
 		SetCannotPerformReason("Can't find items");
 	}
+
 }

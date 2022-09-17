@@ -20,6 +20,19 @@ class EL_Utils
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Force equips the gadget to the players hand
+	//! Play none gesture to stop pickup gesture
+	//!TODO: Add custom pickup / drop gesture
+	//! \param player Instance of the player
+	static void ForceEquipToHand(IEntity player, IEntity gadget)
+	{
+		EL_Utils.ClearHands(player);
+		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(player.FindComponent(CharacterControllerComponent));
+		characterController.TryPlayItemGesture(EItemGesture.EItemGestureNone);
+		characterController.TakeGadgetInLeftHand(gadget, EGadgetType.CONSUMABLE, false, true);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Deletes and spawns the same item on the ground
 	//! Needs to be called from Authority
 	//! \param player Instance of the player
@@ -46,7 +59,6 @@ class EL_Utils
 		if (gadgetManager && gadgetManager.GetHeldGadgetComponent())
 		{
 			gadgetManager.RemoveHeldGadget();
-			return;
 		}
 
 		CharacterControllerComponent controller = CharacterControllerComponent.Cast(player.FindComponent(CharacterControllerComponent));

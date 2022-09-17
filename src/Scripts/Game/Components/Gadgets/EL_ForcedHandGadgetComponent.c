@@ -6,21 +6,20 @@ class EL_ForcedHandGadgetComponentClass: SCR_GadgetComponentClass
 class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 {
 	private EGadgetMode m_LastMode;
+	private bool m_bDelete;
 
 	//------------------------------------------------------------------------------------------------
-	private void ForceEquipToHand(IEntity player)
+	//! Marks the gadget for deletion and sets the gadget mode to IN_STORAGE
+	void Delete()
 	{
-		EL_Utils.ClearHands(player);
-		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(player.FindComponent(CharacterControllerComponent));
-		//Play none gesture to stop pickup gesture
-		//TODO: Add custom pickup / drop gesture
-		characterController.TryPlayItemGesture(EItemGesture.EItemGestureNone);
-		characterController.TakeGadgetInLeftHand(GetOwner(), EGadgetType.CONSUMABLE, false, true);
+		m_bDelete = true;
+		SCR_GadgetManagerComponent.GetGadgetManager(m_CharacterOwner).SetGadgetMode(GetOwner(), EGadgetMode.IN_STORAGE);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override void ModeClear(EGadgetMode mode)
 	{
+		Print(typename.EnumToString(EGadgetMode, mode));
 		m_LastMode = mode;
 		super.ModeClear(mode);
 	}
@@ -34,7 +33,15 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 		if (!rplComponent || !rplComponent.IsMaster())
 			return;
 
-		//Authority only
+		//Authority only:
+
+		//Delete only if IN_STORAGE to reset player speed modifier
+		if (m_bDelete && mode == EGadgetMode.IN_STORAGE)
+		{
+			InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(charOwner.FindComponent(SCR_InventoryStorageManagerComponent));
+			inventoryManager.TryDeleteItem(GetOwner());
+			return;
+		}
 
 		//If moved from Hand to player inventory -> DROP
 		if (m_LastMode == EGadgetMode.IN_HAND)
@@ -43,7 +50,7 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 		//If moved to player inventory -> EQUIP
 		IEntity storageOwner = EL_Utils.GetStorageOwner(GetOwner());
 		if (mode == EGadgetMode.IN_STORAGE && storageOwner == charOwner)
-			ForceEquipToHand(charOwner);
+			EL_Utils.ForceEquipToHand(charOwner, GetOwner());
 	}
 
 	//------------------------------------------------------------------------------------------------
