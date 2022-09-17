@@ -50,8 +50,10 @@ GenericEntity {
   }
   RigidBody "{59E108D964704F55}" {
    Active Inactive
-   Mass 0.1
+   Mass 0.25
    CenterOfMass 0 0 -2
+   LinearDamping 0.45
+   AngularDamping 0.45
    ResponseIndex "SmallDestructible"
    ModelGeometry 1
   }

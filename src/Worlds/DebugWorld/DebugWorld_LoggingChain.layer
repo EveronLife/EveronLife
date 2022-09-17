@@ -3,7 +3,7 @@ EL_LoggingArea {
  m_vSize 3 10 4
 }
 GenericEntity : "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et" {
- coords 102.104 0.001 135.812
+ coords 102 0 136.294
 }
 Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
  components {
@@ -58,23 +58,18 @@ GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
 }
 $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
  {
+  coords 102.585 0.001 130.021
+ }
+ {
   components {
    SCR_DestructionMultiPhaseComponent "{598E73985119A506}" {
     "Additional hit zones" {
      EL_ToolHitZone Tree {
-      "Collision multiplier" 0
-      "Kinetic multiplier" 0
-      "Fragmentation multiplier" 0
-      "Explosive multiplier" 0
-      "Incendiary multiplier" 0
-      m_sToolName "Axe"
+      m_fEffectiveDamage 20.22
      }
     }
    }
   }
-  coords 102.585 0.001 130.021
- }
- {
   coords 102.585 0.001 124.914
  }
  {

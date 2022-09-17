@@ -1,31 +1,6 @@
 SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart_Bottom.et" {
  ID "515C604CC7CADD44"
  components {
-  InventoryItemComponent "{598695F67B4E3D6D}" {
-   Enabled 0
-   Attributes SCR_ItemAttributeCollection "{598695F67AD79D4E}" {
-    ItemDisplayName UIInfo "{598695F67C337121}" {
-     Name "Big log"
-    }
-    ItemPhysAttributes ItemPhysicalAttributes "{598695F671121830}" {
-     Weight 100
-     SizeSetupStrategy Manual
-     ItemDimensions 10 100 10
-     ItemVolume 10000
-     DimensionScaler 1
-     RestingAdditiveRotationLS 0 0 90
-     RestingAdditiveOffsetLS 0 -1 0
-    }
-    CustomAttributes {
-     PreviewRenderAttributes "{59B47B4D97B4F512}" {
-      CameraDistanceToItem 3
-      CameraOffset 3 -3 0
-      ItemRenderRotation 0 0 90
-     }
-    }
-    m_SlotType SLOT_LOOT_STORAGE
-   }
-  }
   Hierarchy "{5724272A5B23398D}" {
    Enabled 0
   }
@@ -38,14 +13,25 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
      ColliderNames {
       "UTM_t_pinus_sylvestris_2f_dst_base_wood"
      }
+     HZDefault 1
+     DamageThreshold -9999
+     "Collision multiplier" 0
+     "Kinetic multiplier" 0
+     "Fragmentation multiplier" 0
+     "Explosive multiplier" 0
+     "Incendiary multiplier" 0
+     m_HitVFX "{8DB2E11855C71E31}Prefabs/VFX/Logging_Small.et"
+     m_fEffectiveDamage 20.22
     }
    }
+   m_fBaseHealth 80
+   m_fDamageThresholdMinimum 20.22
    m_DestroySpawnObjects {
     SCR_PrefabSpawnable "{59E108D9D2AE7AC1}" {
      m_vOffsetPosition 0 3 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
-      "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et"
+      "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
      }
      m_fDamageToImpulse 0
      m_fRandomVelocityLinear 0
@@ -55,36 +41,14 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
      m_vOffsetPosition 0 6 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
-      "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et"
+      "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
      }
      m_fDamageToImpulse 0
      m_fRandomVelocityLinear 0
      m_fRandomVelocityAngular 0
     }
    }
-  }
-  ActionsManagerComponent "{59868E192E17132D}" {
-   Enabled 0
-   ActionContexts {
-    UserActionContext "{59868E1921CDA2F2}" {
-     ContextName "default"
-     Position PointInfo "{59868E193801F33D}" {
-      Offset 0 3.2 0
-     }
-     Radius 14.278
-    }
-   }
-   additionalActions {
-    EL_LoadAction "{598694C8149C2632}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{598694C82902C57E}" {
-      Name "Load into vehicle"
-     }
-     Duration 1
-    }
-   }
+   m_eMaterialSoundType WOOD_SOLID
   }
   RplComponent "{5984C2E16DB4F46F}" {
   }

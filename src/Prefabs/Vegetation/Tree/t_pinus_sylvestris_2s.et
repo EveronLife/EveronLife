@@ -8,13 +8,19 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
       "UTM_F"
      }
      HZDefault 1
-     "Kinetic multiplier" 0.1
+     DamageThreshold -9999
+     "Collision multiplier" 0
+     "Kinetic multiplier" 0
+     "Fragmentation multiplier" 0
+     "Explosive multiplier" 0
+     "Incendiary multiplier" 0
      m_HitVFX "{8DB2E11855C71E31}Prefabs/VFX/Logging_Small.et"
+     m_fEffectiveDamage 20.22
     }
    }
    EnableDamage 0
-   m_fBaseHealth 200
-   m_fDamageThresholdMinimum 50
+   m_fBaseHealth 100
+   m_fDamageThresholdMinimum 20.22
    m_DestroySpawnObjects {
     SCR_PrefabSpawnable "{598E7398B7FBDF2D}" {
      m_vOffsetPosition 0 0.3 0
