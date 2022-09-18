@@ -29,9 +29,11 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 	{
 		super.ModeSwitch(mode, charOwner);
 
-		RplComponent rplComponent = RplComponent.Cast(GetOwner().FindComponent(RplComponent));
-		if (!rplComponent || !rplComponent.IsMaster())
+		IEntity controlledEnt = SCR_PlayerController.GetLocalControlledEntity();		
+		if ( !controlledEnt || controlledEnt != m_CharacterOwner )
+		{
 			return;
+		}
 
 		//Authority only:
 

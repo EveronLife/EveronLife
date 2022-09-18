@@ -25,10 +25,11 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
     SCR_PrefabSpawnable "{598E7398B7FBDF2D}" {
      m_vOffsetPosition 0 0.3 0
      m_Prefabs {
-      "{22DE91EBC56FCB5E}Prefabs/Vegetation/Tree/Dst/t_pinus_sylvestris_2f_dst_base.et"
+      "{E51A5A1814FF7110}Prefabs/Vegetation/Tree/Dst/Tree_Dst.et"
      }
-     m_fDamageToImpulse 0.01
-     m_fRandomVelocityLinear 0.1
+     m_fDamageToImpulse 0
+     m_fRandomVelocityLinear 0
+     m_fRandomVelocityAngular 0
     }
     SCR_PrefabSpawnable "{598E7398C91FD4B0}" {
      m_Prefabs {

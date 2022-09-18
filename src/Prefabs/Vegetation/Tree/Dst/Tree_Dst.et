@@ -1,15 +1,17 @@
-SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart_Bottom.et" {
- ID "515C604CC7CADD44"
+GenericEntity {
+ ID "5A631817098CF41D"
  components {
-  Hierarchy "{5724272A5B23398D}" {
-   Enabled 0
+  MeshObject "{5A6318165B9E4A17}" {
+   Object "{E51D1C3DB7D7DD93}Assets/Vegetation/Tree/Pinus_Sylvestris/Dst/t_pinus_sylvestris_2f_dst_base.xob"
   }
-  RigidBody "{5984C2E4CF34F75B}" {
+  RigidBody "{5A63181692CD3E26}" {
+   Active Active
+   AngularSleepingThreashold 1
    ModelGeometry 1
   }
-  SCR_DestructionMultiPhaseComponent "{59E108D9CEE7FC26}" {
+  SCR_DestructionMultiPhaseComponent "{5A63181657D37073}" {
    "Additional hit zones" {
-    EL_ToolHitZone HitZone {
+    EL_ToolHitZone AxeHitZone {
      ColliderNames {
       "UTM_t_pinus_sylvestris_2f_dst_base_wood"
      }
@@ -24,10 +26,14 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
      m_fEffectiveDamage 20.22
     }
    }
+   "Fall damage min height" 5
+   "Fall damage max height" 10
+   CollisionVelocityThreshold 5
+   "Heavy damage threshold" 70
    m_fBaseHealth 80
    m_fDamageThresholdMinimum 20.22
    m_DestroySpawnObjects {
-    SCR_PrefabSpawnable "{59E108D9D2AE7AC1}" {
+    SCR_PrefabSpawnable "{5A631816FBF3E4E9}" {
      m_vOffsetPosition 0 3 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
@@ -37,7 +43,7 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
      m_fRandomVelocityLinear 0
      m_fRandomVelocityAngular 0
     }
-    SCR_PrefabSpawnable "{59E108DA3298A838}" {
+    SCR_PrefabSpawnable "{5A631816FAE1FFB9}" {
      m_vOffsetPosition 0 6 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
@@ -50,7 +56,8 @@ SCR_TreePartV2 : "{EF6E0325634347C6}Prefabs/Vegetation/Core/DestructibleTreePart
    }
    m_eMaterialSoundType WOOD_SOLID
   }
-  RplComponent "{5984C2E16DB4F46F}" {
+  RplComponent "{5A6318165AFD511C}" {
   }
  }
+ coords 103.231 0.001 132.035
 }

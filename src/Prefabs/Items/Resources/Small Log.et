@@ -57,10 +57,6 @@ GenericEntity {
    ResponseIndex "SmallDestructible"
    ModelGeometry 1
   }
-  SCR_GadgetComponent "{59E33B48CFC6BC4F}" {
-   Enabled 0
-   m_eAnimVariable ADRIANOV
-  }
   ActionsManagerComponent "{59E108D99C87F391}" {
    ActionContexts {
     UserActionContext "{59E108D99F6A317A}" {

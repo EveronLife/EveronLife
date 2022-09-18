@@ -24,7 +24,7 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
    ModelGeometry 1
   }
   SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
-   m_fDamage 66.543
+   m_fDamage 20.22
    m_fRange 1
    m_fExecutionTime 2
    m_aCollisionProbesPos {
@@ -50,7 +50,7 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
        Jumping 1
        Lowered 1
        ProneTurn 1
-       IkSettingsStand 4
+       IkSettingsStand 7
       }
      }
      AnimationInstance "{D01958BBC8FE6598}anims/workspaces/player/player_main_pistol_beretta.asi"
