@@ -7,23 +7,9 @@ class EL_ToolHitZone : ScriptedHitZone
 	float m_fEffectiveDamage;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnDamage(EDamageType type, float damage, HitZone pOriginalHitzone, IEntity instigator, inout vector hitTransform[3], float speed, int colliderID, int nodeID)
-	{
-		Print(GetHealth());
-		if (!instigator) return;
-		
-		//Heal any damage that is not the effective tool (dmg)
-		if (damage != m_fEffectiveDamage)
-		{
-			HandleDamage(damage, EDamageType.REGENERATION, instigator);
-		}
-		
-				
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	override void OnLocalDamage(EDamageType type, float damage, HitZone pOriginalHitzone, IEntity damageSource, IEntity instigator, inout vector hitTransform[3], float speed, int colliderID, int nodeID)
 	{
+		super.OnLocalDamage(type, damage, pOriginalHitzone, damageSource, instigator, hitTransform, speed, colliderID, nodeID);
 		EL_Utils.SpawnEntityPrefab(m_HitVFX, hitTransform[0], hitTransform[1]);	
 	}
 

@@ -19,7 +19,6 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 	//------------------------------------------------------------------------------------------------
 	override void ModeClear(EGadgetMode mode)
 	{
-		Print(typename.EnumToString(EGadgetMode, mode));
 		m_LastMode = mode;
 		super.ModeClear(mode);
 	}
@@ -28,9 +27,8 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 	override void ModeSwitch(EGadgetMode mode, IEntity charOwner)
 	{
 		super.ModeSwitch(mode, charOwner);
-
 		IEntity controlledEnt = SCR_PlayerController.GetLocalControlledEntity();		
-		if ( !controlledEnt || controlledEnt != m_CharacterOwner )
+		if ( !controlledEnt || controlledEnt != charOwner )
 		{
 			return;
 		}

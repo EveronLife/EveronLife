@@ -1,6 +1,15 @@
 Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
  ID "0F2AA6B42CA78628"
  components {
+  MeshObject "{680BA6B5982CCC9C}" {
+   Object "{847A517466B4C2CD}Assets/Vegetation/Tree/Pinus_Sylvestris/t_pinus_sylvestris_2s.xob"
+   LODFactors +{
+   }
+  }
+  RigidBody "{680BA6B5970BCFFC}" {
+   ModelGeometry 1
+   Static 1
+  }
   SCR_DestructionMultiPhaseComponent "{598E73985119A506}" {
    "Additional hit zones" {
     EL_ToolHitZone Tree {
@@ -28,8 +37,8 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
       "{E51A5A1814FF7110}Prefabs/Vegetation/Tree/Dst/Tree_Dst.et"
      }
      m_fDamageToImpulse 0
-     m_fRandomVelocityLinear 0
-     m_fRandomVelocityAngular 0
+     m_fRandomVelocityLinear 10
+     m_fRandomVelocityAngular 10
     }
     SCR_PrefabSpawnable "{598E7398C91FD4B0}" {
      m_Prefabs {

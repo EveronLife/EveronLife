@@ -47,6 +47,19 @@ GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
  angleY 66.466
  {
   GenericEntity Axe_5A4CD09401492ECC : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+   components {
+    SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+     Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+      ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+       IkSettings {
+        ItemIKSettings "{59927B2BFF57A5D5}" {
+         IkSettingsStand 4
+        }
+       }
+      }
+     }
+    }
+   }
    coords -0.019 0.95 -0.278
    angleX -60.98
    angleY 180
@@ -87,10 +100,19 @@ $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et"
    SCR_DestructionMultiPhaseComponent "{598E73985119A506}" {
     m_DestroySpawnObjects {
      SCR_PrefabSpawnable "{598E7398B7FBDF2D}" {
+      m_vOffsetPosition 0 0.3 0
+      m_Prefabs +{
+      }
+      m_fDamageToImpulse 0
       m_fRandomVelocityLinear 10
       m_fRandomVelocityAngular 10
      }
      SCR_PrefabSpawnable "{598E7398C91FD4B0}" {
+      m_vOffsetPosition 0 6 0
+      m_vOffsetRotation 0 90 0
+      m_Prefabs {
+       "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
+      }
      }
     }
    }
@@ -125,8 +147,4 @@ $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et"
  {
   coords 102.585 0.001 119.914
  }
-}
-GenericEntity : "{E51A5A1814FF7110}Prefabs/Vegetation/Tree/Dst/Tree_Dst.et" {
- coords 105.521 0.193 124.348
- angleX -90
 }

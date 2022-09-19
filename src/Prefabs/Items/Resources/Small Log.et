@@ -2,7 +2,7 @@ GenericEntity {
  ID "59E108D9C9FD1407"
  components {
   EL_ForcedHandGadgetComponent "{5A58B47A3942AEE3}" {
-   m_eAnimVariable ADRIANOV
+   m_eAnimVariable NONE
   }
   InventoryItemComponent "{59E108D941025CE3}" {
    Attributes SCR_ItemAttributeCollection "{59E108D940A911E8}" {
@@ -49,7 +49,7 @@ GenericEntity {
    Object "{8D73FF908E973C20}Assets/Props/Forest/WoodPile_01/Dst/WoodLog_01_C_dst_01.xob"
   }
   RigidBody "{59E108D964704F55}" {
-   Active Inactive
+   Active Active
    Mass 0.25
    CenterOfMass 0 0 -2
    LinearDamping 0.45
