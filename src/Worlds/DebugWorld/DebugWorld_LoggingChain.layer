@@ -87,38 +87,6 @@ GenericEntity Rifle_AK74_GP25_5A63333BF4C2EECF : "{63E8322E2ADD4AA7}Prefabs/Weap
 }
 $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
  {
-  components {
-   MeshObject "{680BA6B5982CCC9C}" {
-    Object "{847A517466B4C2CD}Assets/Vegetation/Tree/Pinus_Sylvestris/t_pinus_sylvestris_2s.xob"
-    LODFactors +{
-    }
-   }
-   RigidBody "{680BA6B5970BCFFC}" {
-    ModelGeometry 1
-    Static 1
-   }
-   SCR_DestructionMultiPhaseComponent "{598E73985119A506}" {
-    m_DestroySpawnObjects {
-     SCR_PrefabSpawnable "{598E7398B7FBDF2D}" {
-      m_vOffsetPosition 0 0.3 0
-      m_Prefabs +{
-      }
-      m_fDamageToImpulse 0
-      m_fRandomVelocityLinear 10
-      m_fRandomVelocityAngular 10
-     }
-     SCR_PrefabSpawnable "{598E7398C91FD4B0}" {
-      m_vOffsetPosition 0 6 0
-      m_vOffsetRotation 0 90 0
-      m_Prefabs {
-       "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
-      }
-     }
-    }
-   }
-   RplComponent "{598739526E165B57}" {
-   }
-  }
   coords 102.585 0.001 130.021
  }
  {

@@ -17,8 +17,9 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
       "UTM_F"
      }
      HZDefault 1
-     DamageThreshold -9999
+     DamageThreshold 0
      "Collision multiplier" 0
+     "Melee multiplier" 0.01
      "Kinetic multiplier" 0
      "Fragmentation multiplier" 0
      "Explosive multiplier" 0
