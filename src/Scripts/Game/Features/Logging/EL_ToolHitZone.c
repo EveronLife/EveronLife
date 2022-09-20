@@ -17,7 +17,9 @@ class EL_ToolHitZone : ScriptedHitZone
 	override void OnLocalDamage(EDamageType type, float damage, HitZone pOriginalHitzone, IEntity damageSource, IEntity instigator, inout vector hitTransform[3], float speed, int colliderID, int nodeID)
 	{
 		super.OnLocalDamage(type, damage, pOriginalHitzone, damageSource, instigator, hitTransform, speed, colliderID, nodeID);
-		EL_Utils.SpawnEntityPrefab(m_HitVFX, hitTransform[0], hitTransform[1]);	
+		
+		if (damage == m_fEffectiveDamage * 0.01)
+			EL_Utils.SpawnEntityPrefab(m_HitVFX, hitTransform[0], hitTransform[1]);	
 	}
 
 };
