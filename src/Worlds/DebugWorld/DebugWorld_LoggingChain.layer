@@ -69,9 +69,6 @@ GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
  }
  coords 96.969 0.001 132.588
 }
-GenericEntity Rifle_AK74_GP25_5A63333BF4C2EECF : "{63E8322E2ADD4AA7}Prefabs/Weapons/Rifles/AK74/Rifle_AK74_GP25.et" {
- coords 101.066 0.897 134.954
-}
 $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
  {
   coords 102.585 0.001 130.021
