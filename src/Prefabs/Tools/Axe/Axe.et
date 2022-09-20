@@ -7,7 +7,7 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
    }
   }
   EL_PersistenceComponent "{5A4C7559CF69AAF0}" {
-   Enabled 0
+   Enabled 1
    m_pSaveData EL_ItemSaveData "{5A4C7559EABBF0B0}" {
     m_aComponents {
      EL_BaseInventoryStorageComponentSaveData "{5A4D31A91DD9886E}" {
@@ -50,7 +50,7 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
        Jumping 1
        Lowered 1
        ProneTurn 1
-       IkSettingsStand 7
+       IkSettingsStand 4
       }
      }
      AnimationInstance "{D01958BBC8FE6598}anims/workspaces/player/player_main_pistol_beretta.asi"
@@ -67,10 +67,6 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
    }
   }
   SimpleSoundComponent "{59072B578A46AF84}" {
-   Enabled 0
-   Filenames + {
-    ""
-   }
   }
   WeaponComponent "{5990809682E12ADF}" {
    SignalsSourceAccess SignalsSourceAccessClass "{59927B29CCA9EA6F}" {

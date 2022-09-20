@@ -9,7 +9,7 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 	private bool m_bDelete;
 
 	//------------------------------------------------------------------------------------------------
-	//! Marks the gadget for deletion and sets the gadget mode to IN_STORAGE
+	//! Mark the gadget for deletion and set the gadget mode to IN_STORAGE
 	void Delete()
 	{
 		m_bDelete = true;
@@ -27,13 +27,13 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 	override void ModeSwitch(EGadgetMode mode, IEntity charOwner)
 	{
 		super.ModeSwitch(mode, charOwner);
-		IEntity controlledEnt = SCR_PlayerController.GetLocalControlledEntity();		
+		IEntity controlledEnt = SCR_PlayerController.GetLocalControlledEntity();
 		if ( !controlledEnt || controlledEnt != charOwner )
 		{
 			return;
 		}
 
-		//Authority only:
+		//Owner only:
 
 		//Delete only if IN_STORAGE to reset player speed modifier
 		if (m_bDelete && mode == EGadgetMode.IN_STORAGE)

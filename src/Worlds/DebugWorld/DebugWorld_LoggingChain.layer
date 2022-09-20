@@ -22,7 +22,7 @@ GenericEntity {
  }
  coords 103.257 0.001 131.625
 }
-GenericEntity : "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et" {
+GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et" {
  coords 101.89 0 136.324
 }
 Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
@@ -47,19 +47,6 @@ GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
  angleY 66.466
  {
   GenericEntity Axe_5A4CD09401492ECC : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
-   components {
-    SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
-     Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
-      ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
-       IkSettings {
-        ItemIKSettings "{59927B2BFF57A5D5}" {
-         IkSettingsStand 4
-        }
-       }
-      }
-     }
-    }
-   }
    coords -0.019 0.95 -0.278
    angleX -60.98
    angleY 180

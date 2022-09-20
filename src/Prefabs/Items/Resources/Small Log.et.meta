@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{32F5A906D8A573BC}Prefabs/Vegetation/Tree/Dst/Small Log.et"
+ Name "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

@@ -1,18 +1,17 @@
-GenericEntity {
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
  ID "59E108D9C9FD1407"
  components {
   EL_ForcedHandGadgetComponent "{5A58B47A3942AEE3}" {
    m_eAnimVariable NONE
   }
-  InventoryItemComponent "{59E108D941025CE3}" {
-   Attributes SCR_ItemAttributeCollection "{59E108D940A911E8}" {
-    ItemDisplayName UIInfo "{59E108D94219402E}" {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Log"
      Description "Do not right click to move :)"
     }
     ItemPhysAttributes ItemPhysicalAttributes "{59E108D9A227B7E3}" {
-     DimensionScaler 0.01
-     RestingUP Up
+     DimensionScaler 0
      RestingAdditiveRotationLS 0 0 0
      RestingAdditiveOffsetLS 0 0 0
     }
@@ -41,43 +40,32 @@ GenericEntity {
       ItemRenderRotation 0 0 90
      }
     }
-    m_SlotType SLOT_LOADOUT_STORAGE
-    m_bDraggable 1
+    m_Size SLOT_2x1
    }
   }
-  MeshObject "{59E108D90002CAF0}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{8D73FF908E973C20}Assets/Props/Forest/WoodPile_01/Dst/WoodLog_01_C_dst_01.xob"
   }
-  RigidBody "{59E108D964704F55}" {
+  RigidBody "{5A4ACBB1A0084DA1}" {
    Active Active
    Mass 0.25
    CenterOfMass 0 0 -2
    LinearDamping 0.45
    AngularDamping 0.45
    ResponseIndex "SmallDestructible"
-   ModelGeometry 1
   }
-  ActionsManagerComponent "{59E108D99C87F391}" {
+  ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
-    UserActionContext "{59E108D99F6A317A}" {
-     ContextName "default"
-     Position PointInfo "{59E108D990AC96C3}" {
-      Offset 0 0 -2.027
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 0.05 -2
      }
     }
    }
    additionalActions {
-    SCR_PickUpItemAction "{59E108D9AA7761C3}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{5A58B47A2293A020}" {
-      Name "Pick up"
-     }
+    SCR_PickUpItemAction "{51EC842E3A187379}" {
     }
    }
-  }
-  RplComponent "{59E108D9663A029B}" {
   }
  }
  coords 121.883 0.001 134.794
