@@ -1,6 +1,9 @@
 GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHand_Base.et" {
- ID "59E108D9C9FD1407"
+ ID "0000000000000001"
  components {
+  EL_PersistenceComponent "{5A0D2D213B33ECD8}" {
+   Enabled 0
+  }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
@@ -21,7 +24,7 @@ GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHan
       }
      }
      HandAdditiveRotation 90 0 0
-     HandAdditiveTranslation -0.147 2.1 -1
+     HandAdditiveTranslation -0.125 0 -1.05
     }
     CustomAttributes {
      CharacterModifierAttributes "{59E489793FA8F156}" {
@@ -41,10 +44,16 @@ GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHan
    }
   }
   MeshObject "{5A4ACD10B8DA304F}" {
-   Object "{8D73FF908E973C20}Assets/Props/Forest/WoodPile_01/Dst/WoodLog_01_C_dst_01.xob"
+   Object "{DADD7B9B07B1C07A}Assets/Items/Resources/WoodPlank/WoodenPlank.xob"
+   Materials {
+    MaterialAssignClass "{5A6B0E870CC50AA2}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{5631014C0A9F0278}Assets/Props/Construction/PlankPile_01/Data/PlankPile_01.emat"
+    }
+   }
   }
   RigidBody "{5A4ACBB1A0084DA1}" {
-   Active Active
+   Active Inactive
    Mass 0.25
    CenterOfMass 0 0 -2
    LinearDamping 0.45
@@ -55,7 +64,7 @@ GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHan
    ActionContexts {
     UserActionContext "{508AC2ABEC97066C}" {
      Position PointInfo "{508AC2ABEAC4A0F5}" {
-      Offset 0 0.05 -2
+      Offset 0 0.02 0
      }
     }
    }
@@ -65,5 +74,5 @@ GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHan
    }
   }
  }
- coords 121.883 0.001 134.794
+ coords 101.558 0 136.324
 }

@@ -119,11 +119,11 @@ GenericEntity AppleTrader {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+       "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+      m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {
@@ -204,11 +204,6 @@ GenericEntity AppleTrader {
    coords -1.326 0.902 -0.041
   }
  }
-}
-SCR_ParticleEmitter {
- coords 102.75 0.001 138.153
- m_EffectPath "{12571DF1E334C899}Wood_Small.ptc"
- m_PlayInEditor 0
 }
 Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domestica_2s.et" {
  components {

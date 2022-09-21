@@ -23,7 +23,10 @@ GenericEntity {
  coords 103.257 0.001 131.625
 }
 GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et" {
- coords 101.89 0 136.324
+ coords 101.887 0 136.696
+}
+GenericEntity ItemInteractable_ForcedHand_Base_5A6A976F5E928457 : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHand_Base.et" {
+ coords 102.102 0.001 136.464
 }
 Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
  components {
@@ -41,6 +44,9 @@ Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M9
   }
  }
  coords 96.869 0 127.078
+}
+GenericEntity Wood_Plank_5A6A976C850FDF87 : "{45D1B36F99DD2FC3}Prefabs/Items/Resources/Wood_Plank.et" {
+ coords 101.479 0 134.71
 }
 GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
  coords 102.481 0.001 134.803
@@ -62,7 +68,18 @@ GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
   ActionsManagerComponent "{598F21A8710B89C1}" {
    additionalActions {
     EL_ProcessAction "{598F21A877BE6DEE}" {
+     UIInfo UIInfo "{5A5EE24316053903}" {
+      Name "Make Wood Plank"
+     }
      Duration 1
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{5A5EE2432BB9E04F}" {
+       m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Items/Resources/Wood_Plank.et"
+      }
+     }
+     m_bForceDropOutput 1
+     m_vDropOffset -1.841 0 0
+     m_vRotation 90 0 0
     }
    }
   }

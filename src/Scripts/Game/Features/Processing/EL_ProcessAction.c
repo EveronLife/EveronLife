@@ -26,7 +26,17 @@ class EL_ProcessAction : ScriptedUserAction
 
 	[Attribute("", UIWidgets.Object, "List of outputs")]
 	ref array<ref EL_ProcessingOutput> m_aProcessingOutputs;
+	
+	[Attribute("", UIWidgets.CheckBox, "Force drop output? (Not spawning in inventory)")]
+	bool m_bForceDropOutput;
 
+	[Attribute("0 0 0", UIWidgets.EditBox, "Drop Offset", params: "inf inf 0 purposeCoords spaceEntity")]
+	vector m_vDropOffset;
+	
+	[Attribute("0 0 0", UIWidgets.EditBox, "Drop Rotation")]
+	vector m_vRotation;
+
+	
 	ref SCR_PrefabNamePredicate m_pPrefabNamePredicate = new SCR_PrefabNamePredicate();
 
 	//------------------------------------------------------------------------------------------------
@@ -56,6 +66,11 @@ class EL_ProcessAction : ScriptedUserAction
 		{
 			for (int i = 0; i < processingOutput.m_iOutputAmount; i++)
 			{
+				if (m_bForceDropOutput) 
+				{
+					EL_Utils.SpawnEntityPrefab(processingOutput.m_OutputPrefab, pOwnerEntity.GetOrigin() + m_vDropOffset, m_vRotation);
+					continue;
+				}
 				bCanSpawnToStorage = inventoryManager.TrySpawnPrefabToStorage(processingOutput.m_OutputPrefab);
 				if (!bCanSpawnToStorage)
 				{
