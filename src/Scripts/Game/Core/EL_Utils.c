@@ -33,7 +33,7 @@ class EL_Utils
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Deletes and spawns the same item on the ground
+	//! Moves Item to vicinity
 	//! Needs to be called from Authority
 	//! \param player Instance of the player
 	//! \param item Item Entity to move
@@ -46,6 +46,7 @@ class EL_Utils
 		InventoryStorageSlot parentSlot = itemComponent.GetParentSlot();
 		if (!parentSlot) return;
 		BaseInventoryStorageComponent itemParentStorage = parentSlot.GetStorage();
+
 		ClearHands(player);
 		inventoryManager.TryRemoveItemFromStorage(item, itemParentStorage);
 	}

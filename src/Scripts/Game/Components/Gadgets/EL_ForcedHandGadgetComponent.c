@@ -43,12 +43,16 @@ class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 			return;
 		}
 
+		IEntity storageOwner = EL_Utils.GetStorageOwner(GetOwner());
+
 		//If moved from Hand to player inventory -> DROP
-		if (m_LastMode == EGadgetMode.IN_HAND)
+		if (m_LastMode == EGadgetMode.IN_HAND && storageOwner == charOwner)
+		{
 			EL_Utils.MoveToVicinity(charOwner, GetOwner());
+			return;
+		}
 
 		//If moved to player inventory -> EQUIP
-		IEntity storageOwner = EL_Utils.GetStorageOwner(GetOwner());
 		if (mode == EGadgetMode.IN_STORAGE && storageOwner == charOwner)
 			EL_Utils.ForceEquipToHand(charOwner, GetOwner());
 	}
