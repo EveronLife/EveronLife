@@ -25,9 +25,6 @@ GenericEntity {
 GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et" {
  coords 101.887 0 136.696
 }
-GenericEntity ItemInteractable_ForcedHand_Base_5A6A976F5E928457 : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHand_Base.et" {
- coords 102.102 0.001 136.464
-}
 Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
  components {
   RigidBody "{51DAA09FECF52BBF}" {
