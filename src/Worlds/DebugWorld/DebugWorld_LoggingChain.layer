@@ -72,6 +72,7 @@ GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
      m_aProcessingOutputs {
       EL_ProcessingOutput "{5A5EE2432BB9E04F}" {
        m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Items/Resources/Wood_Plank.et"
+       m_iOutputAmount 2
       }
      }
      m_bForceDropOutput 1
