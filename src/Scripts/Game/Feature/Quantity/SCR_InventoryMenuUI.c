@@ -6,6 +6,7 @@ modded class SCR_InventoryMenuUI
 	protected ref set<IEntity> m_aELRefreshEntities = new set<IEntity>();
 	protected SCR_InventorySlotUI m_aELQuantityOperationSourceSlotUi;
 	protected SCR_InventorySlotUI m_aELQuantityOperationDestinationSlotUi;
+	protected IEntity m_pELQuantitySplitSource;
 	protected bool m_bELQuantityRefreshBlock;
 
 	//------------------------------------------------------------------------------------------------
@@ -97,20 +98,29 @@ modded class SCR_InventoryMenuUI
 	{
 		if (m_bELKeepQuantitySeperate)
 		{
-			IEntity transferEntity;
-			if (m_pSelectedSlotUI)
-			{
-				InventoryItemComponent item = m_pSelectedSlotUI.GetInventoryItemComponent();
-				if (item) transferEntity = item.GetOwner();
-			}
+			IEntity transferEntity = m_pSelectedSlotUI.GetInventoryItemComponent().GetOwner();
 			if (transferEntity && transferEntity.FindComponent(EL_QuantityComponent))
 			{
-				Print(transferEntity);
 				m_InventoryManager.EL_SetTransferIntent(transferEntity, true);
 			}
 		}
 
 		super.MoveBetweenFromVicinity();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override protected void MoveBetweenToVicinity()
+	{
+		if (m_bELKeepQuantitySeperate && m_pStorageLootUI.GetCurrentNavigationStorage())
+		{
+			IEntity transferEntity = m_pSelectedSlotUI.GetInventoryItemComponent().GetOwner();
+			if (transferEntity && transferEntity.FindComponent(EL_QuantityComponent))
+			{
+				m_InventoryManager.EL_SetTransferIntent(transferEntity, true);
+			}
+		}
+
+		super.MoveBetweenToVicinity();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -133,6 +143,10 @@ modded class SCR_InventoryMenuUI
 				m_aELRefreshEntities.Insert(refreshEntity);
 			}
 		}
+
+		// Skip the refresh until the split item was added to refresh source and destination together.
+		if (refreshEntity && refreshEntity == m_pELQuantitySplitSource) return;
+
 		ScriptCallQueue queue = GetGame().GetCallqueue();
 		queue.Remove(EL_RefreshDebounced);
 		queue.CallLater(EL_RefreshDebounced, 10);
@@ -142,6 +156,7 @@ modded class SCR_InventoryMenuUI
 	protected void EL_RefreshDebounced()
 	{
 		m_bELQuantityRefreshBlock = false;
+		m_pELQuantitySplitSource = null;
 		bool fullRefresh = !m_aELQuantityOperationSourceSlotUi && !m_aELQuantityOperationDestinationSlotUi;
 
 		if (!m_aELRefreshEntities.IsEmpty())
@@ -172,7 +187,9 @@ modded class SCR_InventoryMenuUI
 
 		if (m_aELQuantityOperationSourceSlotUi)
 		{
-			IEntity selectedEntity = m_aELQuantityOperationSourceSlotUi.GetInventoryItemComponent().GetOwner();
+			InventoryItemComponent selectedItem = m_aELQuantityOperationSourceSlotUi.GetInventoryItemComponent();
+			IEntity selectedEntity;
+			if (selectedItem) selectedEntity = selectedItem.GetOwner();
 			SCR_InventoryStorageBaseUI storageUi = m_aELQuantityOperationSourceSlotUi.GetStorageUI();
 			storageUi.Refresh();
 			if (IsUsingGamepad())
@@ -231,6 +248,14 @@ modded class SCR_InventoryMenuUI
 	override void NavigationBarUpdate()
 	{
 		if (!m_bELQuantityRefreshBlock) super.NavigationBarUpdate();
+
+		if (m_pFocusedSlotUI && !IsUsingGamepad())
+		{
+			InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
+			EL_QuantityComponent quantitySource;
+			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+			EL_NavigationBarSplitControlsUpdate(itemSource, quantitySource);
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -241,41 +266,46 @@ modded class SCR_InventoryMenuUI
 			EL_QuantityComponent quantitySource;
 			InventoryItemComponent itemSource = m_pSelectedSlotUI.GetInventoryItemComponent();
 			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
-
-			m_pNavigationBar.SetAllButtonEnabled(false);
-
-			bool isFocusStorage = !m_pFocusedSlotUI || (m_pFocusedSlotUI && m_pFocusedSlotUI.Type().IsInherited(SCR_InventorySlotStorageEmbeddedUI));
-			bool isValidTargetStorage = isFocusStorage && m_pActiveStorageUI && !EL_Utils.IsAnyInherited(m_pActiveStorageUI, {SCR_InventoryStoragesListUI, SCR_InventoryStorageWeaponsUI});
-			bool canTransfer = m_pActiveStorageUI && m_pSelectedSlotUI && (m_pActiveStorageUI != m_pSelectedSlotUI.GetStorageUI());
-
-			EL_QuantityComponent quantityDestination;
-			if (m_pFocusedSlotUI)
+			if (quantitySource)
 			{
-				InventoryItemComponent itemDestination = m_pFocusedSlotUI.GetInventoryItemComponent();
-				if (itemDestination) quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(itemDestination.GetOwner());
-			}
+				m_pNavigationBar.SetAllButtonEnabled(false);
 
-			if ((isValidTargetStorage && canTransfer) || quantityDestination && quantityDestination.CanCombine(quantitySource))
-			{
-				m_pNavigationBar.SetButtonEnabled("ButtonSelect", true);
-				m_pNavigationBar.SetButtonActionName("ButtonSelect", "Inventory_Move");
-			}
+				bool isFocusStorage = !m_pFocusedSlotUI || (m_pFocusedSlotUI && m_pFocusedSlotUI.Type().IsInherited(SCR_InventorySlotStorageEmbeddedUI));
+				bool isValidTargetStorage = isFocusStorage && m_pActiveStorageUI && !EL_Utils.IsAnyInherited(m_pActiveStorageUI, {SCR_InventoryStoragesListUI, SCR_InventoryStorageWeaponsUI});
+				bool canTransfer = m_pActiveStorageUI && m_pSelectedSlotUI && (m_pActiveStorageUI != m_pSelectedSlotUI.GetStorageUI());
 
-			if (isValidTargetStorage)
-			{
-				m_pNavigationBar.SetButtonEnabled("ButtonOpenStorage", true);
-				if (canTransfer) m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveStack", true, "#EL-Keybinds_Inventory_MoveStack");
-			}
+				EL_QuantityComponent quantityDestination;
+				if (m_pFocusedSlotUI)
+				{
+					InventoryItemComponent itemDestination = m_pFocusedSlotUI.GetInventoryItemComponent();
+					if (itemDestination) quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(itemDestination.GetOwner());
+				}
 
-			return;
+				if ((isValidTargetStorage && canTransfer) || quantityDestination && quantityDestination.CanCombine(quantitySource))
+				{
+					m_pNavigationBar.SetButtonEnabled("ButtonSelect", true);
+					m_pNavigationBar.SetButtonActionName("ButtonSelect", "Inventory_Move");
+				}
+
+				if (isValidTargetStorage)
+				{
+					m_pNavigationBar.SetButtonEnabled("ButtonOpenStorage", true);
+					if (canTransfer) m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveQuantity", true, "#EL-Keybinds_Inventory_MoveQuantity");
+				}
+
+				return;
+			}
 		}
 		else if (m_pFocusedSlotUI && m_pActiveStorageUI && m_pActiveStorageUI.Type().IsInherited(SCR_InventoryStorageLootUI))
 		{
 			InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
-			if (itemSource && itemSource.GetOwner().FindComponent(EL_QuantityComponent))
+			EL_QuantityComponent quantitySource;
+			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+			if (quantitySource)
 			{
 				super.NavigationBarUpdateGamepad();
-				m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveStack", true, "#EL-Keybinds_Inventory_PickUpStack");
+				m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveQuantity", true, "#EL-Keybinds_Inventory_PickUpQuantity");
+				EL_NavigationBarSplitControlsUpdate(itemSource, quantitySource);
 				return;
 			}
 		}
@@ -284,39 +314,92 @@ modded class SCR_InventoryMenuUI
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
+	protected void EL_NavigationBarSplitControlsUpdate(InventoryItemComponent itemSource, EL_QuantityComponent quantitySource)
 	{
-		if (action == "EL_Inventory_MoveStack")
+		if (!itemSource || !quantitySource || quantitySource.GetQuantity() < 2) return;
+
+		InventoryStorageSlot parentSlot = itemSource.GetParentSlot();
+		if (parentSlot && !EL_CanSplitInStorage(itemSource, parentSlot.GetStorage())) return;
+
+		if (quantitySource.GetQuantity() > 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonSplitQuantity", true, "#EL-Keybinds_Inventory_SplitQuantity");
+		if (quantitySource.GetQuantity() >= 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonQuickSplitQuantity", true, "#EL-Keybinds_Inventory_QuickSplitQuantity");
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool EL_CanSplitInStorage(InventoryItemComponent item, BaseInventoryStorageComponent storage)
+	{
+		ItemPhysicalAttributes physicalAttributes = ItemPhysicalAttributes.Cast(item.FindAttribute(ItemPhysicalAttributes));
+		if (physicalAttributes)
 		{
-			m_bELKeepQuantitySeperate = true;
-			if (m_pELSelectedQuantitySlot)
+			// Not enough volume
+			if ((storage.GetOccupiedSpace() + physicalAttributes.GetVolume()) > storage.GetMaxVolumeCapacity()) return false;
+
+			// Check max weight for scripted storages
+			if (storage.Type().IsInherited(SCR_UniversalInventoryStorageComponent))
 			{
-				Action_Drop();
-			}
-			else
-			{
-				Action_MoveBetween();
+				bool weightOk;
+				GetGame().GetScriptModule().Call(storage, "IsWeightOk", false, weightOk, physicalAttributes.GetWeight());
+				if (!weightOk) return false;
 			}
 		}
-		else if (m_pELSelectedQuantitySlot)
+
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
+	{
+		switch (action)
 		{
-			switch (action)
+			case "EL_Inventory_SplitQuantity":
 			{
-				case "Inventory_Select":
+				break;
+			}
+
+			case "EL_Inventory_QuickSplitQuantity":
+			{
+				InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
+				if (itemSource && itemSource.GetOwner())
+				{
+					m_pFocusedSlotUI.EL_SetLockState(true);
+					m_pELQuantitySplitSource = itemSource.GetOwner();
+					m_InventoryManager.EL_RequestQuantitySplit(itemSource.GetOwner());
+				}
+				return;
+			}
+
+			case "EL_Inventory_MoveQuantity":
+			{
+				m_bELKeepQuantitySeperate = true;
+				if (m_pELSelectedQuantitySlot)
+				{
+					Action_Drop();
+				}
+				else
+				{
+					Action_MoveBetween();
+				}
+				return;
+			}
+
+			case "Inventory_Select":
+			{
+				if (m_pELSelectedQuantitySlot)
 				{
 					Action_Drop();
 					return;
 				}
+				break;
+			}
 
-				case "Inventory_OpenStorage":
+			case "Inventory_OpenStorage":
+			{
+				if (m_pELSelectedQuantitySlot && (!m_pFocusedSlotUI || !m_pFocusedSlotUI.Type().IsInherited(SCR_InventorySlotStorageEmbeddedUI)))
 				{
-					if (!m_pFocusedSlotUI || !m_pFocusedSlotUI.Type().IsInherited(SCR_InventorySlotStorageEmbeddedUI))
-					{
-						action = "Inventory_Select";
-					}
-
-					break;
+					action = "Inventory_Select";
 				}
+
+				break;
 			}
 		}
 
@@ -370,8 +453,8 @@ modded class SCR_InventoryMenuUI
 	{
 		super.OnMenuOpen();
 
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.UP, EL_OnTransferStackPressed);
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.DOWN, EL_OnTransferStackPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.UP, EL_OnMoveQuantityPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.DOWN, EL_OnMoveQuantityPressed);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -379,12 +462,12 @@ modded class SCR_InventoryMenuUI
 	{
 		super.Action_CloseInventory();
 
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.UP, EL_OnTransferStackPressed);
-		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveStack", EActionTrigger.DOWN, EL_OnTransferStackPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.UP, EL_OnMoveQuantityPressed);
+		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.DOWN, EL_OnMoveQuantityPressed);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void EL_OnTransferStackPressed(float value, EActionTrigger reason)
+	protected void EL_OnMoveQuantityPressed(float value, EActionTrigger reason)
 	{
 		m_bELKeepQuantitySeperate = value >= 0.9;
 	}

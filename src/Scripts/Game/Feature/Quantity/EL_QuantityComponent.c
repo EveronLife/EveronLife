@@ -2,8 +2,7 @@ class EL_QuantityComponentClass : ScriptComponentClass
 {
 	override static array<typename> CannotCombine(IEntityComponentSource src)
 	{
-		// Prevent user from adding multiple quantity components
-		return {EL_QuantityComponent};
+		return {EL_QuantityComponent}; // Prevent user from adding multiple quantity components
 	}
 
 	[Attribute(defvalue: "1", desc: "Inclusive maximal quantity this item can stack to. 0 means unlimited stack size.")]
@@ -12,11 +11,12 @@ class EL_QuantityComponentClass : ScriptComponentClass
 
 class EL_QuantityComponent : ScriptComponent
 {
+	protected static ref map<IEntity, bool> s_mQuantityTransferIntents;
+
 	[RplProp(onRplName: "OnQuantityChanged")]
 	protected int m_iQuantity = 1;
 
-	protected RplComponent m_pReplication;
-
+	//------------------------------------------------------------------------------------------------
 	int GetMaxQuantity()
 	{
 		int result = EL_QuantityComponentClass.Cast(GetComponentData(GetOwner())).m_iMaxQuantity;
@@ -24,70 +24,242 @@ class EL_QuantityComponent : ScriptComponent
 		return result;
 	}
 
+	//------------------------------------------------------------------------------------------------
 	int GetRemainingCapacity()
 	{
 		return GetMaxQuantity() - m_iQuantity;
 	}
 
+	//------------------------------------------------------------------------------------------------
 	int GetQuantity()
 	{
 		return m_iQuantity;
 	}
 
+	//------------------------------------------------------------------------------------------------
 	void AddQuantity(int quantity)
 	{
 		SetQuantity(m_iQuantity + quantity);
 	}
 
+	//------------------------------------------------------------------------------------------------
 	void SetQuantity(int quantity)
 	{
-		if (!m_pReplication.IsMaster()) return;
-
+		if (!EL_ComponentFinder<RplComponent>.Find(GetOwner()).IsMaster()) return;
 		m_iQuantity = quantity;
 		Replication.BumpMe();
 		OnQuantityChanged(); // Call on authority
 	}
 
+	//------------------------------------------------------------------------------------------------
 	void OnQuantityChanged()
 	{
 		SCR_InventoryMenuUI inventoryMenu = SCR_InventoryMenuUI.Cast(ChimeraMenuBase.CurrentChimeraMenu());
 		if (inventoryMenu) inventoryMenu.EL_Refresh(GetOwner());
 	}
 
-	bool CanCombine(notnull EL_QuantityComponent other)
+	//------------------------------------------------------------------------------------------------
+	bool CanCombine(notnull EL_QuantityComponent quantitySource)
 	{
-		bool notSelf = this != other;
-		bool prefabEqual = EL_Utils.GetPrefabName(GetOwner()) == EL_Utils.GetPrefabName(other.GetOwner());
+		bool notSelf = this != quantitySource;
+		bool prefabEqual = EL_Utils.GetPrefabName(GetOwner()) == EL_Utils.GetPrefabName(quantitySource.GetOwner());
 		bool capacityLeft = m_iQuantity < GetMaxQuantity();
 		return notSelf && prefabEqual && capacityLeft;
 	}
 
-	// Return the quantity left after combine
-	int Combine(notnull EL_QuantityComponent other)
+	//------------------------------------------------------------------------------------------------
+	//! Return the quantity left after combine
+	int Combine(notnull EL_QuantityComponent quantitySource, int amount = -1, bool setQuantity = false)
 	{
-		if (!CanCombine(other)) return other.GetQuantity();
+		if (!CanCombine(quantitySource)) return quantitySource.GetQuantity();
 
-		int transferQuantity = EL_Utils.MinInt(GetRemainingCapacity(), other.GetQuantity());
+		if (amount == -1) amount = quantitySource.GetQuantity();
 
-		AddQuantity(transferQuantity);
+		int transferQuantity = EL_Utils.MinInt(GetRemainingCapacity(), amount);
 
-		if (other.GetQuantity() > transferQuantity)
+		if (setQuantity)
+		{
+			SetQuantity(transferQuantity);
+		}
+		else
+		{
+			AddQuantity(transferQuantity);
+		}
+
+		if (quantitySource.GetQuantity() > transferQuantity)
 		{
 			// Reduce quantity of source
-			other.AddQuantity(-transferQuantity);
+			quantitySource.AddQuantity(-transferQuantity);
 		}
 		else
 		{
 			// Source transferred entire quantity, so delete it
-			SCR_EntityHelper.DeleteEntityAndChildren(other.GetOwner());
+			SCR_EntityHelper.DeleteEntityAndChildren(quantitySource.GetOwner());
 			return 0;
 		}
 
-		return other.GetQuantity();
+		return quantitySource.GetQuantity();
 	}
 
-	override void OnPostInit(IEntity owner)
+	//------------------------------------------------------------------------------------------------
+	void Split(int splitSize)
 	{
-		m_pReplication = RplComponent.Cast(owner.FindComponent(RplComponent));
+		IEntity owner = GetOwner();
+		IEntity destinationEntity = EL_Utils.SpawnEntityPrefab(EL_Utils.GetPrefabName(owner), owner.GetOrigin());
+		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(destinationEntity);
+		if (!quantityDestination) return;
+
+		quantityDestination.Combine(this, splitSize, true);
+
+		SetTransferIntent(destinationEntity, true);
+
+		InventoryItemComponent sourceInventoryItem = EL_ComponentFinder<InventoryItemComponent>.Find(owner);
+
+		// Ground item, just move it somewhere else so it can be picked up seperatly from the source stack
+		if (!sourceInventoryItem.GetParentSlot())
+		{
+			vector maxDims;
+			owner.GetBounds(null, maxDims);
+			float minRadius = Math.Max(maxDims[0], maxDims[2]); //Bounding radius
+			RandomGenerator random();
+			destinationEntity.SetOrigin(random.GenerateRandomPointInRadius(minRadius + 0.05, minRadius + 0.25, owner.GetOrigin()));
+			return;
+		}
+
+		// TODO: Refactor to use responsible storage manager if owned, if not owned always global one for TryInsertItemInStorage. No rpcs needed anymore. (likely 0.9.6 or 0.9.7 patch)
+		BaseInventoryStorageComponent storage = sourceInventoryItem.GetParentSlot().GetStorage();
+		InventoryStorageManagerComponent storageManager = EL_InventoryUtils.GetResponsibleStorageManager(owner);
+		if (!storageManager) storageManager = EL_GlobalInventoryStorageManagerComponent.GetInstance();
+
+		RplComponent replication = EL_ComponentFinder<RplComponent>.Find(storageManager.GetOwner());
+		if (replication.IsOwner())
+		{
+			storageManager.TryInsertItemInStorage(destinationEntity, storage);
+		}
+		else
+		{
+			if (storageManager.Type().IsInherited(SCR_InventoryStorageManagerComponent))
+			{
+				SCR_InventoryStorageManagerComponent.Cast(storageManager).EL_RequestInsertItemInStorage(destinationEntity, storage);
+			}
+			else if (storageManager.Type().IsInherited(SCR_VehicleInventoryStorageManagerComponent))
+			{
+				SCR_VehicleInventoryStorageManagerComponent.Cast(storageManager).EL_RequestInsertItemInStorage(destinationEntity, storage);
+			}
+			else
+			{
+				Debug.Error(string.Format("Unknown storage manager type: '%1'", storage.Type().ToString()));
+			}
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static void SetTransferIntent(notnull IEntity sourceEntity, bool keepSeperate)
+	{
+		if (!s_mQuantityTransferIntents) s_mQuantityTransferIntents = new map<IEntity, bool>();
+		s_mQuantityTransferIntents.Set(sourceEntity, keepSeperate);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static void RemoveTransferIntent(notnull IEntity sourceEntity)
+	{
+		if (s_mQuantityTransferIntents) s_mQuantityTransferIntents.Remove(sourceEntity);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static bool HandleOnItemAdded(InventoryStorageManagerComponent invManager, BaseInventoryStorageComponent storageOwner, IEntity item)
+	{
+		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(item);
+		if (!quantitySource) return false;
+
+		bool ignoreSuper;
+		if (Replication.IsServer())
+		{
+			bool keepSeperate;
+			bool intentSet;
+			if (s_mQuantityTransferIntents)
+			{
+				intentSet = s_mQuantityTransferIntents.Find(item, keepSeperate);
+				if (intentSet)
+				{
+					// Delay removal to next frame because OnItemAdded is invoked twice due to bug in inventory programming. TODO: Remove once https://feedback.bistudio.com/T167517 is fixed
+					GetGame().GetCallqueue().Call(RemoveTransferIntent, item);
+				}
+			}
+
+			if (!keepSeperate)
+			{
+				BaseInventoryStorageComponent storageRestriction;
+				if (intentSet) storageRestriction = storageOwner;
+
+				//If Quantity source fully distributed onto other items, abort. Quantity sync on the item will cause menu refresh, so no need to call it here
+				if (TransferQuantity(invManager, quantitySource, storageRestriction)) ignoreSuper = true;
+			}
+		}
+
+		SCR_InventoryMenuUI inventoryMenu = SCR_InventoryMenuUI.Cast(ChimeraMenuBase.CurrentChimeraMenu());
+		if (inventoryMenu) inventoryMenu.EL_Refresh(item);
+
+		return ignoreSuper;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected static bool TransferQuantity(InventoryStorageManagerComponent invManager, EL_QuantityComponent quantitySource, BaseInventoryStorageComponent storageRestriction = null)
+	{
+		array<IEntity> combineableItems();
+		EL_QuantityCombineablePredicate quantityCombinePredicate(quantitySource, storageRestriction);
+		invManager.FindItems(combineableItems, quantityCombinePredicate);
+
+		// Quicky sort all item quantities by PADDED_QUANTITY:INDEX string sort
+		array<string> sortKeys();
+		map<string, ref array<EL_QuantityComponent>> componentMap();
+		foreach (IEntity combineableItem : combineableItems)
+		{
+			EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(combineableItem);
+			string key = quantityDestination.GetQuantity().ToString(10);
+
+			if (!sortKeys.Contains(key)) sortKeys.Insert(key);
+
+			array<EL_QuantityComponent> sameQuantityComponents = componentMap.Get(key);
+			if (!sameQuantityComponents)
+			{
+				sameQuantityComponents = {};
+				componentMap.Set(key, sameQuantityComponents);
+			}
+
+			sameQuantityComponents.Insert(quantityDestination);
+		}
+		sortKeys.Sort(true);
+
+		foreach (string sortKey : sortKeys)
+		{
+			array<EL_QuantityComponent> sameQuantityComponents = componentMap.Get(sortKey);
+			foreach (EL_QuantityComponent quantityDestination : sameQuantityComponents)
+			{
+				// In case 0 quantity remains on the source it was deleted so the caller scope needs to skip the super call
+				if (quantityDestination.Combine(quantitySource) == 0) return true;
+			}
+		}
+
+		// Some quantity remained on the source so allow caller scope to conttinue to super call
+		return false;
+	}
+}
+
+class EL_QuantityCombineablePredicate: InventorySearchPredicate
+{
+	protected EL_QuantityComponent m_pQuantitySource;
+	protected BaseInventoryStorageComponent m_pStorageRestriction;
+
+	void EL_QuantityCombineablePredicate(notnull EL_QuantityComponent quantitySource, BaseInventoryStorageComponent storageRestriction = null)
+	{
+		m_pQuantitySource = quantitySource;
+		m_pStorageRestriction = storageRestriction;
+		QueryComponentTypes.Insert(EL_QuantityComponent);
+	}
+
+	override protected bool IsMatch(BaseInventoryStorageComponent storage, IEntity item, array<GenericComponent> queriedComponents, array<BaseItemAttributeData> queriedAttributes)
+	{
+		return (!m_pStorageRestriction || m_pStorageRestriction == storage) && (EL_QuantityComponent.Cast(queriedComponents[0])).CanCombine(m_pQuantitySource);
 	}
 }
