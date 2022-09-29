@@ -46,7 +46,7 @@ class EL_QuantityComponent : ScriptComponent
 	void SetQuantity(int quantity)
 	{
 		if (!EL_ComponentFinder<RplComponent>.Find(GetOwner()).IsMaster()) return;
-		m_iQuantity = quantity;
+		m_iQuantity = EL_Utils.MinInt(quantity, GetMaxQuantity());
 		Replication.BumpMe();
 		OnQuantityChanged(); // Call on authority
 	}

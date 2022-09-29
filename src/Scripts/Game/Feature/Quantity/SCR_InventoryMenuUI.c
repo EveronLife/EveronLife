@@ -380,7 +380,7 @@ modded class SCR_InventoryMenuUI
 			}
 		}
 		
-		m_InventoryManager.EL_RequestQuantitySplit(quantitySource.GetOwner());
+		m_InventoryManager.EL_RequestQuantitySplit(quantitySource.GetOwner(), splitSize);
 	}
 
 	//------------------------------------------------------------------------------------------------
