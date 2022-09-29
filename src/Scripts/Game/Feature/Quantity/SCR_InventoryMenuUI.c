@@ -8,6 +8,7 @@ modded class SCR_InventoryMenuUI
 	protected SCR_InventorySlotUI m_aELQuantityOperationDestinationSlotUi;
 	protected IEntity m_pELQuantitySplitSource;
 	protected bool m_bELQuantityRefreshBlock;
+	protected static SCR_InventoryMenuUI s_pELThisMenu;
 
 	//------------------------------------------------------------------------------------------------
 	override void MoveItemToStorageSlot()
@@ -129,6 +130,12 @@ modded class SCR_InventoryMenuUI
 		m_pELSelectedQuantitySlot = null;
 		if(m_bStorageSwitchMode) SetStorageSwitchMode(false);
 		NavigationBarUpdate();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static void EL_RefreshIfOpen(IEntity refreshEntity = null)
+	{
+		if (s_pELThisMenu) s_pELThisMenu.EL_Refresh(refreshEntity);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -296,7 +303,7 @@ modded class SCR_InventoryMenuUI
 				return;
 			}
 		}
-		else if (m_pFocusedSlotUI && m_pActiveStorageUI && m_pActiveStorageUI.Type().IsInherited(SCR_InventoryStorageLootUI))
+		else if (m_pFocusedSlotUI && m_pActiveStorageUI)
 		{
 			InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
 			EL_QuantityComponent quantitySource;
@@ -304,7 +311,10 @@ modded class SCR_InventoryMenuUI
 			if (quantitySource)
 			{
 				super.NavigationBarUpdateGamepad();
-				m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveQuantity", true, "#EL-Keybinds_Inventory_PickUpQuantity");
+				if (m_pActiveStorageUI.Type().IsInherited(SCR_InventoryStorageLootUI))
+				{
+					m_pNavigationBar.SetButtonEnabled("EL_ButtonMoveQuantity", true, "#EL-Keybinds_Inventory_PickUpQuantity");
+				}
 				EL_NavigationBarSplitControlsUpdate(itemSource, quantitySource);
 				return;
 			}
@@ -347,25 +357,56 @@ modded class SCR_InventoryMenuUI
 	}
 
 	//------------------------------------------------------------------------------------------------
+	protected void OnSplitDialogConfirmed(EL_QuantityComponent quantitySource, int splitSize = -1)
+	{
+		m_pELQuantitySplitSource = quantitySource.GetOwner();
+		
+		array<SCR_InventoryStorageBaseUI> allStorages();
+		allStorages.InsertAll(m_aStorages);
+		if(m_pStorageLootUI) allStorages.Insert(m_pStorageLootUI);
+
+		foreach (SCR_InventoryStorageBaseUI storage : allStorages)
+		{
+			if (!storage) continue;
+			foreach(SCR_InventorySlotUI slot : storage.GetUISlots())
+			{
+				if (!slot.GetWidget().IsVisible()) continue;
+				InventoryItemComponent item = slot.GetInventoryItemComponent();
+				if (item && item.GetOwner() == m_pELQuantitySplitSource)
+				{
+					slot.EL_SetLockState(true);
+					break;
+				}
+			}
+		}
+		
+		m_InventoryManager.EL_RequestQuantitySplit(quantitySource.GetOwner());
+	}
+
+	//------------------------------------------------------------------------------------------------
 	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
 	{
 		switch (action)
 		{
 			case "EL_Inventory_SplitQuantity":
-			{
-				break;
-			}
-
 			case "EL_Inventory_QuickSplitQuantity":
 			{
 				InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
 				if (itemSource && itemSource.GetOwner())
 				{
-					m_pFocusedSlotUI.EL_SetLockState(true);
-					m_pELQuantitySplitSource = itemSource.GetOwner();
-					m_InventoryManager.EL_RequestQuantitySplit(itemSource.GetOwner());
+					EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+
+					if (action == "EL_Inventory_QuickSplitQuantity")
+					{
+						OnSplitDialogConfirmed(quantitySource);
+					}
+					else
+					{
+						EL_SplitQuantityDialog splitDialog = EL_SplitQuantityDialog.CreateSplitQuantityDialog(quantitySource);
+						if (splitDialog) splitDialog.m_OnConfirm.Insert(OnSplitDialogConfirmed);
+					}
 				}
-				return;
+				break;
 			}
 
 			case "EL_Inventory_MoveQuantity":
@@ -455,6 +496,8 @@ modded class SCR_InventoryMenuUI
 
 		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.UP, EL_OnMoveQuantityPressed);
 		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.DOWN, EL_OnMoveQuantityPressed);
+
+		s_pELThisMenu = this;
 	}
 
 	//------------------------------------------------------------------------------------------------

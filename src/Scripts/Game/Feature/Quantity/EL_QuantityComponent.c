@@ -54,8 +54,7 @@ class EL_QuantityComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void OnQuantityChanged()
 	{
-		SCR_InventoryMenuUI inventoryMenu = SCR_InventoryMenuUI.Cast(ChimeraMenuBase.CurrentChimeraMenu());
-		if (inventoryMenu) inventoryMenu.EL_Refresh(GetOwner());
+		SCR_InventoryMenuUI.EL_RefreshIfOpen(GetOwner());
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -102,8 +101,10 @@ class EL_QuantityComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Split(int splitSize)
+	void Split(int splitSize = -1)
 	{
+		if (splitSize == -1) splitSize = m_iQuantity / 2;
+
 		IEntity owner = GetOwner();
 		IEntity destinationEntity = EL_Utils.SpawnEntityPrefab(EL_Utils.GetPrefabName(owner), owner.GetOrigin());
 		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(destinationEntity);
@@ -197,8 +198,7 @@ class EL_QuantityComponent : ScriptComponent
 			}
 		}
 
-		SCR_InventoryMenuUI inventoryMenu = SCR_InventoryMenuUI.Cast(ChimeraMenuBase.CurrentChimeraMenu());
-		if (inventoryMenu) inventoryMenu.EL_Refresh(item);
+		SCR_InventoryMenuUI.EL_RefreshIfOpen(item);
 
 		return ignoreSuper;
 	}

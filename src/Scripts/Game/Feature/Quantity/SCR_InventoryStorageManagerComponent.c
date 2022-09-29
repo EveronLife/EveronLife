@@ -50,7 +50,6 @@ modded class SCR_InventoryStorageManagerComponent
 	{
 		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_Utils.FindEntityByRplId(quantitySourceRplId));
 		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
-		if (splitSize == -1) splitSize = quantitySource.GetQuantity() / 2;
 		quantitySource.Split(splitSize);
 	}
 

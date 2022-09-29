@@ -41,5 +41,45 @@ StringTable {
    Author "Arkensor"
    LastChanged "Arkensor"
   }
+  CustomStringTableItem "{5A7AC3DBDBC982B7}" {
+   Id "EL-SplitQuantityDialog_Input_Amount"
+   Target_en_us "Amount"
+   Target_de_de "Anzahl"
+   Modified 1517997640
+   Author "Arkensor"
+   LastChanged "Arkensor"
+  }
+  CustomStringTableItem "{5A7AC3DBD6ADFB48}" {
+   Id "EL-SplitQuantityDialog_Input_Keep"
+   Target_en_us "Keep"
+   Target_de_de "Behalten"
+   Modified 1517997635
+   Author "Arkensor"
+   LastChanged "Arkensor"
+  }
+  CustomStringTableItem "{5A7AC3DBD51D98EF}" {
+   Id "EL-SplitQuantityDialog_Input_SplitOff"
+   Target_en_us "Split off"
+   Target_de_de "Abteilen"
+   Modified 1517997613
+   Author "Arkensor"
+   LastChanged "Arkensor"
+  }
+  CustomStringTableItem "{5A7AC3DBDC021AB3}" {
+   Id "EL-SplitQuantityDialog_Message"
+   Target_en_us "Choose the stack size you want to split off"
+   Target_de_de "Wähle die Größe des Stapels der abgespalten werden soll"
+   Modified 1517997601
+   Author "Arkensor"
+   LastChanged "Arkensor"
+  }
+  CustomStringTableItem "{5A7AC3DBA1DFD8FD}" {
+   Id "EL-SplitQuantityDialog_Name"
+   Target_en_us "Split Stack"
+   Target_de_de "Stapel aufteilen"
+   Modified 1517997561
+   Author "Arkensor"
+   LastChanged "Arkensor"
+  }
  }
 }
