@@ -15,8 +15,9 @@ GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHan
     ItemAnimationAttributes ItemAnimationAttributes "{59E108DB000CCEEB}" {
      AnimationAttachments {
       AnimationAttachmentInfo "{59E33B494D8FF442}" {
-       AnimGraph "{25CA2A97D9F9F608}Animations/Player/Carry.agr"
-       AnimInstance "{E4F6E5509026D213}Animations/Player/player_carry.asi"
+       AnimGraph "{9028A404378C292B}Anims/Workspaces/Player/player_carry.agr"
+       AnimInstance "{7D42F1DF2B857BC5}Anims/Workspaces/Player/player_carry.asi"
+       StartNode "Player Carry"
        BindingName "Gadget"
       }
      }

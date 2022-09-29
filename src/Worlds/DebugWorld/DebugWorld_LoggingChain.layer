@@ -22,7 +22,7 @@ GenericEntity {
  }
  coords 103.257 0.001 131.625
 }
-GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et" {
+GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Items/Resources/SmallLog.et" {
  coords 101.887 0 136.696
 }
 Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
@@ -42,7 +42,22 @@ Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M9
  }
  coords 96.869 0 127.078
 }
-GenericEntity Wood_Plank_5A6A976C850FDF87 : "{45D1B36F99DD2FC3}Prefabs/Items/Resources/Wood_Plank.et" {
+GenericEntity Wood_Plank_5A6A976C850FDF87 : "{45D1B36F99DD2FC3}Prefabs/Items/Resources/WoodPlank.et" {
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemAnimationAttributes ItemAnimationAttributes "{59E108DB000CCEEB}" {
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59E33B494D8FF442}" {
+       AnimGraph "{9028A404378C292B}Anims/Workspaces/Player/player_carry.agr"
+       AnimInstance "{7D42F1DF2B857BC5}Anims/Workspaces/Player/player_carry.asi"
+       StartNode "Player Carry"
+      }
+     }
+    }
+   }
+  }
+ }
  coords 101.479 0 134.71
 }
 GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
@@ -71,7 +86,7 @@ GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
      Duration 1
      m_aProcessingOutputs {
       EL_ProcessingOutput "{5A5EE2432BB9E04F}" {
-       m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Items/Resources/Wood_Plank.et"
+       m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Items/Resources/WoodPlank.et"
        m_iOutputAmount 2
       }
      }
