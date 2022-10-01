@@ -419,7 +419,7 @@ class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindCondition LessThanOrEqual(int comparisonValue) // TODO: Rename to LessThanOrEquals as soon as https://feedback.bistudio.com/T166821 is fixed
+	EL_DbFindCondition LessThanOrEquals(int comparisonValue)
 	{
 		if (m_bInverted) return EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN, {comparisonValue});
 
@@ -427,7 +427,7 @@ class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindCondition LessThanOrEqual(float comparisonValue) // see LessThanOrEqual(int)
+	EL_DbFindCondition LessThanOrEquals(float comparisonValue)
 	{
 		if (m_bInverted) return EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN, {comparisonValue});
 
@@ -451,7 +451,7 @@ class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindCondition GreaterThanOrEqual(int comparisonValue) // see LessThanOrEqual(int)
+	EL_DbFindCondition GreaterThanOrEquals(int comparisonValue)
 	{
 		if (m_bInverted) return EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN, {comparisonValue});
 
@@ -459,7 +459,7 @@ class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindCondition GreaterThanOrEqual(float comparisonValue) // see LessThanOrEqual(int)
+	EL_DbFindCondition GreaterThanOrEquals(float comparisonValue)
 	{
 		if (m_bInverted) return EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN, {comparisonValue});
 
@@ -552,7 +552,7 @@ class EL_DbFindFieldPrimitiveValueConditonBuilder : EL_DbFindFieldNumericValueCo
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindCondition GreaterThanOrEqual(vector comparisonValue) // see LessThanOrEqual(int)
+	EL_DbFindCondition GreaterThanOrEquals(vector comparisonValue)
 	{
 		if (m_bInverted) return EL_DbFindFieldVectorMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN, {comparisonValue});
 

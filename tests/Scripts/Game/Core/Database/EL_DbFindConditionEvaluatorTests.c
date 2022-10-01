@@ -379,7 +379,7 @@ TestResultBase EL_Test_DbFindConditionEvaluator_LessThanOrEqual_IntGreater_False
 	// Arrange
 	EL_Test_FindConditionEvaluatorContainerItem entity();
 
-	EL_DbFindCondition conditon = EL_DbFind.Field("m_Int").LessThanOrEqual(100);
+	EL_DbFindCondition conditon = EL_DbFind.Field("m_Int").LessThanOrEquals(100);
 
 	// Act
 	bool matches = EL_DbFindConditionEvaluator.Evaluate(entity, conditon);
@@ -395,7 +395,7 @@ TestResultBase EL_Test_DbFindConditionEvaluator_GreaterThanOrEqual_VectorLess_Tr
 	// Arrange
 	EL_Test_FindConditionEvaluatorContainerItem entity();
 
-	EL_DbFindCondition conditon = EL_DbFind.Field("m_Vector").GreaterThanOrEqual(Vector(1, 1, 1));
+	EL_DbFindCondition conditon = EL_DbFind.Field("m_Vector").GreaterThanOrEquals(Vector(1, 1, 1));
 
 	// Act
 	bool matches = EL_DbFindConditionEvaluator.Evaluate(entity, conditon);
@@ -491,7 +491,7 @@ TestResultBase EL_Test_DbFindConditionEvaluator_Any_MatchingValue_True()
 	// Arrange
 	EL_Test_FindConditionEvaluatorContainerItem entity();
 
-	EL_DbFindCondition conditon = EL_DbFind.Field("m_IntArray").Any().GreaterThanOrEqual(1300);
+	EL_DbFindCondition conditon = EL_DbFind.Field("m_IntArray").Any().GreaterThanOrEquals(1300);
 
 	// Act
 	bool matches = EL_DbFindConditionEvaluator.Evaluate(entity, conditon);
@@ -507,7 +507,7 @@ TestResultBase EL_Test_DbFindConditionEvaluator_All_OneNotMatching_False()
 	// Arrange
 	EL_Test_FindConditionEvaluatorContainerItem entity();
 
-	EL_DbFindCondition conditon = EL_DbFind.Field("m_IntArray").All().LessThanOrEqual(100);
+	EL_DbFindCondition conditon = EL_DbFind.Field("m_IntArray").All().LessThanOrEquals(100);
 
 	// Act
 	bool matches = EL_DbFindConditionEvaluator.Evaluate(entity, conditon);
@@ -689,7 +689,7 @@ class EL_Test_DbFindConditionEvaluator_AllOf_ConstMatches_True : TestBase
 		.Field("m_NestedArrayItems")
 		.AllOf(EL_Test_FindConditionEvaluatorPolymorphDerivedB)
 		.Field("m_floatFieldB")
-		.GreaterThanOrEqual(42.0);
+		.GreaterThanOrEquals(42.0);
 
 	[Step(EStage.Main)]
 	void DoTest()

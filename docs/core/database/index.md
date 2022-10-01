@@ -87,32 +87,32 @@ The field name supports "dot-notation" so you can navigate complex types as well
 
 #### Field condition builder
 Summary of the available filed condition builder functions:
-| Function           | Used on              | Description                                                        |
-|--------------------|----------------------|--------------------------------------------------------------------|
-| Not                | *                    | Inverts the next statement                                         |
-| Null               | Complex/Collection   | Checks if the field is null                                        |
-| Empty              | Primitive/Collection | Checks if the field is empty collection or primitive value default |
-| Equals             | *                    | Full equality check                                                |
-| EqualsAnyOf        | Primitive            | Equality check comparison against multiple values                  |
-| LessThan           | Numeric              | `<` operator                                                       |
-| LessThanOrEqual    | Numeric              | `<=` operator                                                      |
-| GreaterThan        | Numeric              | `>` operator                                                       |
-| GreaterThanOrEqual | Numeric              | `>=` operator                                                      |
-| Between            | Numeric              | LOWER `<` VALUE `<` UPPER                                          |
-| Contains           | String               | Case-sensitive string in string search                             |
-| Contains           | Collection           | Value inside collection                                            |
-| ContainsAnyOf      | String               | Same as `Contains` with multiple comparison values                 |
-| ContainsAnyOf      | Collection           | Same as `Contains` with multiple comparison values                 |
-| ContainsAllOf      | Collection           | Collection must at least contain all the comparison values         |
-| Length             | String               | Character count of string comparison                               |
-| Count              | Collection           | Number of elements inside the collection                           |
-| At                 | Collection           | Get collection item at index                                       |
-| FirstOf            | Collection           | Evaluates on the first collection that matches the type            |
-| AllOf              | Collection           | Evaluates on all collection items that match the type              |
-| Any                | Collection           | True if any collection item matches the condition                  |
-| All                | Collection           | True if all collection items match the condition                   |
-| Keys               | Collection           | Get the key collection of a map                                    |
-| Values             | Collection           | Get the value collection of a map                                  |
+| Function            | Used on              | Description                                                        |
+|---------------------|----------------------|--------------------------------------------------------------------|
+| Not                 | *                    | Inverts the next statement                                         |
+| Null                | Complex/Collection   | Checks if the field is null                                        |
+| Empty               | Primitive/Collection | Checks if the field is empty collection or primitive value default |
+| Equals              | *                    | Full equality check                                                |
+| EqualsAnyOf         | Primitive            | Equality check comparison against multiple values                  |
+| LessThan            | Numeric              | `<` operator                                                       |
+| LessThanOrEquals    | Numeric              | `<=` operator                                                      |
+| GreaterThan         | Numeric              | `>` operator                                                       |
+| GreaterThanOrEquals | Numeric              | `>=` operator                                                      |
+| Between             | Numeric              | LOWER `<` VALUE `<` UPPER                                          |
+| Contains            | String               | Case-sensitive string in string search                             |
+| Contains            | Collection           | Value inside collection                                            |
+| ContainsAnyOf       | String               | Same as `Contains` with multiple comparison values                 |
+| ContainsAnyOf       | Collection           | Same as `Contains` with multiple comparison values                 |
+| ContainsAllOf       | Collection           | Collection must at least contain all the comparison values         |
+| Length              | String               | Character count of string comparison                               |
+| Count               | Collection           | Number of elements inside the collection                           |
+| At                  | Collection           | Get collection item at index                                       |
+| FirstOf             | Collection           | Evaluates on the first collection that matches the type            |
+| AllOf               | Collection           | Evaluates on all collection items that match the type              |
+| Any                 | Collection           | True if any collection item matches the condition                  |
+| All                 | Collection           | True if all collection items match the condition                   |
+| Keys                | Collection           | Get the key collection of a map                                    |
+| Values              | Collection           | Get the value collection of a map                                  |
 
 To combine multiple conditions together you can use `And()` and `Or()` to build like so
 ```cs

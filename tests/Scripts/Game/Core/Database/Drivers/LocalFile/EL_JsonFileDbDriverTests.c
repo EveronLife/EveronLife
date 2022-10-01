@@ -222,7 +222,7 @@ class EL_Test_JsonFileDbDriver_FindAll_ContentField_AllLoadedAndCached : EL_Test
 	{
 		EL_DbFindCondition condition = EL_DbFind.Or({
 			EL_DbFind.Field("m_sStringValue").Contains("2001"),
-			EL_DbFind.Field("m_fFloatValue").GreaterThanOrEqual(42.5)
+			EL_DbFind.Field("m_fFloatValue").GreaterThanOrEquals(42.5)
 		});
 
 		array<ref EL_DbEntity> results = driver.FindAll(EL_Test_JsonFileDbDriverEntity, condition).GetEntities();
