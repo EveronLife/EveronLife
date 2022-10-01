@@ -43,7 +43,7 @@ class EL_PersistentEntityLifetimeCollection : EL_MetaDataDbEntity
 				// Do not allow controlled characters to be saved in GC
 				if (!persistentId || !entity || playerManager.GetPlayerIdFromControlledEntity(entity)) continue;
 
-				float lifeTime = garbageManager.GetLifetime(entity);
+				float lifeTime = garbageManager.GetRemainingLifetime(entity);
 				if (lifeTime == -1) continue;
 
 				m_mLifetimes.Set(persistentId, lifeTime);
