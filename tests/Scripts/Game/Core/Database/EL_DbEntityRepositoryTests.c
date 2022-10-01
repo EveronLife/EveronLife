@@ -42,11 +42,18 @@ TestResultBase EL_Test_DbEntityRepository_AddOrUpdate_NewEntityFindByIntValue_Fo
 	EL_DbContext dbContext = EL_DbContextFactory.GetContext();
 	EL_Test_DbEntityRepositoryEntityRepository repository = EL_DbRepositoryHelper<EL_Test_DbEntityRepositoryEntityRepository>.Get(dbContext);
 
+	EL_Test_DbEntityRepositoryEntity entity("TEST0000-0000-0001-0000-000000000001", 1001)
+	
 	// Act
-	repository.AddOrUpdate(new EL_Test_DbEntityRepositoryEntity("TEST0000-0000-0001-0000-000000000001", 1001));
+	repository.AddOrUpdate(entity);
 
 	// Assert
-	return new EL_TestResult(repository.FindByIntValue(1001).GetEntity().GetId() == "TEST0000-0000-0001-0000-000000000001");
+	EL_TestResult result(repository.FindByIntValue(1001).GetEntity().GetId() == "TEST0000-0000-0001-0000-000000000001");
+	
+	// Cleanup
+	repository.Remove(entity);
+	
+	return result;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -58,14 +65,18 @@ TestResultBase EL_Test_DbEntityRepository_Remove_ByInstance_Removed()
 	EL_DbRepository<EL_Test_DbEntityRepositoryEntity> repository = EL_DbEntityHelper<EL_Test_DbEntityRepositoryEntity>.GetRepository(dbContext);
 
 	EL_Test_DbEntityRepositoryEntity entity("TEST0000-0000-0001-0000-000000000002", 1002);
-
 	repository.AddOrUpdate(entity);
 
 	// Act
 	EL_EDbOperationStatusCode statusCode = repository.Remove(entity);
 
 	// Assert
-	return new EL_TestResult(
+	EL_TestResult result(
 		statusCode == EL_EDbOperationStatusCode.SUCCESS &&
 		repository.Find("TEST0000-0000-0001-0000-000000000002").GetStatusCode() == EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND);
+	
+	// Cleanup
+	repository.Remove(entity);
+	
+	return result;
 }

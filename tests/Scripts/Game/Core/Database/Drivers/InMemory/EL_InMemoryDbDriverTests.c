@@ -66,7 +66,6 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_ExistingId_Removed()
 	driver.Initalize("testing");
 
 	EL_Test_InMemoryDbDriverEntity entity("TEST0000-0000-0001-0000-000000000002", 42.42, "Hello World");
-
 	driver.AddOrUpdate(entity);
 
 	// Act

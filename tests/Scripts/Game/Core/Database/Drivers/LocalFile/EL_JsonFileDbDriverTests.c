@@ -28,8 +28,8 @@ class EL_JsonFileDbDriverTests : TestSuite
 	//------------------------------------------------------------------------------------------------
 	static void WriteEntity(string dbDir, EL_Test_JsonFileDbDriverEntity entity)
 	{
-		SCR_JsonSaveContext writer(false);
-		writer.WriteValue("data", entity);
+		SCR_JsonSaveContext writer();
+		writer.WriteValue("", entity);
 		FileIO.MakeDirectory(dbDir);
 		writer.SaveToFile(string.Format("%1/%2.json", dbDir, entity.GetId()));
 	}
@@ -82,9 +82,6 @@ class EL_Test_JsonFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully : 
 	void ActAndAsset()
 	{
 		EL_Test_JsonFileDbDriverEntity entity("TEST0000-0000-0001-0000-000000000001", 42.42, "Hello World");
-
-		driver.AddOrUpdate(entity);
-
 		EL_EDbOperationStatusCode resultCode = driver.AddOrUpdate(entity);
 
 		// Assert
@@ -112,7 +109,7 @@ class EL_Test_JsonFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully : 
 
 		SetResult(new EL_TestResult(
 			resultEntity.GetId() == entity.GetId() &&
-			resultEntity.m_fFloatValue == entity.m_fFloatValue &&
+			float.AlmostEqual(resultEntity.m_fFloatValue, entity.m_fFloatValue) &&
 			resultEntity.m_sStringValue == entity.m_sStringValue));
 	}
 
@@ -139,7 +136,6 @@ class EL_Test_JsonFileDbDriver_Remove_ExistingEntity_FileDeleted : EL_Test_JsonF
 	void ActAndAsset()
 	{
 		EL_Test_JsonFileDbDriverEntity entity("TEST0000-0000-0001-0000-000000000002", 42.42, "Hello World");
-
 		driver.AddOrUpdate(entity);
 
 		EL_EDbOperationStatusCode resultCode = driver.Remove(EL_Test_JsonFileDbDriverEntity, entity.GetId());

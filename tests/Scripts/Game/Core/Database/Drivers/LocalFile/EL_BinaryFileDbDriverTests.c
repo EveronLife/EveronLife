@@ -57,13 +57,13 @@ class EL_Test_BinFileDbDriverEntity : EL_DbEntity
 
 class EL_Test_BinFileDbDriverEntityr_TestBase : TestBase
 {
-	ref EL_JsonFileDbDriver driver;
+	ref EL_BinaryFileDbDriver driver;
 
 	//------------------------------------------------------------------------------------------------
 	[Step(EStage.Setup)]
 	void Construct()
 	{
-		driver = new EL_JsonFileDbDriver();
+		driver = new EL_BinaryFileDbDriver();
 	}
 }
 
@@ -82,9 +82,6 @@ class EL_Test_BinaryFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully 
 	void ActAndAsset()
 	{
 		EL_Test_BinFileDbDriverEntity entity("TEST0000-0000-0001-0000-000000000001", 42.42, "Hello World");
-
-		driver.AddOrUpdate(entity);
-
 		EL_EDbOperationStatusCode resultCode = driver.AddOrUpdate(entity);
 
 		// Assert
