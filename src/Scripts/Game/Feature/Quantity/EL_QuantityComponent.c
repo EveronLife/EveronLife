@@ -181,11 +181,7 @@ class EL_QuantityComponent : ScriptComponent
 			if (s_mQuantityTransferIntents)
 			{
 				intentSet = s_mQuantityTransferIntents.Find(item, keepSeperate);
-				if (intentSet)
-				{
-					// Delay removal to next frame because OnItemAdded is invoked twice due to bug in inventory programming. TODO: Remove once https://feedback.bistudio.com/T167517 is fixed
-					GetGame().GetCallqueue().Call(RemoveTransferIntent, item);
-				}
+				if (intentSet) RemoveTransferIntent(item);
 			}
 
 			if (!keepSeperate)

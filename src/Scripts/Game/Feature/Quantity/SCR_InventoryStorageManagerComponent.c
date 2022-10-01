@@ -100,4 +100,11 @@ modded class SCR_InventoryStorageManagerComponent
 		if (EL_QuantityComponent.HandleOnItemAdded(this, storageOwner, item)) return;
 		super.OnItemAdded(storageOwner, item);
 	}
+
+	//------------------------------------------------------------------------------------------------
+	override void PlayItemSound(IEntity entity, string soundEvent)
+	{
+		// TODO: Needed until https://feedback.bistudio.com/T167936 is fixed, because item is merged on quantity pickup auto combine
+		if (entity) super.PlayItemSound(entity, soundEvent)
+	}
 }

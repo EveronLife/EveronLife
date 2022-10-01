@@ -360,7 +360,7 @@ modded class SCR_InventoryMenuUI
 	protected void OnSplitDialogConfirmed(EL_QuantityComponent quantitySource, int splitSize = -1)
 	{
 		m_pELQuantitySplitSource = quantitySource.GetOwner();
-		
+
 		array<SCR_InventoryStorageBaseUI> allStorages();
 		allStorages.InsertAll(m_aStorages);
 		if(m_pStorageLootUI) allStorages.Insert(m_pStorageLootUI);
@@ -379,7 +379,9 @@ modded class SCR_InventoryMenuUI
 				}
 			}
 		}
-		
+
+		SCR_UISoundEntity.SoundEvent("SOUND_INV_HOTKEY_CONFIRM");
+
 		m_InventoryManager.EL_RequestQuantitySplit(quantitySource.GetOwner(), splitSize);
 	}
 
