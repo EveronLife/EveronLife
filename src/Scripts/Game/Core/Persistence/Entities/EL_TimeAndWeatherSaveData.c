@@ -43,9 +43,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	//------------------------------------------------------------------------------------------------
 	override protected bool SerializationSave(BaseSerializationSaveContext saveContext)
 	{
-		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-		saveContext.WriteValue("m_sId", GetId());
-		saveContext.WriteValue("m_iLastSaved", m_iLastSaved);
+		WriteMetaData(saveContext);
 
 		saveContext.WriteValue("m_sWeatherState", m_sWeatherState);
 		saveContext.WriteValue("m_bWeatherLooping", m_bWeatherLooping);
@@ -62,13 +60,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	//------------------------------------------------------------------------------------------------
 	override protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
 	{
-		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-
-		string id;
-		loadContext.ReadValue("m_sId", id);
-		SetId(id);
-
-		loadContext.ReadValue("m_iLastSaved", m_iLastSaved);
+		ReadMetaData(loadContext);
 
 		loadContext.ReadValue("m_sWeatherState", m_sWeatherState);
 		loadContext.ReadValue("m_bWeatherLooping", m_bWeatherLooping);

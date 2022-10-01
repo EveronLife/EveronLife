@@ -1,5 +1,5 @@
 [EL_DbName(EL_PersistentRootEntityCollection, "RootEntityCollection")]
-class EL_PersistentRootEntityCollection : EL_DbEntity
+class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 {
 	ref set<string> m_aRemovedBackedEntities = new set<string>();
 	ref map<typename, ref set<string>> m_mSelfSpawnDynamicEntities = new map<typename, ref set<string>>();
@@ -66,8 +66,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		saveContext.WriteValue("m_iDataLayoutVersion", 1);
-		saveContext.WriteValue("m_sId", GetId());
+		WriteMetaData(saveContext);
 		saveContext.WriteValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 
 		array<ref EL_SelfSpawnDynamicEntity> selfSpawnDynamicEntities();
@@ -92,12 +91,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		int m_iDataLayoutVersion;
-		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-
-		string id;
-		loadContext.ReadValue("m_sId", id);
-		SetId(id);
+		ReadMetaData(loadContext);
 
 		loadContext.ReadValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 

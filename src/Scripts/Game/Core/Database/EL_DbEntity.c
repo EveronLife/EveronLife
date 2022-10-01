@@ -25,6 +25,20 @@ class EL_DbEntity
 	{
 		return m_sId;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Utility function to write id to serializer
+	void WriteId(notnull BaseSerializationSaveContext saveContext)
+	{
+		saveContext.WriteValue(FIELD_ID, m_sId);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Utility function to read id from serializer
+	void ReadId(notnull BaseSerializationLoadContext loadContext)
+	{
+		loadContext.ReadValue(FIELD_ID, m_sId);
+	}
 }
 
 class EL_DbName
@@ -77,5 +91,4 @@ class EL_DbName
 	{
 		Set(entityType, name);
 	}
-
 }

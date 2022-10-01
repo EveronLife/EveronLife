@@ -1,5 +1,5 @@
 [EL_DbName(EL_PersistentBakedEntityNameIdMapping, "BakedEntityNameIdMapping")]
-class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
+class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 {
 	ref map<string, ref Tuple2<string, typename>> m_mNameIdMapping = new map<string, ref Tuple2<string, typename>>();
 	protected ref set<string> m_aNamesRequested = new set<string>();
@@ -59,8 +59,7 @@ class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		saveContext.WriteValue("m_iDataLayoutVersion", 1);
-		saveContext.WriteValue("m_sId", GetId());
+		WriteMetaData(saveContext);
 
 		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
 		foreach (string name, Tuple2<string, typename> tuple : m_mNameIdMapping)
@@ -81,12 +80,7 @@ class EL_PersistentBakedEntityNameIdMapping : EL_DbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		int m_iDataLayoutVersion;
-		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-
-		string id;
-		loadContext.ReadValue("m_sId", id);
-		SetId(id);
+		ReadMetaData(loadContext);
 
 		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
 		loadContext.ReadValue("m_aEntries", entries);

@@ -1,5 +1,5 @@
 [EL_DbName(EL_PersistentEntityLifetimeCollection, "EntityLifetimeCollection")]
-class EL_PersistentEntityLifetimeCollection : EL_DbEntity
+class EL_PersistentEntityLifetimeCollection : EL_MetaDataDbEntity
 {
 	protected ref map<string, IEntity> m_mTrackedEntites = new map<string, IEntity>();
 	protected ref map<string, float> m_mLifetimes;
@@ -69,8 +69,7 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		saveContext.WriteValue("m_iDataLayoutVersion", 1);
-		saveContext.WriteValue("m_sId", GetId());
+		WriteMetaData(saveContext);
 
 		array<ref EL_PersistentEntityLifetime> lifetimes();
 		lifetimes.Resize(m_mLifetimes.Count());
@@ -94,12 +93,7 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		int m_iDataLayoutVersion;
-		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-
-		string id;
-		loadContext.ReadValue("m_sId", id);
-		SetId(id);
+		ReadMetaData(loadContext);
 
 		m_mLifetimes = new map<string, float>();
 

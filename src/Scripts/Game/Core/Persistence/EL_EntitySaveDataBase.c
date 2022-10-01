@@ -1,11 +1,8 @@
 [EL_DbName(EL_EntitySaveDataBase, "Entity"), BaseContainerProps()]
-class EL_EntitySaveDataBase : EL_DbEntity
+class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 {
 	[Attribute(desc: "Sava-data types for components to persist."), NonSerialized()]
 	ref array<ref EL_ComponentSaveDataBase> m_aComponents;
-
-	int m_iDataLayoutVersion = 1;
-	EL_DateTimeUtcAsInt m_iLastSaved;
 
 	ResourceName m_rPrefab;
 	ref map<typename, ref array<ref EL_ComponentSaveDataBase>> m_mComponentsSaveData;
@@ -158,10 +155,8 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-		saveContext.WriteValue("m_sId", GetId());
-		saveContext.WriteValue("m_iLastSaved", m_iLastSaved);
-		
+		WriteMetaData(saveContext);
+
 		string prefabString = m_rPrefab;
 		if (prefabString.StartsWith("{")) prefabString = m_rPrefab.Substring(1, m_rPrefab.IndexOf("}") - 1);
 		saveContext.WriteValue("m_rPrefab", prefabString);
@@ -187,13 +182,7 @@ class EL_EntitySaveDataBase : EL_DbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
-
-		string id;
-		loadContext.ReadValue("m_sId", id);
-		SetId(id);
-
-		loadContext.ReadValue("m_iLastSaved", m_iLastSaved);
+		ReadMetaData(loadContext);
 
 		loadContext.ReadValue("m_rPrefab", m_rPrefab);
 		if (m_rPrefab) m_rPrefab = string.Format("{%1}", m_rPrefab);

@@ -121,11 +121,8 @@ class EL_PersistentScriptedStateBase
 	}
 }
 
-class EL_ScriptedStateSaveDataBase : EL_DbEntity
+class EL_ScriptedStateSaveDataBase : EL_MetaDataDbEntity
 {
-	int m_iDataLayoutVersion = 1;
-	EL_DateTimeUtcAsInt m_iLastSaved;
-
 	//------------------------------------------------------------------------------------------------
 	//! Reads the save-data from the scripted state
 	bool ReadFrom(notnull EL_PersistentScriptedStateBase scriptedState)
