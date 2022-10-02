@@ -32,7 +32,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 			EL_PersistentInventoryStorageSlot slotInfo();
 			slotInfo.m_iSlotId = nSlot++;
 			slotInfo.m_pEntity = saveData;
-			m_aSlots.Insert(slotInfo)
+			m_aSlots.Insert(slotInfo);
 		}
 
 		return true;

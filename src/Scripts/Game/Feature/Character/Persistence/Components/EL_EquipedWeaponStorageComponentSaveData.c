@@ -28,7 +28,7 @@ class EL_EquipedWeaponStorageComponentSaveData : EL_BaseInventoryStorageComponen
 			EL_PersistentInventoryStorageSlot slotInfo();
 			slotInfo.m_iSlotId = i;
 			slotInfo.m_pEntity = saveData;
-			m_aSlots.Insert(slotInfo)
+			m_aSlots.Insert(slotInfo);
 		}
 
 		return true;
