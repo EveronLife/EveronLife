@@ -10,12 +10,13 @@ class EL_PersistenceManagerComponentClass : SCR_BaseGameModeComponentClass
 	[Attribute(defvalue: "5", uiwidget: UIWidgets.Slider, desc: "Maximum number of entities processed during a single update tick.", params: "1 128 1", category: "Auto-Save")]
 	int m_iIterations;
 
-	[Attribute(defvalue: "0.33", uiwidget: UIWidgets.Slider, desc: "Distance between surface and camera on y-axis", params: "0.01 10 0.01", category: "Advanced", precision: 2)]
+	[Attribute(defvalue: "0.33", uiwidget: UIWidgets.Slider, desc: "Adjust the tick rate of the persistence manager", params: "0.01 10 0.01", category: "Advanced", precision: 2)]
 	float m_fUpdateRate;
 }
 
 class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 {
+	protected EL_PersistenceManagerInternal m_pPersistenceManager;
 	protected float m_fAccumulator;
 	protected float m_fUpdateRateSetting;
 
@@ -24,9 +25,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	{
 		super.OnWorldPostProcess(world);
 
-		if (!EL_PersistenceManager.IsPersistenceMaster()) return;
-
-		EL_PersistenceManagerInternal.GetInternalInstance().OnWorldPostProcess(world);
+		if (m_pPersistenceManager) m_pPersistenceManager.OnWorldPostProcess(world);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -34,9 +33,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	{
 		super.OnGameEnd();
 
-		if (!EL_PersistenceManager.IsPersistenceMaster()) return;
-
-		EL_PersistenceManagerInternal.GetInternalInstance().OnGameEnd();
+		if (m_pPersistenceManager) m_pPersistenceManager.OnGameEnd();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -48,7 +45,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 
 		if (m_fAccumulator >= m_fUpdateRateSetting)
 		{
-			EL_PersistenceManagerInternal.GetInternalInstance().OnPostFrame(m_fAccumulator);
+			m_pPersistenceManager.OnPostFrame(m_fAccumulator);
 			m_fAccumulator = 0;
 		}
 	}
@@ -70,8 +67,9 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 
 		m_fUpdateRateSetting = settings.m_fUpdateRate;
 
-		SetEventMask(owner, EntityEvent.POSTFRAME);
+		m_pPersistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		m_pPersistenceManager.OnPostInit(owner);
 
-		EL_PersistenceManagerInternal.GetInternalInstance().OnPostInit(owner);
+		SetEventMask(owner, EntityEvent.POSTFRAME);
 	}
 }

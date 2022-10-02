@@ -83,6 +83,12 @@ class EL_PersistentScriptedStateBase
 	}
 
 	//------------------------------------------------------------------------------------------------
+	event void OnPersistentIdAssigned(string persistentId)
+	{
+		m_sId = persistentId;
+	}
+
+	//------------------------------------------------------------------------------------------------
 	void EL_PersistentScriptedStateBase()
 	{
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
@@ -99,7 +105,7 @@ class EL_PersistentScriptedStateBase
 		}
 
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		m_sId = persistenceManager.GetPersistentId(this);
+		persistenceManager.RequestPersistentId(this);
 		persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
 	}
 

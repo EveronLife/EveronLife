@@ -169,14 +169,19 @@ class EL_PersistenceComponent : ScriptComponent
 
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 
-		m_sId = persistenceManager.GetPersistentId(this);
-		if (!m_sId) return;
+		persistenceManager.RequestPersistentId(this);
 
 		if (settings.m_bStorageRoot)
 		{
 			persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
 			m_bStorageRootState = true;
 		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	event void OnPersistentIdAssigned(string persistentId)
+	{
+		m_sId = persistentId;
 	}
 
 	//------------------------------------------------------------------------------------------------
