@@ -15,7 +15,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 		{
 			float healthScaled = hitZone.GetHealthScaled();
 			if (float.AlmostEqual(healthScaled, 1.0)) continue;
-			
+
 			EL_PersistentHitZone persistentHitZone();
 			persistentHitZone.m_sName = hitZone.GetName();
 			persistentHitZone.m_fHealth = healthScaled;
