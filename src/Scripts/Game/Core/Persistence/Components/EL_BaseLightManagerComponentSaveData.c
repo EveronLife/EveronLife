@@ -19,7 +19,12 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveDataBase
 			persistentLightSlot.m_iSide = lightSlot.GetLightSide();
 			persistentLightSlot.m_bFunctional = lightSlot.IsLightFunctional();
 			persistentLightSlot.m_bState = lightManager.GetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_iSide);
-			m_aLightSlots.Insert(persistentLightSlot);
+
+			//Only save the lightslot if there is any non default property
+			if (!persistentLightSlot.m_bFunctional || persistentLightSlot.m_bState)
+			{
+				m_aLightSlots.Insert(persistentLightSlot);
+			}
 		}
 
 		return true;
