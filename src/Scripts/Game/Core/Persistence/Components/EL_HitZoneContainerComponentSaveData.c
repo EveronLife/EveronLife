@@ -13,9 +13,12 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 
 		foreach (HitZone hitZone : outHitZones)
 		{
+			float healthScaled = hitZone.GetHealthScaled();
+			if (float.AlmostEqual(healthScaled, 1.0)) continue;
+			
 			EL_PersistentHitZone persistentHitZone();
 			persistentHitZone.m_sName = hitZone.GetName();
-			persistentHitZone.m_fHealth = hitZone.GetHealth();
+			persistentHitZone.m_fHealth = healthScaled;
 			m_aHitzones.Insert(persistentHitZone);
 		}
 
@@ -61,7 +64,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
 				continue;
 			}
 
-			hitZone.SetHealth(persistentHitZone.m_fHealth);
+			hitZone.SetHealthScaled(persistentHitZone.m_fHealth);
 		}
 
 		return true;
