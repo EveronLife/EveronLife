@@ -158,7 +158,7 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 		WriteMetaData(saveContext);
 
 		string prefabString = m_rPrefab;
-		if (prefabString.StartsWith("{")) prefabString = m_rPrefab.Substring(1, m_rPrefab.IndexOf("}") - 1);
+		if (prefabString.StartsWith("{")) prefabString = m_rPrefab.Substring(1, 16);
 		saveContext.WriteValue("m_rPrefab", prefabString);
 
 		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
