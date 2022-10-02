@@ -23,6 +23,8 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 
 		m_mComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveDataBase>>();
 
+		array<Managed> processedComponents();
+
 		// Go through hierarchy sorted component types
 		foreach (typename componentSaveDataType : settings.m_aComponentSaveDataTypenames)
 		{
@@ -42,10 +44,9 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 				worldEntity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataType), outComponents);
 				foreach (Managed componentRef : outComponents)
 				{
-					typename componentType = componentRef.Type();
-
-					// Ingore base class find machtes if the parent class was already processed
-					if (m_mComponentsSaveData.Contains(componentType)) continue;
+					// Ingore base class find machtes if a parent class was already processed
+					if (processedComponents.Contains(componentRef)) continue;
+					processedComponents.Insert(componentRef);
 
 					EL_ComponentSaveDataBase componentSaveData = EL_ComponentSaveDataBase.Cast(componentSaveDataType.Spawn());
 					if (!componentSaveData || !componentSaveData.ReadFrom(GenericComponent.Cast(componentRef))) return false;
@@ -84,12 +85,12 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 		array<ref EL_ComponentSaveDataBase> transformData = m_mComponentsSaveData.Get(EL_TransformationSaveData);
 		if (transformData && transformData.Count() > 0) EL_TransformationSaveData.Cast(transformData.Get(0)).ApplyTo(worldEntity);
 
-		set<Managed> processedInstances();
+		set<Managed> processedComponents();
 		set<typename> processedSaveDataTypes();
 		processedSaveDataTypes.Insert(EL_TransformationSaveData);
 		foreach (typename componentSaveDataType : settings.m_aComponentSaveDataTypenames)
 		{
-			if (!ApplyComponentTo(componentSaveDataType, worldEntity, processedSaveDataTypes, processedInstances, settings)) return false;
+			if (!ApplyComponentTo(componentSaveDataType, worldEntity, processedSaveDataTypes, processedComponents, settings)) return false;
 		}
 
 		// Update any non character entity. On character this can cause fall through ground.
@@ -99,7 +100,7 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected bool ApplyComponentTo(typename componentSaveDataType, IEntity worldEntity, set<typename> processedSaveDataTypes, set<Managed> processedInstances, EL_PersistenceComponentClass settings)
+	protected bool ApplyComponentTo(typename componentSaveDataType, IEntity worldEntity, set<typename> processedSaveDataTypes, set<Managed> processedComponents, EL_PersistenceComponentClass settings)
 	{
 		// Skip already processed save-data
 		if (processedSaveDataTypes.Contains(componentSaveDataType)) return true;
@@ -118,7 +119,7 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 				{
 					if (!possibleType.IsInherited(requiredSaveDataType)) continue;
 
-					ApplyComponentTo(possibleType, worldEntity, processedSaveDataTypes, processedInstances, settings);
+					ApplyComponentTo(possibleType, worldEntity, processedSaveDataTypes, processedComponents, settings);
 				}
 			}
 		}
@@ -132,10 +133,10 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 
 			foreach (Managed componentRef : outComponents)
 			{
-				if (!processedInstances.Contains(componentRef) && componentSaveData.IsFor(GenericComponent.Cast(componentRef)))
+				if (!processedComponents.Contains(componentRef) && componentSaveData.IsFor(GenericComponent.Cast(componentRef)))
 				{
 					if (!componentSaveData.ApplyTo(GenericComponent.Cast(componentRef))) return false;
-					processedInstances.Insert(componentRef);
+					processedComponents.Insert(componentRef);
 					applied = true;
 					break;
 				}
