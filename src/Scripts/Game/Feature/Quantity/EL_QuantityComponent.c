@@ -1,5 +1,6 @@
 class EL_QuantityComponentClass : ScriptComponentClass
 {
+	//------------------------------------------------------------------------------------------------
 	override static array<typename> CannotCombine(IEntityComponentSource src)
 	{
 		return {EL_QuantityComponent}; // Prevent user from adding multiple quantity components
@@ -247,6 +248,7 @@ class EL_QuantityCombineablePredicate: InventorySearchPredicate
 	protected EL_QuantityComponent m_pQuantitySource;
 	protected BaseInventoryStorageComponent m_pStorageRestriction;
 
+	//------------------------------------------------------------------------------------------------
 	void EL_QuantityCombineablePredicate(notnull EL_QuantityComponent quantitySource, BaseInventoryStorageComponent storageRestriction = null)
 	{
 		m_pQuantitySource = quantitySource;
@@ -254,6 +256,7 @@ class EL_QuantityCombineablePredicate: InventorySearchPredicate
 		QueryComponentTypes.Insert(EL_QuantityComponent);
 	}
 
+	//------------------------------------------------------------------------------------------------
 	override protected bool IsMatch(BaseInventoryStorageComponent storage, IEntity item, array<GenericComponent> queriedComponents, array<BaseItemAttributeData> queriedAttributes)
 	{
 		return (!m_pStorageRestriction || m_pStorageRestriction == storage) && (EL_QuantityComponent.Cast(queriedComponents[0])).CanCombine(m_pQuantitySource);
