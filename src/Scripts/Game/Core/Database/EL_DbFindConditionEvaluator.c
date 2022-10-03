@@ -227,7 +227,7 @@ class EL_DbFindConditionEvaluator
 			}
 
 			int asIntValue = segment.ToInt();
-			if (asIntValue == 0 && segment == "0")
+			if (asIntValue != 0 || segment == "0")
 			{
 				flags |= EL_DbFindFieldPathSegmentFlags.NUMBER;
 			}
