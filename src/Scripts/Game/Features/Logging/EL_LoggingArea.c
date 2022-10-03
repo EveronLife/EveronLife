@@ -37,7 +37,6 @@ class EL_LoggingArea : GenericEntity
 		SetFlags(EntityFlags.ACTIVE, true);
 	}
 
-	
 #ifdef WORKBENCH
 	override void _WB_GetBoundBox(inout vector min, inout vector max, IEntitySource src)
 	{

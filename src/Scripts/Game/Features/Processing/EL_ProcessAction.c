@@ -102,5 +102,4 @@ class EL_ProcessAction : ScriptedUserAction
 	{
 		SetCannotPerformReason("Can't find items");
 	}
-
 }

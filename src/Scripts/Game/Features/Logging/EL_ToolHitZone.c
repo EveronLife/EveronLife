@@ -1,6 +1,5 @@
 class EL_ToolHitZone : ScriptedHitZone
 {
-
 	[Attribute("", UIWidgets.ResourceNamePicker, "Particle to spawn on hit", "et")]
 	ResourceName m_HitVFX;
 	[Attribute("", UIWidgets.Slider, "Effective tool damage", "0.0 100.0 0.01")]
@@ -21,5 +20,4 @@ class EL_ToolHitZone : ScriptedHitZone
 		if (damage == m_fEffectiveDamage * 0.01)
 			EL_Utils.SpawnEntityPrefab(m_HitVFX, hitTransform[0], hitTransform[1]);
 	}
-
 };

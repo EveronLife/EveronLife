@@ -5,8 +5,8 @@ class EL_ForcedHandGadgetComponentClass: SCR_GadgetComponentClass
 
 class EL_ForcedHandGadgetComponent : SCR_GadgetComponent
 {
-	private EGadgetMode m_LastMode;
-	private bool m_bDelete;
+	protected EGadgetMode m_LastMode;
+	protected bool m_bDelete;
 
 	//------------------------------------------------------------------------------------------------
 	//! Mark the gadget for deletion and set the gadget mode to IN_STORAGE
