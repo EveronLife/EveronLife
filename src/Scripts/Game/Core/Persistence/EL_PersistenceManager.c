@@ -214,8 +214,10 @@ class EL_PersistenceManager
 
 			if (!autoSave) continue; //Ignore if no auto-save
 
-			UpdateRootEntityCollection(persistenceComponent);
-			persistenceComponent.Save();
+			if (UpdateRootEntityCollection(persistenceComponent))
+			{
+				persistenceComponent.Save();
+			}
 			m_iSaveOperation++;
 
 			if ((m_eState == EL_EPersistenceManagerState.ACTIVE) &&
@@ -257,8 +259,10 @@ class EL_PersistenceManager
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
 			if (!settings.m_bShutdownsave) continue;
 
-			UpdateRootEntityCollection(persistenceComponent);
-			persistenceComponent.Save();
+			if (UpdateRootEntityCollection(persistenceComponent))
+			{
+				persistenceComponent.Save();
+			}
 		}
 
 		foreach (EL_PersistentScriptedStateBase scriptedState, auto _ : m_mRootScriptedStates)
@@ -273,22 +277,21 @@ class EL_PersistenceManager
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void UpdateRootEntityCollection(EL_PersistenceComponent persistenceComponent)
+	protected bool UpdateRootEntityCollection(EL_PersistenceComponent persistenceComponent)
 	{
+		// TODO: Rework the whole system to only listen to parent change event: https://feedback.bistudio.com/T167990
+		
 		// Double check all root entites as some of them might have been stored or unstored without a manager noticing. Remove once ground item manipulation events are exposed.
-		InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(persistenceComponent.GetOwner().FindComponent(InventoryItemComponent));
-		if (!inventoryItemComponent) return;
-
-		if (!inventoryItemComponent.GetParentSlot())
+		if (!EL_PersistenceUtils.IsAttached(persistenceComponent.GetOwner()))
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, IsBaked(persistenceComponent));
 			m_pEntityLifetimeCollection.Add(persistenceComponent);
+			return true;
 		}
-		else
-		{
-			m_pRootEntityCollection.Remove(persistenceComponent, IsBaked(persistenceComponent));
-			m_pEntityLifetimeCollection.Remove(persistenceComponent.GetPersistentId());
-		}
+
+		m_pRootEntityCollection.Remove(persistenceComponent, IsBaked(persistenceComponent));
+		m_pEntityLifetimeCollection.Remove(persistenceComponent.GetPersistentId());
+		return false;
 	}
 
 	//------------------------------------------------------------------------------------------------

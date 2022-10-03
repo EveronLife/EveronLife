@@ -80,17 +80,10 @@ class EL_PersistenceComponent : ScriptComponent
 			return null;
 		}
 
-		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
-		bool storageRoot = m_bStorageRootState;
-		InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(GetOwner().FindComponent(InventoryItemComponent));
-		if (storageRoot && inventoryItemComponent && inventoryItemComponent.GetParentSlot())
-		{
-			storageRoot = false;
-		}
-
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 
-		if (storageRoot)
+		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
+		if (m_bStorageRootState && !EL_PersistenceUtils.IsAttached(owner))
 		{
 			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
 			m_bSavedAsStorageRoot = true;
