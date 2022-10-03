@@ -1,13 +1,13 @@
 class EL_QuantityComponentClass : ScriptComponentClass
 {
+	[Attribute(defvalue: "1", desc: "Inclusive maximal quantity this item can stack to. 0 means unlimited stack size.")]
+	int m_iMaxQuantity;
+	
 	//------------------------------------------------------------------------------------------------
 	override static array<typename> CannotCombine(IEntityComponentSource src)
 	{
 		return {EL_QuantityComponent}; // Prevent user from adding multiple quantity components
 	}
-
-	[Attribute(defvalue: "1", desc: "Inclusive maximal quantity this item can stack to. 0 means unlimited stack size.")]
-	int m_iMaxQuantity;
 }
 
 class EL_QuantityComponent : ScriptComponent

@@ -21,9 +21,9 @@ modded class SCR_InventorySlotUI
 		int quantity = quantityComponent.GetQuantity();
 		string displayQuantity;
 
-        if (quantity >= 1000000)
+		if (quantity >= 1000000)
 		{
-        	displayQuantity = string.Format("%1M", (quantity / 1000000.0).ToString(-1, 1));
+			displayQuantity = string.Format("%1M", (quantity / 1000000.0).ToString(-1, 1));
 		}
 		else if (quantity >= 1000)
 		{
@@ -37,7 +37,7 @@ modded class SCR_InventorySlotUI
 		m_wStackNumber.SetText(displayQuantity);
 		m_wStackNumber.SetVisible(m_widget.IsVisible() && (quantity > 1));
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void EL_SetLockState(bool state)
 	{
