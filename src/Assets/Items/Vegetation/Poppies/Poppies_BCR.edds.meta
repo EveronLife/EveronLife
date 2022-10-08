@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{F060C78F77E98A60}Assets/Items/Vegetation/Poppies/Data/OpiumPoppies_BCR.edds"
+ Name "{F060C78F77E98A60}Assets/Items/Vegetation/Poppies/Poppies_BCR.edds"
  Configurations {
   TIFFResourceClass PC : "{EAB5DE3219F9CBA8}Configs/System/ResourceTypes/PC/TextureColorMap.conf" {
   }
