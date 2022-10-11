@@ -66,6 +66,71 @@ class EL_Utils
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Gets the Bohemia UID
+	//! \param className Name of the class to display first in the log
+	//! \param methodeName Name of the method to display second in the log
+	//! \param content Content to be displayed in the log
+	//! \param level Allows to define the level of the log, it is also useful for the color and to record in the appropriate log files
+	//! \param inBlock This allows you to create a space at the top and bottom of the log to make it more readable, but be aware that it prints 4 more lines
+	static void Logger(string className, string methodeName, string content, LogLevel level = LogLevel.DEBUG, bool inBlock = false)
+	{
+		if(inBlock)
+		{
+			Print("------------------------------------------------------------------------------------------------", level);
+			Print("                                                                                                ", level);
+		}
+
+		string stringLevel = level.ToString();
+
+		switch(level)
+		{
+			case LogLevel.SPAM :
+			{
+				stringLevel = "SPAM";
+				break;
+			}
+			case LogLevel.VERBOSE :
+			{
+				stringLevel = "VERBOSE";
+				break;
+			}
+			case LogLevel.DEBUG :
+			{
+				stringLevel = "DEBUG";
+				break;
+			}
+			case LogLevel.NORMAL :
+			{
+				stringLevel = "NORMAL";
+				break;
+			}
+			case LogLevel.WARNING :
+			{
+				stringLevel = "WARNING";
+				break;
+			}
+			case LogLevel.ERROR :
+			{
+				stringLevel = "ERROR";
+				break;
+			}
+			case LogLevel.FATAL :
+			{
+				stringLevel = "FATAL";
+				break;
+			}
+		}
+
+		Print(string.Format("[%1] %2::%3() -> %4", stringLevel, className, methodeName, content), level);
+
+		if(inBlock)
+		{
+			Print("                                                                                                ", level);
+			Print("------------------------------------------------------------------------------------------------", level);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Teleport an entity
 	//! \param entity Entity instance to be teleported
 	//! \param position Position where to teleport to
