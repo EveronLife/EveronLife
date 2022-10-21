@@ -16,8 +16,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 		SetId(persistenceComponent.GetPersistentId());
 		m_iLastSaved = persistenceComponent.GetLastSaved();
 
-		WeatherState currentWeather();
-		timeAndWeatherManager.GetCurrentWeatherState(currentWeather);
+		WeatherState currentWeather = timeAndWeatherManager.GetCurrentWeatherState();
 		m_sWeatherState = currentWeather.GetStateName();
 		m_bWeatherLooping = timeAndWeatherManager.IsWeatherLooping();
 
