@@ -233,23 +233,13 @@ class EL_BetaHud : SCR_InfoDisplay
 		}
 	}
 	
-	void ShowStatsHUD(bool var) //TODO: Show HUD when in an inventory
+	void ShowStatsHUD(bool show) //TODO: Show HUD when in an inventory
 	{
-		if (var)
+		AnimateWidget.Opacity(m_PlayerStatsHUD, show, UIConstants.FADE_RATE_SLOW);
+		
+		if (m_UsingProgressWidget)
 		{
-			WidgetAnimator.PlayAnimation(m_PlayerStatsHUD,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
-			if (m_UsingProgressWidget)
-			{
-				WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,true,WidgetAnimator.FADE_RATE_SLOW);
-			}
-		}
-		else
-		{
-			WidgetAnimator.PlayAnimation(m_PlayerStatsHUD,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
-			if (m_UsingProgressWidget)
-			{
-				WidgetAnimator.PlayAnimation(m_StaminaProgress,WidgetAnimationType.Opacity,false,WidgetAnimator.FADE_RATE_SLOW);
-			}
+			AnimateWidget.Opacity(m_StaminaProgress, show, UIConstants.FADE_RATE_SLOW);
 		}
 	}
 	
