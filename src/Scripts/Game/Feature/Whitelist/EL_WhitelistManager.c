@@ -11,6 +11,11 @@ class EL_WhitelistManager {
 	//------------------------------------------------------------------------------------------------
 	static EL_WhitelistDbEntity GetWhitelistEntity(string uuid)
 	{
+		if (!Replication.IsServer())
+		{
+			return null;
+		}
+
 		if(!m_pDatabase)
 		{
 			m_pDatabase = EL_DbContextFactory.GetContext();
@@ -29,7 +34,7 @@ class EL_WhitelistManager {
 			return null;
 		}
 
-		if(query.GetEntities().Count() != 1)
+		if(query.GetEntities().Count() != 1 && query.GetEntities().Get(0))
 		{
 			return null;
 		}
@@ -40,9 +45,14 @@ class EL_WhitelistManager {
 	//------------------------------------------------------------------------------------------------
 	static bool UuidExistInWhitelist(string uuid)
 	{
+		if (!Replication.IsServer())
+		{
+			return false;
+		}
+
 		if(!ValidUuid(uuid))
 		{
-			return null;
+			return false;
 		}
 
 		return GetWhitelistEntity(uuid) != null;
@@ -51,19 +61,18 @@ class EL_WhitelistManager {
 	//------------------------------------------------------------------------------------------------
 	static bool UpdateAndSaveWhitelistEntity(EL_WhitelistDbEntity userInfo)
 	{
+		if (!Replication.IsServer())
+		{
+			return false;
+		}
+
 		if(!m_pDatabase)
 		{
 			m_pDatabase = EL_DbContextFactory.GetContext();
 		}
 
-		if (!userInfo.m_pLastLogin)
-		{
-			EL_WhitelistTimeDbEntity lastLogin();
-			userInfo.m_pLastLogin = lastLogin;
-		}
-
-		System.GetYearMonthDay(userInfo.m_pLastLogin.m_iYear, userInfo.m_pLastLogin.m_iMonth, userInfo.m_pLastLogin.m_iDay);
-		System.GetHourMinuteSecond(userInfo.m_pLastLogin.m_iHour, userInfo.m_pLastLogin.m_iMinute, userInfo.m_pLastLogin.m_iSecond);
+		System.GetYearMonthDay(userInfo.m_iYear, userInfo.m_iMonth, userInfo.m_iDay);
+		System.GetHourMinuteSecond(userInfo.m_iHour, userInfo.m_iMinute, userInfo.m_iSecond);
 
 		EL_EDbOperationStatusCode code = m_pDatabase.AddOrUpdate(userInfo);
 
@@ -73,6 +82,11 @@ class EL_WhitelistManager {
 	//------------------------------------------------------------------------------------------------
 	static bool UpdateAndSaveWhitelistEntity(string uuid)
 	{
+		if (!Replication.IsServer())
+		{
+			return false;
+		}
+
 		if(!ValidUuid(uuid))
 		{
 			return false;
@@ -91,13 +105,16 @@ class EL_WhitelistManager {
 	//------------------------------------------------------------------------------------------------
 	static array<string> GetAllUuidFromFile()
 	{
-		array<string> validUuid();
+		if (!Replication.IsServer())
+		{
+			return null;
+		}
 
 		bool fileExist = FileIO.FileExist("$profile:whitelist.txt");
 
 		if(!fileExist)
 		{
-			return validUuid;
+			return null;
 		}
 
 		FileHandle uuids = FileIO.OpenFile("$profile:whitelist.txt", FileMode.READ);
@@ -105,8 +122,10 @@ class EL_WhitelistManager {
 
 		if(uuids == 0)
 		{
-			return validUuid;
+			return null;
 		}
+
+		array<string> validUuid();
 
 		while(uuids.FGets(uuid) > 0)
 		{
@@ -124,6 +143,11 @@ class EL_WhitelistManager {
 	//------------------------------------------------------------------------------------------------
 	static array<ref EL_WhitelistDbEntity> GetAllWhitelistFromDatabase()
 	{
+		if (!Replication.IsServer())
+		{
+			return null;
+		}
+
 		if(!m_pDatabase)
 		{
 			m_pDatabase = EL_DbContextFactory.GetContext();
@@ -133,16 +157,20 @@ class EL_WhitelistManager {
 
 		if(!query.Success())
 		{
-			array<ref EL_WhitelistDbEntity> emptyList();
-			return emptyList;
+			return null;
 		}
 
 		return EL_RefArrayCaster<EL_DbEntity, EL_WhitelistDbEntity>.Convert(query.GetEntities());
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static array<string > GetAllUuidInDatabase()
+	static array<string> GetAllUuidInDatabase()
 	{
+		if (!Replication.IsServer())
+		{
+			return null;
+		}
+
 		array<string> uuids();
 
 		foreach(EL_WhitelistDbEntity wh : GetAllWhitelistFromDatabase())
@@ -160,18 +188,14 @@ class EL_WhitelistManager {
 	static EL_WhitelistDbEntity NewEmptyWhitelistEntity()
 	{
 		EL_WhitelistDbEntity newUser();
-		EL_WhitelistTimeDbEntity lastLogin();
 
 		newUser.m_sUuid = string.Empty;
-		newUser.m_pLastLogin = lastLogin;
-		newUser.m_pPlatform = EPlatform.UNKNOWN;
-
-		newUser.m_pLastLogin.m_iYear = 0;
-		newUser.m_pLastLogin.m_iMonth = 0;
-		newUser.m_pLastLogin.m_iDay = 0;
-		newUser.m_pLastLogin.m_iHour = 0;
-		newUser.m_pLastLogin.m_iMinute = 0;
-		newUser.m_pLastLogin.m_iSecond = 0;
+		newUser.m_iYear = 0;
+		newUser.m_iMonth = 0;
+		newUser.m_iDay = 0;
+		newUser.m_iHour = 0;
+		newUser.m_iMinute = 0;
+		newUser.m_iSecond = 0;
 
 		return newUser;
 	}
@@ -188,12 +212,17 @@ class EL_WhitelistManager {
 	//------------------------------------------------------------------------------------------------
 	static bool AddNewUuidToWhiteList(string uuid)
 	{
+		if (!Replication.IsServer())
+		{
+			return false;
+		}
+
 		if(!ValidUuid(uuid))
 		{
 			return false;
 		}
 
-		if(!UuidExistInWhitelist(uuid))
+		if(UuidExistInWhitelist(uuid))
 		{
 			return false;
 		}
@@ -203,7 +232,9 @@ class EL_WhitelistManager {
 			m_pDatabase = EL_DbContextFactory.GetContext();
 		}
 
-		EL_EDbOperationStatusCode code = m_pDatabase.AddOrUpdate(NewEmptyWhitelistEntity());
+		EL_WhitelistDbEntity user = NewEmptyWhitelistEntity(uuid);
+
+		EL_EDbOperationStatusCode code = m_pDatabase.AddOrUpdate(user);
 
 		return EL_EDbOperationStatusCode.SUCCESS == code;
 	}

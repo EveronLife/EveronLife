@@ -6,19 +6,73 @@ class EL_WhitelistComponentClass: SCR_RespawnHandlerComponentClass
 class EL_WhitelistComponent : SCR_RespawnHandlerComponent
 {
 	private EL_DbContext m_pDatabase;
+	private bool m_bWhitelistInit;
 	private bool m_bWhitelistEnable;
 
 	//------------------------------------------------------------------------------------------------
 	override void OnPostInit(IEntity owner)
 	{
-		if (RplSession.Mode() == RplMode.Dedicated)
+		if (!Replication.IsServer())
 		{
 			return;
+		}
+
+		m_bWhitelistInit = InitWhitelist();
+
+		if (!m_bWhitelistInit)
+		{
+			EL_Utils.Logger("EL_WhitelistHandlerComponent", "OnPlayerDequeued", "Unable to initialize the whitelist, A new attempt will be executed at the first connection of a player", LogLevel.WARNING, true);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void OnPlayerDequeued(int playerId)
+	{
+		if (!Replication.IsServer())
+		{
+			return;
+		}
+
+		if (!m_bWhitelistInit)
+		{
+			m_bWhitelistInit = InitWhitelist();
+		}
+
+		if (!m_bWhitelistInit)
+		{
+			EL_Utils.Logger("EL_WhitelistHandlerComponent", "OnPlayerDequeued", "Unable to initialize the whitelist ?!", LogLevel.FATAL, true);
+			return;
+		}
+
+		if (!m_bWhitelistEnable)
+		{
+			return;
+		}
+
+		bool valid = VerifyPlayer(playerId);
+
+		if (!valid)
+		{
+			GetGame().GetPlayerManager().KickPlayer(playerId, PlayerManagerKickReason.KICK, 10);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	private bool InitWhitelist()
+	{
+		if (!Replication.IsServer())
+		{
+			return false;
 		}
 
 		if(!m_pDatabase)
 		{
 			m_pDatabase = EL_DbContextFactory.GetContext();
+		}
+
+		if(!m_pDatabase)
+		{
+			return false;
 		}
 
 		int uuidCreated = 0;
@@ -28,18 +82,23 @@ class EL_WhitelistComponent : SCR_RespawnHandlerComponent
 
 		array<string> uuids = EL_WhitelistManager.GetAllUuidFromFile();
 
-		if(uuids.Count() == 0)
+		if(uuids == null || uuids.Count() == 0)
 		{
 			// TODO Use Setting !
 			EL_Utils.Logger("EL_WhitelistHandlerComponent", "OnPostInit", "Whitelist not activated", LogLevel.NORMAL);
 			m_bWhitelistEnable = false;
-			return;
+			return true;
 		}
 
 		uuidReadFile = uuids.Count();
 
 		array<ref EL_WhitelistDbEntity> allBddEntity = EL_WhitelistManager.GetAllWhitelistFromDatabase();
 		array<string> allBddUuid = EL_WhitelistManager.GetAllUuidInDatabase();
+
+		if (allBddEntity == null || allBddUuid == null)
+		{
+			return false;
+		}
 
 		uuidReadDb = allBddUuid.Count();
 
@@ -69,23 +128,19 @@ class EL_WhitelistComponent : SCR_RespawnHandlerComponent
 			}
 		}
 
-		string message = string.Format("UUID Read : (File : %1 : Database : %2) | UUID add to list: %3 | UUID remove from list : %4", uuidReadFile, uuidReadDb, uuidCreated, uuidRemove);
-		EL_Utils.Logger("EL_WhitelistHandlerComponent", "OnPostInit", message, LogLevel.DEBUG);
+		string message = string.Format("UUID Read : (File : %1 : Database : %2) | UUID add to Database : %3 | UUID remove from Database : %4", uuidReadFile, uuidReadDb, uuidCreated, uuidRemove);
+		EL_Utils.Logger("EL_WhitelistHandlerComponent", "OnPostInit", message, LogLevel.NORMAL);
 
 		m_bWhitelistEnable = true;
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnPlayerConnected(int playerId)
+	private bool VerifyPlayer(int playerId)
 	{
-		if(!m_bWhitelistEnable)
+		if (!Replication.IsServer())
 		{
-			return;
-		}
-
-		if (RplSession.Mode() == RplMode.Dedicated)
-		{
-			return;
+			return false;
 		}
 
 		string uuid = EL_Utils.GetPlayerUID(playerId);
@@ -94,23 +149,11 @@ class EL_WhitelistComponent : SCR_RespawnHandlerComponent
 		{
 			string message = string.Format("Attempt to connect an unauthorized user (uuid : %1)", uuid);
 			EL_Utils.Logger("EL_WhitelistHandlerComponent", "OnPlayerConnected", message, LogLevel.WARNING, true);
-			BackToMainMenu();
-			return;
+			return false;
 		}
 
 		EL_WhitelistManager.UpdateAndSaveWhitelistEntity(uuid);
-	}
 
-	//------------------------------------------------------------------------------------------------
-	private void BackToMainMenu()
-	{
-		#ifdef WORKBENCH
-
-		EL_Utils.Logger("EL_WhitelistHandlerComponent", "BackToMainMenu", "You are not in the whitelist, but we are a WORKBENCH.", LogLevel.FATAL, true);
-		return;
-
-		#endif
-
-		GameStateTransitions.RequestGameplayEndTransition();
+		return true;
 	}
 }
