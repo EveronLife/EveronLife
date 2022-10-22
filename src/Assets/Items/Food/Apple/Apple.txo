@@ -4,8 +4,17 @@ $object "" {
  #tag Coords "XZY"
  #tag Scale "1.000000"
  $materials {
-  $material "Material" {
+  $material "Apple" {
    #UVset 0
+  }
+ }
+ $colliders {
+  $sphere "USP_Main" {
+   #origin -0.0006 0.0327 -0.0001
+   #weight 0
+   #material "Default_7898C33735EFBBB0"
+   #layers "ItemFireView"
+   #radius 0.0339
   }
  }
  $lod 0 {

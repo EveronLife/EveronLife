@@ -1,81 +1,44 @@
-GenericEntity {
- ID "5986B39DE6B05737"
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+ ID "508AB2013EEE1E00"
  components {
-  SoundComponent "{5986B39DD23A8615}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-   OnFrameUpdate 0
-  }
-  InventoryItemComponent "{5986B39DD23AB976}" {
-   Attributes SCR_ItemAttributeCollection "{5986B39DD23AB97E}" {
-    ItemDisplayName UIInfo "{5986B39DD23AB9D1}" {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Tomato"
      Description "This is a tomato from a tomato plant"
     }
-    ItemPhysAttributes ItemPhysicalAttributes "{5986B39DD23AB9B8}" {
-     Weight 0.2
-     SizeSetupStrategy Volume
-     ItemVolume 113
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 0.05
     }
-    ItemAnimationAttributes ItemAnimationAttributes "{5986B39DD23AB9A6}" {
+    ItemAnimationAttributes ItemAnimationAttributes "{5A44A740B63B0319}" {
      AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
      AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
      AnimationAttachments {
-      AnimationAttachmentInfo "{5986B39DD23AB9A4}" {
+      AnimationAttachmentInfo "{5A44A7403809219A}" {
        AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
        AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
        BindingName "Gadget"
       }
      }
      HandAdditiveRotation 90 0 -90
-     HandAdditiveTranslation -0.02 0.018 0
+     HandAdditiveTranslation 0.009 0.018 0
     }
-    CustomAttributes {
-     ItemActionAnimAttributes "{5986B39DD23AB99F}" {
-      ActionType Bandage
-     }
-    }
-    m_Size SLOT_1x1
-    m_SlotType SLOT_LOADOUT_STORAGE
    }
   }
-  MeshObject "{5986B39DD23AB961}" {
+  MeshObject "{5A4ACD10B8DA304F}" {
    Object "{22BC72961D6E7163}Assets/Items/Food/Tomato/Tomato.xob"
-   LODScale 0.1
-   PixelSizeScale 10
   }
-  RigidBody "{5986B39DD23AB95C}" {
-   Enabled 0
-   LinearDamping 0.5
-   AngularDamping 0.5
-   AngularSleepingThreashold 1
-   ModelGeometry 1
-   CCDRadius 0.015
-  }
-  SCR_ConsumableItemComponent "{5986B39DD23AB954}" {
+  SCR_ConsumableItemComponent "{5A44A7427B5B088B}" {
    m_eAnimVariable ADRIANOV
   }
-  ActionsManagerComponent "{5986B39DD23AB920}" {
+  ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
-    UserActionContext "{5986B39DD23AB93D}" {
-     ContextName "default"
-     Position PointInfo "{5986B39DD23AB93B}" {
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 0.0324 0
      }
     }
    }
-   additionalActions {
-    SCR_PickUpItemAction "{5986B39DD23AB92A}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{5986B39DD23AB92B}" {
-      Name "#AR-Inventory_PickUp"
-     }
-    }
-   }
-  }
-  RplComponent "{5986B39DD23AB925}" {
   }
  }
 }

@@ -26,7 +26,8 @@ When people want to join your server any missing mods are automatically download
 Open the Workbench by launching `Arma Reforger Tools` via Steam. It shows up with a list of all your mod projects.
 
 ##### Project creation
-First, you want to create a new mod. To do this, click the bottom left `Create New` button. 
+First, you need to add `EveronLife` as a known dependency. To do this click the `Add Existing` button and navigate to `Documents\My Games\ArmaReforger\addons\59636E668EA37AD7` and select the `EveronLife.gproj`. Alternatively, if you downloaded the framework source directly, add that as an existing project.  
+Now you want to create a new mod. To do this, click the bottom left `Create New` button. 
 The Workbench will ask you for a project name. You can for example name it after your community. 
 The name can be changed later with a bit of effort, but you can save yourself some time by getting it right the first time.
 You can leave the location default value or save it somewhere else. It does not really matter.  

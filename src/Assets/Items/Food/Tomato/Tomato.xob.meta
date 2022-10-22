@@ -2,11 +2,20 @@ MetaFileClass {
  Name "{22BC72961D6E7163}Assets/Items/Food/Tomato/Tomato.xob"
  Configurations {
   FBXResourceClass PC {
-   Scale 0.04 0.04 0.04
    MaterialAssigns {
-    MaterialAssignClass "{5986B39D83489B36}" {
-     SourceMaterial "DefaultGeneratedMaterial"
+    MaterialAssignClass "{5A4ACE76832FFBEC}" {
+     SourceMaterial "Tomato"
      AssignedMaterial "{AA3F394D188976A6}Assets/Items/Food/Tomato/Data/Tomato.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam USP_sphere {
+     LayerPreset "ItemFireView"
+     SurfaceProperties {
+      "{7898C33735EFBBB0}Common/Materials/Game/Core/default.gamemat"
+     }
+     Mass 0
+     Margin 0
     }
    }
    Common TXOCommonClass "{5986B39D83420285}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {

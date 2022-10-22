@@ -7,8 +7,8 @@ Layer Terrain {
 Layer Gamemode {
  Index 2
 }
-Layer Spawnconfig {
- Index 5
+Layer DebugWorldActions {
+ Index 10
 }
 Layer AppleChain {
  Index 4
@@ -27,7 +27,4 @@ Layer GravelChain {
 }
 Layer CementChain {
  Index 9
-}
-Layer DebugWorldActions {
- Index 10
 }
