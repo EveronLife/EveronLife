@@ -1,0 +1,56 @@
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Sandbag"
+     Description "A bag full of sand"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 10
+     SizeSetupStrategy Volume
+     ItemVolume 3000
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{598A687919431AEB}" {
+     AnimationInstance "{81E91C367B2A22D6}anims/workspaces/player/player_main_rpg.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     HandAdditiveRotation 90 0 -90
+     HandAdditiveTranslation 0 0.02 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{598A687919431AE6}" {
+      CameraOrbitAngles -90 -90 0
+      CameraDistanceToItem 0.9
+      CameraOffset 0 0 0
+     }
+    }
+    m_Size SLOT_2x1
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{F4A6B9CC408CD0F4}Assets/Props/Military/Sandbags/Sandbag_01_single.xob"
+   Materials {
+    MaterialAssignClass "{598A687AE4725D3B}" {
+     SourceMaterial "Sandbags_01_End"
+     AssignedMaterial "{2392C281DF136B3B}Assets/Props/Military/Sandbags/Data/Sandbags_01_end_Burlap.emat"
+    }
+    MaterialAssignClass "{598A687AE4725D25}" {
+     SourceMaterial "Sandbags_01_MLOD"
+     AssignedMaterial "{2169E8EB73E1C127}Assets/Props/Military/Sandbags/Data/Sandbags_01_Burlap_MLOD.emat"
+    }
+   }
+   LODScale 0.1
+   PixelSizeScale 10
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   ActionContexts {
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset -0.1 0.2 0
+     }
+    }
+   }
+  }
+ }
+}

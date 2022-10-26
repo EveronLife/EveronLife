@@ -1,0 +1,15 @@
+GameEntity {
+ ID "56A4B11C0BE428DA"
+ components {
+  EL_PersistenceComponent "{5A28749C4A4957A0}" {
+   m_pSaveData EL_ItemSaveData "{5A28749C48DB83E8}" {
+    m_aComponents {
+     EL_TransformationSaveData "{5A28749C49FAE46C}" {
+     }
+     EL_BaseInventoryStorageComponentSaveData "{5A28749C46D4AC58}" {
+     }
+    }
+   }
+  }
+ }
+}

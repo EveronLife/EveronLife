@@ -3,6 +3,14 @@ GenericEntity : "{69FC0AAC5FFE1288}Prefabs/Weapons/Core/Melee_Base.et" {
  components {
   SignalsManagerComponent "{5990AD6FBA6EEF6D}" {
   }
+  EL_PersistenceComponent "{5A4C7559CF69AAF0}" {
+   m_pSaveData EL_ItemSaveData "{5A4C7559EABBF0B0}" {
+    m_aComponents {
+     EL_TransformationSaveData "{5A4C7559E88938C5}" {
+     }
+    }
+   }
+  }
   MeshObject "{59908096775F151D}" {
   }
   RigidBody "{599080966B9BB4E4}" {

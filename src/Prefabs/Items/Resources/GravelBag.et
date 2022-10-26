@@ -1,0 +1,52 @@
+GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Gravel Bag"
+     Description "A bag full of gravel"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 10
+     SizeSetupStrategy Volume
+     ItemVolume 3000
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{598A6878445EB15B}" {
+     AnimationInstance "{81E91C367B2A22D6}anims/workspaces/player/player_main_rpg.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     HandAdditiveRotation 90 0 -90
+     HandAdditiveTranslation 0 0.02 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{598A6878445EB151}" {
+      CameraOrbitAngles -90 -90 0
+      CameraDistanceToItem 0.9
+      CameraOffset 0 0 0
+     }
+    }
+    m_Size SLOT_2x1
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{F4A6B9CC408CD0F4}Assets/Props/Military/Sandbags/Sandbag_01_single.xob"
+   Materials {
+    MaterialAssignClass "{598A687A815E1D6C}" {
+     SourceMaterial "Sandbags_01_End"
+     AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
+    }
+   }
+   LODScale 0.1
+   PixelSizeScale 10
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   ActionContexts {
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset -0.1 0.2 0
+     }
+    }
+   }
+  }
+ }
+}

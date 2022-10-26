@@ -1,56 +1,63 @@
+[BaseContainerProps()]
+class EL_ProcessingInput
+{
+	[Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Input", "et")]
+	ResourceName m_InputPrefab;
+
+	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input/s amount per process")]
+	int m_iInputAmount;
+
+}
+
+[BaseContainerProps()]
+class EL_ProcessingOutput
+{
+	[Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, "Prefab to Output", "et")]
+	ResourceName m_OutputPrefab;
+
+	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
+	int m_iOutputAmount;
+}
+
+
 class EL_ProcessAction : ScriptedUserAction
 {
-	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Input", "et")]
-	ResourceName m_InputPrefab;
-	
-	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Input amount per process")]
-	private int m_iInputAmount;
-	
-	[Attribute(defvalue: "", uiwidget: UIWidgets.ResourcePickerThumbnail, desc: "Prefab to Output", "et")]
-	ResourceName m_OutputPrefab;		
-	
-	[Attribute(defvalue: "1", uiwidget: UIWidgets.Auto, desc: "Output amount per process")]
-	private int m_iOutputAmount;
-		
-	private IEntity m_OutputPrefabEntity;
-	
-	
-	//------------------------------------------------------------------------------------------------
-	private array<IEntity> GetAllInputItems(InventoryStorageManagerComponent inventory)
-	{
-		array<IEntity> items = new array<IEntity>();
-		array<IEntity> foundItems = new array<IEntity>();
-		inventory.GetItems(items);
-		
-		//Check if item in recipe
-		foreach (IEntity item : items)
-		{
-			if (item.GetPrefabData().GetPrefabName() == m_InputPrefab)
-			{
-				foundItems.Insert(item);
-			}
-		}
-		
-		return foundItems;
-	}
+	[Attribute("", UIWidgets.Object, "List of inputs")]
+	ref array<ref EL_ProcessingInput> m_aProcessingInputs;
+
+	[Attribute("", UIWidgets.Object, "List of outputs")]
+	ref array<ref EL_ProcessingOutput> m_aProcessingOutputs;
+
+	ref SCR_PrefabNamePredicate m_pPrefabNamePredicate = new SCR_PrefabNamePredicate();
 
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-		array<IEntity> allFoundItems = GetAllInputItems(inventoryManager);
-		
-		if (allFoundItems.Count() < m_iInputAmount || !inventoryManager.CanInsertItem(m_OutputPrefabEntity))
-			return;
-		
-		for (int i = 0; i < m_iInputAmount; i++) 
+
+		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
-			inventoryManager.TryDeleteItem(allFoundItems[i]);
+			//Set search to new input prefab
+			m_pPrefabNamePredicate.prefabName = processingInput.m_InputPrefab;
+
+			for (int i = 0; i < processingInput.m_iInputAmount; i++)
+			{
+				inventoryManager.TryDeleteItem(inventoryManager.FindItem(m_pPrefabNamePredicate));
+			}
 		}
-		
-		for (int i = 0; i < m_iOutputAmount; i++) 
+
+		bool bCanSpawnToStorage;
+
+		foreach (EL_ProcessingOutput processingOutput : m_aProcessingOutputs)
 		{
-			inventoryManager.TrySpawnPrefabToStorage(m_OutputPrefab);
+			for (int i = 0; i < processingOutput.m_iOutputAmount; i++)
+			{
+				bCanSpawnToStorage = inventoryManager.TrySpawnPrefabToStorage(processingOutput.m_OutputPrefab);
+				if (!bCanSpawnToStorage)
+				{
+					EL_Utils.SpawnEntityPrefab(processingOutput.m_OutputPrefab, pUserEntity.GetOrigin());
+				}
+			}
 		}
 	}
 
@@ -59,23 +66,20 @@ class EL_ProcessAction : ScriptedUserAction
  	{
 		//Check player inventory
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
-		int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(m_InputPrefab);
-		
-		if (!inventoryManager.CanInsertItem(m_OutputPrefabEntity))
+
+		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
-			SetCannotPerformReason("Inventory full");
-			return false;
+			int inputPrefabsInInv = inventoryManager.GetDepositItemCountByResource(processingInput.m_InputPrefab);
+			if (inputPrefabsInInv < processingInput.m_iInputAmount)
+				return false;
 		}
-		
-		SetCannotPerformReason("Can't find items");
-		
-		return (inputPrefabsInInv >= m_iInputAmount);
+
+		return true;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	override void Init(IEntity pOwnerEntity, GenericComponent pManagerComponent)
 	{
-		m_OutputPrefabEntity = EL_Utils.SpawnEntityPrefab(m_OutputPrefab, vector.Zero);
+		SetCannotPerformReason("Can't find items");
 	}
-	
 }

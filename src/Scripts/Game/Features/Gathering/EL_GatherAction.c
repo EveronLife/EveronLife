@@ -1,48 +1,61 @@
 class EL_GatherAction : ScriptedUserAction
 {
-	[Attribute("", UIWidgets.EditBox, desc: "Display name of what is being gathered")]
-	private string m_GatherItemDisplayName;
+	[Attribute(desc: "Prefab what item is gathered", category: "General")]
+	protected ResourceName m_GatherItemPrefab;
 	
-	[Attribute("", UIWidgets.ResourceNamePicker, desc: "Prefab what item is gathered")]
-	private ResourceName m_GatherItemPrefab;
+	[Attribute(defvalue:"1", desc: "Amount of items to receive", category: "General")]
+	protected int m_GatherAmount;
 	
-	[Attribute(defvalue:"1", UIWidgets.EditBox, desc: "Amount of items to receive")]
-	private int m_AmountGathered;
+	[Attribute(desc: "Item required for gathering", category: "Requirements")]
+	protected ResourceName m_GatherToolRequirement;
 	
-	[Attribute("", UIWidgets.ResourceNamePicker, desc: "Item(s) required for gathering")]
-	private ResourceName m_RequiredItemPrefab;
-	
-	[Attribute("", UIWidgets.CheckBox, desc: "Check entire inventory too")]
-	private bool m_CheckInventory;
+	[Attribute(desc: "Check entire inventory for required item too", category: "Requirements")]
+	protected bool m_CheckInventoryForToolRequirement;
 		
-	[Attribute(defvalue:"0", UIWidgets.EditBox, desc: "Amount of delay after performing action")]
-	private int m_DelayTimeMilliseconds;
+	[Attribute(desc: "Maximum amount of times to gather before resource has timeout", category: "Limits")]
+	protected int m_GatherAmountMax;
 	
-	private SCR_InventoryStorageManagerComponent m_InventoryManager;
-	private bool m_CanBePerformed = true;
-	private float m_EndOfDelay;
+	[Attribute(desc: "Amount of time needed until gathering attempts are restocked in ms", category: "Limits")]
+	protected float m_GatherTimeout;
+	
+	protected int m_iRemainingGathers;
+	protected float m_fNextQuantityRestock;
+	
+	protected string m_sDisplayName;
 	
 	//------------------------------------------------------------------------------------------------
 	// User has performed the action
 	// play a pickup sound and then add the correct amount to the users inventory
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
-		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
+		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
 		
-		m_InventoryManager.PlayItemSound(replication.Id(), "SOUND_PICK_UP");
+		//Spawn items
+		bool anyPickup;
 		
-		//Spawn item
-		for (int i = 0; i < m_AmountGathered; i++)
-			m_InventoryManager.TrySpawnPrefabToStorage(m_GatherItemPrefab);
-		
-		//Show hint what to do with the gathered item
-		EL_GameModeRoleplay.GetInstance().ShowInitalTraderHint();
-		
-		if (m_DelayTimeMilliseconds > 0) // If item has a delay between uses
+		for (int i = 0; i < m_GatherAmount; i++)
 		{
-			m_CanBePerformed = false;
-			GetGame().GetCallqueue().CallLater(ToggleCanBePerformed, m_DelayTimeMilliseconds);	
-			m_EndOfDelay = GetGame().GetWorld().GetWorldTime() + m_DelayTimeMilliseconds;
+			if(inventoryManager.TrySpawnPrefabToStorage(m_GatherItemPrefab) && !anyPickup)
+			{
+				anyPickup = true;
+			}	
+		}
+		
+		if(anyPickup)
+		{
+			inventoryManager.PlayItemSound(pOwnerEntity, "SOUND_PICK_UP");
+		}
+		
+		//Replenish gathering count
+		if(m_iRemainingGathers <= 0) m_iRemainingGathers = m_GatherAmountMax;
+		
+		//Consume one gathering
+		m_iRemainingGathers--;
+		
+		//Initalize timeout if resource depleted
+		if(m_iRemainingGathers <= 0)
+		{
+			m_fNextQuantityRestock = Replication.Time() + m_GatherTimeout;
 		}
 	}
 	
@@ -50,7 +63,15 @@ class EL_GatherAction : ScriptedUserAction
 	// Formats name for action when hovering
 	override bool GetActionNameScript(out string outName)
 	{
-		outName = string.Format("Gather %1", m_GatherItemDisplayName);
+		if (!m_sDisplayName)
+		{
+			m_sDisplayName = "Unknown";
+			EL_UIInfo uiInfo = EL_UIInfo.FromPrefab(m_GatherItemPrefab);
+			if (uiInfo) m_sDisplayName = uiInfo.GetName();
+			m_sDisplayName = string.Format("Gather %1", m_sDisplayName);
+		}
+		
+		outName = m_sDisplayName;
 		return true;
 	}
 	
@@ -59,29 +80,28 @@ class EL_GatherAction : ScriptedUserAction
 	// If so, check if its in the users inventory/hands depending on settings set
 	override bool CanBePerformedScript(IEntity user)
  	{
-		if (!m_CanBePerformed)
+		if(m_fNextQuantityRestock > Replication.Time())
 		{
-			float timeLeft = (m_EndOfDelay - GetGame().GetWorld().GetWorldTime()) / 1000;
-			SetCannotPerformReason(string.Format("Please wait %1 seconds", Math.Round(timeLeft)));
+			int secondsLeft = (m_fNextQuantityRestock - Replication.Time()) / 1000;
+			SetCannotPerformReason(string.Format("Please wait %1 seconds", secondsLeft + 1)); //+1 to avoid 0 seconds left.
 			return false;
 		}
-			
 		
-		m_InventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
-		
-		if (!m_RequiredItemPrefab) // If not required we dont need to check anything
+		if (!m_GatherToolRequirement) // If not required we dont need to check anything
 			return true;
 		
-		if (m_CheckInventory) // Just check the inventory
+		if (m_CheckInventoryForToolRequirement) // Just check the inventory
 		{
 			SetCannotPerformReason("Requires item");
 			
-			array<IEntity> outItems = new array<IEntity>();
-			m_InventoryManager.GetItems(outItems);
+			SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
+			
+			array<IEntity> outItems();
+			inventoryManager.GetItems(outItems);
 			
 			foreach (IEntity item : outItems)
 			{
-				if (item.GetPrefabData().GetPrefabName() == m_RequiredItemPrefab)
+				if (item.GetPrefabData().GetPrefabName() == m_GatherToolRequirement)
 					return true;
 			}
 		}
@@ -94,21 +114,14 @@ class EL_GatherAction : ScriptedUserAction
 				return false;
 			
 			IEntity rightHandItem = IEntity.Cast(characterControllerComponent.GetRightHandItem());
-			if (rightHandItem && rightHandItem.GetPrefabData().GetPrefabName() == m_RequiredItemPrefab)
+			if (rightHandItem && rightHandItem.GetPrefabData().GetPrefabName() == m_GatherToolRequirement)
 				return true;
 			
 			IEntity leftHandItem = IEntity.Cast(characterControllerComponent.GetAttachedGadgetAtLeftHandSlot());
-			if (leftHandItem && leftHandItem.GetPrefabData().GetPrefabName() == m_RequiredItemPrefab)
+			if (leftHandItem && leftHandItem.GetPrefabData().GetPrefabName() == m_GatherToolRequirement)
 				return true;
 		}
 		
 		return false;
  	}
-	
-	//------------------------------------------------------------------------------------------------
-	// Called after delay timer runs out
-	protected void ToggleCanBePerformed()
-	{
-		m_CanBePerformed = !m_CanBePerformed;
-	}
 }

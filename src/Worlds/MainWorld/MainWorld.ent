@@ -10,6 +10,3 @@ Layer Gamemode {
 Layer Area_StPhillipe_AppleFarm {
  Index 2
 }
-Layer Spawnconfig {
- Index 3
-}
