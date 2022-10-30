@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{DD531C9FDBD5061B}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightBarRotary2Emissive.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

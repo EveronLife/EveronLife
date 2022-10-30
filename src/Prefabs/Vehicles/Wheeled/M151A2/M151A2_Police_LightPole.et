@@ -1,0 +1,13 @@
+Vehicle : "{C2FF7DB2F822943C}Prefabs/Vehicles/Wheeled/M151A2/M151A2_Police_Base.et" {
+ ID "44EC665ABD2FF04B"
+ components {
+  SlotManagerComponent "{55BCE45E438E4CFF}" {
+   Slots {
+    RegisteringComponentSlotInfo LightPole {
+     Offset -0.8449 1.3915 0.5195
+     Prefab "{AC7FCBC268CA2914}Prefabs/Vehicles/Wheeled/M151A2/M151A2_EmergencyLightPole.et"
+    }
+   }
+  }
+ }
+}

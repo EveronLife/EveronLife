@@ -1,0 +1,10 @@
+MatPBRDecal {
+ Emissive 0.502 0.046 0 1
+ EmissiveLV 1.5
+ ApplyAlbedoToEmissive 1
+ AlphaMul 0.684
+ BlendMode AlphaBlend
+ EmissiveMap "{3F25212740BC1A52}Assets/Vehicles/EmergencyLightsKnob/data/Knob_Decals_EM.edds"
+ BCRMap "{DD1E96A9C9FCF512}Assets/Vehicles/EmergencyLightsKnob/data/Knob_Decals_BCR.edds"
+ OpacityMap "{1E0424A7C6F7A07F}Assets/Vehicles/EmergencyLightsKnob/data/Knob_Decals_A.edds"
+}

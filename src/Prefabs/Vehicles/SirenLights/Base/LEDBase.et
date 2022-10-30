@@ -1,0 +1,12 @@
+GameEntity {
+ ID "59CAE48E18B5F9F6"
+ components {
+  MeshObject "{59CAE489CA511B5B}" {
+   Object "{E1C97A9A7D3BD795}Assets/Vehicles/SirenLights/EmergencyLightLEDBase.xob"
+  }
+  Hierarchy "{59CAE48E2C5F5137}" {
+  }
+  ParametricMaterialInstanceComponent "{59CAE48E3A06CC5B}" {
+  }
+ }
+}

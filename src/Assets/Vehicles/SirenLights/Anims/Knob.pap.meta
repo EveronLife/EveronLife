@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{D1CA281AFA5122C5}Assets/Vehicles/EmergencyLightsKnob/Anims/Knob.pap"
+ Configurations {
+  ProcAnimProjectResourceClass PC {
+  }
+  ProcAnimProjectResourceClass XBOX_ONE : PC {
+  }
+  ProcAnimProjectResourceClass XBOX_SERIES : PC {
+  }
+  ProcAnimProjectResourceClass PS4 : PC {
+  }
+  ProcAnimProjectResourceClass HEADLESS : PC {
+  }
+ }
+}

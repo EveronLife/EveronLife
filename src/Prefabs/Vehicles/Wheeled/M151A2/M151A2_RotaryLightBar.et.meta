@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{9EED2B5341F9A0D7}Prefabs/Vehicles/Wheeled/M151A2/M151A2_LightBarMount.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

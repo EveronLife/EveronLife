@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{FFF02C02DF998B9F}Sounds/_SharedData/Signals/OneSignal/SirenState.sig"
+ Configurations {
+  AudioSignalResourceClass PC {
+  }
+  AudioSignalResourceClass XBOX_ONE : PC {
+  }
+  AudioSignalResourceClass XBOX_SERIES : PC {
+  }
+  AudioSignalResourceClass PS4 : PC {
+  }
+  AudioSignalResourceClass HEADLESS : PC {
+  }
+ }
+}

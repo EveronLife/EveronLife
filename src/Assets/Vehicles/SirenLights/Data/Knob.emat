@@ -1,0 +1,40 @@
+MatPBRMulti {
+ MaskMap "{E7F498AA12959EFD}Assets/Vehicles/EmergencyLightsKnob/data/Knob_GLOBAL_MASK.edds"
+ VFXMap "{AD5689F2F21E4E45}Assets/Vehicles/EmergencyLightsKnob/data/Knob_VFX.edds"
+ GlobalNMOMap "{DD248C5AAE7AFF29}Assets/Vehicles/EmergencyLightsKnob/data/Knob_NMO.edds"
+ DirtOpacity 0.546
+ DirtColor 0.141 0.125 0.098 1
+ DirtRoughness 1
+ DirtBCRMap "{15A4D0147C0F3804}Assets/_SharedData/Plaster/ST_Plaster_Damaged_01_BCR.edds"
+ DirtMaskMap "{DE18086A9CA88FBA}Assets/_SharedData/DetailMask/ST_Dirt_04_Mask1.edds"
+ DirtUVTransform MatUVTransform "{59B4BDA7E501AC9C}" {
+  TilingU 10
+  TilingV 10
+ }
+ Enabled_4 1
+ Color_4 0.171 0 0 1
+ BCR_4 "{BCC6BF9DF11A74D0}Assets/_SharedData/Plastic/ST_PlasticBase_01_BCR.edds"
+ NMO_4 "{3AEE656F6B23C845}Assets/_SharedData/Plastic/ST_PlasticBase_03_NMO.edds"
+ MaskSharpness_4 6.475
+ Enabled_3 1
+ Color_3 0.15 0.154 0.162 1
+ BCR_3 "{DDFA1BE6FC945C12}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_BCR.edds"
+ NMO_3 "{E522A07425E30E8C}Assets/_SharedData/Metal/ST_Metal_Stainles01_1m_NMO.edds"
+ Enabled_2 1
+ Color_2 0.016 0.016 0.016 1
+ BCR_2 "{5F54C1714DAA5E23}Assets/_SharedData/Plastic/ST_Plastic_Fine01_1m_BCR.edds"
+ NMO_2 "{678C7AE394DD0CBD}Assets/_SharedData/Plastic/ST_Plastic_Fine01_1m_NMO.edds"
+ UVTransform_2 MatUVTransform "{59B17B6B683E196E}" {
+  TilingU 18
+  TilingV 18
+ }
+ Roughness_2 2.5
+ Metalness_2 0
+ Color_1 0 0.035 0.145 1
+ BCR_1 "{8EADB31D864DD0FC}Assets/_SharedData/Metal/ST_MetalBare_01_BCR.edds"
+ NMO_1 "{0470164F98BC8DD2}Assets/_SharedData/Metal/ST_MetalBare_01_NMO.edds"
+ UVTransform_1 MatUVTransform "{59B17B6B53E7A427}" {
+  TilingU 10
+  TilingV 10
+ }
+}

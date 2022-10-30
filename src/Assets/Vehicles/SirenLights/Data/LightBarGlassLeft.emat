@@ -1,0 +1,12 @@
+MatPBRBasicGlass {
+ Color 0.502 0 0 1
+ CrossFade 0
+ MetalnessScale 0.3
+ BCRMap "{93AAE26DAA1992E6}Assets/_SharedData/Glass/ST_Glass_Streaks_01_NoColor_BCR.edds"
+ OpacityMap "{46CF67CB400DECC9}Assets/_SharedData/Glass/ST_Glass_Streaks_01_A.edds"
+ GlobalMapsUVTransform MatUVTransform "{59DC7EA936C0E735}" {
+ }
+ FresnelPower 3
+ FresnelBias 0.5
+ ChromaticIntensity 0.99
+}

@@ -1,0 +1,7 @@
+MatPBRBasic {
+ Color 0.02 0.02 0.02 1
+ Emissive 1 1 1 1
+ EmissiveLV 10
+ EmissiveAbsoluteLV 0
+ EmissiveMap "{618F6A59226B14E4}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/LED_EM.edds"
+}

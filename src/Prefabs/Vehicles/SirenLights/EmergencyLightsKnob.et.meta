@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{B6742C91E4499F0A}Prefabs/Vehicles/EmergencyLights/EmergencyLightsKnob.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

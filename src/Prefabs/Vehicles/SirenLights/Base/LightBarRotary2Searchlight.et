@@ -1,0 +1,10 @@
+GameEntity {
+ ID "59DC7E8131CC85A6"
+ components {
+  MeshObject "{59DC7E8ED838842E}" {
+   Object "{D33AC426E5D21410}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightBarRotary2Searchlight.xob"
+  }
+  ParametricMaterialInstanceComponent "{59DC7E8EC8C329FB}" {
+  }
+ }
+}

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{71A90819913CECC2}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/Data/LightSingleRotaryBody.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

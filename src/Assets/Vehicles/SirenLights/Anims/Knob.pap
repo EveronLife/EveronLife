@@ -1,0 +1,160 @@
+ProcAnimProjectClass {
+ signals {
+  SignalClass {
+   id 1028
+   name "Signal 1"
+   tl -331.636 190
+   res "{9C1F54D586C8FCDD}Assets/Vehicles/EmergencyLightsKnob/Anims/Knob.siga"
+   inputsport {
+    1 2
+   }
+   outputsport {
+    3 4
+   }
+   inputvalues {
+    0 0
+   }
+   inputvaluesmin {
+    -30 -0.01
+   }
+   inputvaluesmax {
+    30 0
+   }
+  }
+ }
+ funcs {
+  RotationMakeClass {
+   id 2054
+   name "RotationMake 2054"
+   tl -70 166.364
+   iops {
+    IOPConnectionClass iopConnection {
+     port 2
+     conn {
+      ConnectionsClass connections {
+       id 0
+       links {
+        ConnectionClass connection {
+         id 1028
+         port 3
+        }
+       }
+      }
+     }
+    }
+   }
+   outs {
+    3078
+   }
+  }
+  RotationSetClass {
+   id 3078
+   name "RotationSet 3078"
+   tl 191.818 165.455
+   funcs {
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 2
+       links {
+        ConnectionClass connection {
+         id 2054
+         port 0
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 2
+       links {
+        ConnectionClass connection {
+         id 4102
+         port 0
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  BoneClass {
+   id 4102
+   name "Bone 4102"
+   version 0
+   tl -58.182 77.273
+   outs {
+    3078 6150
+   }
+   bone "Bone"
+  }
+  TranslateMakeClass {
+   id 5126
+   name "TranslateMake 5126"
+   tl -70.909 308.182
+   iops {
+    IOPConnectionClass iopConnection {
+     port 2
+     conn {
+      ConnectionsClass connections {
+       id 0
+       links {
+        ConnectionClass connection {
+         id 1028
+         port 4
+        }
+       }
+      }
+     }
+    }
+   }
+   outs {
+    6150
+   }
+  }
+  TranslateSetClass {
+   id 6150
+   name "TranslateSet 6150"
+   tl 195.455 304.545
+   funcs {
+    IOPConnectionClass iopConnection {
+     port 0
+     conn {
+      ConnectionsClass connections {
+       id 2
+       links {
+        ConnectionClass connection {
+         id 4102
+         port 0
+        }
+       }
+      }
+     }
+    }
+    IOPConnectionClass iopConnection {
+     port 1
+     conn {
+      ConnectionsClass connections {
+       id 2
+       links {
+        ConnectionClass connection {
+         id 5126
+         port 0
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+ model "{90C1B80546AE52D2}Assets/Vehicles/EmergencyLightsKnob/Knob.xob"
+ version 1
+ compiled ProcAnimCompiledClass {
+  version 2
+ }
+}

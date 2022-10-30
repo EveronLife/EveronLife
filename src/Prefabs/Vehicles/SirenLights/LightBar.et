@@ -1,0 +1,144 @@
+GenericEntity {
+ ID "59CD3A6459E6C473"
+ components {
+  MeshObject "{59CD3A6213712216}" {
+   Object "{AE18CFF526FE361E}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Enclosures/LightBarRotary.xob"
+  }
+  Hierarchy "{59CD3A65B2247924}" {
+  }
+ }
+ {
+  $grp GameEntity : "{959898E0887C2FE4}Prefabs/Vehicles/EmergencyLights/Base/EmergencyLightsBase.et" {
+   {
+    ID "59CD3A6459E6BF32"
+    components {
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left2"
+     }
+     EL_SirenLightComponent "{59D913E97EE8BE2F}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+     }
+    }
+    coords 0 0 0
+    angleY -45
+   }
+   {
+    ID "59CD3A6459E6BF34"
+    components {
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left3"
+     }
+     EL_SirenLightComponent "{59D913E92ADD46B7}" {
+      m_Lights {
+       EL_LightChild "{59D913E91D143B85}" {
+        m_eLightType SPOT
+        m_vLightColor 0.502 0 0
+        m_PivotPoint "Disk"
+       }
+      }
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+     }
+    }
+    coords 0 0 0
+    angleY -90
+   }
+   {
+    ID "59CD3A6459E6C472"
+    components {
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Left1"
+     }
+     EL_SirenLightComponent "{59D913E96C176D07}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0.502 0 0
+     }
+    }
+    coords 0 0 0
+   }
+   {
+    ID "59CD3A6459E76391"
+    components {
+     MeshObject "{59B115DF4DCBA822}" {
+      Materials {
+       MaterialAssignClass "{59D40E01CF8016EC}" {
+        SourceMaterial "Lights"
+        AssignedMaterial "{8D7EEFA355DCE211}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights.emat"
+       }
+      }
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right2"
+     }
+     ParametricMaterialInstanceComponent "{59B115DFB7E548D4}" {
+      ColorEmissive 0 0.246 1 1
+     }
+     EL_SirenLightComponent "{59D913E95C635F69}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+     }
+    }
+    coords 0 0 0
+    angleY 135
+   }
+   {
+    ID "59CD3A6459E76392"
+    components {
+     MeshObject "{59B115DF4DCBA822}" {
+      Materials {
+       MaterialAssignClass "{59D40E00ACF980E6}" {
+        SourceMaterial "Lights"
+        AssignedMaterial "{8D7EEFA355DCE211}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights.emat"
+       }
+      }
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right1"
+     }
+     ParametricMaterialInstanceComponent "{59B115DFB7E548D4}" {
+      ColorEmissive 0 0.246 1 1
+     }
+     EL_SirenLightComponent "{59D913E94B1688C7}" {
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+     }
+    }
+    coords 0 0 0
+    angleY 180
+   }
+   {
+    ID "59CD3A6459E77EBB"
+    components {
+     MeshObject "{59B115DF4DCBA822}" {
+      Materials {
+       MaterialAssignClass "{59D40E004D573A07}" {
+        SourceMaterial "Lights"
+        AssignedMaterial "{8D7EEFA355DCE211}Assets/Vehicles/Wheeled/Attachments/Lights/Emergency/Base/Data/Lights.emat"
+       }
+      }
+     }
+     Hierarchy "{59BB3D4ED0B7F273}" {
+      PivotID "Right3"
+     }
+     ParametricMaterialInstanceComponent "{59B115DFB7E548D4}" {
+      ColorEmissive 0 0.246 1 1
+     }
+     EL_SirenLightComponent "{59D913E9B1BB9744}" {
+      m_Lights {
+       EL_LightChild "{59D913E9B416C2D8}" {
+        m_eLightType SPOT
+        m_vLightColor 0 0.125 0.502
+        m_PivotPoint "Disk"
+       }
+      }
+      m_OverrideEmissiveColor 1
+      m_EmissiveColor 0 0.125 0.502
+     }
+    }
+    coords 0 0 0
+    angleY 90
+   }
+  }
+ }
+}
