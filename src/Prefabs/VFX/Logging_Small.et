@@ -1,6 +1,0 @@
-SCR_ParticleEmitter {
- ID "5A1904214BC81056"
- coords 102.75 0.001 138.153
- m_EffectPath "{12571DF1E334C899}Wood_Small.ptc"
- m_PlayInEditor 0
-}

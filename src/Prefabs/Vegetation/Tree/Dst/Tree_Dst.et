@@ -22,7 +22,7 @@ GenericEntity {
      "Fragmentation multiplier" 0
      "Explosive multiplier" 0
      "Incendiary multiplier" 0
-     m_HitVFX "{8DB2E11855C71E31}Prefabs/VFX/Logging_Small.et"
+     m_HitVFX "{8DB2E11855C71E31}Prefabs/VFX/WoodCutting/WoodImpactEmitter_Small.et"
      m_fEffectiveDamage 20.22
     }
    }
@@ -37,7 +37,7 @@ GenericEntity {
      m_vOffsetPosition 0 3 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
-      "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
+      "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
      }
      m_fDamageToImpulse 0
      m_fRandomVelocityLinear 0
@@ -47,7 +47,7 @@ GenericEntity {
      m_vOffsetPosition 0 6 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
-      "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
+      "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
      }
      m_fDamageToImpulse 0
      m_fRandomVelocityLinear 0
@@ -59,5 +59,4 @@ GenericEntity {
   RplComponent "{5A6318165AFD511C}" {
   }
  }
- coords 103.231 0.001 132.035
 }

@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{12571DF1E334C899}Wood_Small.ptc"
+ Name "{12571DF1E334C899}Particles/WoodCutting/WoodImpact_Small.ptc"
  Configurations {
   PTCResourceClass PC : "{4B4500E061CCD624}Configs/System/ResourceTypes/PC/ParticleEffect.conf" {
   }
