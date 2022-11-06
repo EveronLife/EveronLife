@@ -75,7 +75,7 @@ modded class SCR_CharacterInventoryStorageComponent
 
 		foreach (int idx, RplId rplId : rplIds)
 		{
-			IEntity slotEntity = EL_Utils.FindEntityByRplId(rplId);
+			IEntity slotEntity = EL_NetworkUtils.FindEntityByRplId(rplId);
 			m_aQuickSlots.Set(idx, slotEntity);
 			if (slotEntity) m_aQuickSlotsHistory.Set(idx, GetItemType(slotEntity));
 		}

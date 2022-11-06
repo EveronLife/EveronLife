@@ -42,23 +42,8 @@ Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M9
  }
  coords 96.869 0 127.078
 }
-GenericEntity Wood_Plank_5A6A976C850FDF87 : "{45D1B36F99DD2FC3}Prefabs/Items/Resources/WoodPlank.et" {
- components {
-  InventoryItemComponent "{5222EB4D0C73006B}" {
-   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
-    ItemAnimationAttributes ItemAnimationAttributes "{59E108DB000CCEEB}" {
-     AnimationAttachments {
-      AnimationAttachmentInfo "{59E33B494D8FF442}" {
-       AnimGraph "{9028A404378C292B}Anims/Workspaces/Player/player_carry.agr"
-       AnimInstance "{7D42F1DF2B857BC5}Anims/Workspaces/Player/player_carry.asi"
-       StartNode "Player Carry"
-      }
-     }
-    }
-   }
-  }
- }
- coords 101.479 0 134.71
+GenericEntity WoodPlank_5ACADBC9DB3986A8 : "{45D1B36F99DD2FC3}Prefabs/Items/Resources/WoodPlank.et" {
+ coords 101.54 0.001 134.56
 }
 GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
  coords 102.481 0.001 134.803

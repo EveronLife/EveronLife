@@ -1,77 +1,6 @@
 class EL_Utils
 {
 	//------------------------------------------------------------------------------------------------
-	//! Returns the Owner of the storage the item is in
-	//! \param item Item Entity to get Owner from
-	//! \return Entity Storage Owner
-	static IEntity GetStorageOwner(notnull IEntity item)
-	{
-		InventoryItemComponent itemComponent = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
-		InventoryStorageSlot slot = itemComponent.GetParentSlot();
-		if (!slot) return null;
-
-		BaseInventoryStorageComponent itemParentStorage = slot.GetStorage();
-		if (!itemParentStorage) return null;
-
-		InventoryStorageSlot parentSlot = itemParentStorage.GetParentSlot();
-		if (!parentSlot) return null;
-
-		return parentSlot.GetStorage().GetOwner();
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Force equips the gadget to the players hand
-	//! Play none gesture to stop pickup gesture
-	//!TODO: Add custom pickup / drop gesture
-	//! \param player Instance of the player
-	static void ForceEquipToHand(IEntity player, IEntity gadget)
-	{
-		EL_Utils.ClearHands(player);
-		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(player.FindComponent(CharacterControllerComponent));
-		characterController.TryPlayItemGesture(EItemGesture.EItemGestureNone);
-		characterController.TakeGadgetInLeftHand(gadget, EGadgetType.CONSUMABLE, false, true);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Moves Item to vicinity
-	//! Needs to be called from Authority
-	//! \param player Instance of the player
-	//! \param item Item Entity to move
-	//! \return true if move was successful
-	static void MoveToVicinity(notnull IEntity player, notnull IEntity item)
-	{
-		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		InventoryItemComponent itemComponent = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
-		if (!itemComponent) return;
-		InventoryStorageSlot parentSlot = itemComponent.GetParentSlot();
-		if (!parentSlot) return;
-		BaseInventoryStorageComponent itemParentStorage = parentSlot.GetStorage();
-
-		ClearHands(player);
-		inventoryManager.TryRemoveItemFromStorage(item, itemParentStorage);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Removes any Weapon or Gadget in hand
-	//! \param player Instance of the player
-	static void ClearHands(notnull IEntity player)
-	{
-		SCR_GadgetManagerComponent gadgetManager = SCR_GadgetManagerComponent.GetGadgetManager(player);
-		if (gadgetManager && gadgetManager.GetHeldGadgetComponent())
-		{
-			gadgetManager.RemoveHeldGadget();
-		}
-
-		CharacterControllerComponent controller = CharacterControllerComponent.Cast(player.FindComponent(CharacterControllerComponent));
-		if (controller)
-		{
-			controller.RemoveGadgetFromHand();
-			controller.TryEquipRightHandItem(null, EEquipItemType.EEquipTypeUnarmed, true);
-		}
-	}
-
-
-	//------------------------------------------------------------------------------------------------
 	//! Gets the Bohemia UID
 	//! \param playerId Index of the player inside player manager
 	//! \return the uid as string
@@ -117,23 +46,6 @@ class EL_Utils
 	{
 		if (!entity) return string.Empty;
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Finds an entity by its repliction id
-	//! \param rplId Replication id to search for
-	//! \return the the entity found or null if not found or invalid replication id
-	static IEntity FindEntityByRplId(RplId rplId)
-	{
-		IEntity entity = null;
-
-		if (rplId.IsValid())
-		{
-			RplComponent entityRpl = RplComponent.Cast(Replication.FindItem(rplId));
-			if (entityRpl) entity = IEntity.Cast(entityRpl.GetEntity());
-		}
-
-		return entity;
 	}
 
 	//------------------------------------------------------------------------------------------------

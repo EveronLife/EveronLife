@@ -26,37 +26,31 @@ class EL_ProcessAction : ScriptedUserAction
 
 	[Attribute("", UIWidgets.Object, "List of outputs")]
 	ref array<ref EL_ProcessingOutput> m_aProcessingOutputs;
-	
+
 	[Attribute("", UIWidgets.CheckBox, "Force drop output? (Not spawning in inventory)")]
 	bool m_bForceDropOutput;
 
 	[Attribute("0 0 0", UIWidgets.EditBox, "Drop Offset", params: "inf inf 0 purposeCoords spaceEntity")]
 	vector m_vDropOffset;
-	
+
 	[Attribute("0 0 0", UIWidgets.EditBox, "Drop Rotation")]
 	vector m_vRotation;
-
-	
-	ref SCR_PrefabNamePredicate m_pPrefabNamePredicate = new SCR_PrefabNamePredicate();
 
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
 
+		SCR_PrefabNamePredicate prefabNamePredicate();
+
 		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
 			//Set search to new input prefab
-			m_pPrefabNamePredicate.prefabName = processingInput.m_InputPrefab;
+			prefabNamePredicate.prefabName = processingInput.m_InputPrefab;
 
 			for (int i = 0; i < processingInput.m_iInputAmount; i++)
 			{
-				//Check if we are holding a forced hand gadget
-				EL_ForcedHandGadgetComponent gadget = EL_ForcedHandGadgetComponent.Cast(SCR_GadgetManagerComponent.GetGadgetManager(pUserEntity).GetHeldGadgetComponent());
-				if (gadget)
-					gadget.Delete();
-				else
-					inventoryManager.TryDeleteItem(inventoryManager.FindItem(m_pPrefabNamePredicate));
+				inventoryManager.TryDeleteItem(inventoryManager.FindItem(prefabNamePredicate));
 			}
 		}
 
@@ -66,7 +60,7 @@ class EL_ProcessAction : ScriptedUserAction
 		{
 			for (int i = 0; i < processingOutput.m_iOutputAmount; i++)
 			{
-				if (m_bForceDropOutput) 
+				if (m_bForceDropOutput)
 				{
 					EL_Utils.SpawnEntityPrefab(processingOutput.m_OutputPrefab, pOwnerEntity.GetOrigin() + m_vDropOffset, m_vRotation);
 					continue;
