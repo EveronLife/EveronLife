@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{6697C9B8CEB5234C}Prefabs/Items/Resources/WoodKindling.et"
+ Name "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

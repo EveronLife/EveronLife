@@ -1,4 +1,4 @@
-GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
+GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/ItemProcessor_Base.et" {
  ID "598F21A86EB5B48E"
  components {
   MeshObject "{598F21A867C4015C}" {
@@ -15,16 +15,16 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
    additionalActions {
     EL_ProcessAction "{598F21A877BE6DEE}" {
      UIInfo UIInfo "{5A5EE24316053903}" {
-      Name "Make Wood Kindling"
+      Name "Process wooden log"
      }
      m_aProcessingInputs {
       EL_ProcessingInput "{5A5EE2432A165320}" {
-       m_InputPrefab "{32F5A906D8A573BC}Prefabs/Items/Resources/Small Log.et"
+       m_InputPrefab "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
       }
      }
      m_aProcessingOutputs {
       EL_ProcessingOutput "{5A5EE2432BB9E04F}" {
-       m_OutputPrefab "{6697C9B8CEB5234C}Prefabs/Items/Resources/WoodKindling.et"
+       m_OutputPrefab "{6697C9B8CEB5234C}Prefabs/Resources/WoodCutting/WoodKindling.et"
       }
      }
     }

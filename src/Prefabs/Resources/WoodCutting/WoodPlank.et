@@ -7,8 +7,8 @@ GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemHandCarry_Base.et" {
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
-     Name "Log"
-     Description "Do not right click to move :)"
+     Name "Wooden plank"
+     Description "A plank of wood that was cut from a log in a sawmill"
     }
     ItemPhysAttributes ItemPhysicalAttributes "{59E108D9A227B7E3}" {
      DimensionScaler 0
@@ -45,7 +45,7 @@ GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemHandCarry_Base.et" {
    }
   }
   MeshObject "{5A4ACD10B8DA304F}" {
-   Object "{DADD7B9B07B1C07A}Assets/Items/Resources/WoodPlank/WoodenPlank.xob"
+   Object "{8C3F721EBFA8DCBA}Assets/Resources/WoodCutting/WoodenPlank.xob"
    Materials {
     MaterialAssignClass "{5A6B0E870CC50AA2}" {
      SourceMaterial "Material"

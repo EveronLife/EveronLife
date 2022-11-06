@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{45D1B36F99DD2FC3}Prefabs/Items/Resources/Wood_Plank.et"
+ Name "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

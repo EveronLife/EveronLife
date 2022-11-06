@@ -1,11 +1,11 @@
-GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHand_Base.et" {
+GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemHandCarry_Base.et" {
  ID "59E108D9C9FD1407"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
-     Name "Log"
-     Description "Do not right click to move :)"
+     Name "Wooden log"
+     Description "Part of a cut down tree"
     }
     ItemPhysAttributes ItemPhysicalAttributes "{59E108D9A227B7E3}" {
      DimensionScaler 0

@@ -2,62 +2,24 @@ EL_LoggingArea {
  coords 101.769 0.001 127.525
  m_vSize 3 10 4
 }
-GenericEntity {
- components {
-  SCR_DestructionMultiPhaseComponent "{5A63181637676876}" {
-   "Fall damage min height" 5
-   "Fall damage max height" 10
-   CollisionVelocityThreshold 5
-   "Heavy damage threshold" 70
-   m_fBaseHealth 80
-   m_fDamageThresholdMinimum 20.22
-   m_DestroySpawnObjects {
-    SCR_PrefabSpawnable "{5A6318164CF3BF55}" {
-    }
-    SCR_PrefabSpawnable "{5A6318164FD6B4CE}" {
-    }
-   }
-   m_eMaterialSoundType WOOD_SOLID
-  }
- }
- coords 103.257 0.001 131.625
+GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et" {
+ coords 101.528 0.006 131.538
 }
-GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Items/Resources/SmallLog.et" {
- coords 101.887 0 136.696
-}
-Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
- components {
-  RigidBody "{51DAA09FECF52BBF}" {
-   Static 1
-  }
-  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
-   m_fVehicleDestroyDamage 21809.699
-  }
-  SlotManagerComponent "{55BCE45E438E4CFF}" {
-   Slots {
-    RegisteringComponentSlotInfo Cargo {
-    }
-   }
-  }
- }
- coords 96.869 0 127.078
-}
-GenericEntity WoodPlank_5ACADBC9DB3986A8 : "{45D1B36F99DD2FC3}Prefabs/Items/Resources/WoodPlank.et" {
- coords 101.54 0.001 134.56
+GenericEntity WoodPlank_5ACADBC9DB3986A8 : "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et" {
+ coords 101.163 0.003 129.478
 }
 GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
- coords 102.481 0.001 134.803
- angleY 66.466
+ coords 102.317 0.003 129.51
  {
-  GenericEntity Axe_5A4CD09401492ECC : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
-   coords -0.019 0.95 -0.278
-   angleX -60.98
-   angleY 180
-   angleZ 180
+  GenericEntity Axe_5ACCA165954CE408 : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+   coords -0.265 0.977 0.013
+   angleX -55.875
+   angleY -85.813
+   angleZ -180
   }
  }
 }
-GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
+GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Sawmill.et" {
  components {
   MeshObject "{598F21A867C4015C}" {
    Object "{820BEDD412EF4AA4}Assets/Structures/BuildingsParts/Industrial/Sawmill/Sawmill_E_01_SmallSaw.xob"
@@ -71,18 +33,20 @@ GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Wood_Processor.et" {
      Duration 1
      m_aProcessingOutputs {
       EL_ProcessingOutput "{5A5EE2432BB9E04F}" {
-       m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Items/Resources/WoodPlank.et"
-       m_iOutputAmount 2
+       m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et"
+      }
+      EL_ProcessingOutput "{5ACCA167C92E52CD}" {
+       m_OutputPrefab "{6697C9B8CEB5234C}Prefabs/Resources/WoodCutting/WoodKindling.et"
       }
      }
      m_bForceDropOutput 1
-     m_vDropOffset -1.841 0 0
+     m_vDropOffset -1.8 0 0
      m_vRotation 90 0 0
     }
    }
   }
  }
- coords 96.969 0.001 132.588
+ coords 99.494 0.003 129.46
 }
 $grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
  {

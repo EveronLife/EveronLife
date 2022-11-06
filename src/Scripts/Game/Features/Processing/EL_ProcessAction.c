@@ -54,25 +54,16 @@ class EL_ProcessAction : ScriptedUserAction
 			}
 		}
 
-		bool bCanSpawnToStorage;
-
 		foreach (EL_ProcessingOutput processingOutput : m_aProcessingOutputs)
 		{
 			for (int i = 0; i < processingOutput.m_iOutputAmount; i++)
 			{
-				if (m_bForceDropOutput)
+				if (m_bForceDropOutput || !inventoryManager.TrySpawnPrefabToStorage(processingOutput.m_OutputPrefab))
 				{
 					EL_Utils.SpawnEntityPrefab(processingOutput.m_OutputPrefab, pOwnerEntity.GetOrigin() + m_vDropOffset, m_vRotation);
-					continue;
-				}
-				bCanSpawnToStorage = inventoryManager.TrySpawnPrefabToStorage(processingOutput.m_OutputPrefab);
-				if (!bCanSpawnToStorage)
-				{
-					EL_Utils.SpawnEntityPrefab(processingOutput.m_OutputPrefab, pUserEntity.GetOrigin());
 				}
 			}
 		}
-
 	}
 
 	//------------------------------------------------------------------------------------------------
