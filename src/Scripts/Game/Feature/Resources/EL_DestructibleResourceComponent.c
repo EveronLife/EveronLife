@@ -8,7 +8,7 @@ class EL_ResourceDestructionTool
 	int m_fHitDamage;
 }
 
-class EL_DestructibleResourceComponentClass : SCR_DestructionBaseComponentClass
+class EL_DestructibleResourceComponentClass : SCR_DestructionMultiPhaseComponentClass
 {
 	[Attribute("", UIWidgets.ResourceNamePicker, "Particle to spawn on hit", "et", category: "Damage FX")]
 	ResourceName m_rHitEffect;
@@ -17,6 +17,6 @@ class EL_DestructibleResourceComponentClass : SCR_DestructionBaseComponentClass
 	ref array<ref EL_ResourceDestructionTool> m_aTools;
 }
 
-class EL_DestructibleResourceComponent : SCR_DestructionBaseComponent
+class EL_DestructibleResourceComponent : SCR_DestructionMultiPhaseComponent
 {
 }

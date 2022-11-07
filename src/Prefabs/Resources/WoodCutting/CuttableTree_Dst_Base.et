@@ -8,26 +8,14 @@ Tree {
       ""
      }
      HZDefault 1
-     DamageThreshold 0
-     "Collision multiplier" 0
-     "Melee multiplier" 0.01
-     "Kinetic multiplier" 0
-     "Fragmentation multiplier" 0
-     "Explosive multiplier" 0
-     "Incendiary multiplier" 0
     }
    }
-   "Fall damage min height" 5
-   "Fall damage max height" 10
-   CollisionVelocityThreshold 5
-   "Heavy damage threshold" 70
-   m_fDamageThresholdMinimum 20.22
    m_DestroySpawnObjects {
     SCR_PrefabSpawnable "{5A631816FBF3E4E9}" {
      m_vOffsetPosition 0 3 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
-      "{7F2E60024D20E092}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
+      "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
      }
      m_fDamageToImpulse 0
      m_fRandomVelocityLinear 0
@@ -37,13 +25,14 @@ Tree {
      m_vOffsetPosition 0 6 0
      m_vOffsetRotation 0 90 0
      m_Prefabs {
-      "{7F2E60024D20E092}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
+      "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
      }
      m_fDamageToImpulse 0
      m_fRandomVelocityLinear 0
      m_fRandomVelocityAngular 0
     }
    }
+   m_eMaterialSoundType WOOD_SOLID
    m_rHitEffect "{8DB2E11855C71E31}Prefabs/VFX/WoodCutting/WoodImpactEmitter_Small.et"
    m_aTools {
     EL_ResourceDestructionTool "{5ACEAA1AC22E6DCD}" {
