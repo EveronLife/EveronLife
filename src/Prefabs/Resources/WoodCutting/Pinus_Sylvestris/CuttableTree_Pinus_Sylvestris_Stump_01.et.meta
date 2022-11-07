@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{1263BEF0B822A24A}Prefabs/Vegetation/Tree/t_pinus_sylvestris_stump_01.et"
+ Name "{FC9E572F03833045}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_Stump_01.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

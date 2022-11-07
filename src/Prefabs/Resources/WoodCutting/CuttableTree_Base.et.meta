@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{E51A5A1814FF7110}Prefabs/Vegetation/Tree/Dst/Tree_Dst.et"
+ Name "{388228D9B7D2CCB0}Prefabs/Resources/WoodCutting/CuttableTree_Base.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

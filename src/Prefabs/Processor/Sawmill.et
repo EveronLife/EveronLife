@@ -17,6 +17,7 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/ItemProcessor_Base.et" {
      UIInfo UIInfo "{5A5EE24316053903}" {
       Name "Process wooden log"
      }
+     Duration 1
      m_aProcessingInputs {
       EL_ProcessingInput "{5A5EE2432A165320}" {
        m_InputPrefab "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
@@ -24,9 +25,15 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/ItemProcessor_Base.et" {
      }
      m_aProcessingOutputs {
       EL_ProcessingOutput "{5A5EE2432BB9E04F}" {
+       m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et"
+      }
+      EL_ProcessingOutput "{5ACEABD5A1ED6B84}" {
        m_OutputPrefab "{6697C9B8CEB5234C}Prefabs/Resources/WoodCutting/WoodKindling.et"
       }
      }
+     m_bForceDropOutput 1
+     m_vDropOffset -1.8 0 0
+     m_vRotation 90 0 0
     }
    }
   }

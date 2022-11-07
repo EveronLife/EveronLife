@@ -1,15 +1,15 @@
-EL_LoggingArea {
- coords 101.769 0.001 127.525
- m_vSize 3 10 4
+GenericEntity WoodLog_01_Small_5ACEABD58E8C1214 : "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et" {
+ coords 94.275 0.001 136.973
 }
-GenericEntity "Small Log_5A691BEC53102C2D" : "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et" {
- coords 101.528 0.006 131.538
+Tree : "{391791B1CAE33AFE}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_2f.et" {
+ coords 96.112 0.001 134.961
+ angleY 18.018
 }
-GenericEntity WoodPlank_5ACADBC9DB3986A8 : "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et" {
- coords 101.163 0.003 129.478
+GenericEntity WoodPlank_5ACEABD590364FAA : "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et" {
+ coords 93.96 0.001 135.004
 }
 GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
- coords 102.317 0.003 129.51
+ coords 94.981 0.003 134.939
  {
   GenericEntity Axe_5ACCA165954CE408 : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
    coords -0.265 0.977 0.013
@@ -20,42 +20,5 @@ GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
  }
 }
 GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Sawmill.et" {
- components {
-  MeshObject "{598F21A867C4015C}" {
-   Object "{820BEDD412EF4AA4}Assets/Structures/BuildingsParts/Industrial/Sawmill/Sawmill_E_01_SmallSaw.xob"
-  }
-  ActionsManagerComponent "{598F21A8710B89C1}" {
-   additionalActions {
-    EL_ProcessAction "{598F21A877BE6DEE}" {
-     UIInfo UIInfo "{5A5EE24316053903}" {
-      Name "Make Wood Plank"
-     }
-     Duration 1
-     m_aProcessingOutputs {
-      EL_ProcessingOutput "{5A5EE2432BB9E04F}" {
-       m_OutputPrefab "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et"
-      }
-      EL_ProcessingOutput "{5ACCA167C92E52CD}" {
-       m_OutputPrefab "{6697C9B8CEB5234C}Prefabs/Resources/WoodCutting/WoodKindling.et"
-      }
-     }
-     m_bForceDropOutput 1
-     m_vDropOffset -1.8 0 0
-     m_vRotation 90 0 0
-    }
-   }
-  }
- }
- coords 99.494 0.003 129.46
-}
-$grp Tree : "{74BEBD22201B37DA}Prefabs/Vegetation/Tree/t_pinus_sylvestris_2s.et" {
- {
-  coords 103.291 0.001 129.396
- }
- {
-  coords 103.291 0.001 123.555
- }
- {
-  coords 103.291 0.001 117.634
- }
+ coords 92.504 0.001 135.003
 }

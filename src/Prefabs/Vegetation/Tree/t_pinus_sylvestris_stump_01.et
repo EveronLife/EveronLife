@@ -1,7 +1,0 @@
-Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
- ID "0F2AA6B42CA78628"
- components {
-  RplComponent "{59853664584605DE}" {
-  }
- }
-}
