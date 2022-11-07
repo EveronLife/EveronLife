@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemInteractable_ForcedHand_Base.et"
+ Name "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemHandCarry_Base.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }
