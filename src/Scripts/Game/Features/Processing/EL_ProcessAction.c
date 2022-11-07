@@ -38,7 +38,7 @@ class EL_ProcessAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
-		InventoryStorageManagerComponent inventoryManager = InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+		InventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<InventoryStorageManagerComponent>.Find(pUserEntity);
 
 		SCR_PrefabNamePredicate prefabNamePredicate();
 
@@ -49,7 +49,7 @@ class EL_ProcessAction : ScriptedUserAction
 
 			for (int i = 0; i < processingInput.m_iInputAmount; i++)
 			{
-				inventoryManager.TryDeleteItem(inventoryManager.FindItem(prefabNamePredicate));
+				ConsumeInput(inventoryManager.FindItem(prefabNamePredicate), pUserEntity, inventoryManager);
 			}
 		}
 
@@ -65,6 +65,12 @@ class EL_ProcessAction : ScriptedUserAction
 		}
 	}
 
+	//------------------------------------------------------------------------------------------------
+	void ConsumeInput(IEntity input, IEntity pUserEntity, InventoryStorageManagerComponent inventoryManager)
+	{
+		inventoryManager.TryDeleteItem(input);
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
  	{
