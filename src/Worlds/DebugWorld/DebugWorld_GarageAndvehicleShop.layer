@@ -1,17 +1,3 @@
-Vehicle UAZ1 : "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et" {
- components {
-  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
-   m_fVehicleDestroyDamage 11880.1
-  }
-  VehicleWheeledSimulation "{731B26FCA2F19855}" {
-   Simulation Wheeled "{4D8B26DEA5F25978}" {
-    Axles {
-    }
-   }
-  }
- }
- coords 61.953 0.001 141.793
-}
 SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
  coords 83.894 0 123.217
  {
@@ -42,30 +28,6 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
    }
   }
  }
-}
-Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
- coords 72.559 0.001 143.887
-}
-Vehicle M1 : "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et" {
- components {
-  EL_PersistenceComponent "{5A0D2D215F2F2559}" {
-   Enabled 0
-  }
-  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
-   m_fVehicleDestroyDamage 17639.4
-  }
-  VehicleWheeledSimulation "{731B26FCA2F19855}" {
-   Simulation Wheeled "{4D8B26DEA5F25978}" {
-    Axles {
-     Axle "{4D8B26DF957A8E1C}" {
-      Tyre Tyre "{55A54B41A42B0F5D}" {
-      }
-     }
-    }
-   }
-  }
- }
- coords 66.374 0.001 140.557
 }
 $grp SCR_DestructibleBuildingEntity : "{8A72C2E05371D7D0}Prefabs/Buildings/Garage/PreviewGarage.et" {
  PREVIEW_GARAGE {

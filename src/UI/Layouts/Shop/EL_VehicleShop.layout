@@ -257,8 +257,8 @@ FrameWidgetClass {
       OffsetBottom -168.132
      }
      "no focus" 1
-     maximum 3
-     step 0.1
+     maximum 500
+     step 1
      current 0
     }
     SliderWidgetClass "{5ACB11E00B907017}" {
@@ -273,7 +273,7 @@ FrameWidgetClass {
       SizeY 30
       OffsetBottom -247.962
      }
-     maximum 7500
+     maximum 4
      current 0
     }
     SliderWidgetClass "{5ACB11E00FC6CB19}" {

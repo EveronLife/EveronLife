@@ -191,27 +191,38 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void Rpc_AskBuyVehicle()
+	void Rpc_AskBuyVehicle(RplId playerID)
 	{
+		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerID);
+		
+		
+		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
+		Print(curVehicleConfig.m_sName);
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
 		if (!freeSpawnPoint)
 		{
 			Print("[EL-VehicleShop] No free spawn point to withdraw!", LogLevel.WARNING);
 			return;
 		}
-		string ownerId = EL_Utils.GetPlayerUID(m_UserEntity);
 
-
-		Print("[EL-VehicleShop] Totally bought this vehicle!");
-		//EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(withdrawnVehicle.FindComponent(EL_PersistenceComponent));
-		//persistence.Save();
+		IEntity newCar = EL_Utils.SpawnEntityPrefab(curVehicleConfig.m_Prefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
+		//materialOverride.SetColor(ARGB(color.A() * COLOR_1_TO_255, color.R() * COLOR_1_TO_255, color.G() * COLOR_1_TO_255, color.B() * COLOR_1_TO_255));
+		
+		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newCar.FindComponent(EL_CharacterOwnerComponent));
+		
+		charOwnerComp.SetCharacterOwner(EL_Utils.GetPlayerUID(player));
+				
+		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(newCar.FindComponent(EL_PersistenceComponent));
+		persistence.Save();
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//Clientside?
 	void BuyVehicle()
 	{
 		Print("[EL-VehicleShop] Asking Server to buy Vehicle");
-		Rpc(Rpc_AskBuyVehicle);
+		IEntity player = SCR_PlayerController.GetLocalControlledEntity();
+		Rpc(Rpc_AskBuyVehicle, Replication.FindId(player));
 		DisableCam();
 		GetGame().GetMenuManager().CloseMenuByPreset(ChimeraMenuPreset.EL_VehicleShop);
 	}

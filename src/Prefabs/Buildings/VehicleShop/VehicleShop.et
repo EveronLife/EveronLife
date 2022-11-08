@@ -270,14 +270,6 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     ID "5ACAE5EB374A3083"
     coords -9.892 0.073 -0.167
    }
-   {
-    ID "5ACAE5EB374A308C"
-    coords 3.071 0 21.694
-   }
-   {
-    ID "5ACAE5EB374BA447"
-    coords 3.071 0 26.519
-   }
   }
   GenericEntity : "{9A8B7C26A60F8CE0}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT_02.et" {
    ID "5ACAE5EB374BA445"

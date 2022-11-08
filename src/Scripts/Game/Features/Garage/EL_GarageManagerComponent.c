@@ -51,7 +51,7 @@ class EL_GarageManagerComponent : ScriptComponent
 		string ownerId = EL_Utils.GetPlayerUID(m_UserEntity);
 
 		array<string> storedVehicleIds = m_mSavedVehicles.Get(ownerId);
-		if (storedVehicleIds.IsEmpty())
+		if (!storedVehicleIds || storedVehicleIds.IsEmpty())
 			return;
 
 		string withdrawnVehicleId = storedVehicleIds.Get(m_iCurPreviewVehicleIndex);
@@ -193,8 +193,11 @@ class EL_GarageManagerComponent : ScriptComponent
 		IEntity pUserEntity = rplC.GetEntity();
 
 		EL_DbRepository<EL_VehicleSaveData> vehicleRepo = EL_PersistenceEntityHelper<EL_VehicleSaveData>.GetRepository();
-
+		
 		array<string> allVehiclesInGarage = GetOwnedVehicles(EL_Utils.GetPlayerUID(pUserEntity));
+		
+		if (!allVehiclesInGarage)
+			return;
 		Print("[EL-Garage] Server found " + allVehiclesInGarage.Count() + " in db for player " + pUserEntity);
 		array<ref EL_GarageData> garageVehicleList = new array<ref EL_GarageData>();
 		if (!allVehiclesInGarage)
@@ -276,6 +279,7 @@ class EL_GarageManagerComponent : ScriptComponent
 	array<string> GetOwnedVehicles(string ownerId)
 	{
 		array<string> storedVehicleIds = m_mSavedVehicles.Get(ownerId);
+		Print("Loading " + storedVehicleIds.Count() + " vehicles for " + ownerId);
 		return storedVehicleIds;
 	}
 
