@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{6697C9B8CEB5234C}Prefabs/Resources/WoodCutting/WoodKindling.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

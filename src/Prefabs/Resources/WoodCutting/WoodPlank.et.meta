@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
