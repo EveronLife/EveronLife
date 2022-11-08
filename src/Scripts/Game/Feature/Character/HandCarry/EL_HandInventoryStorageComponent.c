@@ -62,7 +62,7 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 		
 		if (!HasLocalControl()) return;
 
-		if (m_eState == EL_EHandCarryState.ACTIVE && (!isInHand || isOnGround))
+		if (m_eState != EL_EHandCarryState.NONE && (!isInHand || isOnGround))
 		{
 			// Stop current item carry because it was put back or dropped
 			StopCarry();
