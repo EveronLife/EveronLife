@@ -10,7 +10,7 @@ modded class SCR_VehicleInventoryStorageManagerComponent
 		{
 			if (componentRef == storage)
 			{
-				Rpc(RPC_EL_RequestInsertItemInStorage, EL_Utils.GetRplId(item), EL_Utils.GetRplId(storage.GetOwner()), idx);
+				Rpc(RPC_EL_RequestInsertItemInStorage, EL_NetworkUtils.GetRplId(item), EL_NetworkUtils.GetRplId(storage.GetOwner()), idx);
 				break;
 			}
 		}
@@ -21,10 +21,10 @@ modded class SCR_VehicleInventoryStorageManagerComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
 	protected void RPC_EL_RequestInsertItemInStorage(RplId itemRplId, RplId storageOwnerRplId, int storageIdx)
 	{
-		IEntity item = EL_Utils.FindEntityByRplId(itemRplId);
+		IEntity item = EL_NetworkUtils.FindEntityByRplId(itemRplId);
 		if (item)
 		{
-			IEntity storageOwner = EL_Utils.FindEntityByRplId(storageOwnerRplId);
+			IEntity storageOwner = EL_NetworkUtils.FindEntityByRplId(storageOwnerRplId);
 			if (!storageOwner) return;
 			array<Managed> outComponents();
 			storageOwner.FindComponents(BaseInventoryStorageComponent, outComponents);

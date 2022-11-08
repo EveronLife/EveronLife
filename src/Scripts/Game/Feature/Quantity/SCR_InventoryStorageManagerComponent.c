@@ -10,7 +10,7 @@ modded class SCR_InventoryStorageManagerComponent
 		{
 			if (componentRef == storage)
 			{
-				Rpc(RPC_EL_RequestInsertItemInStorage, EL_Utils.GetRplId(item), EL_Utils.GetRplId(storage.GetOwner()), idx);
+				Rpc(RPC_EL_RequestInsertItemInStorage, EL_NetworkUtils.GetRplId(item), EL_NetworkUtils.GetRplId(storage.GetOwner()), idx);
 				break;
 			}
 		}
@@ -21,10 +21,10 @@ modded class SCR_InventoryStorageManagerComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
 	protected void RPC_EL_RequestInsertItemInStorage(RplId itemRplId, RplId storageOwnerRplId, int storageIdx)
 	{
-		IEntity item = EL_Utils.FindEntityByRplId(itemRplId);
+		IEntity item = EL_NetworkUtils.FindEntityByRplId(itemRplId);
 		if (item)
 		{
-			IEntity storageOwner = EL_Utils.FindEntityByRplId(storageOwnerRplId);
+			IEntity storageOwner = EL_NetworkUtils.FindEntityByRplId(storageOwnerRplId);
 			if (!storageOwner) return;
 			array<Managed> outComponents();
 			storageOwner.FindComponents(BaseInventoryStorageComponent, outComponents);
@@ -41,14 +41,14 @@ modded class SCR_InventoryStorageManagerComponent
 	//------------------------------------------------------------------------------------------------
 	void EL_RequestQuantitySplit(notnull IEntity sourceEntity, int splitSize = -1)
 	{
-		Rpc(RPC_EL_RequestQuantitySplit, EL_Utils.GetRplId(sourceEntity), splitSize);
+		Rpc(RPC_EL_RequestQuantitySplit, EL_NetworkUtils.GetRplId(sourceEntity), splitSize);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RPC_EL_RequestQuantitySplit(RplId quantitySourceRplId, int splitSize)
 	{
-		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_Utils.FindEntityByRplId(quantitySourceRplId));
+		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
 		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
 		quantitySource.Split(splitSize);
 	}
@@ -56,17 +56,17 @@ modded class SCR_InventoryStorageManagerComponent
 	//------------------------------------------------------------------------------------------------
 	void EL_RequestQuantityTransfer(notnull IEntity sourceEntity, notnull IEntity destinationEntity, int amount = -1, bool setQuantity = false)
 	{
-		Rpc(RPC_EL_QuantityTransfer, EL_Utils.GetRplId(sourceEntity), EL_Utils.GetRplId(destinationEntity), amount, setQuantity);
+		Rpc(RPC_EL_QuantityTransfer, EL_NetworkUtils.GetRplId(sourceEntity), EL_NetworkUtils.GetRplId(destinationEntity), amount, setQuantity);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RPC_EL_QuantityTransfer(RplId quantitySourceRplId, RplId quantityDestinationRplId, int amount, bool setQuantity)
 	{
-		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_Utils.FindEntityByRplId(quantitySourceRplId));
+		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
 		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
 
-		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_Utils.FindEntityByRplId(quantityDestinationRplId));
+		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantityDestinationRplId));
 		if (!quantityDestination || !EL_CanManipulate(quantityDestination.GetOwner())) return;
 
 		quantityDestination.Combine(quantitySource, amount, setQuantity);
@@ -75,14 +75,14 @@ modded class SCR_InventoryStorageManagerComponent
 	//------------------------------------------------------------------------------------------------
 	void EL_SetTransferIntent(notnull IEntity sourceEntity, bool keepSeperate)
 	{
-		Rpc(RPC_EL_SetTransferIntent, EL_Utils.GetRplId(sourceEntity), keepSeperate);
+		Rpc(RPC_EL_SetTransferIntent, EL_NetworkUtils.GetRplId(sourceEntity), keepSeperate);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RPC_EL_SetTransferIntent(RplId sourceRplId, bool keepSeperate)
 	{
-		IEntity sourceEntity = EL_Utils.FindEntityByRplId(sourceRplId);
+		IEntity sourceEntity = EL_NetworkUtils.FindEntityByRplId(sourceRplId);
 		if (!sourceEntity || !EL_CanManipulate(sourceEntity)) return;
 		EL_QuantityComponent.SetTransferIntent(sourceEntity, keepSeperate);
 	}
