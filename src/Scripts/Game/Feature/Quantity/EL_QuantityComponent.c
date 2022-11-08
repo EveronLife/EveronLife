@@ -241,7 +241,8 @@ class EL_QuantityComponent : ScriptComponent
 		// Some quantity remained on the source so allow caller scope to conttinue to super call
 		return false;
 	}
-	
+
+	//------------------------------------------------------------------------------------------------
 	protected static void RefreshInventory(IEntity item)
 	{
 		SCR_InventoryMenuUI inventoryMenu = SCR_InventoryMenuUI.EL_GetCurrentInstance();
