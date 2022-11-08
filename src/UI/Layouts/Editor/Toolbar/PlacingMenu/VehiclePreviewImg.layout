@@ -1,0 +1,34 @@
+UniformGridLayoutWidgetClass {
+ Name "VehiclePreviewImage"
+ Slot UniformGridWidgetSlot "{5AD07BD6FDD28B7B}" {
+ }
+ Clipping True
+ {
+  SizeLayoutWidgetClass "{5AD07BD036AC1B20}" {
+   Name "SizeSetter"
+   Slot UniformGridWidgetSlot "{5AD07BD036AC1B06}" {
+    HorizontalAlign Center
+    VerticalAlign Center
+   }
+   AllowWidthOverride 1
+   WidthOverride 264
+   AllowHeightOverride 1
+   HeightOverride 164
+   MinDesiredWidth 160
+   MinDesiredHeight 160
+   MaxDesiredWidth 264
+   MaxDesiredHeight 165
+   {
+    ImageWidgetClass "{5AD07BD04F8D4760}" {
+     Name "VehicleImage"
+     Slot AlignableSlot "{5AD07BD04F8D4746}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Texture "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
+     Size 264 164
+    }
+   }
+  }
+ }
+}

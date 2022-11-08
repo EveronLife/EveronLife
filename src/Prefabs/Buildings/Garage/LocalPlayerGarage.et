@@ -1,0 +1,10 @@
+GenericEntity {
+ ID "5ABAB661CF6BF243"
+ coords 85.054 0.001 138.222
+ {
+  SCR_ManualCamera Garage_Camera1 : "{FAE60B62153B7058}Prefabs/Camera/Garage_Camera.et" {
+   ID "5ABAB661CF6BF2B8"
+   coords -2.21 0 3.276
+  }
+ }
+}

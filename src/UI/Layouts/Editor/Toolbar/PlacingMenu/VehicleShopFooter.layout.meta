@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{7A9666C8D7B7F729}UI/layouts/Editor/Toolbar/PlacingMenu/VehicleShopFooter.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

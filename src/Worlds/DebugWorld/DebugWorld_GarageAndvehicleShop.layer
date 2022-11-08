@@ -1,0 +1,93 @@
+Vehicle UAZ1 : "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et" {
+ coords 62.936 0.001 145.148
+}
+SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
+ coords 83.894 0 123.217
+ {
+  GenericEntity {
+   ID "5ACAE5EB374A2168"
+   components {
+    EL_VehicleShopManagerComponent "{5ACAE5EDE08D8FDE}" {
+     m_vCameraPoint 7 3.572 7
+     m_vCameraAngels -15 221.75 0
+     m_PriceConfig EL_PriceConfig "{5ACAE5EADF20A223}" {
+      m_aPriceConfigs {
+       EL_Price "{5ACAE5EAC9907EAD}" {
+        m_iBuyPrice 420
+       }
+       EL_Price "{5ACAE5EB525F7E22}" {
+        m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
+        m_sName "BTR"
+        m_iBuyPrice 9999999
+       }
+       EL_Price "{5ACD08D4728E8060}" {
+        m_Prefab "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered.et"
+        m_sName "M923A1 Transport"
+        m_iBuyPrice 1
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+Vehicle M923A1_transport_MERDC1 : "{3F2AA823B6C65E1E}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_MERDC.et" {
+ coords 72.559 0.001 143.887
+}
+Vehicle M1 : "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et" {
+ components {
+  EL_PersistenceComponent "{5A0D2D215F2F2559}" {
+   Enabled 0
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 17639.4
+  }
+  VehicleWheeledSimulation "{731B26FCA2F19855}" {
+   Simulation Wheeled "{4D8B26DEA5F25978}" {
+    Axles {
+     Axle "{4D8B26DF957A8E1C}" {
+      Tyre Tyre "{55A54B41A42B0F5D}" {
+      }
+     }
+    }
+   }
+  }
+ }
+ coords 66.374 0.001 140.557
+}
+$grp SCR_DestructibleBuildingEntity : "{8A72C2E05371D7D0}Prefabs/Buildings/Garage/PreviewGarage.et" {
+ PREVIEW_GARAGE {
+  coords 0 20 0
+ }
+ VEHICLE_SHOP_PREVIEW {
+  coords 0 38.26 0
+  {
+   BaseGameTriggerEntity {
+    ID "5AC91C7B6B0FE09F"
+    coords 0 0.572 0
+   }
+  }
+ }
+}
+SCR_DestructibleBuildingEntity : "{EAD5EA324E4B1C1C}Prefabs/Buildings/Garage/VehicleGarage.et" {
+ coords 56.268 0.001 123.201
+ {
+  GenericEntity {
+   ID "5AC90882B4BFFF92"
+   {
+    GenericEntity {
+     ID "571B0D9C27FEFCA8"
+     components {
+      SoundComponent "{54F46129DBCF6FD3}" {
+       Enabled 0
+      }
+     }
+    }
+   }
+  }
+  GenericEntity Suitcase_01_5ACAE5EE0DB264AD {
+   ID "5AC90882B4BE7797"
+  }
+ }
+}

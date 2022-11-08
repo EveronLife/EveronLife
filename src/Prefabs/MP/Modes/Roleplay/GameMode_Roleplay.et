@@ -9,31 +9,6 @@ EL_GameModeRoleplay {
    m_aDefaultCharacterPrefabs {
     "{CE23D4366B47E9B9}Prefabs/Characters/Presets/White_Male_01.et" "{C465F15DDF56A6D8}Prefabs/Characters/Presets/Asian_Male_02.et" "{BFD6AFB8A1D8E2F9}Prefabs/Characters/Presets/Black_Male_02.et"
    }
-   m_aDefaultCharacterItems {
-    EL_DefaultCharacterLoadoutSlot "{5A2882A2E1E3D609}" {
-     m_eArea ELA_Jacket
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A229C1EEFB}" {
-      m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
-      m_aStoredItems {
-       EL_DefaultCharacterLoadoutItem "{5A2882A8880828ED}" {
-        m_rPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
-       }
-      }
-     }
-    }
-    EL_DefaultCharacterLoadoutSlot "{5A2882A371CF8003}" {
-     m_eArea ELA_Pants
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A36B89DF57}" {
-      m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
-     }
-    }
-    EL_DefaultCharacterLoadoutSlot "{5A2882A36132BCD3}" {
-     m_eArea ELA_Boots
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A49CA76329}" {
-      m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
-     }
-    }
-   }
   }
   SCR_DestructionManagerComponent "{59751432896EFC0B}" {
   }
@@ -58,9 +33,6 @@ EL_GameModeRoleplay {
   }
   ScriptedChatEntity ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
    ID "59751433747F9C02"
-  }
-  SCR_GarbageManager GarbageManager {
-   ID "59751433747F9391"
   }
   SCR_MPDestructionManager MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
    ID "59751433747F2879"

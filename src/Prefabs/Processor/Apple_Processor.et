@@ -27,7 +27,7 @@ GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
      }
      m_aProcessingOutputs {
       EL_ProcessingOutput "{59B2AD115CAF9A69}" {
-       m_OutputPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+       m_OutputPrefab "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
       }
      }
     }

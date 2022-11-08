@@ -1,6 +1,88 @@
 class EL_Utils
 {
 	//------------------------------------------------------------------------------------------------
+	//! Int to money format (eg.: 9.999.999)
+	//! \param amount Money amount to convert
+	static string IntToMoneyFormat(int amount)
+	{
+		string priceText = amount.ToString();
+		string formatPriceText = "";
+		
+		int dotAmount = (priceText.Length() - 1) / 3;
+		for (int i=0; i < dotAmount; i++)
+		{
+			formatPriceText = string.Format(".%1%2", priceText.Substring(priceText.Length() - ((i+1) * 3), 3), formatPriceText);
+		}
+		formatPriceText = string.Format("%1%2", priceText.Substring(0, priceText.Length() - dotAmount * 3), formatPriceText);
+		
+		return formatPriceText;
+	}
+	
+	
+	//------------------------------------------------------------------------------------------------
+	//! Creates and sets new material with given color to entity
+	//! \param entity Entity to set new color material
+	//! \param color Color for the new material
+	static void SetColor(notnull IEntity entity, Color color)
+	{
+		VObject mesh = entity.GetVObject();
+		if (!mesh || !color)
+			return;
+
+		float materialColorRGBA[] = { color.R(), color.G(), color.B(), color.A() };
+		
+		Material dynamicColorMaterial = Material.Create("DynamicColorMaterial", "MatPBRMulti");
+
+		dynamicColorMaterial.SetParam("Color", materialColorRGBA);
+
+		string matName;
+		dynamicColorMaterial.GetName(matName);
+
+		string remap;
+		string materials[256];
+		int numMats = mesh.GetMaterials(materials);
+		if (numMats == 0)
+			return;
+
+		for (int i = 0; i < numMats; i++)
+		{
+			string originalMatName = materials[i];
+			if (originalMatName.Contains("Body"))
+			{
+				remap += string.Format("$remap '%1' '%2';", materials[i], matName);
+			}
+		}
+		
+		entity.SetObject(mesh, remap);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Gets prefab VObject
+	//! \param prefab Prefab path
+	//! \return the VObject of the prefab
+	static VObject GetPrefabVObject(ResourceName prefab)
+	{
+		BaseContainer meshComponent;
+		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
+		int count = prefabSource.GetComponentCount();
+
+		for(int i = 0; i < count; i++)
+		{
+			IEntityComponentSource comp = prefabSource.GetComponent(i);
+
+			if(comp.GetClassName() == "MeshObject")
+			{
+				meshComponent = comp;
+				break;
+			}
+		}
+		ResourceName prefabObject;
+		meshComponent.Get("Object", prefabObject);
+		return Resource.Load(prefabObject).GetResource().ToVObject();
+	}
+	
+
+	//------------------------------------------------------------------------------------------------
 	//! Gets the Bohemia UID
 	//! \param playerId Index of the player inside player manager
 	//! \return the uid as string
@@ -26,7 +108,7 @@ class EL_Utils
 	//! \param origin Position(origin) where to spawn the entity
 	//! \param orientation Angles(yaw, pitch, rolle in degrees) to apply to the entity
 	//! \return the spawned entity or null on failure
-	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0")
+	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0", IEntity parent = null)
 	{
 		EntitySpawnParams spawnParams();
 
@@ -34,8 +116,12 @@ class EL_Utils
 
 		Math3D.AnglesToMatrix(orientation, spawnParams.Transform);
 		spawnParams.Transform[3] = origin;
-
-		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		spawnParams.Parent = parent;
+		
+		IEntity newEnt = GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		if (parent)
+			parent.AddChild(newEnt, -1);
+		return newEnt;
 	}
 
 	//------------------------------------------------------------------------------------------------

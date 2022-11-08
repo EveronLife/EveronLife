@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{8772DF5847D36E04}Scripts/Game/Features/LicensePlate"
+ Configurations {
+  FolderResourceClass PC {
+  }
+  FolderResourceClass XBOX_ONE : PC {
+  }
+  FolderResourceClass XBOX_SERIES : PC {
+  }
+  FolderResourceClass PS4 : PC {
+  }
+  FolderResourceClass HEADLESS : PC {
+  }
+ }
+}

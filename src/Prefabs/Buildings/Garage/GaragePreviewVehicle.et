@@ -1,0 +1,8 @@
+GameEntity {
+ ID "5ABAEBF3702E722F"
+ components {
+  MeshObject "{5ABAEBF363B12FDC}" {
+  }
+ }
+ coords 90.285 0.001 141.532
+}

@@ -1,0 +1,31 @@
+SCR_DestructibleBuildingEntity : "{F16324CB8CB07C00}Prefabs/Structures/Military/Houses/GarageMilitary_E_01/GarageMilitary_E_01.et" {
+ ID "F0DBA538AC2A0552"
+ coords 0 20 0
+ {
+  BaseGameTriggerEntity : "{98F71F6650C6767E}Prefabs/Buildings/Garage/EL_VehicleSpawnPoint.et" {
+   ID "5AC91C7B6B0FE09F"
+   coords 0 0.439 0
+  }
+  $grp StaticModelEntity : "{EF486A9BBF794809}Prefabs/Structures/Infrastructure/Pavements/AsphaltPavement_01/AsphaltPavement_01_Wide_4m_90.et" {
+   {
+    ID "5AC91C7B6B0FA92C"
+    coords -0.045 0.439 1.729
+    angleY 180
+   }
+   {
+    ID "5AC91C7B6B0FE09A"
+    coords 0.193 0.439 -2.019
+   }
+   {
+    ID "5AC91C7B6B0FFE17"
+    coords 1.925 0.439 -0.015
+    angleY -90
+   }
+   {
+    ID "5AC91C7B6B0FFE19"
+    coords -1.777 0.439 -0.275
+    angleY 90
+   }
+  }
+ }
+}

@@ -1,7 +1,7 @@
 GenericEntity {
  coords 100.455 -0.001 135
  {
-  $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+  $grp SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
    {
     coords 0.147 0 0
    }

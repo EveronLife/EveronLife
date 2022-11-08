@@ -1,0 +1,16 @@
+BaseGameTriggerEntity {
+ ID "59C6C56830171567"
+ components {
+  EL_VehicleSpawnPoint "{59C6C56822361360}" {
+  }
+  Hierarchy "{59C6C56AA408FE3C}" {
+  }
+ }
+ coords 3.434 -0.894 -1.405
+ TriggerShapeType "Oriented Bounding Box"
+ BoxMins -1 0 -2
+ BoxMaxs 0.5 2 2
+ DrawShape 0
+ ShapeColor 0.937 0.82 0.91 1
+ TriggerActivationType "Every query"
+}

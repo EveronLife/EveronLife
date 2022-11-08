@@ -1,0 +1,40 @@
+FrameWidgetClass {
+ Name "VehicleShopPreview_Dialog"
+ {
+  UniformGridLayoutWidgetClass "{5ACF360B0FFF814C}" {
+   Prefab "{59DA95801662748C}"
+   Name "Grid"
+   Slot FrameWidgetSlot "{5ACF360B1057A34A}" {
+    Anchor 0.5 1 0.5 1
+    PositionX -421.36
+    OffsetLeft -421.4
+    PositionY -206.545
+    OffsetTop -206.5
+    SizeX 861.8
+    OffsetRight -440.4
+    SizeY 184.9
+    OffsetBottom 21.6
+    Alignment 0 0.1
+   }
+   {
+    FrameWidgetClass "{5ACF3607B4FBFE96}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
+     Name "VehiclePreviewImage2"
+     Slot UniformGridWidgetSlot "{5ACF3607B4FBFE83}" {
+     }
+    }
+    FrameWidgetClass "{5ACF3607B5F3188C}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
+     Name "VehiclePreviewImage1"
+     Slot UniformGridWidgetSlot "{5ACF3607B5F318FB}" {
+      Column 1
+     }
+    }
+    FrameWidgetClass "{5ACF3607B2800DBE}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
+     Name "VehiclePreviewImage0"
+     Slot UniformGridWidgetSlot "{5ACF3607B2800DA5}" {
+      Column 2
+     }
+    }
+   }
+  }
+ }
+}

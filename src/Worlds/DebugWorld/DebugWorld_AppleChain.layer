@@ -119,11 +119,11 @@ GenericEntity AppleTrader {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+       "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+      m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {
@@ -165,7 +165,7 @@ GenericEntity AppleTrader {
     Flags 1027
    }
   }
-  $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+  $grp SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
    {
     coords 0.147 0 0
    }
@@ -187,7 +187,7 @@ GenericEntity AppleTrader {
    }
    coords 0 0 -0.957
   }
-  GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01_white.et" {
+  SCR_DestructibleEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01/ChairRecreation_01_white.et" {
    coords -2.173 0 -0.978
    angleX 3.475
    angleY 14.617

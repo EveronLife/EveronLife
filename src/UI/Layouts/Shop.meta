@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{E762E1FFCEDDA3F7}UI/Layouts/Shop"
+ Configurations {
+  FolderResourceClass PC {
+  }
+  FolderResourceClass XBOX_ONE : PC {
+  }
+  FolderResourceClass XBOX_SERIES : PC {
+  }
+  FolderResourceClass PS4 : PC {
+  }
+  FolderResourceClass HEADLESS : PC {
+  }
+ }
+}

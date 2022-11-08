@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{E8B3CC73EF5A2CF2}Scripts/Game/Features/Trader"
+ Configurations {
+  FolderResourceClass PC {
+  }
+  FolderResourceClass XBOX_ONE : PC {
+  }
+  FolderResourceClass XBOX_SERIES : PC {
+  }
+  FolderResourceClass PS4 : PC {
+  }
+  FolderResourceClass HEADLESS : PC {
+  }
+ }
+}
