@@ -1,0 +1,13 @@
+AnimSetTemplateSource {
+ Groups {
+  AnimSetTemplateSource_AnimationGroup "{59E47E951EF1F7BD}" {
+   Name "Default"
+   Animations {
+    "Carry"
+   }
+   Columns {
+    "Default"
+   }
+  }
+ }
+}

@@ -1,4 +1,4 @@
-GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
+GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/ItemProcessor_Base.et" {
  ID "598F21A86EB5B48E"
  components {
   MeshObject "{598F21A867C4015C}" {

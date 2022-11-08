@@ -108,7 +108,7 @@ class EL_Utils
 	//! \param origin Position(origin) where to spawn the entity
 	//! \param orientation Angles(yaw, pitch, rolle in degrees) to apply to the entity
 	//! \return the spawned entity or null on failure
-	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0", IEntity parent = null)
+	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0", IEntity parent = null, bool global = true)
 	{
 		EntitySpawnParams spawnParams();
 
@@ -118,7 +118,12 @@ class EL_Utils
 		spawnParams.Transform[3] = origin;
 		spawnParams.Parent = parent;
 		
-		IEntity newEnt = GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		IEntity newEnt;
+		if (!global)
+			newEnt = GetGame().SpawnEntityPrefabLocal(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		else
+			newEnt = GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		
 		if (parent)
 			parent.AddChild(newEnt, -1);
 		return newEnt;
@@ -132,23 +137,6 @@ class EL_Utils
 	{
 		if (!entity) return string.Empty;
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Finds an entity by its repliction id
-	//! \param rplId Replication id to search for
-	//! \return the the entity found or null if not found or invalid replication id
-	static IEntity FindEntityByRplId(RplId rplId)
-	{
-		IEntity entity = null;
-
-		if (rplId.IsValid())
-		{
-			RplComponent entityRpl = RplComponent.Cast(Replication.FindItem(rplId));
-			if (entityRpl) entity = IEntity.Cast(entityRpl.GetEntity());
-		}
-
-		return entity;
 	}
 
 	//------------------------------------------------------------------------------------------------

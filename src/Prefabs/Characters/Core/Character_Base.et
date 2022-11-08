@@ -1,6 +1,14 @@
 SCR_ChimeraCharacter {
  ID "520EC961A090B1EE"
  components {
+  SCR_CharacterInventoryStorageComponent "{520EA1D2DB118DAC}" {
+   components {
+    EL_HandInventoryStorageComponent "{5AA6AAC21A5038FC}" {
+     Priority 999999999
+     StoragePurpose 5
+    }
+   }
+  }
   EL_PersistenceComponent "{5A12D8F4DFED6D84}" {
    m_bSelfSpawn 0
    m_bSelfDelete 0
