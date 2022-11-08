@@ -32,14 +32,17 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 
 		CharacterControllerComponent characterController = EL_ComponentFinder<CharacterControllerComponent>.Find(GetOwner());
 
-		m_eState = EL_EHandCarryState.READY;
-		m_pNextCarryItem = item;
-
-		// If gadget, remove gadget from hand (instantly, no need to wait for gadget change invoke)
-		if (characterController.GetAttachedGadgetAtLeftHandSlot())
+		IEntity currentGadget = characterController.GetAttachedGadgetAtLeftHandSlot();
+		if (currentGadget)
 		{
+			if (currentGadget == item) return; //Handle same storage drag and drop during hand carry
+
+			// If gadget, remove gadget from hand (instantly, no need to wait for gadget change invoke)
 			characterController.RemoveGadgetFromHand(true);
 		}
+
+		m_pNextCarryItem = item;
+		m_eState = EL_EHandCarryState.READY;
 
 		// If weapon, holster weapon and and wait invoke of weapon changed
 		if (characterController.GetWeaponManagerComponent().GetCurrent())
@@ -59,13 +62,13 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 		    SCR_EntityHelper.DeleteEntityAndChildren(gadget);
 		    m_eState = EL_EHandCarryState.NONE;
 		}
-		
+
 		if (!HasLocalControl()) return;
 
-		if (m_eState != EL_EHandCarryState.NONE && (!isInHand || isOnGround))
+		if (m_eState == EL_EHandCarryState.ACTIVE && (!isInHand || isOnGround))
 		{
-			// Stop current item carry because it was put back or dropped
-			StopCarry();
+			if (!isOnGround) EL_InventoryUtils.DropItem(GetOwner(), gadget);
+			m_eState = EL_EHandCarryState.NONE;
 		}
 		else if(m_eState != EL_EHandCarryState.ACTIVE && isInHand)
 		{
@@ -136,7 +139,7 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! TODO: Remove this and all the AWAIT_DELETE related code once https://feedback.bistudio.com/T168813 is fixed 
+	//! TODO: Remove this and all the AWAIT_DELETE related code once https://feedback.bistudio.com/T168813 is fixed
 	void Delete(IEntity handEntity)
 	{
 		m_eState = EL_EHandCarryState.AWAIT_DELETE;

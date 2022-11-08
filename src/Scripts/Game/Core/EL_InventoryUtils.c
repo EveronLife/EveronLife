@@ -18,7 +18,7 @@ class EL_InventoryUtils
 
 		return parentSlot.GetStorage().GetOwner();
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	static bool DropItem(notnull IEntity character, notnull IEntity item)
 	{
