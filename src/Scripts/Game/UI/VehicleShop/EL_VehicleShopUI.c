@@ -5,7 +5,7 @@ modded enum ChimeraMenuPreset {
 class EL_VehicleShopUI: ChimeraMenuBase
 {
     Widget m_wRoot;
-	SliderWidget m_RedSlider, m_GreenSlider, m_BlueSlider, m_wHandlingSlider, m_wTopSpeedSlider, m_wBreakingSlider, m_wAccelerationSlider, m_wInventorySizeSlider;
+	SliderWidget m_RedSlider, m_GreenSlider, m_BlueSlider, m_wHandlingSlider, m_wEngineSlider, m_wBrakingSlider, m_wInventorySizeSlider;
 	TextWidget m_RedIndex, m_GreenIndex, m_BlueIndex, m_wVehiclePriceText, m_wVehicleTitleText;
 	int r,g,b;
 	ref Color m_NewColor = new Color();
@@ -15,6 +15,35 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	ref ScriptInvoker m_OnBuyVehicle = new ScriptInvoker();
 	ref ScriptInvoker m_OnExit = new ScriptInvoker();
 	
+	
+	ResourceName m_lVehiclePreviewImage = "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout";
+	UniformGridLayoutWidget m_wVehiclePreviewGrid;
+	
+	//------------------------------------------------------------------------------------------------
+	void PopulateVehicleImageGrid(array<ResourceName> vehicleImages)
+	{
+		int column;
+		
+		foreach (ResourceName vehicleImage : vehicleImages)
+		{
+			
+			Widget newVehicleImage = GetGame().GetWorkspace().CreateWidgets(m_lVehiclePreviewImage, m_wVehiclePreviewGrid);
+			
+			//Set Postion in grid
+			UniformGridSlot.SetColumn(newVehicleImage, column);
+
+			//Set Icon
+			ImageWidget imageWidget = ImageWidget.Cast(newVehicleImage.FindAnyWidget("VehicleImage"));
+			imageWidget.LoadImageTexture(0, vehicleImage);
+			
+			//Add item to grid
+			m_wVehiclePreviewGrid.AddChild(newVehicleImage);
+
+			column++;
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	Color GetCurrentSliderColor()
 	{
 		int newR = m_RedSlider.GetCurrent();
@@ -28,6 +57,11 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	{
 		m_OnColorChange.Invoke(GetCurrentSliderColor());
 	}		
+	
+	void MoveVehiclePreviewGrid(int offset)
+	{
+		FrameSlot.Move(m_wVehiclePreviewGrid, offset, 0);
+	}
 	
 	//------------------------------------------------------------------------------------------------
 	void OnMenuLeft()
@@ -71,23 +105,28 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		
 		GetGame().GetInputManager().AddActionListener("MenuBack", EActionTrigger.DOWN, InvokeOnMenuClose);
 		
+		//Color picker
 		m_RedSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("RedSlider"));
 		m_GreenSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("GreenSlider"));
 		m_BlueSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("BlueSlider"));
-		
-		m_wHandlingSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("HandlingSlider"));
-		m_wTopSpeedSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("TopSpeedSlider"));
-		m_wAccelerationSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("AccelerationSlider"));
-		m_wBreakingSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("BreakingSlider"));
-		m_wInventorySizeSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("InventorySizeSlider"));
 		
 		m_RedIndex = TextWidget.Cast(m_wRoot.FindAnyWidget("RedIndex"));
 		m_GreenIndex = TextWidget.Cast(m_wRoot.FindAnyWidget("GreenIndex"));
 		m_BlueIndex = TextWidget.Cast(m_wRoot.FindAnyWidget("BlueIndex"));
 		
+		//Vehicle Stats
+		m_wEngineSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("EngineSlider"));
+		m_wHandlingSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("HandlingSlider"));
+		m_wBrakingSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("BrakingSlider"));
+		m_wInventorySizeSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("InventorySizeSlider"));
+				
 		m_wVehiclePriceText = TextWidget.Cast(m_wRoot.FindAnyWidget("VehiclePriceText"));
 		m_wVehicleTitleText = TextWidget.Cast(m_wRoot.FindAnyWidget("VehicleTitle"));
-
+		
+		//Preview Grid
+		m_wVehiclePreviewGrid = UniformGridLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
+		
+		
     }
 	
 	//------------------------------------------------------------------------------------------------

@@ -14,7 +14,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	[Attribute("0 0 0", UIWidgets.EditBox, "Rotation Speed, 0 to disable")]
 	protected vector m_vRotationSpeed;
-	
+
 	[Attribute("", UIWidgets.Auto, "Item price list")]
 	protected ref EL_PriceConfig m_PriceConfig;
 
@@ -26,106 +26,167 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	ResourceName m_VehicleShopCameraPrefab = "{FAE60B62153B7058}Prefabs/Buildings/Garage/Garage_Camera.et";
 	ResourceName m_EmptyVehiclePreview = "{6CA10EE93F1A3C20}Prefabs/Buildings/Garage/GaragePreviewVehicle.et";
-	ResourceName m_lVehiclePreviewImage = "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout";
-	
+	ResourceName m_MissingPreviewIcon = "{AC7E384FF9D8016A}Common/Textures/placeholder_BCR.edds";
+
 	IEntity m_aPreviewVehicle;
 	IEntity m_UserEntity;
 
 	int m_iCurPreviewVehicleIndex;
 	EL_VehicleShopUI m_VehicleShopUI;
 
+	//------------------------------------------------------------------------------------------------
 	void OnExitMenu()
 	{
 		GetGame().GetMenuManager().CloseMenuByPreset(ChimeraMenuPreset.EL_VehicleShop);
 		DisableCam();
 	}
-	
+
+	//------------------------------------------------------------------------------------------------
+	BaseContainer GetBaseContainer(ResourceName prefab, string typeName)
+	{
+		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
+		int count = prefabSource.GetComponentCount();
+
+		for(int i = 0; i < count; i++)
+		{
+			IEntityComponentSource comp = prefabSource.GetComponent(i);
+
+			if(comp.GetClassName() == typeName)
+			{
+				return comp;
+			}
+		}
+		return null;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	ResourceName GetVehiclePrefabIcon(ResourceName prefab)
+	{
+		BaseContainer vehicleUIInfoComponent = GetBaseContainer(prefab, "SCR_EditableVehicleComponent");
+
+		SCR_EditableVehicleUIInfo vehicleUIInfo;
+		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
+		if (vehicleUIInfo)
+			return vehicleUIInfo.GetImage();
+		return m_MissingPreviewIcon;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	float GetVehicleStorage(ResourceName prefab)
+	{
+		BaseContainer inventoryContainer = GetBaseContainer(prefab, "SCR_UniversalInventoryStorageComponent");
+
+		float maxInvWeight;
+		if (inventoryContainer)
+			inventoryContainer.Get("m_fMaxWeight", maxInvWeight);
+
+		return maxInvWeight;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	array<float> GetVehiclePrefabSimulation(ResourceName prefab)
+	{
+		BaseContainer vehicleSimulationContainer = GetBaseContainer(prefab, "VehicleWheeledSimulation");
+		BaseContainer vehicleSimulation = vehicleSimulationContainer.GetObject("Simulation");
+		BaseContainer vehicleEngine = vehicleSimulation.GetObject("Engine");
+		BaseContainer vehicleAxle = vehicleSimulation.GetObjectArray("Axles")[0];
+		BaseContainer vehicleAxleTyre = vehicleAxle.GetObject("Tyre");
+
+		//Engine
+		float engineMaxPower;
+		vehicleEngine.Get("MaxPower", engineMaxPower);
+		//Handling
+		float handlingPower;
+		vehicleEngine.Get("Friction", handlingPower);
+		//Braking
+		float brakingPower;
+		vehicleAxleTyre.Get("LongitudinalFriction", brakingPower);
+		
+		array<float> vehicleStats = {engineMaxPower, handlingPower, brakingPower};
+		
+		return vehicleStats;
+	}
+
+
 	//------------------------------------------------------------------------------------------------
 	void UpdateVehicleStats()
-	{		
-		Widget vehicleImage = GetGame().GetWorkspace().CreateWidgets(m_lVehiclePreviewImage);
-		
-		m_VehicleShopUI.SetVehiclePriceText(m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex].m_iBuyPrice);
+	{
+		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
+
+		//Get all the prefab data
+		float maxInvWeight = GetVehicleStorage(curVehicleConfig.m_Prefab);
+		array<float> vehicleStats = GetVehiclePrefabSimulation(curVehicleConfig.m_Prefab);
+
+		//Update vehicle color
 		OnColorChange(m_VehicleShopUI.GetCurrentSliderColor());
-		m_VehicleShopUI.m_wVehicleTitleText.SetText(m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex].m_sName);
-		
-		
-		IEntity tempVehicle = GetGame().SpawnEntityPrefabLocal(Resource.Load(m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex].m_Prefab));
-		RplComponent rplComp = RplComponent.Cast(tempVehicle.FindComponent(RplComponent));
-		rplComp.Deactivate(tempVehicle);
-		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(tempVehicle.FindComponent(EL_PersistenceComponent));
-		persistence.Detach();
-		
-		VehicleWheeledSimulation vehSimulation = VehicleWheeledSimulation.Cast(tempVehicle.FindComponent(VehicleWheeledSimulation));
-		float friction = vehSimulation.WheelTyreGetLongitudinalFriction(0);
-		m_VehicleShopUI.m_wHandlingSlider.SetCurrent(friction);	
-		m_VehicleShopUI.m_wTopSpeedSlider.SetCurrent(vehSimulation.EngineGetRPMPeakPower());
-		m_VehicleShopUI.m_wAccelerationSlider.SetCurrent(vehSimulation.EngineGetPeakPower());
-		
-		SCR_UniversalInventoryStorageComponent vehInventoryComp = SCR_UniversalInventoryStorageComponent.Cast(tempVehicle.FindComponent(SCR_UniversalInventoryStorageComponent));
-		if (vehInventoryComp)
-			m_VehicleShopUI.m_wInventorySizeSlider.SetCurrent(vehInventoryComp.GetMaxLoad());
-		
-		
-		SlotManagerComponent slotMan = SlotManagerComponent.Cast(tempVehicle.FindComponent(SlotManagerComponent));
-		if (slotMan)
-		{
-			array<EntitySlotInfo> slots = {};
-			slotMan.GetSlotInfos(slots);
-			EntitySlotInfo entSlot = slots[0];
-			Print(entSlot.GetAttachedEntity());
-		}
-		
-		SCR_EntityHelper.DeleteEntityAndChildren(tempVehicle);
+
+		//Update price
+		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
+		//Udate title
+		m_VehicleShopUI.m_wVehicleTitleText.SetText(curVehicleConfig.m_sName);
+
+		//Update vehicle stats
+		m_VehicleShopUI.m_wHandlingSlider.SetCurrent(vehicleStats[1]);
+		m_VehicleShopUI.m_wEngineSlider.SetCurrent(vehicleStats[0]);
+		m_VehicleShopUI.m_wBrakingSlider.SetCurrent(vehicleStats[2]);
+		m_VehicleShopUI.m_wInventorySizeSlider.SetCurrent(maxInvWeight);
+
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void OnVehicleSelectionChanged(int offset)
 	{
-		int lastPreviewVehicleIndex = m_iCurPreviewVehicleIndex;
-		m_iCurPreviewVehicleIndex += offset;
+		int nextIndex = m_iCurPreviewVehicleIndex + offset;
 
-		if (m_iCurPreviewVehicleIndex > (m_PriceConfig.m_aPriceConfigs.Count() - 1))
-			m_iCurPreviewVehicleIndex = 0;
-		
-		if (m_iCurPreviewVehicleIndex < 0)
-			m_iCurPreviewVehicleIndex = m_PriceConfig.m_aPriceConfigs.Count() - 1;
+		if (nextIndex > (m_PriceConfig.m_aPriceConfigs.Count() - 1) || nextIndex < 0)
+			return;
 
+		m_iCurPreviewVehicleIndex = nextIndex;
+
+		m_VehicleShopUI.MoveVehiclePreviewGrid(offset * -304);
 		SetVehiclePreviewMesh(m_iCurPreviewVehicleIndex);
 		UpdateVehicleStats();
-
 	}
-	
-	
+
 	//------------------------------------------------------------------------------------------------
-	//! Called from client	
+	//! Called from client
 	void OnColorChange(Color color)
 	{
 		if (m_aPreviewVehicle)
 		{
 			EL_Utils.SetColor(m_aPreviewVehicle, color);
-		}	
+		}
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Called from client
 	private void OpenVehicleShopUI()
 	{
 		m_VehicleShopUI = EL_VehicleShopUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_VehicleShop));
-		
+
+		//Listen to events
 		m_VehicleShopUI.m_OnVehicleSelectionChanged.Insert(OnVehicleSelectionChanged);
 		m_VehicleShopUI.m_OnColorChange.Insert(OnColorChange);
 		m_VehicleShopUI.m_OnBuyVehicle.Insert(BuyVehicle);
 		m_VehicleShopUI.m_OnExit.Insert(OnExitMenu);
-		
+
+		//Trigger first vehicle update
 		OnVehicleSelectionChanged(0);
+
+		//Populate Preview Images
+		array<ResourceName> vehiclePreviewImages = {};
+		foreach (EL_Price price: m_PriceConfig.m_aPriceConfigs)
+		{
+			vehiclePreviewImages.Insert(GetVehiclePrefabIcon(price.m_Prefab));
+		}
+		m_VehicleShopUI.PopulateVehicleImageGrid(vehiclePreviewImages);
+
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void DisableCam()
 	{
 		EnableVehicleShopCamera(false);
-		
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -140,10 +201,10 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		}
 		string ownerId = EL_Utils.GetPlayerUID(m_UserEntity);
 
-		
+
 		Print("[EL-VehicleShop] Totally bought this vehicle!");
 		//EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(withdrawnVehicle.FindComponent(EL_PersistenceComponent));
-		//persistence.Save(); 
+		//persistence.Save();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -175,11 +236,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 			return;
 		}
 	}
-
-	//------------------------------------------------------------------------------------------------
-	//! VehicleShop Stuff
-	//------------------------------------------------------------------------------------------------
-
+	
 	//------------------------------------------------------------------------------------------------
 	void SetVehiclePreviewMesh(int vehicleIndex)
 	{
@@ -195,7 +252,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Set new mesh
 		VObject newVehicleMesh = EL_Utils.GetPrefabVObject(m_PriceConfig.m_aPriceConfigs[vehicleIndex].m_Prefab);
-		
+
 		m_aPreviewVehicle.SetObject(newVehicleMesh, "");
 	}
 
@@ -205,7 +262,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	{
 		m_UserEntity = user;
 		m_iCurPreviewVehicleIndex = 0;
-		
+
 		EnableVehicleShopCamera(true);
 		OpenVehicleShopUI();
 	}
@@ -224,10 +281,3 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		owner.SetFlags(EntityFlags.ACTIVE, false);
 	}
 };
-
-
-modded class SCR_UniversalInventoryStorageComponent
-{
-	float GetMaxLoad() { return m_fMaxWeight; }
-}
-	

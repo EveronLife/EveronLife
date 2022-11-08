@@ -3,84 +3,38 @@ FrameWidgetClass {
  Slot WidgetSlot "{59C6813091C46784}" {
  }
  {
+  PanelWidgetClass "{5AD0C3F7D7E76A12}" {
+   Name "Panel0"
+   Slot FrameWidgetSlot "{5AD0C3E8107A7B01}" {
+    Anchor 0 1 0 1
+    PositionX 20
+    OffsetLeft 20
+    PositionY -150
+    OffsetTop -150
+    SizeX 264
+    OffsetRight -284
+    SizeY 164
+    OffsetBottom -14
+    Alignment 0 0.5
+   }
+   "Z Order" 1
+   Color 0.761 0.392 0.08 1
+   style outline_4px
+  }
   UniformGridLayoutWidgetClass "{5ACF3607EB207F23}" {
    Prefab "{5ACF360B0FFF814C}"
    Name "VehiclePreviewGrid"
    Slot FrameWidgetSlot "{5AD07BC91B6699FC}" {
     Anchor 0 1 0 1
-    PositionX 10
-    OffsetLeft 10
-    PositionY -139.9
-    OffsetTop -139.9
-    SizeX 100
-    OffsetRight -110
-    SizeY 30
-    OffsetBottom 109.9
+    OffsetLeft 0
+    PositionY -150
+    OffsetTop -150
+    OffsetRight -100
+    OffsetBottom 120
     Alignment 0 0.5
     SizeToContent 1
    }
    "Cell Padding" 20 0 20 0
-   {
-    UniformGridLayoutWidgetClass "{5ACF3607F9D73FA3}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage0"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-     }
-    }
-    UniformGridLayoutWidgetClass "{5ACF3606029C49C5}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage1"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-      Column 1
-     }
-     {
-      SizeLayoutWidgetClass "{5AD07BD036AC1B20}" {
-       Prefab "{5AD07BD036AC1B20}"
-       {
-        ImageWidgetClass "{5AD07BD04F8D4760}" {
-         Prefab "{5AD07BD04F8D4760}"
-         Slot AlignableSlot "{5AD07BD04F8D4746}" {
-         }
-        }
-       }
-      }
-     }
-    }
-    UniformGridLayoutWidgetClass "{5ACF360602E84F63}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage2"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-      Column 2
-     }
-    }
-    UniformGridLayoutWidgetClass "{5ACF3606100B5660}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage3"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-      Column 3
-     }
-    }
-    UniformGridLayoutWidgetClass "{5ACF360616F55916}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage4"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-      Column 4
-     }
-    }
-    UniformGridLayoutWidgetClass "{5ACF360616E92730}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage5"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-      Column 5
-     }
-    }
-    UniformGridLayoutWidgetClass "{5AD07BDD28C028F8}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage6"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-      Column 6
-     }
-    }
-    UniformGridLayoutWidgetClass "{5AD07BDDEAD926D8}" : "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout" {
-     Name "VehiclePreviewImage7"
-     Slot UniformGridWidgetSlot "{5ACF3607F9D73F8E}" {
-      Column 7
-     }
-    }
-   }
   }
   TextWidgetClass "{5ACC82EA577C088A}" {
    Name "VehicleTitle"
@@ -295,12 +249,12 @@ FrameWidgetClass {
      Slot FrameWidgetSlot "{59C68130FA0902AE}" {
       PositionX 18.879
       OffsetLeft 18.879
-      PositionY 53.008
-      OffsetTop 53.008
+      PositionY 138.132
+      OffsetTop 138.132
       SizeX 213.574
       OffsetRight -232.453
       SizeY 30
-      OffsetBottom -83.008
+      OffsetBottom -168.132
      }
      "no focus" 1
      maximum 3
@@ -308,31 +262,31 @@ FrameWidgetClass {
      current 0
     }
     SliderWidgetClass "{5ACB11E00B907017}" {
-     Name "TopSpeedSlider"
+     Name "BrakingSlider"
      Slot FrameWidgetSlot "{59C68130FA0902AE}" {
-      PositionX 17.968
-      OffsetLeft 17.968
-      PositionY 125.99
-      OffsetTop 125.99
+      PositionX 16.99
+      OffsetLeft 16.99
+      PositionY 217.962
+      OffsetTop 217.962
       SizeX 213.574
-      OffsetRight -231.542
+      OffsetRight -230.564
       SizeY 30
-      OffsetBottom -155.99
+      OffsetBottom -247.962
      }
      maximum 7500
      current 0
     }
     SliderWidgetClass "{5ACB11E00FC6CB19}" {
-     Name "AccelerationSlider"
+     Name "EngineSlider"
      Slot FrameWidgetSlot "{59C68130FA0902AE}" {
       PositionX 16.83
       OffsetLeft 16.83
-      PositionY 199.556
-      OffsetTop 199.556
+      PositionY 47.901
+      OffsetTop 47.901
       SizeX 213.574
       OffsetRight -230.404
       SizeY 30
-      OffsetBottom -229.556
+      OffsetBottom -77.9
      }
      maximum 300
      current 0
@@ -343,12 +297,12 @@ FrameWidgetClass {
       Anchor 0.5 0 0.5 0
       PositionX -138.577
       OffsetLeft -138.577
-      PositionY 11.98
-      OffsetTop 11.98
+      PositionY 97.103
+      OffsetTop 97.103
       SizeX 740.432
       OffsetRight -601.855
       SizeY 40.522
-      OffsetBottom -52.502
+      OffsetBottom -137.626
       SizeToContent 1
      }
      Text "Handling"
@@ -362,20 +316,20 @@ FrameWidgetClass {
      }
     }
     TextWidgetClass "{5ACC82F161B55EC4}" {
-     Name "HandlingText0"
+     Name "BrakingText"
      Slot FrameWidgetSlot "{5ACC82EA577C08EE}" {
       Anchor 0.5 0 0.5 0
-      PositionX -139.39
-      OffsetLeft -139.39
-      PositionY 94.101
-      OffsetTop 94.101
+      PositionX -140.368
+      OffsetLeft -140.368
+      PositionY 186.073
+      OffsetTop 186.073
       SizeX 740.432
-      OffsetRight -601.042
+      OffsetRight -600.064
       SizeY 40.522
-      OffsetBottom -134.623
+      OffsetBottom -226.595
       SizeToContent 1
      }
-     Text "Top Speed"
+     Text "Braking"
      "Font Size" 30
      "Min Font Size" 30
      "Horizontal Alignment" Center
@@ -386,17 +340,17 @@ FrameWidgetClass {
      }
     }
     TextWidgetClass "{5ACC82F1630D884B}" {
-     Name "HandlingText1"
+     Name "EngineText"
      Slot FrameWidgetSlot "{5ACC82EA577C08EE}" {
       Anchor 0.5 0 0.5 0
       PositionX -138.577
       OffsetLeft -138.577
-      PositionY 166.466
-      OffsetTop 166.466
+      PositionY 14.811
+      OffsetTop 14.811
       SizeX 740.432
       OffsetRight -601.855
       SizeY 45.401
-      OffsetBottom -211.867
+      OffsetBottom -60.211
       SizeToContent 1
      }
      Text "Engine"

@@ -1,5 +1,16 @@
 Vehicle UAZ1 : "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et" {
- coords 62.936 0.001 145.148
+ components {
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 11880.1
+  }
+  VehicleWheeledSimulation "{731B26FCA2F19855}" {
+   Simulation Wheeled "{4D8B26DEA5F25978}" {
+    Axles {
+    }
+   }
+  }
+ }
+ coords 61.953 0.001 141.793
 }
 SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
  coords 83.894 0 123.217
