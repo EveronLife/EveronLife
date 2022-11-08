@@ -8,7 +8,6 @@ modded class SCR_InventoryMenuUI
 	protected SCR_InventorySlotUI m_aELQuantityOperationDestinationSlotUi;
 	protected IEntity m_pELQuantitySplitSource;
 	protected bool m_bELQuantityRefreshBlock;
-	protected static SCR_InventoryMenuUI s_pELThisMenu;
 
 	//------------------------------------------------------------------------------------------------
 	override void MoveItemToStorageSlot()
@@ -133,13 +132,7 @@ modded class SCR_InventoryMenuUI
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static void EL_RefreshIfOpen(IEntity refreshEntity = null)
-	{
-		if (s_pELThisMenu) s_pELThisMenu.EL_Refresh(refreshEntity);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void EL_Refresh(IEntity refreshEntity = null)
+	void EL_QuantityRefresh(IEntity refreshEntity = null)
 	{
 		m_bELQuantityRefreshBlock = true;
 		if (refreshEntity)
@@ -155,12 +148,12 @@ modded class SCR_InventoryMenuUI
 		if (refreshEntity && refreshEntity == m_pELQuantitySplitSource) return;
 
 		ScriptCallQueue queue = GetGame().GetCallqueue();
-		queue.Remove(EL_RefreshDebounced);
-		queue.CallLater(EL_RefreshDebounced, 10);
+		queue.Remove(EL_QuantityRefreshDebounced);
+		queue.CallLater(EL_QuantityRefreshDebounced, 10);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void EL_RefreshDebounced()
+	protected void EL_QuantityRefreshDebounced()
 	{
 		m_bELQuantityRefreshBlock = false;
 		m_pELQuantitySplitSource = null;
@@ -498,8 +491,6 @@ modded class SCR_InventoryMenuUI
 
 		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.UP, EL_OnMoveQuantityPressed);
 		GetGame().GetInputManager().AddActionListener("EL_Inventory_MoveQuantity", EActionTrigger.DOWN, EL_OnMoveQuantityPressed);
-
-		s_pELThisMenu = this;
 	}
 
 	//------------------------------------------------------------------------------------------------

@@ -53,9 +53,9 @@ class EL_QuantityComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void OnQuantityChanged()
+	protected void OnQuantityChanged()
 	{
-		SCR_InventoryMenuUI.EL_RefreshIfOpen(GetOwner());
+		RefreshInventory(GetOwner());
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ class EL_QuantityComponent : ScriptComponent
 			}
 		}
 
-		SCR_InventoryMenuUI.EL_RefreshIfOpen(item);
+		RefreshInventory(item);
 
 		return ignoreSuper;
 	}
@@ -240,6 +240,12 @@ class EL_QuantityComponent : ScriptComponent
 
 		// Some quantity remained on the source so allow caller scope to conttinue to super call
 		return false;
+	}
+	
+	protected static void RefreshInventory(IEntity item)
+	{
+		SCR_InventoryMenuUI inventoryMenu = SCR_InventoryMenuUI.EL_GetCurrentInstance();
+		if (inventoryMenu) inventoryMenu.EL_QuantityRefresh(item);
 	}
 }
 
