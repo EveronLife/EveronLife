@@ -1,7 +1,7 @@
 GenericEntity {
- coords 100.455 -0.001 135
+ coords 101.814 -0.001 135
  {
-  $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+  $grp SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
    {
     coords 0.147 0 0
    }
@@ -78,16 +78,17 @@ GenericEntity : "{33882C61BA9F0F90}Prefabs/Props/Civilian/Globe_01.et" {
   RplComponent "{59AA93A81C0B22D5}" {
   }
  }
- coords 100.028 0.898 135.126
+ coords 101.387 0.898 135.126
 }
 GenericEntity : "{8F05D427252644F8}Prefabs/Props/Civilian/Suitcase_01.et" {
- coords 98.349 0 134.854
+ coords 99.708 0 134.854
  angleY 60
 }
 GenericEntity : "{9ABAFFCBC76D824B}Prefabs/Props/Civilian/NoticeBoardCork_01.et" {
- coords 100.02 0.898 134.46
+ coords 101.379 0.898 134.46
  {
   GenericEntity : "{83E6FF1C73E92AA3}Prefabs/Props/Civilian/NoticeBoardCork_01_posters.et" {
+   coords 0 0 0
   }
  }
 }

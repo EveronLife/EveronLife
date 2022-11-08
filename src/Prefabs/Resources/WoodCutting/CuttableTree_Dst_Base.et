@@ -1,0 +1,53 @@
+Tree {
+ ID "5A631817098CF41D"
+ components {
+  EL_DestructibleResourceComponent "{5ACCE1B70F3EF473}" {
+   "Additional hit zones" {
+    EL_DestructibleResourceHitZone WoodCutting {
+     ColliderNames {
+      ""
+     }
+     HZDefault 1
+    }
+   }
+   m_DestroySpawnObjects {
+    SCR_PrefabSpawnable "{5A631816FBF3E4E9}" {
+     m_vOffsetPosition 0 3 0
+     m_vOffsetRotation 0 90 0
+     m_Prefabs {
+      "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
+     }
+     m_fDamageToImpulse 0
+     m_fRandomVelocityLinear 0
+     m_fRandomVelocityAngular 0
+    }
+    SCR_PrefabSpawnable "{5A631816FAE1FFB9}" {
+     m_vOffsetPosition 0 6 0
+     m_vOffsetRotation 0 90 0
+     m_Prefabs {
+      "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et"
+     }
+     m_fDamageToImpulse 0
+     m_fRandomVelocityLinear 0
+     m_fRandomVelocityAngular 0
+    }
+   }
+   m_eMaterialSoundType WOOD_SOLID
+   m_rHitEffect "{8DB2E11855C71E31}Prefabs/VFX/WoodCutting/WoodImpactEmitter_Small.et"
+   m_aTools {
+    EL_ResourceDestructionTool "{5ACEAA1AC22E6DCD}" {
+     m_rTool "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et"
+    }
+   }
+  }
+  MeshObject "{5A6318165B9E4A17}" {
+  }
+  RigidBody "{5A63181692CD3E26}" {
+   Active Active
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+  }
+  RplComponent "{5A6318165AFD511C}" {
+  }
+ }
+}

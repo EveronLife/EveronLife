@@ -1,0 +1,10 @@
+AnimSrcGraph {
+ AnimSetTemplate "{1B6ED68BBBEA540F}Anims/Workspaces/Player/player_carry.ast"
+ ControlTemplate AnimSrcGCT "{5A7B3EB540934EC3}" {
+ }
+ Debug AnimSrcGD "{5A7B3EB54093491C}" {
+ }
+ GraphFilesResourceNames {
+  "{24BDBD1254F56975}Anims/Workspaces/Player/player_carry_f.agf"
+ }
+}
