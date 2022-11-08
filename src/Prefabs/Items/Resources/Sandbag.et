@@ -40,8 +40,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      AssignedMaterial "{2169E8EB73E1C127}Assets/Props/Military/Sandbags/Data/Sandbags_01_Burlap_MLOD.emat"
     }
    }
-   LODScale 0.1
-   PixelSizeScale 10
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
