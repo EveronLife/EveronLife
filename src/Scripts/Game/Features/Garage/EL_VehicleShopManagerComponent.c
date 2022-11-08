@@ -163,7 +163,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	private void OpenVehicleShopUI()
 	{
 		m_VehicleShopUI = EL_VehicleShopUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_VehicleShop));
-
+		Print("OpenShopUI for " + EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity()));
 		//Listen to events
 		m_VehicleShopUI.m_OnVehicleSelectionChanged.Insert(OnVehicleSelectionChanged);
 		m_VehicleShopUI.m_OnColorChange.Insert(OnColorChange);
@@ -191,10 +191,9 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void Rpc_AskBuyVehicle(RplId playerID)
+	void Rpc_AskBuyVehicle(string playerUID)
 	{
-		IEntity player = GetGame().GetPlayerManager().GetPlayerControlledEntity(playerID);
-		
+
 		
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
 		Print(curVehicleConfig.m_sName);
@@ -210,7 +209,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		
 		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newCar.FindComponent(EL_CharacterOwnerComponent));
 		
-		charOwnerComp.SetCharacterOwner(EL_Utils.GetPlayerUID(player));
+		charOwnerComp.SetCharacterOwner(playerUID);
 				
 		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(newCar.FindComponent(EL_PersistenceComponent));
 		persistence.Save();
@@ -221,8 +220,9 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	void BuyVehicle()
 	{
 		Print("[EL-VehicleShop] Asking Server to buy Vehicle");
+		Print("BuyVehicle for " + EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity()));
 		IEntity player = SCR_PlayerController.GetLocalControlledEntity();
-		Rpc(Rpc_AskBuyVehicle, Replication.FindId(player));
+		Rpc(Rpc_AskBuyVehicle, EL_Utils.GetPlayerUID(player));
 		DisableCam();
 		GetGame().GetMenuManager().CloseMenuByPreset(ChimeraMenuPreset.EL_VehicleShop);
 	}
