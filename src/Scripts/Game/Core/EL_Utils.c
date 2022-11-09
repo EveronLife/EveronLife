@@ -36,7 +36,7 @@ class EL_Utils
 		spawnParams.Transform[3] = origin;
 
 		if (!global) return GetGame().SpawnEntityPrefabLocal(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
-		
+
 		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 	}
 
@@ -198,6 +198,31 @@ class EL_Utils
 		}
 
 		return sortedHierachy;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MaxInt(int a, int b)
+	{
+		if(a > b) return a;
+		return b;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MinInt(int a, int b)
+	{
+		if(a < b) return a;
+		return b;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static bool IsAnyInherited(Class instance, notnull array<typename> from)
+	{
+		typename type = instance.Type();
+		foreach (typename candiate : from)
+		{
+			if (type.IsInherited(candiate)) return true;
+		}
+		return false;
 	}
 }
 

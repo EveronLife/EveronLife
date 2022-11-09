@@ -1,4 +1,4 @@
-GenericEntity : "{3406ACF05AA6BFD2}Prefabs/Items/Core/ItemHandCarry_Base.et" {
+GenericEntity : "{6BF776E22ECF67E7}Prefabs/Items/Core/HandCarryItem_Base.et" {
  ID "59E108D9C9FD1407"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
