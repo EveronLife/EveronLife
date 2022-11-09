@@ -29,8 +29,12 @@ GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" 
   MeshObject "{5A4ACD10B8DA304F}" {
    Object "{F4A6B9CC408CD0F4}Assets/Props/Military/Sandbags/Sandbag_01_single.xob"
    Materials {
-    MaterialAssignClass "{598A687A815E1D6C}" {
+    MaterialAssignClass "{5AD2B81B5A46568C}" {
      SourceMaterial "Sandbags_01_End"
+     AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
+    }
+    MaterialAssignClass "{5AD2B81B5A46567E}" {
+     SourceMaterial "Sandbags_01_MLOD"
      AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
     }
    }
