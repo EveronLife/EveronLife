@@ -1,9 +1,9 @@
 modded enum EGadgetAnimVariable
 {
-	EL_HANDCARRY
+	EL_ITEM
 }
 
 modded enum ECommonItemType
 {
-	EL_HANDCARRY = 4242
+	EL_ITEM
 }
