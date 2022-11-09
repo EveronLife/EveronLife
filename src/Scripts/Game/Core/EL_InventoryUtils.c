@@ -61,6 +61,8 @@ class EL_InventoryUtils
 		if (!parentSlot) return false;
 
 		InventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<InventoryStorageManagerComponent>.Find(character);
-		return inventoryManager.TryRemoveItemFromStorage(item, parentSlot.GetStorage());
+		BaseInventoryStorageComponent storage = parentSlot.GetStorage();
+		if (!storage || storage.GetOwner() != character) return false;
+		return inventoryManager.TryRemoveItemFromStorage(item, storage);
 	}
 }

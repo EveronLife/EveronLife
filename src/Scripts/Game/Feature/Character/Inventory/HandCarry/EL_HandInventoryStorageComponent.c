@@ -9,6 +9,7 @@ enum EL_EHandCarryState
 	AWAIT_HOLSTER,
 	READY,
 	ACTIVE,
+	AWAIT_SWAP,
 	AWAIT_DELETE
 }
 
@@ -65,10 +66,9 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 
 		if (!HasLocalControl()) return;
 
-		if (m_eState == EL_EHandCarryState.ACTIVE && (!isInHand || isOnGround))
+		if (m_eState >= EL_EHandCarryState.ACTIVE && (!isInHand || isOnGround))
 		{
-			if (!isOnGround) EL_InventoryUtils.DropItem(GetOwner(), gadget);
-			m_eState = EL_EHandCarryState.NONE;
+			StopCarry(gadget);
 		}
 		else if(m_eState != EL_EHandCarryState.ACTIVE && isInHand)
 		{
@@ -83,6 +83,13 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 				}
 			}
 		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void OnGadgetModeSet(IEntity gadget, EGadgetMode targetMode, bool doFocus)
+	{
+		if (m_eState != EL_EHandCarryState.ACTIVE || !gadget || targetMode != EGadgetMode.IN_HAND) return;
+		m_eState = EL_EHandCarryState.AWAIT_SWAP;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -118,11 +125,16 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void StopCarry()
+	protected void StopCarry(IEntity gadget = null)
 	{
 		CharacterControllerComponent characterController = EL_ComponentFinder<CharacterControllerComponent>.Find(GetOwner());
-		characterController.RemoveGadgetFromHand(true);
+		if (m_eState != EL_EHandCarryState.AWAIT_SWAP)
+		{
+			// Only remove gadget if there not a new one scheduled. Otherwise the new gadget will be removed instead "too".
+			characterController.RemoveGadgetFromHand(true);
+		}
 		ClearHandStorage(); // Drop all hand carry items (it should normally just be the one we currently carry)
+		if (gadget) EL_InventoryUtils.DropItem(GetOwner(), gadget); // Drop current gadget from different storage it might has been moved to
 		if (m_eState != EL_EHandCarryState.AWAIT_DELETE) m_eState = EL_EHandCarryState.NONE;
 	}
 
