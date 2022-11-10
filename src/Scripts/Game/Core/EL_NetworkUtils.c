@@ -1,6 +1,18 @@
 class EL_NetworkUtils
 {
 	//------------------------------------------------------------------------------------------------
+	static RplId GetRplId(IEntity entity)
+	{
+		if (entity)
+		{
+			RplComponent replication = RplComponent.Cast(entity.FindComponent(RplComponent));
+			if (replication) return replication.Id();
+		}
+
+		return RplId.Invalid();
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Finds an entity by its repliction id
 	//! \param rplId Replication id to search for
 	//! \return the the entity found or null if not found or invalid replication id
@@ -16,7 +28,7 @@ class EL_NetworkUtils
 
 		return entity;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	static bool IsOwner(IEntity entity)
 	{

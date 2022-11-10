@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{981ACF4F45EAECAD}UI/layouts/Menus/Inventory/InventoryMain.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

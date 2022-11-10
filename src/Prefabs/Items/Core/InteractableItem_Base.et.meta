@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et"
+ Name "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

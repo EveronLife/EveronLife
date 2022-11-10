@@ -288,6 +288,31 @@ class EL_Utils
 
 		return sortedHierachy;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MaxInt(int a, int b)
+	{
+		if(a > b) return a;
+		return b;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MinInt(int a, int b)
+	{
+		if(a < b) return a;
+		return b;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static bool IsAnyInherited(Class instance, notnull array<typename> from)
+	{
+		typename type = instance.Type();
+		foreach (typename candiate : from)
+		{
+			if (type.IsInherited(candiate)) return true;
+		}
+		return false;
+	}
 }
 
 class EL_RefArrayCaster<Class TSourceType, Class TResultType>

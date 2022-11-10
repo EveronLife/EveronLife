@@ -1,0 +1,7 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  SCR_ConsumableItemComponent "{5AD2A3AD8402632B}" {
+  }
+ }
+}

@@ -1,4 +1,4 @@
-GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+GenericEntity : "{61C577C0E2A178A6}Prefabs/Items/Food/Food_Base.et" {
  ID "508AB2013EEE1E00"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
@@ -13,15 +13,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      ItemVolume 113
     }
     ItemAnimationAttributes ItemAnimationAttributes "{597CB6B0AB826EE0}" {
-     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
-     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
-     AnimationAttachments {
-      AnimationAttachmentInfo "{597CB6B0AB826EE3}" {
-       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
-       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
-       BindingName "Gadget"
-      }
-     }
      HandAdditiveRotation 65.9 0 0
      HandAdditiveTranslation -0.025 0.011 0
     }
@@ -29,9 +20,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
   }
   MeshObject "{5A4ACD10B8DA304F}" {
    Object "{3EB653D9ECE9E4E9}Assets/Items/Food/Plum/Plum.xob"
-  }
-  SCR_ConsumableItemComponent "{597CB6B0AB826EDB}" {
-   m_eAnimVariable ADRIANOV
   }
  }
 }
