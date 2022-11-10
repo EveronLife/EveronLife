@@ -70,6 +70,28 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 			return vehicleUIInfo.GetImage();
 		return m_MissingPreviewIcon;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	array<ref SCR_BasePreviewEntry> GetVehicleSlots(ResourceName prefab)
+	{
+		BaseContainer previewEntityComponent = GetBaseContainer(prefab, "SCR_PreviewEntityComponent");
+
+		array<ref SCR_BasePreviewEntry> vehicleEntries;
+		previewEntityComponent.Get("m_aEntries", vehicleEntries);
+		return vehicleEntries;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	ResourceName GetVehiclePrefabName(ResourceName prefab)
+	{
+		BaseContainer vehicleUIInfoComponent = GetBaseContainer(prefab, "SCR_EditableVehicleComponent");
+
+		SCR_EditableVehicleUIInfo vehicleUIInfo;
+		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
+		if (vehicleUIInfo)
+			return vehicleUIInfo.GetName();
+		return m_MissingPreviewIcon;
+	}
 
 	//------------------------------------------------------------------------------------------------
 	float GetVehicleStorage(ResourceName prefab)
@@ -107,12 +129,74 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		return vehicleStats;
 	}
 
+	//------------------------------------------------------------------------------------------------
+	//! TODO make custom SCR_BasePreviewEntry -> EL_LocalVehiclePreviewEntry
+	SCR_BasePreviewEntity SpawnPreview(notnull array<ref SCR_BasePreviewEntry> entries, ResourceName previewResource)
+	{
+		if (entries.IsEmpty())
+		{
+			Print("No entries defined!", LogLevel.WARNING);
+			return null;
+		}
+		
+		if (previewResource.IsEmpty())
+		{
+			Print("No previewResource defined!", LogLevel.WARNING);
+			return null;
+		}
+		
+		World world = GetGame().GetWorld();
+
+		EntitySpawnParams spawnParamsLocal = new EntitySpawnParams();
+		spawnParamsLocal.Transform[3] = entries[0].m_vPosition;
+		
+		SCR_BasePreviewEntity rootEntity = SCR_BasePreviewEntity.Cast(GetGame().SpawnEntityPrefabLocal(Resource.Load(previewResource), world, spawnParamsLocal));
+				
+		vector rootTransform[4];
+		Math3D.MatrixCopy(spawnParamsLocal.Transform, rootTransform);
+		
+		array<SCR_BasePreviewEntity> children = {};
+		SCR_BasePreviewEntity entity, parent;
+		foreach (SCR_BasePreviewEntry entry: entries)
+		{
+			spawnParamsLocal = new EntitySpawnParams();
+			entry.LoadTransform(spawnParamsLocal.Transform);
+
+			if (entry.m_iParentID == -1)
+				parent = rootEntity;
+			else
+				parent = children[entry.m_iParentID];
+
+			//--- Create slot entity
+			entity = SCR_BasePreviewEntity.Cast(GetGame().SpawnEntityPrefabLocal(Resource.Load(previewResource), world, spawnParamsLocal));
+			
+			//--- Set mesh from a file
+			if (entity && entry.m_Mesh)
+			{
+				entity.SetObject(Resource.Load(entry.m_Mesh).GetResource().ToVObject(), "");
+			}
+			
+			children.Insert(entity);
+			
+			//--- Add to parent (spawn params won't do that on their own)
+			int pivot = -1;
+			if (!entry.m_iPivotID.IsEmpty())
+				pivot = parent.GetBoneIndex(entry.m_iPivotID);
+			parent.AddChild(entity, pivot, EAddChildFlags.AUTO_TRANSFORM);
+									
+		}
+		
+		return rootEntity;
+	}
 
 	//------------------------------------------------------------------------------------------------
 	void UpdateVehicleStats()
 	{
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
+		IEntity previewEnt = SpawnPreview(GetVehicleSlots(curVehicleConfig.m_Prefab), "{150FDD1A8FC1E074}Prefabs/Buildings/Garage/BasePreviewEnt.et");
+		Print(previewEnt.GetOrigin());
 
+		
 		//Get all the prefab data
 		float maxInvWeight = GetVehicleStorage(curVehicleConfig.m_Prefab);
 		array<float> vehicleStats = GetVehiclePrefabSimulation(curVehicleConfig.m_Prefab);
@@ -123,7 +207,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Update price
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
 		//Udate title
-		m_VehicleShopUI.m_wVehicleTitleText.SetText(curVehicleConfig.m_sName);
+		m_VehicleShopUI.m_wVehicleTitleText.SetText(GetVehiclePrefabName(curVehicleConfig.m_Prefab));
 
 		//Update vehicle stats
 		m_VehicleShopUI.m_wHandlingSlider.SetCurrent(vehicleStats[1]);
@@ -144,6 +228,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_iCurPreviewVehicleIndex = nextIndex;
 
 		m_VehicleShopUI.MoveVehiclePreviewGrid(offset * -304);
+		
 		SetVehiclePreviewMesh(m_iCurPreviewVehicleIndex);
 		UpdateVehicleStats();
 	}
@@ -194,9 +279,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	void Rpc_AskBuyVehicle(string playerUID)
 	{
 
-		
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
-		Print(curVehicleConfig.m_sName);
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
 		if (!freeSpawnPoint)
 		{

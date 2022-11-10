@@ -5,7 +5,7 @@ class EL_PriceTitle : BaseContainerCustomTitle
         int iBuyPrice = 0;
         int iSellPrice = 0;
         string sName = "";
-        source.Get("m_sName", sName);
+        source.Get("m_Prefab", sName);
         source.Get("m_iBuyPrice", iBuyPrice);
         source.Get("m_iSellPrice", iSellPrice);
         title = string.Format("%1: %2$ | %3$", sName, iBuyPrice, iSellPrice);
@@ -18,8 +18,6 @@ class EL_Price
 {
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "", "et")]
 	ResourceName m_Prefab;
-	[Attribute("", UIWidgets.EditBox)]
-	string m_sName;
 	[Attribute("0", UIWidgets.EditBox, "")]
 	int m_iBuyPrice;
 	[Attribute("0", UIWidgets.EditBox, "")]

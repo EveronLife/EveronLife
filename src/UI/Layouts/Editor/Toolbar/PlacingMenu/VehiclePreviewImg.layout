@@ -27,6 +27,9 @@ UniformGridLayoutWidgetClass {
      }
      Texture "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
      Size 264 164
+     Mask "{DA56B57C99A96861}UI/Layouts/Shop/VehiclePreviewMask.edds"
+     Progress 0.5
+     "Mask Mode" "Include Below"
     }
    }
   }

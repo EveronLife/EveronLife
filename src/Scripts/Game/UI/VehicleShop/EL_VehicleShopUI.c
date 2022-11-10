@@ -157,8 +157,8 @@ class EL_VehicleShopUI: ChimeraMenuBase
 			if (m_RedIndex && m_GreenIndex && m_BlueIndex)
 			{
 				m_RedIndex.SetText(newR.ToString());
-				m_GreenIndex.SetText(newR.ToString());
-				m_BlueIndex.SetText(newR.ToString());
+				m_GreenIndex.SetText(newG.ToString());
+				m_BlueIndex.SetText(newB.ToString());
 			}
 			
 			Color nextColor = Color.FromRGBA(newR, newG, newB, 255);

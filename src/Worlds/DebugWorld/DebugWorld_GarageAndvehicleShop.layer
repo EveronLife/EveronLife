@@ -1,3 +1,15 @@
+Vehicle UAZ1 : "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et" {
+ components {
+  SCR_PreviewEntityComponent "{56FCFAC0221A2846}" {
+   m_aEntries {
+   }
+  }
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 11880.1
+  }
+ }
+ coords 52.113 0.001 143.777
+}
 SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
  coords 76.431 0 123.217
  {
@@ -12,15 +24,25 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
        EL_Price "{5ACAE5EAC9907EAD}" {
         m_iBuyPrice 420
        }
-       EL_Price "{5ACAE5EB525F7E22}" {
-        m_Prefab "{C012BB3488BEA0C2}Prefabs/Vehicles/Wheeled/BTR70/BTR70.et"
-        m_sName "BTR"
-        m_iBuyPrice 9999999
+       EL_Price "{5AD2C778E1331CCE}" {
+        m_Prefab "{5674FAEB9AB7BDD0}Prefabs/Vehicles/Wheeled/M998/M998.et"
+        m_iBuyPrice 8784
+       }
+       EL_Price "{5AD2C778CCDC8CA7}" {
+        m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+        m_iBuyPrice 1234
+       }
+       EL_Price "{5AD2C778CC73D203}" {
+        m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
+        m_iBuyPrice 500
        }
        EL_Price "{5ACD08D4728E8060}" {
         m_Prefab "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered.et"
-        m_sName "M923A1 Transport"
         m_iBuyPrice 1
+       }
+       EL_Price "{5AD2C778CCC9E2A9}" {
+        m_Prefab "{26013123314183EA}Prefabs/Vehicles/Wheeled/M923A1/M923A1_tanker_MERDC.et"
+        m_iBuyPrice 5454
        }
       }
      }
@@ -28,6 +50,42 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
    }
   }
  }
+}
+Vehicle Ural1 : "{4597626AF36C0858}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320.et" {
+ components {
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 21809.699
+  }
+  SlotManagerComponent "{55BCE45E438E4CFF}" {
+   Slots {
+    RegisteringComponentSlotInfo window_01 {
+    }
+    RegisteringComponentSlotInfo window_09 {
+     PivotID ""
+    }
+   }
+   SlotMappers {
+    CompartmentToSlotMapping Window_01 {
+    }
+   }
+  }
+ }
+ coords 56.5 0.001 150.843
+}
+Vehicle Ural4320_tanker1 : "{4C81D7ED8F8C0D87}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_tanker.et" {
+ components {
+  SCR_VehicleDamageManagerComponent "{141326E9FD94FE40}" {
+   m_fVehicleDestroyDamage 21809.699
+  }
+  SlotManagerComponent "{55BCE45E438E4CFF}" {
+   Slots {
+    RegisteringComponentSlotInfo window_09 {
+     PivotID ""
+    }
+   }
+  }
+ }
+ coords 65.859 0.001 150.443
 }
 $grp SCR_DestructibleBuildingEntity : "{8A72C2E05371D7D0}Prefabs/Buildings/Garage/PreviewGarage.et" {
  PREVIEW_GARAGE {
@@ -42,6 +100,9 @@ $grp SCR_DestructibleBuildingEntity : "{8A72C2E05371D7D0}Prefabs/Buildings/Garag
    }
   }
  }
+}
+GenericEntity : "{D946310D0CE44123}Prefabs/Vehicles/Wheeled/Ural4320/Ural4320_fuel_tank.et" {
+ coords 56.071 0 145.794
 }
 SCR_DestructibleBuildingEntity : "{EAD5EA324E4B1C1C}Prefabs/Buildings/Garage/VehicleGarage.et" {
  coords 48.805 0.001 123.201

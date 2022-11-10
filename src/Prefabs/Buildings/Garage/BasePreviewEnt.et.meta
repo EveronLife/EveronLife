@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{150FDD1A8FC1E074}Prefabs/Buildings/Garage/BasePreviewEnt.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

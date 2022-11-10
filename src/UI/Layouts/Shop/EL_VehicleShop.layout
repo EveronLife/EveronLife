@@ -3,23 +3,24 @@ FrameWidgetClass {
  Slot WidgetSlot "{59C6813091C46784}" {
  }
  {
-  PanelWidgetClass "{5AD0C3F7D7E76A12}" {
-   Name "Panel0"
+  ImageWidgetClass "{5AD0C3F7D7E76A12}" {
+   Name "GlowImage"
    Slot FrameWidgetSlot "{5AD0C3E8107A7B01}" {
     Anchor 0 1 0 1
     PositionX 20
     OffsetLeft 20
     PositionY -150
     OffsetTop -150
-    SizeX 264
-    OffsetRight -284
-    SizeY 164
-    OffsetBottom -14
+    SizeX 266
+    OffsetRight -286
+    SizeY 166
+    OffsetBottom -16
     Alignment 0 0.5
    }
    "Z Order" 1
    Color 0.761 0.392 0.08 1
-   style outline_4px
+   Texture "{367B8D5FF0B529F5}UI/Layouts/Shop/VehiclePreviewGlow.edds"
+   Size 266 166
   }
   UniformGridLayoutWidgetClass "{5ACF3607EB207F23}" {
    Prefab "{5ACF360B0FFF814C}"
@@ -408,14 +409,14 @@ FrameWidgetClass {
    Name "VehiclePriceText"
    Slot FrameWidgetSlot "{5ACB11E12C6A3E09}" {
     Anchor 1 0.5 1 0.5
-    PositionX -367.321
-    OffsetLeft -367.321
-    PositionY 4.074
-    OffsetTop 4.074
+    PositionX -381.089
+    OffsetLeft -381.089
+    PositionY -6.782
+    OffsetTop -6.782
     SizeX 313.51
-    OffsetRight 53.811
+    OffsetRight 67.579
     SizeY 52.457
-    OffsetBottom -56.531
+    OffsetBottom -45.675
    }
    Color 0.672 0 0.052 1
    Text "$ 999.999.999"
