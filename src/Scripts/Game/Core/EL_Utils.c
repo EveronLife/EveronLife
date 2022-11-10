@@ -25,10 +25,11 @@ class EL_Utils
 	//! \param color Color for the new material
 	static void SetColor(notnull IEntity entity, Color color)
 	{
+		Print("color chagnge " + entity.GetVObject().GetResourceName());
 		VObject mesh = entity.GetVObject();
 		if (!mesh || !color)
 			return;
-
+		
 		float materialColorRGBA[] = { color.R(), color.G(), color.B(), color.A() };
 		
 		Material dynamicColorMaterial = Material.Create("DynamicColorMaterial", "MatPBRMulti");
@@ -47,7 +48,7 @@ class EL_Utils
 		for (int i = 0; i < numMats; i++)
 		{
 			string originalMatName = materials[i];
-			if (originalMatName.Contains("Body"))
+			if (originalMatName.EndsWith("Body") ||originalMatName.EndsWith("Base"))
 			{
 				remap += string.Format("$remap '%1' '%2';", materials[i], matName);
 			}

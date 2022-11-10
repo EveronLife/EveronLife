@@ -28,12 +28,12 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	ResourceName m_EmptyVehiclePreview = "{6CA10EE93F1A3C20}Prefabs/Buildings/Garage/GaragePreviewVehicle.et";
 	ResourceName m_MissingPreviewIcon = "{AC7E384FF9D8016A}Common/Textures/placeholder_BCR.edds";
 
-	IEntity m_aPreviewVehicle;
+	SCR_BasePreviewEntity m_aPreviewVehicle;
 	IEntity m_UserEntity;
 
 	int m_iCurPreviewVehicleIndex;
 	EL_VehicleShopUI m_VehicleShopUI;
-
+	Color m_PreviewVehicleColor;
 	//------------------------------------------------------------------------------------------------
 	void OnExitMenu()
 	{
@@ -69,16 +69,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		if (vehicleUIInfo)
 			return vehicleUIInfo.GetImage();
 		return m_MissingPreviewIcon;
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	array<ref SCR_BasePreviewEntry> GetVehicleSlots(ResourceName prefab)
-	{
-		BaseContainer previewEntityComponent = GetBaseContainer(prefab, "SCR_PreviewEntityComponent");
-
-		array<ref SCR_BasePreviewEntry> vehicleEntries;
-		previewEntityComponent.Get("m_aEntries", vehicleEntries);
-		return vehicleEntries;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -130,72 +120,26 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! TODO make custom SCR_BasePreviewEntry -> EL_LocalVehiclePreviewEntry
-	SCR_BasePreviewEntity SpawnPreview(notnull array<ref SCR_BasePreviewEntry> entries, ResourceName previewResource)
-	{
-		if (entries.IsEmpty())
-		{
-			Print("No entries defined!", LogLevel.WARNING);
-			return null;
-		}
-		
-		if (previewResource.IsEmpty())
-		{
-			Print("No previewResource defined!", LogLevel.WARNING);
-			return null;
-		}
-		
-		World world = GetGame().GetWorld();
-
-		EntitySpawnParams spawnParamsLocal = new EntitySpawnParams();
-		spawnParamsLocal.Transform[3] = entries[0].m_vPosition;
-		
-		SCR_BasePreviewEntity rootEntity = SCR_BasePreviewEntity.Cast(GetGame().SpawnEntityPrefabLocal(Resource.Load(previewResource), world, spawnParamsLocal));
-				
-		vector rootTransform[4];
-		Math3D.MatrixCopy(spawnParamsLocal.Transform, rootTransform);
-		
-		array<SCR_BasePreviewEntity> children = {};
-		SCR_BasePreviewEntity entity, parent;
-		foreach (SCR_BasePreviewEntry entry: entries)
-		{
-			spawnParamsLocal = new EntitySpawnParams();
-			entry.LoadTransform(spawnParamsLocal.Transform);
-
-			if (entry.m_iParentID == -1)
-				parent = rootEntity;
-			else
-				parent = children[entry.m_iParentID];
-
-			//--- Create slot entity
-			entity = SCR_BasePreviewEntity.Cast(GetGame().SpawnEntityPrefabLocal(Resource.Load(previewResource), world, spawnParamsLocal));
-			
-			//--- Set mesh from a file
-			if (entity && entry.m_Mesh)
-			{
-				entity.SetObject(Resource.Load(entry.m_Mesh).GetResource().ToVObject(), "");
-			}
-			
-			children.Insert(entity);
-			
-			//--- Add to parent (spawn params won't do that on their own)
-			int pivot = -1;
-			if (!entry.m_iPivotID.IsEmpty())
-				pivot = parent.GetBoneIndex(entry.m_iPivotID);
-			parent.AddChild(entity, pivot, EAddChildFlags.AUTO_TRANSFORM);
-									
-		}
-		
-		return rootEntity;
-	}
-
-	//------------------------------------------------------------------------------------------------
 	void UpdateVehicleStats()
 	{
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
-		IEntity previewEnt = SpawnPreview(GetVehicleSlots(curVehicleConfig.m_Prefab), "{150FDD1A8FC1E074}Prefabs/Buildings/Garage/BasePreviewEnt.et");
-		Print(previewEnt.GetOrigin());
-
+		
+		if (m_aPreviewVehicle)
+			SCR_EntityHelper.DeleteEntityAndChildren(m_aPreviewVehicle);
+		
+		//Spawn preview Vehicle with all slots (windows etc..)
+		m_aPreviewVehicle = EL_LocalPrefabPreviewEntity.SpawnLocalPreviewFromPrefab
+		(
+			Resource.Load(curVehicleConfig.m_Prefab),
+			"{150FDD1A8FC1E074}Prefabs/Buildings/Garage/BasePreviewEnt.et",
+			EL_SpawnUtils.FindSpawnPoint(m_GarageEntity).GetOrigin()
+		);
+		
+		if (!m_aPreviewVehicle)
+		{
+			Print("Error spawning preview vehicle!", LogLevel.ERROR);
+			return;
+		}
 		
 		//Get all the prefab data
 		float maxInvWeight = GetVehicleStorage(curVehicleConfig.m_Prefab);
@@ -229,7 +173,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		m_VehicleShopUI.MoveVehiclePreviewGrid(offset * -304);
 		
-		SetVehiclePreviewMesh(m_iCurPreviewVehicleIndex);
 		UpdateVehicleStats();
 	}
 
@@ -237,9 +180,10 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//! Called from client
 	void OnColorChange(Color color)
 	{
+		m_PreviewVehicleColor = color;
 		if (m_aPreviewVehicle)
 		{
-			EL_Utils.SetColor(m_aPreviewVehicle, color);
+			EL_Utils.SetColor(m_aPreviewVehicle.GetPreviewChildren()[0], color);
 		}
 	}
 
@@ -276,7 +220,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void Rpc_AskBuyVehicle(string playerUID)
+	void Rpc_AskBuyVehicle(string playerUID, int color)
 	{
 
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
@@ -288,7 +232,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		}
 
 		IEntity newCar = EL_Utils.SpawnEntityPrefab(curVehicleConfig.m_Prefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
-		//materialOverride.SetColor(ARGB(color.A() * COLOR_1_TO_255, color.R() * COLOR_1_TO_255, color.G() * COLOR_1_TO_255, color.B() * COLOR_1_TO_255));
+		EL_Utils.SetColor(newCar, Color.FromInt(color));
 		
 		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newCar.FindComponent(EL_CharacterOwnerComponent));
 		
@@ -299,13 +243,13 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//Clientside?
+	//Clientside? NO ITS SERVER SIDE WTF
 	void BuyVehicle()
 	{
 		Print("[EL-VehicleShop] Asking Server to buy Vehicle");
 		Print("BuyVehicle for " + EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity()));
 		IEntity player = SCR_PlayerController.GetLocalControlledEntity();
-		Rpc(Rpc_AskBuyVehicle, EL_Utils.GetPlayerUID(player));
+		Rpc(Rpc_AskBuyVehicle, EL_Utils.GetPlayerUID(player), m_PreviewVehicleColor.PackToInt());
 		DisableCam();
 		GetGame().GetMenuManager().CloseMenuByPreset(ChimeraMenuPreset.EL_VehicleShop);
 	}
@@ -331,25 +275,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------
-	void SetVehiclePreviewMesh(int vehicleIndex)
-	{
-		if (m_PriceConfig.m_aPriceConfigs.Count() == 0)
-			return;
-
-		EntitySpawnParams params();
-		params.TransformMode = ETransformMode.WORLD;
-		EL_SpawnUtils.FindSpawnPoint(m_GarageEntity).GetTransform(params.Transform);
-		//Check if empty preview entity exists
-		if (!m_aPreviewVehicle)
-			m_aPreviewVehicle = GetGame().SpawnEntityPrefabLocal(Resource.Load(m_EmptyVehiclePreview), GetGame().GetWorld(), params);
-
-		//Set new mesh
-		VObject newVehicleMesh = EL_Utils.GetPrefabVObject(m_PriceConfig.m_aPriceConfigs[vehicleIndex].m_Prefab);
-
-		m_aPreviewVehicle.SetObject(newVehicleMesh, "");
-	}
-
 	//------------------------------------------------------------------------------------------------
 	//! Called from client
 	void OpenVehicleShop(IEntity user)
