@@ -207,12 +207,12 @@ class EL_GarageManagerComponent : ScriptComponent
 			Print("[EL-Garage] Server loading vehicle from db: " + vehicleId);
 			EL_VehicleSaveData vehSaveData = vehicleRepo.Find(vehicleId).GetEntity();
 
-			array<ref EL_ComponentSaveDataBase> colorSaveData = vehSaveData.m_mComponentsSaveData.Get(EL_CarColorSaveData);
-			EL_CarColorSaveData colorComp = EL_CarColorSaveData.Cast(colorSaveData.Get(0));
+			//array<ref EL_ComponentSaveDataBase> colorSaveData = vehSaveData.m_mComponentsSaveData.Get(EL_CarColorSaveData);
+			//EL_CarColorSaveData colorComp = EL_CarColorSaveData.Cast(colorSaveData.Get(0));
 
 			EL_GarageData garageVehicleData = new EL_GarageData();
 			garageVehicleData.m_rPrefab = vehSaveData.m_rPrefab;
-			garageVehicleData.m_iVehicleColor = colorComp.m_iVehicleColor;
+			//garageVehicleData.m_iVehicleColor = colorComp.m_iVehicleColor;
 			garageVehicleList.Insert(garageVehicleData);
 
 		}

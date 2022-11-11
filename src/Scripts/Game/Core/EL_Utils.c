@@ -25,14 +25,15 @@ class EL_Utils
 	//! \param color Color for the new material
 	static void SetColor(notnull IEntity entity, Color color)
 	{
-		Print("color chagnge " + entity.GetVObject().GetResourceName());
 		VObject mesh = entity.GetVObject();
 		if (!mesh || !color)
 			return;
 		
+		string materialName = "vehicle_material_" + entity;
+		
 		float materialColorRGBA[] = { color.R(), color.G(), color.B(), color.A() };
 		
-		Material dynamicColorMaterial = Material.Create("DynamicColorMaterial", "MatPBRMulti");
+		Material dynamicColorMaterial = Material.Create(materialName, "MatPBRMulti");
 
 		dynamicColorMaterial.SetParam("Color", materialColorRGBA);
 
@@ -48,12 +49,11 @@ class EL_Utils
 		for (int i = 0; i < numMats; i++)
 		{
 			string originalMatName = materials[i];
-			if (originalMatName.EndsWith("Body") ||originalMatName.EndsWith("Base"))
+			if (originalMatName.EndsWith("Body") || originalMatName.EndsWith("Base") || originalMatName.EndsWith("Body_Roof"))
 			{
 				remap += string.Format("$remap '%1' '%2';", materials[i], matName);
 			}
 		}
-		
 		entity.SetObject(mesh, remap);
 	}
 	

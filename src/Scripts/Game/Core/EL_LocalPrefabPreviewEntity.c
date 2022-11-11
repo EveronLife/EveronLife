@@ -68,9 +68,12 @@ class EL_LocalPrefabPreviewEntity: SCR_PrefabPreviewEntity
 			if (!parent.m_aChildren)
 				parent.m_aChildren = {};
 			parent.m_aChildren.Insert(entity);
-			
+						
 			entity.m_Entity = entry.m_Entity;
+			
+			entity.EOnPreviewInit(entry, rootEntity);
 		}
+				
 		return rootEntity;
 	}
 }

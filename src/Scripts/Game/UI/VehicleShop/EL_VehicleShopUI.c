@@ -8,11 +8,11 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	SliderWidget m_RedSlider, m_GreenSlider, m_BlueSlider, m_wHandlingSlider, m_wEngineSlider, m_wBrakingSlider, m_wInventorySizeSlider;
 	TextWidget m_RedIndex, m_GreenIndex, m_BlueIndex, m_wVehiclePriceText, m_wVehicleTitleText;
 	int r,g,b;
-	ref Color m_NewColor = new Color();
+	ref Color m_NewColor;
 	
 	ref ScriptInvoker<int> m_OnVehicleSelectionChanged = new ScriptInvoker();
 	ref ScriptInvoker<ref Color> m_OnColorChange = new ScriptInvoker();
-	ref ScriptInvoker m_OnBuyVehicle = new ScriptInvoker();
+	ref ScriptInvoker<ref Color> m_OnBuyVehicle = new ScriptInvoker();
 	ref ScriptInvoker m_OnExit = new ScriptInvoker();
 	
 	
@@ -49,7 +49,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		int newR = m_RedSlider.GetCurrent();
 		int newG = m_GreenSlider.GetCurrent();
 		int newB = m_BlueSlider.GetCurrent();
-		return Color.FromRGBA(newR,newG,newB,255);
+		return Color.FromSRGBA(newR,newG,newB,255);
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	//------------------------------------------------------------------------------------------------
 	void OnBuyVehicle()
 	{
-		m_OnBuyVehicle.Invoke();
+		m_OnBuyVehicle.Invoke(m_NewColor);
 		
 	}	
 	//------------------------------------------------------------------------------------------------
@@ -161,8 +161,8 @@ class EL_VehicleShopUI: ChimeraMenuBase
 				m_BlueIndex.SetText(newB.ToString());
 			}
 			
-			Color nextColor = Color.FromRGBA(newR, newG, newB, 255);
-			m_OnColorChange.Invoke(nextColor);
+			m_NewColor = Color.FromSRGBA(newR, newG, newB, 255);
+			m_OnColorChange.Invoke(m_NewColor);
 			
 		}
 		super.OnMenuUpdate(tDelta);

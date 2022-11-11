@@ -22,10 +22,12 @@ Vehicle {
      }
      EL_CharacterOwnerSaveData "{5AC91C63DDEABA05}" {
      }
-     EL_CarColorSaveData "{5ACAA3E43FBB82D2}" {
+     EL_VehicleAppearanceSaveData "{5AD7233A3F110D08}" {
      }
     }
    }
+  }
+  EL_VehicleAppearanceComponent "{5AD72339C5F51BFF}" {
   }
   ParametricMaterialInstanceComponent "{5ACAA3E4E9BF690C}" {
   }

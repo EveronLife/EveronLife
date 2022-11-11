@@ -34,6 +34,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	int m_iCurPreviewVehicleIndex;
 	EL_VehicleShopUI m_VehicleShopUI;
 	Color m_PreviewVehicleColor;
+
 	//------------------------------------------------------------------------------------------------
 	void OnExitMenu()
 	{
@@ -70,7 +71,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 			return vehicleUIInfo.GetImage();
 		return m_MissingPreviewIcon;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	ResourceName GetVehiclePrefabName(ResourceName prefab)
 	{
@@ -113,9 +114,9 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Braking
 		float brakingPower;
 		vehicleAxleTyre.Get("LongitudinalFriction", brakingPower);
-		
+
 		array<float> vehicleStats = {engineMaxPower, handlingPower, brakingPower};
-		
+
 		return vehicleStats;
 	}
 
@@ -123,24 +124,23 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	void UpdateVehicleStats()
 	{
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
-		
+
 		if (m_aPreviewVehicle)
 			SCR_EntityHelper.DeleteEntityAndChildren(m_aPreviewVehicle);
-		
+
 		//Spawn preview Vehicle with all slots (windows etc..)
-		m_aPreviewVehicle = EL_LocalPrefabPreviewEntity.SpawnLocalPreviewFromPrefab
-		(
+		m_aPreviewVehicle = EL_LocalPrefabPreviewEntity.SpawnLocalPreviewFromPrefab(
 			Resource.Load(curVehicleConfig.m_Prefab),
 			"{150FDD1A8FC1E074}Prefabs/Buildings/Garage/BasePreviewEnt.et",
 			EL_SpawnUtils.FindSpawnPoint(m_GarageEntity).GetOrigin()
 		);
-		
+
 		if (!m_aPreviewVehicle)
 		{
 			Print("Error spawning preview vehicle!", LogLevel.ERROR);
 			return;
 		}
-		
+
 		//Get all the prefab data
 		float maxInvWeight = GetVehicleStorage(curVehicleConfig.m_Prefab);
 		array<float> vehicleStats = GetVehiclePrefabSimulation(curVehicleConfig.m_Prefab);
@@ -150,7 +150,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Update price
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
-		//Udate title
+		//Update title
 		m_VehicleShopUI.m_wVehicleTitleText.SetText(GetVehiclePrefabName(curVehicleConfig.m_Prefab));
 
 		//Update vehicle stats
@@ -172,8 +172,22 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_iCurPreviewVehicleIndex = nextIndex;
 
 		m_VehicleShopUI.MoveVehiclePreviewGrid(offset * -304);
-		
+
 		UpdateVehicleStats();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void ChangeColorRecursive(IEntity parent, Color color)
+	{
+		IEntity child = parent.GetChildren();
+		while (child)
+		{
+			if (child.GetChildren())
+				ChangeColorRecursive(child, color);
+
+			EL_Utils.SetColor(child, color);
+			child = child.GetSibling();
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -183,7 +197,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_PreviewVehicleColor = color;
 		if (m_aPreviewVehicle)
 		{
-			EL_Utils.SetColor(m_aPreviewVehicle.GetPreviewChildren()[0], color);
+			ChangeColorRecursive(m_aPreviewVehicle, color);
 		}
 	}
 
@@ -193,6 +207,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	{
 		m_VehicleShopUI = EL_VehicleShopUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_VehicleShop));
 		Print("OpenShopUI for " + EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity()));
+
 		//Listen to events
 		m_VehicleShopUI.m_OnVehicleSelectionChanged.Insert(OnVehicleSelectionChanged);
 		m_VehicleShopUI.m_OnColorChange.Insert(OnColorChange);
@@ -202,7 +217,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Trigger first vehicle update
 		OnVehicleSelectionChanged(0);
 
-		//Populate Preview Images
+		//Load and populate preview images
 		array<ResourceName> vehiclePreviewImages = {};
 		foreach (EL_Price price: m_PriceConfig.m_aPriceConfigs)
 		{
@@ -220,36 +235,44 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void Rpc_AskBuyVehicle(string playerUID, int color)
+	void Rpc_AskBuyVehicle(ResourceName vehiclePrefab, int color, string playerUID)
 	{
-
-		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
+		//Find free spawn point
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
 		if (!freeSpawnPoint)
 		{
-			Print("[EL-VehicleShop] No free spawn point to withdraw!", LogLevel.WARNING);
+			Print("[EL-VehicleShop] No free spawn point to buy!", LogLevel.WARNING);
 			return;
 		}
 
-		IEntity newCar = EL_Utils.SpawnEntityPrefab(curVehicleConfig.m_Prefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
-		EL_Utils.SetColor(newCar, Color.FromInt(color));
-		
-		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newCar.FindComponent(EL_CharacterOwnerComponent));
-		
+		//Spawn new vehicle
+		IEntity newVehicle = EL_Utils.SpawnEntityPrefab(vehiclePrefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
+
+		//Set vehicle color and texture
+		EL_VehicleAppearanceComponent vehicleAppearance = EL_VehicleAppearanceComponent.Cast(newVehicle.FindComponent(EL_VehicleAppearanceComponent));
+		vehicleAppearance.SetVehicleColor(color);
+		//vehicleAppearance.SetVehicleTexture("");
+
+		//Set vehicle owner
+		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newVehicle.FindComponent(EL_CharacterOwnerComponent));
 		charOwnerComp.SetCharacterOwner(playerUID);
-				
-		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(newCar.FindComponent(EL_PersistenceComponent));
+
+		//Save vehicle
+		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(newVehicle.FindComponent(EL_PersistenceComponent));
 		persistence.Save();
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//Clientside? NO ITS SERVER SIDE WTF
-	void BuyVehicle()
+	//! Called from client
+	void BuyVehicle(Color color)
 	{
-		Print("[EL-VehicleShop] Asking Server to buy Vehicle");
-		Print("BuyVehicle for " + EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity()));
-		IEntity player = SCR_PlayerController.GetLocalControlledEntity();
-		Rpc(Rpc_AskBuyVehicle, EL_Utils.GetPlayerUID(player), m_PreviewVehicleColor.PackToInt());
+		string playerUID = EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity());
+		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
+
+		//Ask server do buy vehicle
+		Rpc(Rpc_AskBuyVehicle, curVehicleConfig.m_Prefab, color.PackToInt(), playerUID);
+
+		//Cleanup
 		DisableCam();
 		GetGame().GetMenuManager().CloseMenuByPreset(ChimeraMenuPreset.EL_VehicleShop);
 	}
@@ -274,7 +297,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 			return;
 		}
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Called from client
 	void OpenVehicleShop(IEntity user)
