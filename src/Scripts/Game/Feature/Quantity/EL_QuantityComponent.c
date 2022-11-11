@@ -1,3 +1,4 @@
+[ComponentEditorProps(category: "EveronLife/Feature/Quantity", description: "Virtual quantities for inventory items.")]
 class EL_QuantityComponentClass : ScriptComponentClass
 {
 	[Attribute(defvalue: "0", desc: "Inclusive maximal quantity this item can stack to. 0 means unlimited stack size.", params: "0 2000000000 1")]
