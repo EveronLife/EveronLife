@@ -1,0 +1,7 @@
+GenericEntity {
+ ID "4B42E71698F5739C"
+ components {
+  EL_VehicleAppearanceComponent "{5ADF2525DD8C28D0}" {
+  }
+ }
+}

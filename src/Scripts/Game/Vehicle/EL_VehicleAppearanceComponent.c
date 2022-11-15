@@ -53,6 +53,7 @@ class EL_VehicleAppearanceComponent : ScriptComponent
 	{
 		Print("OnVehicleColorChanged!");
 		EL_Utils.SetColor(GetOwner(), Color.FromInt(m_iVehicleColor));
+		EL_Utils.SetSlotsColor(GetOwner(), m_iVehicleColor);
 	}
 	
 	//------------------------------------------------------------------------------------------------

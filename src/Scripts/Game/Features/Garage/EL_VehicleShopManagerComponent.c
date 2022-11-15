@@ -43,6 +43,27 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	void PrintComponentVariableNames(ResourceName prefab, string typeName)
+	{
+		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
+		int count = prefabSource.GetComponentCount();
+
+		for(int i = 0; i < count; i++)
+		{
+			IEntityComponentSource comp = prefabSource.GetComponent(i);
+
+			if(comp.GetClassName() == typeName)
+			{
+				int numVars = comp.GetNumVars();
+				for (int x = 0; x < numVars; x++)
+				{
+					Print(comp.GetVarName(x));
+				}
+			}
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	BaseContainer GetBaseContainer(ResourceName prefab, string typeName)
 	{
 		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
@@ -125,6 +146,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	{
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
 
+		
 		if (m_aPreviewVehicle)
 			SCR_EntityHelper.DeleteEntityAndChildren(m_aPreviewVehicle);
 
@@ -233,11 +255,14 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		EnableVehicleShopCamera(false);
 	}
 
+	
 	//------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void Rpc_AskBuyVehicle(ResourceName vehiclePrefab, int color, string playerUID)
+	void DoBuyVehicle(ResourceName vehiclePrefab, int color, string playerUID)
 	{
+		Print("Server recieved vehicle buy request");
+		
 		//Find free spawn point
+		//IEntity freeSpawnPoint;
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
 		if (!freeSpawnPoint)
 		{
@@ -248,10 +273,12 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Spawn new vehicle
 		IEntity newVehicle = EL_Utils.SpawnEntityPrefab(vehiclePrefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
 
-		//Set vehicle color and texture
+		//Set vehicle base color and texture
 		EL_VehicleAppearanceComponent vehicleAppearance = EL_VehicleAppearanceComponent.Cast(newVehicle.FindComponent(EL_VehicleAppearanceComponent));
 		vehicleAppearance.SetVehicleColor(color);
-		//vehicleAppearance.SetVehicleTexture("");
+		
+		//Set slots color and texture
+		EL_Utils.SetSlotsColor(newVehicle, color);		
 
 		//Set vehicle owner
 		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newVehicle.FindComponent(EL_CharacterOwnerComponent));
@@ -266,11 +293,11 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//! Called from client
 	void BuyVehicle(Color color)
 	{
-		string playerUID = EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity());
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
 
-		//Ask server do buy vehicle
-		Rpc(Rpc_AskBuyVehicle, curVehicleConfig.m_Prefab, color.PackToInt(), playerUID);
+		EL_RpcSenderComponent rpcSender = EL_RpcSenderComponent.Cast(m_UserEntity.FindComponent(EL_RpcSenderComponent));
+		rpcSender.AskBuyVehicle(curVehicleConfig.m_Prefab, color.PackToInt(), GetOwner());
+		
 
 		//Cleanup
 		DisableCam();

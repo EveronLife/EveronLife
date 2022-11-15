@@ -18,6 +18,25 @@ class EL_Utils
 		return formatPriceText;
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	static void SetSlotsColor(notnull IEntity entity, int color)
+	{
+		SlotManagerComponent slotManager = EL_ComponentFinder<SlotManagerComponent>.Find(entity);
+		array<EntitySlotInfo> slots = new array<EntitySlotInfo>;
+		slotManager.GetSlotInfos(slots);
+		foreach (EntitySlotInfo slotInfo : slots)
+		{
+			IEntity slotEnt = slotInfo.GetAttachedEntity();
+			if (!slotEnt)
+				continue;
+			EL_VehicleAppearanceComponent slotAppearance = EL_ComponentFinder<EL_VehicleAppearanceComponent>.Find(slotEnt);
+			if (slotAppearance)
+				slotAppearance.SetVehicleColor(color);
+			else
+				Print("Slot Entity: " + slotEnt.GetPrefabData().GetPrefabName() + " has no EL_VehicleAppearanceComponent!", LogLevel.WARNING);
+		}
+	}
+	
 	
 	//------------------------------------------------------------------------------------------------
 	//! Creates and sets new material with given color to entity
