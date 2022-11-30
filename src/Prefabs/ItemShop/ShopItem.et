@@ -1,0 +1,39 @@
+GenericEntity {
+ ID "59C4F485BE70DBE7"
+ components {
+  EL_ShopItemComponent "{5AC6DBF94189D860}" {
+   m_PriceConfig EL_PriceConfig "{5AC6DBF8C2E04878}" : "{81BEC2592877CCDF}Configs/ItemShop/EL_ShopPrices.conf" {
+   }
+  }
+  MeshObject "{59C4F48745893DBF}" {
+  }
+  ActionsManagerComponent "{59C4F487641A3025}" {
+   ActionContexts {
+    UserActionContext "{59C4F4877FC8DC6C}" {
+     ContextName "default"
+     Position PointInfo "{59C4F487736AF3DB}" {
+     }
+     Radius 0.5
+    }
+   }
+   additionalActions {
+    EL_BuyItemAction "{59C4F4878D841445}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 1
+    }
+    EL_SellItemAction "{5AFB307B26D7FFE2}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 1
+     "Sort Priority" 1
+    }
+   }
+  }
+  RplComponent "{59C4F4898DA2E09B}" {
+  }
+ }
+ coords 4713.364 164.864 6932.544
+}

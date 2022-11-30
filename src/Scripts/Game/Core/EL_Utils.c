@@ -1,6 +1,32 @@
 class EL_Utils
 {
 	//------------------------------------------------------------------------------------------------
+	//! Gets prefab VObject
+	//! \param prefab Prefab path
+	//! \return the VObject of the prefab
+	static VObject GetPrefabVObject(ResourceName prefab)
+	{
+		BaseContainer meshComponent;
+		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
+		int count = prefabSource.GetComponentCount();
+
+		for(int i = 0; i < count; i++)
+		{
+			IEntityComponentSource comp = prefabSource.GetComponent(i);
+
+			if(comp.GetClassName() == "MeshObject")
+			{
+				meshComponent = comp;
+				break;
+			}
+		}
+		ResourceName prefabObject;
+		meshComponent.Get("Object", prefabObject);
+		return Resource.Load(prefabObject).GetResource().ToVObject();
+	}
+
+	
+	//------------------------------------------------------------------------------------------------
 	//! Gets the Bohemia UID
 	//! \param playerId Index of the player inside player manager
 	//! \return the uid as string
