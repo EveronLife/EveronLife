@@ -1,13 +1,13 @@
 modded class SCR_InventoryStoragesListUI
 {
 	protected const int EL_HAND_GRID_ROW = 9;
-	
+
 	protected SCR_InventorySlotUI m_pELHandSlot;
 	protected Widget m_pELHandSlotBackground;
 
 	//------------------------------------------------------------------------------------------------
 	void EL_UpdateHandSlot()
-	{	
+	{
 		EL_HandInventoryStorageComponent handStorage = EL_ComponentFinder<EL_HandInventoryStorageComponent>.Find(m_Storage.GetOwner());
 		if (!handStorage) return;
 
@@ -19,7 +19,7 @@ modded class SCR_InventoryStoragesListUI
 		if (item)
 		{
 			InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(item);
-			
+
 			if (!m_pELHandSlot)
 			{
 				m_pELHandSlotBackground = CreateEmptySlotUI(EL_HAND_GRID_ROW, 0);
@@ -56,5 +56,27 @@ modded class SCR_InventoryStoragesListUI
 	{
 		super.RefreshList();
 		EL_UpdateHandSlot();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override int CreateSlots()
+	{
+		super.CreateSlots();
+
+		for (int nSlot = 0; nSlot < m_aSlots.Count(); nSlot++)
+		{
+			SCR_InventorySlotUI pSlot = m_aSlots[nSlot];
+			if (!pSlot) continue;
+			InventoryItemComponent item = pSlot.GetInventoryItemComponent();
+			if (!item) continue;
+			InventoryStorageSlot itemSlot = item.GetParentSlot();
+			if (itemSlot && EL_HandInventoryStorageComponent.Cast(itemSlot.GetStorage()))
+			{
+				pSlot.Destroy();
+				m_aSlots.RemoveOrdered(nSlot--);
+			}
+		}
+
+		return m_aSlots.Count() - 1;
 	}
 }
