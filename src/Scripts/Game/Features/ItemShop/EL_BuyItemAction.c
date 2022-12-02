@@ -36,7 +36,7 @@ class EL_BuyItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
  	{
-		return (m_ItemPriceConfig.m_iBuyPrice != -1 && m_BuyablePrefab);
+		return (m_ItemPriceConfig && m_ItemPriceConfig.m_iBuyPrice != -1 && m_BuyablePrefab);
 	}
 
 	//------------------------------------------------------------------------------------------------

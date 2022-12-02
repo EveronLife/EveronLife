@@ -31,7 +31,7 @@ class EL_SellItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
  	{
-		return (m_ItemPriceConfig.m_iSellPrice != -1 && m_SellablePrefab);
+		return (m_ItemPriceConfig && m_ItemPriceConfig.m_iSellPrice != -1 && m_SellablePrefab);
 	}
 
 	//------------------------------------------------------------------------------------------------
