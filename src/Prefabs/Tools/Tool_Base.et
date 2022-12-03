@@ -1,7 +1,10 @@
 GenericEntity : "{69FC0AAC5FFE1288}Prefabs/Weapons/Core/Melee_Base.et" {
  ID "50989DC991E68512"
  components {
-  SignalsManagerComponent "{5990AD6FBA6EEF6D}" {
+  WeaponSoundComponent "{5ACCA164E75E44FA}" {
+   Filenames {
+    "{430CD8162D17C2FF}Sounds/Weapons/_SharedData/Melee/Weapons_Melee_Pistol.acp" "{8D040E18DFEC29AF}Sounds/Weapons/_SharedData/PickUp/Weapons_PickUp_HandGun.acp"
+   }
   }
   EL_PersistenceComponent "{5A4C7559CF69AAF0}" {
    m_pSaveData EL_ItemSaveData "{5A4C7559EABBF0B0}" {
@@ -11,18 +14,19 @@ GenericEntity : "{69FC0AAC5FFE1288}Prefabs/Weapons/Core/Melee_Base.et" {
     }
    }
   }
-  MeshObject "{59908096775F151D}" {
-  }
-  RigidBody "{599080966B9BB4E4}" {
-  }
-  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
-  }
-  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+  InventoryItemComponent "{5ACCA164BC7A99A2}" {
    Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
     ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
      AnimationIKPose "{09E1B16C87261340}Assets/Weapons/Handguns/M9/anims/anm/p_m9_idle.anm"
     }
    }
+  }
+  MeshObject "{59908096775F151D}" {
+  }
+  RigidBody "{599080966B9BB4E4}" {
+   ModelGeometry 1
+  }
+  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
   }
   SimpleSoundComponent "{59072B578A46AF84}" {
   }
@@ -47,6 +51,21 @@ GenericEntity : "{69FC0AAC5FFE1288}Prefabs/Weapons/Core/Melee_Base.et" {
       Name "#AR-Inventory_PickUp"
      }
      "Sort Priority" 2
+    }
+    SCR_EquipWeaponHolsterAction "{5990AD67F23F879F}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59965ADC467073C4}" {
+     }
+    }
+    SCR_EquipWeaponAction "{59927B282708471D}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{59927B281D9EA33A}" {
+      Name "#AR-Inventory_Equip"
+     }
     }
    }
   }

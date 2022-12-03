@@ -1,0 +1,17 @@
+Tree : "{6F903CFDBEAE17EE}Prefabs/Resources/WoodCutting/CuttableTree_Dst_Base.et" {
+ ID "5A631817098CF41D"
+ components {
+  MeshObject "{5A6318165B9E4A17}" {
+   Object "{E51D1C3DB7D7DD93}Assets/Vegetation/Tree/Pinus_Sylvestris/Dst/t_pinus_sylvestris_2f_dst_base.xob"
+  }
+  EL_DestructibleResourceComponent "{5ACCE1B70F3EF473}" {
+   "Additional hit zones" {
+    EL_DestructibleResourceHitZone WoodCutting {
+     ColliderNames {
+      "UTM_t_pinus_sylvestris_2f_dst_base_wood"
+     }
+    }
+   }
+  }
+ }
+}

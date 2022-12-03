@@ -9,7 +9,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	protected ref array<ResourceName> m_aDefaultCharacterPrefabs;
 
 	[Attribute(category: "New character defaults")]
-	protected ref array<ref EL_DefaultCharacterLoadoutSlot> m_aDefaultCharacterItems;
+	protected ref array<ref EL_DefaultLoadoutItem> m_aDefaultCharacterItems;
 
 	protected ref map<int, ref EL_CharacterSaveData> m_mSpawnData = new map<int, ref EL_CharacterSaveData>();
 
@@ -145,13 +145,10 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 
 			InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(InventoryStorageManagerComponent));
 			BaseLoadoutManagerComponent loadoutManager = BaseLoadoutManagerComponent.Cast(playerEntity.FindComponent(BaseLoadoutManagerComponent));
-			foreach (EL_DefaultCharacterLoadoutSlot defaultLoadoutSlot : m_aDefaultCharacterItems)
+			foreach (EL_DefaultLoadoutItem loadoutItem : m_aDefaultCharacterItems)
 			{
-				if (defaultLoadoutSlot.m_eArea == ELoadoutArea.ELA_None || !defaultLoadoutSlot.m_pItem) continue;
-
-				IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, defaultLoadoutSlot.m_pItem);
+				IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, loadoutItem);
 				if (!slotEntity) continue;
-
 				loadoutManager.Wear(slotEntity);
 			}
 
@@ -177,17 +174,25 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	//! \param storageManager Storage manager of the character to give the items to
 	//! \param loadoutItem Loadout configuration item
 	//! \return parent entity of the items spawned by the configuration or null on failure
-	protected IEntity SpawnDefaultCharacterItem(InventoryStorageManagerComponent storageManager, EL_DefaultCharacterLoadoutItem loadoutItem)
+	protected IEntity SpawnDefaultCharacterItem(InventoryStorageManagerComponent storageManager, EL_DefaultLoadoutItem loadoutItem)
 	{
 		IEntity slotEntity = GetGame().SpawnEntityPrefab(Resource.Load(loadoutItem.m_rPrefab));
 		if (!slotEntity) return null;
 
+		if (loadoutItem.m_aComponentDefaults)
+		{
+			foreach (EL_DefaultLoadoutItemComponent componentDefault : loadoutItem.m_aComponentDefaults)
+			{
+				componentDefault.ApplyTo(slotEntity);
+			}
+		}
+		
 		if (loadoutItem.m_aStoredItems)
 		{
 			array<Managed> outComponents();
 			slotEntity.FindComponents(BaseInventoryStorageComponent, outComponents);
 
-			foreach (EL_DefaultCharacterLoadoutItem storedItem : loadoutItem.m_aStoredItems)
+			foreach (EL_DefaultLoadoutItem storedItem : loadoutItem.m_aStoredItems)
 			{
 				for (int i = 0; i < storedItem.m_iAmount; i++)
 				{
@@ -231,18 +236,8 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	}
 }
 
-[BaseContainerProps(), EL_BaseContainerCustomTitleFieldEnum("m_eArea", ELoadoutArea)]
-class EL_DefaultCharacterLoadoutSlot
-{
-	[Attribute(uiwidget: UIWidgets.ComboBox, desc: "Loadout area", enums: ParamEnumArray.FromEnum(ELoadoutArea))]
-	ELoadoutArea m_eArea;
-
-	[Attribute(desc: "Loadout item")]
-	ref EL_DefaultCharacterLoadoutItem m_pItem;
-}
-
 [BaseContainerProps()]
-class EL_DefaultCharacterLoadoutItem
+class EL_DefaultLoadoutItem
 {
 	[Attribute()]
 	ResourceName m_rPrefab;
@@ -254,5 +249,14 @@ class EL_DefaultCharacterLoadoutItem
 	EStoragePurpose m_ePurpose;
 
 	[Attribute()]
-	ref array<ref EL_DefaultCharacterLoadoutItem> m_aStoredItems;
+	ref array<ref EL_DefaultLoadoutItemComponent> m_aComponentDefaults;
+	
+	[Attribute()]
+	ref array<ref EL_DefaultLoadoutItem> m_aStoredItems;
+}
+
+[BaseContainerProps()]
+class EL_DefaultLoadoutItemComponent
+{
+	void ApplyTo(IEntity item);
 }

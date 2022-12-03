@@ -1,0 +1,14 @@
+GenericEntity : "{4D49C562C478DDC5}Prefabs/Processors/SawMill.et" {
+ coords 146.744 0.001 108.93
+ angleY -90
+ {
+  GenericEntity {
+   ID "598C71CAC5B58336"
+   coords 0.416 0 -1.975
+  }
+  GenericEntity {
+   ID "598C71CAC5B58335"
+   coords 0.395 0 2.203
+  }
+ }
+}

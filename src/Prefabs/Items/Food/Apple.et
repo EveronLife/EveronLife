@@ -1,11 +1,11 @@
-GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+GenericEntity : "{61C577C0E2A178A6}Prefabs/Items/Food/Food_Base.et" {
  ID "508AB2013EEE1E00"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Apple"
-     Description "This is an Apple from an Apple Tree"
+     Description "Fruit from the apple tree"
     }
     ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
      Weight 0.2
@@ -13,15 +13,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      ItemVolume 113
     }
     ItemAnimationAttributes ItemAnimationAttributes "{5966FD8070F889C7}" {
-     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
-     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
-     AnimationAttachments {
-      AnimationAttachmentInfo "{5966FD80B4E293CD}" {
-       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
-       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
-       BindingName "Gadget"
-      }
-     }
      HandAdditiveRotation 90 0 -90
      HandAdditiveTranslation 0 0.02 0
     }
@@ -29,11 +20,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
   }
   MeshObject "{5A4ACD10B8DA304F}" {
    Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
-   LODScale 0.1
-   PixelSizeScale 10
-  }
-  SCR_ConsumableItemComponent "{5966FECAA294E6A7}" {
-   m_eAnimVariable ADRIANOV
   }
  }
 }

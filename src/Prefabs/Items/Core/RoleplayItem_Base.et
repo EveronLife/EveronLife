@@ -6,6 +6,14 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
   }
+  EL_QuantityComponent "{5AD2B81F97B9381B}" {
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    CommonItemType "EL_ITEM"
+    m_SlotType SLOT_LOOT_STORAGE
+   }
+  }
   MeshObject "{5A4ACD10B8DA304F}" {
   }
   RigidBody "{5A4ACBB1A0084DA1}" {

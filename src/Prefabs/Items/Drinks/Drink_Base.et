@@ -1,0 +1,10 @@
+GenericEntity : "{B92446456ECA70AB}Prefabs/Items/Core/ConsumeableItem_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    CommonItemType "FOOD"
+   }
+  }
+ }
+}
