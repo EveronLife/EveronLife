@@ -55,7 +55,7 @@ GenericEntity {
     RplComponent "{59AA93A81C0B22D5}" {
     }
    }
-   coords 0.276 0.899 0.202
+   coords 0.476 0.899 0.202
   }
   SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
    coords 0.147 0 0
@@ -68,7 +68,10 @@ GenericEntity {
      m_eInitialLightState LIT
     }
    }
-   coords -0.124 0.902 -0.182
+   coords 0.204 0.902 -0.22
   }
  }
+}
+GenericEntity : "{03179A7595569288}Prefabs/Props/ATM.et" {
+ coords 101.696 0.898 135.286
 }

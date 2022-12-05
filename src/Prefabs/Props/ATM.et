@@ -1,0 +1,45 @@
+GenericEntity : "{51D31AB07AE3C1C7}Prefabs/Props/Commercial/CashierShop_01.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{5B0B1EE358F7219F}" {
+   ActionContexts {
+    UserActionContext "{5B0B1EE35A0CB1CC}" {
+     ContextName "default"
+    }
+   }
+   additionalActions {
+    EL_WithdrawMoneyAction "{5B0B1EE354698C3F}" {
+     ParentContextList {
+      "default"
+     }
+     "Sort Priority" 1
+    }
+    EL_WithdrawMoneyAction "{5B0B1EE361813016}" {
+     ParentContextList {
+      "default"
+     }
+     "Sort Priority" 100
+     m_iAmount 100
+    }
+    EL_DepositMoneyAction "{5B0B1EE357E7C40D}" {
+     ParentContextList {
+      "default"
+     }
+     "Sort Priority" 1001
+     m_iAmount 1
+    }
+    EL_DepositMoneyAction "{5B0B1EE3672D3A69}" {
+     ParentContextList {
+      "default"
+     }
+     "Sort Priority" 1100
+     m_iAmount 100
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+ coords 101.696 0.898 135.286
+}
