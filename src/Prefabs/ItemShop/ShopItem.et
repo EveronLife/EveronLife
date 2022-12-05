@@ -21,14 +21,14 @@ GenericEntity {
      ParentContextList {
       "default"
      }
-     Duration 1
+     Duration 0.5
     }
     EL_SellItemAction "{5AFB307B26D7FFE2}" {
      ParentContextList {
       "default"
      }
-     Duration 1
-     "Sort Priority" 1
+     Duration 0.5
+     "Sort Priority" 1001
     }
    }
   }

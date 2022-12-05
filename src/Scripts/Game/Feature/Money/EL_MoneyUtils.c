@@ -25,7 +25,7 @@ class EL_MoneyUtils
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	static bool TryBuy(notnull IEntity player, ResourceName prefabToBuy, int price)
+	static bool TryBuy(notnull IEntity player, ResourceName prefabToBuy, int price, int amount)
 	{
 		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventoryManager)
@@ -33,37 +33,27 @@ class EL_MoneyUtils
 
 		if (EL_MoneyUtils.GetCash(inventoryManager) < price)
 			return false;
-		
-		//Spawn bought Item
-		bool insertSucess = inventoryManager.TrySpawnPrefabToStorage(prefabToBuy);
-		if (!insertSucess)
-			return false;
 
-		RemoveCash(player, price);
+		for (int i; i < amount; i++)
+		{
+			EL_InventoryUtils.AddAmount(player, prefabToBuy, 1);
+			RemoveCash(player, price);
+		}
 		
 		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static bool TrySell(notnull IEntity player, ResourceName prefabToSell, int price)
+	static bool TrySell(notnull IEntity player, ResourceName prefabToSell, int price, int amount)
 	{
 		if (prefabToSell.IsEmpty())
 			return false;
-		SCR_PrefabNamePredicate prefabNamePredicate();
-		prefabNamePredicate.prefabName = prefabToSell;
-
-		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(player.FindComponent(SCR_InventoryStorageManagerComponent));
-		if (!inventoryManager)
-			return false;
-
-		//Delete sold Item
-		bool deleteSucess = inventoryManager.TryDeleteItem(inventoryManager.FindItem(prefabNamePredicate));
-		if (!deleteSucess)
-			return false;
-
-		//Spawn Money
-		AddCash(player, price);
-
+	
+		for (int i; i < amount; i++)
+		{
+			EL_InventoryUtils.RemoveAmount(player, prefabToSell, 1);
+			AddCash(player, price);
+		}
 		return true;
 	}
 	
