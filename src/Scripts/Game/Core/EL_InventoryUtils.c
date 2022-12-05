@@ -1,5 +1,40 @@
 class EL_InventoryUtils
 {
+	
+	//------------------------------------------------------------------------------------------------
+	static bool CanSpawnPrefabToStorage(SCR_InventoryStorageManagerComponent storageManager, ResourceName prefab, EStoragePurpose purpose = EStoragePurpose.PURPOSE_ANY)
+	{
+		array<BaseInventoryStorageComponent> pStorages = new array<BaseInventoryStorageComponent>();
+		storageManager.GetStorages(pStorages);
+		
+		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
+        int count = prefabSource.GetComponentCount();
+		float totalWeight, totalVolume;
+		
+		for(int i = 0; i < count; i++)
+        {
+            IEntityComponentSource comp = prefabSource.GetComponent(i);
+
+            if(comp.GetClassName() == "InventoryItemComponent")
+            {
+				SCR_ItemAttributeCollection attribCol;
+                comp.Get("Attributes", attribCol);
+				totalWeight = attribCol.GetWeight();
+				totalVolume = attribCol.GetVolume();
+            }
+        }
+				
+		foreach( BaseInventoryStorageComponent invStorage : pStorages)
+		{
+			SCR_UniversalInventoryStorageComponent uniInvStorage = SCR_UniversalInventoryStorageComponent.Cast(invStorage);
+			if (!uniInvStorage) continue;
+			if (uniInvStorage.GetMaxVolumeCapacity() >= totalVolume && uniInvStorage.GetMaxLoad() >= totalWeight)
+				return true;
+		}
+		return false;
+		
+	}
+		
 	//------------------------------------------------------------------------------------------------
 	static bool IsStorageHierachyRoot(notnull IEntity item)
 	{

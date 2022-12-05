@@ -3,9 +3,17 @@ class EL_MoneyUtils
 	static const ResourceName MONEY_PREFAB = "{FDEE11D818A4C675}Prefabs/Items/Money/DollarBill.et";
 
 	static ref SCR_PrefabNamePredicate m_pPrefabNamePredicate = new SCR_PrefabNamePredicate();
-
+	
 	//------------------------------------------------------------------------------------------------
-	static bool CanBuy(notnull IEntity player, IEntity entToBuy, int price, out string errorMessage)
+	//! Get the total amount of cash the target has across all storages
+	//! \return the total cash or -1 on faulty opertations.
+	static int GetCash(InventoryStorageManagerComponent target)
+	{
+		
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	static bool CanBuy(notnull IEntity player, ResourceName prefabToBuy, int price, out string errorMessage)
 	{
 		m_pPrefabNamePredicate.prefabName = MONEY_PREFAB;
 
@@ -13,17 +21,13 @@ class EL_MoneyUtils
 		if (!inventoryManager)
 			return false;
 
-		//Find Money
-		array<IEntity> moneyItems = new array<IEntity>();
-		inventoryManager.FindItems(moneyItems, m_pPrefabNamePredicate);
-
-		if (moneyItems.Count() < price)
+		if (EL_MoneyUtils.GetCash(inventoryManager) < price)
 		{
 			errorMessage = "Can't afford";
 			return false;
 		}
 		
-		if (!inventoryManager.CanInsertItem(entToBuy))
+		if (!EL_InventoryUtils.CanSpawnPrefabToStorage(inventoryManager, prefabToBuy))
 		{
 			errorMessage = "Inventory full";
 			return false;
