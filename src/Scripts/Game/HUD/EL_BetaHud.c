@@ -121,16 +121,16 @@ class EL_BetaHud : SCR_InfoDisplay
 		m_HungerProgress.SetMaskProgress(value);
 		//m_StatChange = true;
 	}
-	
-	void OnMoneyChange(float value)
+
+	void OnMoneyChange(ResourceName prefab, int newAmount, int oldAmount)
 	{
-		if (m_MoneyIndicator)
+		if (!m_MoneyIndicator)
 		{
 			m_MoneyIndicator = TextWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_moneyIndicator"));
 			if (!m_MoneyIndicator) return;
 		}
-		
-		m_MoneyIndicator.SetText("$ " + value); //for configurabiluity could have the $ changeable in config...
+
+		m_MoneyIndicator.SetText("$ " + EL_FormatUtils.AbbreviateNumber(newAmount)); //for configurabiluity could have the $ changeable in config...
 		//m_StatChange = true;
 	}
 	
@@ -140,15 +140,17 @@ class EL_BetaHud : SCR_InfoDisplay
 		super.OnStartDraw(owner);
 		
 		if (!m_EnableHUD) return;
-		
-		IEntity player = GetGame().GetPlayerController();
+
+		IEntity player = PlayerController.Cast(owner).GetControlledEntity();
 		if (!player) return;
-		
+
 		m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
+
+		m_DMC = DamageManagerComponent.Cast(player.FindComponent(DamageManagerComponent));
 		
 		m_PlayerStatsHUD = HorizontalLayoutWidget.Cast(m_wRoot.FindAnyWidget("m_playerStatsHUD"));
 		if (!m_PlayerStatsHUD) return;
-		
+
 		if (m_EnableHealth)
 		{
 			m_HealthIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_healthIndicator"));
@@ -183,6 +185,12 @@ class EL_BetaHud : SCR_InfoDisplay
 			m_ThirstIndicator = OverlayWidget.Cast(m_PlayerStatsHUD.FindAnyWidget("m_thirstIndicator"));
 			if (!m_ThirstIndicator) return;
 		}
+		
+		// Init cash display and subscribe to balance changes
+		int currentCash = EL_MoneyUtils.GetCash(player);
+		OnMoneyChange(EL_MoneyUtils.PREFAB_CASH, currentCash, currentCash);
+		ScriptedInventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<ScriptedInventoryStorageManagerComponent>.Find(player);
+		if (inventoryManager) inventoryManager.EL_GetOnAmountChanged(EL_MoneyUtils.PREFAB_CASH).Insert(OnMoneyChange);
 	}
 	
 	
@@ -190,23 +198,9 @@ class EL_BetaHud : SCR_InfoDisplay
 	float m_TimeAccumulator = 0;
 	bool m_GUIHidden = false;
 	override event void UpdateValues(IEntity owner, float timeSlice)
-	{	
-		if (!m_PlayerController)
-		{
-			IEntity player = SCR_PlayerController.GetLocalControlledEntity();
-			if (!player) return;
-		
-			m_PlayerController = SCR_CharacterControllerComponent.Cast(player.FindComponent(SCR_CharacterControllerComponent));
-			if (!m_PlayerController) return;
-			
-			m_DMC = DamageManagerComponent.Cast(player.FindComponent(DamageManagerComponent));
-			if (!m_DMC) return;
-			
-			//TODO: Get Survival Stats Component
-			
-			//TODO: Get Money Stats Component
-		}
-		
+	{
+		if (!m_PlayerController) return;
+
 		m_StatChange = false;
 		if (m_EnableHealth) OnHealthChange(m_DMC.GetHealth());
 		if (m_EnableStamina) OnStaminaChange(m_PlayerController.GetStamina());
