@@ -54,14 +54,14 @@ modded class SCR_InventoryStorageManagerComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_RequestQuantityTransfer(notnull IEntity sourceEntity, notnull IEntity destinationEntity, int amount = -1, bool setQuantity = false)
+	void EL_RequestQuantityTransfer(notnull IEntity sourceEntity, notnull IEntity destinationEntity, int amount = -1)
 	{
-		Rpc(RPC_EL_QuantityTransfer, EL_NetworkUtils.GetRplId(sourceEntity), EL_NetworkUtils.GetRplId(destinationEntity), amount, setQuantity);
+		Rpc(RPC_EL_QuantityTransfer, EL_NetworkUtils.GetRplId(sourceEntity), EL_NetworkUtils.GetRplId(destinationEntity), amount);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	protected void RPC_EL_QuantityTransfer(RplId quantitySourceRplId, RplId quantityDestinationRplId, int amount, bool setQuantity)
+	protected void RPC_EL_QuantityTransfer(RplId quantitySourceRplId, RplId quantityDestinationRplId, int amount)
 	{
 		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
 		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
@@ -69,7 +69,7 @@ modded class SCR_InventoryStorageManagerComponent
 		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantityDestinationRplId));
 		if (!quantityDestination || !EL_CanManipulate(quantityDestination.GetOwner())) return;
 
-		quantityDestination.Combine(quantitySource, amount, setQuantity);
+		quantityDestination.Combine(quantitySource, amount);
 	}
 
 	//------------------------------------------------------------------------------------------------
