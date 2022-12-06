@@ -324,8 +324,8 @@ modded class SCR_InventoryMenuUI
 		InventoryStorageSlot parentSlot = itemSource.GetParentSlot();
 		if (parentSlot && !EL_CanSplitInStorage(itemSource, parentSlot.GetStorage())) return;
 
-		if (quantitySource.GetQuantity() > 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonSplitQuantity", true, "#EL-Keybinds_Inventory_SplitQuantity");
-		if (quantitySource.GetQuantity() >= 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonQuickSplitQuantity", true, "#EL-Keybinds_Inventory_QuickSplitQuantity");
+		if (quantitySource.GetQuantity() > 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonSplitQuantity", true);
+		if (quantitySource.GetQuantity() >= 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonQuickSplitQuantity", true);
 	}
 
 	//------------------------------------------------------------------------------------------------
