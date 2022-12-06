@@ -1,0 +1,12 @@
+AnimSrcGraphFile {
+ Sheets {
+  AnimSrcGraphSheet player_carry {
+   Nodes {
+    AnimSrcNodeSource "Player Carry" {
+     EditorPos 629 225
+     Source "Default.Default.Carry"
+    }
+   }
+  }
+ }
+}

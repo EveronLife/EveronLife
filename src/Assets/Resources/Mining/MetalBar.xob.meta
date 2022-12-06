@@ -3,31 +3,39 @@ MetaFileClass {
  Configurations {
   FBXResourceClass PC {
    Scale 0.5 0.5 0.5
+   MaterialAssigns {
+    MaterialAssignClass "{5AD2B5F68D28714D}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{3C10D749A4E84B38}Common/Materials/Default.emat"
+    }
+   }
    GeometryParams {
     GeometryParam UCX_MetalBar {
      LayerPreset "ItemFireView"
      SurfaceProperties {
-      "{039AB05DD92E078A}Material.gamemat"
+      "{CE9253778DD8FBDE}Common/Materials/Game/metal.gamemat"
      }
      Mass 0
      Margin 0
     }
    }
+   Common TXOCommonClass "{5AD2B5F69825718E}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
+   }
   }
   FBXResourceClass XBOX_ONE : PC {
-   Common TXOCommonClass "{59A7112ACEF2F293}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
+   Common TXOCommonClass "{5AD2B5F698257073}" : "{9D5B6207F7628CE2}Configs/System/ResourceTypes/XBOX_ONE/MeshObjectCommon.conf" {
    }
   }
   FBXResourceClass XBOX_SERIES : PC {
-   Common TXOCommonClass "{59A7112ACEF2F5DC}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
+   Common TXOCommonClass "{5AD2B5F69825701A}" : "{DD9F02115C764647}Configs/System/ResourceTypes/XBOX_SERIES/MeshObjectCommon.conf" {
    }
   }
   FBXResourceClass PS4 : PC {
-   Common TXOCommonClass "{59A7112ACEF2F56B}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
+   Common TXOCommonClass "{5AD2B5F6982573DE}" : "{53EC476BC921D99A}Configs/System/ResourceTypes/PS4/MeshObjectCommon.conf" {
    }
   }
   FBXResourceClass HEADLESS : PC {
-   Common TXOCommonClass "{59A7112ACEF2F4EA}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
+   Common TXOCommonClass "{5AD2B5F69825739E}" : "{3A5B3356978039E8}Configs/System/ResourceTypes/HEADLESS/MeshObjectCommon.conf" {
    }
   }
  }

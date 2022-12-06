@@ -1,13 +1,10 @@
-GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+GenericEntity : "{693D54F74C95B3D6}Prefabs/Items/Drinks/Drink_Base.et" {
  ID "508AB2013EEE1E00"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
      Name "Apple Juice"
-    }
-    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
-     DimensionScaler 0.01
     }
    }
   }

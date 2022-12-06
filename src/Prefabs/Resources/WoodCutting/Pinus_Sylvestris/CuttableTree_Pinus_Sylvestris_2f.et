@@ -1,0 +1,29 @@
+Tree : "{388228D9B7D2CCB0}Prefabs/Resources/WoodCutting/CuttableTree_Base.et" {
+ ID "5ACE9762F521AE84"
+ components {
+  MeshObject "{5ACE976091305C8B}" {
+   Object "{847A517466B4C2CD}Assets/Vegetation/Tree/Pinus_Sylvestris/t_pinus_sylvestris_2s.xob"
+  }
+  EL_DestructibleResourceComponent "{5ACCE1B70F3EF473}" {
+   "Additional hit zones" {
+    EL_DestructibleResourceHitZone WoodCutting {
+     ColliderNames {
+      "UTM_F"
+     }
+    }
+   }
+   m_DestroySpawnObjects {
+    SCR_PrefabSpawnable "{598E7398B7FBDF2D}" {
+     m_Prefabs {
+      "{B4E47486922CFCF4}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_2f_Dst.et"
+     }
+    }
+    SCR_PrefabSpawnable "{598E7398C91FD4B0}" {
+     m_Prefabs {
+      "{FC9E572F03833045}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_Stump_01.et"
+     }
+    }
+   }
+  }
+ }
+}

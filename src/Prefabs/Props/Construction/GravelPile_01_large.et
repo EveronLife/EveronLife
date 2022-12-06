@@ -20,7 +20,6 @@ GenericEntity : "{D93A7286584E122C}Prefabs/Props/Construction/GravelPile_01/Grav
       Name "Gather Gravel"
      }
      Duration 10
-     m_GatherItemDisplayName "Gravel Bag"
      m_GatherItemPrefab "{344090890C63F4CA}Prefabs/Items/Resources/GravelBag.et"
     }
    }

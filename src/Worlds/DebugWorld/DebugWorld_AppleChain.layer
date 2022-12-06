@@ -119,11 +119,11 @@ GenericEntity AppleTrader {
       }
       m_fMaxWeight 1000
       m_TradablePrefabs {
-       "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+       "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
       }
      }
      EL_TraderManagerComponent "{59693C53B6A5EFC0}" {
-      m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/Apple_Juice.et"
+      m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
       m_ItemToGive "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
      }
      MeshObject "{59670CE9C98E5BAF}" {

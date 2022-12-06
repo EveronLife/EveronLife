@@ -10,28 +10,24 @@ EL_GameModeRoleplay {
     "{CE23D4366B47E9B9}Prefabs/Characters/Presets/White_Male_01.et" "{C465F15DDF56A6D8}Prefabs/Characters/Presets/Asian_Male_02.et" "{BFD6AFB8A1D8E2F9}Prefabs/Characters/Presets/Black_Male_02.et"
    }
    m_aDefaultCharacterItems {
-    EL_DefaultCharacterLoadoutSlot "{5A2882A2E1E3D609}" {
-     m_eArea ELA_Jacket
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A229C1EEFB}" {
-      m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
-      m_aStoredItems {
-       EL_DefaultCharacterLoadoutItem "{5A2882A8880828ED}" {
-        m_rPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+    EL_DefaultLoadoutItem "{5B04BEA632661AF2}" {
+     m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
+     m_aStoredItems {
+      EL_DefaultLoadoutItem "{5B04BEA625F04EAC}" {
+       m_rPrefab "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
+       m_aComponentDefaults {
+        EL_DefaultLoadoutItemQuantityComponent "{5B04BEA65E4A1912}" {
+         m_iQuantity 100
+        }
        }
       }
      }
     }
-    EL_DefaultCharacterLoadoutSlot "{5A2882A371CF8003}" {
-     m_eArea ELA_Pants
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A36B89DF57}" {
-      m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
-     }
+    EL_DefaultLoadoutItem "{5B04BEA657DB0F2D}" {
+     m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
     }
-    EL_DefaultCharacterLoadoutSlot "{5A2882A36132BCD3}" {
-     m_eArea ELA_Boots
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A49CA76329}" {
-      m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
-     }
+    EL_DefaultLoadoutItem "{5B04BEA6507A8381}" {
+     m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
     }
    }
   }

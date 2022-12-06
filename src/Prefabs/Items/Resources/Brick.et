@@ -1,4 +1,4 @@
-GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
  ID "508AB2013EEE1E00"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
@@ -13,15 +13,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      ItemVolume 100
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59BCA073459D6271}" {
-     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
-     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
-     AnimationAttachments {
-      AnimationAttachmentInfo "{59EA76453456E9E3}" {
-       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
-       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
-       BindingName "Gadget"
-      }
-     }
      HandAdditiveRotation 0 0 0
      HandAdditiveTranslation 0 0.005 -0.065
     }
@@ -32,7 +23,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
       CameraOffset 0 0 0
      }
     }
-    m_SlotType SLOT_ANY
    }
   }
   MeshObject "{5A4ACD10B8DA304F}" {
@@ -41,20 +31,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
     MaterialAssignClass "{59BCB28CAE705ACE}" {
      SourceMaterial "Assets/Structures/Walls/Brick/Data/BrickWall_01_bricks"
      AssignedMaterial "{F91EF4F5C90B9DF8}Assets/Rocks/Granite/Data/GraniteCluster_01.emat"
-    }
-   }
-   LODScale 0.1
-   PixelSizeScale 10
-  }
-  SCR_ConsumableItemComponent "{59D8AAEDC78A1242}" {
-   m_eAnimVariable ADRIANOV
-  }
-  ActionsManagerComponent "{508AB5952B584B2E}" {
-   ActionContexts {
-    UserActionContext "{508AC2ABEC97066C}" {
-     Position PointInfo "{508AC2ABEAC4A0F5}" {
-      Offset 0 0 0
-     }
     }
    }
   }

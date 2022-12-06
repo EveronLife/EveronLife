@@ -17,7 +17,6 @@ GenericEntity : "{EAD49AAAD13457F0}Prefabs/Props/Construction/GravelPile_01/Sand
       "default"
      }
      Duration 10
-     m_GatherItemDisplayName "Sandbag"
      m_GatherItemPrefab "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et"
     }
    }

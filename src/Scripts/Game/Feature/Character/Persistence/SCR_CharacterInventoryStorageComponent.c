@@ -67,7 +67,7 @@ modded class SCR_CharacterInventoryStorageComponent
 			GetGame().GetCallqueue().Remove(EL_SyncQuickSlots);
 		}
 
-		int slotsCount = m_aDefaultQuickSlots.Count();
+		int slotsCount = DEFAULT_QUICK_SLOTS.Count();
 		if (m_aQuickSlotsHistory.Count() < slotsCount)
 		{
 			m_aQuickSlotsHistory.Resize(slotsCount);
@@ -75,7 +75,7 @@ modded class SCR_CharacterInventoryStorageComponent
 
 		foreach (int idx, RplId rplId : rplIds)
 		{
-			IEntity slotEntity = EL_Utils.FindEntityByRplId(rplId);
+			IEntity slotEntity = EL_NetworkUtils.FindEntityByRplId(rplId);
 			m_aQuickSlots.Set(idx, slotEntity);
 			if (slotEntity) m_aQuickSlotsHistory.Set(idx, GetItemType(slotEntity));
 		}

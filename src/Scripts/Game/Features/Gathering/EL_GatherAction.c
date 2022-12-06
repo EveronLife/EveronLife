@@ -66,7 +66,7 @@ class EL_GatherAction : ScriptedUserAction
 		if (!m_sDisplayName)
 		{
 			m_sDisplayName = "Unknown";
-			EL_UIInfo uiInfo = EL_UIInfo.FromPrefab(m_GatherItemPrefab);
+			UIInfo uiInfo = EL_UIInfoUtils.GetInfo(m_GatherItemPrefab);
 			if (uiInfo) m_sDisplayName = uiInfo.GetName();
 			m_sDisplayName = string.Format("Gather %1", m_sDisplayName);
 		}
