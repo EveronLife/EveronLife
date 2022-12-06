@@ -50,13 +50,13 @@ modded class EL_InventoryUtils
 			foreach (EL_QuantityComponent quantityComponent : sortedQuantityComponents)
 			{
 				int added;
-				quantityComponent.AddQuantity(remainainAmount, true, added);
-				remainainAmount -= added;
-				if (remainainAmount <= 0) return amount;
+				quantityComponent.AddQuantity(remainingAmount, true, added);
+				remainingAmount -= added;
+				if (remainingAmount <= 0) return amount;
 			}
 		}
 
-		while (remainainAmount > 0)
+		while (remainingAmount > 0)
 		{
 			IEntity item = EL_Utils.SpawnEntityPrefab(prefab, storageManager.GetOwner().GetOrigin());
 			if (!item || (!storageManager.TryInsertItem(item) && !dropOverflow))
@@ -65,20 +65,20 @@ modded class EL_InventoryUtils
 				break;
 			}
 
-			if (isQuantityPrefab && remainainAmount > 1)
+			if (isQuantityPrefab && remainingAmount > 1)
 			{
 				EL_QuantityComponent quantityComponent = EL_ComponentFinder<EL_QuantityComponent>.Find(item);
 				int added;
-				quantityComponent.AddQuantity(remainainAmount - 1, true, added); // One quantity added through existence of the new item
-				remainainAmount -= added + 1;
+				quantityComponent.AddQuantity(remainingAmount - 1, true, added); // One quantity added through existence of the new item
+				remainingAmount -= added + 1;
 			}
 			else
 			{
-				remainainAmount--;
+				remainingAmount--;
 			}
 		}
 
-		return amount - remainainAmount;
+		return amount - remainingAmount;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -107,9 +107,9 @@ modded class EL_InventoryUtils
 			foreach (EL_QuantityComponent quantityComponent : sortedQuantityComponents)
 			{
 				int quantityChange;
-				quantityComponent.AddQuantity(-remainainAmount, true, quantityChange);
-				remainainAmount += quantityChange;
-				if (remainainAmount <= 0) return amount;
+				quantityComponent.AddQuantity(-remainingAmount, true, quantityChange);
+				remainingAmount += quantityChange;
+				if (remainingAmount <= 0) return amount;
 			}
 		}
 		else
@@ -117,11 +117,11 @@ modded class EL_InventoryUtils
 			foreach (IEntity item : prefabItems)
 			{
 				SCR_EntityHelper.DeleteEntityAndChildren(item);
-				if (--remainainAmount <= 0) return amount;
+				if (--remainingAmount <= 0) return amount;
 			}
 		}
 
-		return amount - remainainAmount;
+		return amount - remainingAmount;
 	}
 	
 	//------------------------------------------------------------------------------------------------
