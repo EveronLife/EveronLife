@@ -88,10 +88,10 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 					if (inventoryStorage)
 					{
 						// Init with invalid ids
-						state.m_aQuickBarRplIds.Resize(inventoryStorage.GetQuickSlotItems().Count());
+						state.m_aQuickBarRplIds.Reserve(inventoryStorage.GetQuickSlotItems().Count());
 						for (int i = 0, count = state.m_aQuickBarRplIds.Count(); i < count; i++)
 						{
-							state.m_aQuickBarRplIds.Set(i, RplId.Invalid());
+							state.m_aQuickBarRplIds.Insert(RplId.Invalid());
 						}
 
 						foreach (EL_PersistentQuickSlotItem quickSlot : saveData.m_aQuickSlotEntities)
