@@ -33,12 +33,12 @@ modded class EL_InventoryUtils
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Returns acutal amount added or 0 on faulty opertations.
+	//! Returns actual amount added or 0 on faulty operations.
 	static int AddAmount(InventoryStorageManagerComponent storageManager, ResourceName prefab, int amount, bool dropOverflow = false)
 	{
 		if (!storageManager || amount <= 0) return 0;
 
-		int remainainAmount = amount;
+		int remainingAmount = amount;
 
 		bool isQuantityPrefab = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), EL_QuantityComponent);
 		if (isQuantityPrefab)
@@ -95,7 +95,7 @@ modded class EL_InventoryUtils
 	{
 		if (!storageManager || amount <= 0) return 0;
 
-		int remainainAmount = amount;
+		int remainingAmount = amount;
 
 		array<IEntity> prefabItems = FindItemsByPrefab(storageManager, prefab);
 
