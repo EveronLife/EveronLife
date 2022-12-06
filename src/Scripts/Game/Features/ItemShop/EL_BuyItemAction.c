@@ -11,6 +11,8 @@ class EL_BuyItemAction : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		EL_MoneyUtils.TryBuy(pUserEntity, m_BuyablePrefab, m_ItemPriceConfig.m_iBuyPrice, m_iBuyAmount);
+		CharacterControllerComponent controller = CharacterControllerComponent.Cast(pUserEntity.FindComponent(CharacterControllerComponent));
+		controller.TryPlayItemGesture(EItemGesture.EItemGesturePickUp);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -39,7 +41,7 @@ class EL_BuyItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
  	{
-		return (m_ItemPriceConfig && m_ItemPriceConfig.m_iBuyPrice != -1 && m_BuyablePrefab);
+		return (m_ItemPriceConfig && m_ItemPriceConfig.m_iBuyPrice != -1 && m_iBuyAmount != 0 && m_BuyablePrefab);
 	}
 
 	//------------------------------------------------------------------------------------------------

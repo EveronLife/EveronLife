@@ -22,6 +22,15 @@ GenericEntity {
       "default"
      }
      Duration 0.5
+     "Sort Priority" 1
+    }
+    EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 10
+     m_iBuyAmount 10
     }
     EL_SellItemAction "{5AFB307B26D7FFE2}" {
      ParentContextList {
@@ -29,6 +38,22 @@ GenericEntity {
      }
      Duration 0.5
      "Sort Priority" 1001
+    }
+    EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 1010
+     m_iSellAmount 10
+    }
+    EL_SellItemAction "{5B0CC2F9E89996B9}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 1999
+     m_iSellAmount -1
     }
    }
   }
