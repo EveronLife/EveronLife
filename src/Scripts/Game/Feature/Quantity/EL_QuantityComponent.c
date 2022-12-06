@@ -163,31 +163,10 @@ class EL_QuantityComponent : ScriptComponent
 			return;
 		}
 
-		// TODO: Refactor to use responsible storage manager if owned, if not owned always global one for TryInsertItemInStorage. No rpcs needed anymore. (likely 0.9.6 or 0.9.7 patch)
 		BaseInventoryStorageComponent storage = sourceInventoryItem.GetParentSlot().GetStorage();
 		InventoryStorageManagerComponent storageManager = EL_InventoryUtils.GetResponsibleStorageManager(owner);
 		if (!storageManager) storageManager = EL_GlobalInventoryStorageManagerComponent.GetInstance();
-
-		RplComponent replication = EL_ComponentFinder<RplComponent>.Find(storageManager.GetOwner());
-		if (replication.IsOwner())
-		{
-			storageManager.TryInsertItemInStorage(destinationEntity, storage);
-		}
-		else
-		{
-			if (storageManager.Type().IsInherited(SCR_InventoryStorageManagerComponent))
-			{
-				SCR_InventoryStorageManagerComponent.Cast(storageManager).EL_RequestInsertItemInStorage(destinationEntity, storage);
-			}
-			else if (storageManager.Type().IsInherited(SCR_VehicleInventoryStorageManagerComponent))
-			{
-				SCR_VehicleInventoryStorageManagerComponent.Cast(storageManager).EL_RequestInsertItemInStorage(destinationEntity, storage);
-			}
-			else
-			{
-				Debug.Error(string.Format("Unknown storage manager type: '%1'", storage.Type().ToString()));
-			}
-		}
+		storageManager.TryInsertItemInStorage(destinationEntity, storage);
 	}
 
 	//------------------------------------------------------------------------------------------------
