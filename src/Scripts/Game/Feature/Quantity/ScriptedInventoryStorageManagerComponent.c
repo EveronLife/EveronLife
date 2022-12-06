@@ -45,8 +45,6 @@ modded class ScriptedInventoryStorageManagerComponent
 
 			ScriptInvoker invoker = m_mELItemCountInvokers.Get(prefab);
 			if (invoker && newTotal != previous) invoker.Invoke(prefab, newTotal, previous);
-
-			PrintFormat(ToString()+"::OnAmountChanged(%1, %2, %3)", prefab, newTotal, previous);
 		}
 
 		m_aELPendingItemRecountTypes = null;
