@@ -370,7 +370,7 @@ class EL_PersistenceManager
 		foreach (typename saveDataType, set<string> persistentIds : bulkLoad)
 		{
 			array<string> loadIds();
-			loadIds.Resize(persistentIds.Count());
+			loadIds.Reserve(persistentIds.Count());
 			foreach (int idx, string id : persistentIds)
 			{
 				loadIds.Set(idx, id);

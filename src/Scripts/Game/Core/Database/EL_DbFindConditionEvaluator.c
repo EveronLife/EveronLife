@@ -185,7 +185,7 @@ class EL_DbFindConditionEvaluator
 		array<string> segments();
 		fieldCondition.m_sFieldPath.Split(EL_DbFindFieldAnnotations.SEPERATOR, segments, true);
 
-		resultSegments.Resize(segments.Count());
+		resultSegments.Reserve(segments.Count());
 
 		foreach (int idx, string segment : segments)
 		{

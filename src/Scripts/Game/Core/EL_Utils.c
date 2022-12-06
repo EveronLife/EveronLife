@@ -177,7 +177,7 @@ class EL_Utils
 		}
 
 		array<string> sortedHierachyTuples();
-		sortedHierachyTuples.Resize(hierachyCount.Count());
+		sortedHierachyTuples.Reserve(hierachyCount.Count());
 
 		int hierachyIdx = 0;
 		foreach (typename type, int count : hierachyCount)
@@ -188,7 +188,7 @@ class EL_Utils
 		sortedHierachyTuples.Sort(true);
 
 		array<typename> sortedHierachy();
-		sortedHierachy.Resize(hierachyCount.Count());
+		sortedHierachy.Reserve(hierachyCount.Count());
 
 		foreach (int idx, string tuple : sortedHierachyTuples)
 		{
@@ -237,7 +237,7 @@ class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 		if (!sourceArray) return null;
 
 		array<ref TResultType> castedResult();
-		castedResult.Resize(sourceArray.Count());
+		castedResult.Reserve(sourceArray.Count());
 
 		foreach (int idx, TSourceType element : sourceArray)
 		{

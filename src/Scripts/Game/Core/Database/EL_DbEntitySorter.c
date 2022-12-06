@@ -46,7 +46,7 @@ class EL_DbEntitySorter
 
 		//Sort all field values according to input
 		array<string> valueKeysSorted();
-		valueKeysSorted.Resize(distinctValues.Count());
+		valueKeysSorted.Reserve(distinctValues.Count());
 
 		// TODO: Use fixed lengh padded numbers to rely only on string sort without conversion
 		switch(fieldType)
@@ -54,7 +54,7 @@ class EL_DbEntitySorter
 			case int:
 			{
 				array<int> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable integers
 				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
@@ -77,7 +77,7 @@ class EL_DbEntitySorter
 			case float:
 			{
 				array<float> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable floats
 				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
@@ -100,7 +100,7 @@ class EL_DbEntitySorter
 			case bool:
 			{
 				array<bool> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable booleans
 				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
@@ -134,7 +134,7 @@ class EL_DbEntitySorter
 			case vector:
 			{
 				array<vector> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable booleans
 				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
@@ -157,7 +157,7 @@ class EL_DbEntitySorter
 
 		int nSortedEntity = 0;
 		array<ref EL_DbEntity> sortedEnties();
-		sortedEnties.Resize(entities.Count());
+		sortedEnties.Reserve(entities.Count());
 
 		foreach (string sortedValueKey : valueKeysSorted)
 		{

@@ -73,7 +73,7 @@ class EL_PersistentEntityLifetimeCollection : EL_DbEntity
 		saveContext.WriteValue("m_sId", GetId());
 
 		array<ref EL_PersistentEntityLifetime> lifetimes();
-		lifetimes.Resize(m_mLifetimes.Count());
+		lifetimes.Reserve(m_mLifetimes.Count());
 
 		int idx;
 		foreach (string persistentId, float lifetime : m_mLifetimes)

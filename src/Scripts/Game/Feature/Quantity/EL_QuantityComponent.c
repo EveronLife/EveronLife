@@ -258,7 +258,7 @@ class EL_QuantityComponent : ScriptComponent
 		sortKeys.Sort(descending);
 
 		array<EL_QuantityComponent> sorted();
-		sorted.Resize(components.Count());
+		sorted.Reserve(components.Count());
 		int idx;
 
 		foreach (string sortKey : sortKeys)
@@ -276,7 +276,7 @@ class EL_QuantityComponent : ScriptComponent
 	static array<EL_QuantityComponent> ExtractQuantityComponents(notnull array<IEntity> entities)
 	{
 		array<EL_QuantityComponent> components();
-		components.Resize(entities.Count());
+		components.Reserve(entities.Count());
 		foreach(int idx, IEntity entity : entities)
 		{
 			components.Set(idx, EL_ComponentFinder<EL_QuantityComponent>.Find(entity));

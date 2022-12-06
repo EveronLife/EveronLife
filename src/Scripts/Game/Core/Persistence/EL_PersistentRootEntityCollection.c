@@ -71,7 +71,7 @@ class EL_PersistentRootEntityCollection : EL_DbEntity
 		saveContext.WriteValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 
 		array<ref EL_SelfSpawnDynamicEntity> selfSpawnDynamicEntities();
-		selfSpawnDynamicEntities.Resize(m_mSelfSpawnDynamicEntities.Count());
+		selfSpawnDynamicEntities.Reserve(m_mSelfSpawnDynamicEntities.Count());
 
 		int idx;
 		foreach (typename saveDataType, set<string> ids : m_mSelfSpawnDynamicEntities)
