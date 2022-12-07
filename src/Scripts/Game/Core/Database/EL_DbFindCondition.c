@@ -305,11 +305,11 @@ class EL_DbValues<Class T>
 	static array<T> From(notnull array<T> values)
 	{
 		auto data = new array<T>();
-		data.Resize(values.Count());
+		data.Reserve(values.Count());
 
-		foreach (int nElement, T value : values)
+		foreach (T value : values)
 		{
-			data.Set(nElement, value);
+			data.Insert(value);
 		}
 
 		if (!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
@@ -351,10 +351,10 @@ class EL_DbFindFieldConditionBuilder
 	protected array<string> _ConvertTypenameArray(array<typename> values)
 	{
 		array<string> valuesString();
-		valuesString.Resize(values.Count());
-		foreach (int idx, typename type : values)
+		valuesString.Reserve(values.Count());
+		foreach (typename type : values)
 		{
-			valuesString.Set(idx, type.ToString());
+			valuesString.Insert(type.ToString());
 		}
 
 		return valuesString;

@@ -1,12 +1,10 @@
-modded class SCR_InventoryStorageManagerComponent
+modded class ScriptedInventoryStorageManagerComponent
 {
 	//------------------------------------------------------------------------------------------------
 	override protected void OnItemAdded(BaseInventoryStorageComponent storageOwner, IEntity item)
 	{
 		super.OnItemAdded(storageOwner, item);
-
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
-
+		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(item);
 		if (persistenceComponent) persistenceComponent.OnStorageParentChanged(item, storageOwner.GetOwner());
 	}
 
@@ -14,9 +12,7 @@ modded class SCR_InventoryStorageManagerComponent
 	override protected void OnItemRemoved(BaseInventoryStorageComponent storageOwner, IEntity item)
 	{
 		super.OnItemRemoved(storageOwner, item);
-
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(item.FindComponent(EL_PersistenceComponent));
-
+		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(item);
 		if (persistenceComponent) persistenceComponent.OnStorageParentChanged(item, null);
 	}
 }

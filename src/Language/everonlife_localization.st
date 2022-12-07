@@ -1,5 +1,4 @@
 StringTable {
- TargetPrefix "Target_"
  ItemClassName "CustomStringTableItem"
  Items {
   CustomStringTableItem "{5A60AE2B8D435CE9}" {

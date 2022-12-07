@@ -1,8 +1,4 @@
 SCR_ParticleEmitter {
  ID "5A1904214BC81056"
- components {
-  RplComponent "{5ACEB44FB8F61618}" {
-  }
- }
  m_EffectPath "{12571DF1E334C899}Particles/WoodCutting/WoodImpact_Small.ptc"
 }

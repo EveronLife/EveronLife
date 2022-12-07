@@ -56,8 +56,11 @@ modded class SCR_InventoryMenuUI
 		{
 			// "Fake" the UI experience as if it was a real inventory operation
 			SCR_UISoundEntity.SoundEvent("SOUND_INV_HOTKEY_CONFIRM");
-			m_pSelectedSlotUI.EL_SetLockState(true);
-			m_pSelectedSlotUI.SetSelected(false);
+			if (m_pSelectedSlotUI)
+			{
+				m_pSelectedSlotUI.EL_SetLockState(true);
+				m_pSelectedSlotUI.SetSelected(false);
+			}
 		}
 		else
 		{
@@ -324,8 +327,8 @@ modded class SCR_InventoryMenuUI
 		InventoryStorageSlot parentSlot = itemSource.GetParentSlot();
 		if (parentSlot && !EL_CanSplitInStorage(itemSource, parentSlot.GetStorage())) return;
 
-		if (quantitySource.GetQuantity() > 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonSplitQuantity", true, "#EL-Keybinds_Inventory_SplitQuantity");
-		if (quantitySource.GetQuantity() >= 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonQuickSplitQuantity", true, "#EL-Keybinds_Inventory_QuickSplitQuantity");
+		if (quantitySource.GetQuantity() > 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonSplitQuantity", true);
+		if (quantitySource.GetQuantity() >= 2) m_pNavigationBar.SetButtonEnabled("EL_ButtonQuickSplitQuantity", true);
 	}
 
 	//------------------------------------------------------------------------------------------------
