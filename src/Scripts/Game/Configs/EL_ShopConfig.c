@@ -1,4 +1,4 @@
-class EL_PriceTitle : BaseContainerCustomTitle
+class EL_ShopTitle : BaseContainerCustomTitle
 {
 	//------------------------------------------------------------------------------------------------
     override bool _WB_GetCustomTitle(BaseContainer source, out string title)
@@ -15,7 +15,7 @@ class EL_PriceTitle : BaseContainerCustomTitle
     }
 };
 
-[BaseContainerProps(), EL_PriceTitle()]
+[BaseContainerProps(), EL_ShopTitle()]
 class EL_Price
 {
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Prefab for this item", "et")]
@@ -29,7 +29,7 @@ class EL_Price
 }
 
 [BaseContainerProps(configRoot: true)]
-class EL_PriceConfig : ScriptAndConfig
+class EL_ShopConfig : ScriptAndConfig
 {
 	[Attribute("", UIWidgets.Object, "")]
 	ref array<ref EL_Price> m_aPriceConfigs;

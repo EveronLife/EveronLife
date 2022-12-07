@@ -72,111 +72,133 @@ GenericEntity {
   }
  }
 }
-$grp GenericEntity : "{9FB5EAB365566A77}Prefabs/ItemShop/ShopItem.et" {
+$grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et" {
  {
-  components {
-   EL_ShopItemComponent "{5AC6DBF94189D860}" {
-    m_ShopItemPrefab "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et"
-   }
-   MeshObject "{59C4F48745893DBF}" {
-   }
-  }
-  coords 110.154 0.428 140.339
- }
- {
-  components {
-   EL_ShopItemComponent "{5AC6DBF94189D860}" {
-    m_ShopItemPrefab "{73CF2BF72525F5D5}Prefabs/Items/Food/RowanBerries.et"
-   }
-   MeshObject "{59C4F48745893DBF}" {
-   }
-  }
-  coords 111.001 0.428 140.339
- }
- {
-  components {
-   EL_ShopItemComponent "{5AC6DBF94189D860}" {
-    m_ShopItemPrefab "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
-   }
-   MeshObject "{59C4F48745893DBF}" {
-   }
-   ActionsManagerComponent "{59C4F487641A3025}" {
-    additionalActions {
-     EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
-      m_iBuyAmount 0
-     }
-    }
-   }
-  }
-  coords 110.154 0.109 140.339
- }
- {
-  components {
-   EL_ShopItemComponent "{5AC6DBF94189D860}" {
-    m_ShopItemPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
-   }
-   MeshObject "{59C4F48745893DBF}" {
-   }
-  }
-  coords 110.154 0.83 140.389
-  angleY -90
-  angleZ 90
- }
- {
-  components {
-   EL_ShopItemComponent "{5AC6DBF94189D860}" {
-    m_ShopItemPrefab "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
-   }
-   MeshObject "{59C4F48745893DBF}" {
-   }
-  }
-  coords 111.001 0.828 140.389
-  angleY -90
-  angleZ 90
- }
- {
-  components {
-   EL_ShopItemComponent "{5AC6DBF94189D860}" {
-    m_ShopItemPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
-   }
-   MeshObject "{59C4F48745893DBF}" {
-    Object "{55991E1823C60AB3}Assets/Props/Crates/Crate_01.xob"
-   }
-   ActionsManagerComponent "{59C4F487641A3025}" {
-   }
-  }
-  coords 109.387 0.428 140.39
+  coords 110.207 0.001 140.63
+  angleY -180
   {
-   $grp GenericEntity {
+   $grp GenericEntity : "{9FB5EAB365566A77}Prefabs/ItemShop/ShopItem.et" {
     {
      components {
-      MeshObject "{5B0516672E5C78A7}" {
-       Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
+      EL_ShopItemComponent "{5AC6DBF94189D860}" {
+       m_ShopItemPrefab "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et"
+      }
+      MeshObject "{59C4F48745893DBF}" {
       }
      }
-     coords -0.157 0.004 0.053
+     coords 0.053 0.427 0.291
+     angleY -180
     }
     {
      components {
-      MeshObject "{5B0516672160B942}" {
-       Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
+      EL_ShopItemComponent "{5AC6DBF94189D860}" {
+       m_ShopItemPrefab "{73CF2BF72525F5D5}Prefabs/Items/Food/RowanBerries.et"
+      }
+      MeshObject "{59C4F48745893DBF}" {
       }
      }
-     coords -0.017 0.004 -0.04
+     coords -0.794 0.427 0.291
+     angleY -180
     }
     {
      components {
-      MeshObject "{5B051667202C5222}" {
-       Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
+      EL_ShopItemComponent "{5AC6DBF94189D860}" {
+       m_ShopItemPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+      }
+      MeshObject "{59C4F48745893DBF}" {
+       Object "{55991E1823C60AB3}Assets/Props/Crates/Crate_01.xob"
+      }
+      ActionsManagerComponent "{59C4F487641A3025}" {
       }
      }
-     coords 0.111 0.004 0.083
+     coords 0.82 0.427 0.24
+     angleY -180
+     {
+      $grp GenericEntity {
+       {
+        components {
+         MeshObject "{5B0516672E5C78A7}" {
+          Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
+         }
+        }
+        coords -0.157 0.004 0.053
+       }
+       {
+        components {
+         MeshObject "{5B0516672160B942}" {
+          Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
+         }
+        }
+        coords -0.017 0.004 -0.04
+       }
+       {
+        components {
+         MeshObject "{5B051667202C5222}" {
+          Object "{D0566D3CAE967F4D}Assets/Items/Food/Apple/Apple.xob"
+         }
+        }
+        coords 0.111 0.004 0.083
+       }
+      }
+     }
     }
    }
   }
  }
-}
-GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et" {
- coords 110.207 0.001 140.63
- angleY -180
+ {
+  coords 107.603 0.001 140.63
+  angleY -180
+  {
+   $grp GenericEntity : "{9FB5EAB365566A77}Prefabs/ItemShop/ShopItem.et" {
+    {
+     components {
+      EL_ShopItemComponent "{5AC6DBF94189D860}" {
+       m_ShopItemPrefab "{1353C6EAD1DCFE43}Prefabs/Weapons/Handguns/M9/Handgun_M9.et"
+      }
+      MeshObject "{59C4F48745893DBF}" {
+      }
+     }
+     coords 0.053 0.829 0.241
+     angleY 90
+     angleZ 90
+    }
+    {
+     components {
+      EL_ShopItemComponent "{5AC6DBF94189D860}" {
+       m_ShopItemPrefab "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
+      }
+      MeshObject "{59C4F48745893DBF}" {
+      }
+     }
+     coords -0.794 0.827 0.241
+     angleY 90
+     angleZ 90
+    }
+   }
+  }
+ }
+ {
+  coords 112.837 0.001 140.63
+  angleY -180
+  {
+   GenericEntity : "{9FB5EAB365566A77}Prefabs/ItemShop/ShopItem.et" {
+    components {
+     EL_ShopItemComponent "{5AC6DBF94189D860}" {
+      m_ShopItemPrefab "{41A9C55B61F375F0}Prefabs/Items/Equipment/Backpacks/Backpack_Kolobok.et"
+     }
+     MeshObject "{59C4F48745893DBF}" {
+     }
+     ActionsManagerComponent "{59C4F487641A3025}" {
+      additionalActions {
+       EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
+        m_iBuyAmount 0
+       }
+      }
+     }
+    }
+    coords 0.053 0.108 0.291
+    angleY -180
+   }
+  }
+ }
 }

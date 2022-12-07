@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{B732D61499A338A4}Configs/ItemShop/EL_ClothingStore.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

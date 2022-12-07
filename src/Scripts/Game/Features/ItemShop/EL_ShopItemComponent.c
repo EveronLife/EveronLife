@@ -5,8 +5,8 @@ class EL_ShopItemComponentClass : ScriptComponentClass
 
 class EL_ShopItemComponent : ScriptComponent
 {
-	[Attribute("", UIWidgets.Auto, "Item price")]
-	protected ref EL_PriceConfig m_PriceConfig;
+	[Attribute("{9CA1D6CE3F6914BA}Configs/ItemShop/EL_Shops.conf", UIWidgets.Object, "Shop config")]
+	protected ref EL_ShopsConfig m_ShopsConfig;
 
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "", "et")]
 	protected ResourceName m_ShopItemPrefab;
@@ -40,14 +40,17 @@ class EL_ShopItemComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	protected EL_Price FindPrefabShopItemConfig()
 	{
-		if (!m_PriceConfig || !m_ShopItemPrefab)
+		if (!m_ShopsConfig || !m_ShopItemPrefab)
 			return null;
-
-		foreach (EL_Price price : m_PriceConfig.m_aPriceConfigs)
+		
+		foreach (EL_ShopConfig shopConfig : m_ShopsConfig.m_aShopConfigs)
 		{
-			if (price.m_Prefab == m_ShopItemPrefab)
+			foreach (EL_Price price : shopConfig.m_aPriceConfigs)
 			{
-				return price;
+				if (price.m_Prefab == m_ShopItemPrefab)
+				{
+					return price;
+				}
 			}
 		}
 		return null;
