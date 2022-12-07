@@ -1,57 +1,43 @@
 GenericEntity : "{1EA06AA76191AE7A}Prefabs/Processor/Cocaine_Processor.et" {
- coords 106.266 0.001 142.422
+ coords 98.008 0.002 140.106
 }
 Tree : "{30549DAE871F6E7E}Prefabs/Vegetation/Bush/CocaBush.et" {
- coords 102.26 0.405 142.518
+ coords 95.349 0.39 139.977
  angleY 0
 }
-$grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+$grp SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
  {
-  coords 105.073 0.004 142.491
+  coords 96.906 0.001 140.155
  }
  {
-  coords 107.442 0.004 142.491
- }
- {
-  coords 103.757 0.002 142.456
+  coords 99.19 0.004 140.18
  }
 }
-GenericEntity Jerrycan_Diesel_5A5CF5C0F419A03C : "{B4A13C5D1D049FFB}Prefabs/Items/Resources/Jerrycan_Diesel.et" {
- coords 105.315 0.903 142.279
+GenericEntity : "{B4A13C5D1D049FFB}Prefabs/Items/Resources/Jerrycan_Diesel.et" {
+ coords 97.194 0.9 139.884
 }
 $grp GenericEntity : "{BBAC42E6A4F3B251}Prefabs/Items/Drugs/CocaLeaves.et" {
- CocaLeaves_5A5B376A27D24FE2 {
-  coords 103.889 0.9 142.889
-  angleX 80
+ {
+  coords 96.486 0.901 139.733
+  angleX -48.48
  }
- CocaLeaves_5A5B376A27D24FE3 {
-  coords 103.956 0.895 142.404
-  angleX 80
+ {
+  coords 96.646 0.9 139.753
+  angleX -48.48
  }
- CocaLeaves_5A5B376A27D24FE4 {
-  coords 103.418 0.892 142.883
-  angleX 80
+ {
+  coords 96.754 0.9 139.741
+  angleX -48.48
  }
- CocaLeaves_5A5B376A27D24FE5 {
-  coords 103.491 0.902 142.329
-  angleX 80
- }
-}
-GenericEntity CementBag_5A5B37697CDA18E8 : "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et" {
- coords 104.883 0.904 142.646
- angleY 133.848
 }
 $grp GenericEntity : "{DCF75A3923FCEF7E}Prefabs/Items/Drugs/Cocaine.et" {
- Cocaine_5A5B37696620D9EB {
-  coords 107.051 0.903 142.087
+ {
+  coords 99.027 0.903 140.323
  }
- Cocaine_5A5B37696568AF67 {
-  coords 107.28 0.903 142.182
+ {
+  coords 99.162 0.903 140.067
  }
- Cocaine_5A5B376964AF3FB6 {
-  coords 107.485 0.903 142.336
- }
- Cocaine_5A5B376963F90321 {
-  coords 107.727 0.903 142.577
+ {
+  coords 99.338 0.903 139.804
  }
 }

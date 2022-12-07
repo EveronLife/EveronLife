@@ -31,3 +31,12 @@ Layer CementChain {
 Layer DebugWorldActions {
  Index 10
 }
+Layer MushroomChain {
+ Index 5
+}
+Layer CocaineChain {
+ Index 12
+}
+Layer HeroinChain {
+ Index 13
+}

@@ -7,10 +7,6 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
   RigidBody "{5A5B376F640CA3BC}" {
    ResponseIndex "HugeDestructible"
   }
-  SphereGeometry "{5A5B376F0C574360}" {
-   LayerPreset "ItemFireView"
-   Radius 0.15
-  }
   ActionsManagerComponent "{5A5B376F640CA3B3}" {
    ActionContexts {
     UserActionContext "{5A5B376F640CA3B5}" {
@@ -33,7 +29,7 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
   }
  }
  coords 1.665 2.467 -0.717
- scale 0.45
+ scale 0.6
  SoundType Leafy
  m_iFoliageHeight 3
 }

@@ -1,11 +1,15 @@
 MetaFileClass {
- Name "{5090CAA4A7BA34C4}Assets/Items/Vegetation/Poppies/Data/OpiumPoppies.xob"
+ Name "{5090CAA4A7BA34C4}Assets/Items/Vegetation/Poppies/Poppies.xob"
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {
     MaterialAssignClass "{5A5AD7090E6A8DA0}" {
      SourceMaterial "DefaultMaterial"
-     AssignedMaterial "{436D526A38809C84}Assets/Items/Vegetation/Poppies/Data/data/DefaultMaterial.emat"
+     AssignedMaterial "{436D526A38809C84}Assets/Items/Vegetation/Poppies/Data/Poppies.emat"
+    }
+   }
+   MeshParams {
+    MeshParam "Circle.007" {
     }
    }
    Common TXOCommonClass "{5A5AD7090E5E9AD2}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
