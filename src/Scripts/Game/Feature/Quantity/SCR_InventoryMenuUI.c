@@ -56,8 +56,11 @@ modded class SCR_InventoryMenuUI
 		{
 			// "Fake" the UI experience as if it was a real inventory operation
 			SCR_UISoundEntity.SoundEvent("SOUND_INV_HOTKEY_CONFIRM");
-			m_pSelectedSlotUI.EL_SetLockState(true);
-			m_pSelectedSlotUI.SetSelected(false);
+			if (m_pSelectedSlotUI)
+			{
+				m_pSelectedSlotUI.EL_SetLockState(true);
+				m_pSelectedSlotUI.SetSelected(false);
+			}
 		}
 		else
 		{
