@@ -32,7 +32,7 @@ class EL_BuyItemAction : ScriptedUserAction
 			return false;
 
 		string cannotPerformReason;
-		bool canBuy = EL_MoneyUtils.CanBuy(user, m_BuyablePrefab, m_ItemPriceConfig.m_iBuyPrice, cannotPerformReason);
+		bool canBuy = EL_MoneyUtils.CanBuy(user, m_BuyablePrefab, m_ItemPriceConfig.m_iBuyPrice * m_iBuyAmount, cannotPerformReason);
 		SetCannotPerformReason(cannotPerformReason);
 
 		return canBuy;

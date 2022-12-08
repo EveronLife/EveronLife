@@ -5,9 +5,7 @@ class EL_SellItemAction : ScriptedUserAction
 	protected int m_iActualSellAmount;
 	
 	protected ResourceName m_SellablePrefab;
-	protected EL_Price m_ItemPriceConfig;
-	protected ref SCR_PrefabNamePredicate m_pPrefabNamePredicate = new SCR_PrefabNamePredicate();
-	
+	protected EL_Price m_ItemPriceConfig;	
 
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
@@ -28,14 +26,11 @@ class EL_SellItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
  	{
-
-		
-		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (m_iSellAmount == -1)
-		{
 			m_iActualSellAmount = EL_InventoryUtils.GetAmount(user, m_SellablePrefab);
-		}
-		return (m_SellablePrefab && m_ItemPriceConfig && inventoryManager.FindItem(m_pPrefabNamePredicate));
+		
+		int amountInInv = EL_InventoryUtils.GetAmount(user, m_SellablePrefab);
+		return (m_SellablePrefab && m_ItemPriceConfig && amountInInv != 0 && amountInInv >= m_iActualSellAmount);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -59,7 +54,6 @@ class EL_SellItemAction : ScriptedUserAction
 		EL_ShopItemComponent shopItemComponent = EL_ShopItemComponent.Cast(pOwnerEntity.FindComponent(EL_ShopItemComponent));
 		m_SellablePrefab = shopItemComponent.GetShopItemPrefab();
 		m_ItemPriceConfig = shopItemComponent.GetShopItemPriceConfig();
-		m_pPrefabNamePredicate.prefabName = m_SellablePrefab;
 
 	}
 
