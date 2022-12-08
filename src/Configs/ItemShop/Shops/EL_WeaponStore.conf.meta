@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{28D23E606DDA4EA2}Configs/ItemShop/EL_WeaponStorePrices.conf"
+ Name "{28D23E606DDA4EA2}Configs/ItemShop/Shops/EL_WeaponStore.conf"
  Configurations {
   CONFResourceClass PC {
   }

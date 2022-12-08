@@ -85,6 +85,53 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
       }
       MeshObject "{59C4F48745893DBF}" {
       }
+      ActionsManagerComponent "{59C4F487641A3025}" {
+       ActionContexts {
+        UserActionContext "{59C4F4877FC8DC6C}" {
+         ContextName "default"
+         Position PointInfo "{59C4F487736AF3DB}" {
+         }
+         Radius 0.5
+        }
+       }
+       additionalActions {
+        EL_BuyItemAction "{59C4F4878D841445}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1
+        }
+        EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 10
+         m_iBuyAmount 10
+        }
+        EL_SellItemAction "{5AFB307B26D7FFE2}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1001
+        }
+        EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1010
+         m_iSellAmount 10
+        }
+        EL_SellItemAction "{5B0CC2F9E89996B9}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1999
+         m_iSellAmount -1
+        }
+       }
+      }
+      RplComponent "{59C4F4898DA2E09B}" {
+      }
      }
      coords 0.053 0.427 0.291
      angleY -180
@@ -95,6 +142,53 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
        m_ShopItemPrefab "{73CF2BF72525F5D5}Prefabs/Items/Food/RowanBerries.et"
       }
       MeshObject "{59C4F48745893DBF}" {
+      }
+      ActionsManagerComponent "{59C4F487641A3025}" {
+       ActionContexts {
+        UserActionContext "{59C4F4877FC8DC6C}" {
+         ContextName "default"
+         Position PointInfo "{59C4F487736AF3DB}" {
+         }
+         Radius 0.5
+        }
+       }
+       additionalActions {
+        EL_BuyItemAction "{59C4F4878D841445}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1
+        }
+        EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 10
+         m_iBuyAmount 10
+        }
+        EL_SellItemAction "{5AFB307B26D7FFE2}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1001
+        }
+        EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1010
+         m_iSellAmount 10
+        }
+        EL_SellItemAction "{5B0CC2F9E89996B9}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1999
+         m_iSellAmount -1
+        }
+       }
+      }
+      RplComponent "{59C4F4898DA2E09B}" {
       }
      }
      coords -0.794 0.427 0.291
@@ -110,9 +204,12 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
       }
       ActionsManagerComponent "{59C4F487641A3025}" {
       }
+      RplComponent "{59C4F4898DA2E09B}" {
+      }
      }
      coords 0.82 0.427 0.24
      angleY -180
+     Flags 1027
      {
       $grp GenericEntity {
        {
@@ -157,6 +254,53 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
       }
       MeshObject "{59C4F48745893DBF}" {
       }
+      ActionsManagerComponent "{59C4F487641A3025}" {
+       ActionContexts {
+        UserActionContext "{59C4F4877FC8DC6C}" {
+         ContextName "default"
+         Position PointInfo "{59C4F487736AF3DB}" {
+         }
+         Radius 0.5
+        }
+       }
+       additionalActions {
+        EL_BuyItemAction "{59C4F4878D841445}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1
+        }
+        EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 10
+         m_iBuyAmount 10
+        }
+        EL_SellItemAction "{5AFB307B26D7FFE2}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1001
+        }
+        EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1010
+         m_iSellAmount 10
+        }
+        EL_SellItemAction "{5B0CC2F9E89996B9}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1999
+         m_iSellAmount -1
+        }
+       }
+      }
+      RplComponent "{59C4F4898DA2E09B}" {
+      }
      }
      coords 0.053 0.829 0.241
      angleY 90
@@ -168,6 +312,53 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
        m_ShopItemPrefab "{9C05543A503DB80E}Prefabs/Weapons/Magazines/Magazine_9x19_M9_15rnd_Ball.et"
       }
       MeshObject "{59C4F48745893DBF}" {
+      }
+      ActionsManagerComponent "{59C4F487641A3025}" {
+       ActionContexts {
+        UserActionContext "{59C4F4877FC8DC6C}" {
+         ContextName "default"
+         Position PointInfo "{59C4F487736AF3DB}" {
+         }
+         Radius 0.5
+        }
+       }
+       additionalActions {
+        EL_BuyItemAction "{59C4F4878D841445}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1
+        }
+        EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 10
+         m_iBuyAmount 10
+        }
+        EL_SellItemAction "{5AFB307B26D7FFE2}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1001
+        }
+        EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1010
+         m_iSellAmount 10
+        }
+        EL_SellItemAction "{5B0CC2F9E89996B9}" {
+         ParentContextList +{
+         }
+         Duration 0.5
+         "Sort Priority" 1999
+         m_iSellAmount -1
+        }
+       }
+      }
+      RplComponent "{59C4F4898DA2E09B}" {
       }
      }
      coords -0.794 0.827 0.241
@@ -190,10 +381,38 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
      }
      ActionsManagerComponent "{59C4F487641A3025}" {
       additionalActions {
+       EL_BuyItemAction "{59C4F4878D841445}" {
+        ParentContextList +{
+        }
+        Duration 0.5
+        "Sort Priority" 1
+       }
+       EL_SellItemAction "{5AFB307B26D7FFE2}" {
+        ParentContextList +{
+        }
+        Duration 0.5
+        "Sort Priority" 1001
+       }
+       EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
+        ParentContextList +{
+        }
+        Duration 0.5
+        "Sort Priority" 1010
+        m_iSellAmount 10
+       }
+       EL_SellItemAction "{5B0CC2F9E89996B9}" {
+        ParentContextList +{
+        }
+        Duration 0.5
+        "Sort Priority" 1999
+        m_iSellAmount -1
+       }
        EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
         m_iBuyAmount 0
        }
       }
+     }
+     RplComponent "{59C4F4898DA2E09B}" {
      }
     }
     coords 0.053 0.108 0.291

@@ -2,7 +2,7 @@ GenericEntity {
  ID "59C4F485BE70DBE7"
  components {
   EL_ShopItemComponent "{5AC6DBF94189D860}" {
-   m_PriceConfig EL_PriceConfig "{5AC6DBF8C2E04878}" : "{81BEC2592877CCDF}Configs/ItemShop/EL_ShopPrices.conf" {
+   m_ShopsConfig EL_ShopsConfig "{5B1087A47B9AA61D}" : "{9CA1D6CE3F6914BA}Configs/ItemShop/EL_Shops.conf" {
    }
   }
   MeshObject "{59C4F48745893DBF}" {
@@ -61,4 +61,5 @@ GenericEntity {
   }
  }
  coords 4713.364 164.864 6932.544
+ Flags 1027
 }

@@ -63,14 +63,17 @@ class EL_ShopItemComponent : ScriptComponent
 		if (!m_ShopItemPrefab)
 			return;
 		
-		//Create Mesh + Hitbox
+		//Create Mesh
 		if (!owner.GetVObject())
 		{
 			owner.SetObject(EL_Utils.GetPrefabVObject(m_ShopItemPrefab), "");
-			Physics phys = Physics.CreateStatic(owner, -1);
-			phys.SetInteractionLayer(EPhysicsLayerPresets.FireGeo);
-			owner.SetFlags(EntityFlags.ACTIVE, false);
 		}
+		
+		//Create Hitbox
+		Physics phys = Physics.CreateStatic(owner, -1);
+		phys.SetInteractionLayer(EPhysicsLayerPresets.FireGeo);
+		owner.SetFlags(EntityFlags.ACTIVE, false);
+		
 		
 		m_ShopItemPriceConfig = FindPrefabShopItemConfig();
 		if (!m_ShopItemPriceConfig)
