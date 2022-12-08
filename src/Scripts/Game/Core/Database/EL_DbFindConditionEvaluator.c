@@ -185,9 +185,9 @@ class EL_DbFindConditionEvaluator
 		array<string> segments();
 		fieldCondition.m_sFieldPath.Split(EL_DbFindFieldAnnotations.SEPERATOR, segments, true);
 
-		resultSegments.Resize(segments.Count());
+		resultSegments.Reserve(segments.Count());
 
-		foreach (int idx, string segment : segments)
+		foreach (string segment : segments)
 		{
 			int flags;
 
@@ -236,7 +236,7 @@ class EL_DbFindConditionEvaluator
 				flags |= EL_DbFindFieldPathSegmentFlags.TYPENAME;
 			}
 
-			resultSegments.Set(idx, new EL_DbFindFieldPathSegment(segment, flags));
+			resultSegments.Insert(new EL_DbFindFieldPathSegment(segment, flags));
 		}
 
 		return resultSegments;

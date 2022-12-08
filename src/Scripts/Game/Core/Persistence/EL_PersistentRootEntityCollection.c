@@ -70,15 +70,14 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		saveContext.WriteValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 
 		array<ref EL_SelfSpawnDynamicEntity> selfSpawnDynamicEntities();
-		selfSpawnDynamicEntities.Resize(m_mSelfSpawnDynamicEntities.Count());
+		selfSpawnDynamicEntities.Reserve(m_mSelfSpawnDynamicEntities.Count());
 
-		int idx;
 		foreach (typename saveDataType, set<string> ids : m_mSelfSpawnDynamicEntities)
 		{
 			EL_SelfSpawnDynamicEntity entry();
 			entry.m_sSaveDataType = EL_DbName.Get(saveDataType);
 			entry.m_aIds = ids;
-			selfSpawnDynamicEntities.Set(idx++, entry);
+			selfSpawnDynamicEntities.Insert(entry);
 		}
 
 		saveContext.WriteValue("m_aSelfSpawnDynamicEntities", selfSpawnDynamicEntities);
