@@ -381,35 +381,6 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
      }
      ActionsManagerComponent "{59C4F487641A3025}" {
       additionalActions {
-       EL_BuyItemAction "{59C4F4878D841445}" {
-        ParentContextList +{
-        }
-        Duration 0.5
-        "Sort Priority" 1
-       }
-       EL_SellItemAction "{5AFB307B26D7FFE2}" {
-        ParentContextList +{
-        }
-        Duration 0.5
-        "Sort Priority" 1001
-       }
-       EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
-        ParentContextList +{
-        }
-        Duration 0.5
-        "Sort Priority" 1010
-        m_iSellAmount 10
-       }
-       EL_SellItemAction "{5B0CC2F9E89996B9}" {
-        ParentContextList +{
-        }
-        Duration 0.5
-        "Sort Priority" 1999
-        m_iSellAmount -1
-       }
-       EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
-        m_iBuyAmount 0
-       }
       }
      }
      RplComponent "{59C4F4898DA2E09B}" {

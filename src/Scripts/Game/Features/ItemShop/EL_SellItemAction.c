@@ -28,6 +28,8 @@ class EL_SellItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
  	{
+
+		
 		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (m_iSellAmount == -1)
 		{
@@ -39,7 +41,13 @@ class EL_SellItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
  	{
-		return (m_ItemPriceConfig && m_ItemPriceConfig.m_iSellPrice != -1 && m_iSellAmount != 0 && m_SellablePrefab);
+		return (
+			m_ItemPriceConfig &&
+			m_ItemPriceConfig.m_iSellPrice != -1 && 
+			m_iSellAmount != 0 && 
+			(m_iSellAmount == 1 || m_ItemPriceConfig.m_bAllowMultiSell) &&
+			m_SellablePrefab
+		);
 	}
 
 	//------------------------------------------------------------------------------------------------

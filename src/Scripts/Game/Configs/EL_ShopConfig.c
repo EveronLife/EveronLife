@@ -26,6 +26,10 @@ class EL_Price
 	int m_iBuyPrice;
 	[Attribute("-1", UIWidgets.EditBox, "Sell Price. -1 to disable selling")]
 	int m_iSellPrice;
+	[Attribute("1", UIWidgets.CheckBox, "Allow / Enable actions that buy more than one item at once")]
+	bool m_bAllowMultiBuy;
+	[Attribute("1", UIWidgets.CheckBox, "Allow / Enable actions that sell more than one item at once")]
+	bool m_bAllowMultiSell;
 }
 
 [BaseContainerProps(configRoot: true)]
