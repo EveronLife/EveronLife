@@ -8,7 +8,7 @@ class EL_ShopItemComponent : ScriptComponent
 	[Attribute("{9CA1D6CE3F6914BA}Configs/ItemShop/EL_Shops.conf", UIWidgets.Object, "Shop config")]
 	protected ref EL_ShopsConfig m_ShopsConfig;
 
-	[Attribute("", UIWidgets.ResourcePickerThumbnail, "", "et")]
+	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Item to sell / buy here", "et")]
 	protected ResourceName m_ShopItemPrefab;
 
 	protected IEntity m_ShopItemEntity;
@@ -42,7 +42,7 @@ class EL_ShopItemComponent : ScriptComponent
 	{
 		if (!m_ShopsConfig || !m_ShopItemPrefab)
 			return null;
-		
+
 		foreach (EL_ShopConfig shopConfig : m_ShopsConfig.m_aShopConfigs)
 		{
 			foreach (EL_Price price : shopConfig.m_aPriceConfigs)
@@ -62,23 +62,23 @@ class EL_ShopItemComponent : ScriptComponent
 	{
 		if (!m_ShopItemPrefab)
 			return;
-		
+
 		//Create Mesh
 		if (!owner.GetVObject())
 		{
 			owner.SetObject(EL_Utils.GetPrefabVObject(m_ShopItemPrefab), "");
 		}
-		
+
 		//Create Hitbox
 		Physics phys = Physics.CreateStatic(owner, -1);
 		phys.SetInteractionLayer(EPhysicsLayerPresets.FireGeo);
 		owner.SetFlags(EntityFlags.ACTIVE, false);
-		
-		
+
+
 		m_ShopItemPriceConfig = FindPrefabShopItemConfig();
 		if (!m_ShopItemPriceConfig)
 			Print("No price config found for prefab: " + m_ShopItemPrefab ,LogLevel.WARNING);
-		
+
 		m_ShopItemEntity = GetGame().SpawnEntityPrefab(Resource.Load(m_ShopItemPrefab));
 	}
 

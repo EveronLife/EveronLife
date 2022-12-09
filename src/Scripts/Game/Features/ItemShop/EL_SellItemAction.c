@@ -3,18 +3,18 @@ class EL_SellItemAction : ScriptedUserAction
 	[Attribute("1", UIWidgets.EditBox, "Amount of items to sell at once (0 to hide | -1 for all in inv)")]
 	protected int m_iSellAmount;
 	protected int m_iActualSellAmount;
-	
+
 	protected ResourceName m_SellablePrefab;
-	protected EL_Price m_ItemPriceConfig;	
+	protected EL_Price m_ItemPriceConfig;
 
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
-		
+
 		if (m_iSellAmount == -1)
 			m_iActualSellAmount = EL_InventoryUtils.GetAmount(pUserEntity, m_SellablePrefab);
-		
+
 		EL_MoneyUtils.TrySell(pUserEntity, m_SellablePrefab, m_ItemPriceConfig.m_iSellPrice, m_iActualSellAmount);
 	}
 
@@ -33,7 +33,7 @@ class EL_SellItemAction : ScriptedUserAction
  	{
 		if (m_iSellAmount == -1)
 			m_iActualSellAmount = EL_InventoryUtils.GetAmount(user, m_SellablePrefab);
-		
+
 		int amountInInv = EL_InventoryUtils.GetAmount(user, m_SellablePrefab);
 		return (m_SellablePrefab && m_ItemPriceConfig && amountInInv != 0 && amountInInv >= m_iActualSellAmount);
 	}
@@ -43,8 +43,8 @@ class EL_SellItemAction : ScriptedUserAction
  	{
 		return (
 			m_ItemPriceConfig &&
-			m_ItemPriceConfig.m_iSellPrice != -1 && 
-			m_iSellAmount != 0 && 
+			m_ItemPriceConfig.m_iSellPrice != -1 &&
+			m_iSellAmount != 0 &&
 			(m_iSellAmount == 1 || m_ItemPriceConfig.m_bAllowMultiSell) &&
 			m_SellablePrefab
 		);
@@ -59,7 +59,5 @@ class EL_SellItemAction : ScriptedUserAction
 		EL_ShopItemComponent shopItemComponent = EL_ShopItemComponent.Cast(pOwnerEntity.FindComponent(EL_ShopItemComponent));
 		m_SellablePrefab = shopItemComponent.GetShopItemPrefab();
 		m_ItemPriceConfig = shopItemComponent.GetShopItemPriceConfig();
-
 	}
-
 }

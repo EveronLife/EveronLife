@@ -2,7 +2,7 @@ class EL_BuyItemAction : ScriptedUserAction
 {
 	[Attribute("1", UIWidgets.EditBox, "Amount of items to buy at once")]
 	protected int m_iBuyAmount;
-	
+
 	protected EL_Price m_ItemPriceConfig;
 	protected ResourceName m_BuyablePrefab;
 	protected IEntity m_BuyableEntity;
@@ -11,7 +11,7 @@ class EL_BuyItemAction : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
-		
+
 		EL_MoneyUtils.TryBuy(pUserEntity, m_BuyablePrefab, m_ItemPriceConfig.m_iBuyPrice, m_iBuyAmount);
 		CharacterControllerComponent controller = CharacterControllerComponent.Cast(pUserEntity.FindComponent(CharacterControllerComponent));
 		controller.TryPlayItemGesture(EItemGesture.EItemGesturePickUp);
@@ -45,8 +45,8 @@ class EL_BuyItemAction : ScriptedUserAction
  	{
 		return (
 			m_ItemPriceConfig &&
-			m_ItemPriceConfig.m_iBuyPrice != -1 && 
-			m_iBuyAmount != 0 && 
+			m_ItemPriceConfig.m_iBuyPrice != -1 &&
+			m_iBuyAmount != 0 &&
 			(m_iBuyAmount == 1 || m_ItemPriceConfig.m_bAllowMultiBuy) &&
 			m_BuyablePrefab
 		);
