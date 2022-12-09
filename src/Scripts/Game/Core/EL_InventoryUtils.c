@@ -18,7 +18,7 @@ class EL_InventoryUtils
 			if(comp.GetClassName() == "InventoryItemComponent")
 			{
 				SCR_ItemAttributeCollection attribCol;
-                comp.Get("Attributes", attribCol);
+				comp.Get("Attributes", attribCol);
 				totalWeight = attribCol.GetWeight();
 				totalVolume = attribCol.GetVolume();
 			}
