@@ -370,10 +370,10 @@ class EL_PersistenceManager
 		foreach (typename saveDataType, set<string> persistentIds : bulkLoad)
 		{
 			array<string> loadIds();
-			loadIds.Resize(persistentIds.Count());
-			foreach (int idx, string id : persistentIds)
+			loadIds.Reserve(persistentIds.Count());
+			foreach (string id : persistentIds)
 			{
-				loadIds.Set(idx, id);
+				loadIds.Insert(id);
 			}
 
 			array<ref EL_DbEntity> findResults = GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(loadIds)).GetEntities();

@@ -46,7 +46,7 @@ class EL_DbEntitySorter
 
 		//Sort all field values according to input
 		array<string> valueKeysSorted();
-		valueKeysSorted.Resize(distinctValues.Count());
+		valueKeysSorted.Reserve(distinctValues.Count());
 
 		// TODO: Use fixed lengh padded numbers to rely only on string sort without conversion
 		switch(fieldType)
@@ -54,21 +54,21 @@ class EL_DbEntitySorter
 			case int:
 			{
 				array<int> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable integers
-				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
+				for (int nKey = 0, keys = distinctValues.Count(); nKey < keys; nKey++)
 				{
-					valueKeysSortedTyped.Set(nKey, distinctValues.GetKey(nKey).ToInt());
+					valueKeysSortedTyped.Insert(distinctValues.GetKey(nKey).ToInt());
 				}
 
 				//Sort integers
 				valueKeysSortedTyped.Sort(descending);
 
 				//Turn back into strings to get objects from map
-				foreach (int index, int sortedKey : valueKeysSortedTyped)
+				foreach (int sortedKey : valueKeysSortedTyped)
 				{
-					valueKeysSorted.Set(index, sortedKey.ToString());
+					valueKeysSorted.Insert(sortedKey.ToString());
 				}
 
 				break;
@@ -77,12 +77,12 @@ class EL_DbEntitySorter
 			case float:
 			{
 				array<float> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable floats
-				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
+				for (int nKey = 0, keys = distinctValues.Count(); nKey < keys; nKey++)
 				{
-					valueKeysSortedTyped.Set(nKey, distinctValues.GetKey(nKey).ToFloat());
+					valueKeysSortedTyped.Insert(distinctValues.GetKey(nKey).ToFloat());
 				}
 
 				//Sort floats
@@ -91,7 +91,7 @@ class EL_DbEntitySorter
 				//Turn back into strings to get objects from map
 				foreach (int index, float sortedKey : valueKeysSortedTyped)
 				{
-					valueKeysSorted.Set(index, sortedKey.ToString());
+					valueKeysSorted.Insert(sortedKey.ToString());
 				}
 
 				break;
@@ -100,12 +100,12 @@ class EL_DbEntitySorter
 			case bool:
 			{
 				array<bool> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable booleans
-				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
+				for (int nKey = 0, keys = distinctValues.Count(); nKey < keys; nKey++)
 				{
-					valueKeysSortedTyped.Set(nKey, distinctValues.GetKey(nKey) == "true");
+					valueKeysSortedTyped.Insert(distinctValues.GetKey(nKey) == "true");
 				}
 
 				//Sort booleans
@@ -114,7 +114,7 @@ class EL_DbEntitySorter
 				//Turn back into strings to get objects from map
 				foreach (int index, bool sortedKey : valueKeysSortedTyped)
 				{
-					valueKeysSorted.Set(index, sortedKey.ToString());
+					valueKeysSorted.Insert(sortedKey.ToString());
 				}
 
 				break;
@@ -122,10 +122,11 @@ class EL_DbEntitySorter
 
 			case string:
 			{
-				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
+				for (int nKey = 0, keys = distinctValues.Count(); nKey < keys; nKey++)
 				{
-					valueKeysSorted.Set(nKey, distinctValues.GetKey(nKey));
+					valueKeysSorted.Insert(distinctValues.GetKey(nKey));
 				}
+
 				valueKeysSorted.Sort(descending);
 
 				break;
@@ -134,12 +135,12 @@ class EL_DbEntitySorter
 			case vector:
 			{
 				array<vector> valueKeysSortedTyped();
-				valueKeysSortedTyped.Resize(distinctValues.Count());
+				valueKeysSortedTyped.Reserve(distinctValues.Count());
 
 				//Parse strings back into sortable booleans
-				for (int nKey = 0; nKey < distinctValues.Count(); nKey++)
+				for (int nKey = 0, keys = distinctValues.Count(); nKey < keys; nKey++)
 				{
-					valueKeysSortedTyped.Set(nKey, distinctValues.GetKey(nKey).ToVector());
+					valueKeysSortedTyped.Insert(distinctValues.GetKey(nKey).ToVector());
 				}
 
 				//Sort booleans
@@ -148,16 +149,15 @@ class EL_DbEntitySorter
 				//Turn back into strings to get objects from map
 				foreach (int index, vector sortedKey : valueKeysSortedTyped)
 				{
-					valueKeysSorted.Set(index, sortedKey.ToString(false));
+					valueKeysSorted.Insert(sortedKey.ToString(false));
 				}
 
 				break;
 			}
 		}
 
-		int nSortedEntity = 0;
 		array<ref EL_DbEntity> sortedEnties();
-		sortedEnties.Resize(entities.Count());
+		sortedEnties.Reserve(entities.Count());
 
 		foreach (string sortedValueKey : valueKeysSorted)
 		{
@@ -165,7 +165,7 @@ class EL_DbEntitySorter
 
 			if (sameKeyEntities.Count() == 1)
 			{
-				sortedEnties.Set(nSortedEntity++, sameKeyEntities.Get(0));
+				sortedEnties.Insert(sameKeyEntities.Get(0));
 			}
 			else
 			{
@@ -173,7 +173,7 @@ class EL_DbEntitySorter
 
 				foreach (EL_DbEntity subSortedEntity : subSortedEnities)
 				{
-					sortedEnties.Set(nSortedEntity++, subSortedEntity);
+					sortedEnties.Insert(subSortedEntity);
 				}
 			}
 		}
