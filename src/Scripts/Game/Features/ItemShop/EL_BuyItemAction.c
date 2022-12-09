@@ -10,6 +10,8 @@ class EL_BuyItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
+		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
+		
 		EL_MoneyUtils.TryBuy(pUserEntity, m_BuyablePrefab, m_ItemPriceConfig.m_iBuyPrice, m_iBuyAmount);
 		CharacterControllerComponent controller = CharacterControllerComponent.Cast(pUserEntity.FindComponent(CharacterControllerComponent));
 		controller.TryPlayItemGesture(EItemGesture.EItemGesturePickUp);

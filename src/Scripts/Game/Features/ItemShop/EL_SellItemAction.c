@@ -10,6 +10,11 @@ class EL_SellItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
+		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
+		
+		if (m_iSellAmount == -1)
+			m_iActualSellAmount = EL_InventoryUtils.GetAmount(pUserEntity, m_SellablePrefab);
+		
 		EL_MoneyUtils.TrySell(pUserEntity, m_SellablePrefab, m_ItemPriceConfig.m_iSellPrice, m_iActualSellAmount);
 	}
 
