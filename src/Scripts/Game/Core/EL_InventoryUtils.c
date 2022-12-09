@@ -8,21 +8,21 @@ class EL_InventoryUtils
 		storageManager.GetStorages(pStorages);
 		
 		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
-        int count = prefabSource.GetComponentCount();
+		int count = prefabSource.GetComponentCount();
 		float totalWeight, totalVolume;
 		
 		for(int i = 0; i < count; i++)
-        {
-            IEntityComponentSource comp = prefabSource.GetComponent(i);
+		{
+			IEntityComponentSource comp = prefabSource.GetComponent(i);
 
-            if(comp.GetClassName() == "InventoryItemComponent")
-            {
+			if(comp.GetClassName() == "InventoryItemComponent")
+			{
 				SCR_ItemAttributeCollection attribCol;
                 comp.Get("Attributes", attribCol);
 				totalWeight = attribCol.GetWeight();
 				totalVolume = attribCol.GetVolume();
-            }
-        }
+			}
+		}
 				
 		foreach( BaseInventoryStorageComponent invStorage : pStorages)
 		{
