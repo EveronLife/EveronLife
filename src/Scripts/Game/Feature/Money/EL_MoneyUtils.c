@@ -34,11 +34,8 @@ class EL_MoneyUtils
 		if (EL_MoneyUtils.GetCash(inventoryManager) < price)
 			return false;
 
-		for (int i; i < amount; i++)
-		{
-			EL_InventoryUtils.AddAmount(player, prefabToBuy, 1);
-			RemoveCash(player, price);
-		}
+		EL_InventoryUtils.AddAmount(player, prefabToBuy, amount);
+		RemoveCash(player, price * amount);
 		
 		return true;
 	}
@@ -48,12 +45,10 @@ class EL_MoneyUtils
 	{
 		if (prefabToSell.IsEmpty())
 			return false;
-	
-		for (int i; i < amount; i++)
-		{
-			EL_InventoryUtils.RemoveAmount(player, prefabToSell, 1);
-			AddCash(player, price);
-		}
+
+		EL_InventoryUtils.RemoveAmount(player, prefabToSell, amount);
+		AddCash(player, price * amount);
+		
 		return true;
 	}
 	
