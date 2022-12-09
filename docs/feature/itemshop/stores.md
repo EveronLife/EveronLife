@@ -1,4 +1,4 @@
-#Store Config
+# Store Config
 
 ## Default store configs
 `Configs/ItemShop/EL_Shops.conf`\
