@@ -26,7 +26,7 @@ class EL_SellItemAction : ScriptedUserAction
 	{
 		if (m_ItemPriceConfig)
 		{
-			outName = string.Format("Sell %1x %2 ($%3)", m_iActualSellAmount, m_ItemPriceConfig.m_sName, m_ItemPriceConfig.m_iSellPrice * m_iActualSellAmount);
+			outName = string.Format("Sell %1x %2 ($%3)", m_iActualSellAmount, EL_UIInfoUtils.GetInfo(m_SellablePrefab).GetName(), m_ItemPriceConfig.m_iSellPrice * m_iActualSellAmount);
 		}
 		return true;
 	}

@@ -33,7 +33,7 @@ class EL_BuyItemAction : ScriptedUserAction
 	override bool GetActionNameScript(out string outName)
 	{
 		if (m_ItemPriceConfig)
-			outName = string.Format("Buy %1x %2 ($%3)", m_iBuyAmount, m_ItemPriceConfig.m_sName, m_ItemPriceConfig.m_iBuyPrice * m_iBuyAmount);
+			outName = string.Format("Buy %1x %2 ($%3)", m_iBuyAmount, EL_UIInfoUtils.GetInfo(m_BuyablePrefab).GetName(), m_ItemPriceConfig.m_iBuyPrice * m_iBuyAmount);
 		else
 			outName = "Price Config not found!";
 		return true;
@@ -81,7 +81,8 @@ class EL_BuyItemAction : ScriptedUserAction
 		m_BuyablePrefab = shopItemComponent.GetShopItemPrefab();
 		m_BuyableEntity = shopItemComponent.GetShopItemEntity();
 		m_ItemPriceConfig = shopItemComponent.GetShopItemPriceConfig();
-
+		
+		
 		InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(pOwnerEntity);
 		invItem.SetAdditionalVolume(EL_PrefabUtils.GetPrefabItemVolume(m_BuyablePrefab));
 		invItem.SetAdditionalWeight(EL_PrefabUtils.GetPrefabItemWeight(m_BuyablePrefab));
