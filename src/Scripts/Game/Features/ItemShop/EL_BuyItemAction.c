@@ -12,9 +12,21 @@ class EL_BuyItemAction : ScriptedUserAction
 	{
 		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
 
-		EL_MoneyUtils.TryBuy(pUserEntity, m_BuyablePrefab, m_ItemPriceConfig.m_iBuyPrice, m_iBuyAmount);
+		//Play pickup animation
 		CharacterControllerComponent controller = CharacterControllerComponent.Cast(pUserEntity.FindComponent(CharacterControllerComponent));
 		controller.TryPlayItemGesture(EItemGesture.EItemGesturePickUp);
+
+		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+		SCR_HintManagerComponent hintManager = SCR_HintManagerComponent.GetInstance();
+
+		for (int i; i < m_iBuyAmount; i++)
+		{
+			if (!inventoryManager.CanInsertItem(GetOwner()))
+				return;
+
+			EL_InventoryUtils.AddAmount(pUserEntity, m_BuyablePrefab, 1);
+			EL_MoneyUtils.RemoveCash(pUserEntity, m_ItemPriceConfig.m_iBuyPrice);
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -33,11 +45,21 @@ class EL_BuyItemAction : ScriptedUserAction
 		if (!m_ItemPriceConfig || !m_BuyablePrefab || !m_BuyableEntity)
 			return false;
 
-		string cannotPerformReason;
-		bool canBuy = EL_MoneyUtils.CanBuy(user, m_BuyablePrefab, m_ItemPriceConfig.m_iBuyPrice * m_iBuyAmount, cannotPerformReason);
-		SetCannotPerformReason(cannotPerformReason);
+		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 
-		return canBuy;
+		if (!inventoryManager.CanInsertItem(GetOwner()))
+		{
+			SetCannotPerformReason("Inventory full");
+			return false;
+		}
+
+		if(EL_MoneyUtils.GetCash(user) < m_ItemPriceConfig.m_iBuyPrice * m_iBuyAmount)
+		{
+			SetCannotPerformReason("Can't afford");
+			return false;
+		}
+
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -59,5 +81,10 @@ class EL_BuyItemAction : ScriptedUserAction
 		m_BuyablePrefab = shopItemComponent.GetShopItemPrefab();
 		m_BuyableEntity = shopItemComponent.GetShopItemEntity();
 		m_ItemPriceConfig = shopItemComponent.GetShopItemPriceConfig();
+
+		InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(pOwnerEntity);
+		invItem.SetAdditionalVolume(EL_PrefabUtils.GetPrefabItemVolume(m_BuyablePrefab));
+		invItem.SetAdditionalWeight(EL_PrefabUtils.GetPrefabItemWeight(m_BuyablePrefab));
+
 	}
 }

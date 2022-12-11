@@ -5,6 +5,15 @@ GenericEntity {
    m_ShopsConfig EL_ShopsConfig "{5B1087A47B9AA61D}" : "{9CA1D6CE3F6914BA}Configs/ItemShop/EL_Shops.conf" {
    }
   }
+  InventoryItemComponent "{5B1733B735196E46}" {
+   Attributes SCR_ItemAttributeCollection "{5B1733B734927C76}" {
+    ItemPhysAttributes ItemPhysicalAttributes "{5B1733B748B4EFD1}" {
+     DimensionScaler 0
+    }
+    m_bDraggable 0
+    m_bVisible 0
+   }
+  }
   MeshObject "{59C4F48745893DBF}" {
   }
   ActionsManagerComponent "{59C4F487641A3025}" {

@@ -66,7 +66,7 @@ class EL_ShopItemComponent : ScriptComponent
 		//Create Mesh
 		if (!owner.GetVObject())
 		{
-			owner.SetObject(EL_Utils.GetPrefabVObject(m_ShopItemPrefab), "");
+			owner.SetObject(EL_PrefabUtils.GetPrefabVObject(m_ShopItemPrefab), "");
 		}
 
 		//Create Hitbox

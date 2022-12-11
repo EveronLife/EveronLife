@@ -15,7 +15,10 @@ class EL_SellItemAction : ScriptedUserAction
 		if (m_iSellAmount == -1)
 			m_iActualSellAmount = EL_InventoryUtils.GetAmount(pUserEntity, m_SellablePrefab);
 
-		EL_MoneyUtils.TrySell(pUserEntity, m_SellablePrefab, m_ItemPriceConfig.m_iSellPrice, m_iActualSellAmount);
+		
+		
+		EL_InventoryUtils.RemoveAmount(pUserEntity, m_SellablePrefab, m_iActualSellAmount);
+		EL_MoneyUtils.AddCash(pUserEntity, m_ItemPriceConfig.m_iSellPrice * m_iActualSellAmount);
 	}
 
 	//------------------------------------------------------------------------------------------------
