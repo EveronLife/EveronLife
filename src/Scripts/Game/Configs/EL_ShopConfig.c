@@ -10,7 +10,7 @@ class EL_ShopTitle : BaseContainerCustomTitle
         source.Get("m_iBuyPrice", iBuyPrice);
         source.Get("m_iSellPrice", iSellPrice);
 		string sName = FilePath.StripExtension(FilePath.StripPath(prefab.GetPath()));
-        
+
 		title = string.Format("%1: %2$ | %3$", sName, iBuyPrice, iSellPrice);
 
         return true;
