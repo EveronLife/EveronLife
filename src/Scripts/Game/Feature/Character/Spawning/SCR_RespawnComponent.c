@@ -91,12 +91,12 @@ class EL_RespawnCharacterState
 		int count;
 		snapshot.SerializeInt(count);
 		prop.m_aQuickBarRplIds = new array<RplId>();
-		prop.m_aQuickBarRplIds.Resize(count);
+		prop.m_aQuickBarRplIds.Reserve(count);
 		for (int nId = 0; nId < count; nId++)
 		{
 			RplId id;
 			snapshot.SerializeInt(id);
-			prop.m_aQuickBarRplIds.Set(nId, id);
+			prop.m_aQuickBarRplIds.Insert(id);
 		}
 
 		return true;

@@ -14,10 +14,10 @@ EL_GameModeRoleplay {
      m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
      m_aStoredItems {
       EL_DefaultLoadoutItem "{5B04BEA625F04EAC}" {
-       m_rPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+       m_rPrefab "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
        m_aComponentDefaults {
         EL_DefaultLoadoutItemQuantityComponent "{5B04BEA65E4A1912}" {
-         m_iQuantity 5
+         m_iQuantity 100
         }
        }
       }

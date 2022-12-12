@@ -1,0 +1,31 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "0000000000000001"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Money"
+     Description "A stack of money"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 0
+     ItemDimensions 7 2 7
+     ItemVolume 0.25
+     DimensionScaler 0
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5966FD8070F889C7}" {
+     HandAdditiveTranslation 0 0.02 -0.01
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5AD6A03A800CA527}" {
+      CameraPreset Top
+      CameraDistanceToItem 0.15
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{773BE5E227A5A9CB}Assets/Items/Currencies/MoneyStack.xob"
+  }
+ }
+}

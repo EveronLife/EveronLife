@@ -9,8 +9,7 @@ enum EL_EHandCarryState
 	AWAIT_HOLSTER,
 	READY,
 	ACTIVE,
-	AWAIT_SWAP,
-	AWAIT_DELETE
+	AWAIT_SWAP
 }
 
 class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
@@ -58,12 +57,6 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 	//------------------------------------------------------------------------------------------------
 	void OnGadgetStateChanged(IEntity gadget, bool isInHand, bool isOnGround)
 	{
-		if (m_eState == EL_EHandCarryState.AWAIT_DELETE)
-		{
-		    SCR_EntityHelper.DeleteEntityAndChildren(gadget);
-		    m_eState = EL_EHandCarryState.NONE;
-		}
-
 		if (!HasLocalControl()) return;
 
 		if (m_eState >= EL_EHandCarryState.ACTIVE && (!isInHand || isOnGround))
@@ -135,7 +128,7 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 		}
 		ClearHandStorage(); // Drop all hand carry items (it should normally just be the one we currently carry)
 		if (gadget) EL_InventoryUtils.DropItem(GetOwner(), gadget); // Drop current gadget from different storage it might has been moved to
-		if (m_eState != EL_EHandCarryState.AWAIT_DELETE) m_eState = EL_EHandCarryState.NONE;
+		m_eState = EL_EHandCarryState.NONE;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -148,14 +141,6 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 		{
 			if (handItem != keepItem) inventoryManager.TryRemoveItemFromStorage(handItem, this);
 		}
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! TODO: Remove this and all the AWAIT_DELETE related code once https://feedback.bistudio.com/T168813 is fixed
-	void Delete(IEntity handEntity)
-	{
-		m_eState = EL_EHandCarryState.AWAIT_DELETE;
-		StopCarry();
 	}
 
 	//------------------------------------------------------------------------------------------------

@@ -286,24 +286,23 @@ class EL_Utils
 		}
 
 		array<string> sortedHierachyTuples();
-		sortedHierachyTuples.Resize(hierachyCount.Count());
+		sortedHierachyTuples.Reserve(hierachyCount.Count());
 
-		int hierachyIdx = 0;
 		foreach (typename type, int count : hierachyCount)
 		{
-			sortedHierachyTuples.Set(hierachyIdx++, string.Format("%1:%2", count.ToString(3), type.ToString()));
+			sortedHierachyTuples.Insert(string.Format("%1:%2", count.ToString(3), type.ToString()));
 		}
 
 		sortedHierachyTuples.Sort(true);
 
 		array<typename> sortedHierachy();
-		sortedHierachy.Resize(hierachyCount.Count());
+		sortedHierachy.Reserve(hierachyCount.Count());
 
-		foreach (int idx, string tuple : sortedHierachyTuples)
+		foreach (string tuple : sortedHierachyTuples)
 		{
 			int typenameStart = tuple.IndexOf(":") + 1;
 			string typenameString = tuple.Substring(typenameStart, tuple.Length() - typenameStart);
-			sortedHierachy.Set(idx, typenameString.ToType());
+			sortedHierachy.Insert(typenameString.ToType());
 		}
 
 		return sortedHierachy;
@@ -346,13 +345,13 @@ class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 		if (!sourceArray) return null;
 
 		array<ref TResultType> castedResult();
-		castedResult.Resize(sourceArray.Count());
+		castedResult.Reserve(sourceArray.Count());
 
-		foreach (int idx, TSourceType element : sourceArray)
+		foreach (TSourceType element : sourceArray)
 		{
 			TResultType castedElement = TResultType.Cast(element);
 
-			if (castedElement) castedResult.Set(idx, castedElement);
+			if (castedElement) castedResult.Insert(castedElement);
 		}
 
 		return castedResult;
