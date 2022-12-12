@@ -14,8 +14,8 @@ class EL_ShopTitle : BaseContainerCustomTitle
 		title = string.Format("%1: %2$ | %3$", sName, iBuyPrice, iSellPrice);
 
 		return true;
-    }
-};
+	}
+}
 
 [BaseContainerProps(), EL_ShopTitle()]
 class EL_Price
