@@ -104,7 +104,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	{
 		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
 
-		
+
 		if (m_aPreviewVehicle)
 			SCR_EntityHelper.DeleteEntityAndChildren(m_aPreviewVehicle);
 
@@ -138,6 +138,10 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_VehicleShopUI.m_wEngineSlider.SetCurrent(vehicleStats[0]);
 		m_VehicleShopUI.m_wBrakingSlider.SetCurrent(vehicleStats[2]);
 		m_VehicleShopUI.m_wInventorySizeSlider.SetCurrent(maxInvWeight);
+
+
+		//Validate Price
+		m_VehicleShopUI.ValidatePrice(curVehicleConfig.m_iBuyPrice);
 
 	}
 
@@ -186,7 +190,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	private void OpenVehicleShopUI()
 	{
 		m_VehicleShopUI = EL_VehicleShopUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_VehicleShop));
-		
+
 		//Listen to events
 		m_VehicleShopUI.m_OnVehicleSelectionChanged.Insert(OnVehicleSelectionChanged);
 		m_VehicleShopUI.m_OnColorChange.Insert(OnColorChange);
@@ -227,9 +231,9 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Set vehicle base color and texture
 		EL_VehicleAppearanceComponent vehicleAppearance = EL_VehicleAppearanceComponent.Cast(newVehicle.FindComponent(EL_VehicleAppearanceComponent));
 		vehicleAppearance.SetVehicleColor(color);
-		
+
 		//Set slots color and texture
-		EL_Utils.SetSlotsColor(newVehicle, color);		
+		EL_Utils.SetSlotsColor(newVehicle, color);
 
 		//Set vehicle owner
 		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newVehicle.FindComponent(EL_CharacterOwnerComponent));
@@ -248,7 +252,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		EL_RpcSenderComponent rpcSender = EL_RpcSenderComponent.Cast(m_UserEntity.FindComponent(EL_RpcSenderComponent));
 		rpcSender.AskBuyVehicle(curVehicleConfig.m_Prefab, color.PackToInt(), GetOwner());
-		
+
 
 		//Cleanup
 		DisableCam();
@@ -260,7 +264,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	{
 		EnableVehicleShopCamera(false);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void EnableVehicleShopCamera(bool enabled)
 	{

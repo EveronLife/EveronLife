@@ -1,24 +1,6 @@
 class EL_Utils
 {
 	//------------------------------------------------------------------------------------------------
-	//! Int to money format (eg.: 9.999.999)
-	//! \param amount Money amount to convert
-	static string IntToMoneyFormat(int amount)
-	{
-		string priceText = amount.ToString();
-		string formatPriceText = "";
-		
-		int dotAmount = (priceText.Length() - 1) / 3;
-		for (int i=0; i < dotAmount; i++)
-		{
-			formatPriceText = string.Format(".%1%2", priceText.Substring(priceText.Length() - ((i+1) * 3), 3), formatPriceText);
-		}
-		formatPriceText = string.Format("%1%2", priceText.Substring(0, priceText.Length() - dotAmount * 3), formatPriceText);
-		
-		return formatPriceText;
-	}
-	
-	//------------------------------------------------------------------------------------------------
 	static void SetSlotsColor(notnull IEntity entity, int color)
 	{
 		SlotManagerComponent slotManager = EL_ComponentFinder<SlotManagerComponent>.Find(entity);
@@ -36,7 +18,6 @@ class EL_Utils
 				Print("Slot Entity: " + slotEnt.GetPrefabData().GetPrefabName() + " has no EL_VehicleAppearanceComponent!", LogLevel.WARNING);
 		}
 	}
-	
 	
 	//------------------------------------------------------------------------------------------------
 	//! Creates and sets new material with given color to entity
