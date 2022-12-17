@@ -279,7 +279,8 @@ class EL_GarageManagerComponent : ScriptComponent
 	array<string> GetOwnedVehicles(string ownerId)
 	{
 		array<string> storedVehicleIds = m_mSavedVehicles.Get(ownerId);
-		Print("Loading " + storedVehicleIds.Count() + " vehicles for " + ownerId);
+		if (storedVehicleIds)
+			Print("Loading " + storedVehicleIds.Count() + " vehicles for " + ownerId);
 		return storedVehicleIds;
 	}
 
