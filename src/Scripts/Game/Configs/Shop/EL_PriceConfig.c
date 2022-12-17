@@ -1,16 +1,20 @@
 class EL_PriceTitle : BaseContainerCustomTitle
 {
-    override bool _WB_GetCustomTitle(BaseContainer source, out string title)
-    {
-        int iBuyPrice = 0;
-        int iSellPrice = 0;
-        string sName = "";
-        source.Get("m_Prefab", sName);
-        source.Get("m_iBuyPrice", iBuyPrice);
-        source.Get("m_iSellPrice", iSellPrice);
-        title = string.Format("%1: %2$ | %3$", sName, iBuyPrice, iSellPrice);
-        return true;
-    }
+	//------------------------------------------------------------------------------------------------
+	override bool _WB_GetCustomTitle(BaseContainer source, out string title)
+	{
+		int iBuyPrice;
+		int iSellPrice;
+		ResourceName prefab;
+		source.Get("m_Prefab", prefab);
+		source.Get("m_iBuyPrice", iBuyPrice);
+		source.Get("m_iSellPrice", iSellPrice);
+		string sName = FilePath.StripExtension(FilePath.StripPath(prefab.GetPath()));
+
+		title = string.Format("%1: %2$ | %3$", sName, iBuyPrice, iSellPrice);
+
+		return true;
+	}
 };
 
 [BaseContainerProps(), EL_PriceTitle()]

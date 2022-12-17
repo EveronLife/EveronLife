@@ -7,6 +7,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
     Widget m_wRoot;
 	SliderWidget m_RedSlider, m_GreenSlider, m_BlueSlider, m_wHandlingSlider, m_wEngineSlider, m_wBrakingSlider, m_wInventorySizeSlider;
 	TextWidget m_RedIndex, m_GreenIndex, m_BlueIndex, m_wVehiclePriceText, m_wVehicleTitleText;
+	ButtonWidget m_wBuyButton;
 	int r,g,b;
 	ref Color m_NewColor;
 	
@@ -19,6 +20,9 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	ResourceName m_lVehiclePreviewImage = "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout";
 	UniformGridLayoutWidget m_wVehiclePreviewGrid;
 	
+	private int m_iCurPrice;
+	private bool m_bCanBuy;
+	private IEntity m_LocalPlayer;
 	//------------------------------------------------------------------------------------------------
 	void PopulateVehicleImageGrid(array<ResourceName> vehicleImages)
 	{
@@ -77,7 +81,8 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	//------------------------------------------------------------------------------------------------
 	void OnBuyVehicle()
 	{
-		m_OnBuyVehicle.Invoke(m_NewColor);
+		if (m_bCanBuy)
+			m_OnBuyVehicle.Invoke(m_NewColor);
 		
 	}	
 	//------------------------------------------------------------------------------------------------
@@ -91,6 +96,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	void SetVehiclePriceText(int price)
 	{
 		m_wVehiclePriceText.SetText("$ " + EL_Utils.IntToMoneyFormat(price));
+		m_iCurPrice = price;
 	}
 	
     //------------------------------------------------------------------------------------------------
@@ -126,7 +132,8 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		//Preview Grid
 		m_wVehiclePreviewGrid = UniformGridLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
 		
-		
+		m_wBuyButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("BuyButton"));
+		m_LocalPlayer = SCR_PlayerController.GetLocalControlledEntity();
     }
 	
 	//------------------------------------------------------------------------------------------------
@@ -141,6 +148,18 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	//------------------------------------------------------------------------------------------------
 	override void OnMenuUpdate(float tDelta)
 	{
+		if (EL_MoneyUtils.GetCash(m_LocalPlayer) < m_iCurPrice)
+		{
+			m_bCanBuy = false;
+			m_wBuyButton.SetEnabled(false);
+			m_wBuyButton.SetOpacity(0.5);
+		} else
+		{
+			m_bCanBuy = true;
+			m_wBuyButton.SetEnabled(true);
+			m_wBuyButton.SetOpacity(1);
+		}
+		
 		if (m_RedSlider && m_GreenSlider && m_BlueSlider)
 		{
 			int newR = m_RedSlider.GetCurrent();

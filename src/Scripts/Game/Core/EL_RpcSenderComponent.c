@@ -20,7 +20,7 @@ class EL_RpcSenderComponent  : ScriptComponent
 		string playerUID = EL_Utils.GetPlayerUID(GetOwner());
 		
 		RplComponent vehicleShopRpl = RplComponent.Cast(Replication.FindItem(shopId));
-		EL_VehicleShopManagerComponent vehicleShopManager = EL_VehicleShopManagerComponent.Cast(vehicleShopRpl.GetEntity().FindComponent(EL_VehicleShopManagerComponent));
+		EL_VehicleShopManagerComponent vehicleShopManager = EL_ComponentFinder<EL_VehicleShopManagerComponent>.Find(vehicleShopRpl.GetEntity());
 		vehicleShopManager.DoBuyVehicle(vehiclePrefab, color, playerUID);
 	}
 }

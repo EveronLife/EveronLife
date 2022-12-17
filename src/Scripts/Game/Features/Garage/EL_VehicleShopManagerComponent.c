@@ -186,8 +186,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	private void OpenVehicleShopUI()
 	{
 		m_VehicleShopUI = EL_VehicleShopUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_VehicleShop));
-		Print("OpenShopUI for " + EL_Utils.GetPlayerUID(SCR_PlayerController.GetLocalControlledEntity()));
-
+		
 		//Listen to events
 		m_VehicleShopUI.m_OnVehicleSelectionChanged.Insert(OnVehicleSelectionChanged);
 		m_VehicleShopUI.m_OnColorChange.Insert(OnColorChange);
@@ -197,7 +196,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Trigger first vehicle update
 		OnVehicleSelectionChanged(0);
 
-		//Load and populate preview images
+		//Load and populate preview images from config
 		array<ResourceName> vehiclePreviewImages = {};
 		foreach (EL_Price price: m_PriceConfig.m_aPriceConfigs)
 		{
@@ -207,11 +206,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	}
 
-	//------------------------------------------------------------------------------------------------
-	void DisableCam()
-	{
-		EnableVehicleShopCamera(false);
-	}
+
 
 	//------------------------------------------------------------------------------------------------
 	//! Called from authority
@@ -260,6 +255,12 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		GetGame().GetMenuManager().CloseMenuByPreset(ChimeraMenuPreset.EL_VehicleShop);
 	}
 
+	//------------------------------------------------------------------------------------------------
+	void DisableCam()
+	{
+		EnableVehicleShopCamera(false);
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	void EnableVehicleShopCamera(bool enabled)
 	{

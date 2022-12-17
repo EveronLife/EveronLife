@@ -257,6 +257,7 @@ FrameWidgetClass {
       SizeY 30
       OffsetBottom -168.132
      }
+     "Ignore Cursor" 1
      "no focus" 1
      maximum 500
      step 1
@@ -274,6 +275,8 @@ FrameWidgetClass {
       SizeY 30
       OffsetBottom -247.962
      }
+     "Ignore Cursor" 1
+     "no focus" 1
      maximum 4
      current 0
     }
@@ -289,6 +292,8 @@ FrameWidgetClass {
       SizeY 30
       OffsetBottom -77.9
      }
+     "Ignore Cursor" 1
+     "no focus" 1
      maximum 300
      current 0
     }
@@ -400,6 +405,8 @@ FrameWidgetClass {
       SizeY 30
       OffsetBottom -334.448
      }
+     "Ignore Cursor" 1
+     "no focus" 1
      maximum 7500
      current 0
     }
@@ -451,6 +458,8 @@ FrameWidgetClass {
     }
     ButtonActionComponent "{56EEDE01BE93EE7D}" {
      m_bActionName "MenuSelect"
+    }
+    EL_VehicleShopLogic "{5B2295DFA51CD6DC}" {
     }
    }
    {
