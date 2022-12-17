@@ -12,7 +12,7 @@ class EL_DestructibleResourceHitZone : ScriptedHitZone
 		if (destructibleResource)
 		{
 			EL_DestructibleResourceComponentClass settings = EL_DestructibleResourceComponentClass.Cast(destructibleResource.GetComponentData(owner));
-			EL_Utils.SpawnEntityPrefab(settings.m_rHitEffect, hitTransform[0], hitTransform[2], false);
+			EL_Utils.SpawnEntityPrefab(settings.m_rHitEffect, hitTransform[0], hitTransform[2], null, false);
 		}
 	}
 

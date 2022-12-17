@@ -18,6 +18,7 @@ class EL_RpcSenderComponent  : ScriptComponent
 	void Rpc_AskBuyVehicle(ResourceName vehiclePrefab, int color, RplId shopId)
 	{
 		string playerUID = EL_Utils.GetPlayerUID(GetOwner());
+		
 		RplComponent vehicleShopRpl = RplComponent.Cast(Replication.FindItem(shopId));
 		EL_VehicleShopManagerComponent vehicleShopManager = EL_VehicleShopManagerComponent.Cast(vehicleShopRpl.GetEntity().FindComponent(EL_VehicleShopManagerComponent));
 		vehicleShopManager.DoBuyVehicle(vehiclePrefab, color, playerUID);

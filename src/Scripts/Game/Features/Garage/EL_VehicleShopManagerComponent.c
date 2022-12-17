@@ -12,9 +12,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	[Attribute("0 0 0", UIWidgets.EditBox, "Camera offset used for this PIP")]
 	protected vector m_vCameraAngels;
 
-	[Attribute("0 0 0", UIWidgets.EditBox, "Rotation Speed, 0 to disable")]
-	protected vector m_vRotationSpeed;
-
 	[Attribute("", UIWidgets.Auto, "Item price list")]
 	protected ref EL_PriceConfig m_PriceConfig;
 
@@ -43,48 +40,9 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void PrintComponentVariableNames(ResourceName prefab, string typeName)
-	{
-		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
-		int count = prefabSource.GetComponentCount();
-
-		for(int i = 0; i < count; i++)
-		{
-			IEntityComponentSource comp = prefabSource.GetComponent(i);
-
-			if(comp.GetClassName() == typeName)
-			{
-				int numVars = comp.GetNumVars();
-				for (int x = 0; x < numVars; x++)
-				{
-					Print(comp.GetVarName(x));
-				}
-			}
-		}
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	BaseContainer GetBaseContainer(ResourceName prefab, string typeName)
-	{
-		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
-		int count = prefabSource.GetComponentCount();
-
-		for(int i = 0; i < count; i++)
-		{
-			IEntityComponentSource comp = prefabSource.GetComponent(i);
-
-			if(comp.GetClassName() == typeName)
-			{
-				return comp;
-			}
-		}
-		return null;
-	}
-
-	//------------------------------------------------------------------------------------------------
 	ResourceName GetVehiclePrefabIcon(ResourceName prefab)
 	{
-		BaseContainer vehicleUIInfoComponent = GetBaseContainer(prefab, "SCR_EditableVehicleComponent");
+		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
 
 		SCR_EditableVehicleUIInfo vehicleUIInfo;
 		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
@@ -96,7 +54,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	ResourceName GetVehiclePrefabName(ResourceName prefab)
 	{
-		BaseContainer vehicleUIInfoComponent = GetBaseContainer(prefab, "SCR_EditableVehicleComponent");
+		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
 
 		SCR_EditableVehicleUIInfo vehicleUIInfo;
 		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
@@ -108,7 +66,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	float GetVehicleStorage(ResourceName prefab)
 	{
-		BaseContainer inventoryContainer = GetBaseContainer(prefab, "SCR_UniversalInventoryStorageComponent");
+		BaseContainer inventoryContainer = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_UniversalInventoryStorageComponent");
 
 		float maxInvWeight;
 		if (inventoryContainer)
@@ -120,7 +78,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	array<float> GetVehiclePrefabSimulation(ResourceName prefab)
 	{
-		BaseContainer vehicleSimulationContainer = GetBaseContainer(prefab, "VehicleWheeledSimulation");
+		BaseContainer vehicleSimulationContainer = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "VehicleWheeledSimulation");
 		BaseContainer vehicleSimulation = vehicleSimulationContainer.GetObject("Simulation");
 		BaseContainer vehicleEngine = vehicleSimulation.GetObject("Engine");
 		BaseContainer vehicleAxle = vehicleSimulation.GetObjectArray("Axles")[0];
@@ -255,12 +213,10 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		EnableVehicleShopCamera(false);
 	}
 
-	
 	//------------------------------------------------------------------------------------------------
+	//! Called from authority
 	void DoBuyVehicle(ResourceName vehiclePrefab, int color, string playerUID)
 	{
-		Print("Server recieved vehicle buy request");
-		
 		//Find free spawn point
 		//IEntity freeSpawnPoint;
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
