@@ -10,8 +10,7 @@ class EL_SpawnUtils
 		while (child)
 		{
 			EL_VehicleSpawnPoint vehicleSpawnPoint = EL_VehicleSpawnPoint.Cast(child.FindComponent(EL_VehicleSpawnPoint));
-
-			if (vehicleSpawnPoint && !vehicleSpawnPoint.GetIsOccupied())
+			if (vehicleSpawnPoint && vehicleSpawnPoint.IsFree())
 			{
 				return child;
 			}

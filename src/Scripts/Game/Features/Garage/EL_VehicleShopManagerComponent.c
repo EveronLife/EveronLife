@@ -139,7 +139,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_VehicleShopUI.m_wBrakingSlider.SetCurrent(vehicleStats[2]);
 		m_VehicleShopUI.m_wInventorySizeSlider.SetCurrent(maxInvWeight);
 
-
 		//Validate Price
 		m_VehicleShopUI.ValidatePrice(curVehicleConfig.m_iBuyPrice);
 
@@ -221,7 +220,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
 		if (!freeSpawnPoint)
 		{
-			Print("[EL-VehicleShop] No free spawn point to buy!", LogLevel.WARNING);
+			SCR_HintManagerComponent.ShowCustomHint("All spawn point occupied", "Vehicle Shop", 5);
 			return;
 		}
 

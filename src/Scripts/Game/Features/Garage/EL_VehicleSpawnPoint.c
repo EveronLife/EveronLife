@@ -7,12 +7,13 @@ class EL_VehicleSpawnPoint : ScriptComponent
 	private BaseGameTriggerEntity m_SpawnAreaTrigger;
 	
 	//------------------------------------------------------------------------------------------------
-	bool GetIsOccupied()
+	bool IsFree()
 	{
 		array<IEntity> entInTrigger = new array<IEntity>();
 		m_SpawnAreaTrigger.QueryEntitiesInside();
 		m_SpawnAreaTrigger.GetEntitiesInside(entInTrigger);
-		return (entInTrigger.Count() != 0);
+		
+		return (entInTrigger.Count() == 0);
 	}
 	
 	//------------------------------------------------------------------------------------------------

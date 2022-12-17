@@ -1,6 +1,21 @@
 SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
  coords 76.431 0 123.217
  {
+  BaseGameTriggerEntity {
+   ID "5ACAE5EB374A210E"
+   coords 3.649 0.073 -0.167
+   BoxMins -1 0.3 -2
+  }
+  BaseGameTriggerEntity {
+   ID "5ACAE5EB374A210F"
+   coords -3.223 0.073 -0.167
+   BoxMins -1 0.3 -2
+  }
+  BaseGameTriggerEntity {
+   ID "5ACAE5EB374A3083"
+   coords -9.892 0.073 -0.167
+   BoxMins -1 0.3 -2
+  }
   GenericEntity {
    ID "5ACAE5EB374A2168"
    components {
