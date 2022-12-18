@@ -25,7 +25,7 @@ FrameWidgetClass {
      {
       TextWidgetClass "{5ACC82F161B55EC4}" {
        Name "BrakingText"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CD5E}" {
         HorizontalAlign 0
         Padding 0 20 0 10
        }
@@ -41,7 +41,7 @@ FrameWidgetClass {
       }
       SliderWidgetClass "{5ACB11E00B907017}" {
        Name "BrakingSlider"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CDFF}" {
        }
        "Ignore Cursor" 1
        "no focus" 1
@@ -50,7 +50,7 @@ FrameWidgetClass {
       }
       TextWidgetClass "{5ACC82F1630D884B}" {
        Name "EngineText"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CDDB}" {
         HorizontalAlign 0
         Padding 0 20 0 10
        }
@@ -66,7 +66,7 @@ FrameWidgetClass {
       }
       SliderWidgetClass "{5ACB11E00FC6CB19}" {
        Name "EngineSlider"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CC3D}" {
        }
        "Ignore Cursor" 1
        "no focus" 1
@@ -75,7 +75,7 @@ FrameWidgetClass {
       }
       TextWidgetClass "{5ACC82F159B59711}" {
        Name "HandlingText"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CC36}" {
         HorizontalAlign 0
         Padding 0 20 0 10
        }
@@ -91,7 +91,7 @@ FrameWidgetClass {
       }
       SliderWidgetClass "{5ACB11E7D4F06D4A}" {
        Name "HandlingSlider"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CC1E}" {
        }
        "Ignore Cursor" 1
        "no focus" 1
@@ -101,7 +101,7 @@ FrameWidgetClass {
       }
       TextWidgetClass "{5ACC82F1AB52AFB4}" {
        Name "StorageSizeText"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CC0D}" {
         HorizontalAlign 0
         Padding 0 20 0 10
        }
@@ -117,7 +117,7 @@ FrameWidgetClass {
       }
       SliderWidgetClass "{5ACC82F1A2D7A107}" {
        Name "InventorySizeSlider"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CC7E}" {
        }
        "Ignore Cursor" 1
        "no focus" 1
@@ -126,7 +126,7 @@ FrameWidgetClass {
       }
       TextWidgetClass "{5ACB11E033B06374}" {
        Name "VehiclePriceText"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CC70}" {
         HorizontalAlign 1
         VerticalAlign 1
         Padding 0 50 0 20
@@ -145,7 +145,7 @@ FrameWidgetClass {
       }
       ButtonWidgetClass "{5ACB11ED518CF385}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
        Name "BuyButton"
-       Slot LayoutSlot {
+       Slot LayoutSlot "{5B24A44C0BE7CC9F}" {
         Padding 0 10 0 0
        }
        components {
@@ -153,7 +153,6 @@ FrameWidgetClass {
          m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
          m_bMouseOverToFocus 1
          m_bShowBorderOnFocus 1
-         m_bNoBorderAnimation 1
          m_sLabel "Buy"
          m_sActionName "MenuSelect"
         }
@@ -299,7 +298,7 @@ FrameWidgetClass {
        {
         SliderWidgetClass "{59C681319AE3CDFE}" {
          Name "RedSlider"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7CE58}" {
           SizeMode Fill
           FillWeight 80
          }
@@ -309,7 +308,7 @@ FrameWidgetClass {
         }
         TextWidgetClass "{59C6EE3F8B8EB6B4}" {
          Name "RedChar"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7CEB7}" {
           HorizontalAlign 3
           VerticalAlign 3
           SizeMode Fill
@@ -321,7 +320,7 @@ FrameWidgetClass {
         }
         TextWidgetClass "{59C6EE3FAD6C1DA4}" {
          Name "RedIndex"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7CEA7}" {
           HorizontalAlign 3
           VerticalAlign 3
           SizeMode Fill
@@ -346,7 +345,7 @@ FrameWidgetClass {
        {
         SliderWidgetClass "{59C6EE3FBF453CFA}" {
          Name "GreenSlider"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7CEF9}" {
           SizeMode Fill
           FillWeight 80
          }
@@ -356,7 +355,7 @@ FrameWidgetClass {
         }
         TextWidgetClass "{59C6EE3F8ACB6746}" {
          Name "GreenChar"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7CEEC}" {
           SizeMode Fill
           FillWeight 10
          }
@@ -366,7 +365,7 @@ FrameWidgetClass {
         }
         TextWidgetClass "{59C6EE3FAC558026}" {
          Name "GreenIndex"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7CEE0}" {
           SizeMode Fill
           FillWeight 10
          }
@@ -389,7 +388,7 @@ FrameWidgetClass {
        {
         SliderWidgetClass "{59C68130F10622A4}" {
          Name "BlueSlider"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7CEC6}" {
           SizeMode Fill
           FillWeight 80
          }
@@ -399,7 +398,7 @@ FrameWidgetClass {
         }
         TextWidgetClass "{59C6EE3F66CA67B6}" {
          Name "BlueChar"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7C93A}" {
           SizeMode Fill
           FillWeight 10
          }
@@ -409,7 +408,7 @@ FrameWidgetClass {
         }
         TextWidgetClass "{59C68130FA09024F}" {
          Name "BlueIndex"
-         Slot LayoutSlot {
+         Slot LayoutSlot "{5B24A44C0BE7C92E}" {
           SizeMode Fill
           FillWeight 10
          }

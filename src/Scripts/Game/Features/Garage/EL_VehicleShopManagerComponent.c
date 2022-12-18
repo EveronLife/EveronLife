@@ -23,7 +23,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	ResourceName m_VehicleShopCameraPrefab = "{FAE60B62153B7058}Prefabs/Buildings/Garage/Garage_Camera.et";
 	ResourceName m_EmptyVehiclePreview = "{6CA10EE93F1A3C20}Prefabs/Buildings/Garage/GaragePreviewVehicle.et";
-	ResourceName m_MissingPreviewIcon = "{AC7E384FF9D8016A}Common/Textures/placeholder_BCR.edds";
+	
 
 	SCR_BasePreviewEntity m_aPreviewVehicle;
 	IEntity m_UserEntity;
@@ -37,30 +37,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	{
 		GetGame().GetMenuManager().CloseMenuByPreset(ChimeraMenuPreset.EL_VehicleShop);
 		DisableCam();
-	}
-
-	//------------------------------------------------------------------------------------------------
-	ResourceName GetVehiclePrefabIcon(ResourceName prefab)
-	{
-		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
-
-		SCR_EditableVehicleUIInfo vehicleUIInfo;
-		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
-		if (vehicleUIInfo)
-			return vehicleUIInfo.GetImage();
-		return m_MissingPreviewIcon;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	ResourceName GetVehiclePrefabName(ResourceName prefab)
-	{
-		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
-
-		SCR_EditableVehicleUIInfo vehicleUIInfo;
-		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
-		if (vehicleUIInfo)
-			return vehicleUIInfo.GetName();
-		return m_MissingPreviewIcon;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -131,7 +107,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Update price
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
 		//Update title
-		m_VehicleShopUI.m_wVehicleTitleText.SetText(GetVehiclePrefabName(curVehicleConfig.m_Prefab));
+		m_VehicleShopUI.m_wVehicleTitleText.SetText(EL_Utils.GetUIInfoName(curVehicleConfig.m_Prefab));
 
 		//Update vehicle stats
 		m_VehicleShopUI.m_wHandlingSlider.SetCurrent(vehicleStats[1]);
@@ -141,7 +117,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Validate Price
 		m_VehicleShopUI.ValidatePrice(curVehicleConfig.m_iBuyPrice);
-
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -159,19 +134,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		UpdateVehicleStats();
 	}
 
-	//------------------------------------------------------------------------------------------------
-	void ChangeColorRecursive(IEntity parent, Color color)
-	{
-		IEntity child = parent.GetChildren();
-		while (child)
-		{
-			if (child.GetChildren())
-				ChangeColorRecursive(child, color);
-
-			EL_Utils.SetColor(child, color);
-			child = child.GetSibling();
-		}
-	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Called from client
@@ -180,7 +142,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_PreviewVehicleColor = color;
 		if (m_aPreviewVehicle)
 		{
-			ChangeColorRecursive(m_aPreviewVehicle, color);
+			EL_Utils.ChangeColorRecursive(m_aPreviewVehicle, color);
 		}
 	}
 
@@ -203,13 +165,10 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		array<ResourceName> vehiclePreviewImages = {};
 		foreach (EL_Price price: m_PriceConfig.m_aPriceConfigs)
 		{
-			vehiclePreviewImages.Insert(GetVehiclePrefabIcon(price.m_Prefab));
+			vehiclePreviewImages.Insert(EL_Utils.GetUIInfoPrefabIcon(price.m_Prefab));
 		}
 		m_VehicleShopUI.PopulateVehicleImageGrid(vehiclePreviewImages);
-
 	}
-
-
 
 	//------------------------------------------------------------------------------------------------
 	//! Called from authority

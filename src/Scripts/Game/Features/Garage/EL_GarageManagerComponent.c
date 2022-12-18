@@ -30,7 +30,8 @@ class EL_GarageManagerComponent : ScriptComponent
 
 	ref array<ref EL_GarageData> m_aGarageSaveDataList = new ref array<ref EL_GarageData>();
 	int m_iCurPreviewVehicleIndex;
-
+		
+	EL_GarageUI m_GarageUI;
 
 	//------------------------------------------------------------------------------------------------
 	void DisableCam()
@@ -65,6 +66,7 @@ class EL_GarageManagerComponent : ScriptComponent
 		withdrawnVehicle.SetOrigin(freeSpawnPoint.GetOrigin());
 		withdrawnVehicle.SetAngles(freeSpawnPoint.GetAngles());
 
+		//Save data
 		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(withdrawnVehicle.FindComponent(EL_PersistenceComponent));
 		persistence.Save();
 
@@ -77,46 +79,53 @@ class EL_GarageManagerComponent : ScriptComponent
 		Print("[EL-Garage] Asking Server to withdraw Vehicle");
 		Rpc(Rpc_AskWithdrawVehicle);
 	}
-
+	
 	//------------------------------------------------------------------------------------------------
-	void NextPreviewVehicle()
+	void OnVehicleSelectionChanged(int offset)
 	{
 		int lastPreviewVehicleIndex = m_iCurPreviewVehicleIndex;
-		m_iCurPreviewVehicleIndex ++;
-
-		if (m_iCurPreviewVehicleIndex > (m_aGarageSaveDataList.Count() - 1))
-			m_iCurPreviewVehicleIndex = 0;
-
+		m_iCurPreviewVehicleIndex += offset;
+		
 		if (lastPreviewVehicleIndex == m_iCurPreviewVehicleIndex)
 			return;
-
-		SetVehiclePreviewMesh(m_iCurPreviewVehicleIndex);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void PreviousPreviewVehicle()
-	{
-		int lastPreviewVehicleIndex = m_iCurPreviewVehicleIndex;
-		m_iCurPreviewVehicleIndex --;
-
+		
+		if (m_iCurPreviewVehicleIndex > (m_aGarageSaveDataList.Count() - 1))
+			m_iCurPreviewVehicleIndex = 0;
+		
 		if (m_iCurPreviewVehicleIndex < 0)
 			m_iCurPreviewVehicleIndex = m_aGarageSaveDataList.Count() - 1;
 
-		if (lastPreviewVehicleIndex == m_iCurPreviewVehicleIndex)
-			return;
-
 		SetVehiclePreviewMesh(m_iCurPreviewVehicleIndex);
 	}
 
+	//------------------------------------------------------------------------------------------------
+	//! Called from client
+	private void OpenGarageUI()
+	{
+		m_GarageUI = EL_GarageUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_Garage));
+
+		//Listen to events
+		m_GarageUI.m_OnVehicleSelectionChanged.Insert(OnVehicleSelectionChanged);
+		m_GarageUI.m_OnTakeOutVehicle.Insert(WithdrawVehicle);
+		m_GarageUI.m_OnExit.Insert(DisableCam);
+
+		//Trigger first vehicle update
+		OnVehicleSelectionChanged(0);
+
+		//Load and populate preview images from config
+		array<ResourceName> vehiclePreviewImages = {};
+		foreach (EL_GarageData storedVehicleData : m_aGarageSaveDataList)
+		{
+			vehiclePreviewImages.Insert(EL_Utils.GetUIInfoPrefabIcon(storedVehicleData.m_rPrefab));
+		}
+		m_GarageUI.PopulateVehicleImageGrid(vehiclePreviewImages);
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	void EnableGarageCamera(bool enabled)
 	{
 		if (enabled && !m_bIsEnabled)
 		{
-			m_InputManager.AddActionListener("GarageCameraExit", EActionTrigger.DOWN, DisableCam);
-			m_InputManager.AddActionListener("GarageCameraSelect", EActionTrigger.DOWN, WithdrawVehicle);
-			m_InputManager.AddActionListener("GarageCameraLeft", EActionTrigger.DOWN, PreviousPreviewVehicle);
-			m_InputManager.AddActionListener("GarageCameraRight", EActionTrigger.DOWN, NextPreviewVehicle);
 			// Create Garage camera
 			if (!m_GarageCamera)
 				m_GarageCamera = EL_CameraUtils.CreateAndSetCamera(m_GarageCameraPrefab, m_GarageEntity, m_vCameraPoint, m_vCameraAngels);
@@ -127,11 +136,6 @@ class EL_GarageManagerComponent : ScriptComponent
 
 		if (!enabled && m_bIsEnabled)
 		{
-			m_InputManager.RemoveActionListener("GarageCameraExit", EActionTrigger.DOWN, DisableCam);
-			m_InputManager.RemoveActionListener("GarageCameraSelect", EActionTrigger.DOWN, WithdrawVehicle);
-			m_InputManager.RemoveActionListener("GarageCameraLeft", EActionTrigger.DOWN, PreviousPreviewVehicle);
-			m_InputManager.RemoveActionListener("GarageCameraRight", EActionTrigger.DOWN, NextPreviewVehicle);
-
 			delete m_aPreviewVehicle;
 
 			EL_CameraUtils.DestroyCamera(m_GarageCamera);
@@ -184,30 +188,29 @@ class EL_GarageManagerComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Needs to be called on Server where db is saved!
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void RPC_GetGarageSaveDataList(RplId playerId)
 	{
-		
 		RplComponent rplC = RplComponent.Cast(Replication.FindItem(playerId));
 		IEntity pUserEntity = rplC.GetEntity();
-
-		EL_DbRepository<EL_VehicleSaveData> vehicleRepo = EL_PersistenceEntityHelper<EL_VehicleSaveData>.GetRepository();
-		
 		array<string> allVehiclesInGarage = GetOwnedVehicles(EL_Utils.GetPlayerUID(pUserEntity));
 		
 		if (!allVehiclesInGarage)
 			return;
-		Print("[EL-Garage] Server found " + allVehiclesInGarage.Count() + " in db for player " + pUserEntity);
+		
 		array<ref EL_GarageData> garageVehicleList = new array<ref EL_GarageData>();
-		if (!allVehiclesInGarage)
-			return;
+		
+		EL_DbRepository<EL_VehicleSaveData> vehicleRepo = EL_PersistenceEntityHelper<EL_VehicleSaveData>.GetRepository();
+		
 		foreach (string vehicleId : allVehiclesInGarage)
 		{
 			Print("[EL-Garage] Server loading vehicle from db: " + vehicleId);
 			EL_VehicleSaveData vehSaveData = vehicleRepo.Find(vehicleId).GetEntity();
-
-			//array<ref EL_ComponentSaveDataBase> colorSaveData = vehSaveData.m_mComponentsSaveData.Get(EL_CarColorSaveData);
+			
+			EL_Utils.SetColor(GetOwner(), Color.FromInt(m_iVehicleColor));
+			EL_Utils.SetSlotsColor(GetOwner(), m_iVehicleColor);
+			
+			array<ref EL_ComponentSaveDataBase> colorSaveData = vehSaveData.m_mComponentsSaveData.Get(EL_VehicleAppearanceSaveData);
 			//EL_CarColorSaveData colorComp = EL_CarColorSaveData.Cast(colorSaveData.Get(0));
 
 			EL_GarageData garageVehicleData = new EL_GarageData();
@@ -241,6 +244,7 @@ class EL_GarageManagerComponent : ScriptComponent
 		m_UserEntity = user;
 		PopulateLocalGarage();
 		EnableGarageCamera(true);
+		OpenGarageUI();
 	}
 
 	//------------------------------------------------------------------------------------------------

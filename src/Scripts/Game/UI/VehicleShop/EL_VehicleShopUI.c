@@ -1,5 +1,6 @@
 modded enum ChimeraMenuPreset {
-    EL_VehicleShop
+    EL_VehicleShop,
+	EL_Garage
 }
 
 class EL_VehicleShopUI: ChimeraMenuBase
