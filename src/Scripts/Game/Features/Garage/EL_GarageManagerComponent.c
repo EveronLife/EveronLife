@@ -5,7 +5,6 @@ class EL_GarageManagerComponentClass : ScriptComponentClass
 
 class EL_GarageManagerComponent : ScriptComponent
 {
-
 	protected ref map<string, ref array<string>> m_mSavedVehicles = new ref map<string, ref array<string>>;
 	IEntity m_UserEntity;
 
@@ -43,22 +42,20 @@ class EL_GarageManagerComponent : ScriptComponent
 		//Save data
 		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(withdrawnVehicle.FindComponent(EL_PersistenceComponent));
 		persistence.Save();
-
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void WithdrawVehicle(int index)
 	{
-		Print("[EL-Garage] Asking Server to withdraw Vehicle");
 		Rpc(Rpc_AskWithdrawVehicle, index);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Called from client
 	private void OpenGarageUI()
 	{
 		m_GarageUI = EL_GarageUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_Garage));
-		m_GarageUI.m_GarageManager = this;
+		m_GarageUI.SetGarageManager(this);
 		m_GarageUI.PopulateVehicleList(m_aGarageSaveDataList);
 	}
 
@@ -77,7 +74,7 @@ class EL_GarageManagerComponent : ScriptComponent
 
 		m_aGarageSaveDataList = garageSaveData;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void RPC_GetGarageSaveDataList(RplId playerId)
@@ -85,22 +82,22 @@ class EL_GarageManagerComponent : ScriptComponent
 		RplComponent rplC = RplComponent.Cast(Replication.FindItem(playerId));
 		IEntity pUserEntity = rplC.GetEntity();
 		array<string> allVehiclesInGarage = GetOwnedVehicles(EL_Utils.GetPlayerUID(pUserEntity));
-		
+
 		if (!allVehiclesInGarage)
 			return;
-		
+
 		array<ref EL_GarageData> garageVehicleList = new array<ref EL_GarageData>();
-		
+
 		EL_DbRepository<EL_VehicleSaveData> vehicleRepo = EL_PersistenceEntityHelper<EL_VehicleSaveData>.GetRepository();
-		
+
 		foreach (string vehicleId : allVehiclesInGarage)
 		{
 			Print("[EL-Garage] Server loading vehicle from db: " + vehicleId);
 			EL_VehicleSaveData vehSaveData = vehicleRepo.Find(vehicleId).GetEntity();
-			
+
 			//EL_Utils.SetColor(GetOwner(), Color.FromInt(m_iVehicleColor));
 			//EL_Utils.SetSlotsColor(GetOwner(), m_iVehicleColor);
-			
+
 			//array<ref EL_ComponentSaveDataBase> colorSaveData = vehSaveData.m_mComponentsSaveData.Get(EL_VehicleAppearanceSaveData);
 			//EL_CarColorSaveData colorComp = EL_CarColorSaveData.Cast(colorSaveData.Get(0));
 
@@ -125,7 +122,7 @@ class EL_GarageManagerComponent : ScriptComponent
 		RplComponent rplC = RplComponent.Cast(m_UserEntity.FindComponent(RplComponent));
 		//Get Garage Vehicles from Server
 		Rpc(RPC_GetGarageSaveDataList, rplC.Id());
-		
+
 		OpenGarageUI();
 	}
 
@@ -180,6 +177,6 @@ class EL_GarageManagerComponent : ScriptComponent
 	override void OnPostInit(IEntity owner)
 	{
 		SetEventMask(owner, EntityEvent.INIT | EntityEvent.FRAME);
-		owner.SetFlags(EntityFlags.ACTIVE, false);	
+		owner.SetFlags(EntityFlags.ACTIVE, false);
 	}
 };
