@@ -2,11 +2,11 @@ class EL_GarageData
 {
 	ResourceName m_rPrefab;
 	int m_iVehicleColor;
+	int m_iIndex;
 	
 	//------------------------------------------------------------------------------------------------
 	static void Encode(SSnapSerializerBase snapshot, ScriptCtx ctx, ScriptBitSerializer packet) 
 	{
-
 		snapshot.Serialize(packet, 26);
 	}
 	

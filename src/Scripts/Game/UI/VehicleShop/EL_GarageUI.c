@@ -5,93 +5,53 @@ class EL_GarageUI: ChimeraMenuBase
 	ButtonWidget m_wTakeOutButton;
 
 	ref Color m_NewColor;
-
-	ref ScriptInvoker<int> m_OnVehicleSelectionChanged = new ScriptInvoker();
+	ResourceName m_VehiclePreviewImage = "{28E9E144675337A3}UI/Layouts/Editor/Toolbar/PlacingMenu/GarageVehiclePreviewImg.layout";
+	VerticalLayoutWidget m_wVehiclePreviewList;
 	
-	ref ScriptInvoker m_OnTakeOutVehicle = new ScriptInvoker();
-	ref ScriptInvoker m_OnExit = new ScriptInvoker();
-
-	ResourceName m_VehiclePreviewImage = "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout";
-	UniformGridLayoutWidget m_wVehiclePreviewGrid;
-
-	private IEntity m_LocalPlayer;
+	EL_GarageManagerComponent m_GarageManager;
 	
 	//------------------------------------------------------------------------------------------------
-	void PopulateVehicleImageGrid(array<ResourceName> vehicleImages)
+	void OnVehicleEntryClicked(SCR_ModularButtonComponent button)
 	{
-		int column;
-
-		foreach (ResourceName vehicleImage : vehicleImages)
+		EL_GarageData vehicleData = EL_GarageData.Cast(button.GetData());
+		m_GarageManager.WithdrawVehicle(vehicleData.m_iIndex);
+		Close();
+	}
+		
+	//------------------------------------------------------------------------------------------------
+	void PopulateVehicleList(array<ref EL_GarageData> garageSaveDataList)
+	{
+		foreach (int index, EL_GarageData vehicleData : garageSaveDataList)
 		{
-
-			Widget newVehicleImage = GetGame().GetWorkspace().CreateWidgets(m_VehiclePreviewImage, m_wVehiclePreviewGrid);
-
-			//Set Postion in grid
-			UniformGridSlot.SetColumn(newVehicleImage, column);
-
+			vehicleData.m_iIndex = index;
+			
+			Widget vehicleListEntry = GetGame().GetWorkspace().CreateWidgets(m_VehiclePreviewImage, m_wVehiclePreviewList);
+			
 			//Set Icon
-			ImageWidget imageWidget = ImageWidget.Cast(newVehicleImage.FindAnyWidget("VehicleImage"));
-			imageWidget.LoadImageTexture(0, vehicleImage);
+			ImageWidget imageWidget = ImageWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleImage"));
+			imageWidget.LoadImageTexture(0, EL_Utils.GetUIInfoPrefabIcon(vehicleData.m_rPrefab));
 
-			//Add item to grid
-			m_wVehiclePreviewGrid.AddChild(newVehicleImage);
-
-			column++;
+			//Set Vehicle Name
+			TextWidget nameText = TextWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleTitle"));
+			nameText.SetText(EL_Utils.GetUIInfoName(vehicleData.m_rPrefab));
+			
+			//Setup button
+			ButtonWidget vehicleWithdrawButton = ButtonWidget.Cast(vehicleListEntry);
+			SCR_ModularButtonComponent vehicleWithdrawButtonComponent = SCR_ModularButtonComponent.Cast(vehicleWithdrawButton.FindHandler(SCR_ModularButtonComponent));
+			vehicleWithdrawButtonComponent.SetData(vehicleData);
+			vehicleWithdrawButtonComponent.m_OnClicked.Insert(OnVehicleEntryClicked);
+			
+			//Add item to list
+			m_wVehiclePreviewList.AddChild(vehicleListEntry);
 		}
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnMenuLeft()
-	{
-		m_OnVehicleSelectionChanged.Invoke(-1);
-
-	}
-	//------------------------------------------------------------------------------------------------
-	void OnMenuRight()
-	{
-		m_OnVehicleSelectionChanged.Invoke(1);
-
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnTakeOutVehicle()
-	{
-		m_OnTakeOutVehicle.Invoke(m_NewColor);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	void InvokeOnMenuClose()
-	{
-		m_OnExit.Invoke();
-
 	}
 
     //------------------------------------------------------------------------------------------------
     override void OnMenuOpen()
     {
         m_wRoot = GetRootWidget();
-
-		GetGame().GetInputManager().AddActionListener("MenuSelect", EActionTrigger.PRESSED, OnTakeOutVehicle);
-		GetGame().GetInputManager().AddActionListener("MenuLeft", EActionTrigger.DOWN, OnMenuLeft);
-		GetGame().GetInputManager().AddActionListener("MenuRight", EActionTrigger.DOWN, OnMenuRight);
-		GetGame().GetInputManager().AddActionListener("MenuBack", EActionTrigger.DOWN, InvokeOnMenuClose);
-		
 		m_wVehicleTitleText = TextWidget.Cast(m_wRoot.FindAnyWidget("VehicleTitle"));
-
-		//Preview Grid
-		m_wVehiclePreviewGrid = UniformGridLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
-
+		m_wVehiclePreviewList = VerticalLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
 		m_wTakeOutButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("TakeOutButton"));
-		//Get player using the UI
-		m_LocalPlayer = SCR_PlayerController.GetLocalControlledEntity();
     }
-
-	//------------------------------------------------------------------------------------------------
-	override void OnMenuClose()
-	{
-		GetGame().GetInputManager().RemoveActionListener("MenuSelect", EActionTrigger.PRESSED, OnTakeOutVehicle);
-		GetGame().GetInputManager().RemoveActionListener("MenuLeft", EActionTrigger.DOWN, OnMenuLeft);
-		GetGame().GetInputManager().RemoveActionListener("MenuRight", EActionTrigger.DOWN, OnMenuRight);
-		GetGame().GetInputManager().RemoveActionListener("MenuBack", EActionTrigger.DOWN, OnMenuClose);
-	}
 }
