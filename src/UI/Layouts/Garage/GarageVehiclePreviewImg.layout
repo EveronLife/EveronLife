@@ -3,7 +3,7 @@ ButtonWidgetClass {
  Slot AlignableSlot "{5B24F4F131901C99}" {
   HorizontalAlign 3
   VerticalAlign 3
-  Padding 20 10 20 10
+  Padding 20 5 20 5
  }
  Color 1 1 1 0
  components {
@@ -44,7 +44,7 @@ ButtonWidgetClass {
         HorizontalAlign 3
         VerticalAlign 3
        }
-       Color 0.162 0.162 0.162 1
+       Color 0.162 0.162 0.162 0.6
        Size 32 128
       }
       TextWidgetClass "{5B24F4F01DB8BBEF}" {
@@ -53,9 +53,14 @@ ButtonWidgetClass {
         HorizontalAlign 3
         VerticalAlign 3
        }
+       "Left rule" Wrap
+       "Right rule" Wrap
+       "Up rule" Wrap
+       "Down rule" Wrap
        Text "Vehicle Title"
        "Horizontal Alignment" Center
        "Vertical Alignment" Center
+       Wrap 1
       }
      }
     }

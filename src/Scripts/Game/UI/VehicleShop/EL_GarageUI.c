@@ -29,25 +29,20 @@ class EL_GarageUI: ChimeraMenuBase
 		foreach (int index, EL_GarageData vehicleData : garageSaveDataList)
 		{
 			vehicleData.m_iIndex = index;
-
 			Widget vehicleListEntry = GetGame().GetWorkspace().CreateWidgets(m_VehiclePreviewImage, m_wVehiclePreviewList);
-
-			//Set Icon
+		
 			ImageWidget imageWidget = ImageWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleImage"));
 			imageWidget.LoadImageTexture(0, EL_Utils.GetUIInfoPrefabIcon(vehicleData.m_rPrefab));
-
-			//Set Vehicle Name
+			
 			TextWidget nameText = TextWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleTitle"));
 			nameText.SetText(EL_Utils.GetUIInfoName(vehicleData.m_rPrefab));
-
-			//Setup button
+	
 			ButtonWidget vehicleWithdrawButton = ButtonWidget.Cast(vehicleListEntry);
-			SCR_ModularButtonComponent vehicleWithdrawButtonComponent = SCR_ModularButtonComponent.Cast(vehicleWithdrawButton.FindHandler(SCR_ModularButtonComponent));
-			vehicleWithdrawButtonComponent.SetData(vehicleData);
-			vehicleWithdrawButtonComponent.m_OnClicked.Insert(OnVehicleEntryClicked);
-
-			//Add item to list
-			m_wVehiclePreviewList.AddChild(vehicleListEntry);
+			SCR_ModularButtonComponent entryButton = SCR_ModularButtonComponent.Cast(vehicleWithdrawButton.FindHandler(SCR_ModularButtonComponent));
+			entryButton.SetData(vehicleData);
+			entryButton.m_OnClicked.Insert(OnVehicleEntryClicked);
+			
+			m_wVehiclePreviewList.AddChild(vehicleListEntry);			
 		}
 	}
 
@@ -55,6 +50,9 @@ class EL_GarageUI: ChimeraMenuBase
     override void OnMenuOpen()
     {
         m_wRoot = GetRootWidget();
-		m_wVehiclePreviewList = VerticalLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
+		m_wVehiclePreviewList = VerticalLayoutWidget.Cast(m_wRoot.FindAnyWidget("GarageVehicleList"));
+		ButtonWidget exitButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("ExitButton"));
+		SCR_ModularButtonComponent exitButtonComp = SCR_ModularButtonComponent.Cast(exitButton.FindHandler(SCR_ModularButtonComponent));
+		exitButtonComp.m_OnClicked.Insert(Close);
     }
 }
