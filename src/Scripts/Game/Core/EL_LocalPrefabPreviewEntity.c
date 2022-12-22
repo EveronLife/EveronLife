@@ -8,13 +8,13 @@ Preview entity created from entity prefab.
 class EL_LocalPrefabPreviewEntity: SCR_PrefabPreviewEntity
 {
 	//------------------------------------------------------------------------------------------------
-	static SCR_BasePreviewEntity SpawnLocalPreviewFromPrefab(Resource prefabResource, ResourceName previewPrefab, vector origin)
+	static SCR_BasePreviewEntity SpawnLocalPreviewFromPrefab(Resource prefabResource, ResourceName previewPrefab, vector origin, SCR_BasePreviewEntity rootEntity = null)
 	{
-		return SpawnLocalPreview(GetPreviewEntriesFromPrefab(prefabResource), previewPrefab, origin);
+		return SpawnLocalPreview(GetPreviewEntriesFromPrefab(prefabResource), previewPrefab, origin, rootEntity);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static SCR_BasePreviewEntity SpawnLocalPreview(notnull array<ref SCR_BasePreviewEntry> entries, ResourceName previewResource, vector origin)
+	static SCR_BasePreviewEntity SpawnLocalPreview(notnull array<ref SCR_BasePreviewEntry> entries, ResourceName previewResource, vector origin, SCR_BasePreviewEntity rootEntity = null)
 	{
 		if (entries.IsEmpty())
 		{
@@ -32,8 +32,8 @@ class EL_LocalPrefabPreviewEntity: SCR_PrefabPreviewEntity
 
 		EntitySpawnParams spawnParamsLocal = new EntitySpawnParams();
 		spawnParamsLocal.Transform[3] = origin;
-
-		SCR_BasePreviewEntity rootEntity = SCR_BasePreviewEntity.Cast(GetGame().SpawnEntityPrefabLocal(Resource.Load(previewResource), world, spawnParamsLocal));
+		if (!rootEntity)
+			rootEntity = SCR_BasePreviewEntity.Cast(GetGame().SpawnEntityPrefabLocal(Resource.Load(previewResource), world, spawnParamsLocal));
 
 		array<SCR_BasePreviewEntity> children = {};
 		SCR_BasePreviewEntity entity, parent;

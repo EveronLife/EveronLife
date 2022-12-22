@@ -1,105 +1,16 @@
 SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
  coords 76.431 0 123.217
- {
-  BaseGameTriggerEntity {
-   ID "5ACAE5EB374A210E"
-   coords 3.649 0.073 -0.167
-   BoxMins -1 0.3 -2
-  }
-  BaseGameTriggerEntity {
-   ID "5ACAE5EB374A210F"
-   coords -3.223 0.073 -0.167
-   BoxMins -1 0.3 -2
-  }
-  BaseGameTriggerEntity {
-   ID "5ACAE5EB374A3083"
-   coords -9.892 0.073 -0.167
-   BoxMins -1 0.3 -2
-  }
-  GenericEntity {
-   ID "5ACAE5EB374A2168"
-   components {
-    EL_VehicleShopManagerComponent "{5ACAE5EDE08D8FDE}" {
-     m_vCameraPoint 7 3.572 7
-     m_vCameraAngels -15 221.75 0
-     m_PriceConfig EL_PriceConfig "{5ACAE5EADF20A223}" {
-      m_aPriceConfigs {
-       EL_Price "{5ACAE5EAC9907EAD}" {
-       }
-       EL_Price "{5AD2C778E1331CCE}" {
-        m_Prefab "{5674FAEB9AB7BDD0}Prefabs/Vehicles/Wheeled/M998/M998.et"
-        m_iBuyPrice 1
-       }
-       EL_Price "{5AD2C778CCDC8CA7}" {
-        m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
-        m_iBuyPrice 1
-       }
-       EL_Price "{5AD2C778CC73D203}" {
-        m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
-        m_iBuyPrice 1
-       }
-       EL_Price "{5ACD08D4728E8060}" {
-        m_Prefab "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered.et"
-        m_iBuyPrice 1
-       }
-       EL_Price "{5AD2C778CCC9E2A9}" {
-        m_Prefab "{26013123314183EA}Prefabs/Vehicles/Wheeled/M923A1/M923A1_tanker_MERDC.et"
-        m_iBuyPrice 1
-       }
-      }
-     }
-    }
-   }
-  }
- }
+ Flags 525315
 }
-SCR_DestructibleBuildingEntity VEHICLE_SHOP_PREVIEW : "{8A72C2E05371D7D0}Prefabs/Buildings/Garage/PreviewGarage.et" {
+SCR_DestructibleBuildingEntity VEHICLE_SHOP_PREVIEW : "{C59B9F5ACF4D494E}Prefabs/Buildings/VehicleShop/VEHICLE_SHOP_PREVIEW.et" {
  coords 0 38.26 0
- {
-  BaseGameTriggerEntity {
-   ID "5AC91C7B6B0FE09F"
-   coords 0 0.572 0
-  }
- }
 }
 SCR_DestructibleBuildingEntity : "{EAD5EA324E4B1C1C}Prefabs/Buildings/Garage/VehicleGarage.et" {
  coords 48.805 0.001 123.201
+ Flags 525315
  {
-  BaseGameTriggerEntity {
-   ID "5AC90882B4BF0F80"
-   coords 3.649 0.073 -0.167
-   BoxMins -1 0.3 -2
-  }
-  BaseGameTriggerEntity {
-   ID "5AC90882B4BF1B60"
-   coords -3.223 0.073 -0.167
-   BoxMins -1 0.3 -2
-  }
-  BaseGameTriggerEntity {
-   ID "5AC90882B4BF1B61"
-   coords -9.892 0.073 -0.167
-   BoxMins -1 0.3 -2
-  }
-  GenericEntity {
-   ID "5AC90882B4BFFF92"
-   {
-    GenericEntity {
-     ID "571B0D9C27FEFCA8"
-     components {
-      SoundComponent "{54F46129DBCF6FD3}" {
-       Enabled 0
-      }
-     }
-    }
-   }
-  }
-  GenericEntity Suitcase_01_5ACAE5EE0DB264AD {
-   ID "5AC90882B4BE7797"
-   components {
-    EL_GarageManagerComponent "{5AC91633184B77EA}" {
-    }
-   }
-   coords 15.939 0.073 1.803
+  GenericEntity Suitcase_01_5B2CBBA08E87F1C8 {
+   ID "5B2CBBA077D1402B"
   }
  }
 }

@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{8A72C2E05371D7D0}Prefabs/Buildings/Garage/PreviewGarage.et"
+ Name "{C59B9F5ACF4D494E}Prefabs/Buildings/VehicleShop/VEHICLE_SHOP_PREVIEW.et"
  Configurations {
   EntityTemplateResourceClass PC {
   }

@@ -1,60 +1,69 @@
-SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Building_Base.et" {
- ID "F0DBA538AC2A0552"
+SCR_DestructibleBuildingEntity {
+ ID "5B2CBBA077D0DA00"
  components {
-  MeshObject "{506EDA9D46FC6C06}" {
+  MeshObject "{5B2CBBA02F4B73F0}" {
    Object "{39BB919FFAB4C9CB}Assets/Structures/Industrial/Garages/Garage_E_02/Garage_E_02.xob"
+   LODFactors {
+    20 15 10 1 1
+   }
+   ClutterOccluder 1
   }
-  RigidBody "{506EDA9CBE1B57FF}" {
+  Hierarchy "{5B2CBBA02F4B73EA}" {
+  }
+  RigidBody "{5B2CBBA02F4B723D}" {
    ModelGeometry 1
    Static 1
   }
+  RplComponent "{5B2CBBA02F4B723A}" {
+  }
  }
- coords 83.302 0.001 123.41
+ coords 48.805 0.001 123.201
+ Flags 525315
  SlotBoneMappings {
-  SlotBoneMappingObject "{571E901ACA014F33}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7226}" {
    BonePrefix "socket_door_frame_gate_001"
    Prefab "{9A8B7C26A60F8CE0}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT_02.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F2A}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7219}" {
    BonePrefix "socket_door_frame_gate_002"
    Prefab "{65FBBAE477AD3969}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F28}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7216}" {
    BonePrefix "socket_door_frame_gate_003"
    Prefab "{7F1730DFAAEA1B8B}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT_03.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F2E}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7213}" {
    BonePrefix "socket_door_frame_gate_004"
    Prefab "{65FBBAE477AD3969}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F2C}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B720E}" {
    BonePrefix "socket_win_1400x1300"
-   Prefab "{E68D2802A8DB8DB2}Prefabs/Structures/BuildingParts/Windows/win_garage_e_02_1300x1400_444_B.et"
+   Prefab "{E68D2802A8DB8DB2}Prefabs/Structures/BuildingParts/Windows/Win_Garage_E/win_garage_e_02_1300x1400_444_B.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F23}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7202}" {
    BonePrefix "socket_win_4400x1100_0"
    Prefab "{FA6DE318CF32058F}Prefabs/Structures/BuildingParts/Windows/Win_Garage_E/win_garage_e_02_4400x1100_0_B_base.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F21}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7279}" {
    BonePrefix "socket_win_4400x1100_88"
    Prefab "{14111FDDF1FC616E}Prefabs/Structures/BuildingParts/Windows/Win_Garage_E/win_garage_e_02_4400x1100_88_B_base.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F27}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7277}" {
    BonePrefix "socket_entry_narrow"
    Prefab "{FA188839C5E6DAD3}Prefabs/Structures/BuildingParts/Entry/Entry_Direct_01_narrow.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F25}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B7273}" {
    BonePrefix "socket_entry_wide"
    Prefab "{18E3F1942F2C8509}Prefabs/Structures/BuildingParts/Entry/Entry_Slope_Platform_01.et"
   }
-  SlotBoneMappingObject "{571E901ACA014F24}" {
+  SlotBoneMappingObject "{5B2CBBA02F4B726C}" {
    BonePrefix "socket_door_frame_ext"
    Prefab "{CC6B92AEE60F0AAC}Prefabs/Structures/BuildingParts/Doors/DoorSet_Village_E_01_R_EXT_COV_B_brown.et"
   }
  }
  {
   Building : "{14111FDDF1FC616E}Prefabs/Structures/BuildingParts/Windows/Win_Garage_E/win_garage_e_02_4400x1100_88_B_base.et" {
-   ID "5AC90882B4BF0FBD"
+   ID "5B2CBBA077D14034"
    components {
     Hierarchy "{5586E729EC5B6F27}" {
      Enabled 1
@@ -66,18 +75,18 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
   }
   $grp GenericEntity : "{18E3F1942F2C8509}Prefabs/Structures/BuildingParts/Entry/Entry_Slope_Platform_01.et" {
    {
-    ID "5AC90882B4BF0FBE"
+    ID "5B2CBBA077D11595"
     components {
      Hierarchy "{5488F0388A297CDE}" {
       Enabled 1
-      PivotID "socket_entry_wide_001"
+      PivotID "socket_entry_wide_003"
       AutoTransform 1
      }
     }
     coords 0 0 0
    }
    {
-    ID "5AC90882B4BF0FBF"
+    ID "5B2CBBA077D13525"
     components {
      Hierarchy "{5488F0388A297CDE}" {
       Enabled 1
@@ -88,7 +97,7 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     coords 0 0 0
    }
    {
-    ID "5AC90882B4BF6C6E"
+    ID "5B2CBBA077D1352A"
     components {
      Hierarchy "{5488F0388A297CDE}" {
       Enabled 1
@@ -99,11 +108,11 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     coords 0 0 0
    }
    {
-    ID "5AC90882B4BFFF87"
+    ID "5B2CBBA077D14037"
     components {
      Hierarchy "{5488F0388A297CDE}" {
       Enabled 1
-      PivotID "socket_entry_wide_003"
+      PivotID "socket_entry_wide_001"
       AutoTransform 1
      }
     }
@@ -111,179 +120,87 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
    }
   }
   EnvironmentProbeEntity : "{565470F7BA530E0D}Prefabs/Structures/Core/ProbeHouse_Base.et" {
-   ID "5AC90882B4BE7793"
+   ID "5B2CBBA077D11596"
    coords -1.941 3.84 0.4
    LVReflectionBrightness -3.5
    LVDiffuseBrightness -3.5
    DiffuseColor 1 0.853 0.768 1
   }
-  $grp GenericEntity : "{65FBBAE477AD3969}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT.et" {
-   {
-    ID "5AC90882B4BFFF8B"
-    components {
-     Hierarchy "{612AE78C85563E26}" {
-      Enabled 1
-      PivotID "socket_door_frame_gate_004"
-      AutoTransform 1
-     }
-    }
-    coords 0 0 0
-   }
-   {
-    ID "5AC90882B4BFFF8E"
-    components {
-     Hierarchy "{612AE78C85563E26}" {
-      Enabled 1
-      PivotID "socket_door_frame_gate_002"
-      AutoTransform 1
-     }
-    }
-    coords 0 0 0
-   }
-  }
-  GenericEntity : "{7F1730DFAAEA1B8B}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT_03.et" {
-   ID "5AC90882B4BFFF95"
-   components {
-    Hierarchy "{612AE78C85563E26}" {
-     Enabled 1
-     PivotID "socket_door_frame_gate_003"
-     AutoTransform 1
-    }
-   }
-   coords 0 0 0
-   {
-    GenericEntity {
-     ID "58689E1BBDDF09AD"
-     components {
-      BaseSlotComponent "{51A27BB8D4DEE259}" {
-       AttachType EntitySlotInfo "{51A27BB8CA364CAC}" {
-       }
-       EntityPrefab "{18211A54929A07E5}Prefabs/Structures/BuildingParts/Windows/Glass_256x121/Glass_256x121.et"
-      }
-      DoorComponent "{221C667A9F7D4B69}" {
-      }
-      DoorSlotComponent "{512A68B9D9B9AD2D}" {
-       Enabled 0
-      }
-      MeshObject "{309366462BDAFB24}" {
-       Materials {
-        MaterialAssignClass "{58689E1BD7CC59AA}" {
-         SourceMaterial "door_garage_e_02_EXT_COV_Metal"
-         AssignedMaterial "{DCF8B2CFC67D0513}Assets/Structures/BuildingsParts/Doors/Data/door_garage_e_02_EXT_COV_Metal_03.emat"
-        }
-       }
-      }
-      Hierarchy "{7642683606C70747}" {
-       PivotID "socket_door_right_001"
-      }
-      NavmeshCustomLinkComponent "{559E7AC91AFA25BA}" {
-       LinkType NavmeshDoorLink "{559E7AC9151D5867}" {
-       }
-      }
-      RigidBody "{309366462BDAFB2D}" {
-       AngularSleepingThreashold 1
-       ResponseIndex "TinyDestructible"
-       ModelGeometry 1
-       Static 1
-      }
-      SCR_AISmartActionComponent "{5890ED6117CBB20D}" {
-       AIBehaviorTree "{49E6280CE3FAAF4F}AI/BehaviorTrees/SmartActions/SA_OpenGate.bt"
-       Tags {
-       }
-       ActionOffset -1.5 0 0
-      }
-      ActionsManagerComponent "{F32B667C3C823800}" {
-       ActionContexts {
-        UserActionContext "{50888D37F529F720}" {
-         Position PointInfo "{50888D37F0EB77E0}" {
-         }
-        }
-       }
-      }
-      RplComponent "{9532A705752C8DA8}" {
-      }
-     }
-    }
-    GenericEntity {
-     ID "58689E1BBDDF09CF"
-     components {
-      BaseSlotComponent "{51A25E36682022C1}" {
-       AttachType EntitySlotInfo "{51A25E366FA54FD6}" {
-       }
-       EntityPrefab "{18211A54929A07E5}Prefabs/Structures/BuildingParts/Windows/Glass_256x121/Glass_256x121.et"
-      }
-      DoorComponent "{221C667A9F7D4B69}" {
-       SoundFilename "{B3730F0B5EDD401B}Sounds/Structures/_ShaderData/Doors/Door_Metal_Shed_NoHandle.acp"
-       SoundPoints {
-        SoundPointEventInfo "{5586B633891CCF50}" {
-         Offset 2.5914 1.0956 0
-        }
-        SoundPointEventInfo "{5586B63389F2BA16}" {
-         Offset 2.5914 1.0956 0
-         Event SOUND_OPEN_FINISH
-        }
-        SoundPointEventInfo "{5586B63389BBE14C}" {
-         Offset 2.5914 1.0956 0
-         Event SOUND_CLOSE_START
-        }
-        SoundPointEventInfo "{5586B6338851930A}" {
-         Offset 2.5914 1.0956 0
-         Event SOUND_CLOSE_FINISH
-        }
-        SoundPointEventInfo "{5586B63388688700}" {
-         Offset 0 1.2896 0
-         Event SOUND_MOVEMENT
-        }
-       }
-      }
-      MeshObject "{309366462BDAFB24}" {
-       Materials {
-        MaterialAssignClass "{58689E1BC9559DCC}" {
-         SourceMaterial "door_garage_e_02_EXT_COV_Metal"
-         AssignedMaterial "{DCF8B2CFC67D0513}Assets/Structures/BuildingsParts/Doors/Data/door_garage_e_02_EXT_COV_Metal_03.emat"
-        }
-       }
-      }
-      Hierarchy "{7642683606C70747}" {
-       PivotID "socket_door_left_001"
-      }
-      NavmeshCustomLinkComponent "{559E7AC91AFA25BA}" {
-       LinkType NavmeshDoorLink "{559E7AC9151D5867}" {
-       }
-      }
-      RigidBody "{309366462BDAFB2D}" {
-       AngularSleepingThreashold 1
-       ResponseIndex "TinyDestructible"
-       ModelGeometry 1
-       Static 1
-      }
-      SCR_AISmartActionComponent "{5890ED6117CBB20D}" {
-       AIBehaviorTree "{49E6280CE3FAAF4F}AI/BehaviorTrees/SmartActions/SA_OpenGate.bt"
-       Tags {
-       }
-       ActionOffset -1.5 0 0
-      }
-      ActionsManagerComponent "{F32B667C3C823800}" {
-       ActionContexts {
-        UserActionContext "{50888D37F529F720}" {
-         Position PointInfo "{50888D37F0EB77E0}" {
-         }
-        }
-       }
-      }
-      RplComponent "{9532A705752C8DA8}" {
-      }
-     }
-    }
-   }
+  SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
+   ID "5B2CBBA077D1402D"
+   coords 10.484 0.073 1.22
   }
   GenericEntity : "{8BDEAB5E86E4F021}Prefabs/Structures/Industrial/Garages/Garage_E_02/Garage_E_02_furniture_01.et" {
-   ID "5AC90882B4BFFF92"
+   ID "5B2CBBA077D143D8"
    coords 0 0 0
+   {
+    GenericEntity {
+     ID "571B0D9C27FEFCA8"
+     components {
+      SignalsManagerComponent "{54F46126EB88DDC9}" {
+      }
+      SoundComponent "{54F46129DBCF6FD3}" {
+       Enabled 0
+      }
+      MeshObject "{5872F0EB7FA40561}" {
+       Object "{7674DD187C23B4CC}Assets/Props/Military/Generators/GeneratorPortable_USSR_01/GeneratorPortable_USSR_01.xob"
+       LODFactors +{
+       }
+      }
+      RigidBody "{5872F0EB7DFB5A9D}" {
+       Mass 100
+       ResponseIndex "MediumDestructible"
+       ModelGeometry 1
+       Static 1
+      }
+      SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+       m_fBaseHealth 1000
+       m_aDamagePhases {
+        SCR_DamagePhaseData "{51E082CF8B10DF47}" {
+         m_fPhaseHealth 2000
+         m_PhaseModel "{FA5A7EAC616E8593}Assets/Props/Military/Generators/GeneratorPortable_USSR_01/dst/GeneratorPortable_USSR_01_dst_01.xob"
+        }
+       }
+       m_eMaterialSoundType METAL_GENERATOR
+      }
+      ActionsManagerComponent "{529A99F8B5243CC2}" {
+       ActionContexts {
+        UserActionContext "{529A99F8B48A2A00}" {
+         ContextName "powerswitch"
+         Position PointInfo "{529A99F8AE719E19}" {
+         }
+        }
+       }
+      }
+      RplComponent "{5624A88DC2D9928D}" {
+      }
+     }
+    }
+   }
   }
-  GenericEntity : "{8F05D427252644F8}Prefabs/Props/Civilian/Suitcase_01.et" {
-   ID "5AC90882B4BE7797"
+  GenericEntity Suitcase_01_5B2CBBA02C563F4B : "{8F05D427252644F8}Prefabs/Props/Civilian/Suitcase_01.et" {
+   ID "5B2CBBA077D1402B"
    components {
+    EL_GarageManagerComponent "{5AC91633184B77EA}" {
+    }
+    EL_PersistenceComponent "{5ACAA3E6A5BD5C0F}" {
+     m_pSaveData EL_GarageSaveData "{5ACAA3E6A7674ABA}" {
+     }
+    }
+    MeshObject "{5872F0EB7FA40561}" {
+     Object "{8C8D2EF181A72B14}Assets/Props/Civilian/Suitcase_01/Suitcase_01.xob"
+    }
+    Hierarchy "{5ACAA3EB0A329C25}" {
+    }
+    RigidBody "{5872F0EB7DFB5A9D}" {
+     Mass 10
+     ResponseIndex "SmallDestructible"
+     ModelGeometry 1
+     Static 1
+    }
+    SCR_DestructionMultiPhaseComponent "{5624A88D86EFE8BA}" {
+     m_eMaterialSoundType MATRESS
+    }
     ActionsManagerComponent "{5AC9088290FEA9FA}" {
      ActionContexts {
       UserActionContext "{5AC9088293AFDB60}" {
@@ -308,217 +225,34 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     RplComponent "{5624A88DC2D9928D}" {
      Enabled 1
     }
-    EL_GarageManagerComponent "{5AC91633184B77EA}" {
-     m_vCameraPoint 0.75 3 5
-     m_vCameraAngels 0 180 0
-    }
-    EL_PersistenceComponent "{5ACAA3E6A5BD5C0F}" {
-     m_pSaveData EL_GarageSaveData "{5ACAA3E6A7674ABA}" {
-     }
-    }
-    Hierarchy "{5ACAA3EB0A329C25}" {
-    }
    }
-   coords 10.539 0.073 1.803
+   coords 10.469 0.972 1.201
    angleY 0
   }
   $grp BaseGameTriggerEntity : "{98F71F6650C6767E}Prefabs/Buildings/Garage/EL_VehicleSpawnPoint.et" {
    {
-    ID "5AC90882B4BF0F80"
+    ID "5B2CBBA077D0DA1E"
     coords 3.649 0.073 -0.167
+    BoxMins -1 0.3 -2
    }
    {
-    ID "5AC90882B4BF1B60"
+    ID "5B2CBBA077D0DA1F"
     coords -3.223 0.073 -0.167
+    BoxMins -1 0.3 -2
    }
    {
-    ID "5AC90882B4BF1B61"
+    ID "5B2CBBA077D143D3"
     coords -9.892 0.073 -0.167
+    BoxMins -1 0.3 -2
    }
   }
-  GenericEntity : "{9A8B7C26A60F8CE0}Prefabs/Structures/BuildingParts/Doors/DoorSet_Garage_E_02_EXT_02.et" {
-   ID "5AC90882B4BFFF61"
-   components {
-    Hierarchy "{612AE78C85563E26}" {
-     Enabled 1
-     PivotID "socket_door_frame_gate_001"
-     AutoTransform 1
-    }
-   }
-   coords 0 0 0
-   {
-    GenericEntity {
-     ID "58689E1BBDDF09AD"
-     components {
-      BaseSlotComponent "{51A27BB8D4DEE259}" {
-       AttachType EntitySlotInfo "{51A27BB8CA364CAC}" {
-       }
-       EntityPrefab "{18211A54929A07E5}Prefabs/Structures/BuildingParts/Windows/Glass_256x121/Glass_256x121.et"
-      }
-      DoorComponent "{221C667A9F7D4B69}" {
-       AngleRange -90
-       ClosedAngle 0
-       InitialAngle 0
-       SoundFilename "{D0171AB0D3FDA036}Sounds/Structures/_ShaderData/Doors/Door_Metal_Shed_Handle.acp"
-       SoundPoints {
-        SoundPointEventInfo "{5586B633DD7D0BCA}" {
-         Offset 2.6327 1.1498 0
-        }
-        SoundPointEventInfo "{5586B633DD0B8384}" {
-         Offset 2.6327 1.1498 0
-         Event SOUND_OPEN_FINISH
-        }
-        SoundPointEventInfo "{5586B633DD27A19F}" {
-         Offset 2.6327 1.1498 0
-         Event SOUND_CLOSE_START
-        }
-        SoundPointEventInfo "{5586B633DDF4F9AD}" {
-         Offset 2.6327 1.1498 0
-         Event SOUND_CLOSE_FINISH
-        }
-        SoundPointEventInfo "{5586B633DDBC5917}" {
-         Offset 0 0.9204 0
-         Event SOUND_MOVEMENT
-        }
-       }
-      }
-      DoorSlotComponent "{512A68B9D9B9AD2D}" {
-       Enabled 0
-      }
-      MeshObject "{309366462BDAFB24}" {
-       Materials {
-        MaterialAssignClass "{58689E1BF5C3A8EF}" {
-         SourceMaterial "door_garage_e_02_EXT_COV_Metal"
-         AssignedMaterial "{28F0F557CBA06D67}Assets/Structures/BuildingsParts/Doors/Data/door_garage_e_02_EXT_COV_Metal_02.emat"
-        }
-        MaterialAssignClass "{58689E1BF5C3A809}" {
-         SourceMaterial "door_garage_e_02_EXT_COV_Metal_INT"
-         AssignedMaterial "{587DDE44E97F520A}Assets/Structures/BuildingsParts/Doors/Data/door_garage_e_02_EXT_COV_Metal_02_INT.emat"
-        }
-       }
-      }
-      Hierarchy "{7642683606C70747}" {
-       PivotID "socket_door_right_001"
-      }
-      NavmeshCustomLinkComponent "{559E7AC91AFA25BA}" {
-       LinkType NavmeshDoorLink "{559E7AC9151D5867}" {
-       }
-      }
-      RigidBody "{309366462BDAFB2D}" {
-       AngularSleepingThreashold 1
-       ResponseIndex "TinyDestructible"
-       ModelGeometry 1
-       Static 1
-      }
-      SCR_AISmartActionComponent "{5890ED6117CBB20D}" {
-       AIBehaviorTree "{49E6280CE3FAAF4F}AI/BehaviorTrees/SmartActions/SA_OpenGate.bt"
-       Tags {
-       }
-       ActionOffset -1.5 0 0
-      }
-      ActionsManagerComponent "{F32B667C3C823800}" {
-       ActionContexts {
-        UserActionContext "{50888D37F529F720}" {
-         Position PointInfo "{50888D37F0EB77E0}" {
-         }
-        }
-       }
-      }
-      RplComponent "{9532A705752C8DA8}" {
-      }
-     }
-    }
-    GenericEntity {
-     ID "58689E1BBDDF09CF"
-     components {
-      BaseSlotComponent "{51A25E36682022C1}" {
-       AttachType EntitySlotInfo "{51A25E366FA54FD6}" {
-       }
-       EntityPrefab "{18211A54929A07E5}Prefabs/Structures/BuildingParts/Windows/Glass_256x121/Glass_256x121.et"
-      }
-      DoorComponent "{221C667A9F7D4B69}" {
-       SoundFilename "{B3730F0B5EDD401B}Sounds/Structures/_ShaderData/Doors/Door_Metal_Shed_NoHandle.acp"
-       SoundPoints {
-        SoundPointEventInfo "{5586B633891CCF50}" {
-         Offset 2.5914 1.0956 0
-        }
-        SoundPointEventInfo "{5586B63389F2BA16}" {
-         Offset 2.5914 1.0956 0
-         Event SOUND_OPEN_FINISH
-        }
-        SoundPointEventInfo "{5586B63389BBE14C}" {
-         Offset 2.5914 1.0956 0
-         Event SOUND_CLOSE_START
-        }
-        SoundPointEventInfo "{5586B6338851930A}" {
-         Offset 2.5914 1.0956 0
-         Event SOUND_CLOSE_FINISH
-        }
-        SoundPointEventInfo "{5586B63388688700}" {
-         Offset 0 1.2896 0
-         Event SOUND_MOVEMENT
-        }
-       }
-      }
-      MeshObject "{309366462BDAFB24}" {
-       Materials {
-        MaterialAssignClass "{58689E1BECACA057}" {
-         SourceMaterial "door_garage_e_02_EXT_COV_Metal"
-         AssignedMaterial "{28F0F557CBA06D67}Assets/Structures/BuildingsParts/Doors/Data/door_garage_e_02_EXT_COV_Metal_02.emat"
-        }
-        MaterialAssignClass "{58689E1BECACA049}" {
-         SourceMaterial "door_garage_e_02_EXT_COV_Metal_INT"
-         AssignedMaterial "{587DDE44E97F520A}Assets/Structures/BuildingsParts/Doors/Data/door_garage_e_02_EXT_COV_Metal_02_INT.emat"
-        }
-       }
-      }
-      Hierarchy "{7642683606C70747}" {
-       PivotID "socket_door_left_001"
-      }
-      NavmeshCustomLinkComponent "{559E7AC91AFA25BA}" {
-       LinkType NavmeshDoorLink "{559E7AC9151D5867}" {
-       }
-      }
-      RigidBody "{309366462BDAFB2D}" {
-       AngularSleepingThreashold 1
-       ResponseIndex "TinyDestructible"
-       ModelGeometry 1
-       Static 1
-      }
-      SCR_AISmartActionComponent "{5890ED6117CBB20D}" {
-       AIBehaviorTree "{49E6280CE3FAAF4F}AI/BehaviorTrees/SmartActions/SA_OpenGate.bt"
-       Tags {
-       }
-       ActionOffset -1.5 0 0
-      }
-      ActionsManagerComponent "{F32B667C3C823800}" {
-       ActionContexts {
-        UserActionContext "{50888D37F529F720}" {
-         Position PointInfo "{50888D37F0EB77E0}" {
-         }
-        }
-       }
-      }
-      RplComponent "{9532A705752C8DA8}" {
-      }
-     }
-    }
-   }
+  GenericEntity : "{9AAB4B953C8111D8}Prefabs/Structures/Signs/Warnings/SignParking_01.et" {
+   ID "5B2CBBA077D14031"
+   coords 10.546 1.993 0.618
   }
   $grp GenericEntity : "{CC6B92AEE60F0AAC}Prefabs/Structures/BuildingParts/Doors/DoorSet_Village_E_01_R_EXT_COV_B_brown.et" {
    {
-    ID "5AC90882B4BFFF6C"
-    components {
-     Hierarchy "{612AE78C85563E26}" {
-      Enabled 1
-      PivotID "socket_door_frame_ext_001"
-      AutoTransform 1
-     }
-    }
-    coords 0 0 0
-   }
-   {
-    ID "5AC90882B4BFFF6D"
+    ID "5B2CBBA077D115A8"
     components {
      Hierarchy "{612AE78C85563E26}" {
       Enabled 1
@@ -528,10 +262,21 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     }
     coords 0 0 0
    }
-  }
-  $grp Building : "{E68D2802A8DB8DB2}Prefabs/Structures/BuildingParts/Windows/win_garage_e_02_1300x1400_444_B.et" {
    {
-    ID "5AC90882B4BFFF68"
+    ID "5B2CBBA077D115A9"
+    components {
+     Hierarchy "{612AE78C85563E26}" {
+      Enabled 1
+      PivotID "socket_door_frame_ext_001"
+      AutoTransform 1
+     }
+    }
+    coords 0 0 0
+   }
+  }
+  $grp Building : "{E68D2802A8DB8DB2}Prefabs/Structures/BuildingParts/Windows/Win_Garage_E/win_garage_e_02_1300x1400_444_B.et" {
+   {
+    ID "5B2CBBA077D115AB"
     components {
      Hierarchy "{5586E729EC5BD163}" {
       Enabled 1
@@ -542,7 +287,7 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     coords 0 0 0
    }
    {
-    ID "5AC90882B4BFFF6F"
+    ID "5B2CBBA077D1A870"
     components {
      Hierarchy "{5586E729EC5BA302}" {
       Enabled 1
@@ -555,18 +300,7 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
   }
   $grp GenericEntity : "{FA188839C5E6DAD3}Prefabs/Structures/BuildingParts/Entry/Entry_Direct_01_narrow.et" {
    {
-    ID "5AC90882B4BE013E"
-    components {
-     Hierarchy "{5488F0388A297CDE}" {
-      Enabled 1
-      PivotID "socket_entry_narrow_002"
-      AutoTransform 1
-     }
-    }
-    coords 0 0 0
-   }
-   {
-    ID "5AC90882B4BFFF69"
+    ID "5B2CBBA077D18F01"
     components {
      Hierarchy "{5488F0388A297CDE}" {
       Enabled 1
@@ -576,10 +310,21 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     }
     coords 0 0 0
    }
+   {
+    ID "5B2CBBA077D1A87F"
+    components {
+     Hierarchy "{5488F0388A297CDE}" {
+      Enabled 1
+      PivotID "socket_entry_narrow_002"
+      AutoTransform 1
+     }
+    }
+    coords 0 0 0
+   }
   }
   $grp Building : "{FA6DE318CF32058F}Prefabs/Structures/BuildingParts/Windows/Win_Garage_E/win_garage_e_02_4400x1100_0_B_base.et" {
    {
-    ID "5AC90882B4BE013C"
+    ID "5B2CBBA077D18F02"
     components {
      Hierarchy "{5586E729EC5BB60E}" {
       Enabled 1
@@ -590,7 +335,7 @@ SCR_DestructibleBuildingEntity : "{A43A100E3C377DB2}Prefabs/Structures/Core/Buil
     coords 0 0 0
    }
    {
-    ID "5AC90882B4BE778E"
+    ID "5B2CBBA077D18F03"
     components {
      Hierarchy "{5586E729EC5B86F4}" {
       Enabled 1

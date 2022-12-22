@@ -6,31 +6,38 @@ class EL_VehicleShopManagerComponentClass : ScriptComponentClass
 class EL_VehicleShopManagerComponent : ScriptComponent
 {
 	// Point info?
-	[Attribute("0.777 3.069 12.971", UIWidgets.EditBox, "Camera offset used for this PIP")]
+	
+	[Attribute("VEHICLE_SHOP_PREVIEW", UIWidgets.Auto, "Item price list", category: "Preview")]
+	protected string m_sShopPreviewBuildingName;
+	protected IEntity m_VehicleShopBuilding;
+	
+	[Attribute("{6CA10EE93F1A3C20}Prefabs/Buildings/VehicleShop/VehicleShopPreviewVehicle.et", UIWidgets.ResourceNamePicker, "Camera prefab", category: "Preview")]
+	protected ResourceName m_EmptyVehiclePreview;
+	protected SCR_BasePreviewEntity m_aPreviewVehicle;
+	
+	[Attribute("{FAE60B62153B7058}Prefabs/Buildings/VehicleShop/VehicleShop_Camera.et", UIWidgets.ResourceNamePicker, "Camera prefab", category: "Preview")]
+	protected ResourceName m_VehicleShopCameraPrefab;
+	protected bool m_bCameraEnabled;
+	protected SCR_ManualCamera m_VehicleShopCamera;
+	
+	[Attribute("0.777 3.069 12.971", UIWidgets.EditBox, "Camera point", category: "Preview")]
 	protected vector m_vCameraPoint;
 
-	[Attribute("0 0 0", UIWidgets.EditBox, "Camera offset used for this PIP")]
+	[Attribute("0 0 0", UIWidgets.EditBox, "Camera angels", category: "Preview")]
 	protected vector m_vCameraAngels;
 
-	[Attribute("", UIWidgets.Auto, "Item price list")]
-	protected ref EL_PriceConfig m_PriceConfig;
-
-	protected bool m_bIsEnabled;
-	protected SCR_ManualCamera m_VehicleShopCamera;
-
-	InputManager m_InputManager;
-	IEntity m_GarageEntity;
-
-	ResourceName m_VehicleShopCameraPrefab = "{FAE60B62153B7058}Prefabs/Buildings/Garage/Garage_Camera.et";
-	ResourceName m_EmptyVehiclePreview = "{6CA10EE93F1A3C20}Prefabs/Buildings/Garage/GaragePreviewVehicle.et";
 	
 
-	SCR_BasePreviewEntity m_aPreviewVehicle;
-	IEntity m_UserEntity;
+	[Attribute("", UIWidgets.Auto, "Item price list", category: "Shop")]
+	protected ref EL_PriceConfig m_PriceConfig;
+	
 
-	int m_iCurPreviewVehicleIndex;
-	EL_VehicleShopUI m_VehicleShopUI;
-	Color m_PreviewVehicleColor;
+	protected InputManager m_InputManager;
+	protected IEntity m_UserEntity;
+
+	protected int m_iCurPreviewVehicleIndex;
+	protected EL_VehicleShopUI m_VehicleShopUI;
+	protected Color m_PreviewVehicleColor;
 
 	//------------------------------------------------------------------------------------------------
 	void OnExitMenu()
@@ -83,12 +90,13 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		if (m_aPreviewVehicle)
 			SCR_EntityHelper.DeleteEntityAndChildren(m_aPreviewVehicle);
+		
 
-		//Spawn preview Vehicle with all slots (windows etc..)
+		//Spawn preview vehicle with all slots (windows etc..)
 		m_aPreviewVehicle = EL_LocalPrefabPreviewEntity.SpawnLocalPreviewFromPrefab(
 			Resource.Load(curVehicleConfig.m_Prefab),
 			"{150FDD1A8FC1E074}Prefabs/Buildings/Garage/BasePreviewEnt.et",
-			EL_SpawnUtils.FindSpawnPoint(m_GarageEntity).GetOrigin()
+			EL_SpawnUtils.FindSpawnPoint(m_VehicleShopBuilding).GetOrigin()
 		);
 
 		if (!m_aPreviewVehicle)
@@ -106,7 +114,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Update price
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
-		Print("Buy price: " + curVehicleConfig.m_iBuyPrice);
+		
 		//Update title
 		m_VehicleShopUI.m_wVehicleTitleText.SetText(EL_Utils.GetUIInfoName(curVehicleConfig.m_Prefab));
 
@@ -176,8 +184,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	void DoBuyVehicle(ResourceName vehiclePrefab, int color, string playerUID)
 	{
 		//Find free spawn point
-		//IEntity freeSpawnPoint;
-		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
+		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(m_VehicleShopBuilding);
 		if (!freeSpawnPoint)
 		{
 			SCR_HintManagerComponent.ShowCustomHint("All spawn point occupied", "Vehicle Shop", 5);
@@ -187,6 +194,15 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		//Spawn new vehicle
 		IEntity newVehicle = EL_Utils.SpawnEntityPrefab(vehiclePrefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
 
+		//Delete inventory items
+		SCR_VehicleInventoryStorageManagerComponent vehicleStorage = EL_ComponentFinder<SCR_VehicleInventoryStorageManagerComponent>.Find(newVehicle);
+		array<IEntity> allItems = {};
+		vehicleStorage.GetItems(allItems);
+		foreach (IEntity item : allItems)
+		{
+			vehicleStorage.TryDeleteItem(item);
+		}
+		
 		//Set vehicle base color and texture
 		EL_VehicleAppearanceComponent vehicleAppearance = EL_VehicleAppearanceComponent.Cast(newVehicle.FindComponent(EL_VehicleAppearanceComponent));
 		vehicleAppearance.SetVehicleColor(color);
@@ -227,20 +243,20 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void EnableVehicleShopCamera(bool enabled)
 	{
-		if (enabled && !m_bIsEnabled)
+		if (enabled && !m_bCameraEnabled)
 		{
 			// Create VehicleShop camera
 			if (!m_VehicleShopCamera)
-				m_VehicleShopCamera = EL_CameraUtils.CreateAndSetCamera(m_VehicleShopCameraPrefab, m_GarageEntity, m_vCameraPoint, m_vCameraAngels);
+				m_VehicleShopCamera = EL_CameraUtils.CreateAndSetCamera(m_VehicleShopCameraPrefab, m_VehicleShopBuilding, m_vCameraPoint, m_vCameraAngels);
 
-			m_bIsEnabled = true;
+			m_bCameraEnabled = true;
 			return;
 		}
 
-		if (!enabled && m_bIsEnabled)
+		if (!enabled && m_bCameraEnabled)
 		{
 			EL_CameraUtils.DestroyCamera(m_VehicleShopCamera);
-			m_bIsEnabled = false;
+			m_bCameraEnabled = false;
 			return;
 		}
 	}
@@ -259,8 +275,12 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override void EOnInit(IEntity owner)
 	{
+		if (!GetGame().InPlayMode())
+			return;
 		m_InputManager = GetGame().GetInputManager();
-		m_GarageEntity = owner.GetWorld().FindEntityByName("VEHICLE_SHOP_PREVIEW");
+		m_VehicleShopBuilding = owner.GetWorld().FindEntityByName("VEHICLE_SHOP_PREVIEW");
+		if (!m_VehicleShopBuilding)
+			Print("Shop Preview building not found!", LogLevel.ERROR);
 	}
 
 	//------------------------------------------------------------------------------------------------
