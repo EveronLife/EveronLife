@@ -144,7 +144,7 @@ SCR_DestructibleBuildingEntity {
       }
       MeshObject "{5872F0EB7FA40561}" {
        Object "{7674DD187C23B4CC}Assets/Props/Military/Generators/GeneratorPortable_USSR_01/GeneratorPortable_USSR_01.xob"
-       LODFactors +{
+       LODFactors {
        }
       }
       RigidBody "{5872F0EB7DFB5A9D}" {
@@ -229,7 +229,7 @@ SCR_DestructibleBuildingEntity {
    coords 10.469 0.972 1.201
    angleY 0
   }
-  $grp BaseGameTriggerEntity : "{98F71F6650C6767E}Prefabs/Buildings/Garage/EL_VehicleSpawnPoint.et" {
+  $grp BaseGameTriggerEntity : "{98F71F6650C6767E}Prefabs/Vehicles/Core/EL_VehicleSpawnPoint.et" {
    {
     ID "5B2CBBA077D0DA1E"
     coords 3.649 0.073 -0.167

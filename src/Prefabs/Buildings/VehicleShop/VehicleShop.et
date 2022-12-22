@@ -195,7 +195,7 @@ SCR_DestructibleBuildingEntity {
    ID "5B2CBBA0476C7D05"
    coords 0 0 0
   }
-  $grp BaseGameTriggerEntity : "{98F71F6650C6767E}Prefabs/Buildings/Garage/EL_VehicleSpawnPoint.et" {
+  $grp BaseGameTriggerEntity : "{98F71F6650C6767E}Prefabs/Vehicles/Core/EL_VehicleSpawnPoint.et" {
    {
     ID "5B2CBBA0476C0A5C"
     coords -9.892 0.073 -0.167

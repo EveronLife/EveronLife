@@ -1,37 +1,26 @@
-UniformGridLayoutWidgetClass {
- Name "VehiclePreviewImage"
- Slot UniformGridWidgetSlot "{5AD07BD6FDD28B7B}" {
+SizeLayoutWidgetClass {
+ Name "VehiclePreview"
+ Slot FrameWidgetSlot "{5B2D7A06165BCDBA}" {
+  OffsetLeft 0
+  OffsetTop 0
+  SizeX 264
+  OffsetRight -264
+  SizeY 164
+  OffsetBottom -164
  }
- Clipping True
  {
-  SizeLayoutWidgetClass "{5AD07BD036AC1B20}" {
-   Name "SizeSetter"
-   Slot UniformGridWidgetSlot "{5AD07BD036AC1B06}" {
-    HorizontalAlign Center
-    VerticalAlign Center
+  ImageWidgetClass "{5B2D7A06E37C98E3}" {
+   Name "VehicleImage"
+   Slot AlignableSlot "{5B2D28D18C539959}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 0 0 0 0
    }
-   AllowWidthOverride 1
-   WidthOverride 264
-   AllowHeightOverride 1
-   HeightOverride 164
-   MinDesiredWidth 160
-   MinDesiredHeight 160
-   MaxDesiredWidth 264
-   MaxDesiredHeight 165
-   {
-    ImageWidgetClass "{5AD07BD04F8D4760}" {
-     Name "VehicleImage"
-     Slot AlignableSlot "{5AD07BD04F8D4746}" {
-      HorizontalAlign 3
-      VerticalAlign 3
-     }
-     Texture "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
-     Size 264 164
-     Mask "{DA56B57C99A96861}UI/Layouts/Shop/VehiclePreviewMask.edds"
-     Progress 0.5
-     "Mask Mode" "Include Below"
-    }
-   }
+   Texture "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
+   Size 264 164
+   Mask "{DA56B57C99A96861}UI/Layouts/Shop/VehiclePreviewMask.edds"
+   Progress 0.5
+   "Mask Mode" "Include Below"
   }
  }
 }

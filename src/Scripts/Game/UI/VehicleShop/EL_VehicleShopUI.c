@@ -19,7 +19,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 
 
 	ResourceName m_lVehiclePreviewImage = "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout";
-	UniformGridLayoutWidget m_wVehiclePreviewGrid;
+	HorizontalLayoutWidget m_wVehiclePreviewList;
 
 	private int m_iCurPrice;
 	private bool m_bCanBuy;
@@ -31,18 +31,14 @@ class EL_VehicleShopUI: ChimeraMenuBase
 
 		foreach (ResourceName vehicleImage : vehicleImages)
 		{
-
-			Widget newVehicleImage = GetGame().GetWorkspace().CreateWidgets(m_lVehiclePreviewImage, m_wVehiclePreviewGrid);
-
-			//Set Postion in grid
-			UniformGridSlot.SetColumn(newVehicleImage, column);
+			Widget newVehicleImage = GetGame().GetWorkspace().CreateWidgets(m_lVehiclePreviewImage, m_wVehiclePreviewList);
 
 			//Set Icon
 			ImageWidget imageWidget = ImageWidget.Cast(newVehicleImage.FindAnyWidget("VehicleImage"));
 			imageWidget.LoadImageTexture(0, vehicleImage);
 
 			//Add item to grid
-			m_wVehiclePreviewGrid.AddChild(newVehicleImage);
+			m_wVehiclePreviewList.AddChild(newVehicleImage);
 
 			column++;
 		}
@@ -62,10 +58,11 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	{
 		m_OnColorChange.Invoke(GetCurrentSliderColor());
 	}
-
+	
+	//------------------------------------------------------------------------------------------------
 	void MoveVehiclePreviewGrid(int offset)
 	{
-		FrameSlot.Move(m_wVehiclePreviewGrid, offset, 0);
+		FrameSlot.Move(m_wVehiclePreviewList, offset, 0);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -152,7 +149,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		m_wVehicleTitleText = TextWidget.Cast(m_wRoot.FindAnyWidget("VehicleTitle"));
 
 		//Preview Grid
-		m_wVehiclePreviewGrid = UniformGridLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
+		m_wVehiclePreviewList = HorizontalLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
 
 		m_wBuyButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("BuyButton"));
 		//Get player using the UI

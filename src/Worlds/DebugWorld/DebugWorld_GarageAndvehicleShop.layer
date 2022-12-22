@@ -1,6 +1,17 @@
 SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
  coords 76.431 0 123.217
  Flags 525315
+ {
+  GenericEntity {
+   ID "5B2CBBA0476C0A58"
+   components {
+    EL_VehicleShopManagerComponent "{5ACAE5EDE08D8FDE}" {
+     m_PriceConfig EL_PriceConfig "{5ACAE5EADF20A223}" {
+     }
+    }
+   }
+  }
+ }
 }
 SCR_DestructibleBuildingEntity VEHICLE_SHOP_PREVIEW : "{C59B9F5ACF4D494E}Prefabs/Buildings/VehicleShop/VEHICLE_SHOP_PREVIEW.et" {
  coords 0 38.26 0
