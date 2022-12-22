@@ -106,6 +106,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Update price
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
+		Print("Buy price: " + curVehicleConfig.m_iBuyPrice);
 		//Update title
 		m_VehicleShopUI.m_wVehicleTitleText.SetText(EL_Utils.GetUIInfoName(curVehicleConfig.m_Prefab));
 

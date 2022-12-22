@@ -17,10 +17,27 @@ class EL_RpcSenderComponent  : ScriptComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void Rpc_AskBuyVehicle(ResourceName vehiclePrefab, int color, RplId shopId)
 	{
-		string playerUID = EL_Utils.GetPlayerUID(GetOwner());
-		
 		RplComponent vehicleShopRpl = RplComponent.Cast(Replication.FindItem(shopId));
 		EL_VehicleShopManagerComponent vehicleShopManager = EL_ComponentFinder<EL_VehicleShopManagerComponent>.Find(vehicleShopRpl.GetEntity());
+		string playerUID = EL_Utils.GetPlayerUID(GetOwner());
+		
 		vehicleShopManager.DoBuyVehicle(vehiclePrefab, color, playerUID);
+	}
+	
+	//------------------------------------------------------------------------------------------------	
+	void AskLoadGarage(IEntity garageEnt)
+	{
+		RplComponent rplComp = EL_ComponentFinder<RplComponent>.Find(garageEnt);
+		Rpc(Rpc_AskLoadGarage, rplComp.Id());
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	void Rpc_AskLoadGarage(RplId garageId)
+	{
+		RplComponent garageRplComp = RplComponent.Cast(Replication.FindItem(garageId));
+		EL_GarageManagerComponent garageManager = EL_ComponentFinder<EL_GarageManagerComponent>.Find(garageRplComp.GetEntity());
+		
+		garageManager.DoLoadGarage(GetOwner());
 	}
 }

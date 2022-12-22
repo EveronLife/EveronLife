@@ -25,19 +25,18 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
      m_PriceConfig EL_PriceConfig "{5ACAE5EADF20A223}" {
       m_aPriceConfigs {
        EL_Price "{5ACAE5EAC9907EAD}" {
-        m_iBuyPrice 420
        }
        EL_Price "{5AD2C778E1331CCE}" {
         m_Prefab "{5674FAEB9AB7BDD0}Prefabs/Vehicles/Wheeled/M998/M998.et"
-        m_iBuyPrice 8784
+        m_iBuyPrice 1
        }
        EL_Price "{5AD2C778CCDC8CA7}" {
         m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
-        m_iBuyPrice 1234
+        m_iBuyPrice 1
        }
        EL_Price "{5AD2C778CC73D203}" {
         m_Prefab "{4A71F755A4513227}Prefabs/Vehicles/Wheeled/M998/M1025.et"
-        m_iBuyPrice 500
+        m_iBuyPrice 1
        }
        EL_Price "{5ACD08D4728E8060}" {
         m_Prefab "{81FDAD5EB644CC3D}Prefabs/Vehicles/Wheeled/M923A1/M923A1_transport_covered.et"
@@ -45,7 +44,7 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
        }
        EL_Price "{5AD2C778CCC9E2A9}" {
         m_Prefab "{26013123314183EA}Prefabs/Vehicles/Wheeled/M923A1/M923A1_tanker_MERDC.et"
-        m_iBuyPrice 5454
+        m_iBuyPrice 1
        }
       }
      }
@@ -54,17 +53,12 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
   }
  }
 }
-$grp SCR_DestructibleBuildingEntity : "{8A72C2E05371D7D0}Prefabs/Buildings/Garage/PreviewGarage.et" {
- PREVIEW_GARAGE {
-  coords 0 20 0
- }
- VEHICLE_SHOP_PREVIEW {
-  coords 0 38.26 0
-  {
-   BaseGameTriggerEntity {
-    ID "5AC91C7B6B0FE09F"
-    coords 0 0.572 0
-   }
+SCR_DestructibleBuildingEntity VEHICLE_SHOP_PREVIEW : "{8A72C2E05371D7D0}Prefabs/Buildings/Garage/PreviewGarage.et" {
+ coords 0 38.26 0
+ {
+  BaseGameTriggerEntity {
+   ID "5AC91C7B6B0FE09F"
+   coords 0 0.572 0
   }
  }
 }
@@ -103,10 +97,9 @@ SCR_DestructibleBuildingEntity : "{EAD5EA324E4B1C1C}Prefabs/Buildings/Garage/Veh
    ID "5AC90882B4BE7797"
    components {
     EL_GarageManagerComponent "{5AC91633184B77EA}" {
-     m_vCameraPoint 7 3.572 7
-     m_vCameraAngels -15 221.75 0
     }
    }
+   coords 15.939 0.073 1.803
   }
  }
 }

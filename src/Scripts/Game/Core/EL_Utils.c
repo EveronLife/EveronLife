@@ -1,8 +1,7 @@
 class EL_Utils
 {
 	static ResourceName PLACEHOLDER_ICON = "{AC7E384FF9D8016A}Common/Textures/placeholder_BCR.edds";
-	
-	
+
 	//------------------------------------------------------------------------------------------------
 	static void ChangeColorRecursive(IEntity parent, Color color)
 	{
@@ -22,24 +21,30 @@ class EL_Utils
 	static ResourceName GetUIInfoPrefabIcon(ResourceName prefab)
 	{
 		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
-
+		if (!vehicleUIInfoComponent) 
+			return PLACEHOLDER_ICON;
+		
 		SCR_EditableVehicleUIInfo vehicleUIInfo;
 		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
-		if (vehicleUIInfo)
-			return vehicleUIInfo.GetImage();
-		return PLACEHOLDER_ICON;
+		if (!vehicleUIInfo) 
+			return PLACEHOLDER_ICON;
+		
+		return vehicleUIInfo.GetImage();
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	static ResourceName GetUIInfoName(ResourceName prefab)
 	{
 		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
-
+		if (!vehicleUIInfoComponent) 
+			return "MISSING";
+		
 		SCR_EditableVehicleUIInfo vehicleUIInfo;
 		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
-		if (vehicleUIInfo)
-			return vehicleUIInfo.GetName();
-		return PLACEHOLDER_ICON;
+		if (!vehicleUIInfo) 
+			return "MISSING";
+		
+		return vehicleUIInfo.GetName();
 	}
 	
 	

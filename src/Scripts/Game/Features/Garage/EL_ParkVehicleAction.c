@@ -8,7 +8,7 @@ class EL_ParkVehicleAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
-		
+		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
 		
 		GetGame().GetWorld().QueryEntitiesBySphere(pOwnerEntity.GetOrigin(), m_fGarageSearchRadius, FindFirstGarage, FilterGarage);
 
