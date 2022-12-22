@@ -39,5 +39,22 @@ class EL_RpcSenderComponent  : ScriptComponent
 		EL_GarageManagerComponent garageManager = EL_ComponentFinder<EL_GarageManagerComponent>.Find(garageRplComp.GetEntity());
 		
 		garageManager.DoLoadGarage(GetOwner());
+	}	
+	
+	//------------------------------------------------------------------------------------------------	
+	void AskWithdrawVehicle(IEntity garageEnt, int index)
+	{
+		RplComponent rplComp = EL_ComponentFinder<RplComponent>.Find(garageEnt);
+		Rpc(Rpc_AskWithdrawVehicle, rplComp.Id(), index);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	void Rpc_AskWithdrawVehicle(RplId garageId, int index)
+	{
+		RplComponent garageRplComp = RplComponent.Cast(Replication.FindItem(garageId));
+		EL_GarageManagerComponent garageManager = EL_ComponentFinder<EL_GarageManagerComponent>.Find(garageRplComp.GetEntity());
+		
+		garageManager.DoWithdrawVehicle(GetOwner(), index);
 	}
 }

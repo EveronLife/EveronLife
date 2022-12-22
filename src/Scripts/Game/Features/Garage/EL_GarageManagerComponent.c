@@ -7,14 +7,10 @@ class EL_GarageManagerComponent : ScriptComponent
 {
 	protected ref map<string, ref array<string>> m_mSavedVehicles = new map<string, ref array<string>>;
 	IEntity m_UserEntity;
-
-	ref array<ResourceName> m_aGarageSaveDataList = new array<ResourceName>();
-
 	EL_GarageUI m_GarageUI;
 
 	//------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void Rpc_AskWithdrawVehicle(int index)
+	void DoWithdrawVehicle(IEntity owner, int index)
 	{
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
 		if (!freeSpawnPoint)
@@ -22,7 +18,7 @@ class EL_GarageManagerComponent : ScriptComponent
 			Print("[EL-Garage] No free spawn point to withdraw!", LogLevel.WARNING);
 			return;
 		}
-		string ownerId = EL_Utils.GetPlayerUID(m_UserEntity);
+		string ownerId = EL_Utils.GetPlayerUID(owner);
 
 		array<string> storedVehicleIds = m_mSavedVehicles.Get(ownerId);
 		if (!storedVehicleIds || storedVehicleIds.IsEmpty())
@@ -47,20 +43,21 @@ class EL_GarageManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void WithdrawVehicle(int index)
 	{
-		Rpc(Rpc_AskWithdrawVehicle, index);
+		EL_RpcSenderComponent rpcSender = EL_RpcSenderComponent.Cast(m_UserEntity.FindComponent(EL_RpcSenderComponent));
+		rpcSender.AskWithdrawVehicle(GetOwner(), index);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Called from client
-	void OpenGarageUI()
+	void OpenGarageUI(array<ResourceName> garageSaveDataList)
 	{
 		m_GarageUI = EL_GarageUI.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_Garage));
 		m_GarageUI.SetGarageManager(this);
 
-		if (m_aGarageSaveDataList.Count() == 0)
+		if (garageSaveDataList.Count() == 0)
 			return;
 
-		m_GarageUI.PopulateVehicleList(m_aGarageSaveDataList);
+		m_GarageUI.PopulateVehicleList(garageSaveDataList);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -75,8 +72,7 @@ class EL_GarageManagerComponent : ScriptComponent
 		if (targetPlayer != localPlayer)
 			return;
 
-		m_aGarageSaveDataList = garageSaveData;
-		OpenGarageUI();
+		OpenGarageUI(garageSaveData);
 	}
 
 	//------------------------------------------------------------------------------------------------
