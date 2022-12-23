@@ -89,7 +89,7 @@ FrameWidgetClass {
        }
        {
         ButtonWidgetClass "{5ACB2E2E1E149A6B}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
-         Name "ExitButton0"
+         Name "ExitButton"
          Slot LayoutSlot "{5B2D1233F9564DF5}" {
           HorizontalAlign 0
           Padding 10 0 20 0
@@ -102,7 +102,7 @@ FrameWidgetClass {
            m_sActionName "MenuBack"
           }
           ButtonActionComponent "{56EEDE01BE93EE7D}" {
-           m_bActionName "MenuSelect"
+           m_bActionName "MenuBack"
           }
          }
          {
@@ -138,7 +138,7 @@ FrameWidgetClass {
            m_sActionName "MenuLeft"
           }
           ButtonActionComponent "{56EEDE01BE93EE7D}" {
-           m_bActionName "MenuSelect"
+           m_bActionName "MenuLeft"
           }
          }
          {
@@ -177,7 +177,7 @@ FrameWidgetClass {
            m_sActionName "MenuRight"
           }
           ButtonActionComponent "{56EEDE01BE93EE7D}" {
-           m_bActionName "MenuSelect"
+           m_bActionName "MenuRight"
           }
          }
          {

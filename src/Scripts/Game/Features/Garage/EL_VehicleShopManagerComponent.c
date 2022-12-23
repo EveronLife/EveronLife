@@ -6,31 +6,31 @@ class EL_VehicleShopManagerComponentClass : ScriptComponentClass
 class EL_VehicleShopManagerComponent : ScriptComponent
 {
 	// Point info?
-	
+
 	[Attribute("VEHICLE_SHOP_PREVIEW", UIWidgets.Auto, "Item price list", category: "Preview")]
 	protected string m_sShopPreviewBuildingName;
 	protected IEntity m_VehicleShopBuilding;
-	
+
 	[Attribute("{6CA10EE93F1A3C20}Prefabs/Buildings/VehicleShop/VehicleShopPreviewVehicle.et", UIWidgets.ResourceNamePicker, "Camera prefab", category: "Preview")]
 	protected ResourceName m_EmptyVehiclePreview;
 	protected SCR_BasePreviewEntity m_aPreviewVehicle;
-	
+
 	[Attribute("{FAE60B62153B7058}Prefabs/Buildings/VehicleShop/VehicleShop_Camera.et", UIWidgets.ResourceNamePicker, "Camera prefab", category: "Preview")]
 	protected ResourceName m_VehicleShopCameraPrefab;
 	protected bool m_bCameraEnabled;
 	protected SCR_ManualCamera m_VehicleShopCamera;
-	
+
 	[Attribute("0.777 3.069 12.971", UIWidgets.EditBox, "Camera point", category: "Preview")]
 	protected vector m_vCameraPoint;
 
 	[Attribute("0 0 0", UIWidgets.EditBox, "Camera angels", category: "Preview")]
 	protected vector m_vCameraAngels;
 
-	
+
 
 	[Attribute("", UIWidgets.Auto, "Item price list", category: "Shop")]
 	protected ref EL_PriceConfig m_PriceConfig;
-	
+
 
 	protected InputManager m_InputManager;
 	protected IEntity m_UserEntity;
@@ -90,7 +90,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		if (m_aPreviewVehicle)
 			SCR_EntityHelper.DeleteEntityAndChildren(m_aPreviewVehicle);
-		
+
 
 		//Spawn preview vehicle with all slots (windows etc..)
 		m_aPreviewVehicle = EL_LocalPrefabPreviewEntity.SpawnLocalPreviewFromPrefab(
@@ -114,7 +114,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Update price
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
-		
+
 		//Update title
 		m_VehicleShopUI.m_wVehicleTitleText.SetText(EL_Utils.GetUIInfoName(curVehicleConfig.m_Prefab));
 
@@ -184,10 +184,10 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	void DoBuyVehicle(ResourceName vehiclePrefab, int color, string playerUID)
 	{
 		//Find free spawn point
-		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(m_VehicleShopBuilding);
+		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
 		if (!freeSpawnPoint)
 		{
-			SCR_HintManagerComponent.ShowCustomHint("All spawn point occupied", "Vehicle Shop", 5);
+			SCR_HintManagerComponent.ShowCustomHint("All spawn points occupied", "Vehicle Shop", 5);
 			return;
 		}
 
@@ -202,7 +202,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		{
 			vehicleStorage.TryDeleteItem(item);
 		}
-		
+
 		//Set vehicle base color and texture
 		EL_VehicleAppearanceComponent vehicleAppearance = EL_VehicleAppearanceComponent.Cast(newVehicle.FindComponent(EL_VehicleAppearanceComponent));
 		vehicleAppearance.SetVehicleColor(color);
@@ -227,7 +227,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		EL_RpcSenderComponent rpcSender = EL_RpcSenderComponent.Cast(m_UserEntity.FindComponent(EL_RpcSenderComponent));
 		rpcSender.AskBuyVehicle(curVehicleConfig.m_Prefab, color.PackToInt(), GetOwner());
-
 
 		//Cleanup
 		DisableCam();
@@ -289,4 +288,4 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		SetEventMask(owner, EntityEvent.INIT);
 		owner.SetFlags(EntityFlags.ACTIVE, false);
 	}
-};
+}

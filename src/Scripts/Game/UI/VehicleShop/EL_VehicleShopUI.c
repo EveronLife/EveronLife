@@ -24,6 +24,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	private int m_iCurPrice;
 	private bool m_bCanBuy;
 	private IEntity m_LocalPlayer;
+	
 	//------------------------------------------------------------------------------------------------
 	void PopulateVehicleImageGrid(array<ResourceName> vehicleImages)
 	{
@@ -70,13 +71,12 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	void OnMenuLeft()
 	{
 		m_OnVehicleSelectionChanged.Invoke(-1);
-
 	}
+	
 	//------------------------------------------------------------------------------------------------
 	void OnMenuRight()
 	{
 		m_OnVehicleSelectionChanged.Invoke(1);
-
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -84,13 +84,12 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	{
 		if (m_bCanBuy)
 			m_OnBuyVehicle.Invoke(m_NewColor);
-
 	}
+	
 	//------------------------------------------------------------------------------------------------
 	void InvokeOnMenuClose()
 	{
 		m_OnExit.Invoke();
-
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -152,7 +151,26 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		//Preview Grid
 		m_wVehiclePreviewList = HorizontalLayoutWidget.Cast(m_wRoot.FindAnyWidget("VehiclePreviewGrid"));
 
+		//Buy Button
 		m_wBuyButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("BuyButton"));
+		SCR_NavigationButtonComponent buyButtonComp = SCR_NavigationButtonComponent.Cast(m_wBuyButton.FindHandler(SCR_NavigationButtonComponent));
+		buyButtonComp.m_OnClicked.Insert(OnBuyVehicle);
+		
+		//Left Button
+		ButtonWidget leftButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("LeftButton"));
+		SCR_NavigationButtonComponent leftButtonComp = SCR_NavigationButtonComponent.Cast(leftButton.FindHandler(SCR_NavigationButtonComponent));
+		leftButtonComp.m_OnClicked.Insert(OnMenuLeft);
+		
+		//Right Button
+		ButtonWidget rightButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("RightButton"));
+		SCR_NavigationButtonComponent rightButtonComp = SCR_NavigationButtonComponent.Cast(rightButton.FindHandler(SCR_NavigationButtonComponent));
+		rightButtonComp.m_OnClicked.Insert(OnMenuRight);
+		
+		//Exit Button
+		ButtonWidget exitButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("ExitButton"));
+		SCR_NavigationButtonComponent exitButtonComp = SCR_NavigationButtonComponent.Cast(exitButton.FindHandler(SCR_NavigationButtonComponent));
+		exitButtonComp.m_OnClicked.Insert(InvokeOnMenuClose);
+		
 		//Get player using the UI
 		m_LocalPlayer = SCR_PlayerController.GetLocalControlledEntity();
     }
