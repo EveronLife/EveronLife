@@ -1,7 +1,7 @@
 # New vehicle shop
 A vehicle shop needs an Entity with the <EL_VehicleShopManagerComponent> to open the vehicle shop.
 This Entity needs to be a child of another Entity e.g. a building. 
-The Building needs to have one ore more spawn points (Prefab: <EL_VehicleSpawnPoint>)
+The Building needs to have one or more spawn points (Prefab: <EL_VehicleSpawnPoint>)
 
 ## EL_VehicleShopManagerComponent
 Variables:
