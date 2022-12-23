@@ -24,7 +24,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	private int m_iCurPrice;
 	private bool m_bCanBuy;
 	private IEntity m_LocalPlayer;
-	bool m_bGridFocused;
+	bool m_bGridFocused = true;
 	
 	//------------------------------------------------------------------------------------------------
 	void PopulateVehicleImageGrid(array<ResourceName> vehicleImages)

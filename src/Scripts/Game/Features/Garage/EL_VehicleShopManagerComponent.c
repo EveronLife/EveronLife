@@ -116,7 +116,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
 
 		//Update title
-		UIInfo prefabUIInfo = EL_UIInfoUtils.GetInfo(curVehicleConfig.m_Prefab);
+		SCR_EditableVehicleUIInfo prefabUIInfo = EL_UIInfoUtils.GetVehicleInfo(curVehicleConfig.m_Prefab);
 		m_VehicleShopUI.m_wVehicleTitleText.SetText(prefabUIInfo.GetName());
 
 		//Update vehicle stats
@@ -175,8 +175,8 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		array<ResourceName> vehiclePreviewImages = {};
 		foreach (EL_Price price: m_PriceConfig.m_aPriceConfigs)
 		{
-			UIInfo prefabUIInfo = EL_UIInfoUtils.GetInfo(price.m_Prefab);
-			vehiclePreviewImages.Insert(prefabUIInfo.GetIconPath());
+			SCR_EditableVehicleUIInfo prefabUIInfo = EL_UIInfoUtils.GetVehicleInfo(price.m_Prefab);
+			vehiclePreviewImages.Insert(prefabUIInfo.GetImage());
 		}
 		m_VehicleShopUI.PopulateVehicleImageGrid(vehiclePreviewImages);
 	}

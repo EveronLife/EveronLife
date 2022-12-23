@@ -26,10 +26,10 @@ class EL_GarageUI: ChimeraMenuBase
 		foreach (int index, ResourceName vehiclePrefab : garagePrefabList)
 		{
 			Widget vehicleListEntry = GetGame().GetWorkspace().CreateWidgets(m_VehiclePreviewImage, m_wVehiclePreviewList);
-			UIInfo prefabUIInfo = EL_UIInfoUtils.GetInfo(vehiclePrefab);
+			SCR_EditableVehicleUIInfo prefabUIInfo = EL_UIInfoUtils.GetVehicleInfo(vehiclePrefab);
 			
 			ImageWidget imageWidget = ImageWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleImage"));
-			imageWidget.LoadImageTexture(0, prefabUIInfo.GetIconPath());
+			imageWidget.LoadImageTexture(0, prefabUIInfo.GetImage());
 			
 			TextWidget nameText = TextWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleTitle"));
 			nameText.SetText(prefabUIInfo.GetName());
