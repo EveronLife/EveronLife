@@ -5,27 +5,26 @@ modded enum ChimeraMenuPreset {
 
 class EL_VehicleShopUI: ChimeraMenuBase
 {
-    Widget m_wRoot;
+    protected Widget m_wRoot;
 	SliderWidget m_RedSlider, m_GreenSlider, m_BlueSlider, m_wHandlingSlider, m_wEngineSlider, m_wBrakingSlider, m_wInventorySizeSlider;
 	TextWidget m_RedIndex, m_GreenIndex, m_BlueIndex, m_wVehiclePriceText, m_wVehicleTitleText, m_wInventorySizeAmount;
-	ButtonWidget m_wBuyButton;
-	int r,g,b;
-	ref Color m_NewColor;
+	protected ButtonWidget m_wBuyButton;
+	protected int m_iRed, m_iGreen, m_iBlue;
+	protected ref Color m_NewColor;
 
 	ref ScriptInvoker<int> m_OnVehicleSelectionChanged = new ScriptInvoker();
 	ref ScriptInvoker<ref Color> m_OnColorChange = new ScriptInvoker();
 	ref ScriptInvoker<ref Color> m_OnBuyVehicle = new ScriptInvoker();
 	ref ScriptInvoker m_OnExit = new ScriptInvoker();
 
+	protected ResourceName m_lVehiclePreviewImage = "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout";
+	protected HorizontalLayoutWidget m_wVehiclePreviewList;
 
-	ResourceName m_lVehiclePreviewImage = "{E29CB33937B2122C}UI/Layouts/Editor/Toolbar/PlacingMenu/VehiclePreviewImg.layout";
-	HorizontalLayoutWidget m_wVehiclePreviewList;
+	protected int m_iCurPrice;
+	protected bool m_bCanBuy;
+	protected IEntity m_LocalPlayer;
+	protected bool m_bGridFocused = true;
 
-	private int m_iCurPrice;
-	private bool m_bCanBuy;
-	private IEntity m_LocalPlayer;
-	bool m_bGridFocused = true;
-	
 	//------------------------------------------------------------------------------------------------
 	void PopulateVehicleImageGrid(array<ResourceName> vehicleImages)
 	{
@@ -35,11 +34,11 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		{
 			Widget newVehicleImage = GetGame().GetWorkspace().CreateWidgets(m_lVehiclePreviewImage, m_wVehiclePreviewList);
 
-			
+
 			//Set Icon
 			ImageWidget imageWidget = ImageWidget.Cast(newVehicleImage.FindAnyWidget("VehicleImage"));
 			imageWidget.LoadImageTexture(0, vehicleImage);
-			
+
 			//Add item to grid
 			m_wVehiclePreviewList.AddChild(newVehicleImage);
 			HorizontalLayoutSlot.SetPadding(newVehicleImage, 20, 0, 20, 0);
@@ -62,7 +61,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	{
 		m_OnColorChange.Invoke(GetCurrentSliderColor());
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void MoveVehiclePreviewGrid(int offset)
 	{
@@ -74,7 +73,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	{
 		m_bGridFocused = true;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void DisableGridMovement()
 	{
@@ -86,7 +85,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		if (m_bGridFocused)
 			m_OnVehicleSelectionChanged.Invoke(-1);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void OnMenuRight()
 	{
@@ -100,7 +99,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		if (m_bCanBuy)
 			m_OnBuyVehicle.Invoke(m_NewColor);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void InvokeOnMenuClose()
 	{
@@ -171,22 +170,22 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		m_wBuyButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("BuyButton"));
 		SCR_NavigationButtonComponent buyButtonComp = SCR_NavigationButtonComponent.Cast(m_wBuyButton.FindHandler(SCR_NavigationButtonComponent));
 		buyButtonComp.m_OnClicked.Insert(OnBuyVehicle);
-		
+
 		//Left Button
 		ButtonWidget leftButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("LeftButton"));
 		SCR_NavigationButtonComponent leftButtonComp = SCR_NavigationButtonComponent.Cast(leftButton.FindHandler(SCR_NavigationButtonComponent));
 		leftButtonComp.m_OnClicked.Insert(OnMenuLeft);
-		
+
 		//Right Button
 		ButtonWidget rightButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("RightButton"));
 		SCR_NavigationButtonComponent rightButtonComp = SCR_NavigationButtonComponent.Cast(rightButton.FindHandler(SCR_NavigationButtonComponent));
 		rightButtonComp.m_OnClicked.Insert(OnMenuRight);
-		
+
 		//Exit Button
 		ButtonWidget exitButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("ExitButton"));
 		SCR_NavigationButtonComponent exitButtonComp = SCR_NavigationButtonComponent.Cast(exitButton.FindHandler(SCR_NavigationButtonComponent));
 		exitButtonComp.m_OnClicked.Insert(InvokeOnMenuClose);
-		
+
 		//Slider Focus
 		SCR_EventHandlerComponent redSliderComp = SCR_EventHandlerComponent.Cast(m_RedSlider.FindHandler(SCR_EventHandlerComponent));
 		SCR_EventHandlerComponent greenSliderComp = SCR_EventHandlerComponent.Cast(m_GreenSlider.FindHandler(SCR_EventHandlerComponent));
@@ -197,7 +196,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		redSliderComp.GetOnFocusLost().Insert(EnableGridMovement);
 		greenSliderComp.GetOnFocusLost().Insert(EnableGridMovement);
 		blueSliderComp.GetOnFocusLost().Insert(EnableGridMovement);
-		
+
 		//Get player using the UI
 		m_LocalPlayer = SCR_PlayerController.GetLocalControlledEntity();
     }
@@ -222,12 +221,12 @@ class EL_VehicleShopUI: ChimeraMenuBase
 			int newG = m_GreenSlider.GetCurrent();
 			int newB = m_BlueSlider.GetCurrent();
 
-			if (r == newR && g == newG && b == newB)
+			if (m_iRed == newR && m_iGreen == newG && m_iBlue == newB)
 				return;
 
-			r = newR;
-			g = newG;
-			b = newB;
+			m_iRed = newR;
+			m_iGreen = newG;
+			m_iBlue = newB;
 
 			if (m_RedIndex && m_GreenIndex && m_BlueIndex)
 			{

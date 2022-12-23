@@ -15,27 +15,27 @@ class EL_Utils
 			child = child.GetSibling();
 		}
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	static void SetSlotsColor(notnull IEntity entity, int color)
 	{
 		SlotManagerComponent slotManager = EL_ComponentFinder<SlotManagerComponent>.Find(entity);
-		if (!slotManager) 
+		if (!slotManager)
 			return;
 		array<EntitySlotInfo> slots = new array<EntitySlotInfo>;
 		slotManager.GetSlotInfos(slots);
 		foreach (EntitySlotInfo slotInfo : slots)
 		{
 			IEntity slotEnt = slotInfo.GetAttachedEntity();
-			if (!slotEnt) 
+			if (!slotEnt)
 				continue;
-			
+
 			EL_VehicleAppearanceComponent slotAppearance = EL_ComponentFinder<EL_VehicleAppearanceComponent>.Find(slotEnt);
 			if (slotAppearance)
 				slotAppearance.SetVehicleColor(color);
 		}
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Creates and sets new material with given color to entity
 	//! \param entity Entity to set new color material
@@ -45,11 +45,11 @@ class EL_Utils
 		VObject mesh = entity.GetVObject();
 		if (!mesh || !color)
 			return;
-		
+
 		string materialName = "vehicle_material_" + entity;
-		
+
 		float materialColorRGBA[] = { color.R(), color.G(), color.B(), color.A() };
-		
+
 		Material dynamicColorMaterial = Material.Create(materialName, "MatPBRMulti");
 
 		dynamicColorMaterial.SetParam("Color", materialColorRGBA);
@@ -73,7 +73,7 @@ class EL_Utils
 		}
 		entity.SetObject(mesh, remap);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Gets prefab VObject
 	//! \param prefab Prefab path
@@ -98,7 +98,7 @@ class EL_Utils
 		meshComponent.Get("Object", prefabObject);
 		return Resource.Load(prefabObject).GetResource().ToVObject();
 	}
-	
+
 
 	//------------------------------------------------------------------------------------------------
 	//! Gets the Bohemia UID
@@ -135,13 +135,13 @@ class EL_Utils
 		Math3D.AnglesToMatrix(orientation, spawnParams.Transform);
 		spawnParams.Transform[3] = origin;
 		spawnParams.Parent = parent;
-		
+
 		IEntity newEnt;
 		if (!global)
 			newEnt = GetGame().SpawnEntityPrefabLocal(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 		else
 			newEnt = GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
-		
+
 		if (parent)
 			parent.AddChild(newEnt, -1);
 		return newEnt;

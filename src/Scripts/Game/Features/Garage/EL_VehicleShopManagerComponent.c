@@ -1,12 +1,11 @@
 [EntityEditorProps(category: "EL/VehicleShop")]
 class EL_VehicleShopManagerComponentClass : ScriptComponentClass
 {
-};
+}
 
 class EL_VehicleShopManagerComponent : ScriptComponent
 {
-	// Point info?
-
+	
 	[Attribute("VEHICLE_SHOP_PREVIEW", UIWidgets.Auto, "Item price list", category: "Preview")]
 	protected string m_sShopPreviewBuildingName;
 	protected IEntity m_VehicleShopBuilding;
@@ -20,17 +19,15 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	protected bool m_bCameraEnabled;
 	protected SCR_ManualCamera m_VehicleShopCamera;
 
+	// Point info
 	[Attribute("0.777 3.069 12.971", UIWidgets.EditBox, "Camera point", category: "Preview")]
 	protected vector m_vCameraPoint;
 
 	[Attribute("0 0 0", UIWidgets.EditBox, "Camera angels", category: "Preview")]
 	protected vector m_vCameraAngels;
 
-
-
 	[Attribute("", UIWidgets.Auto, "Item price list", category: "Shop")]
 	protected ref EL_PriceConfig m_PriceConfig;
-
 
 	protected InputManager m_InputManager;
 	protected IEntity m_UserEntity;

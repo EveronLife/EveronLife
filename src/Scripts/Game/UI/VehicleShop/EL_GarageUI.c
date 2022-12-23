@@ -27,24 +27,24 @@ class EL_GarageUI: ChimeraMenuBase
 		{
 			Widget vehicleListEntry = GetGame().GetWorkspace().CreateWidgets(m_VehiclePreviewImage, m_wVehiclePreviewList);
 			SCR_EditableVehicleUIInfo prefabUIInfo = EL_UIInfoUtils.GetVehicleInfo(vehiclePrefab);
-			
+
 			ImageWidget imageWidget = ImageWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleImage"));
 			imageWidget.LoadImageTexture(0, prefabUIInfo.GetImage());
-			
+
 			TextWidget nameText = TextWidget.Cast(vehicleListEntry.FindAnyWidget("VehicleTitle"));
 			nameText.SetText(prefabUIInfo.GetName());
-	
+
 			ButtonWidget vehicleWithdrawButton = ButtonWidget.Cast(vehicleListEntry);
 			SCR_ModularButtonComponent entryButton = SCR_ModularButtonComponent.Cast(vehicleWithdrawButton.FindHandler(SCR_ModularButtonComponent));
-			
+
 			EL_GarageEntry garageData = new EL_GarageEntry();
 			garageData.m_sPrefab = vehiclePrefab;
 			garageData.m_iIndex = index;
-			
+
 			entryButton.SetData(garageData);
 			entryButton.m_OnClicked.Insert(OnVehicleEntryClicked);
-			
-			m_wVehiclePreviewList.AddChild(vehicleListEntry);			
+
+			m_wVehiclePreviewList.AddChild(vehicleListEntry);
 		}
 	}
 

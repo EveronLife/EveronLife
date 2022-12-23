@@ -2,6 +2,10 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
  coords 76.431 0 123.217
  Flags 525315
  {
+  BaseGameTriggerEntity {
+   ID "5B2CBBA0476C0A62"
+   DrawShape 0
+  }
   GenericEntity {
    ID "5B2CBBA0476C0A58"
    components {

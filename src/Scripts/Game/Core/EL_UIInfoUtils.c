@@ -30,25 +30,25 @@ class EL_UIInfoUtils
 			        }
 			    }
 			}
-			
+
 			s_mCache.Set(prefab, resultInfo);
 		}
 
 		return resultInfo;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	static SCR_EditableVehicleUIInfo GetVehicleInfo(ResourceName prefab)
 	{
 		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
-		if (!vehicleUIInfoComponent) 
+		if (!vehicleUIInfoComponent)
 			return null;
-		
+
 		SCR_EditableVehicleUIInfo vehicleUIInfo;
-		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);		
+		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
 		return vehicleUIInfo;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	static UIInfo GetInfo(IEntity entity)
 	{
