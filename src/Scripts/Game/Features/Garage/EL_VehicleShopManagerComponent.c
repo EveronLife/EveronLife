@@ -124,6 +124,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_VehicleShopUI.m_wEngineSlider.SetCurrent(vehicleStats[0]);
 		m_VehicleShopUI.m_wBrakingSlider.SetCurrent(vehicleStats[2]);
 		m_VehicleShopUI.m_wInventorySizeSlider.SetCurrent(maxInvWeight);
+		m_VehicleShopUI.m_wInventorySizeAmount.SetText(string.Format("Storage Size: %1kg", maxInvWeight));
 
 		//Validate Price
 		m_VehicleShopUI.ValidatePrice(curVehicleConfig.m_iBuyPrice);

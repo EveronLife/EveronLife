@@ -426,21 +426,18 @@ FrameWidgetClass {
       VerticalLayoutWidgetClass "{5B2303D4FDE0D518}" {
        Name "VerticalLayout0"
        Slot OverlayWidgetSlot "{5B2303D4FDE0D571}" {
-        HorizontalAlign 2
-        VerticalAlign 2
-        Padding 0 0 50 20
+        HorizontalAlign 3
+        Padding 100 100 50 20
        }
        {
         TextWidgetClass "{5ACC82F161B55EC4}" {
          Name "BrakingText"
          Slot LayoutSlot "{5B24A44C0BE7CD5E}" {
-          HorizontalAlign 0
           Padding 0 20 0 10
          }
          Text "Braking"
          "Font Size" 30
          "Min Font Size" 30
-         "Horizontal Alignment" Center
          "Vertical Alignment" Center
          FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
           Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
@@ -459,13 +456,11 @@ FrameWidgetClass {
         TextWidgetClass "{5ACC82F1630D884B}" {
          Name "EngineText"
          Slot LayoutSlot "{5B24A44C0BE7CDDB}" {
-          HorizontalAlign 0
           Padding 0 20 0 10
          }
          Text "Engine"
          "Font Size" 30
          "Min Font Size" 30
-         "Horizontal Alignment" Center
          "Vertical Alignment" Center
          FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
           Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
@@ -484,13 +479,11 @@ FrameWidgetClass {
         TextWidgetClass "{5ACC82F159B59711}" {
          Name "HandlingText"
          Slot LayoutSlot "{5B24A44C0BE7CC36}" {
-          HorizontalAlign 0
           Padding 0 20 0 10
          }
          Text "Handling"
          "Font Size" 30
          "Min Font Size" 30
-         "Horizontal Alignment" Center
          "Vertical Alignment" Center
          FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
           Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
@@ -510,13 +503,12 @@ FrameWidgetClass {
         TextWidgetClass "{5ACC82F1AB52AFB4}" {
          Name "StorageSizeText"
          Slot LayoutSlot "{5B24A44C0BE7CC0D}" {
-          HorizontalAlign 0
           Padding 0 20 0 10
+          FillWeight 90
          }
          Text "Storage Size"
          "Font Size" 30
          "Min Font Size" 30
-         "Horizontal Alignment" Center
          "Vertical Alignment" Center
          FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
           Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
@@ -529,7 +521,7 @@ FrameWidgetClass {
          }
          "Ignore Cursor" 1
          "no focus" 1
-         maximum 7500
+         maximum 1000
          current 0
         }
         TextWidgetClass "{5ACB11E033B06374}" {

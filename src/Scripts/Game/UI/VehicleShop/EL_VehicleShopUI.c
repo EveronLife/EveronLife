@@ -7,7 +7,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 {
     Widget m_wRoot;
 	SliderWidget m_RedSlider, m_GreenSlider, m_BlueSlider, m_wHandlingSlider, m_wEngineSlider, m_wBrakingSlider, m_wInventorySizeSlider;
-	TextWidget m_RedIndex, m_GreenIndex, m_BlueIndex, m_wVehiclePriceText, m_wVehicleTitleText;
+	TextWidget m_RedIndex, m_GreenIndex, m_BlueIndex, m_wVehiclePriceText, m_wVehicleTitleText, m_wInventorySizeAmount;
 	ButtonWidget m_wBuyButton;
 	int r,g,b;
 	ref Color m_NewColor;
@@ -159,6 +159,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		m_wHandlingSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("HandlingSlider"));
 		m_wBrakingSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("BrakingSlider"));
 		m_wInventorySizeSlider = SliderWidget.Cast(m_wRoot.FindAnyWidget("InventorySizeSlider"));
+		m_wInventorySizeAmount = TextWidget.Cast(m_wRoot.FindAnyWidget("StorageSizeText"));
 
 		m_wVehiclePriceText = TextWidget.Cast(m_wRoot.FindAnyWidget("VehiclePriceText"));
 		m_wVehicleTitleText = TextWidget.Cast(m_wRoot.FindAnyWidget("VehicleTitle"));
