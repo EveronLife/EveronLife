@@ -18,6 +18,22 @@ FrameWidgetClass {
     Alignment 0 0
    }
    {
+    ImageWidgetClass "{5B2E969CC6406322}" {
+     Name "Image0"
+     Slot FrameWidgetSlot "{5B2E969CC640630F}" {
+      Anchor 0 0 1 1
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX -1720
+      OffsetRight 0
+      SizeY -950
+      OffsetBottom 0
+     }
+     Color 0.12 0.12 0.12 0.608
+     Size 3840 2160
+    }
     HorizontalLayoutWidgetClass "{5B2D70A3B6D83CFC}" {
      Name "VehiclePreviewGrid"
      Slot FrameWidgetSlot "{5B2D70A3B6D83CDD}" {
@@ -33,9 +49,9 @@ FrameWidgetClass {
       Alignment 0 1
      }
     }
-    ImageWidgetClass "{5AD0C3F7D7E76A12}" {
-     Name "GlowImage"
-     Slot FrameWidgetSlot "{5B2D123573E2FB16}" {
+    ButtonWidgetClass "{5B2E969ED9AC29E6}" {
+     Name "FocusVehicleGridButton"
+     Slot FrameWidgetSlot "{5B2E969ED9AC2835}" {
       Anchor 0 1 0 1
       PositionX 12
       OffsetLeft 12
@@ -46,24 +62,23 @@ FrameWidgetClass {
       SizeY 166
       OffsetBottom 54
      }
-     "Z Order" 1
-     Color 0.761 0.392 0.08 1
-     Pivot 0 1
-     Texture "{367B8D5FF0B529F5}UI/Layouts/Shop/VehiclePreviewGlow.edds"
-     Size 266 166
-    }
-    RTTextureWidgetClass "{5B2D123611341EBA}" {
-     Name "BackgroundRTexture"
-     Slot FrameWidgetSlot "{5B2D123573E2FB01}" {
-      Anchor 0 0 1 1
-      PositionX 0
-      OffsetLeft 0
-      PositionY 0
-      OffsetTop 0
-      SizeX 0
-      OffsetRight 0
-      SizeY 0
-      OffsetBottom 0
+     Color 1 1 1 0
+     components {
+      SCR_ModularButtonComponent "{5B2E969EE4263CAC}" {
+       m_eEventReturnValue 2147483596
+      }
+     }
+     {
+      ImageWidgetClass "{5AD0C3F7D7E76A12}" {
+       Name "GlowImage"
+       Slot ButtonWidgetSlot "{5B2E969979E9D5A4}" {
+       }
+       "Z Order" 1
+       Color 0.761 0.392 0.08 1
+       Pivot 0 1
+       Texture "{367B8D5FF0B529F5}UI/Layouts/Shop/VehiclePreviewGlow.edds"
+       Size 266 166
+      }
      }
     }
     OverlayWidgetClass "{59C6EE3CDDA9E32D}" {
@@ -98,6 +113,7 @@ FrameWidgetClass {
          components {
           SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
            m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+           m_bShowBorderOnFocus 1
            m_sLabel "Exit"
            m_sActionName "MenuBack"
           }
@@ -105,6 +121,7 @@ FrameWidgetClass {
            m_bActionName "MenuBack"
           }
          }
+         "no focus" 0
          {
           SizeLayoutWidgetClass "{5562AD435529FB36}" {
            Prefab "{5562AD435529FB36}"
@@ -134,6 +151,7 @@ FrameWidgetClass {
          components {
           SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
            m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+           m_bShowBorderOnFocus 1
            m_sLabel "Last Vehicle"
            m_sActionName "MenuLeft"
           }
@@ -141,6 +159,7 @@ FrameWidgetClass {
            m_bActionName "MenuLeft"
           }
          }
+         "no focus" 0
          {
           SizeLayoutWidgetClass "{5562AD435529FB36}" {
            Prefab "{5562AD435529FB36}"
@@ -173,6 +192,7 @@ FrameWidgetClass {
          components {
           SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
            m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+           m_bShowBorderOnFocus 1
            m_sLabel "Next Vehicle"
            m_sActionName "MenuRight"
           }
@@ -180,6 +200,7 @@ FrameWidgetClass {
            m_bActionName "MenuRight"
           }
          }
+         "no focus" 0
          {
           SizeLayoutWidgetClass "{5562AD435529FB36}" {
            Prefab "{5562AD435529FB36}"
@@ -226,6 +247,10 @@ FrameWidgetClass {
             FillWeight 80
            }
            Color 1 0.001 0 1
+           components {
+            SCR_EventHandlerComponent "{5B2E9698EC7F283C}" {
+            }
+           }
            maximum 255
            current 125
           }
@@ -273,6 +298,10 @@ FrameWidgetClass {
             FillWeight 80
            }
            Color 0 1 0 1
+           components {
+            SCR_EventHandlerComponent "{5B2E9698E0DF23C9}" {
+            }
+           }
            maximum 255
            current 125
           }
@@ -316,6 +345,10 @@ FrameWidgetClass {
             FillWeight 80
            }
            Color 0 0.002 1 1
+           components {
+            SCR_EventHandlerComponent "{5B2E9698E29B7C8A}" {
+            }
+           }
            maximum 255
            current 125
           }
@@ -526,8 +559,6 @@ FrameWidgetClass {
          components {
           SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
            m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
-           m_bMouseOverToFocus 1
-           m_bShowBorderOnFocus 1
            m_sLabel "Buy"
            m_sActionName "MenuSelect"
           }
@@ -535,6 +566,7 @@ FrameWidgetClass {
            m_bActionName "MenuSelect"
           }
          }
+         "no focus" 0
          {
           SizeLayoutWidgetClass "{5562AD435529FB36}" {
            Prefab "{5562AD435529FB36}"

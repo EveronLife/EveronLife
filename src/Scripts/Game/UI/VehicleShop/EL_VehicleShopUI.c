@@ -24,6 +24,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	private int m_iCurPrice;
 	private bool m_bCanBuy;
 	private IEntity m_LocalPlayer;
+	bool m_bGridFocused;
 	
 	//------------------------------------------------------------------------------------------------
 	void PopulateVehicleImageGrid(array<ResourceName> vehicleImages)
@@ -68,15 +69,28 @@ class EL_VehicleShopUI: ChimeraMenuBase
 	}
 
 	//------------------------------------------------------------------------------------------------
+	void EnableGridMovement()
+	{
+		m_bGridFocused = true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void DisableGridMovement()
+	{
+		m_bGridFocused = false;
+	}
+	//------------------------------------------------------------------------------------------------
 	void OnMenuLeft()
 	{
-		m_OnVehicleSelectionChanged.Invoke(-1);
+		if (m_bGridFocused)
+			m_OnVehicleSelectionChanged.Invoke(-1);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	void OnMenuRight()
 	{
-		m_OnVehicleSelectionChanged.Invoke(1);
+		if (m_bGridFocused)
+			m_OnVehicleSelectionChanged.Invoke(1);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -170,6 +184,16 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		ButtonWidget exitButton = ButtonWidget.Cast(m_wRoot.FindAnyWidget("ExitButton"));
 		SCR_NavigationButtonComponent exitButtonComp = SCR_NavigationButtonComponent.Cast(exitButton.FindHandler(SCR_NavigationButtonComponent));
 		exitButtonComp.m_OnClicked.Insert(InvokeOnMenuClose);
+		
+		SCR_EventHandlerComponent redSliderComp = SCR_EventHandlerComponent.Cast(m_RedSlider.FindHandler(SCR_EventHandlerComponent));
+		SCR_EventHandlerComponent greenSliderComp = SCR_EventHandlerComponent.Cast(m_GreenSlider.FindHandler(SCR_EventHandlerComponent));
+		SCR_EventHandlerComponent blueSliderComp = SCR_EventHandlerComponent.Cast(m_BlueSlider.FindHandler(SCR_EventHandlerComponent));
+		redSliderComp.GetOnFocus().Insert(DisableGridMovement);
+		greenSliderComp.GetOnFocus().Insert(DisableGridMovement);
+		blueSliderComp.GetOnFocus().Insert(DisableGridMovement);
+		redSliderComp.GetOnFocusLost().Insert(EnableGridMovement);
+		greenSliderComp.GetOnFocusLost().Insert(EnableGridMovement);
+		blueSliderComp.GetOnFocusLost().Insert(EnableGridMovement);
 		
 		//Get player using the UI
 		m_LocalPlayer = SCR_PlayerController.GetLocalControlledEntity();
