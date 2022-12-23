@@ -138,7 +138,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		m_iCurPreviewVehicleIndex = nextIndex;
 
-		m_VehicleShopUI.MoveVehiclePreviewGrid(offset * -304);
+		m_VehicleShopUI.MoveVehiclePreviewGrid(offset * -305);
 
 		UpdateVehicleStats();
 	}

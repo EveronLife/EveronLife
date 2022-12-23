@@ -3,11 +3,15 @@ SizeLayoutWidgetClass {
  Slot FrameWidgetSlot "{5B2D7A06165BCDBA}" {
   OffsetLeft 0
   OffsetTop 0
-  SizeX 264
-  OffsetRight -264
-  SizeY 164
-  OffsetBottom -164
+  SizeX 276
+  OffsetRight -276
+  SizeY 176
+  OffsetBottom -176
  }
+ AllowWidthOverride 1
+ WidthOverride 265
+ AllowHeightOverride 1
+ HeightOverride 164
  {
   ImageWidgetClass "{5B2D7A06E37C98E3}" {
    Name "VehicleImage"

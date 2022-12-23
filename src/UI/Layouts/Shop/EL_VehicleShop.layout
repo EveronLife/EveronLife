@@ -23,7 +23,7 @@ FrameWidgetClass {
      Slot FrameWidgetSlot "{5B2D70A3B6D83CDD}" {
       Anchor 0 1 1 1
       PositionX 0
-      OffsetLeft 0
+      OffsetLeft -7
       PositionY -55
       OffsetTop -55
       SizeX 0
@@ -70,14 +70,14 @@ FrameWidgetClass {
      Name "LeftOverlay"
      Slot FrameWidgetSlot "{5B2D123573E2FB76}" {
       Anchor 0 0 0 1
-      PositionX 0
-      OffsetLeft 0
-      PositionY 0
-      OffsetTop 0
+      PositionX 0.439
+      OffsetLeft 0.439
+      PositionY -0.439
+      OffsetTop -0.439
       SizeX 600
-      OffsetRight -600
+      OffsetRight -600.439
       SizeY 0
-      OffsetBottom 0
+      OffsetBottom 0.439
      }
      Color 1 1 1 0
      {

@@ -36,9 +36,10 @@ class EL_VehicleShopUI: ChimeraMenuBase
 			//Set Icon
 			ImageWidget imageWidget = ImageWidget.Cast(newVehicleImage.FindAnyWidget("VehicleImage"));
 			imageWidget.LoadImageTexture(0, vehicleImage);
-
+			
 			//Add item to grid
 			m_wVehiclePreviewList.AddChild(newVehicleImage);
+			HorizontalLayoutSlot.SetPadding(newVehicleImage, 20, 0, 20, 0);
 
 			column++;
 		}
