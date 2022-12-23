@@ -116,7 +116,8 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		m_VehicleShopUI.SetVehiclePriceText(curVehicleConfig.m_iBuyPrice);
 
 		//Update title
-		m_VehicleShopUI.m_wVehicleTitleText.SetText(EL_Utils.GetUIInfoName(curVehicleConfig.m_Prefab));
+		UIInfo prefabUIInfo = EL_UIInfoUtils.GetInfo(curVehicleConfig.m_Prefab);
+		m_VehicleShopUI.m_wVehicleTitleText.SetText(prefabUIInfo.GetName());
 
 		//Update vehicle stats
 		m_VehicleShopUI.m_wHandlingSlider.SetCurrent(vehicleStats[1]);
@@ -174,7 +175,8 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		array<ResourceName> vehiclePreviewImages = {};
 		foreach (EL_Price price: m_PriceConfig.m_aPriceConfigs)
 		{
-			vehiclePreviewImages.Insert(EL_Utils.GetUIInfoPrefabIcon(price.m_Prefab));
+			UIInfo prefabUIInfo = EL_UIInfoUtils.GetInfo(price.m_Prefab);
+			vehiclePreviewImages.Insert(prefabUIInfo.GetIconPath());
 		}
 		m_VehicleShopUI.PopulateVehicleImageGrid(vehiclePreviewImages);
 	}
@@ -277,7 +279,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 		if (!GetGame().InPlayMode())
 			return;
 		m_InputManager = GetGame().GetInputManager();
-		m_VehicleShopBuilding = owner.GetWorld().FindEntityByName("VEHICLE_SHOP_PREVIEW");
+		m_VehicleShopBuilding = owner.GetWorld().FindEntityByName(m_sShopPreviewBuildingName);
 		if (!m_VehicleShopBuilding)
 			Print("Shop Preview building not found!", LogLevel.ERROR);
 	}

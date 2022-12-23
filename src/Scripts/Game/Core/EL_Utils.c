@@ -17,38 +17,6 @@ class EL_Utils
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	//! TODO: USE EL_UIINFOS!
-	static ResourceName GetUIInfoPrefabIcon(ResourceName prefab)
-	{
-		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
-		if (!vehicleUIInfoComponent) 
-			return PLACEHOLDER_ICON;
-		
-		SCR_EditableVehicleUIInfo vehicleUIInfo;
-		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
-		if (!vehicleUIInfo) 
-			return PLACEHOLDER_ICON;
-		
-		return vehicleUIInfo.GetImage();
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	static ResourceName GetUIInfoName(ResourceName prefab)
-	{
-		BaseContainer vehicleUIInfoComponent = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "SCR_EditableVehicleComponent");
-		if (!vehicleUIInfoComponent) 
-			return "MISSING";
-		
-		SCR_EditableVehicleUIInfo vehicleUIInfo;
-		vehicleUIInfoComponent.Get("m_UIInfo", vehicleUIInfo);
-		if (!vehicleUIInfo) 
-			return "MISSING";
-		
-		return vehicleUIInfo.GetName();
-	}
-	
-	
-	//------------------------------------------------------------------------------------------------
 	static void SetSlotsColor(notnull IEntity entity, int color)
 	{
 		SlotManagerComponent slotManager = EL_ComponentFinder<SlotManagerComponent>.Find(entity);

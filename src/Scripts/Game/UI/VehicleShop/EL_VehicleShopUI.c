@@ -35,6 +35,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		{
 			Widget newVehicleImage = GetGame().GetWorkspace().CreateWidgets(m_lVehiclePreviewImage, m_wVehiclePreviewList);
 
+			
 			//Set Icon
 			ImageWidget imageWidget = ImageWidget.Cast(newVehicleImage.FindAnyWidget("VehicleImage"));
 			imageWidget.LoadImageTexture(0, vehicleImage);
@@ -185,6 +186,7 @@ class EL_VehicleShopUI: ChimeraMenuBase
 		SCR_NavigationButtonComponent exitButtonComp = SCR_NavigationButtonComponent.Cast(exitButton.FindHandler(SCR_NavigationButtonComponent));
 		exitButtonComp.m_OnClicked.Insert(InvokeOnMenuClose);
 		
+		//Slider Focus
 		SCR_EventHandlerComponent redSliderComp = SCR_EventHandlerComponent.Cast(m_RedSlider.FindHandler(SCR_EventHandlerComponent));
 		SCR_EventHandlerComponent greenSliderComp = SCR_EventHandlerComponent.Cast(m_GreenSlider.FindHandler(SCR_EventHandlerComponent));
 		SCR_EventHandlerComponent blueSliderComp = SCR_EventHandlerComponent.Cast(m_BlueSlider.FindHandler(SCR_EventHandlerComponent));
