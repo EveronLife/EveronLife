@@ -243,10 +243,17 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Mark the entity as detached from persistence, to ignore Save, Load and Delete operations. Can not be undone. Used primarily to handle removal of the instance externally.
+	//! Mark the entity as detached from persistence, to ignore Save, Load and Delete operations. Used primarily to handle removal of the instance externally.
 	void Detach()
 	{
 		m_bDetatched = true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Mark the entity as attached to persistence, to respect Save, Load and Delete operations.
+	void Attach()
+	{
+		m_bDetatched = false;
 	}
 
 	//------------------------------------------------------------------------------------------------
