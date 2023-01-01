@@ -1,0 +1,76 @@
+SizeLayoutWidgetClass {
+ Name "AccoundID"
+ Slot OverlayWidgetSlot "{5B3ADC1E1B54A2CE}" {
+  HorizontalAlign 3
+  Padding 0 10 0 10
+ }
+ AllowHeightOverride 1
+ HeightOverride 150
+ {
+  OverlayWidgetClass "{5B3ADC1E28A3BA2E}" {
+   Name "Overlay0"
+   Slot AlignableSlot "{5B3ADC10358ECF5C}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   {
+    ImageWidgetClass "{5B3ADC1E28A3BA2F}" {
+     Name "AccountBackground"
+     Slot OverlayWidgetSlot "{5B3ADC1029EBB015}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0.014 0 0.296 1
+    }
+    VerticalLayoutWidgetClass "{5C42A27FA893780B}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5C42A27FA893786C}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+      Padding 5 5 5 5
+     }
+     {
+      TextWidgetClass "{5B3ADC1E28A3BA22}" {
+       Name "AccoundIDText"
+       Slot LayoutSlot {
+        SizeMode Fill
+       }
+       Text "Account: 555"
+       "Font Size" 33
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+      }
+      HorizontalLayoutWidgetClass "{5C42A27FD3ED83FF}" {
+       Name "HorizontalLayout0"
+       Slot LayoutSlot "{5C42A27FD3ED83E2}" {
+        SizeMode Fill
+       }
+       {
+        TextWidgetClass "{5C42A27FBEA08FEF}" {
+         Name "CurrentBalanceText"
+         Slot LayoutSlot "{5C42A27FBEA08FB4}" {
+          SizeMode Fill
+         }
+         Text "Balance:"
+         "Font Size" 33
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+        }
+        TextWidgetClass "{5C42A27FE9A3F9C1}" {
+         Name "CurrentBalance"
+         Slot LayoutSlot "{5C42A27FBEA08FB4}" {
+          SizeMode Fill
+         }
+         Text "0.00$"
+         "Font Size" 33
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

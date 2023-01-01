@@ -8,32 +8,10 @@ GenericEntity : "{51D31AB07AE3C1C7}Prefabs/Props/Commercial/CashierShop_01.et" {
     }
    }
    additionalActions {
-    EL_WithdrawMoneyAction "{5B0B1EE354698C3F}" {
+    EL_OpenBankMenuAction "{5B3CD45FD6BB8CA8}" {
      ParentContextList {
       "default"
      }
-     "Sort Priority" 1
-    }
-    EL_WithdrawMoneyAction "{5B0B1EE361813016}" {
-     ParentContextList {
-      "default"
-     }
-     "Sort Priority" 100
-     m_iAmount 100
-    }
-    EL_DepositMoneyAction "{5B0B1EE357E7C40D}" {
-     ParentContextList {
-      "default"
-     }
-     "Sort Priority" 1001
-     m_iAmount 1
-    }
-    EL_DepositMoneyAction "{5B0B1EE3672D3A69}" {
-     ParentContextList {
-      "default"
-     }
-     "Sort Priority" 1100
-     m_iAmount 100
     }
    }
   }

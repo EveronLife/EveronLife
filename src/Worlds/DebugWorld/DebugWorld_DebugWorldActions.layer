@@ -73,5 +73,17 @@ GenericEntity {
  }
 }
 GenericEntity : "{03179A7595569288}Prefabs/Props/ATM.et" {
+ components {
+  ActionsManagerComponent "{5B0B1EE358F7219F}" {
+   ActionContexts {
+    UserActionContext "{5B0B1EE35A0CB1CC}" {
+     Position PointInfo "{5B0B2385ABCCBE44}" {
+      Offset 0 0.2914 0
+     }
+     Radius 33.633
+    }
+   }
+  }
+ }
  coords 101.696 0.898 135.286
 }

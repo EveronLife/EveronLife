@@ -17,10 +17,22 @@ class EL_GlobalBankAccountManager : GenericEntity
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	void OpenBankMenu()
+	{
+		EL_BankMenu.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_BankMenu));
+	}
+		
+	//------------------------------------------------------------------------------------------------
+	string GetLocalPlayerBankAccount()
+	{
+		return GetPlayerBankAccount(SCR_PlayerController.GetLocalControlledEntity());
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	string GetPlayerBankAccount(IEntity player)
 	{
 		string bankAccountId = "BankAccount-" + EL_Utils.GetPlayerUID(player);
-		if (!m_mBankAccounts.Get(bankAccountId)) //SET DEFAULT VALUE
+		if (!m_mBankAccounts.Contains(bankAccountId)) //SET DEFAULT VALUE -> TODO: PUT THIS INTO FIRST SPAWN (GAMEMODE)?
 			m_mBankAccounts.Set(bankAccountId, 1000);
 		return bankAccountId;
 	}	
@@ -46,11 +58,20 @@ class EL_GlobalBankAccountManager : GenericEntity
 	}
 	
 	//------------------------------------------------------------------------------------------------	
+	int GetBalance(string bankAccountId)
+	{
+		int curMoneyAmount;
+		m_mBankAccounts.Find(bankAccountId, curMoneyAmount);
+		return curMoneyAmount;
+	}
+		
+	//------------------------------------------------------------------------------------------------	
 	void Deposit(string bankAccountId, int amount)
 	{
 		int curMoneyAmount;
 		m_mBankAccounts.Find(bankAccountId, curMoneyAmount);
 		m_mBankAccounts.Set(bankAccountId, curMoneyAmount + amount);
+		Print("New Acc balance: " + (curMoneyAmount + amount));
 	}	
 	
 	//------------------------------------------------------------------------------------------------	
@@ -69,7 +90,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 	{
 		int curMoneyAmount;
 		m_mBankAccounts.Find(bankAccountId, curMoneyAmount);
-		return (curMoneyAmount < amount);
+		return (curMoneyAmount >= amount);
 	}
 	
 	//------------------------------------------------------------------------------------------------	
