@@ -12,7 +12,7 @@ class EL_BankDepositDialog : EL_BankDialogBase
 	override protected void OnConfirm()
 	{
 		if (!m_wMoneyEditBox.GetText().IsEmpty())
-			m_BankManager.Deposit(m_BankManager.GetLocalPlayerBankAccount(), m_wMoneyEditBox.GetText().ToInt());
+			m_BankManager.GetLocalPlayerBankAccount().TryDeposit(m_wMoneyEditBox.GetText().ToInt());
 		super.OnConfirm();
 	}
 }
@@ -23,7 +23,7 @@ class EL_BankWithdrawDialog : EL_BankDialogBase
 	override protected void OnConfirm()
 	{
 		if (!m_wMoneyEditBox.GetText().IsEmpty())
-			m_BankManager.TryWithdraw(m_BankManager.GetLocalPlayerBankAccount(), m_wMoneyEditBox.GetText().ToInt());
+			m_BankManager.GetLocalPlayerBankAccount().TryWithdraw(m_wMoneyEditBox.GetText().ToInt());
 		super.OnConfirm();
 	}
 }
@@ -53,6 +53,8 @@ class EL_BankMenu : ChimeraMenuBase
     protected Widget m_wRoot;
 	protected TextWidget m_wCurrentCash, m_wCurrentBalance;
 	protected EL_GlobalBankAccountManager m_BankManager;
+	protected ResourceName m_BankAccountLayout = "{1C5799C6871DC397}UI/Layouts/Menus/Bank/BankAccountLayout.layout";
+	protected Widget m_wActiveAccount;
 	
 	//------------------------------------------------------------------------------------------------
 	void OpenDepositMenu()
@@ -76,22 +78,37 @@ class EL_BankMenu : ChimeraMenuBase
 	//------------------------------------------------------------------------------------------------
 	void UpdateCashText()
 	{
-		m_wCurrentCash.SetText(EL_FormatUtils.DecimalSeperator(EL_MoneyUtils.GetCash(SCR_PlayerController.GetLocalControlledEntity())));
+		m_wCurrentCash.SetText("$" + EL_FormatUtils.DecimalSeperator(EL_MoneyUtils.GetCash(SCR_PlayerController.GetLocalControlledEntity())));
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	void UpdateBalanceText()
 	{
-		m_wCurrentBalance.SetText(EL_FormatUtils.DecimalSeperator(m_BankManager.GetBalance(m_BankManager.GetLocalPlayerBankAccount())));
+		m_wCurrentBalance.SetText("$" + EL_FormatUtils.DecimalSeperator(m_BankManager.GetLocalPlayerBankAccount().GetBalance()));
 	}
-			
+	
+	//------------------------------------------------------------------------------------------------
+	void SetActiveAccount(SCR_ButtonBaseComponent comp, bool state)
+	{
+		comp.GetRootWidget();
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void AddNewAccount()
+	{
+		ButtonWidget accountButton =  ButtonWidget.Cast(GetGame().GetWorkspace().CreateWidgets(m_BankAccountLayout, m_wRoot.FindAnyWidget("AccountList")));
+		SCR_ButtonComponent accountButtonHandler = SCR_ButtonComponent.Cast(accountButton.FindHandler(SCR_ButtonComponent));
+		accountButtonHandler.m_OnToggled.Insert(SetActiveAccount);
+	}
+	
     //------------------------------------------------------------------------------------------------
     override void OnMenuOpen()
     {
         m_wRoot = GetRootWidget();
-
-		m_wCurrentCash = TextWidget.Cast(m_wRoot.FindAnyWidget("CurrentMoney"));
-		m_wCurrentBalance = TextWidget.Cast(m_wRoot.FindAnyWidget("CurrentBalance"));
+		m_wActiveAccount = m_wRoot;
+		
+		m_wCurrentCash = TextWidget.Cast(m_wActiveAccount.FindAnyWidget("CurrentMoney"));
+		m_wCurrentBalance = TextWidget.Cast(m_wActiveAccount.FindAnyWidget("CurrentBalance"));
 		
 		SCR_ButtonComponent depositButtonHandler = SCR_ButtonComponent.Cast(m_wRoot.FindAnyWidget("DepositButton").FindHandler(SCR_ButtonComponent));
 		SCR_ButtonComponent withdrawButtonHandler = SCR_ButtonComponent.Cast(m_wRoot.FindAnyWidget("WithdrawButton").FindHandler(SCR_ButtonComponent));
@@ -104,6 +121,9 @@ class EL_BankMenu : ChimeraMenuBase
 		exitButtonHandler.m_OnClicked.Insert(Close);
 		
 		m_BankManager = EL_GlobalBankAccountManager.GetInstance();
+		
+		AddNewAccount();
+		AddNewAccount();
 
     }
 

@@ -1,4 +1,4 @@
-modded class EL_ProcessAction
+/*modded class EL_ProcessAction
 {
 	//------------------------------------------------------------------------------------------------
 	//! TODO: Remove once https://feedback.bistudio.com/T168813 is fixed
@@ -14,3 +14,4 @@ modded class EL_ProcessAction
 		super.ConsumeInput(input, pUserEntity, inventoryManager);
 	}
 }
+*/

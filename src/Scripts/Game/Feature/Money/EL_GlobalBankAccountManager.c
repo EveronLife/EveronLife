@@ -5,8 +5,7 @@ class EL_GlobalBankAccountManagerClass : GenericEntityClass
 
 class EL_GlobalBankAccountManager : GenericEntity
 {
-	//<BankAccID, moneyAmount>
-	protected ref map<string, int> m_mBankAccounts = new ref map<string, int>;
+	protected ref array<ref EL_BankAccount> m_aBankAccounts = new array<ref EL_BankAccount>;
 	
 	protected static EL_GlobalBankAccountManager s_pInstance;
 		
@@ -23,76 +22,66 @@ class EL_GlobalBankAccountManager : GenericEntity
 	}
 		
 	//------------------------------------------------------------------------------------------------
-	string GetLocalPlayerBankAccount()
+	EL_BankAccount GetLocalPlayerBankAccount()
 	{
 		return GetPlayerBankAccount(SCR_PlayerController.GetLocalControlledEntity());
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	string GetPlayerBankAccount(IEntity player)
+	EL_BankAccount GetPlayerBankAccount(IEntity player)
 	{
-		string bankAccountId = "BankAccount-" + EL_Utils.GetPlayerUID(player);
-		if (!m_mBankAccounts.Contains(bankAccountId)) //SET DEFAULT VALUE -> TODO: PUT THIS INTO FIRST SPAWN (GAMEMODE)?
-			m_mBankAccounts.Set(bankAccountId, 1000);
-		return bankAccountId;
-	}	
+		int playerAccountId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
+		foreach (ref EL_BankAccount account : m_aBankAccounts)
+		{
+			if (account.GetId() == playerAccountId)
+				return account;
+		}
 		
-	//------------------------------------------------------------------------------------------------
-	void SetBankAccounts(map<string, int> bankAccounts)
-	{
-		m_mBankAccounts = bankAccounts;
-	}	
-		
-	//------------------------------------------------------------------------------------------------
-	map<string, int> GetBankAccounts()
-	{
-		return m_mBankAccounts;
+		return CreateBankAccount(player);
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	int GetBankAccountMoney(string bankAccountId)
+	EL_BankAccount GetPlayerBankAccount(int playerAccountId)
 	{
-		int moneyAmount;
-		m_mBankAccounts.Find(bankAccountId, moneyAmount);
-		return moneyAmount;
-	}
-	
-	//------------------------------------------------------------------------------------------------	
-	int GetBalance(string bankAccountId)
-	{
-		int curMoneyAmount;
-		m_mBankAccounts.Find(bankAccountId, curMoneyAmount);
-		return curMoneyAmount;
-	}
+		foreach (ref EL_BankAccount account : m_aBankAccounts)
+		{
+			if (account.GetId() == playerAccountId)
+				return account;
+		}
 		
-	//------------------------------------------------------------------------------------------------	
-	void Deposit(string bankAccountId, int amount)
+		return CreateBankAccount(playerAccountId);
+	}	
+		
+	//------------------------------------------------------------------------------------------------
+	void SetBankAccounts(array<ref EL_BankAccount> bankAccounts)
 	{
-		int curMoneyAmount;
-		m_mBankAccounts.Find(bankAccountId, curMoneyAmount);
-		m_mBankAccounts.Set(bankAccountId, curMoneyAmount + amount);
-		Print("New Acc balance: " + (curMoneyAmount + amount));
+		m_aBankAccounts = bankAccounts;
+	}	
+		
+	//------------------------------------------------------------------------------------------------
+	array<ref EL_BankAccount> GetBankAccounts()
+	{
+		return m_aBankAccounts;
 	}	
 	
-	//------------------------------------------------------------------------------------------------	
-	bool TryWithdraw(string bankAccountId, int amount)
+	//------------------------------------------------------------------------------------------------
+	EL_BankAccount CreateBankAccount(IEntity player)
 	{
-		int curMoneyAmount;
-		m_mBankAccounts.Find(bankAccountId, curMoneyAmount);
-		if (curMoneyAmount < amount)
-			return false;
-		m_mBankAccounts.Set(bankAccountId, curMoneyAmount - amount);
-		return true;
+		EL_BankAccount newAccount = new EL_BankAccount(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player), 1000);
+		m_aBankAccounts.Insert(newAccount);
+		
+		return newAccount;
 	}
 		
-	//------------------------------------------------------------------------------------------------	
-	bool CanWithdraw(string bankAccountId, int amount)
+	//------------------------------------------------------------------------------------------------
+	EL_BankAccount CreateBankAccount(int playerId)
 	{
-		int curMoneyAmount;
-		m_mBankAccounts.Find(bankAccountId, curMoneyAmount);
-		return (curMoneyAmount >= amount);
+		EL_BankAccount newAccount = new EL_BankAccount(playerId, 1000);
+		m_aBankAccounts.Insert(newAccount);
+		
+		return newAccount;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------	
 	void EL_GlobalBankAccountManager(IEntitySource src, IEntity parent) 
 	{

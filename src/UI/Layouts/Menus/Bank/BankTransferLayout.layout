@@ -21,7 +21,8 @@ FrameWidgetClass {
       HorizontalAlign 3
       VerticalAlign 3
      }
-     Color 0.133 0.133 0.133 0.686
+     Color 0.133 0.133 0.133 1
+     Size 5000 2300
     }
     VerticalLayoutWidgetClass "{5B3ADC33A2C0462F}" {
      Name "VerticalLayout0"
