@@ -36,9 +36,9 @@ modded class SCR_CharacterInventoryStorageComponent
 	protected void EL_SyncQuickSlots()
 	{
 		array<RplId> rplIds();
-		rplIds.Resize(m_aQuickSlots.Count());
+		rplIds.Reserve(m_aQuickSlots.Count());
 
-		foreach (int idx, IEntity quickSlotItem : m_aQuickSlots)
+		foreach (IEntity quickSlotItem : m_aQuickSlots)
 		{
 			RplId rplId = RplId.Invalid();
 
@@ -48,7 +48,7 @@ modded class SCR_CharacterInventoryStorageComponent
 				if (replication) rplId = replication.Id();
 			}
 
-			rplIds.Set(idx, rplId);
+			rplIds.Insert(rplId);
 		}
 
 		Rpc(EL_Rpc_UpdateQuickSlotItems, rplIds);

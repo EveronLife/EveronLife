@@ -45,8 +45,6 @@ modded class ScriptedInventoryStorageManagerComponent
 
 			ScriptInvoker invoker = m_mELItemCountInvokers.Get(prefab);
 			if (invoker && newTotal != previous) invoker.Invoke(prefab, newTotal, previous);
-
-			PrintFormat(ToString()+"::OnAmountChanged(%1, %2, %3)", prefab, newTotal, previous);
 		}
 
 		m_aELPendingItemRecountTypes = null;
@@ -86,5 +84,61 @@ modded class ScriptedInventoryStorageManagerComponent
 	protected event void EL_HandleOnQuantityChanged(EL_QuantityComponent quantityComponent)
 	{
 		EL_RecountItemsDebounced(EL_Utils.GetPrefabName(quantityComponent.GetOwner()));
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void EL_RequestQuantitySplit(notnull IEntity sourceEntity, int splitSize = -1)
+	{
+		Rpc(RPC_EL_RequestQuantitySplit, EL_NetworkUtils.GetRplId(sourceEntity), splitSize);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RPC_EL_RequestQuantitySplit(RplId quantitySourceRplId, int splitSize)
+	{
+		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
+		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
+		quantitySource.Split(splitSize);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void EL_RequestQuantityTransfer(notnull IEntity sourceEntity, notnull IEntity destinationEntity, int amount = -1)
+	{
+		Rpc(RPC_EL_QuantityTransfer, EL_NetworkUtils.GetRplId(sourceEntity), EL_NetworkUtils.GetRplId(destinationEntity), amount);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RPC_EL_QuantityTransfer(RplId quantitySourceRplId, RplId quantityDestinationRplId, int amount)
+	{
+		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
+		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
+
+		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantityDestinationRplId));
+		if (!quantityDestination || !EL_CanManipulate(quantityDestination.GetOwner())) return;
+
+		quantityDestination.Combine(quantitySource, amount);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void EL_SetTransferIntent(notnull IEntity sourceEntity, bool keepSeperate)
+	{
+		Rpc(RPC_EL_SetTransferIntent, EL_NetworkUtils.GetRplId(sourceEntity), keepSeperate);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	protected void RPC_EL_SetTransferIntent(RplId sourceRplId, bool keepSeperate)
+	{
+		IEntity sourceEntity = EL_NetworkUtils.FindEntityByRplId(sourceRplId);
+		if (!sourceEntity || !EL_CanManipulate(sourceEntity)) return;
+		EL_QuantityComponent.SetTransferIntent(sourceEntity, keepSeperate);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool EL_CanManipulate(IEntity entity)
+	{
+		const int maxManipulationRange = 10;
+		return (vector.Distance(entity.GetOrigin(), GetOwner().GetOrigin()) < maxManipulationRange);
 	}
 }
