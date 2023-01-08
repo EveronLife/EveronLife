@@ -3,9 +3,11 @@ A vehicle shop needs an Entity with the <EL_VehicleShopManagerComponent> to open
 This Entity needs to be a child of another Entity e.g. a building. 
 The Building needs to have one or more spawn points (Prefab: <EL_VehicleSpawnPoint>)
 
+A preview building (e.g Prefabs/Buildings/VehicleShop/VEHICLE_SHOP_PREVIEW.et) needs to be placed in the world (Best to put far away. e.g pos: 0,100,0). You need to set a name in the object properties on the top right.
+
 ## EL_VehicleShopManagerComponent
 Variables:
-Shop Preview Building Name -> The name of the preview building where the vehicle previews are spawned (Best to put far away. like 0,100,0)
+Shop Preview Building Name -> The name of the preview building where the vehicle previews are spawned 
 Empty Vehicle Preview -> The prefab for the empty preview
 Vehicle Shop Camera -> The prefab for the preview building camera
 Camera Point/Angles -> The pos / rotation for the camera in the building (To face the preview vehicle)
