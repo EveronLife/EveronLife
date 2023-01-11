@@ -48,9 +48,7 @@ class EL_ShopItemComponent : ScriptComponent
 			foreach (EL_Price price : shopConfig.m_aPriceConfigs)
 			{
 				if (price.m_Prefab == m_ShopItemPrefab)
-				{
 					return price;
-				}
 			}
 		}
 		return null;
@@ -61,23 +59,37 @@ class EL_ShopItemComponent : ScriptComponent
 	override void EOnInit(IEntity owner)
 	{
 		if (!m_ShopItemPrefab)
+		{
+			Print(string.Format("[EL-ItemShop] Empty shop item (m_ShopItemPrefab not set).", m_ShopItemPrefab), LogLevel.WARNING);
 			return;
+		}
 
-		//Create Mesh
+		//Create new mesh from m_ShopItemPrefab
 		if (!owner.GetVObject())
 		{
-			owner.SetObject(EL_PrefabUtils.GetPrefabVObject(m_ShopItemPrefab), "");
+			VObject shopItemVObject = EL_PrefabUtils.GetPrefabVObject(m_ShopItemPrefab);
+			if (!shopItemVObject)
+			{
+				Print(string.Format("[EL-ItemShop] No VObject found in %1", m_ShopItemPrefab), LogLevel.WARNING);
+				return;
+			}
+			owner.SetObject(shopItemVObject, "");
 		}
 
 		//Create Hitbox
-		Physics phys = Physics.CreateStatic(owner, -1);
+		Physics phys = Physics.CreateStatic(owner);
+		if (!phys)
+		{
+			Print(string.Format("[EL-ItemShop] Unable to create Physics for %1 (No geometry embedded in m_ShopItemPrefab / mesh?)", owner.GetVObject()), LogLevel.WARNING);
+			return;
+		}
+
 		phys.SetInteractionLayer(EPhysicsLayerPresets.FireGeo);
 		owner.SetFlags(EntityFlags.ACTIVE, false);
 
-
 		m_ShopItemPriceConfig = FindPrefabShopItemConfig();
 		if (!m_ShopItemPriceConfig)
-			Print("No price config found for prefab: " + m_ShopItemPrefab ,LogLevel.WARNING);
+			Print("[EL-ItemShop] No price config found for prefab: " + m_ShopItemPrefab, LogLevel.WARNING);
 
 		m_ShopItemEntity = GetGame().SpawnEntityPrefab(Resource.Load(m_ShopItemPrefab));
 	}

@@ -302,8 +302,8 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
       RplComponent "{59C4F4898DA2E09B}" {
       }
      }
-     coords 0.053 0.829 0.241
-     angleY 90
+     coords 0.229 0.838 0.257
+     angleY -90
      angleZ 90
     }
     {

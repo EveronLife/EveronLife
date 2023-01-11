@@ -61,6 +61,9 @@ class EL_PrefabUtils
 		}
 		ResourceName prefabObject;
 		meshComponent.Get("Object", prefabObject);
+		if (!prefabObject)
+			return null;
+		
 		return Resource.Load(prefabObject).GetResource().ToVObject();
 	}
 }
