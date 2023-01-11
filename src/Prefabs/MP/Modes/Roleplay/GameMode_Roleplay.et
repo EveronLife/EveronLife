@@ -36,6 +36,7 @@ EL_GameModeRoleplay {
   SCR_HintManagerComponent "{59E8CC4E575D1802}" {
   }
   SCR_NametagConfigComponent "{597514328498E41D}" {
+   Enabled 0
    m_sConfigPath "{8547E1B142411624}Configs/NameTags/NametagRoleplay.conf"
   }
   RplComponent "{597514327E500A0C}" {
