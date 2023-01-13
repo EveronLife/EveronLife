@@ -5,10 +5,11 @@ class EL_GlobalBankAccountManagerClass : GenericEntityClass
 
 class EL_GlobalBankAccountManager : GenericEntity
 {
-	protected ref array<ref EL_BankAccount> m_aBankAccounts = new array<ref EL_BankAccount>;
+	protected ref array<ref EL_BankAccount> m_aBankAccounts;
 	
 	protected static EL_GlobalBankAccountManager s_pInstance;
-		
+	EL_BankAccount m_LocalBankAccount;
+	
 	//------------------------------------------------------------------------------------------------
 	static EL_GlobalBankAccountManager GetInstance()
 	{
@@ -20,7 +21,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 	{
 		EL_BankMenu.Cast(GetGame().GetMenuManager().OpenMenu(ChimeraMenuPreset.EL_BankMenu));
 	}
-		
+
 	//------------------------------------------------------------------------------------------------
 	EL_BankAccount GetLocalPlayerBankAccount()
 	{
@@ -30,32 +31,39 @@ class EL_GlobalBankAccountManager : GenericEntity
 	//------------------------------------------------------------------------------------------------
 	EL_BankAccount GetPlayerBankAccount(IEntity player)
 	{
-		int playerAccountId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
-		foreach (ref EL_BankAccount account : m_aBankAccounts)
-		{
-			if (account.GetId() == playerAccountId)
-				return account;
-		}
-		
-		return CreateBankAccount(player);
+		//return GetPlayerBankAccount(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player));
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	EL_BankAccount GetPlayerBankAccount(int playerAccountId)
+	//! Called from Authority
+	void LoadPlayerBankAccount(int playerAccountId)
 	{
-		foreach (ref EL_BankAccount account : m_aBankAccounts)
+		foreach (EL_BankAccount account : m_aBankAccounts)
 		{
 			if (account.GetId() == playerAccountId)
-				return account;
+				Rpc(SetPlayerBankAccount, account);
 		}
 		
-		return CreateBankAccount(playerAccountId);
+		//return CreateBankAccount(playerAccountId);
 	}	
-		
+	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void SetPlayerBankAccount(EL_BankAccount account)
+	{
+		m_LocalBankAccount = account;
+	}
+	
 	//------------------------------------------------------------------------------------------------
 	void SetBankAccounts(array<ref EL_BankAccount> bankAccounts)
 	{
+		Print("Loading Bank accounts persisent..");
 		m_aBankAccounts = bankAccounts;
+		
+		foreach (EL_BankAccount account : m_aBankAccounts)
+		{
+			Print("transactions in account: " + account.m_aTransactions.Count());
+		}
 	}	
 		
 	//------------------------------------------------------------------------------------------------
@@ -67,16 +75,16 @@ class EL_GlobalBankAccountManager : GenericEntity
 	//------------------------------------------------------------------------------------------------
 	EL_BankAccount CreateBankAccount(IEntity player)
 	{
-		EL_BankAccount newAccount = new EL_BankAccount(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player), 1000);
+		EL_BankAccount newAccount = EL_BankAccount.Create(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player), 1000);
 		m_aBankAccounts.Insert(newAccount);
 		
 		return newAccount;
 	}
 		
 	//------------------------------------------------------------------------------------------------
-	EL_BankAccount CreateBankAccount(int playerId)
+	ref EL_BankAccount CreateBankAccount(int playerId)
 	{
-		EL_BankAccount newAccount = new EL_BankAccount(playerId, 1000);
+		EL_BankAccount newAccount = EL_BankAccount.Create(playerId, 1000);
 		m_aBankAccounts.Insert(newAccount);
 		
 		return newAccount;
@@ -86,7 +94,9 @@ class EL_GlobalBankAccountManager : GenericEntity
 	void EL_GlobalBankAccountManager(IEntitySource src, IEntity parent) 
 	{
 		s_pInstance = this;
+		m_aBankAccounts = new array<ref EL_BankAccount>();
+		
 		SetEventMask(EntityEvent.INIT);
-		SetFlags(EntityFlags.ACTIVE, true);
+		SetFlags(EntityFlags.ACTIVE, false);
 	}
 }

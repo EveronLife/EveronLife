@@ -66,37 +66,16 @@ SizeLayoutWidgetClass {
           }
          }
         }
-        VerticalLayoutWidgetClass "{5C44E1E5C475616B}" {
-         Name "VerticalLayout0"
-         Slot LayoutSlot "{5C44E1E5C47566BC}" {
+        TextWidgetClass "{5C44E1E50E09490E}" {
+         Name "Date"
+         Slot LayoutSlot "{5C44E1E4170A2E50}" {
           Padding 0 0 0 0
-          FillWeight 10
          }
-         "Fill Origin" Center
-         {
-          TextWidgetClass "{5C44E1E50E09490E}" {
-           Name "Date"
-           Slot LayoutSlot "{5C44E1E4170A2E50}" {
-            Padding 0 0 0 0
-           }
-           Text "01.01.2023"
-           "Font Size" 20
-           "Min Font Size" 20
-           "Horizontal Alignment" Right
-           "Vertical Alignment" Center
-          }
-          TextWidgetClass "{5C44E1E5C7B06D77}" {
-           Name "Time"
-           Slot LayoutSlot "{5C44E1E4170A2E50}" {
-            Padding 0 0 0 0
-           }
-           Text "00:00"
-           "Font Size" 15
-           "Min Font Size" 15
-           "Horizontal Alignment" Right
-           "Vertical Alignment" Center
-          }
-         }
+         Text "01.01.2023"
+         "Font Size" 20
+         "Min Font Size" 20
+         "Horizontal Alignment" Right
+         "Vertical Alignment" Center
         }
        }
       }

@@ -7,13 +7,15 @@ ButtonWidgetClass {
  }
  Color 0.021 0.061 0.223 1
  components {
-  SCR_ButtonComponent "{5C42E2E3A295B7C6}" {
+  SCR_ModularButtonComponent "{5C4CCC1F36B23C28}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5C588072DD4B9EFD}" {
+     m_sWidgetName "Background"
+     m_cHovered 0 0.502 0.502 1
+    }
+   }
    m_bCanBeToggled 1
-   m_BackgroundDefault 0.021 0.061 0.223 1
-   m_BackgroundHovered 0.036 0.099 0.354 1
-   m_BackgroundSelected 0.058 0.044 0.423 1
-   m_BackgroundSelectedHovered 0.058 0.044 0.423 1
-   m_bShowBorderOnFocus 0
+   m_eEventReturnValue 2147483585
   }
  }
  Switch toggle

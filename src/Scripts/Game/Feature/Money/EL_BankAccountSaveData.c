@@ -1,7 +1,7 @@
 [EL_DbName(EL_BankAccountSaveData, "BankAccount"), BaseContainerProps()]
 class EL_BankAccountSaveData : EL_EntitySaveDataBase
 {
-	protected ref array<ref EL_BankAccount> m_aBankAccounts = new array<ref EL_BankAccount>;
+	protected ref array<ref EL_BankAccount> m_aBankAccounts = new array<ref EL_BankAccount>();
 
 	//------------------------------------------------------------------------------------------------
 	override bool ReadFrom(notnull IEntity worldEntity)

@@ -54,7 +54,9 @@ class EL_BankMenu : ChimeraMenuBase
 	protected TextWidget m_wCurrentCash, m_wCurrentBalance;
 	protected EL_GlobalBankAccountManager m_BankManager;
 	protected ResourceName m_BankAccountLayout = "{1C5799C6871DC397}UI/Layouts/Menus/Bank/BankAccountLayout.layout";
+	protected ResourceName m_TransactionLayout = "{E1F963FC9CE9C768}UI/Layouts/Menus/Bank/BankTransactionLayout.layout";
 	protected Widget m_wActiveAccount;
+	protected ref array<ref Widget> m_aAccountWidgets = new array<ref Widget>();
 	
 	//------------------------------------------------------------------------------------------------
 	void OpenDepositMenu()
@@ -82,32 +84,112 @@ class EL_BankMenu : ChimeraMenuBase
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void UpdateBalanceText()
+	void UpdateBalanceText(Widget accountWidget, EL_BankAccount account)
 	{
-		m_wCurrentBalance.SetText("$" + EL_FormatUtils.DecimalSeperator(m_BankManager.GetLocalPlayerBankAccount().GetBalance()));
+		TextWidget accountBalanceWidget = TextWidget.Cast(accountWidget.FindAnyWidget("CurrentBalance"));
+		accountBalanceWidget.SetText("$" + EL_FormatUtils.DecimalSeperator(account.GetBalance()));
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void SetActiveAccount(SCR_ButtonBaseComponent comp, bool state)
+	void OnAccountButtonToggle(SCR_ModularButtonComponent comp, bool active)
 	{
-		comp.GetRootWidget();
+		Print("toggled: " + comp);
+		
+		if (!active)
+			return;
+		
+		m_wActiveAccount = comp.GetRootWidget();
+		
+		SCR_ModularButtonComponent activeAccountHandler = SCR_ModularButtonComponent.Cast(m_wActiveAccount.FindHandler(SCR_ModularButtonComponent));
+		EL_BankAccount account = EL_BankAccount.Cast(activeAccountHandler.GetData());
+		Print("New active account: " + account.GetId());
+		//Deativate all other widgets
+		foreach (Widget accountButton : m_aAccountWidgets)
+		{
+			SCR_ModularButtonComponent accountWidgetHandler = SCR_ModularButtonComponent.Cast(accountButton.FindHandler(SCR_ModularButtonComponent));
+			accountWidgetHandler.SetToggled(false, false);
+			Print("yeet " + accountWidgetHandler)
+		}
+		
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void AddNewAccount()
+	Widget AddNewAccount(EL_BankAccount account)
 	{
-		ButtonWidget accountButton =  ButtonWidget.Cast(GetGame().GetWorkspace().CreateWidgets(m_BankAccountLayout, m_wRoot.FindAnyWidget("AccountList")));
-		SCR_ButtonComponent accountButtonHandler = SCR_ButtonComponent.Cast(accountButton.FindHandler(SCR_ButtonComponent));
-		accountButtonHandler.m_OnToggled.Insert(SetActiveAccount);
+		Widget newAccountWidget = Widget.Cast(GetGame().GetWorkspace().CreateWidgets(m_BankAccountLayout, m_wRoot.FindAnyWidget("AccountList")));
+		
+		SCR_ModularButtonComponent newAccountWidgetHandler = SCR_ModularButtonComponent.Cast(newAccountWidget.FindHandler(SCR_ModularButtonComponent));
+		newAccountWidgetHandler.m_OnToggled.Insert(OnAccountButtonToggle);
+		newAccountWidgetHandler.SetData(account);
+		
+		TextWidget accountIdWidget = TextWidget.Cast(newAccountWidget.FindAnyWidget("AccoundIDText"));
+		accountIdWidget.SetText("Account: " + account.GetId().ToString());
+
+		UpdateBalanceText(newAccountWidget, account);
+		m_aAccountWidgets.Insert(newAccountWidget);
+		
+		return newAccountWidget;
+	}
+		
+	//------------------------------------------------------------------------------------------------
+	void UpdateTransactions()
+	{
+		Widget transactionList = m_wRoot.FindAnyWidget("TransactionList");
+		
+		//Clear List
+		Widget child = transactionList.GetChildren();
+		Widget childtemp;
+		while (child)
+		{
+			childtemp = child;
+			child = child.GetSibling();
+			childtemp.RemoveFromHierarchy();
+		}
+		
+		//Populate List
+		foreach (EL_BankTransaction transaction : m_BankManager.GetLocalPlayerBankAccount().m_aTransactions)
+		{			
+			AddNewTransaction(transaction);
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void AddNewTransaction(EL_BankTransaction transaction)
+	{
+		Widget transactionWidget =  Widget.Cast(GetGame().GetWorkspace().CreateWidgets(m_TransactionLayout, m_wRoot.FindAnyWidget("TransactionList")));
+		TextWidget dateText = TextWidget.Cast(transactionWidget.FindAnyWidget("Date"));
+		TextWidget moneyText = TextWidget.Cast(transactionWidget.FindAnyWidget("MoneyText"));
+		
+		dateText.SetText(transaction.m_iDate);
+		if (transaction.m_iAmount < 0)
+		{
+			moneyText.SetTextFormat("+ %1", transaction.m_iAmount.ToString());
+			moneyText.SetColor(Color.DarkGreen);
+		}	
+		else
+		{
+			moneyText.SetTextFormat("- %1", transaction.m_iAmount.ToString());
+			moneyText.SetColor(Color.DarkRed);
+		}
 	}
 	
     //------------------------------------------------------------------------------------------------
     override void OnMenuOpen()
     {
         m_wRoot = GetRootWidget();
-		m_wActiveAccount = m_wRoot;
+		m_BankManager = EL_GlobalBankAccountManager.GetInstance();
 		
-		m_wCurrentCash = TextWidget.Cast(m_wActiveAccount.FindAnyWidget("CurrentMoney"));
+		//Always add personal player account
+		Widget defaultAccount = AddNewAccount(m_BankManager.GetLocalPlayerBankAccount());
+		m_wActiveAccount = defaultAccount;
+		
+		SCR_ModularButtonComponent newAccountWidgetHandler = SCR_ModularButtonComponent.Cast(defaultAccount.FindHandler(SCR_ModularButtonComponent));
+		newAccountWidgetHandler.SetToggled(true);
+		
+		//TODO: Add all other accounts that this player has access to..
+		//m_BankManager.GetBankAccountWithAccess()....
+		
+		m_wCurrentCash = TextWidget.Cast(m_wRoot.FindAnyWidget("CurrentMoney"));
 		m_wCurrentBalance = TextWidget.Cast(m_wActiveAccount.FindAnyWidget("CurrentBalance"));
 		
 		SCR_ButtonComponent depositButtonHandler = SCR_ButtonComponent.Cast(m_wRoot.FindAnyWidget("DepositButton").FindHandler(SCR_ButtonComponent));
@@ -119,18 +201,14 @@ class EL_BankMenu : ChimeraMenuBase
 		withdrawButtonHandler.m_OnClicked.Insert(OpenWithdrawMenu);
 		transferButtonHandler.m_OnClicked.Insert(OpenTransferMenu);
 		exitButtonHandler.m_OnClicked.Insert(Close);
-		
-		m_BankManager = EL_GlobalBankAccountManager.GetInstance();
-		
-		AddNewAccount();
-		AddNewAccount();
-
     }
 
 	//------------------------------------------------------------------------------------------------
 	override void OnMenuFocusGained()
 	{
 		UpdateCashText();
-		UpdateBalanceText();
+		//TODO: Update All accounts later here:
+		UpdateBalanceText(m_wActiveAccount, m_BankManager.GetLocalPlayerBankAccount());
+		UpdateTransactions();
 	}
 }

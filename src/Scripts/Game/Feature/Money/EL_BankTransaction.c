@@ -1,15 +1,24 @@
 class EL_BankTransaction
 {
-	protected int m_iAmount;
-	protected int m_iDate;
-	protected int m_iSourceAccount;
-	protected int m_iTargetAccount;
+	int m_iAmount;
+	string m_iDate;
+	int m_iSourceAccount;
+	int m_iTargetAccount;
 	
-	void EL_BankAccount(int amount, int date, int sourceAccount, int targetAccoutn)
+	//------------------------------------------------------------------------------------------------
+	static EL_BankTransaction Create(int amount, int sourceAccount, int targetAccount, string dateFormat = "")
 	{
-		m_iAmount = id;
-		m_iDate = date;
-		m_iSourceAccount = sourceAccount;
-		m_iTargetAccount = targetAccoutn;
+		if (dateFormat.IsEmpty())
+			dateFormat = SCR_DateTimeHelper.GetDateTimeUTC();
+		
+		EL_BankTransaction bankTransaction();
+		bankTransaction.m_iAmount = amount;
+		bankTransaction.m_iDate = dateFormat; //Current: "yyyy-mm-dd hh:ii:ss" -> Unix timestamp here if avail
+		bankTransaction.m_iSourceAccount = sourceAccount;
+		bankTransaction.m_iTargetAccount = targetAccount;
+		return bankTransaction;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	void EL_BankTransaction() {}	
 }
