@@ -46,6 +46,8 @@ class EL_PrefabUtils
 	static VObject GetPrefabVObject(ResourceName prefab)
 	{
 		IEntityComponentSource itemComponentSource = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), "MeshObject");
+		if (!itemComponentSource)
+			return null;
 		ResourceName resourceNameObject;
 		itemComponentSource.Get("Object", resourceNameObject);
 		return Resource.Load(resourceNameObject).GetResource().ToVObject();
