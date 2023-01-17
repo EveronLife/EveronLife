@@ -11,7 +11,6 @@ class EL_ShopItemComponent : ScriptComponent
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Item to sell / buy here", "et")]
 	protected ResourceName m_ShopItemPrefab;
 
-	protected IEntity m_ShopItemEntity;
 	protected EL_Price m_ShopItemPriceConfig;
 
 	//------------------------------------------------------------------------------------------------
@@ -82,8 +81,6 @@ class EL_ShopItemComponent : ScriptComponent
 		m_ShopItemPriceConfig = FindPrefabShopItemConfig();
 		if (!m_ShopItemPriceConfig)
 			Print("[EL-ItemShop] No price config found for prefab: " + m_ShopItemPrefab, LogLevel.WARNING);
-
-		m_ShopItemEntity = GetGame().SpawnEntityPrefab(Resource.Load(m_ShopItemPrefab));
 	}
 
 	//------------------------------------------------------------------------------------------------
