@@ -64,7 +64,7 @@ class EL_BuyItemAction : ScriptedUserAction
 			SetCannotPerformReason("Inventory full");
 			return false;
 		}
-		
+
 		return true;
 	}
 

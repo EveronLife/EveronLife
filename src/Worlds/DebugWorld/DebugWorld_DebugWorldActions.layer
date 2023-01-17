@@ -145,6 +145,15 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
       EL_ShopItemComponent "{5AC6DBF94189D860}" {
        m_ShopItemPrefab "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et"
       }
+      InventoryItemComponent "{5B1733B735196E46}" {
+       Attributes SCR_ItemAttributeCollection "{5B1733B734927C76}" {
+        ItemPhysAttributes ItemPhysicalAttributes "{5B1733B748B4EFD1}" {
+         SizeSetupStrategy Manual
+         ItemDimensions 0 0 0
+         ItemVolume 0
+        }
+       }
+      }
       MeshObject "{59C4F48745893DBF}" {
       }
       ActionsManagerComponent "{59C4F487641A3025}" {

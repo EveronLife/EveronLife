@@ -8,10 +8,14 @@ GenericEntity {
   InventoryItemComponent "{5B1733B735196E46}" {
    Attributes SCR_ItemAttributeCollection "{5B1733B734927C76}" {
     ItemPhysAttributes ItemPhysicalAttributes "{5B1733B748B4EFD1}" {
+     Weight 0
+     SizeSetupStrategy Volume
+     ItemDimensions 1 1 1
+     ItemVolume 0
      DimensionScaler 0
      ActivePhysicalSimulation None
     }
-    m_SlotType SLOT_LOADOUT_STORAGE
+    m_SlotType SLOT_ANY
     m_bDraggable 0
     m_bVisible 0
    }
