@@ -9,7 +9,9 @@ GenericEntity {
    Attributes SCR_ItemAttributeCollection "{5B1733B734927C76}" {
     ItemPhysAttributes ItemPhysicalAttributes "{5B1733B748B4EFD1}" {
      DimensionScaler 0
+     ActivePhysicalSimulation None
     }
+    m_SlotType SLOT_LOADOUT_STORAGE
     m_bDraggable 0
     m_bVisible 0
    }

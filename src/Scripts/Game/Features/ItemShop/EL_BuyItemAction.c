@@ -5,7 +5,6 @@ class EL_BuyItemAction : ScriptedUserAction
 
 	protected EL_Price m_ItemPriceConfig;
 	protected ResourceName m_BuyablePrefab;
-	protected IEntity m_BuyableEntity;
 
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
@@ -17,13 +16,8 @@ class EL_BuyItemAction : ScriptedUserAction
 		controller.TryPlayItemGesture(EItemGesture.EItemGesturePickUp);
 
 		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-		SCR_HintManagerComponent hintManager = SCR_HintManagerComponent.GetInstance();
-
 		for (int i; i < m_iBuyAmount; i++)
 		{
-			if (!inventoryManager.CanInsertItem(GetOwner()))
-				return;
-
 			EL_InventoryUtils.AddAmount(pUserEntity, m_BuyablePrefab, 1);
 			EL_MoneyUtils.RemoveCash(pUserEntity, m_ItemPriceConfig.m_iBuyPrice);
 		}
@@ -42,23 +36,35 @@ class EL_BuyItemAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
  	{
-		if (!m_ItemPriceConfig || !m_BuyablePrefab || !m_BuyableEntity)
+		if (!m_ItemPriceConfig || !m_BuyablePrefab)
 			return false;
 
-		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
-
-		if (!inventoryManager.CanInsertItem(GetOwner()))
-		{
-			SetCannotPerformReason("Inventory full");
-			return false;
-		}
-
+		//1. Check money
 		if(EL_MoneyUtils.GetCash(user) < m_ItemPriceConfig.m_iBuyPrice * m_iBuyAmount)
 		{
 			SetCannotPerformReason("Can't afford");
 			return false;
 		}
 
+		//2. Check free equipment slots
+		IEntityComponentSource clothComponentSource = SCR_BaseContainerTools.FindComponentSource(Resource.Load(m_BuyablePrefab), BaseLoadoutClothComponent);
+		if (clothComponentSource)
+		{
+			LoadoutAreaType areaType;
+			clothComponentSource.Get("AreaType", areaType);
+			BaseLoadoutManagerComponent loadoutManager = EL_ComponentFinder<BaseLoadoutManagerComponent>.Find(user);
+			if (loadoutManager.IsAreaAvailable(areaType.Type()))
+				return true;
+		}
+
+		//3. Check free inventory space
+		SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
+		if (!inventoryManager.CanInsertItem(GetOwner()))
+		{
+			SetCannotPerformReason("Inventory full");
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -79,13 +85,10 @@ class EL_BuyItemAction : ScriptedUserAction
 	{
 		EL_ShopItemComponent shopItemComponent = EL_ShopItemComponent.Cast(pOwnerEntity.FindComponent(EL_ShopItemComponent));
 		m_BuyablePrefab = shopItemComponent.GetShopItemPrefab();
-		m_BuyableEntity = shopItemComponent.GetShopItemEntity();
 		m_ItemPriceConfig = shopItemComponent.GetShopItemPriceConfig();
-		
-		
+
 		InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(pOwnerEntity);
 		invItem.SetAdditionalVolume(EL_PrefabUtils.GetPrefabItemVolume(m_BuyablePrefab));
 		invItem.SetAdditionalWeight(EL_PrefabUtils.GetPrefabItemWeight(m_BuyablePrefab));
-
 	}
 }

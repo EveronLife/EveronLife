@@ -72,6 +72,68 @@ GenericEntity {
   }
  }
 }
+$grp GenericEntity : "{9FB5EAB365566A77}Prefabs/ItemShop/ShopItem.et" {
+ {
+  components {
+   EL_ShopItemComponent "{5AC6DBF94189D860}" {
+    m_ShopsConfig EL_ShopsConfig "{5B1087A47B9AA61D}" {
+     m_aShopConfigs {
+      EL_ShopConfig "{5B1087A46388A189}" {
+       m_aPriceConfigs {
+        EL_Price "{5C62F31760CFBCA1}" {
+         m_Prefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+         m_iBuyPrice 0
+        }
+       }
+      }
+     }
+    }
+    m_ShopItemPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+   }
+   MeshObject "{59C4F48745893DBF}" {
+   }
+   ActionsManagerComponent "{59C4F487641A3025}" {
+    additionalActions {
+    }
+   }
+   RplComponent "{59C4F4898DA2E09B}" {
+   }
+  }
+  coords 113.612 0.109 140.339
+  angleY -180
+ }
+ {
+  components {
+   EL_ShopItemComponent "{5AC6DBF94189D860}" {
+    m_ShopsConfig EL_ShopsConfig "{5B1087A47B9AA61D}" {
+     m_aShopConfigs {
+      EL_ShopConfig "{5B1087A46388A189}" {
+       m_aPriceConfigs {
+        EL_Price "{5C62F316AE040D67}" {
+         m_Prefab "{E12126CDE731EED5}Prefabs/Characters/HeadGear/Hat_Boonie_US_01/Hat_Boonie_US_01.et"
+         m_iBuyPrice 0
+         m_bAllowMultiBuy 0
+         m_bAllowMultiSell 0
+        }
+       }
+      }
+     }
+    }
+    m_ShopItemPrefab "{E12126CDE731EED5}Prefabs/Characters/HeadGear/Hat_Boonie_US_01/Hat_Boonie_US_01.et"
+   }
+   MeshObject "{59C4F48745893DBF}" {
+   }
+   ActionsManagerComponent "{59C4F487641A3025}" {
+    additionalActions {
+    }
+   }
+   RplComponent "{59C4F4898DA2E09B}" {
+   }
+  }
+  coords 112.017 0.109 140.339
+  angleY -180
+ }
+}
 $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et" {
  {
   coords 110.207 0.001 140.63
@@ -391,4 +453,13 @@ $grp GenericEntity : "{B7669B7F8B7923F6}Prefabs/Props/Commercial/ShelfShop_01.et
    }
   }
  }
+}
+GameEntity Jacket_M70_5C62F3116BCA1BF4 : "{BBA08EC4EC40FA94}Prefabs/Characters/Uniforms/Jacket_M70.et" {
+ coords 111.448 0.001 138.353
+}
+GenericEntity CombatBoots_Soviet_01_5C62F3115AC18CB2 : "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et" {
+ coords 113.157 0.001 138.171
+}
+GameEntity Hat_Boonie_US_01_5C62F311455185C7 : "{E12126CDE731EED5}Prefabs/Characters/HeadGear/Hat_Boonie_US_01/Hat_Boonie_US_01.et" {
+ coords 112.139 0.001 138.118
 }
