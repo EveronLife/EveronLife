@@ -11,6 +11,7 @@ class EL_BankDepositDialog : EL_BankDialogBase
 	//------------------------------------------------------------------------------------------------
 	override protected void OnConfirm()
 	{
+		//TODO: rpc sender this shit
 		if (!m_wMoneyEditBox.GetText().IsEmpty())
 			m_BankManager.GetLocalPlayerBankAccount().TryDeposit(m_wMoneyEditBox.GetText().ToInt());
 		super.OnConfirm();
@@ -93,8 +94,6 @@ class EL_BankMenu : ChimeraMenuBase
 	//------------------------------------------------------------------------------------------------
 	void OnAccountButtonToggle(SCR_ModularButtonComponent comp, bool active)
 	{
-		Print("toggled: " + comp);
-		
 		if (!active)
 			return;
 		
@@ -102,15 +101,13 @@ class EL_BankMenu : ChimeraMenuBase
 		
 		SCR_ModularButtonComponent activeAccountHandler = SCR_ModularButtonComponent.Cast(m_wActiveAccount.FindHandler(SCR_ModularButtonComponent));
 		EL_BankAccount account = EL_BankAccount.Cast(activeAccountHandler.GetData());
-		Print("New active account: " + account.GetId());
+		
 		//Deativate all other widgets
 		foreach (Widget accountButton : m_aAccountWidgets)
 		{
 			SCR_ModularButtonComponent accountWidgetHandler = SCR_ModularButtonComponent.Cast(accountButton.FindHandler(SCR_ModularButtonComponent));
-			accountWidgetHandler.SetToggled(false, false);
-			Print("yeet " + accountWidgetHandler)
+			accountWidgetHandler.SetToggled(false);
 		}
-		
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -163,13 +160,14 @@ class EL_BankMenu : ChimeraMenuBase
 		dateText.SetText(transaction.m_iDate);
 		if (transaction.m_iAmount < 0)
 		{
-			moneyText.SetTextFormat("+ %1", transaction.m_iAmount.ToString());
-			moneyText.SetColor(Color.DarkGreen);
+			int amount = transaction.m_iAmount * -1;
+			moneyText.SetTextFormat("- %1", amount.ToString());
+			moneyText.SetColor(Color.DarkRed);
 		}	
 		else
 		{
-			moneyText.SetTextFormat("- %1", transaction.m_iAmount.ToString());
-			moneyText.SetColor(Color.DarkRed);
+			moneyText.SetTextFormat("+ %1", transaction.m_iAmount.ToString());
+			moneyText.SetColor(Color.DarkGreen);
 		}
 	}
 	

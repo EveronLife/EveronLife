@@ -20,7 +20,7 @@ class EL_BankAccount
 	void NewTransaction(int amount, int sourceAccount)
 	{
 		EL_BankTransaction transaction = EL_BankTransaction.Create(amount, sourceAccount, m_sAccountId);
-		m_aTransactions.Insert(transaction);
+		m_aTransactions.InsertAt(transaction, 0);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -145,7 +145,7 @@ class EL_BankAccount
 	//------------------------------------------------------------------------------------------------
 	static bool SnapCompare(SSnapSerializerBase lhs, SSnapSerializerBase rhs, ScriptCtx ctx) 
 	{		
-		return lhs.CompareSnapshots(rhs, 12); //2 props + transaction array count = 3 * 4 byte
+		return lhs.CompareSnapshots(rhs, 12); //2 props + transaction array count = 3 * 4 byte (int)
 	}
 
 	//------------------------------------------------------------------------------------------------

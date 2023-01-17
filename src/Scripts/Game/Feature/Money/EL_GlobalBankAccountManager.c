@@ -8,7 +8,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 	protected ref array<ref EL_BankAccount> m_aBankAccounts;
 	
 	protected static EL_GlobalBankAccountManager s_pInstance;
-	EL_BankAccount m_LocalBankAccount;
+	ref EL_BankAccount m_LocalBankAccount;
 	
 	//------------------------------------------------------------------------------------------------
 	static EL_GlobalBankAccountManager GetInstance()
@@ -25,45 +25,53 @@ class EL_GlobalBankAccountManager : GenericEntity
 	//------------------------------------------------------------------------------------------------
 	EL_BankAccount GetLocalPlayerBankAccount()
 	{
-		return GetPlayerBankAccount(SCR_PlayerController.GetLocalControlledEntity());
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	EL_BankAccount GetPlayerBankAccount(IEntity player)
-	{
-		//return GetPlayerBankAccount(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player));
+		return m_LocalBankAccount;
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	//! Called from Authority
-	void LoadPlayerBankAccount(int playerAccountId)
+	void LoadPlayerBankAccount(IEntity player, int playerAccountId)
 	{
-		foreach (EL_BankAccount account : m_aBankAccounts)
+		Print("[EL-Bank] 3. Loading account for " + playerAccountId);
+		
+		EL_BankAccount bankAccount = GetBankAccount(playerAccountId);
+		if (!bankAccount)
 		{
-			if (account.GetId() == playerAccountId)
-				Rpc(SetPlayerBankAccount, account);
+			Print("[EL-Bank] 3.1 Trying to loading non existant account for " + playerAccountId + " -> creating new one");
+			bankAccount = CreateBankAccount(playerAccountId);
 		}
 		
-		//return CreateBankAccount(playerAccountId);
+		RplComponent rplC = EL_ComponentFinder<RplComponent>.Find(player);
+		if (rplC.IsMaster())
+		{
+			SetPlayerBankAccount(rplC.Id(), bankAccount);
+		}	
+		else
+		{
+			Rpc(SetPlayerBankAccount, rplC.Id(), bankAccount);
+		}
 	}	
 	
 	//------------------------------------------------------------------------------------------------
-	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-	void SetPlayerBankAccount(EL_BankAccount account)
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	void SetPlayerBankAccount(RplId targetPlayerId, EL_BankAccount account)
 	{
+		Print("[EL-Bank] 3.2 Got Broadcast " + targetPlayerId);
+		RplComponent targetRplComponent = RplComponent.Cast(Replication.FindItem(targetPlayerId));
+		IEntity targetPlayer = targetRplComponent.GetEntity();
+		IEntity localPlayer = SCR_PlayerController.GetLocalControlledEntity();
+		
+		//Broadcast not for this player
+		if (targetPlayer != localPlayer)
+			return;
+		Print("[EL-Bank] 3.3 Is for me");
 		m_LocalBankAccount = account;
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	void SetBankAccounts(array<ref EL_BankAccount> bankAccounts)
 	{
-		Print("Loading Bank accounts persisent..");
 		m_aBankAccounts = bankAccounts;
-		
-		foreach (EL_BankAccount account : m_aBankAccounts)
-		{
-			Print("transactions in account: " + account.m_aTransactions.Count());
-		}
 	}	
 		
 	//------------------------------------------------------------------------------------------------
@@ -74,20 +82,28 @@ class EL_GlobalBankAccountManager : GenericEntity
 	
 	//------------------------------------------------------------------------------------------------
 	EL_BankAccount CreateBankAccount(IEntity player)
-	{
-		EL_BankAccount newAccount = EL_BankAccount.Create(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player), 1000);
-		m_aBankAccounts.Insert(newAccount);
-		
-		return newAccount;
+	{		
+		return CreateBankAccount(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player));
 	}
-		
+	
 	//------------------------------------------------------------------------------------------------
-	ref EL_BankAccount CreateBankAccount(int playerId)
+	EL_BankAccount CreateBankAccount(int playerId)
 	{
 		EL_BankAccount newAccount = EL_BankAccount.Create(playerId, 1000);
 		m_aBankAccounts.Insert(newAccount);
-		
+		Print("[EL-Bank] 3.1.1. Created account " + newAccount.GetId());
 		return newAccount;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	EL_BankAccount GetBankAccount(int playerId)
+	{
+		foreach (EL_BankAccount account : m_aBankAccounts)
+		{
+			if (account.GetId() == playerId)
+				return account;
+		}
+		return null;
 	}
 
 	//------------------------------------------------------------------------------------------------	
@@ -96,7 +112,6 @@ class EL_GlobalBankAccountManager : GenericEntity
 		s_pInstance = this;
 		m_aBankAccounts = new array<ref EL_BankAccount>();
 		
-		SetEventMask(EntityEvent.INIT);
 		SetFlags(EntityFlags.ACTIVE, false);
 	}
 }

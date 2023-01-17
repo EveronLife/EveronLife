@@ -37,4 +37,13 @@ class EL_NetworkUtils
 		if (!replication) return false;
 		return replication.IsOwner();
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	static bool IsMaster(IEntity entity)
+	{
+		if (!entity) return false;
+		RplComponent replication = RplComponent.Cast(entity.FindComponent(RplComponent));
+		if (!replication) return false;
+		return replication.IsMaster();
+	}
 }

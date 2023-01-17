@@ -49,6 +49,7 @@ SizeLayoutWidgetClass {
             Padding 0 0 0 0
             FillWeight 10
            }
+           "Is Visible" 0
            Color 0.025 0.175 0.451 1
            Text "From"
            "Horizontal Alignment" Center
@@ -60,6 +61,7 @@ SizeLayoutWidgetClass {
             Padding 10 0 0 0
             FillWeight 10
            }
+           "Is Visible" 0
            Text "Wallet"
            "Horizontal Alignment" Center
            "Vertical Alignment" Center
@@ -101,7 +103,7 @@ SizeLayoutWidgetClass {
           SizeMode Fill
           FillWeight 80
          }
-         Text "Test Transaction :)"
+         Text "-"
          "Font Size" 15
          "Min Font Size" 15
          FontProperties FontProperties "{5C4525F66B729D21}" {
