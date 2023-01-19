@@ -3,14 +3,14 @@ class EL_VehicleAppearanceSaveData : EL_ComponentSaveDataBase
 {
 	protected int m_iVehicleColor = -1;
 	protected ResourceName m_VehicleTexture;
-	
+
 	//------------------------------------------------------------------------------------------------
 	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
 	{
 		EL_VehicleAppearanceComponent vehicleAppearance = EL_VehicleAppearanceComponent.Cast(worldEntityComponent);
 		m_iVehicleColor = vehicleAppearance.GetVehicleColor();
 		m_VehicleTexture = vehicleAppearance.GetVehicleTexture();
-		
+
 		return true;
 	}
 
@@ -20,7 +20,7 @@ class EL_VehicleAppearanceSaveData : EL_ComponentSaveDataBase
 		EL_VehicleAppearanceComponent vehicleAppearance = EL_VehicleAppearanceComponent.Cast(worldEntityComponent);
 		vehicleAppearance.SetVehicleColor(m_iVehicleColor);
 		vehicleAppearance.SetVehicleTexture(m_VehicleTexture);
-		
+
 		return true;
 	}
 }

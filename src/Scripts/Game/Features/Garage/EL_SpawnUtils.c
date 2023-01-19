@@ -5,7 +5,7 @@ class EL_SpawnUtils
 	{
 		if (!parent)
 			return null;
-		
+
 		IEntity child = parent.GetChildren();
 		while (child)
 		{
@@ -17,14 +17,14 @@ class EL_SpawnUtils
 			child = child.GetSibling();
 		}
 		return null;
-	}	
-	
+	}
+
 	//------------------------------------------------------------------------------------------------
 	static IEntity FindSpawnPoint(IEntity parent)
 	{
 		if (!parent)
 			return null;
-		
+
 		IEntity child = parent.GetChildren();
 		while (child)
 		{

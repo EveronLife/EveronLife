@@ -9,38 +9,34 @@ class EL_ParkVehicleAction : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
 		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
-		
+
 		GetGame().GetWorld().QueryEntitiesBySphere(pOwnerEntity.GetOrigin(), m_fGarageSearchRadius, FindFirstGarage, FilterGarage);
 
 		if (!m_GarageManager)
-			Print("Garage not longer found!", LogLevel.WARNING);
+			return;
 
 		//Stop engine and eject passengers
 		VehicleControllerComponent vehicleController = VehicleControllerComponent.Cast(pOwnerEntity.FindComponent(VehicleControllerComponent));
 		vehicleController.StopEngine();
-		
+
 		SCR_BaseCompartmentManagerComponent vehicleComparmentManager = SCR_BaseCompartmentManagerComponent.Cast(pOwnerEntity.FindComponent(SCR_BaseCompartmentManagerComponent));
 		array<IEntity> occupants = {};
 		vehicleComparmentManager.GetOccupants(occupants);
-		
+
 		foreach(IEntity occupant : occupants)
 		{
 			ChimeraCharacter character = ChimeraCharacter.Cast(occupant);
 			if (!character)
-				return;
-			
-			CharacterControllerComponent controller = character.GetCharacterController();
-			if (!controller)
 				continue;
-			
+
+			CharacterControllerComponent controller = character.GetCharacterController();
 			CompartmentAccessComponent access = character.GetCompartmentAccessComponent();
-			if (!controller)
+			if (!controller || !access)
 				continue;
 
 			access.EjectOutOfVehicle();
-			//controller.GetInputContext().SetVehicleCompartment(null);
 		}
-		
+
 		//Save Vehicle
 		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(pOwnerEntity.FindComponent(EL_PersistenceComponent));
 		EL_EntitySaveDataBase saveData = persistence.Save();
@@ -52,6 +48,12 @@ class EL_ParkVehicleAction : ScriptedUserAction
 		SCR_EntityHelper.DeleteEntityAndChildren(pOwnerEntity);
 	}
 
+	//------------------------------------------------------------------------------------------------
+	override bool CanBeShownScript(IEntity user)
+ 	{
+		ChimeraCharacter char = ChimeraCharacter.Cast(user);
+		return (!char.IsInVehicle() && CanBePerformedScript(user));
+	}
 
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
@@ -59,10 +61,8 @@ class EL_ParkVehicleAction : ScriptedUserAction
 		//Check if user is owner of this vehicle
 		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(GetOwner().FindComponent(EL_CharacterOwnerComponent));
 		if (EL_Utils.GetPlayerUID(user) != charOwnerComp.GetCharacterOwner())
-		{
-			SetCannotPerformReason("NOT OWNER: " + EL_Utils.GetPlayerUID(user) + " != " + charOwnerComp.GetCharacterOwner());
-			//return false;
-		}
+			return false;
+
 		//Check if garage is nearby
 		GetGame().GetWorld().QueryEntitiesBySphere(GetOwner().GetOrigin(), m_fGarageSearchRadius, FindFirstGarage, FilterGarage);
 		return (m_GarageManager);

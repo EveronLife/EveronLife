@@ -1,7 +1,7 @@
 [EntityEditorProps(category: "EL/Garage")]
 class EL_GarageManagerComponentClass : ScriptComponentClass
 {
-};
+}
 
 class EL_GarageManagerComponent : ScriptComponent
 {

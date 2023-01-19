@@ -5,7 +5,7 @@ class EL_VehicleShopManagerComponentClass : ScriptComponentClass
 
 class EL_VehicleShopManagerComponent : ScriptComponent
 {
-	
+
 	[Attribute("VEHICLE_SHOP_PREVIEW", UIWidgets.Auto, "Item price list", category: "Preview")]
 	protected string m_sShopPreviewBuildingName;
 	protected IEntity m_VehicleShopBuilding;

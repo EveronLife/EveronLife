@@ -36,9 +36,9 @@ Vehicle {
     UserActionContext "{5AC91C63D5A545C7}" {
      ContextName "EL_default"
      Position PointInfo "{5AC91C63F4F81FBF}" {
-      Offset 0 0.6718 0
+      Offset 0 1.25 0
      }
-     Radius 1
+     Radius 3
     }
    }
    additionalActions {
@@ -49,7 +49,7 @@ Vehicle {
      UIInfo UIInfo "{5AC91C63E350766E}" {
       Name "Park Vehicle"
      }
-     Duration 0
+     Duration 2
      m_fGarageSearchRadius 25
     }
    }
