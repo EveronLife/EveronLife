@@ -89,7 +89,6 @@ class EL_GarageManagerComponent : ScriptComponent
 			foreach (string vehicleId : allVehiclesInGarage)
 			{
 				EL_VehicleSaveData vehSaveData = vehicleRepo.Find(vehicleId).GetEntity();
-				Print("Veh repo data: " + vehSaveData.m_rPrefab);
 				garageVehicleList.Insert(vehSaveData.m_rPrefab);
 			}
 		}
