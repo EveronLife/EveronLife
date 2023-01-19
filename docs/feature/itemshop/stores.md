@@ -6,7 +6,7 @@ Each store type (General,Weapon,Clothing) can have its own config for a better o
 
 ## Creating a new store
 1. Create a new config with the `EL_ItemShopConfig` class in the `Configs/ItemShop` folder.
-2. Open the newly created config and add all items you want to sell in that store.
+2. Open the newly created config and add all items you want to sell in that store. \
 	-> Multi Buy/Sell enables 10x and buy/sell all actions
 
 ## Adding a store item to the world
