@@ -1,4 +1,4 @@
-class EL_PriceTitle : BaseContainerCustomTitle
+class EL_VehiclePriceTitle : BaseContainerCustomTitle
 {
 	//------------------------------------------------------------------------------------------------
 	override bool _WB_GetCustomTitle(BaseContainer source, out string title)
@@ -17,8 +17,8 @@ class EL_PriceTitle : BaseContainerCustomTitle
 	}
 };
 
-[BaseContainerProps(), EL_PriceTitle()]
-class EL_Price
+[BaseContainerProps(), EL_VehiclePriceTitle()]
+class EL_VehiclePrice
 {
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "", "et")]
 	ResourceName m_Prefab;
@@ -30,8 +30,8 @@ class EL_Price
 }
 
 [BaseContainerProps(configRoot: true)]
-class EL_PriceConfig : ScriptAndConfig
+class EL_VehiclePriceConfig : ScriptAndConfig
 {
 	[Attribute("", UIWidgets.Object, "")]
-	ref array<ref EL_Price> m_aPriceConfigs;
+	ref array<ref EL_VehiclePrice> m_aVehiclePriceConfigs;
 }
