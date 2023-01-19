@@ -10,7 +10,17 @@ SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleSho
    ID "5B2CBBA0476C0A58"
    components {
     EL_VehicleShopManagerComponent "{5ACAE5EDE08D8FDE}" {
-     m_PriceConfig EL_PriceConfig "{5ACAE5EADF20A223}" {
+     m_VehiclePriceConfig EL_VehiclePriceConfig "{5C672D648F080A79}" : "{35914B106F14CB9F}EL_VehiclePriceList.conf" {
+      m_aVehiclePriceConfigs {
+       EL_VehiclePrice "{5C672D64701BC0C3}" {
+        m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+        m_iBuyPrice 10
+       }
+       EL_VehiclePrice "{5C672D64A6BA517A}" {
+        m_Prefab "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et"
+        m_iBuyPrice 1
+       }
+      }
      }
     }
    }

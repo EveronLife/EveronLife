@@ -5,7 +5,7 @@ class EL_VehicleShopManagerComponentClass : ScriptComponentClass
 
 class EL_VehicleShopManagerComponent : ScriptComponent
 {
-
+	
 	[Attribute("VEHICLE_SHOP_PREVIEW", UIWidgets.Auto, "Item price list", category: "Preview")]
 	protected string m_sShopPreviewBuildingName;
 	protected IEntity m_VehicleShopBuilding;
@@ -27,7 +27,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	protected vector m_vCameraAngels;
 
 	[Attribute("", UIWidgets.Auto, "Item price list", category: "Shop")]
-	protected ref EL_PriceConfig m_PriceConfig;
+	protected ref EL_VehiclePriceConfig m_VehiclePriceConfig;
 
 	protected InputManager m_InputManager;
 	protected IEntity m_UserEntity;
@@ -82,7 +82,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void UpdateVehicleStats()
 	{
-		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
+		EL_VehiclePrice curVehicleConfig = m_VehiclePriceConfig.m_aVehiclePriceConfigs[m_iCurPreviewVehicleIndex];
 
 
 		if (m_aPreviewVehicle)
@@ -132,7 +132,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	{
 		int nextIndex = m_iCurPreviewVehicleIndex + offset;
 
-		if (nextIndex > (m_PriceConfig.m_aPriceConfigs.Count() - 1) || nextIndex < 0)
+		if (nextIndex > (m_VehiclePriceConfig.m_aVehiclePriceConfigs.Count() - 1) || nextIndex < 0)
 			return;
 
 		m_iCurPreviewVehicleIndex = nextIndex;
@@ -171,7 +171,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Load and populate preview images from config
 		array<ResourceName> vehiclePreviewImages = {};
-		foreach (EL_Price price: m_PriceConfig.m_aPriceConfigs)
+		foreach (EL_VehiclePrice price: m_VehiclePriceConfig.m_aVehiclePriceConfigs)
 		{
 			SCR_EditableVehicleUIInfo prefabUIInfo = EL_UIInfoUtils.GetVehicleInfo(price.m_Prefab);
 			vehiclePreviewImages.Insert(prefabUIInfo.GetImage());
@@ -181,7 +181,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Called from authority
-	void DoBuyVehicle(ResourceName vehiclePrefab, int color, string playerUID)
+	void DoBuyVehicle(ResourceName vehiclePrefab, int color, IEntity player)
 	{
 		//Find free spawn point
 		IEntity freeSpawnPoint = EL_SpawnUtils.FindFreeSpawnPoint(SCR_EntityHelper.GetMainParent(GetOwner()));
@@ -191,6 +191,15 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 			return;
 		}
 
+		//Remove money
+		foreach (EL_VehiclePrice price: m_VehiclePriceConfig.m_aVehiclePriceConfigs)
+		{
+			if (vehiclePrefab == price.m_Prefab)
+				EL_MoneyUtils.RemoveCash(player, price.m_iBuyPrice);
+		}
+		
+		
+		
 		//Spawn new vehicle
 		IEntity newVehicle = EL_Utils.SpawnEntityPrefab(vehiclePrefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
 
@@ -212,7 +221,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 
 		//Set vehicle owner
 		EL_CharacterOwnerComponent charOwnerComp = EL_CharacterOwnerComponent.Cast(newVehicle.FindComponent(EL_CharacterOwnerComponent));
-		charOwnerComp.SetCharacterOwner(playerUID);
+		charOwnerComp.SetCharacterOwner(EL_Utils.GetPlayerUID(player));
 
 		//Save vehicle
 		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(newVehicle.FindComponent(EL_PersistenceComponent));
@@ -223,7 +232,7 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 	//! Called from client
 	void BuyVehicle(Color color)
 	{
-		EL_Price curVehicleConfig = m_PriceConfig.m_aPriceConfigs[m_iCurPreviewVehicleIndex];
+		EL_VehiclePrice curVehicleConfig = m_VehiclePriceConfig.m_aVehiclePriceConfigs[m_iCurPreviewVehicleIndex];
 
 		EL_RpcSenderComponent rpcSender = EL_RpcSenderComponent.Cast(m_UserEntity.FindComponent(EL_RpcSenderComponent));
 		rpcSender.AskBuyVehicle(curVehicleConfig.m_Prefab, color.PackToInt(), GetOwner());
