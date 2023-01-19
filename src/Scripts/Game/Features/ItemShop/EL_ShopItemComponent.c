@@ -6,15 +6,15 @@ class EL_ShopItemComponentClass : ScriptComponentClass
 class EL_ShopItemComponent : ScriptComponent
 {
 	[Attribute("{9CA1D6CE3F6914BA}Configs/ItemShop/EL_Shops.conf", UIWidgets.Object, "Shop config")]
-	protected ref EL_ShopsConfig m_ShopsConfig;
+	protected ref EL_ItemShopConfig m_ItemShopConfig;
 
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Item to sell / buy here", "et")]
 	protected ResourceName m_ShopItemPrefab;
 
-	protected EL_Price m_ShopItemPriceConfig;
+	protected EL_ItemPrice m_ShopItemPriceConfig;
 
 	//------------------------------------------------------------------------------------------------
-	EL_Price GetShopItemPriceConfig()
+	EL_ItemPrice GetShopItemPriceConfig()
 	{
 		//Not init yet
 		if (!m_ShopItemPriceConfig)
@@ -29,18 +29,15 @@ class EL_ShopItemComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected EL_Price FindPrefabShopItemConfig()
+	protected EL_ItemPrice FindPrefabShopItemConfig()
 	{
-		if (!m_ShopsConfig || !m_ShopItemPrefab)
+		if (!m_ItemShopConfig || !m_ShopItemPrefab)
 			return null;
 
-		foreach (EL_ShopConfig shopConfig : m_ShopsConfig.m_aShopConfigs)
+		foreach (EL_ItemPrice price : m_ItemShopConfig.m_aItemPriceConfigs)
 		{
-			foreach (EL_Price price : shopConfig.m_aPriceConfigs)
-			{
-				if (price.m_Prefab == m_ShopItemPrefab)
+			if (price.m_Prefab == m_ShopItemPrefab)
 					return price;
-			}
 		}
 		return null;
 	}

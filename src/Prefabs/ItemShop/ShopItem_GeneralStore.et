@@ -1,0 +1,9 @@
+GenericEntity : "{9FB5EAB365566A77}Prefabs/ItemShop/ShopItem_Base.et" {
+ ID "59C4F485BE70DBE7"
+ components {
+  EL_ShopItemComponent "{5AC6DBF94189D860}" {
+   m_ItemShopConfig EL_ItemShopConfig "{5C674A1AE276429B}" : "{046F651565FB8615}Configs/ItemShop/Shops/GeneralStoreConfig.conf" {
+   }
+  }
+ }
+}

@@ -5,7 +5,7 @@ class EL_SellItemAction : ScriptedUserAction
 	protected int m_iActualSellAmount;
 
 	protected ResourceName m_SellablePrefab;
-	protected EL_Price m_ItemPriceConfig;
+	protected EL_ItemPrice m_ItemPriceConfig;
 
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)

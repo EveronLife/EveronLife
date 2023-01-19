@@ -3,7 +3,7 @@ class EL_BuyItemAction : ScriptedUserAction
 	[Attribute("1", UIWidgets.EditBox, "Amount of items to buy at once")]
 	protected int m_iBuyAmount;
 
-	protected EL_Price m_ItemPriceConfig;
+	protected EL_ItemPrice m_ItemPriceConfig;
 	protected ResourceName m_BuyablePrefab;
 
 	//------------------------------------------------------------------------------------------------

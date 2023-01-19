@@ -72,11 +72,11 @@ GenericEntity {
   }
  }
 }
-GenericEntity : "{9FB5EAB365566A77}Prefabs/ItemShop/ShopItem.et" {
+GenericEntity : "{60824972764FBF6D}Prefabs/ItemShop/ShopItem_GeneralStore.et" {
  components {
   EL_ShopItemComponent "{5AC6DBF94189D860}" {
    m_ShopItemPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
   }
  }
- coords 111.643 0.899 135.459
+ coords 111.604 0.899 135.361
 }

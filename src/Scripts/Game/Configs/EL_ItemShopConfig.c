@@ -18,7 +18,7 @@ class EL_ShopTitle : BaseContainerCustomTitle
 }
 
 [BaseContainerProps(), EL_ShopTitle()]
-class EL_Price
+class EL_ItemPrice
 {
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Prefab for this item", "et")]
 	ResourceName m_Prefab;
@@ -33,8 +33,8 @@ class EL_Price
 }
 
 [BaseContainerProps(configRoot: true)]
-class EL_ShopConfig : ScriptAndConfig
+class EL_ItemShopConfig : ScriptAndConfig
 {
 	[Attribute("", UIWidgets.Object, "")]
-	ref array<ref EL_Price> m_aPriceConfigs;
+	ref array<ref EL_ItemPrice> m_aItemPriceConfigs;
 }
