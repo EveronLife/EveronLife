@@ -112,7 +112,12 @@ class EL_Utils
 	static string GetPlayerUID(int playerId)
 	{
 		string uid = GetGame().GetBackendApi().GetPlayerUID(playerId);
-		if (!uid) uid = string.Format("LOCAL_UID_%1", playerId);
+		if (!uid)
+		{
+			if (RplSession.Mode() == RplMode.Dedicated)
+				Print("Error getting uid for playerId: " + playerId, LogLevel.ERROR);
+			uid = string.Format("LOCAL_UID_%1", playerId);
+		}	
 		return uid;
 	}
 
