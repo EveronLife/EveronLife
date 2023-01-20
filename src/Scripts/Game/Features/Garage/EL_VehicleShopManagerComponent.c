@@ -198,8 +198,6 @@ class EL_VehicleShopManagerComponent : ScriptComponent
 				EL_MoneyUtils.RemoveCash(player, price.m_iBuyPrice);
 		}
 		
-		
-		
 		//Spawn new vehicle
 		IEntity newVehicle = EL_Utils.SpawnEntityPrefab(vehiclePrefab, freeSpawnPoint.GetOrigin(), freeSpawnPoint.GetYawPitchRoll());
 
