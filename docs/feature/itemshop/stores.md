@@ -2,7 +2,7 @@
 Item prices are set in `Configs\ItemShop\Shops\XYStoreConfig.conf`
 
 ## XYStoreConfig.conf
-Each store type (General,Weapon,Clothing) can have its own config for a better overview and easier sorting/replacing of items.
+Each store type (General,Weapon,Clothing) can have its own config and prefab for a better overview and easier sorting/replacing of items.
 
 ## Creating a new store
 1. Create a new config with the `EL_ItemShopConfig` class in the `Configs/ItemShop` folder.
