@@ -11,9 +11,8 @@ class EL_BankDepositDialog : EL_BankDialogBase
 	//------------------------------------------------------------------------------------------------
 	override protected void OnConfirm()
 	{
-		//TODO: rpc sender this shit
 		if (!m_wMoneyEditBox.GetText().IsEmpty())
-			m_BankManager.GetLocalPlayerBankAccount().TryDeposit(m_wMoneyEditBox.GetText().ToInt());
+			EL_NetworkUtils.GetLocalRpcSender().AskTransactionFromBankAccount(m_wMoneyEditBox.GetText().ToInt());
 		super.OnConfirm();
 	}
 }
@@ -24,7 +23,7 @@ class EL_BankWithdrawDialog : EL_BankDialogBase
 	override protected void OnConfirm()
 	{
 		if (!m_wMoneyEditBox.GetText().IsEmpty())
-			m_BankManager.GetLocalPlayerBankAccount().TryWithdraw(m_wMoneyEditBox.GetText().ToInt());
+			EL_NetworkUtils.GetLocalRpcSender().AskTransactionFromBankAccount(-m_wMoneyEditBox.GetText().ToInt());
 		super.OnConfirm();
 	}
 }

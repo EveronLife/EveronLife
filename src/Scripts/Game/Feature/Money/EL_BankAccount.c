@@ -40,7 +40,8 @@ class EL_BankAccount
 	{
 		if (EL_MoneyUtils.GetCash(SCR_PlayerController.GetLocalControlledEntity()) < amount)
 			return false;
-
+		
+		//TODO: wtf client cant do that! Authority only ...
 		m_iBalance += EL_MoneyUtils.RemoveCash(SCR_PlayerController.GetLocalControlledEntity(), amount);
 		NewTransaction(amount, 0);
 		return true;
@@ -84,6 +85,28 @@ class EL_BankAccount
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	static bool Extract(EL_BankAccount prop, ScriptCtx ctx, SSnapSerializerBase snapshot) 
+	{
+		snapshot.SerializeBytes(prop.m_iBalance, 4);
+		snapshot.SerializeBytes(prop.m_sAccountId, 4);
+		
+		//Transactions limited to 5
+		int count = prop.m_aTransactions.Count();
+		count = Math.Min(count, 5);
+		snapshot.SerializeBytes(count, 4);
+		for (int i = 0; i < count; i++)
+		{
+			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iAmount, 4);
+			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iDate.Length(), 4); 	//string length
+			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iDate, 19); 			//"yyyy-mm-dd hh:ii:ss" -> Unix timestamp?
+			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iSourceAccount, 4);
+			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iTargetAccount, 4);
+		}
+
+		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	static void Encode(SSnapSerializerBase snapshot, ScriptCtx ctx, ScriptBitSerializer packet) 
 	{
 		snapshot.Serialize(packet, 8);
@@ -98,9 +121,9 @@ class EL_BankAccount
 			packet.SerializeInt(amount);
 			
 			string date;
-			snapshot.SerializeBytes(date, 19);
+			snapshot.SerializeBytes(date, 23); // "yyyy-mm-dd hh:ii:ss" => 19 + 4
 			packet.SerializeString(date);
-			
+
 			int sourceAccountId;
 			snapshot.SerializeInt(sourceAccountId);
 			packet.SerializeInt(sourceAccountId);
@@ -127,6 +150,8 @@ class EL_BankAccount
 			
 			string date;
 			packet.SerializeString(date);
+			int length;
+			snapshot.SerializeBytes(length, 4);
 			snapshot.SerializeBytes(date, 19);
 			
 			int sourceAccountId;
@@ -140,6 +165,35 @@ class EL_BankAccount
 		
 		return true;
 		
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	static bool Inject(SSnapSerializerBase snapshot, ScriptCtx ctx, EL_BankAccount prop) 
+	{
+		snapshot.SerializeBytes(prop.m_iBalance, 4);
+		snapshot.SerializeBytes(prop.m_sAccountId, 4);
+
+		int count;
+		snapshot.SerializeInt(count);
+		prop.m_aTransactions = new array<ref EL_BankTransaction>();
+		prop.m_aTransactions.Reserve(count);
+		
+		for (int i = 0; i < count; i++)
+		{
+			int amount;
+			snapshot.SerializeInt(amount);
+			int length;
+			snapshot.SerializeInt(length);
+			string date;
+			snapshot.SerializeBytes(date, 19);
+			int sourceAccountId;
+			snapshot.SerializeInt(sourceAccountId);
+			int targetAccountId;
+			snapshot.SerializeInt(targetAccountId);
+			prop.m_aTransactions.Insert(EL_BankTransaction.Create(amount, sourceAccountId, targetAccountId, date));
+		}
+		
+		return true;
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -159,51 +213,7 @@ class EL_BankAccount
 			&& snapshot.Compare(prop.m_aTransactions, count + 1);
 	}
 			
-	//------------------------------------------------------------------------------------------------
-	static bool Extract(EL_BankAccount prop, ScriptCtx ctx, SSnapSerializerBase snapshot) 
-	{
-		snapshot.SerializeBytes(prop.m_iBalance, 4);
-		snapshot.SerializeBytes(prop.m_sAccountId, 4);
-		
-		//Transactions limited to 5
-		int count = prop.m_aTransactions.Count();
-		count = Math.Min(count, 5);
-		snapshot.SerializeBytes(count, 4);
-		for (int i = 0; i < count; i++)
-		{
-			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iAmount, 4);
-			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iDate, 19); //"yyyy-mm-dd hh:ii:ss" -> Unix timestamp?
-			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iSourceAccount, 4);
-			snapshot.SerializeBytes(prop.m_aTransactions[i].m_iTargetAccount, 4);
-		}
 
-		return true;
-	}
 	
-	//------------------------------------------------------------------------------------------------
-	static bool Inject(SSnapSerializerBase snapshot, ScriptCtx ctx, EL_BankAccount prop) 
-	{
-		snapshot.SerializeBytes(prop.m_iBalance, 4);
-		snapshot.SerializeBytes(prop.m_sAccountId, 4);
 
-		int count;
-		snapshot.SerializeInt(count);
-		prop.m_aTransactions = new array<ref EL_BankTransaction>();
-		prop.m_aTransactions.Reserve(count);
-		
-		for (int i = 0; i < count; i++)
-		{
-			int amount;
-			snapshot.SerializeInt(amount);
-			string date;
-			snapshot.SerializeBytes(date, 19);
-			int sourceAccountId;
-			snapshot.SerializeInt(sourceAccountId);
-			int targetAccountId;
-			snapshot.SerializeInt(targetAccountId);
-			prop.m_aTransactions.Insert(EL_BankTransaction.Create(amount, sourceAccountId, targetAccountId, date));
-		}
-		
-		return true;
-	}
 }

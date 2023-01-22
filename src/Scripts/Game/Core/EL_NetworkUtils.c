@@ -37,7 +37,7 @@ class EL_NetworkUtils
 		if (!replication) return false;
 		return replication.IsOwner();
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	static bool IsMaster(IEntity entity)
 	{
@@ -45,5 +45,11 @@ class EL_NetworkUtils
 		RplComponent replication = RplComponent.Cast(entity.FindComponent(RplComponent));
 		if (!replication) return false;
 		return replication.IsMaster();
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	static EL_RpcSenderComponent GetLocalRpcSender()
+	{
+		return EL_ComponentFinder<EL_RpcSenderComponent>.Find(SCR_PlayerController.GetLocalControlledEntity());
 	}
 }
