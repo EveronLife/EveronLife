@@ -156,7 +156,7 @@ class EL_BankMenu : ChimeraMenuBase
 		TextWidget dateText = TextWidget.Cast(transactionWidget.FindAnyWidget("Date"));
 		TextWidget moneyText = TextWidget.Cast(transactionWidget.FindAnyWidget("MoneyText"));
 		
-		dateText.SetText(transaction.m_iDate);
+		dateText.SetText(EL_Utils.GetTimeFormatted(transaction.m_iDate));
 		if (transaction.m_iAmount < 0)
 		{
 			int amount = transaction.m_iAmount * -1;

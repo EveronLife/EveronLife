@@ -15,7 +15,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 	{
 		return s_pInstance;
 	}
-
+	
 	//------------------------------------------------------------------------------------------------
 	void OpenBankMenu()
 	{
