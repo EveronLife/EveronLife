@@ -47,4 +47,13 @@ class EL_DateTimeUtcAsInt
 		System.GetHourMinuteSecondUTC(hour, minute, second);
 		return ((year - 2000) << 26) | (month << 22) | (day << 17) | (hour << 12) | (minute << 6) | second;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Converts the time as int to formatted string
+	//! \return UTC datetime in format "yyyy-mm-dd hh:ii:ss"
+	string GetTimeFormatted()
+	{
+		return string.Format("%1-%2-%3 %4:%5:%6", GetYear(), GetMonth(), GetDay(), GetHour(), GetMinute(), GetSecond());
+	}
 }
+
