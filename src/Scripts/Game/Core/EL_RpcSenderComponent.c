@@ -78,4 +78,3 @@ class EL_RpcSenderComponent  : ScriptComponent
 		SetEventMask(owner, EntityEvent.INIT);
 	}
 }
-

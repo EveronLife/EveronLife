@@ -10,7 +10,6 @@ class EL_BankTransaction
 	{
 		if (dateFormat == 0)
 			dateFormat = EL_Utils.GetUnixTime();
-		Print(EL_Utils.GetTimeFormatted(dateFormat));
 		EL_BankTransaction bankTransaction();
 		bankTransaction.m_iAmount = amount;
 		bankTransaction.m_iDate = dateFormat;

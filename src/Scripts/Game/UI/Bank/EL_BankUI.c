@@ -47,7 +47,6 @@ class EL_BankDialogBase : DialogUI
 	}
 }
 
-
 class EL_BankMenu : ChimeraMenuBase
 {
     protected Widget m_wRoot;
@@ -160,12 +159,12 @@ class EL_BankMenu : ChimeraMenuBase
 		if (transaction.m_iAmount < 0)
 		{
 			int amount = transaction.m_iAmount * -1;
-			moneyText.SetTextFormat("- %1", amount.ToString());
+			moneyText.SetTextFormat("- $%1", EL_FormatUtils.DecimalSeperator(amount));
 			moneyText.SetColor(Color.DarkRed);
 		}	
 		else
 		{
-			moneyText.SetTextFormat("+ %1", transaction.m_iAmount.ToString());
+			moneyText.SetTextFormat("+ $%1", EL_FormatUtils.DecimalSeperator(transaction.m_iAmount));
 			moneyText.SetColor(Color.DarkGreen);
 		}
 	}

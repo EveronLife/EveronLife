@@ -41,7 +41,6 @@ class EL_BankAccount
 		if (EL_MoneyUtils.GetCash(SCR_PlayerController.GetLocalControlledEntity()) < amount)
 			return false;
 		
-		//TODO: wtf client cant do that! Authority only ...
 		m_iBalance += EL_MoneyUtils.RemoveCash(SCR_PlayerController.GetLocalControlledEntity(), amount);
 		NewTransaction(amount, 0);
 		return true;
@@ -89,7 +88,7 @@ class EL_BankAccount
 	{
 		snapshot.SerializeInt(prop.m_iBalance);
 		snapshot.SerializeInt(prop.m_sAccountId);
-		/*
+		
 		//Transactions limited to 5
 		int count = prop.m_aTransactions.Count();
 		count = Math.Min(count, 5);
@@ -101,7 +100,7 @@ class EL_BankAccount
 			snapshot.SerializeInt(prop.m_aTransactions[i].m_iSourceAccount);
 			snapshot.SerializeInt(prop.m_aTransactions[i].m_iTargetAccount);
 		}
-		*/
+		
 		return true;
 	}
 	
@@ -109,7 +108,7 @@ class EL_BankAccount
 	static void Encode(SSnapSerializerBase snapshot, ScriptCtx ctx, ScriptBitSerializer packet) 
 	{
 		snapshot.Serialize(packet, 8);
-		/*
+		
 		int count;
 		snapshot.SerializeInt(count);
 		packet.SerializeInt(count);
@@ -131,14 +130,13 @@ class EL_BankAccount
 			snapshot.SerializeInt(targetAccountId);
 			packet.SerializeInt(targetAccountId);			
 		}
-		*/
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	static bool Decode(ScriptBitSerializer packet, ScriptCtx ctx, SSnapSerializerBase snapshot) 
 	{
 		if (!snapshot.Serialize(packet, 8)) return false;
-		/*
+		
 		int count;
 		packet.SerializeInt(count);
 		snapshot.SerializeInt(count);
@@ -161,10 +159,7 @@ class EL_BankAccount
 			packet.SerializeInt(targetAccountId);		
 			snapshot.SerializeInt(targetAccountId);	
 		}
-		*/
-		
 		return true;
-		
 	}
 	
 	//------------------------------------------------------------------------------------------------
@@ -172,7 +167,7 @@ class EL_BankAccount
 	{
 		snapshot.SerializeInt(prop.m_iBalance);
 		snapshot.SerializeInt(prop.m_sAccountId);
-/*
+
 		int count;
 		snapshot.SerializeInt(count);
 		prop.m_aTransactions = new array<ref EL_BankTransaction>();
@@ -193,7 +188,7 @@ class EL_BankAccount
 			
 			prop.m_aTransactions.InsertAt(EL_BankTransaction.Create(amount, sourceAccountId, targetAccountId, dateAsInt), 0);
 		}
-		*/
+		
 		return true;
 	}
 	
@@ -206,11 +201,11 @@ class EL_BankAccount
 	//------------------------------------------------------------------------------------------------
 	static bool PropCompare(EL_BankAccount prop, SSnapSerializerBase snapshot, ScriptCtx ctx) 
 	{
-		//int count = prop.m_aTransactions.Count();
-		//count = Math.Min(count, 5);
+		int count = prop.m_aTransactions.Count();
+		count = Math.Min(count, 5);
 		
 		return snapshot.Compare(prop.m_iBalance, 4) 
-			&& snapshot.Compare(prop.m_sAccountId, 4);
-			//&& snapshot.Compare(prop.m_aTransactions, count + 1);
+			&& snapshot.Compare(prop.m_sAccountId, 4)
+			&& snapshot.Compare(prop.m_aTransactions, count + 1);
 	}
 }
