@@ -1,17 +1,6 @@
 GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
  ID "50989DC991E68512"
  components {
-  MeshObject "{59908096775F151D}" {
-   Object "{B24B07C19FECA100}Assets/Tools/Axe/Axe.xob"
-  }
-  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
-   m_fDamage 20.22
-   m_fRange 1
-   m_fExecutionTime 2
-   m_aCollisionProbesPos {
-    0 -0.05 0 0 -0.025 0.05
-   }
-  }
   InventoryItemComponent "{5ACCA164BC7A99A2}" {
    Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
     ItemDisplayName UIInfo "{5990AD6EC4FAB1CD}" {
@@ -45,6 +34,17 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
      }
     }
     m_SlotType SLOT_WEAPONS_STORAGE
+   }
+  }
+  MeshObject "{59908096775F151D}" {
+   Object "{B24B07C19FECA100}Assets/Tools/Axe/Axe.xob"
+  }
+  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
+   m_fDamage 20.22
+   m_fRange 1
+   m_fExecutionTime 2
+   m_aCollisionProbesPos {
+    0 -0.05 0 0 -0.025 0.05
    }
   }
   WeaponComponent "{5990809682E12ADF}" {

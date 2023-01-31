@@ -48,19 +48,19 @@ EL_GameModeRoleplay {
  PlayerControllerPrefab "{CC42DCDAD458D66B}Prefabs/Characters/Core/PlayerControllerRoleplayMP.et"
  {
   TagManager TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
-   ID "59751433747FB464"
+   ID "2FA9E172CAB1857A"
   }
   RadioManagerEntity RadioManager : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
-   ID "59751433747F9C03"
+   ID "B8E09FAB91C4ECCD"
   }
   ScriptedChatEntity ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
-   ID "59751433747F9C02"
+   ID "F69BC912AC8236F9"
   }
   SCR_GarbageManager GarbageManager {
-   ID "59751433747F9391"
+   ID "9B883A7D8EBB282A"
   }
   SCR_MPDestructionManager MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
-   ID "59751433747F2879"
+   ID "9BB369F2803C6F71"
   }
  }
 }
