@@ -1,4 +1,4 @@
-SCR_DestructibleBuildingEntity : "{67BB04E9136D6A3E}Prefabs/Structures/Industrial/Houses/ConcretePlant_E_01_base.et" {
+SCR_DestructibleBuildingEntity : "{67BB04E9136D6A3E}Prefabs/Structures/Industrial/Houses/ConcretePlant_E_01/ConcretePlant_E_01_base.et" {
  ID "F0DBA538AC2A0552"
  components {
   ActionsManagerComponent "{59BCA07275D1833B}" {
