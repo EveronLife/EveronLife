@@ -184,34 +184,6 @@ GenericEntity AppleTrader {
       Surname "Trader"
      }
     }
-    BaseLoadoutManagerComponent "{5A4B0B84C86D5843}" {
-     Slots {
-      LoadoutSlotInfo Back {
-       AreaType LoadoutBackpackArea "{5C67187BB5A7F1C3}" {
-       }
-      }
-      LoadoutSlotInfo Vest {
-       AreaType LoadoutVestArea "{5C67187BB6C6F464}" {
-       }
-      }
-      LoadoutSlotInfo Boots {
-       AreaType LoadoutBootsArea "{5C67187BCA900AC5}" {
-       }
-      }
-      LoadoutSlotInfo Hat {
-       AreaType LoadoutHeadCoverArea "{5C67187BC0E67EA5}" {
-       }
-      }
-      LoadoutSlotInfo Jacket {
-       AreaType LoadoutJacketArea "{5C67187BC4ABBCCC}" {
-       }
-      }
-      LoadoutSlotInfo Pants {
-       AreaType LoadoutPantsArea "{5C67187BD95E244D}" {
-       }
-      }
-     }
-    }
    }
    coords 0 0 -0.957
   }
