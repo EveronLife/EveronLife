@@ -23,7 +23,7 @@ Tree {
      m_fRandomVelocityAngular 0
     }
    }
-   m_eMaterialSoundType WOOD_SOLID
+   m_eMaterialSoundType BREAK_WOOD_SOLID
    m_rHitEffect "{8DB2E11855C71E31}Prefabs/VFX/WoodCutting/WoodImpactEmitter_Small.et"
    m_aTools {
     EL_ResourceDestructionTool "{5ACEA525B973EDD6}" {
