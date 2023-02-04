@@ -39,6 +39,33 @@ EL_GameModeRoleplay {
    Enabled 0
    m_sConfigPath "{8547E1B142411624}Configs/NameTags/NametagRoleplay.conf"
   }
+  SCR_RadialMenuComponent "{5C7B0A4E4002C0BA}" {
+   m_pRadialMenu SCR_RadialMenuItems "{5C7B02924D4A0C24}" {
+   }
+   m_RadialMenuVisuals SCR_RadialMenuVisualsItems "{5C7B02924D4A0C26}" {
+    m_LayoutPath "{C967377E3D96107D}UI/layouts/Common/RadialMenu/RadialMenuVisuals.layout"
+    m_eLayer HIGH
+    m_rElementLayoutPath "{95123068DC2C2ECF}UI/layouts/Common/RadialMenu/radialElementIcon.layout"
+    m_rBorderLinePath "{639717DA6610F1C1}UI/layouts/Common/RadialMenu/RadialMenuBorderLine.layout"
+    m_sPageIndicationLayout "{595FE46A06BE9DB3}UI/layouts/Common/RadialMenu/MenuPageIndication.layout"
+    m_sPageIconsSet "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+    m_sTxtAction "TxtAction"
+    m_sTxtItemName "TxtItemName"
+    m_sImageSelector "ImgSelector"
+    m_sSelectLast "SelectLast"
+    m_fSizeMenu 660
+    m_fSizeEntries 660
+    m_fRadiusEntries 250
+    m_fSelectorDistance 185
+   }
+   m_bUseCategories 0
+   m_sInput_Toggle "Inventory_WeaponSwitchingRadial"
+   m_bUsingLeftStick 0
+   m_bHoldToggleToOpen 1
+   m_iEntryPerformType OnClose
+   m_bEvenlyPlacedEntries 1
+   m_iSelectionBehavior FreeMove
+  }
   RplComponent "{597514327E500A0C}" {
    "Rpl State Override" Static
    Streamable Disabled
@@ -48,19 +75,19 @@ EL_GameModeRoleplay {
  PlayerControllerPrefab "{CC42DCDAD458D66B}Prefabs/Characters/Core/PlayerControllerRoleplayMP.et"
  {
   TagManager TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
-   ID "59751433747FB464"
+   ID "2FA9E172CAB1857A"
   }
   RadioManagerEntity RadioManager : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
-   ID "59751433747F9C03"
+   ID "B8E09FAB91C4ECCD"
   }
   ScriptedChatEntity ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
-   ID "59751433747F9C02"
+   ID "F69BC912AC8236F9"
   }
   SCR_GarbageManager GarbageManager {
-   ID "59751433747F9391"
+   ID "9B883A7D8EBB282A"
   }
   SCR_MPDestructionManager MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
-   ID "59751433747F2879"
+   ID "9BB369F2803C6F71"
   }
  }
 }

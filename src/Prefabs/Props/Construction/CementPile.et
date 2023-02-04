@@ -1,4 +1,4 @@
-StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortifications/DirtPile_01_base.et" {
+StaticModelEntity : "{7AF35E9C21F21BFA}Prefabs/Structures/Military/Fortifications/DirtPile_01/DirtPile_01_base.et" {
  ID "5272E314F01B2DBE"
  components {
   MeshObject "{5272E314F6439B95}" {
