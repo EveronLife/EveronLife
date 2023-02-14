@@ -234,20 +234,7 @@ class EL_Utils
 		}
 		return false;
 	}
-	
-	//------------------------------------------------------------------------------------------------
-	//! 1675.1522.85 + 2 numbers of tickcount 
-	//! TODO: FIx this shit cause we in 2023 in this shit does not have 64bit int ._.
-	//! TOOD: Guess the string decoder has to be made now sadge
-	static string GetTimeUUID()
-	{
-		string uuid = GetUnixTime().ToString();
-		string ticketCountString = System.GetTickCount().ToString();
-		//uuid += ticketCountString.Substring(ticketCountString.Length() - 2, 2);
-		Print("[EL-UUID] Genered new TimeUUID: " + uuid);
-		return uuid;
-	}
-	
+		
 	//------------------------------------------------------------------------------------------------
 	//! Gets the current Unixtime UTC
 	//! \return integer representation of the time
