@@ -19,7 +19,7 @@ class EL_Utils
 	{
 		return GetPlayerUID(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player));
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Finds Player Entity with UID
 	//! \param uid player uid
@@ -30,7 +30,7 @@ class EL_Utils
 		for (int i = 0, count = GetGame().GetPlayerManager().GetPlayers(players); i < count; i++)
 		{
 			if (GetPlayerUID(players[i]) == uid)
-				return GetGame().GetPlayerManager().GetPlayerControlledEntity(players[i]);		
+				return GetGame().GetPlayerManager().GetPlayerControlledEntity(players[i]);
 		}
 		return null;
 	}
@@ -238,7 +238,7 @@ class EL_Utils
 		}
 		return false;
 	}
-		
+
 	//------------------------------------------------------------------------------------------------
 	//! Gets the current Unixtime UTC
 	//! \return integer representation of the time
@@ -256,22 +256,22 @@ class EL_Utils
 	static string GetTimeFormatted(int unixTime)
 	{
 		int remainingSeconds = unixTime;
-		
+
 		int year = remainingSeconds / 31556926;
 		remainingSeconds -= year * 31556926;
-		
+
 		int month = remainingSeconds / 2629743;
 		remainingSeconds -= month * 2629743;
-		
+
 		int day = remainingSeconds / 86400;
 		remainingSeconds -= day * 86400;
-		
+
 		int hour = remainingSeconds / 3600;
 		remainingSeconds -= hour * 3600;
-		
+
 		int minute = remainingSeconds / 60;
 		remainingSeconds -= minute * 60;
-		
+
 		int second = remainingSeconds;
 
 		return string.Format("%1-%2-%3 %4:%5:%6", 1970 + year, month.ToString(2), day.ToString(2), hour.ToString(2), minute.ToString(2), second.ToString(2));
