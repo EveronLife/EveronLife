@@ -20,6 +20,10 @@ class EL_Utils
 		return GetPlayerUID(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player));
 	}
 	
+	//------------------------------------------------------------------------------------------------
+	//! Finds Player Entity with UID
+	//! \param uid player uid
+	//! \return the player entity
 	static IEntity GetPlayerByUID(string uid)
 	{
 		array<int> players = {};
