@@ -97,7 +97,7 @@ SizeLayoutWidgetClass {
        }
        {
         TextWidgetClass "{5C44E1E54EA91AD6}" {
-         Name "CommentText0"
+         Name "CommentText"
          Slot LayoutSlot "{5C44E1E4E386F199}" {
           Padding 0 0 0 0
           SizeMode Fill

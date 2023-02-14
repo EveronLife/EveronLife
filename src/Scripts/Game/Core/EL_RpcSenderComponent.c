@@ -11,13 +11,25 @@ class EL_RpcSenderComponent  : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	void AskSetLocalBankAccount(EL_BankAccount account)
 	{
-		Rpc(Rpc_DoSetLocalBankAccount, account);
+		//Custom string encoder
+		array<string> transactionComments = {};
+		foreach (EL_BankTransaction transaction : account.m_aTransactions)
+		{
+			transactionComments.Insert(transaction.m_sComment);
+		}
+		Rpc(Rpc_DoSetLocalBankAccount, account, transactionComments);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-	void Rpc_DoSetLocalBankAccount(EL_BankAccount account)
-	{	
+	void Rpc_DoSetLocalBankAccount(EL_BankAccount account, array<string> transactionComments)
+	{
+		//Custom string decoder
+		foreach (int i, string comment : transactionComments)
+		{
+			account.m_aTransactions[i].m_sComment = comment;
+		}
+		
 		m_BankManager.m_LocalBankAccount = account;
 		//Update open bank ui
 		EL_BankMenu bankMenu = EL_BankMenu.Cast(GetGame().GetMenuManager().FindMenuByPreset(ChimeraMenuPreset.EL_BankMenu));
@@ -26,21 +38,19 @@ class EL_RpcSenderComponent  : ScriptComponent
 	}
 	
 	//------------------------------------------------------------------------------------------------
-	void AskTransactionFromBankAccount(int amount)
+	void AskTransactionFromBankAccount(int amount, string comment)
 	{
 		if (m_bIsMaster)
-			Rpc_DoTransactionBankAccount(amount);
+			Rpc_DoTransactionBankAccount(amount, comment);
 		else
-			Rpc(Rpc_DoTransactionBankAccount, amount);
+			Rpc(Rpc_DoTransactionBankAccount, amount, comment);
 	}
 	
 	//------------------------------------------------------------------------------------------------
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
-	void Rpc_DoTransactionBankAccount(int amount)
+	void Rpc_DoTransactionBankAccount(int amount, string comment)
 	{
-		//TODO: Change this to unique uuid
-		int accountId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(GetOwner());
-		EL_BankAccount updatedAccount = m_BankManager.NewAccountTransaction(accountId, amount);
+		EL_BankAccount updatedAccount = m_BankManager.NewAccountTransaction(EL_Utils.GetPlayerUID(GetOwner()), amount, comment);
 		
 		//Send updated account back to client
 		AskSetLocalBankAccount(updatedAccount);
@@ -50,8 +60,7 @@ class EL_RpcSenderComponent  : ScriptComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	void Rpc_DoLoadBankAccount()
 	{
-		//TODO: Change this to unique uuid
-		m_BankManager.LoadPlayerBankAccount(GetOwner(), GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(GetOwner()));
+		m_BankManager.LoadPlayerBankAccount(GetOwner());
 	}
 	
 	//------------------------------------------------------------------------------------------------

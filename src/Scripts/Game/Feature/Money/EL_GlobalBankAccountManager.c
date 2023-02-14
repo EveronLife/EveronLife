@@ -6,7 +6,7 @@ class EL_GlobalBankAccountManagerClass : GenericEntityClass
 class EL_GlobalBankAccountManager : GenericEntity
 {
 	protected ref array<ref EL_BankAccount> m_aBankAccounts;
-
+	
 	protected static EL_GlobalBankAccountManager s_pInstance;
 	ref EL_BankAccount m_LocalBankAccount;
 
@@ -25,14 +25,15 @@ class EL_GlobalBankAccountManager : GenericEntity
 	//------------------------------------------------------------------------------------------------
 	//! Called from Authority
 	//! TODO: Add transfer methode
-	EL_BankAccount NewAccountTransaction(int accountId, int amount)
+	EL_BankAccount NewAccountTransaction(string playerUid, int amount, string comment)
 	{
-		EL_BankAccount sourceAccount = GetBankAccount(accountId);
-		Print("[EL-Bank] New transaction from account: " + accountId + " | Amount: " + amount);
+		EL_BankAccount sourceAccount = GetBankAccount(playerUid);
+		if (amount == 0)
+			return sourceAccount;
 		if (amount > 0)
-			sourceAccount.TryDeposit(amount);
+			sourceAccount.TryDeposit(amount, comment);
 		else
-			sourceAccount.TryWithdraw(-amount);		
+			sourceAccount.TryWithdraw(-amount, comment);		
 		
 		return sourceAccount;
 	}
@@ -45,16 +46,16 @@ class EL_GlobalBankAccountManager : GenericEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Called from Authority
-	void LoadPlayerBankAccount(IEntity player, int playerAccountId)
+	void LoadPlayerBankAccount(IEntity player)
 	{
-		Print("[EL-Bank] Loading account for " + playerAccountId);
+		Print("[EL-Bank] Loading account for ");
 
 		//Load or create account
-		EL_BankAccount bankAccount = GetBankAccount(playerAccountId);
+		EL_BankAccount bankAccount = GetBankAccount(EL_Utils.GetPlayerUID(player));
 		if (!bankAccount)
 		{
-			Print("[EL-Bank] Trying to loading non existant account for " + playerAccountId + " -> creating new one");
-			bankAccount = CreateBankAccount(playerAccountId);
+			Print("[EL-Bank] Trying to loading non existant account for " + EL_Utils.GetPlayerUID(player) + " -> creating new one");
+			bankAccount = CreateBankAccount(player);
 		}
 
 		//Send account data to client
@@ -83,18 +84,31 @@ class EL_GlobalBankAccountManager : GenericEntity
 	//------------------------------------------------------------------------------------------------
 	EL_BankAccount CreateBankAccount(int playerId)
 	{
-		EL_BankAccount newAccount = EL_BankAccount.Create(playerId, 1000);
+		EL_BankAccount newAccount = EL_BankAccount.Create(EL_Utils.GetPlayerUID(playerId), GetRandomFreeAccountId(), 1000);
 		m_aBankAccounts.Insert(newAccount);
-		Print("[EL-Bank] Created new account id: " + newAccount.GetId());
+		Print("[EL-Bank] Created new account id: " + newAccount.GetAccountOwnerUid());
 		return newAccount;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_BankAccount GetBankAccount(int playerId)
+	//! Gets a random free 8 digit id 
+	int GetRandomFreeAccountId()
+	{
+		int newAccountId = Math.RandomInt(11111111, 99999999);
+		foreach (EL_BankAccount account : m_aBankAccounts)
+		{
+			if (account.GetId() == newAccountId)
+				return GetRandomFreeAccountId();
+		}
+		return newAccountId;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	EL_BankAccount GetBankAccount(string playerUid)
 	{
 		foreach (EL_BankAccount account : m_aBankAccounts)
 		{
-			if (account.GetId() == playerId)
+			if (account.GetAccountOwnerUid() == playerUid)
 				return account;
 		}
 		return null;

@@ -19,6 +19,17 @@ class EL_Utils
 	{
 		return GetPlayerUID(GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player));
 	}
+	
+	static IEntity GetPlayerByUID(string uid)
+	{
+		array<int> players = {};
+		for (int i = 0, count = GetGame().GetPlayerManager().GetPlayers(players); i < count; i++)
+		{
+			if (GetPlayerUID(players[i]) == uid)
+				return GetGame().GetPlayerManager().GetPlayerControlledEntity(players[i]);		
+		}
+		return null;
+	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Spawns a prefab
@@ -225,6 +236,19 @@ class EL_Utils
 	}
 	
 	//------------------------------------------------------------------------------------------------
+	//! 1675.1522.85 + 2 numbers of tickcount 
+	//! TODO: FIx this shit cause we in 2023 in this shit does not have 64bit int ._.
+	//! TOOD: Guess the string decoder has to be made now sadge
+	static string GetTimeUUID()
+	{
+		string uuid = GetUnixTime().ToString();
+		string ticketCountString = System.GetTickCount().ToString();
+		//uuid += ticketCountString.Substring(ticketCountString.Length() - 2, 2);
+		Print("[EL-UUID] Genered new TimeUUID: " + uuid);
+		return uuid;
+	}
+	
+	//------------------------------------------------------------------------------------------------
 	//! Gets the current Unixtime UTC
 	//! \return integer representation of the time
 	static int GetUnixTime()
@@ -259,15 +283,7 @@ class EL_Utils
 		
 		int second = remainingSeconds;
 
-		return string.Format("%1-%2-%3 %4:%5:%6", 1970 + year, LeftFillNumber(month), LeftFillNumber(day), LeftFillNumber(hour), LeftFillNumber(minute), LeftFillNumber(second));
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	static string LeftFillNumber(int number)
-	{
-		if (number.ToString().Length() == 1)
-			return ("0" + number);
-		return number.ToString();
+		return string.Format("%1-%2-%3 %4:%5:%6", 1970 + year, month.ToString(2), day.ToString(2), hour.ToString(2), minute.ToString(2), second.ToString(2));
 	}
 }
 

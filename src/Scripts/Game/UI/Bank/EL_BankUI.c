@@ -12,7 +12,7 @@ class EL_BankDepositDialog : EL_BankDialogBase
 	override protected void OnConfirm()
 	{
 		if (!m_wMoneyEditBox.GetText().IsEmpty())
-			EL_NetworkUtils.GetLocalRpcSender().AskTransactionFromBankAccount(m_wMoneyEditBox.GetText().ToInt());
+			EL_NetworkUtils.GetLocalRpcSender().AskTransactionFromBankAccount(m_wMoneyEditBox.GetText().ToInt(), m_wCommentEditBox.GetText());
 		super.OnConfirm();
 	}
 }
@@ -23,7 +23,7 @@ class EL_BankWithdrawDialog : EL_BankDialogBase
 	override protected void OnConfirm()
 	{
 		if (!m_wMoneyEditBox.GetText().IsEmpty())
-			EL_NetworkUtils.GetLocalRpcSender().AskTransactionFromBankAccount(-m_wMoneyEditBox.GetText().ToInt());
+			EL_NetworkUtils.GetLocalRpcSender().AskTransactionFromBankAccount(-m_wMoneyEditBox.GetText().ToInt(), m_wCommentEditBox.GetText());
 		super.OnConfirm();
 	}
 }
@@ -36,6 +36,7 @@ class EL_BankDialogBase : DialogUI
 {
 	protected EL_GlobalBankAccountManager m_BankManager;
 	protected EditBoxWidget m_wMoneyEditBox;
+	protected EditBoxWidget m_wCommentEditBox;
 
 	//------------------------------------------------------------------------------------------------
 	override void OnMenuOpen()
@@ -43,6 +44,7 @@ class EL_BankDialogBase : DialogUI
 		super.OnMenuOpen();
 
 		m_wMoneyEditBox = EditBoxWidget.Cast(GetRootWidget().FindAnyWidget("MoneyAmount"));
+		m_wCommentEditBox = EditBoxWidget.Cast(GetRootWidget().FindAnyWidget("CommentText"));
 		m_BankManager = EL_GlobalBankAccountManager.GetInstance();
 	}
 }
@@ -154,8 +156,10 @@ class EL_BankMenu : ChimeraMenuBase
 		Widget transactionWidget =  Widget.Cast(GetGame().GetWorkspace().CreateWidgets(m_TransactionLayout, m_wRoot.FindAnyWidget("TransactionList")));
 		TextWidget dateText = TextWidget.Cast(transactionWidget.FindAnyWidget("Date"));
 		TextWidget moneyText = TextWidget.Cast(transactionWidget.FindAnyWidget("MoneyText"));
+		TextWidget commentText = TextWidget.Cast(transactionWidget.FindAnyWidget("CommentText"));
 		
 		dateText.SetText(EL_Utils.GetTimeFormatted(transaction.m_iDate));
+		commentText.SetText(transaction.m_sComment);
 		if (transaction.m_iAmount < 0)
 		{
 			int amount = transaction.m_iAmount * -1;
