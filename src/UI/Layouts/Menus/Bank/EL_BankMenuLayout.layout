@@ -277,7 +277,7 @@ FrameWidgetClass {
                 SizeMode Fill
                 FillWeight 33
                }
-               Opacity 0.356
+               "Is Enabled" 0
                "Inherit Color" 1
                components {
                 SCR_ButtonComponent "{5B3CD458AFAF7412}" {
