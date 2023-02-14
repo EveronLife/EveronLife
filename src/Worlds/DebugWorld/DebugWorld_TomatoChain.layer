@@ -141,3 +141,10 @@ GenericEntity TomatoTrader {
   }
  }
 }
+EL_GlobalBankAccountManager EL_GlobalBankAccountManager_5B0B1EE3ACA36752 : "{A8DB88FA148A2CA2}Prefabs/Core/EL_GlobalBankAccountManager.et" {
+ components {
+  RplComponent "{5C61235525CA8A6D}" {
+  }
+ }
+ coords 101.946 0 135.62
+}

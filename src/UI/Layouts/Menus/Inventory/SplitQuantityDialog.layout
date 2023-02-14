@@ -226,8 +226,6 @@ FrameWidgetClass {
          Slot LayoutSlot "{5510B6AC9B6E1FA4}" {
           Padding 25 20 25 20
          }
-         {
-         }
         }
        }
       }

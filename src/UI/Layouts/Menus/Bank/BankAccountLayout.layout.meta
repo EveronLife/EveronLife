@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{1C5799C6871DC397}UI/Layouts/Menus/Bank/BankAccountLayout.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

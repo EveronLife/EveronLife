@@ -21,6 +21,21 @@ class EL_Utils
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Finds Player Entity with UID
+	//! \param uid player uid
+	//! \return the player entity
+	static IEntity GetPlayerByUID(string uid)
+	{
+		array<int> players = {};
+		for (int i = 0, count = GetGame().GetPlayerManager().GetPlayers(players); i < count; i++)
+		{
+			if (GetPlayerUID(players[i]) == uid)
+				return GetGame().GetPlayerManager().GetPlayerControlledEntity(players[i]);
+		}
+		return null;
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Spawns a prefab
 	//! \param prefab ResournceName of the prefab to be spawned
 	//! \param origin Position(origin) where to spawn the entity
@@ -222,6 +237,44 @@ class EL_Utils
 			if (type.IsInherited(candiate)) return true;
 		}
 		return false;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Gets the current Unixtime UTC
+	//! \return integer representation of the time
+	static int GetUnixTime()
+	{
+		int year, month, day, hour, minute, second;
+		System.GetYearMonthDayUTC(year, month, day);
+		System.GetHourMinuteSecondUTC(hour, minute, second);
+		return (year - 1970) * 31556926 + month * 2629743 + day * 86400 + hour * 3600 + minute * 60 + second;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Converts unixtime to formatted string
+	//! \return UTC datetime in format "yyyy-mm-dd hh:ii:ss"
+	static string GetTimeFormatted(int unixTime)
+	{
+		int remainingSeconds = unixTime;
+
+		int year = remainingSeconds / 31556926;
+		remainingSeconds -= year * 31556926;
+
+		int month = remainingSeconds / 2629743;
+		remainingSeconds -= month * 2629743;
+
+		int day = remainingSeconds / 86400;
+		remainingSeconds -= day * 86400;
+
+		int hour = remainingSeconds / 3600;
+		remainingSeconds -= hour * 3600;
+
+		int minute = remainingSeconds / 60;
+		remainingSeconds -= minute * 60;
+
+		int second = remainingSeconds;
+
+		return string.Format("%1-%2-%3 %4:%5:%6", 1970 + year, month.ToString(2), day.ToString(2), hour.ToString(2), minute.ToString(2), second.ToString(2));
 	}
 }
 
