@@ -6,7 +6,7 @@ class EL_BankAccount
 	ref array<ref EL_BankTransaction> m_aTransactions = new array<ref EL_BankTransaction>();
 
 	protected static const int MAX_REPLICATED_TRANSACTIONS = 10;
-	
+
 	//------------------------------------------------------------------------------------------------
 	static EL_BankAccount Create(string ownerUid, int accountId, int startBalance)
 	{
@@ -16,19 +16,19 @@ class EL_BankAccount
 		bankAccount.m_iAccountId = accountId;
 		return bankAccount;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	int GetId()
 	{
 		return m_iAccountId;
 	}
-		
+
 	//------------------------------------------------------------------------------------------------
 	string GetAccountOwnerUid()
 	{
 		return m_sOwnerUid;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	IEntity GetAccountOwner()
 	{
@@ -111,11 +111,11 @@ class EL_BankAccount
 
 
 	//------------------------------------------------------------------------------------------------
-	static bool Extract(EL_BankAccount prop, ScriptCtx ctx, SSnapSerializerBase snapshot) 
+	static bool Extract(EL_BankAccount prop, ScriptCtx ctx, SSnapSerializerBase snapshot)
 	{
 		snapshot.SerializeInt(prop.m_iAccountId);
 		snapshot.SerializeInt(prop.m_iBalance);
-		
+
 		//Transactions limited to 5
 		int count = prop.m_aTransactions.Count();
 		count = Math.Min(count, MAX_REPLICATED_TRANSACTIONS);
@@ -125,21 +125,21 @@ class EL_BankAccount
 			snapshot.SerializeInt(prop.m_aTransactions[i].m_iAmount);
 			snapshot.SerializeInt(prop.m_aTransactions[i].m_iDate);
 		}
-		
+
 		return true;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
-	static void Encode(SSnapSerializerBase snapshot, ScriptCtx ctx, ScriptBitSerializer packet) 
-	{			
+	static void Encode(SSnapSerializerBase snapshot, ScriptCtx ctx, ScriptBitSerializer packet)
+	{
 		int accountId;
 		snapshot.SerializeInt(accountId);
-		packet.SerializeInt(accountId);		
-			
+		packet.SerializeInt(accountId);
+
 		int balance;
 		snapshot.SerializeInt(balance);
 		packet.SerializeInt(balance);
-		
+
 		int count;
 		snapshot.SerializeInt(count);
 		packet.SerializeInt(count);
@@ -148,29 +148,29 @@ class EL_BankAccount
 			int amount;
 			snapshot.SerializeInt(amount);
 			packet.SerializeInt(amount);
-			
+
 			int dateAsInt;
 			snapshot.SerializeInt(dateAsInt);
-			packet.SerializeInt(dateAsInt);		
+			packet.SerializeInt(dateAsInt);
 		}
 	}
-	
-	
+
+
 	//------------------------------------------------------------------------------------------------
-	static bool Decode(ScriptBitSerializer packet, ScriptCtx ctx, SSnapSerializerBase snapshot) 
-	{		
+	static bool Decode(ScriptBitSerializer packet, ScriptCtx ctx, SSnapSerializerBase snapshot)
+	{
 		int accountId;
 		packet.SerializeInt(accountId);
-		snapshot.SerializeInt(accountId);		
-		
+		snapshot.SerializeInt(accountId);
+
 		int balance;
 		packet.SerializeInt(balance);
 		snapshot.SerializeInt(balance);
-				
+
 		int count;
 		packet.SerializeInt(count);
 		snapshot.SerializeInt(count);
-		
+
 		for (int i = 0; i < count; i++)
 		{
 			int amount;
@@ -183,9 +183,9 @@ class EL_BankAccount
 		}
 		return true;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
-	static bool Inject(SSnapSerializerBase snapshot, ScriptCtx ctx, EL_BankAccount prop) 
+	static bool Inject(SSnapSerializerBase snapshot, ScriptCtx ctx, EL_BankAccount prop)
 	{
 		snapshot.SerializeInt(prop.m_iAccountId);
 		snapshot.SerializeInt(prop.m_iBalance);
@@ -193,51 +193,51 @@ class EL_BankAccount
 		int count;
 		snapshot.SerializeInt(count);
 		prop.m_aTransactions.Clear();
-		prop.m_aTransactions.Reserve(count);		
+		prop.m_aTransactions.Reserve(count);
 		for (int i = 0; i < count; i++)
 		{
 			int amount;
 			snapshot.SerializeInt(amount);
 			int dateAsInt;
 			snapshot.SerializeInt(dateAsInt);
-			
-			prop.m_aTransactions.InsertAt(EL_BankTransaction.Create(amount, 0, 0, "", dateAsInt), 0);
+
+			prop.m_aTransactions.Insert(EL_BankTransaction.Create(amount, 0, 0, "", dateAsInt));
 		}
-		
+
 		return true;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
-	static bool SnapCompare(SSnapSerializerBase lhs, SSnapSerializerBase rhs, ScriptCtx ctx) 
-	{				
+	static bool SnapCompare(SSnapSerializerBase lhs, SSnapSerializerBase rhs, ScriptCtx ctx)
+	{
 		if (!lhs.CompareSnapshots(rhs, 4))
 			return false;
-		
+
 		if (!lhs.CompareSnapshots(rhs, 4))
 			return false;
-		
+
 		int lhsCount;
 		int rhsCount;
 		lhs.SerializeInt(lhsCount);
 		rhs.SerializeInt(rhsCount);
 		if (lhsCount != rhsCount)
 			return false;
-		
+
 		for (int i = 0; i < lhsCount; i++)
 		{
 			if (!lhs.CompareSnapshots(rhs, 4))
 				return false;
-			
+
 			if (!lhs.CompareSnapshots(rhs, 4))
 				return false;
 		}
-		
+
 		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static bool PropCompare(EL_BankAccount prop, SSnapSerializerBase snapshot, ScriptCtx ctx) 
-	{	
+	static bool PropCompare(EL_BankAccount prop, SSnapSerializerBase snapshot, ScriptCtx ctx)
+	{
 		if (!snapshot.CompareInt(prop.m_iAccountId))
 			return false;
 		if (!snapshot.CompareInt(prop.m_iBalance))

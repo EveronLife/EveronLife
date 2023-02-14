@@ -6,7 +6,7 @@ class EL_GlobalBankAccountManagerClass : GenericEntityClass
 class EL_GlobalBankAccountManager : GenericEntity
 {
 	protected ref array<ref EL_BankAccount> m_aBankAccounts;
-	
+
 	protected static EL_GlobalBankAccountManager s_pInstance;
 	ref EL_BankAccount m_LocalBankAccount;
 
@@ -15,7 +15,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 	{
 		return s_pInstance;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	void OpenBankMenu()
 	{
@@ -33,8 +33,8 @@ class EL_GlobalBankAccountManager : GenericEntity
 		if (amount > 0)
 			sourceAccount.TryDeposit(amount, comment);
 		else
-			sourceAccount.TryWithdraw(-amount, comment);		
-		
+			sourceAccount.TryWithdraw(-amount, comment);
+
 		return sourceAccount;
 	}
 
@@ -48,7 +48,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 	//! Called from Authority
 	void LoadPlayerBankAccount(IEntity player)
 	{
-		Print("[EL-Bank] Loading account for ");
+		Print("[EL-Bank] Loading account for " + EL_Utils.GetPlayerUID(player));
 
 		//Load or create account
 		EL_BankAccount bankAccount = GetBankAccount(EL_Utils.GetPlayerUID(player));
@@ -91,7 +91,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Gets a random free 8 digit id 
+	//! Gets a random free 8 digit id
 	int GetRandomFreeAccountId()
 	{
 		int newAccountId = Math.RandomInt(11111111, 99999999);
@@ -102,7 +102,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 		}
 		return newAccountId;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	EL_BankAccount GetBankAccount(string playerUid)
 	{
