@@ -9,32 +9,14 @@ FrameWidgetClass {
       TextWidgetClass "{599C84CFFAF1151B}" {
        Prefab "{599C84CFFAF1151B}"
        "Is Enabled" 0
-       "Is Visible" 0
       }
       TextWidgetClass "{56FCAED04961AF39}" {
        Prefab "{56FCAED04961AF39}"
        "Is Enabled" 0
-       "Is Visible" 0
       }
       OverlayWidgetClass "{599ACE67769EE404}" {
        Prefab "{599ACE67769EE404}"
        "Is Enabled" 0
-       "Is Visible" 0
-       {
-        ImageWidgetClass "{599ACE6784E5011E}" {
-         Prefab "{599ACE6784E5011E}"
-         "Is Visible" 0
-        }
-        FrameWidgetClass "{599ACE65B54D977C}" {
-         Prefab "{599ACE65B54D977C}"
-         {
-          RichTextWidgetClass "{59387CF225C97F23}" {
-           Prefab "{59387CF225C97F23}"
-           "Is Visible" 0
-          }
-         }
-        }
-       }
       }
      }
     }
