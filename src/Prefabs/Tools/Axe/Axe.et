@@ -1,28 +1,7 @@
 GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
  ID "50989DC991E68512"
  components {
-  WeaponSoundComponent "{59965ADCBEA461A0}" {
-   Filenames {
-    "{430CD8162D17C2FF}Sounds/Weapons/_SharedData/Melee/Weapons_Melee_Pistol.acp" "{8D040E18DFEC29AF}Sounds/Weapons/_SharedData/PickUp/Weapons_PickUp_HandGun.acp"
-   }
-  }
-  MeshObject "{59908096775F151D}" {
-   Object "{B24B07C19FECA100}Assets/Tools/Axe.xob"
-  }
-  Hierarchy "{59965ADC3651353A}" {
-  }
-  RigidBody "{599080966B9BB4E4}" {
-   ModelGeometry 1
-  }
-  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
-   m_fDamage 65
-   m_fRange 2
-   m_fExecutionTime 2
-   m_aCollisionProbesPos {
-    0 -0.05 0 0 -0.025 0.05
-   }
-  }
-  SCR_WeaponAttachmentsStorageComponent "{51F080D5CE45A1A2}" {
+  InventoryItemComponent "{5ACCA164BC7A99A2}" {
    Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
     ItemDisplayName UIInfo "{5990AD6EC4FAB1CD}" {
      Name "Axe"
@@ -57,10 +36,15 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
     m_SlotType SLOT_WEAPONS_STORAGE
    }
   }
-  SimpleSoundComponent "{59072B578A46AF84}" {
-   Enabled 0
-   Filenames + {
-    ""
+  MeshObject "{59908096775F151D}" {
+   Object "{B24B07C19FECA100}Assets/Tools/Axe/Axe.xob"
+  }
+  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
+   m_fDamage 20.22
+   m_fRange 1
+   m_fExecutionTime 2
+   m_aCollisionProbesPos {
+    0 -0.05 0 0 -0.025 0.05
    }
   }
   WeaponComponent "{5990809682E12ADF}" {
@@ -74,30 +58,6 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
     Description "Axe for wood cutting"
    }
    WeaponSlotType "secondary"
-  }
-  ActionsManagerComponent "{A29AE67FF4D82B0F}" {
-   ActionContexts {
-    UserActionContext "{5086F9ADF588DCA4}" {
-     ContextName "default"
-    }
-   }
-   additionalActions {
-    SCR_EquipWeaponHolsterAction "{5990AD67F23F879F}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{59965ADC467073C4}" {
-     }
-    }
-    SCR_EquipWeaponAction "{59927B282708471D}" {
-     ParentContextList {
-      "default"
-     }
-     UIInfo UIInfo "{59927B281D9EA33A}" {
-      Name "#AR-Inventory_Equip"
-     }
-    }
-   }
   }
  }
 }

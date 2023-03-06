@@ -178,23 +178,5 @@ FrameWidgetClass {
     }
    }
   }
-  ProgressBarWidgetClass "{599ADB04B39CE4D7}" {
-   Name "m_staminaProgressBar"
-   Slot FrameWidgetSlot "{599ADB04B39CE4B4}" {
-    Anchor 0.488 1 0.488 1
-    PositionX -116.909
-    OffsetLeft -116.909
-    PositionY -24.982
-    OffsetTop -24.982
-    SizeX 228.403
-    OffsetRight -111.494
-    SizeY 13.64
-    OffsetBottom 11.342
-   }
-   "Is Enabled" 0
-   "Is Visible" 0
-   Maximum 1
-   Current 1
-  }
  }
 }

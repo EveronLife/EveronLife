@@ -9,7 +9,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	protected ref array<ResourceName> m_aDefaultCharacterPrefabs;
 
 	[Attribute(category: "New character defaults")]
-	protected ref array<ref EL_DefaultLoadoutSlot> m_aDefaultCharacterItems;
+	protected ref array<ref EL_DefaultLoadoutItem> m_aDefaultCharacterItems;
 
 	protected ref map<int, ref EL_CharacterSaveData> m_mSpawnData = new map<int, ref EL_CharacterSaveData>();
 
@@ -88,10 +88,10 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 					if (inventoryStorage)
 					{
 						// Init with invalid ids
-						state.m_aQuickBarRplIds.Resize(inventoryStorage.GetQuickSlotItems().Count());
+						state.m_aQuickBarRplIds.Reserve(inventoryStorage.GetQuickSlotItems().Count());
 						for (int i = 0, count = state.m_aQuickBarRplIds.Count(); i < count; i++)
 						{
-							state.m_aQuickBarRplIds.Set(i, RplId.Invalid());
+							state.m_aQuickBarRplIds.Insert(RplId.Invalid());
 						}
 
 						foreach (EL_PersistentQuickSlotItem quickSlot : saveData.m_aQuickSlotEntities)
@@ -145,13 +145,10 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 
 			InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(InventoryStorageManagerComponent));
 			BaseLoadoutManagerComponent loadoutManager = BaseLoadoutManagerComponent.Cast(playerEntity.FindComponent(BaseLoadoutManagerComponent));
-			foreach (EL_DefaultLoadoutSlot defaultLoadoutSlot : m_aDefaultCharacterItems)
+			foreach (EL_DefaultLoadoutItem loadoutItem : m_aDefaultCharacterItems)
 			{
-				if (defaultLoadoutSlot.m_eArea == ELoadoutArea.ELA_None || !defaultLoadoutSlot.m_pItem) continue;
-
-				IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, defaultLoadoutSlot.m_pItem);
+				IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, loadoutItem);
 				if (!slotEntity) continue;
-
 				loadoutManager.Wear(slotEntity);
 			}
 
@@ -237,16 +234,6 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 			Print("EL_RespawnSytemComponent has to be attached to a EL_GameModeRoleplay (or inherited) entity!", LogLevel.ERROR);
 		}
 	}
-}
-
-[BaseContainerProps(), EL_BaseContainerCustomTitleFieldEnum("m_eArea", ELoadoutArea)]
-class EL_DefaultLoadoutSlot
-{
-	[Attribute(uiwidget: UIWidgets.ComboBox, desc: "Loadout area", enums: ParamEnumArray.FromEnum(ELoadoutArea))]
-	ELoadoutArea m_eArea;
-
-	[Attribute(desc: "Loadout item")]
-	ref EL_DefaultLoadoutItem m_pItem;
 }
 
 [BaseContainerProps()]

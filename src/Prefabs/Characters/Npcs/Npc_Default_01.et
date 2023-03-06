@@ -6,27 +6,32 @@ EL_NpcBaseEntity : "{68C6EB0CCDD55E3F}Prefabs/Characters/Core/Npc_Base.et" {
     LoadoutSlotInfo Back {
      PivotID "scene_root"
      Name "Backpack"
-     Area Backpack
+     AreaType LoadoutBackpackArea "{5C67187BE9DFC1AF}" {
+     }
     }
     LoadoutSlotInfo Vest {
      Name "Vest"
-     Area Vest
+     AreaType LoadoutVestArea "{5C67187BEBC7270F}" {
+     }
     }
     LoadoutSlotInfo Boots {
      Prefab "{DAAFD15478BDE1C3}Prefabs/Characters/Footwear/CombatBoots_US_01.et"
      Name "Boots"
-     Area Boots
+     AreaType LoadoutBootsArea "{5C67187BED616114}" {
+     }
     }
     LoadoutSlotInfo Hat {
      Enabled 0
      Prefab "{B02281435AED8274}Prefabs/Characters/HeadGear/Hat_M70_01/Hat_M70_01.et"
      Name "Helmet"
-     Area HeadCover
+     AreaType LoadoutHeadCoverArea "{5C67187BEFF5FB7A}" {
+     }
     }
     LoadoutSlotInfo Jacket {
      Prefab "{E44990162EBC47B7}Prefabs/Characters/Uniforms/Jacket_M88_base.et"
      Name "Jacket"
-     Area Jacket
+     AreaType LoadoutJacketArea "{5C67187BE038C497}" {
+     }
      MeshesToHide {
       "Torso" "Arm_L" "Arm_R" "ArmUpper_L" "ArmUpper_R"
      }
@@ -34,7 +39,8 @@ EL_NpcBaseEntity : "{68C6EB0CCDD55E3F}Prefabs/Characters/Core/Npc_Base.et" {
     LoadoutSlotInfo Pants {
      Prefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
      Name "Pants"
-     Area Pants
+     AreaType LoadoutPantsArea "{5C67187BE3A4F927}" {
+     }
      MeshesToHide {
       "Leg_L" "Leg_R" "Groin" "Calf_L" "Calf_R"
      }

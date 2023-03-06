@@ -91,12 +91,12 @@ class EL_RespawnCharacterState
 		int count;
 		snapshot.SerializeInt(count);
 		prop.m_aQuickBarRplIds = new array<RplId>();
-		prop.m_aQuickBarRplIds.Resize(count);
+		prop.m_aQuickBarRplIds.Reserve(count);
 		for (int nId = 0; nId < count; nId++)
 		{
 			RplId id;
 			snapshot.SerializeInt(id);
-			prop.m_aQuickBarRplIds.Set(nId, id);
+			prop.m_aQuickBarRplIds.Insert(id);
 		}
 
 		return true;
@@ -154,7 +154,7 @@ modded class SCR_RespawnComponent
 	protected void ApplyDeferredPhase2(ChimeraCharacter character, CharacterControllerComponent characterController)
 	{
 		// Apply hand items
-		IEntity rightHandEntity = EL_Utils.FindEntityByRplId(EL_m_pRespawnCharacterState.m_pRightHandItemRplId);
+		IEntity rightHandEntity = EL_NetworkUtils.FindEntityByRplId(EL_m_pRespawnCharacterState.m_pRightHandItemRplId);
 		if (rightHandEntity)
 		{
 			characterController.TryEquipRightHandItem(rightHandEntity, EL_m_pRespawnCharacterState.m_eRightHandType, false);
@@ -162,7 +162,7 @@ modded class SCR_RespawnComponent
 		}
 
 		// Left has to be second or else right hand weapon will remove left hand gadget again
-		IEntity leftHandEntity = EL_Utils.FindEntityByRplId(EL_m_pRespawnCharacterState.m_pLeftHandItemRplId);
+		IEntity leftHandEntity = EL_NetworkUtils.FindEntityByRplId(EL_m_pRespawnCharacterState.m_pLeftHandItemRplId);
 		if (leftHandEntity)
 		{
 			SCR_GadgetManagerComponent gadgetMgr = SCR_GadgetManagerComponent.GetGadgetManager(character);

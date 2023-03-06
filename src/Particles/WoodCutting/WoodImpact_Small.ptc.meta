@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{12571DF1E334C899}Particles/WoodCutting/WoodImpact_Small.ptc"
+ Configurations {
+  PTCResourceClass PC : "{4B4500E061CCD624}Configs/System/ResourceTypes/PC/ParticleEffect.conf" {
+  }
+  PTCResourceClass XBOX_ONE : "{73FE8562A95EBA36}Configs/System/ResourceTypes/XBOX_ONE/ParticleEffect.conf" {
+  }
+  PTCResourceClass XBOX_SERIES : PC {
+  }
+  PTCResourceClass PS4 : "{B94602D6C3160C98}Configs/System/ResourceTypes/PS4/ParticleEffect.conf" {
+  }
+  PTCResourceClass HEADLESS : "{EED8908A9A55ED1C}Configs/System/ResourceTypes/HEADLESS/ParticleEffect.conf" {
+  }
+ }
+}

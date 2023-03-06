@@ -26,7 +26,7 @@ class EL_Utils
 	//! \param origin Position(origin) where to spawn the entity
 	//! \param orientation Angles(yaw, pitch, rolle in degrees) to apply to the entity
 	//! \return the spawned entity or null on failure
-	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0")
+	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0", bool global = true)
 	{
 		EntitySpawnParams spawnParams();
 
@@ -34,6 +34,8 @@ class EL_Utils
 
 		Math3D.AnglesToMatrix(orientation, spawnParams.Transform);
 		spawnParams.Transform[3] = origin;
+
+		if (!global) return GetGame().SpawnEntityPrefabLocal(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 
 		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 	}
@@ -46,23 +48,6 @@ class EL_Utils
 	{
 		if (!entity) return string.Empty;
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Finds an entity by its repliction id
-	//! \param rplId Replication id to search for
-	//! \return the the entity found or null if not found or invalid replication id
-	static IEntity FindEntityByRplId(RplId rplId)
-	{
-		IEntity entity = null;
-
-		if (rplId.IsValid())
-		{
-			RplComponent entityRpl = RplComponent.Cast(Replication.FindItem(rplId));
-			if (entityRpl) entity = IEntity.Cast(entityRpl.GetEntity());
-		}
-
-		return entity;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -192,27 +177,51 @@ class EL_Utils
 		}
 
 		array<string> sortedHierachyTuples();
-		sortedHierachyTuples.Resize(hierachyCount.Count());
+		sortedHierachyTuples.Reserve(hierachyCount.Count());
 
-		int hierachyIdx = 0;
 		foreach (typename type, int count : hierachyCount)
 		{
-			sortedHierachyTuples.Set(hierachyIdx++, string.Format("%1:%2", count.ToString(3), type.ToString()));
+			sortedHierachyTuples.Insert(string.Format("%1:%2", count.ToString(3), type.ToString()));
 		}
 
 		sortedHierachyTuples.Sort(true);
 
 		array<typename> sortedHierachy();
-		sortedHierachy.Resize(hierachyCount.Count());
+		sortedHierachy.Reserve(hierachyCount.Count());
 
-		foreach (int idx, string tuple : sortedHierachyTuples)
+		foreach (string tuple : sortedHierachyTuples)
 		{
 			int typenameStart = tuple.IndexOf(":") + 1;
 			string typenameString = tuple.Substring(typenameStart, tuple.Length() - typenameStart);
-			sortedHierachy.Set(idx, typenameString.ToType());
+			sortedHierachy.Insert(typenameString.ToType());
 		}
 
 		return sortedHierachy;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MaxInt(int a, int b)
+	{
+		if(a > b) return a;
+		return b;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static int MinInt(int a, int b)
+	{
+		if(a < b) return a;
+		return b;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static bool IsAnyInherited(Class instance, notnull array<typename> from)
+	{
+		typename type = instance.Type();
+		foreach (typename candiate : from)
+		{
+			if (type.IsInherited(candiate)) return true;
+		}
+		return false;
 	}
 }
 
@@ -227,13 +236,13 @@ class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 		if (!sourceArray) return null;
 
 		array<ref TResultType> castedResult();
-		castedResult.Resize(sourceArray.Count());
+		castedResult.Reserve(sourceArray.Count());
 
-		foreach (int idx, TSourceType element : sourceArray)
+		foreach (TSourceType element : sourceArray)
 		{
 			TResultType castedElement = TResultType.Cast(element);
 
-			if (castedElement) castedResult.Set(idx, castedElement);
+			if (castedElement) castedResult.Insert(castedElement);
 		}
 
 		return castedResult;
