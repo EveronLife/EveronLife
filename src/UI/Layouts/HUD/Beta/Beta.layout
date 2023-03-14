@@ -75,7 +75,7 @@ FrameWidgetClass {
     OverlayWidgetClass "{599ADB144BDA64A4}" {
      Name "m_staminaIndicator"
      Slot LayoutSlot "{599ADB144BDA6495}" {
-      Padding 0 0 0 0
+      Padding 10 0 10 0
       FillWeight 1
      }
      Opacity 0.75
