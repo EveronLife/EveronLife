@@ -42,18 +42,19 @@ FrameWidgetClass {
     OverlayWidgetClass "{599ADB152F1694A9}" {
      Name "m_healthIndicator"
      Slot LayoutSlot "{599ADB14544C3A19}" {
+      Padding 10 0 10 0
      }
-     Opacity 0.5
+     Opacity 0.75
      {
       ImageWidgetClass "{599ADB1720E2246A}" {
        Name "m_healthOutline"
        Slot OverlayWidgetSlot "{599ADB14CDDB52CA}" {
        }
-       Color 1 1 1 0.275
+       Opacity 0.75
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Health"
-       Size 60 60
-       Mask "{3E610FF229AE7C80}Assets/UI/healthfade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -61,10 +62,11 @@ FrameWidgetClass {
        Name "m_healthProgress"
        Slot OverlayWidgetSlot "{599ADB14CB2F43FB}" {
        }
-       Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
+       Opacity 0.75
+       Texture "{4762CA1C4E5BCCBA}Assets/UI/EL_StatsBars.imageset"
        Image "Health"
-       Size 60 60
-       Mask "{3E610FF229AE7C80}Assets/UI/healthfade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -73,20 +75,20 @@ FrameWidgetClass {
     OverlayWidgetClass "{599ADB144BDA64A4}" {
      Name "m_staminaIndicator"
      Slot LayoutSlot "{599ADB144BDA6495}" {
-      Padding 0 0 0 0
+      Padding 10 0 10 0
       FillWeight 1
      }
-     Opacity 0.5
+     Opacity 0.75
      {
       ImageWidgetClass "{599ADB1734363228}" {
        Name "m_staminaOutline"
        Slot OverlayWidgetSlot "{599ADB14CDDB52CA}" {
        }
-       Color 1 1 1 0.275
+       Opacity 0.75
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Stamina"
-       Size 60 60
-       Mask "{048378E91D97B4C6}Assets/UI/staminafade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -94,29 +96,30 @@ FrameWidgetClass {
        Name "m_staminaProgress"
        Slot OverlayWidgetSlot "{599ADB1466E2052D}" {
        }
-       Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
+       Opacity 0.75
+       Texture "{4762CA1C4E5BCCBA}Assets/UI/EL_StatsBars.imageset"
        Image "Stamina"
-       Size 60 60
-       Mask "{048378E91D97B4C6}Assets/UI/staminafade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
       }
      }
     }
     OverlayWidgetClass "{599ADB1440D6120D}" {
      Name "m_hungerIndicator"
      Slot LayoutSlot "{599ADB1440D61213}" {
-      Padding 0 0 0 0
+      Padding 10 0 10 0
      }
-     Opacity 0.5
+     Opacity 0.75
      {
       ImageWidgetClass "{599ADB170EB78E70}" {
        Name "m_hungerOutline"
        Slot OverlayWidgetSlot "{599ADB14CDDB52CA}" {
        }
-       Color 1 1 1 0.275
+       Opacity 0.75
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Hunger"
-       Size 60 60
-       Mask "{C5E68D1961F5F34C}Assets/UI/hungerfade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -124,29 +127,30 @@ FrameWidgetClass {
        Name "m_hungerProgress"
        Slot OverlayWidgetSlot "{599ADB1466E2052D}" {
        }
-       Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
+       Opacity 0.75
+       Texture "{4762CA1C4E5BCCBA}Assets/UI/EL_StatsBars.imageset"
        Image "Hunger"
-       Size 60 60
-       Mask "{C5E68D1961F5F34C}Assets/UI/hungerfade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
       }
      }
     }
     OverlayWidgetClass "{599ADB1449235ED0}" {
      Name "m_thirstIndicator"
      Slot LayoutSlot "{599ADB1449235EBB}" {
-      Padding 0 0 0 0
+      Padding 10 0 10 0
      }
-     Opacity 0.5
+     Opacity 0.75
      {
       ImageWidgetClass "{599ADB17878342FB}" {
        Name "m_thirstOutline"
        Slot OverlayWidgetSlot "{599ADB14CDDB52CA}" {
        }
-       Color 1 1 1 0.275
+       Opacity 0.75
        Texture "{ABAB6447C4767279}Assets/UI/EL_StatsOutlines.imageset"
        Image "Thirst"
-       Size 60 60
-       Mask "{A09CACE94A75F60D}Assets/UI/thirstfade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
        "Transition width" 0
        Range 0.005
       }
@@ -154,10 +158,11 @@ FrameWidgetClass {
        Name "m_thirstProgress"
        Slot OverlayWidgetSlot "{599ADB1464200127}" {
        }
-       Texture "{42A605A4D50A464F}Assets/UI/EL_StatsBars.imageset"
+       Opacity 0.75
+       Texture "{4762CA1C4E5BCCBA}Assets/UI/EL_StatsBars.imageset"
        Image "Thirst"
-       Size 60 60
-       Mask "{A09CACE94A75F60D}Assets/UI/thirstfade.edds"
+       Size 45 60
+       Mask "{5E761E5C31171F1B}Assets/UI/fade.edds"
       }
      }
     }
@@ -167,8 +172,7 @@ FrameWidgetClass {
       VerticalAlign 1
       Padding 0 0 30 0
      }
-     Opacity 0.6
-     Color 0.429 0.429 0.429 1
+     Opacity 0.75
      Text "$ -"
      "Horizontal Alignment" Center
      "Vertical Alignment" Center
