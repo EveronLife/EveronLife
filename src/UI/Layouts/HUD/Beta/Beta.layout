@@ -107,7 +107,7 @@ FrameWidgetClass {
     OverlayWidgetClass "{599ADB1440D6120D}" {
      Name "m_hungerIndicator"
      Slot LayoutSlot "{599ADB1440D61213}" {
-      Padding 0 0 0 0
+      Padding 10 0 10 0
      }
      Opacity 0.75
      {
