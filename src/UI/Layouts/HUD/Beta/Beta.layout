@@ -138,7 +138,7 @@ FrameWidgetClass {
     OverlayWidgetClass "{599ADB1449235ED0}" {
      Name "m_thirstIndicator"
      Slot LayoutSlot "{599ADB1449235EBB}" {
-      Padding 0 0 0 0
+      Padding 10 0 10 0
      }
      Opacity 0.75
      {
