@@ -2,28 +2,28 @@ class EL_BetaHud : SCR_InfoDisplay
 {
 	//--------------------------- CONFIG VALUES ---------------------------
 	//! TODO: ref from settings insted of setting in code
-	protected bool m_bEnableHUD = true; 
+	protected bool m_bEnableHUD = true;
 	protected bool m_bEnableStamina = true;
 	protected bool m_bEnableHealth = true;
 	protected bool m_bEnableThirst = true;
 	protected bool m_bEnableHunger = true;
 	protected bool m_bEnableMoney = true;
 	//---------------------------------------------------------------------
-	
+
 	protected HorizontalLayoutWidget m_wPlayerStatsHUD;
-	
+
 	protected ProgressBarWidget m_wStaminaProgressBar;
 	protected ImageWidget m_wStaminaProgress;
 	protected ImageWidget m_wHealthProgress;
 	protected ImageWidget m_wThirstProgress;
 	protected ImageWidget m_wHungerProgress;
-	
+
 	protected TextWidget m_wMoneyIndicator;
 	protected OverlayWidget m_wHealthIndicator;
 	protected OverlayWidget m_wStaminaIndicator;
 	protected OverlayWidget m_wHungerIndicator;
 	protected OverlayWidget m_wThirstIndicator;
-	
+
 	protected SCR_CharacterControllerComponent m_PlayerController;
 	protected DamageManagerComponent m_DMC;
 
@@ -33,7 +33,7 @@ class EL_BetaHud : SCR_InfoDisplay
 
 	protected float m_fTimeAccumulator;
 	protected bool m_bGUIHidden;
-	
+
 	//---------------------------------------------------------------------
 	void OnHealthChange(float value)
 	{
@@ -163,7 +163,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		{
 			m_wStaminaIndicator = OverlayWidget.Cast(m_wPlayerStatsHUD.FindAnyWidget("m_staminaIndicator"));
 			//If this is null thats fine as long as the ProgressBarWidget is enabled
-			
+
 			m_bUsingProgressWidget = (!m_wStaminaIndicator || !m_wStaminaIndicator.IsEnabled());
 			if (m_bUsingProgressWidget)
 			{
@@ -200,8 +200,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		m_bStatChange = false;
 		if (m_bEnableHealth) OnHealthChange(m_DMC.GetHealth());
 		if (m_bEnableStamina) OnStaminaChange(m_PlayerController.GetStamina());
-		//TODO: Get info from Money and Survival Stats Components
-
+		//TODO: Get info from Survival Stats Components
 
 		if (m_bStatChange)
 		{
@@ -240,17 +239,14 @@ class EL_BetaHud : SCR_InfoDisplay
 	{
 		if (value >= 0.65)
 		{
-			//turn white
 			bar.SetColor(Color.White);
 		}
 		else if (value > 0.35 && value < 0.65)
 		{
-			//turn yellow
 			bar.SetColor(Color.Yellow);
 		}
 		else
 		{
-			//turn red
 			bar.SetColor(Color.Red);
 		}
 	}
