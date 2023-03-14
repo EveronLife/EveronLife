@@ -42,6 +42,7 @@ FrameWidgetClass {
     OverlayWidgetClass "{599ADB152F1694A9}" {
      Name "m_healthIndicator"
      Slot LayoutSlot "{599ADB14544C3A19}" {
+      Padding 10 0 10 0
      }
      Opacity 0.75
      {
