@@ -72,11 +72,3 @@ GenericEntity {
   }
  }
 }
-$grp GenericEntity : "{9B6B61BB3FE3DFB0}Prefabs/Items/Equipment/Radios/Radio_ANPRC77.et" {
- Radio_ANPRC77_5CAB08C53F86CCBB {
-  coords 101.008 0.001 134.949
- }
- Radio_ANPRC77_5CAB08C53FE4BA26 {
-  coords 100.371 0.001 134.926
- }
-}
