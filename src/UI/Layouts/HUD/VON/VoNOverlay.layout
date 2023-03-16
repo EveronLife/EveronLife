@@ -5,7 +5,6 @@ FrameWidgetClass {
    {
     VerticalLayoutWidgetClass "{00000000AB3C9068}" {
      Prefab "{00000000AB3C9068}"
-     "Is Enabled" 0
      "Is Visible" 0
     }
    }
