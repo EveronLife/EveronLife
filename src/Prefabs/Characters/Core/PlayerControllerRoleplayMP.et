@@ -3,10 +3,6 @@ SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerC
  components {
   SCR_HUDManagerComponent "{2FDC275D9EBCDB8B}" {
    InfoDisplays {
-    EL_BetaHud "{596B35404325D772}" {
-     m_LayoutPath "{9165B2D1BAEA7F6A}UI/Layouts/HUD/Beta/Beta.layout"
-     m_eLayer ALWAYS_TOP
-    }
    }
   }
  }
