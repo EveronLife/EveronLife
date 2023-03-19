@@ -280,7 +280,7 @@ class EL_PersistenceManager
 	protected bool UpdateRootEntityCollection(EL_PersistenceComponent persistenceComponent)
 	{
 		// TODO: Rework the whole system to only listen to parent change event: https://feedback.bistudio.com/T167990
-		
+
 		// Double check all root entites as some of them might have been stored or unstored without a manager noticing. Remove once ground item manipulation events are exposed.
 		if (!EL_PersistenceUtils.IsAttached(persistenceComponent.GetOwner()))
 		{

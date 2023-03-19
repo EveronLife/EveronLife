@@ -48,7 +48,7 @@ class EL_PersistentScriptedStateBase
 	//! Load existing save-data to apply to this scripted state
 	bool Load(notnull EL_ScriptedStateSaveDataBase saveData)
 	{
-		if (m_bDetatched || !saveData.GetId() || !saveData.ApplyTo(this))
+		if (m_bDetatched || saveData.GetId() != m_sId || !saveData.ApplyTo(this))
 		{
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
 			return false;

@@ -66,7 +66,8 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		WriteMetaData(saveContext);
+		SerializeMetaData(saveContext);
+		
 		saveContext.WriteValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 
 		array<ref EL_SelfSpawnDynamicEntity> selfSpawnDynamicEntities();
@@ -90,7 +91,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		ReadMetaData(loadContext);
+		DeserializeMetaData(loadContext);
 
 		loadContext.ReadValue("m_aRemovedBackedEntities", m_aRemovedBackedEntities);
 

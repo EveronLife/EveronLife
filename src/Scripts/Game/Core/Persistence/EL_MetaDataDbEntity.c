@@ -4,8 +4,24 @@ class EL_MetaDataDbEntity : EL_DbEntity
 	EL_DateTimeUtcAsInt m_iLastSaved;
 
 	//------------------------------------------------------------------------------------------------
+	//! Utility function to read meta-data
+	void ReadMetaData(notnull EL_PersistenceComponent persistenceComponent)
+	{
+		SetId(persistenceComponent.GetPersistentId());
+		m_iLastSaved = persistenceComponent.GetLastSaved();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Utility function to read meta-data
+	void ApplyMetaData(notnull EL_PersistenceComponent persistenceComponent)
+	{
+		// Id alraedy loaded on component through persistence manager
+		persistenceComponent.SetLastSaved(m_iLastSaved);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Utility function to write meta-data to serializer
-	void WriteMetaData(notnull BaseSerializationSaveContext saveContext)
+	void SerializeMetaData(notnull BaseSerializationSaveContext saveContext)
 	{
 		WriteId(saveContext);
 		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
@@ -14,7 +30,7 @@ class EL_MetaDataDbEntity : EL_DbEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Utility function to read meta-data from serializer
-	void ReadMetaData(notnull BaseSerializationLoadContext loadContext)
+	void DeserializeMetaData(notnull BaseSerializationLoadContext loadContext)
 	{
 		ReadId(loadContext);
 		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);

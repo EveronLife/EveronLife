@@ -59,7 +59,7 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		WriteMetaData(saveContext);
+		SerializeMetaData(saveContext);
 
 		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
 		foreach (string name, Tuple2<string, typename> tuple : m_mNameIdMapping)
@@ -80,7 +80,7 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		ReadMetaData(loadContext);
+		DeserializeMetaData(loadContext);
 
 		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
 		loadContext.ReadValue("m_aEntries", entries);

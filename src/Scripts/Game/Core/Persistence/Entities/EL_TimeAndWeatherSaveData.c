@@ -9,12 +9,11 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	//------------------------------------------------------------------------------------------------
 	override bool ReadFrom(notnull IEntity worldEntity)
 	{
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity);
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
-		if (!timeAndWeatherManager) return false;
+		if (!persistenceComponent || !timeAndWeatherManager) return false;
 
-		SetId(persistenceComponent.GetPersistentId());
-		m_iLastSaved = persistenceComponent.GetLastSaved();
+		ReadMetaData(persistenceComponent);
 
 		WeatherState currentWeather = timeAndWeatherManager.GetCurrentWeatherState();
 		m_sWeatherState = currentWeather.GetStateName();
@@ -29,11 +28,13 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	//------------------------------------------------------------------------------------------------
 	override bool ApplyTo(notnull IEntity worldEntity)
 	{
+		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity);
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
-		if (!timeAndWeatherManager) return false;
+		if (!persistenceComponent || !timeAndWeatherManager) return false;
 
+		ApplyMetaData(persistenceComponent);
+		
 		timeAndWeatherManager.ForceWeatherTo(m_bWeatherLooping, m_sWeatherState);
-
 		timeAndWeatherManager.SetDate(m_iYear, m_iMonth, m_iDay);
 		timeAndWeatherManager.SetHoursMinutesSeconds(m_iHour, m_iMinute, m_iSecond);
 
@@ -43,7 +44,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	//------------------------------------------------------------------------------------------------
 	override protected bool SerializationSave(BaseSerializationSaveContext saveContext)
 	{
-		WriteMetaData(saveContext);
+		SerializeMetaData(saveContext);
 
 		saveContext.WriteValue("m_sWeatherState", m_sWeatherState);
 		saveContext.WriteValue("m_bWeatherLooping", m_bWeatherLooping);
@@ -60,7 +61,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	//------------------------------------------------------------------------------------------------
 	override protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
 	{
-		ReadMetaData(loadContext);
+		DeserializeMetaData(loadContext);
 
 		loadContext.ReadValue("m_sWeatherState", m_sWeatherState);
 		loadContext.ReadValue("m_bWeatherLooping", m_bWeatherLooping);

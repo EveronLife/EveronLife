@@ -16,8 +16,7 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
 
-		SetId(persistenceComponent.GetPersistentId());
-		m_iLastSaved = persistenceComponent.GetLastSaved();
+		ReadMetaData(persistenceComponent);
 
 		m_rPrefab = EL_Utils.GetPrefabName(worldEntity);
 
@@ -80,6 +79,8 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 	{
 		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
+
+		ApplyMetaData(persistenceComponent);
 
 		// Special handling for transformation as its not really a "component" and it helps other component loads if the entity position is already set.
 		array<ref EL_ComponentSaveDataBase> transformData = m_mComponentsSaveData.Get(EL_TransformationSaveData);
@@ -156,7 +157,7 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		WriteMetaData(saveContext);
+		SerializeMetaData(saveContext);
 
 		string prefabString = m_rPrefab;
 		if (prefabString.StartsWith("{")) prefabString = m_rPrefab.Substring(1, 16);
@@ -183,7 +184,7 @@ class EL_EntitySaveDataBase : EL_MetaDataDbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		ReadMetaData(loadContext);
+		DeserializeMetaData(loadContext);
 
 		loadContext.ReadValue("m_rPrefab", m_rPrefab);
 		if (m_rPrefab) m_rPrefab = string.Format("{%1}", m_rPrefab);

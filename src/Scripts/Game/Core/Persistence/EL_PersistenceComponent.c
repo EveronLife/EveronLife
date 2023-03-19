@@ -60,16 +60,23 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Set the last time this entity was saved as packed UTC date time.
+	//! ONLY USE WHEN YOU KNOW WHAT YOU ARE DOING! PRIMARILY INTERNAL USE.
+	void SetLastSaved(EL_DateTimeUtcAsInt dateTime)
+	{
+		m_iLastSaved = dateTime;
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Save the entity to the database
 	//! \return the save-data instance that was submitted to the database
 	EL_EntitySaveDataBase Save()
 	{
 		if (m_bDetatched || !m_sId) return null;
 
-		IEntity owner = GetOwner();
-
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 
+		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(settings.m_tSaveDataTypename.Spawn());
 		if (!saveData || !saveData.ReadFrom(owner))
@@ -103,14 +110,11 @@ class EL_PersistenceComponent : ScriptComponent
 	//! Load existing save-data to apply to this entity
 	bool Load(notnull EL_EntitySaveDataBase saveData)
 	{
-		if (m_bDetatched || !saveData.GetId() || !saveData.ApplyTo(GetOwner()))
+		if (m_bDetatched || saveData.GetId() != m_sId || !saveData.ApplyTo(GetOwner()))
 		{
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
 			return false;
 		}
-
-		m_sId = saveData.GetId();
-		m_iLastSaved = saveData.m_iLastSaved;
 
 		return true;
 	}

@@ -69,7 +69,7 @@ class EL_PersistentEntityLifetimeCollection : EL_MetaDataDbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
-		WriteMetaData(saveContext);
+		SerializeMetaData(saveContext);
 
 		array<ref EL_PersistentEntityLifetime> lifetimes();
 		lifetimes.Reserve(m_mLifetimes.Count());
@@ -92,7 +92,7 @@ class EL_PersistentEntityLifetimeCollection : EL_MetaDataDbEntity
 	{
 		if (!loadContext.IsValid()) return false;
 
-		ReadMetaData(loadContext);
+		DeserializeMetaData(loadContext);
 
 		m_mLifetimes = new map<string, float>();
 
