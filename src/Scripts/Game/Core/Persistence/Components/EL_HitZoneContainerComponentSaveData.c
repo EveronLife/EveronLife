@@ -33,7 +33,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 			persistentHitZone.m_sName = hitZone.GetName();
 			persistentHitZone.m_fHealth = healthScaled;
 
-			if (settings.m_aHitzoneFilter.IsEmpty() || settings.m_aHitboxFilter.Contains(persistentHitZone.m_sName))
+			if (settings.m_aHitzoneFilter.IsEmpty() || settings.m_aHitzoneFilter.Contains(persistentHitZone.m_sName))
 			{
 				m_aHitzones.Insert(persistentHitZone);
 			}
