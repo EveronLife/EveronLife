@@ -157,15 +157,12 @@ class EL_PersistenceComponent : ScriptComponent
 					continue;
 				}
 
-				// We only need the type once, but can't use a set as we need ordering in the step below
-				if (componentSaveDataTypes.Contains(componentSaveDataType)) continue;
-
 				componentSaveDataTypes.Insert(componentSaveDataType);
 			}
 
 			// Re-order save data class-classes in attribute instance by inheritance
 			array<ref EL_ComponentSaveDataClass> sortedComponents();
-			sortedComponents.Reserve(componentSaveDataTypes.Count());
+			sortedComponents.Reserve(settings.m_pSaveData.m_aComponents.Count());
 			foreach (typename componentType : EL_Utils.SortTypenameHierarchy(componentSaveDataTypes))
 			{
 				foreach (EL_ComponentSaveDataClass componentSaveData : settings.m_pSaveData.m_aComponents)

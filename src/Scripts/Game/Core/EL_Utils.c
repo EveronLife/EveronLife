@@ -163,17 +163,17 @@ class EL_Utils
 
 		foreach (typename possibleRootClass : typenames)
 		{
-			if (hierachyCount.Contains(possibleRootClass)) continue;
-
 			hierachyCount.Set(possibleRootClass, 0);
+		}
 
-			foreach (typename compareRootClass : typenames)
+		foreach (typename type, int count : hierachyCount)
+		{
+			foreach (typename compareType, auto _ : hierachyCount)
 			{
-				if (possibleRootClass.IsInherited(compareRootClass))
-				{
-					hierachyCount.Set(possibleRootClass, hierachyCount.Get(possibleRootClass) + 1);
-				}
+				if (type.IsInherited(compareType)) count++;
 			}
+
+			hierachyCount.Set(type, count);
 		}
 
 		array<string> sortedHierachyTuples();
