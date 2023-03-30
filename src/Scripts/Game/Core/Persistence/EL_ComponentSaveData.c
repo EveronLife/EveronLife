@@ -43,9 +43,13 @@ class EL_ComponentSaveData
 	}
 }
 
-class EL_ComponentSaveDataType
+class EL_ComponentSaveDataType : BaseContainerCustomTitle
 {
 	static ref map<typename, typename> s_mMapping;
+
+	#ifdef WORKBENCH
+	protected string m_sWorkbenchTitle;
+	#endif
 
 	//------------------------------------------------------------------------------------------------
 	static typename Get(typename saveDataType)
@@ -71,5 +75,18 @@ class EL_ComponentSaveDataType
 		if (!s_mMapping) s_mMapping = new map<typename, typename>();
 
 		s_mMapping.Set(saveDataType, componentType);
+
+		#ifdef WORKBENCH
+		m_sWorkbenchTitle = componentType.ToString();
+		#endif
 	}
+
+	#ifdef WORKBENCH
+	//------------------------------------------------------------------------------------------------
+	override bool _WB_GetCustomTitle(BaseContainer source, out string title)
+	{
+		title = m_sWorkbenchTitle;
+		return true;
+	}
+	#endif
 }
