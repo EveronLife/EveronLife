@@ -1,17 +1,22 @@
-[EL_ComponentSaveDataType(EL_QuantityComponentSaveData, EL_QuantityComponent, "Quantity"), BaseContainerProps()]
-class EL_QuantityComponentSaveData : EL_ComponentSaveDataBase
+[EL_ComponentSaveDataType(EL_QuantityComponentSaveDataClass, EL_QuantityComponent), BaseContainerProps()]
+class EL_QuantityComponentSaveDataClass : EL_ComponentSaveDataClass
+{
+}
+
+[EL_DbName(EL_QuantityComponentSaveData, "Quantity")]
+class EL_QuantityComponentSaveData : EL_ComponentSaveData
 {
 	int m_iQuantity;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		m_iQuantity = EL_QuantityComponent.Cast(worldEntityComponent).GetQuantity();
 		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent)
+	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		EL_QuantityComponent quantity = EL_QuantityComponent.Cast(worldEntityComponent);
 		quantity.SetQuantity(m_iQuantity);

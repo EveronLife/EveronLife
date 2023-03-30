@@ -12,7 +12,7 @@ class EL_PersistentWorldEntityLoader
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1).GetEntities();
 		if (!findResults || findResults.Count() != 1) return null;
-		return persistenceManager.SpawnWorldEntity(EL_EntitySaveDataBase.Cast(findResults.Get(0)));
+		return persistenceManager.SpawnWorldEntity(EL_EntitySaveData.Cast(findResults.Get(0)));
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ class EL_PersistentWorldEntityLoader
 		{
 			foreach (EL_DbEntity findResult : findResults)
 			{
-				IEntity worldEntity = persistenceManager.SpawnWorldEntity(EL_EntitySaveDataBase.Cast(findResult));
+				IEntity worldEntity = persistenceManager.SpawnWorldEntity(EL_EntitySaveData.Cast(findResult));
 				if (worldEntity) resultWorldEntities.Insert(worldEntity);
 			}
 		}
@@ -166,12 +166,12 @@ class EL_WorldEntityLoaderCallbackMultiple : EL_WorldEntityLoaderCallback
 	void OnComplete(Managed context, array<IEntity> data);
 }
 
-class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_EntitySaveDataBase>
+class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_EntitySaveData>
 {
 	ref EL_WorldEntityLoaderCallbackSingle m_pOuterCallback;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnSuccess(Managed context, EL_EntitySaveDataBase resultData)
+	override void OnSuccess(Managed context, EL_EntitySaveData resultData)
 	{
 		IEntity resultWorldEntity;
 		if (resultData) resultWorldEntity = EL_PersistenceManager.GetInstance().SpawnWorldEntity(resultData);
@@ -191,12 +191,12 @@ class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_E
 	}
 }
 
-class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_EntitySaveDataBase>
+class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_EntitySaveData>
 {
 	ref EL_WorldEntityLoaderCallbackMultiple m_pOuterCallback;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnSuccess(Managed context, array<ref EL_EntitySaveDataBase> resultData)
+	override void OnSuccess(Managed context, array<ref EL_EntitySaveData> resultData)
 	{
 		array<IEntity> resultWorldEntities();
 
@@ -204,7 +204,7 @@ class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_Entit
 		{
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-			foreach (EL_EntitySaveDataBase saveData : resultData)
+			foreach (EL_EntitySaveData saveData : resultData)
 			{
 				IEntity worldEntity = persistenceManager.SpawnWorldEntity(saveData);
 				if (worldEntity) resultWorldEntities.Insert(worldEntity);

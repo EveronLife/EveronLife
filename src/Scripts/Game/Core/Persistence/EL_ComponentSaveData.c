@@ -1,19 +1,23 @@
 [BaseContainerProps()]
-class EL_ComponentSaveDataBase
+class EL_ComponentSaveDataClass
 {
-	int m_iDataLayoutVersion = 1;
-
 	//------------------------------------------------------------------------------------------------
 	array<typename> Requires(); // TODO: Implement automatic entity source changes on prefab edit.
 
 	//------------------------------------------------------------------------------------------------
 	//array<typename> CannotCombine(); // TODO: Implement
+}
+
+class EL_ComponentSaveData
+{
+	int m_iDataLayoutVersion = 1;
 
 	//------------------------------------------------------------------------------------------------
 	//! Reads the save-data from the world entity component
 	//! \param worldEntityComponent the component to read the save-data from
+	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if save-data could be read, false if something failed.
-	bool ReadFrom(notnull GenericComponent worldEntityComponent)
+	bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(worldEntityComponent, this);
 	}
@@ -21,8 +25,9 @@ class EL_ComponentSaveDataBase
 	//------------------------------------------------------------------------------------------------
 	//! Compares the save-data against a world entity component to find out which save-data belongs to with component in case there are multiple instances of the component present (e.g. storages).
 	//! \param worldEntityComponent the component to compare against
+	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if the component is the one the save-data was meant for, false otherwise.
-	bool IsFor(notnull GenericComponent worldEntityComponent)
+	bool IsFor(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		return true;
 	}
@@ -30,8 +35,9 @@ class EL_ComponentSaveDataBase
 	//------------------------------------------------------------------------------------------------
 	//! Applies the save-data to the world entity component
 	//! \param worldEntityComponent the component to apply the save-data to
+	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if save-data could be applied, false if something failed.
-	bool ApplyTo(notnull GenericComponent worldEntityComponent)
+	bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
 	}
@@ -50,20 +56,20 @@ class EL_ComponentSaveDataType
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_ComponentSaveDataType(typename saveDataType, typename componentType, string dbEntityName = "")
+	void EL_ComponentSaveDataType(typename saveDataType, typename componentType)
 	{
+		if (!saveDataType.IsInherited(EL_ComponentSaveDataClass))
+		{
+			Debug.Error(string.Format("Failed to register '%1' as persistence save-data type for '%2'. '%1' must inherit from '%3'.", saveDataType, componentType, EL_ComponentSaveDataClass));
+		}
+
+		if (!saveDataType.ToString().EndsWith("Class"))
+		{
+			Debug.Error(string.Format("Failed to register '%1' as persistence save-data type for '%2'. '%1' must follow xyzClass naming convention.", saveDataType));
+		}
+
 		if (!s_mMapping) s_mMapping = new map<typename, typename>();
 
-		if (!saveDataType.IsInherited(EL_ComponentSaveDataBase))
-		{
-			Debug.Error(string.Format("Failed to register '%1' as persistence save-data type for '%2'. '%1' must inherit from '%3'.", saveDataType, componentType, EL_ComponentSaveDataBase));
-		}
-
 		s_mMapping.Set(saveDataType, componentType);
-
-		if (dbEntityName)
-		{
-			EL_DbName.Set(saveDataType, dbEntityName);
-		}
 	}
 }

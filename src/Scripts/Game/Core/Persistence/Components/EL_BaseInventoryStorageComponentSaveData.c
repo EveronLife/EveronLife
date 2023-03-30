@@ -1,12 +1,17 @@
-[EL_ComponentSaveDataType(EL_BaseInventoryStorageComponentSaveData, BaseInventoryStorageComponent, "InventoryStorage"), BaseContainerProps()]
-class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
+[EL_ComponentSaveDataType(EL_BaseInventoryStorageComponentSaveDataClass, BaseInventoryStorageComponent), BaseContainerProps()]
+class EL_BaseInventoryStorageComponentSaveDataClass : EL_ComponentSaveDataClass
+{
+}
+
+[EL_DbName(EL_BaseInventoryStorageComponentSaveData, "InventoryStorage")]
+class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 {
 	int m_iPriority;
 	EStoragePurpose m_ePurposeFlags;
 	ref array<ref EL_PersistentInventoryStorageSlot> m_aSlots;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
 
@@ -23,7 +28,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 			EL_PersistenceComponent slotPersistenceComponent = EL_PersistenceComponent.Cast(slotEntity.FindComponent(EL_PersistenceComponent));
 			if (!slotPersistenceComponent) continue;
 
-			EL_EntitySaveDataBase saveData = slotPersistenceComponent.Save();
+			EL_EntitySaveData saveData = slotPersistenceComponent.Save();
 			if (!saveData) continue;
 
 			// Remove transformation data, as that won't be needed for stored entites
@@ -39,14 +44,14 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool IsFor(notnull GenericComponent worldEntityComponent)
+	override bool IsFor(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
 		return (storageComponent.GetPriority() == m_iPriority) && (storageComponent.GetPurpose() == m_ePurposeFlags);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent)
+	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
 		InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(storageComponent.GetOwner().FindComponent(InventoryStorageManagerComponent));
@@ -93,7 +98,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveDataBase
 class EL_PersistentInventoryStorageSlot
 {
 	int m_iSlotId;
-	ref EL_EntitySaveDataBase m_pEntity;
+	ref EL_EntitySaveData m_pEntity;
 
 	//------------------------------------------------------------------------------------------------
 	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
@@ -119,7 +124,7 @@ class EL_PersistentInventoryStorageSlot
 		typename entityType = EL_DbName.GetTypeByName(entityTypeString);
 		if (!entityType) return false;
 
-		m_pEntity = EL_EntitySaveDataBase.Cast(entityType.Spawn());
+		m_pEntity = EL_EntitySaveData.Cast(entityType.Spawn());
 		loadContext.ReadValue("m_pEntity", m_pEntity);
 
 		return true;

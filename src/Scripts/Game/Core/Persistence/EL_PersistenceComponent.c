@@ -17,11 +17,10 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 	bool m_bSelfDelete;
 
 	[Attribute(desc: "Type of save-data to represent this entity.")]
-	ref EL_EntitySaveDataBase m_pSaveData;
+	ref EL_EntitySaveDataClass m_pSaveData;
 
-	// Derived from inital engine-created instance
+	// Derived from shared initialization
 	typename m_tSaveDataTypename;
-	ref array<typename> m_aComponentSaveDataTypenames;
 }
 
 class EL_PersistenceComponent : ScriptComponent
@@ -70,7 +69,7 @@ class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	//! Save the entity to the database
 	//! \return the save-data instance that was submitted to the database
-	EL_EntitySaveDataBase Save()
+	EL_EntitySaveData Save()
 	{
 		if (m_bDetatched || !m_sId) return null;
 
@@ -78,8 +77,8 @@ class EL_PersistenceComponent : ScriptComponent
 
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(settings.m_tSaveDataTypename.Spawn());
-		if (!saveData || !saveData.ReadFrom(owner))
+		EL_EntitySaveData saveData = EL_EntitySaveData.Cast(settings.m_tSaveDataTypename.Spawn());
+		if (!saveData || !saveData.ReadFrom(owner, settings.m_pSaveData))
 		{
 			Debug.Error(string.Format("Failed to persist world entity '%1'@%2. Save-data could not be read.",
 				EL_Utils.GetPrefabName(owner),
@@ -108,9 +107,11 @@ class EL_PersistenceComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Load existing save-data to apply to this entity
-	bool Load(notnull EL_EntitySaveDataBase saveData)
+	bool Load(notnull EL_EntitySaveData saveData)
 	{
-		if (m_bDetatched || saveData.GetId() != m_sId || !saveData.ApplyTo(GetOwner()))
+		IEntity owner = GetOwner();
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+		if (m_bDetatched || saveData.GetId() != m_sId || !saveData.ApplyTo(owner, settings.m_pSaveData))
 		{
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
 			return false;
@@ -126,12 +127,11 @@ class EL_PersistenceComponent : ScriptComponent
 		if (!EL_PersistenceManager.IsPersistenceMaster()) return;
 
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if (!settings) return;
 
-		// Cache save-data typename on shared instance. We do not need the object instance after that.
+		// Init and validate settings on shared class-class instance once
 		if (!settings.m_tSaveDataTypename)
 		{
-			if (!settings.m_pSaveData || settings.m_pSaveData.Type() == EL_EntitySaveDataBase)
+			if (!settings.m_pSaveData || settings.m_pSaveData.Type() == EL_EntitySaveDataClass)
 			{
 				Debug.Error(string.Format("Missing or invalid save-data type in persistence component on entity '%1'@%2. Entity will not be persisted!",
 					EL_Utils.GetPrefabName(owner),
@@ -139,17 +139,19 @@ class EL_PersistenceComponent : ScriptComponent
 				return;
 			}
 
-			settings.m_tSaveDataTypename = settings.m_pSaveData.Type();
+			settings.m_tSaveDataTypename = EL_Utils.TrimEnd(settings.m_pSaveData.ClassName(), 5).ToType();
 
+			// Collect and validate component save data types
 			array<typename> componentSaveDataTypes();
-			foreach (EL_ComponentSaveDataBase componentSaveData : settings.m_pSaveData.m_aComponents)
+			componentSaveDataTypes.Reserve(settings.m_pSaveData.m_aComponents.Count());
+			foreach (EL_ComponentSaveDataClass componentSaveData : settings.m_pSaveData.m_aComponents)
 			{
 				typename componentSaveDataType = componentSaveData.Type();
 
-				if (componentSaveDataType == EL_ComponentSaveDataBase)
+				if (!componentSaveDataType || componentSaveDataType == EL_ComponentSaveDataClass)
 				{
-					Debug.Error(string.Format("Invalid save-data type '%1' in persistence component on entity '%2'@%3. Associated component data will be persisted!",
-						EL_ComponentSaveDataBase,
+					Debug.Error(string.Format("Invalid save-data type '%1' in persistence component on entity '%2'@%3. Associated component data will not be persisted!",
+						componentSaveDataType,
 						EL_Utils.GetPrefabName(owner),
 						owner.GetOrigin()));
 					continue;
@@ -161,7 +163,17 @@ class EL_PersistenceComponent : ScriptComponent
 				componentSaveDataTypes.Insert(componentSaveDataType);
 			}
 
-			settings.m_aComponentSaveDataTypenames = EL_Utils.SortTypenameHierarchy(componentSaveDataTypes);
+			// Re-order save data class-classes in attribute instance by inheritance
+			array<ref EL_ComponentSaveDataClass> sortedComponents();
+			sortedComponents.Reserve(componentSaveDataTypes.Count());
+			foreach (typename componentType : EL_Utils.SortTypenameHierarchy(componentSaveDataTypes))
+			{
+				foreach (EL_ComponentSaveDataClass componentSaveData : settings.m_pSaveData.m_aComponents)
+				{
+					if (componentSaveData.Type() == componentType) sortedComponents.Insert(componentSaveData);
+				}
+			}
+			settings.m_pSaveData.m_aComponents = sortedComponents;
 		}
 
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
@@ -252,30 +264,24 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Get the instance of save-data or component save-data that was configured in the prefab/world editor. Used only to derive configuration attributes.
-	//! \param attributeHolderType typename of the entity or component save-data which should be returned
+	//! Get the instance of the save-data or component save-data class-class that was configured in the prefab/world editor.
+	//! \param saveDataClassType typename of the entity or component save-data which should be returned
 	//! \return instance of the save-data or null if not found
-	Class GetAttributeInstance(typename attributeHolderType)
+	Class GetAttributeClass(typename saveDataClassType)
 	{
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
+		if (settings.m_pSaveData) return null;
 
-		if (attributeHolderType.IsInherited(EL_EntitySaveDataBase))
+		if (settings.m_pSaveData.IsInherited(saveDataClassType))
 		{
 			return settings.m_pSaveData;
 		}
-
-		if (attributeHolderType.IsInherited(EL_ComponentSaveDataBase) && settings.m_pSaveData)
+		else
 		{
 			// Find the first inheritance match. The typename array itereated is ordered by inheritance.
-			foreach (typename componentSaveDataType : settings.m_aComponentSaveDataTypenames)
+			foreach (EL_ComponentSaveDataClass componentSaveDataClass : settings.m_pSaveData.m_aComponents)
 			{
-				if (attributeHolderType.IsInherited(componentSaveDataType))
-				{
-					foreach (EL_ComponentSaveDataBase componentSaveData : settings.m_pSaveData.m_aComponents)
-					{
-						if (componentSaveData.Type() == componentSaveDataType) return componentSaveData;
-					}
-				}
+				if (componentSaveDataClass.IsInherited(saveDataClassType)) return componentSaveDataClass;
 			}
 		}
 

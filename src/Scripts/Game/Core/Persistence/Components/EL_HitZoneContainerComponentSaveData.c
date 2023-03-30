@@ -1,32 +1,49 @@
-[EL_ComponentSaveDataType(EL_HitZoneContainerComponentSaveData, HitZoneContainerComponent, "HitZoneContainer"), BaseContainerProps()]
-class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveDataBase
+[EL_ComponentSaveDataType(EL_HitZoneContainerComponentSaveDataClass, HitZoneContainerComponent), BaseContainerProps()]
+class EL_HitZoneContainerComponentSaveDataClass : EL_ComponentSaveDataClass
+{
+	[Attribute(defvalue: "1", desc: "Persist only damaged hitzones to minimize save sizes. Can be combined with selection filter.")]
+	bool m_bDamagedOnly;
+
+	[Attribute(desc: "If any are provided, each hitzone must be explictly selected to be persisted.")]
+	ref array<string> m_aHitzoneFilter;
+}
+
+[EL_DbName(EL_HitZoneContainerComponentSaveData, "HitZoneContainer")]
+class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentHitZone> m_aHitzones;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
+		EL_HitZoneContainerComponentSaveDataClass settings = EL_HitZoneContainerComponentSaveDataClass.Cast(attributes);
+		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(worldEntityComponent);
+
 		m_aHitzones = new array<ref EL_PersistentHitZone>();
 
 		array<HitZone> outHitZones();
-		HitZoneContainerComponent.Cast(worldEntityComponent).GetAllHitZones(outHitZones);
+		hitZoneContainer.GetAllHitZones(outHitZones);
 
 		foreach (HitZone hitZone : outHitZones)
 		{
 			float healthScaled = hitZone.GetHealthScaled();
-			if (float.AlmostEqual(healthScaled, 1.0)) continue;
+			if (settings.m_bDamagedOnly && float.AlmostEqual(healthScaled, 1.0)) continue;
 
 			EL_PersistentHitZone persistentHitZone();
 			persistentHitZone.m_sName = hitZone.GetName();
 			persistentHitZone.m_fHealth = healthScaled;
-			m_aHitzones.Insert(persistentHitZone);
+
+			if (settings.m_aHitzoneFilter.IsEmpty() || settings.m_aHitboxFilter.Contains(persistentHitZone.m_sName))
+			{
+				m_aHitzones.Insert(persistentHitZone);
+			}
 		}
 
 		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent)
+	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		array<HitZone> outHitZones();
 		HitZoneContainerComponent.Cast(worldEntityComponent).GetAllHitZones(outHitZones);

@@ -37,7 +37,7 @@ class EL_PersistenceManager
 
 	// Only used during setup
 	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
-	protected ref map<string, ref EL_EntitySaveDataBase> m_mInitEntitySaveData;
+	protected ref map<string, ref EL_EntitySaveData> m_mInitEntitySaveData;
 	protected ref map<string, IEntity> m_mBackedEntities;
 	protected ref set<EL_PersistenceComponent> m_aPendingIdAssignments;
 
@@ -334,7 +334,7 @@ class EL_PersistenceManager
 		// Apply save-data to baked entities
 		foreach (string persistentId, IEntity bakedEntity : m_mBackedEntities)
 		{
-			EL_EntitySaveDataBase saveData = m_mInitEntitySaveData.Get(persistentId);
+			EL_EntitySaveData saveData = m_mInitEntitySaveData.Get(persistentId);
 			if (!saveData) continue;
 
 			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(bakedEntity.FindComponent(EL_PersistenceComponent));
@@ -350,7 +350,7 @@ class EL_PersistenceManager
 		{
 			foreach (string persistentId : persistentIds)
 			{
-				EL_EntitySaveDataBase saveData = m_mInitEntitySaveData.Get(persistentId);
+				EL_EntitySaveData saveData = m_mInitEntitySaveData.Get(persistentId);
 				IEntity spawnedEntity = SpawnWorldEntity(saveData);
 				if (spawnedEntity)
 				{
@@ -377,7 +377,7 @@ class EL_PersistenceManager
 	//! Used to spawn and correctly register an entity from save-data
 	//! \param saveData Save-data to spawn from
 	//! \return registered entiy instance or null on failure
-	IEntity SpawnWorldEntity(EL_EntitySaveDataBase saveData)
+	IEntity SpawnWorldEntity(EL_EntitySaveData saveData)
 	{
 		if (!saveData || !saveData.GetId()) return null;
 
@@ -474,7 +474,7 @@ class EL_PersistenceManager
 
 			foreach (EL_DbEntity findResult : findResults)
 			{
-				EL_EntitySaveDataBase saveData = EL_EntitySaveDataBase.Cast(findResult);
+				EL_EntitySaveData saveData = EL_EntitySaveData.Cast(findResult);
 				if (!saveData)
 				{
 					Debug.Error(string.Format("Unexpected database find result type '%1' encountered during entity load. Ignored.", findResult.Type().ToString()));
@@ -516,7 +516,7 @@ class EL_PersistenceManager
 		m_aBackedEntityIds = new set<string>();
 		m_aPendingIdAssignments = new set<EL_PersistenceComponent>();
 
-		m_mInitEntitySaveData = new map<string, ref EL_EntitySaveDataBase>();
+		m_mInitEntitySaveData = new map<string, ref EL_EntitySaveData>();
 		m_mBackedEntities = new map<string, IEntity>();
 
 		m_mAllEntities = new map<string, IEntity>();

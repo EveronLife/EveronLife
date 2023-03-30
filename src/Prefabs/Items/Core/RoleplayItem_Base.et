@@ -7,9 +7,9 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
    }
   }
   EL_PersistenceComponent "{5A0D2D213B33ECD8}" {
-   m_pSaveData EL_ItemSaveData "{5A0D2D2139A3D7EC}" {
+   m_pSaveData EL_ItemSaveDataClass "{5A0D2D2139A3D7EC}" {
     m_aComponents {
-     EL_QuantityComponentSaveData "{5AD69915FD125194}" {
+     EL_QuantityComponentSaveDataClass "{5AD69915FD125194}" {
      }
     }
    }

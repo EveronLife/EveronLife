@@ -223,6 +223,13 @@ class EL_Utils
 		}
 		return false;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Returns a new string with the last "amount" of characters removed
+	static string TrimEnd(string data, int amount)
+	{
+		return data.Substring(0, data.Length() - amount);
+	}
 }
 
 class EL_RefArrayCaster<Class TSourceType, Class TResultType>

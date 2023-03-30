@@ -1,10 +1,15 @@
-[EL_ComponentSaveDataType(EL_FuelManagerComponentSaveData, FuelManagerComponent, "FuelManager"), BaseContainerProps()]
-class EL_FuelManagerComponentSaveData : EL_ComponentSaveDataBase
+[EL_ComponentSaveDataType(EL_FuelManagerComponentSaveDataClass, FuelManagerComponent), BaseContainerProps()]
+class EL_FuelManagerComponentSaveDataClass : EL_ComponentSaveDataClass
+{
+}
+
+[EL_DbName(EL_FuelManagerComponentSaveData, "FuelManager")]
+class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentFuelNode> m_aFuelNodes;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		m_aFuelNodes = new array<ref EL_PersistentFuelNode>();
 
@@ -30,7 +35,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveDataBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent)
+	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		array<BaseFuelNode> outNodes();
 		FuelManagerComponent.Cast(worldEntityComponent).GetFuelNodesList(outNodes);

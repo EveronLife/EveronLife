@@ -1,10 +1,17 @@
-[EL_ComponentSaveDataType(EL_BaseLightManagerComponentSaveData, BaseLightManagerComponent, "LightManager"), BaseContainerProps()]
-class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveDataBase
+[EL_ComponentSaveDataType(EL_BaseLightManagerComponentSaveDataClass, BaseLightManagerComponent), BaseContainerProps()]
+class EL_BaseLightManagerComponentSaveDataClass : EL_ComponentSaveDataClass
+{
+	[Attribute(defvalue: "1", desc: "Persist only damaged or enabled lights data to reduce overall size.")]
+	bool m_bNonDefaultStateOnly;
+}
+
+[EL_DbName(EL_BaseLightManagerComponentSaveData, "LightManager")]
+class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentLightSlot> m_aLightSlots;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(worldEntityComponent);
 
@@ -21,7 +28,8 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveDataBase
 			persistentLightSlot.m_bState = lightManager.GetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_iSide);
 
 			//Only save the lightslot if there is any non default property
-			if (!persistentLightSlot.m_bFunctional || persistentLightSlot.m_bState)
+			if (!EL_BaseLightManagerComponentSaveDataClass.Cast(attributes).m_bNonDefaultStateOnly ||
+				(!persistentLightSlot.m_bFunctional || persistentLightSlot.m_bState))
 			{
 				m_aLightSlots.Insert(persistentLightSlot);
 			}
@@ -31,7 +39,7 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveDataBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent)
+	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(worldEntityComponent);
 

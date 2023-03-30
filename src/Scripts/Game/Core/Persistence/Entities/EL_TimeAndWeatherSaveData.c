@@ -1,5 +1,10 @@
-[EL_DbName(EL_TimeAndWeatherSaveData, "TimeAndWeather"), BaseContainerProps()]
-class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
+[BaseContainerProps()]
+class EL_TimeAndWeatherSaveDataClass : EL_EntitySaveDataClass
+{
+}
+
+[EL_DbName(EL_TimeAndWeatherSaveData, "TimeAndWeather")]
+class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 {
 	string m_sWeatherState;
 	bool m_bWeatherLooping;
@@ -7,7 +12,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	int m_iYear, m_iMonth, m_iDay, m_iHour, m_iMinute, m_iSecond;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull IEntity worldEntity)
+	override bool ReadFrom(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
 		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity);
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
@@ -26,7 +31,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveDataBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull IEntity worldEntity)
+	override bool ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
 		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity);
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);

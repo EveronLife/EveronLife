@@ -16,10 +16,10 @@ modded class SCR_CharacterInventoryStorageComponent
 				EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(GetOwner().FindComponent(EL_PersistenceComponent));
 				if (persistence)
 				{
-					EL_CharacterSaveData charSaveDataSettings = EL_CharacterSaveData.Cast(persistence.GetAttributeInstance(EL_CharacterSaveData));
-					if (charSaveDataSettings)
+					EL_CharacterSaveDataClass charSaveDataClass = EL_CharacterSaveDataClass.Cast(persistence.GetAttributeClass(EL_CharacterSaveDataClass));
+					if (charSaveDataClass)
 					{
-						m_iELDebounceTime = charSaveDataSettings.m_iMaxQuickbackSaveTime * 1000; // Convert to ms from seconds
+						m_iELDebounceTime = charSaveDataClass.m_iMaxQuickbackSaveTime * 1000; // Convert to ms from seconds
 					}
 				}
 			}

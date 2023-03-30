@@ -1,8 +1,13 @@
-[EL_ComponentSaveDataType(EL_EquipedWeaponStorageComponentSaveData, EquipedWeaponStorageComponent, "EquipedWeaponStorage"), BaseContainerProps()]
+[EL_ComponentSaveDataType(EL_EquipedWeaponStorageComponentSaveDataClass, EquipedWeaponStorageComponent), BaseContainerProps()]
+class EL_EquipedWeaponStorageComponentSaveDataClass : EL_BaseInventoryStorageComponentSaveDataClass
+{
+}
+
+[EL_DbName(EL_EquipedWeaponStorageComponentSaveData, "EquipedWeaponStorage")]
 class EL_EquipedWeaponStorageComponentSaveData : EL_BaseInventoryStorageComponentSaveData
 {
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent)
+	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		EquipedWeaponStorageComponent storageComponent = EquipedWeaponStorageComponent.Cast(worldEntityComponent);
 
@@ -19,7 +24,7 @@ class EL_EquipedWeaponStorageComponentSaveData : EL_BaseInventoryStorageComponen
 			EL_PersistenceComponent slotPersistenceComponent = EL_PersistenceComponent.Cast(slotEntity.FindComponent(EL_PersistenceComponent));
 			if (!slotPersistenceComponent) continue;
 
-			EL_EntitySaveDataBase saveData = slotPersistenceComponent.Save();
+			EL_EntitySaveData saveData = slotPersistenceComponent.Save();
 			if (!saveData) continue;
 
 			// Remove transformation data, as that won't be needed for stored entites
