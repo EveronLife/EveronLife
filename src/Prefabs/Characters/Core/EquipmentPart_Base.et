@@ -4,8 +4,6 @@ GenericEntity {
   EL_PersistenceComponent "{5A28749C96D2F354}" {
    m_pSaveData EL_ItemSaveDataClass "{5A28749C977EF27D}" {
     m_aComponents {
-     EL_TransformationSaveDataClass "{5A28749C95967801}" {
-     }
      EL_BaseInventoryStorageComponentSaveDataClass "{5A28749C92E450BA}" {
      }
     }

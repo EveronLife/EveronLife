@@ -14,8 +14,6 @@ SCR_ChimeraCharacter {
    m_bSelfDelete 0
    m_pSaveData EL_CharacterSaveDataClass "{5A12D8F4DA8632DC}" {
     m_aComponents {
-     EL_TransformationSaveDataClass "{5A12D8F4DBF138B7}" {
-     }
      EL_HitZoneContainerComponentSaveDataClass "{5A12D8F4D807DD8A}" {
      }
      EL_BaseInventoryStorageComponentSaveDataClass "{5A13263CEDD3593B}" {

@@ -1,13 +1,27 @@
+enum EL_ETransformSaveFlags
+{
+	COORDS = 0x01,
+	ANGLES = 0x02,
+	SCALE = 0x04
+}
+
 [BaseContainerProps()]
 class EL_EntitySaveDataClass
 {
-	[Attribute(desc: "Components to persist."), NonSerialized()]
+	[Attribute("3", UIWidgets.Flags, desc: "Choose which aspects from the entity transformation are persisted.", enums: ParamEnumArray.FromEnum(EL_ETransformSaveFlags))]
+	EL_ETransformSaveFlags m_eTranformSaveFlags;
+
+	[Attribute(desc: "Components to persist.")]
 	ref array<ref EL_ComponentSaveDataClass> m_aComponents;
 }
 
 class EL_EntitySaveData : EL_MetaDataDbEntity
 {
 	ResourceName m_rPrefab;
+
+	ref EL_PersistentTransformation m_pTransformation;
+
+	// TODO: Just simple array or we we really need the map?
 	ref map<typename, ref array<ref EL_ComponentSaveData>> m_mComponentsSaveData;
 
 	//------------------------------------------------------------------------------------------------
@@ -27,8 +41,25 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	{
 		ReadMetaData(EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity));
 
+		// Prefab
 		m_rPrefab = EL_Utils.GetPrefabName(worldEntity);
 
+		// Transform
+		m_pTransformation = new EL_PersistentTransformation();
+		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS)
+		{
+			m_pTransformation.m_vOrigin = worldEntity.GetOrigin();
+		}
+		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES)
+		{
+			m_pTransformation.m_vAngles = worldEntity.GetLocalYawPitchRoll();
+		}
+		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
+		{
+			m_pTransformation.m_fScale = worldEntity.GetScale();
+		}
+
+		// Components
 		m_mComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveData>>();
 
 		array<Managed> processedComponents();
@@ -41,28 +72,18 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 			typename saveDataType = EL_Utils.TrimEnd(componentSaveDataClass.ClassName(), 5).ToType();
 			if (!saveDataType) return false;
 
-			// Special handling for transformation as its not really a "component"
-			if (componentSaveDataClass.IsInherited(EL_TransformationSaveDataClass))
+			array<Managed> outComponents();
+			worldEntity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataClass.Type()), outComponents);
+			foreach (Managed componentRef : outComponents)
 			{
-				EL_TransformationSaveData transformationSaveData();
-				if (!transformationSaveData.ReadFrom(worldEntity, componentSaveDataClass)) return false;
-				componentsSaveData.Insert(transformationSaveData);
-			}
-			else
-			{
-				array<Managed> outComponents();
-				worldEntity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataClass.Type()), outComponents);
-				foreach (Managed componentRef : outComponents)
-				{
-					// Ingore base class find machtes if a parent class was already processed
-					if (processedComponents.Contains(componentRef)) continue;
-					processedComponents.Insert(componentRef);
+				// Ingore base class find machtes if a parent class was already processed
+				if (processedComponents.Contains(componentRef)) continue;
+				processedComponents.Insert(componentRef);
 
-					EL_ComponentSaveData componentSaveData = EL_ComponentSaveData.Cast(saveDataType.Spawn());
-					if (!componentSaveData || !componentSaveData.ReadFrom(GenericComponent.Cast(componentRef), componentSaveDataClass)) return false;
+				EL_ComponentSaveData componentSaveData = EL_ComponentSaveData.Cast(saveDataType.Spawn());
+				if (!componentSaveData || !componentSaveData.ReadFrom(GenericComponent.Cast(componentRef), componentSaveDataClass)) return false;
 
-					componentsSaveData.Insert(componentSaveData);
-				}
+				componentsSaveData.Insert(componentSaveData);
 			}
 
 			if (componentsSaveData.Count() > 0)
@@ -83,20 +104,18 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	{
 		ApplyMetaData(EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity));
 
+		// Transform
+		if (m_pTransformation)
+		{
+			EL_Utils.ForceTransform(worldEntity, m_pTransformation.m_vOrigin, m_pTransformation.m_vAngles, m_pTransformation.m_fScale);
+		}
+
+		// Components
 		set<Managed> processedComponents();
 		set<typename> processedSaveDataTypes();
 
 		foreach (EL_ComponentSaveDataClass componentSaveDataClass : attributes.m_aComponents)
 		{
-			// Special handling for transformation as its not really a "component"
-			if (componentSaveDataClass.IsInherited(EL_TransformationSaveDataClass))
-			{
-				array<ref EL_ComponentSaveData> transformData = m_mComponentsSaveData.Get(EL_TransformationSaveData);
-				if (transformData && transformData.Count() > 0) EL_TransformationSaveData.Cast(transformData.Get(0)).ApplyTo(worldEntity, componentSaveDataClass);
-				processedSaveDataTypes.Insert(EL_TransformationSaveData);
-				continue;
-			}
-
 			if (!ApplyComponent(componentSaveDataClass, worldEntity, processedSaveDataTypes, processedComponents, attributes)) return false;
 		}
 
@@ -173,10 +192,15 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		SerializeMetaData(saveContext);
 
+		// Prefab
 		string prefabString = m_rPrefab;
 		if (prefabString.StartsWith("{")) prefabString = m_rPrefab.Substring(1, 16);
 		saveContext.WriteValue("m_rPrefab", prefabString);
 
+		// Transform
+		saveContext.WriteValue("m_pTransformation", m_pTransformation);
+
+		// Components
 		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
 		foreach (auto _, array<ref EL_ComponentSaveData> componentsSaveData : m_mComponentsSaveData)
 		{
@@ -200,9 +224,14 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		DeserializeMetaData(loadContext);
 
+		// Prefab
 		loadContext.ReadValue("m_rPrefab", m_rPrefab);
 		if (m_rPrefab) m_rPrefab = string.Format("{%1}", m_rPrefab);
 
+		// Transform
+		loadContext.ReadValue("m_pTransformation", m_pTransformation);
+
+		// Components
 		m_mComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveData>>();
 
 		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
@@ -221,6 +250,68 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		}
 
 		return true;
+	}
+}
+
+class EL_PersistentTransformation
+{
+	vector m_vOrigin;
+	vector m_vAngles;
+	float m_fScale;
+
+	//------------------------------------------------------------------------------------------------
+	void Reset()
+	{
+		m_vOrigin = EL_Const.VEC_INFINITY;
+		m_vAngles = EL_Const.VEC_INFINITY;
+		m_fScale = float.INFINITY;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
+	{
+		if (!saveContext.IsValid()) return false;
+
+		// For binary stream the info which of the 3 possible props will be written after needs to be known.
+		// JSON just has the keys or not, so there it is not a problem.
+		EL_ETransformSaveFlags flags;
+		if (m_vOrigin != EL_Const.VEC_INFINITY) flags |= EL_ETransformSaveFlags.COORDS;
+		if (m_vAngles != EL_Const.VEC_INFINITY) flags |= EL_ETransformSaveFlags.ANGLES;
+		if (m_fScale != float.INFINITY) flags |= EL_ETransformSaveFlags.SCALE;
+
+		if (ContainerSerializationSaveContext.Cast(saveContext).GetContainer().IsInherited(BinSaveContainer))
+		{
+			saveContext.WriteValue("transformSaveFlags", flags);
+		}
+
+		if (flags & EL_ETransformSaveFlags.COORDS) saveContext.WriteValue("m_vOrigin", m_vOrigin);
+		if (flags & EL_ETransformSaveFlags.ANGLES) saveContext.WriteValue("m_vAngles", m_vAngles);
+		if (flags & EL_ETransformSaveFlags.SCALE) saveContext.WriteValue("m_fScale", m_fScale);
+
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
+	{
+		if (!loadContext.IsValid()) return false;
+
+		EL_ETransformSaveFlags flags = EL_ETransformSaveFlags.COORDS | EL_ETransformSaveFlags.ANGLES | EL_ETransformSaveFlags.SCALE;
+		if (ContainerSerializationLoadContext.Cast(loadContext).GetContainer().IsInherited(BinLoadContainer))
+		{
+			loadContext.ReadValue("transformSaveFlags", flags);
+		}
+
+		if (flags & EL_ETransformSaveFlags.COORDS) loadContext.ReadValue("m_vOrigin", m_vOrigin);
+		if (flags & EL_ETransformSaveFlags.ANGLES) loadContext.ReadValue("m_vAngles", m_vAngles);
+		if (flags & EL_ETransformSaveFlags.SCALE) loadContext.ReadValue("m_fScale", m_fScale);
+
+		return true;
+	}
+
+	void EL_PersistentTransformation()
+	{
+		Reset();
 	}
 }
 

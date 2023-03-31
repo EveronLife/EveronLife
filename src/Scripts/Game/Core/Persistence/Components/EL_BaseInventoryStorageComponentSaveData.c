@@ -31,8 +31,8 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			EL_EntitySaveData saveData = slotPersistenceComponent.Save();
 			if (!saveData) continue;
 
-			// Remove transformation data, as that won't be needed for stored entites
-			saveData.m_mComponentsSaveData.Remove(EL_TransformationSaveData);
+			// Reset transformation data, as that won't be needed for stored entites
+			saveData.m_pTransformation.Reset();
 
 			EL_PersistentInventoryStorageSlot slotInfo();
 			slotInfo.m_iSlotId = nSlot++;
@@ -87,7 +87,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			if (inventoryItemComponent && !inventoryItemComponent.GetParentSlot())
 			{
 				// Unable to add it to the storage parent, so put it on the ground at the parent origin
-				EL_Utils.Teleport(slotEntity, storageComponent.GetOwner().GetOrigin(), storageComponent.GetOwner().GetYawPitchRoll());
+				EL_Utils.Teleport(slotEntity, storageComponent.GetOwner().GetOrigin(), storageComponent.GetOwner().GetYawPitchRoll()[0]);
 			}
 		}
 

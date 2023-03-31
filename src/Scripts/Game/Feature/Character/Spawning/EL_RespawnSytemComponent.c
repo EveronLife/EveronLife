@@ -42,9 +42,8 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 
 			persistenceManager.SetNextPersistentId(saveData.GetId());
-			EL_TransformationSaveData tmData = EL_TransformationSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_TransformationSaveData).Get(0));
-			saveData.m_mComponentsSaveData.Remove(EL_TransformationSaveData);
-			playerEntity = DoSpawn(saveData.m_rPrefab, tmData.m_vOrigin, Vector(tmData.m_vAngles[1], tmData.m_vAngles[0], tmData.m_vAngles[2]));
+			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
+			playerEntity = DoSpawn(saveData.m_rPrefab, saveData.m_pTransformation.m_vOrigin, spawnAngles);
 
 			// Validate and return if persistence component is active, aka save-data loaded and entity ready to be used.
 			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
@@ -186,7 +185,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 				componentDefault.ApplyTo(slotEntity);
 			}
 		}
-		
+
 		if (loadoutItem.m_aStoredItems)
 		{
 			array<Managed> outComponents();
@@ -250,7 +249,7 @@ class EL_DefaultLoadoutItem
 
 	[Attribute()]
 	ref array<ref EL_DefaultLoadoutItemComponent> m_aComponentDefaults;
-	
+
 	[Attribute()]
 	ref array<ref EL_DefaultLoadoutItem> m_aStoredItems;
 }

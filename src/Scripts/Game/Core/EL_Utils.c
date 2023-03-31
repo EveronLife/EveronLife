@@ -51,37 +51,61 @@ class EL_Utils
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Teleport an entity
+	//! Teleport an entity (and align it to terrain if no angles are specified)
 	//! \param entity Entity instance to be teleported
 	//! \param position Position where to teleport to
-	//! \param ypr Angles(yaw, pitch, rolle in degrees) to apply after teleportation
-	//! \param scale Transformation scale to apply after teleportation
-	static void Teleport(IEntity entity, vector position, vector ypr = "-1 -1 -1", float scale = -1)
+	//! \param angles (yaw, pitch, rolle in degrees) to apply after teleportation
+	static void Teleport(notnull IEntity entity, vector position, float yaw = float.INFINITY)
 	{
 		vector transform[4];
 
-		if (ypr != "-1 -1 -1")
+		if (yaw != float.INFINITY)
 		{
-			Math3D.AnglesToMatrix(ypr, transform);
-			transform[3] = position;
+			Math3D.AnglesToMatrix(Vector(yaw, 0 ,0), transform);
 		}
 		else
 		{
 			entity.GetWorldTransform(transform);
-			transform[3] = position;
-			SCR_TerrainHelper.OrientToTerrain(transform);
 		}
 
-		if (scale != -1) SCR_Math3D.ScaleMatrix(transform, scale);
+		transform[3] = position;
+		SCR_TerrainHelper.OrientToTerrain(transform);
 
-		TeleportTM(entity, transform);
+		ForceTransform(entity, transform);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Teleport an entity
-	//! \param entity Entity instance to be teleported
-	//! \param transform Target transformation matrix
-	static void TeleportTM(IEntity entity, vector transform[4])
+	//! Force entity into a new transformation matrix
+	//! \param entity
+	//! \param origin
+	//! \param angles (yaw, pitch, roll in degrees)
+	//! \param scale
+	static void ForceTransform(notnull IEntity entity, vector origin = EL_Const.VEC_INFINITY, vector angles = EL_Const.VEC_INFINITY, float scale = float.INFINITY)
+	{
+		vector transform[4];
+		entity.GetWorldTransform(transform);
+
+		if (origin != EL_Const.VEC_INFINITY)
+		{
+			transform[3] = origin;
+		}
+
+		if (angles != EL_Const.VEC_INFINITY)
+		{
+			Math3D.AnglesToMatrix(angles, transform);
+		}
+
+		if (scale != float.INFINITY)
+		{
+			SCR_Math3D.ScaleMatrix(transform, scale);
+		}
+
+		ForceTransform(entity, transform);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Set the transformation matrix and update the entity
+	static void ForceTransform(IEntity entity, vector transform[4])
 	{
 		BaseGameEntity baseGameEntity = BaseGameEntity.Cast(entity);
 		if (baseGameEntity)
