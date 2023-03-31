@@ -21,6 +21,12 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 
 	// Derived from shared initialization
 	typename m_tSaveDataTypename;
+
+	//------------------------------------------------------------------------------------------------
+	static override bool DependsOn(string className)
+	{
+		return true; // Forcing persistence to be loaded last so other components are properly initalized to be read from and applied to.
+	}
 }
 
 class EL_PersistenceComponent : ScriptComponent
