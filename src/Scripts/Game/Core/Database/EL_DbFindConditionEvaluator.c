@@ -586,7 +586,6 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		}
 	}
 
-
 	//------------------------------------------------------------------------------------------------
 	protected static bool CompareCollectionCount(int collectionCount, EL_EDbFindOperator operator, Class comparisonValues)
 	{
