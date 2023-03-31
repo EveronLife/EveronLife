@@ -116,7 +116,7 @@ class EL_PersistentWorldEntityLoader
 						BaseContainer saveDataContainer = componentSource.GetObject("m_pSaveData");
 						if (saveDataContainer)
 						{
-							resultType = saveDataContainer.GetClassName().ToType();
+							resultType = EL_Utils.TrimEnd(saveDataContainer.GetClassName(), 5).ToType();
 							break;
 						}
 					}
