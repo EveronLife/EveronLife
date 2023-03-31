@@ -38,6 +38,11 @@ class EL_PersistenceComponent : ScriptComponent
 	protected bool m_bSavedAsStorageRoot;
 	protected bool m_bDetatched;
 
+	protected ref ScriptInvoker m_pOnAfterSave;
+	protected ref ScriptInvoker m_pOnAfterPersist;
+	protected ref ScriptInvoker m_pOnBeforeLoad;
+	protected ref ScriptInvoker m_pOnAfterLoad;
+
 	//------------------------------------------------------------------------------------------------
 	//! static helper see GetPersistentId()
 	static string GetPersistentId(IEntity worldEntity)
@@ -73,6 +78,43 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Event invoker for when the save-data was created but was not yet persisted to the database.
+	//! Args(EL_PersistenceComponent, EL_EntitySaveData)
+	ScriptInvoker GetOnAfterSaveEvent()
+	{
+		if (!m_pOnAfterSave) m_pOnAfterSave = new ScriptInvoker();
+		return m_pOnAfterSave;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Event invoker for when the save-data was persisted to the database.
+	//! Only called on world root entities (e.g. not on items stored inside other items, there it will only be called for the container).
+	//! Args(EL_PersistenceComponent, EL_EntitySaveData)
+	ScriptInvoker GetOnAfterPersistEvent()
+	{
+		if (!m_pOnAfterPersist) m_pOnAfterPersist = new ScriptInvoker();
+		return m_pOnAfterPersist;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Event invoker for when the save-data is about to be loaded/applied to the entity.
+	//! Args(EL_PersistenceComponent, EL_EntitySaveData)
+	ScriptInvoker GetOnBeforeLoadEvent()
+	{
+		if (!m_pOnBeforeLoad) m_pOnBeforeLoad = new ScriptInvoker();
+		return m_pOnBeforeLoad;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Event invoker for when the save-data was loaded/applied to the entity.
+	//! Args(EL_PersistenceComponent, EL_EntitySaveData)
+	ScriptInvoker GetOnAfterLoadEvent()
+	{
+		if (!m_pOnAfterLoad) m_pOnAfterLoad = new ScriptInvoker();
+		return m_pOnAfterLoad;
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Save the entity to the database
 	//! \return the save-data instance that was submitted to the database
 	EL_EntitySaveData Save()
@@ -92,6 +134,8 @@ class EL_PersistenceComponent : ScriptComponent
 			return null;
 		}
 
+		if (m_pOnAfterSave) m_pOnAfterSave.Invoke(this, saveData);
+
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 
 		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
@@ -99,6 +143,7 @@ class EL_PersistenceComponent : ScriptComponent
 		{
 			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
 			m_bSavedAsStorageRoot = true;
+			if (m_pOnAfterPersist) m_pOnAfterPersist.Invoke(this, saveData);
 		}
 		else if (m_bSavedAsStorageRoot)
 		{
@@ -115,6 +160,8 @@ class EL_PersistenceComponent : ScriptComponent
 	//! Load existing save-data to apply to this entity
 	bool Load(notnull EL_EntitySaveData saveData)
 	{
+		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
+
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		if (m_bDetatched || saveData.GetId() != m_sId || !saveData.ApplyTo(owner, settings.m_pSaveData))
@@ -122,6 +169,8 @@ class EL_PersistenceComponent : ScriptComponent
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
 			return false;
 		}
+
+		if (m_pOnAfterLoad) m_pOnAfterLoad.Invoke(this, saveData);
 
 		return true;
 	}
