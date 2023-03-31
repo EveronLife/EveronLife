@@ -6,8 +6,25 @@ class EL_Utils
 	//! \return the uid as string
 	static string GetPlayerUID(int playerId)
 	{
+		if (!Replication.IsServer())
+		{
+			Debug.Error("GetPlayerUID can only be used on the server.");
+			return string.Empty;
+		}
+
 		string uid = GetGame().GetBackendApi().GetPlayerUID(playerId);
-		if (!uid) uid = string.Format("LOCAL_UID_%1", playerId);
+		if (!uid)
+		{
+			if (RplSession.Mode() == RplMode.Dedicated)
+			{
+				Debug.Error("Dedicated server is not correctly configuted to connect to the BI backend.\nSee https://community.bistudio.com/wiki/Arma_Reforger:Server_Hosting#gameHostRegisterBindAddress");
+			}
+			else
+			{
+				uid = string.Format("LOCAL_UID_%1", playerId);
+			}
+		}
+
 		return uid;
 	}
 
