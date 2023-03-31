@@ -165,9 +165,8 @@ The compiler will complain or the built condition will have no array value if it
 After the find operation concludes the DB context provides the results in three different ways, depending on if the async API was used or not.
 
 > **Warning**  
-> The sync API was designed to work together with the `thread` keyword to make results "awaitable". Unfortunately, the keyword is broken (https://feedback.bistudio.com/T167281).
-> Until this is fixed or in the case of FileIO-based drivers the operations are blocking the main thread of the game, so use them with care.
-> It is recommended to use async callbacks when possible so the game mode scales well with higher loads and when using non-blocking drivers (e.g. web API ones or external async plugins)
+> The sync API was designed to work together with the `thread` keyword to make results "awaitable". However the driver might still be using blocking operations (all FileIO-based drivers do).
+> It is recommended to use async callbacks when possible so the game mode scales well under higher loads while using non-blocking drivers (e.g. web API ones or external async plugins)
 
 ### FindAll
 `FindAll` returns an `EL_DbFindResults<EL_DbEntity>` instance which contains the status code enum as well as any results from the operation if it was successful.
