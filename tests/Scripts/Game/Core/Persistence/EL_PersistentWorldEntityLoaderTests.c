@@ -99,7 +99,7 @@ class EL_Test_PersistentWorldEntityLoader_GetAsync_Existing_Spawned : Persistent
 }
 
 [Test("EL_PersistentWorldEntityLoaderTests", 3)]
-class EL_Test_PersistentWorldEntityLoader_Get_MultieExisting_AllSpawned : PersistentWorldEntityLoaderBase
+class EL_Test_PersistentWorldEntityLoader_Get_MultiExisting_AllSpawned : PersistentWorldEntityLoaderBase
 { 
 	EL_PersistenceComponent m_pExisting2;
 	ref array<string> m_aIds;
@@ -147,7 +147,7 @@ class EL_Test_PersistentWorldEntityLoader_Get_MultieExisting_AllSpawned : Persis
 }
 
 [Test("EL_PersistentWorldEntityLoaderTests", 3)]
-class EL_Test_PersistentWorldEntityLoader_GetAsync_MultieExisting_AllSpawned : EL_Test_PersistentWorldEntityLoader_Get_MultieExisting_AllSpawned
+class EL_Test_PersistentWorldEntityLoader_GetAsync_MultiExisting_AllSpawned : EL_Test_PersistentWorldEntityLoader_Get_MultiExisting_AllSpawned
 { 
 	[Step(EStage.Main)]
 	void Act()
