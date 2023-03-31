@@ -18,7 +18,7 @@ class EL_Test_FindConditionEvaluatorContainerItem : EL_DbEntity
 	int m_Int = 1337;
 	float m_Float = 42.42;
 	bool m_Bool = true;
-	string m_String = "Hello World";
+	string m_String = "hello WoRld";
 	vector m_Vector = Vector(1, 3, 7);
 
 	EL_Test_FindConditionEvaluatorContainerItem m_NullField;
@@ -26,7 +26,7 @@ class EL_Test_FindConditionEvaluatorContainerItem : EL_DbEntity
 	ref array<int> m_IntArray = {42, 1337};
 	ref array<float> m_FloatArray = {42.42, 1337.1337};
 	ref array<bool> m_BoolArray = {true, false, true, false};
-	ref array<string> m_StringArray = {"Hello", "World"};
+	ref array<string> m_StringArray = {"HeLlO", "WoRlD"};
 	ref array<vector> m_VectorArray = {Vector(1, 3, 7), Vector(1, 0, 1)};
 
 	ref set<float> m_FloatSet;

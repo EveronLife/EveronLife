@@ -496,6 +496,8 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 			return false;
 		}
 
+		PreprocessComparisonValues(valueCondition.m_eComparisonOperator, valueCondition.m_aComparisonValues);
+
 		// Handle collection comparison
 		if (fieldInfo.m_eCollectionType != EL_DbFindFieldCollectionType.NONE)
 		{
@@ -569,6 +571,21 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		if (!instance.Type().GetVariableValue(instance, fieldInfo.m_iVariableindex, fieldValue)) return false;
 		return Compare(fieldValue, valueCondition.m_eComparisonOperator, valueCondition.m_aComparisonValues);
 	}
+
+	//------------------------------------------------------------------------------------------------
+	// Default do nothing implementation
+	protected static void PreprocessComparisonValues(EL_EDbFindOperator operator, Class comparisonValues);
+
+	//------------------------------------------------------------------------------------------------
+	protected static void PreprocessComparisonValues(EL_EDbFindOperator operator, array<string> comparisonValues)
+	{
+		foreach(int idx, string comparisonValue : comparisonValues)
+		{
+			comparisonValue.ToLower();
+			comparisonValues.Set(idx, comparisonValue);
+		}
+	}
+
 
 	//------------------------------------------------------------------------------------------------
 	protected static bool CompareCollectionCount(int collectionCount, EL_EDbFindOperator operator, Class comparisonValues)
@@ -735,6 +752,8 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	//------------------------------------------------------------------------------------------------
 	protected static bool Compare(string fieldValue, EL_EDbFindOperator operator, array<string> comparisonValues)
 	{
+		fieldValue.ToLower();
+
 		switch(operator)
 		{
 			case EL_EDbFindOperator.EQUAL:
