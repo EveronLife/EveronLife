@@ -29,7 +29,7 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 	}
 }
 
-enum EL_EPersistenceComponentFlags
+enum EL_EPersistenceFlags
 {
 	STORAGE_ROOT = 0x01,
 	STORAGE_ROOT_SAVED = 0x02,
@@ -41,7 +41,7 @@ class EL_PersistenceComponent : ScriptComponent
 	protected string m_sId;
 	protected EL_DateTimeUtcAsInt m_iLastSaved;
 
-	protected EL_EPersistenceComponentFlags m_eFlags;
+	protected EL_EPersistenceFlags m_eFlags;
 
 	protected ref ScriptInvoker m_pOnAfterSave;
 	protected ref ScriptInvoker m_pOnAfterPersist;
@@ -124,7 +124,7 @@ class EL_PersistenceComponent : ScriptComponent
 	//! \return the save-data instance that was submitted to the database
 	EL_EntitySaveData Save()
 	{
-		if ((m_eFlags & EL_EPersistenceComponentFlags.DETACHED) || !m_sId) return null;
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) || !m_sId) return null;
 
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 
@@ -144,18 +144,18 @@ class EL_PersistenceComponent : ScriptComponent
 		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
 
 		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
-		if ((m_eFlags & EL_EPersistenceComponentFlags.STORAGE_ROOT) && !EL_PersistenceUtils.IsAttached(owner))
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) && !EL_PersistenceUtils.IsAttached(owner))
 		{
 			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
-			m_eFlags |= EL_EPersistenceComponentFlags.STORAGE_ROOT_SAVED;
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
 			if (m_pOnAfterPersist) m_pOnAfterPersist.Invoke(this, saveData);
 		}
-		else if ((m_eFlags & EL_EPersistenceComponentFlags.STORAGE_ROOT_SAVED))
+		else if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
 		{
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
 			// The save-data will be present inside the storage parent instead.
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
-			m_eFlags &= ~EL_EPersistenceComponentFlags.STORAGE_ROOT_SAVED;
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
 		}
 
 		return saveData;
@@ -169,8 +169,8 @@ class EL_PersistenceComponent : ScriptComponent
 
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if ((m_eFlags & EL_EPersistenceComponentFlags.DETACHED) || 
-			saveData.GetId() != m_sId || 
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) ||
+			saveData.GetId() != m_sId ||
 			!saveData.ApplyTo(owner, settings.m_pSaveData))
 		{
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
@@ -242,7 +242,7 @@ class EL_PersistenceComponent : ScriptComponent
 		if (settings.m_bStorageRoot)
 		{
 			persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
-			m_eFlags |= EL_EPersistenceComponentFlags.STORAGE_ROOT;
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
 		}
 	}
 
@@ -260,19 +260,19 @@ class EL_PersistenceComponent : ScriptComponent
 
 		// If not currently tracked by persistence ignore changes.
 		// This can happen on delete from inventory manager where the event comes after OnDelete of this component
-		if ((m_eFlags & EL_EPersistenceComponentFlags.DETACHED) || !m_sId || !settings.m_bStorageRoot) return;
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) || !m_sId || !settings.m_bStorageRoot) return;
 
-		if ((m_eFlags & EL_EPersistenceComponentFlags.STORAGE_ROOT) && storageParent)
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) && storageParent)
 		{
 			// Entity was previously the save root, but now got a parent assigned, so unregister
 			persistenceManager.UnregisterSaveRoot(this);
-			m_eFlags &= ~EL_EPersistenceComponentFlags.STORAGE_ROOT;
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
 		}
-		else if (!(m_eFlags & EL_EPersistenceComponentFlags.STORAGE_ROOT) && !storageParent)
+		else if (!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) && !storageParent)
 		{
 			// Entity was previously a save child, but now has no parent anymore and thus needs to be registerd as own root
 			persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
-			m_eFlags |= EL_EPersistenceComponentFlags.STORAGE_ROOT;
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
 		}
 	}
 
@@ -301,9 +301,9 @@ class EL_PersistenceComponent : ScriptComponent
 	//! Delete the persistence data of this entity. Does not delete the entity itself.
 	void Delete()
 	{
-		if ((m_eFlags & EL_EPersistenceComponentFlags.DETACHED) || !m_sId) return;
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) || !m_sId) return;
 
-		if ((m_eFlags & EL_EPersistenceComponentFlags.STORAGE_ROOT_SAVED))
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
 		{
 			// Only attempt to delete if there is a chance it was already saved as own entity in db
 			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
@@ -319,7 +319,7 @@ class EL_PersistenceComponent : ScriptComponent
 	//! Mark the entity as detached from persistence, to ignore Save, Load and Delete operations. Can not be undone. Used primarily to handle removal of the instance externally.
 	void Detach()
 	{
-		m_eFlags |= EL_EPersistenceComponentFlags.DETACHED;
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.DETACHED);
 	}
 
 	//------------------------------------------------------------------------------------------------
