@@ -43,10 +43,10 @@ class EL_PersistenceComponent : ScriptComponent
 
 	protected EL_EPersistenceFlags m_eFlags;
 
-	protected ref ScriptInvoker m_pOnAfterSave;
-	protected ref ScriptInvoker m_pOnAfterPersist;
-	protected ref ScriptInvoker m_pOnBeforeLoad;
-	protected ref ScriptInvoker m_pOnAfterLoad;
+	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterSave;
+	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterPersist;
+	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnBeforeLoad;
+	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterLoad;
 
 	//------------------------------------------------------------------------------------------------
 	//! static helper see GetPersistentId()

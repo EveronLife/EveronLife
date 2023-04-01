@@ -29,22 +29,25 @@ class EL_PersistenceManager
 	// GarbageManager handling
 	protected ref EL_PersistentEntityLifetimeCollection m_pEntityLifetimeCollection;
 
+	// single linked list, with map<persistentid, list_node> as quick entry find by id
+	// node contains component, next pointer, and maybe pre fetched info for if autosave, shutdownsave, self-spawn?
+	
 	// Root instance tracking
 	protected ref EL_PersistentRootEntityCollection m_pRootEntityCollection;
 	protected ref map<EL_PersistenceComponent, bool> m_mRootPersistenceComponents;
 	protected ref map<EL_PersistentScriptedStateBase, bool> m_mRootScriptedStates;
-	protected ref set<string> m_aBackedEntityIds;
-
-	// Only used during setup
-	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
-	protected ref map<string, ref EL_EntitySaveData> m_mInitEntitySaveData;
-	protected ref map<string, IEntity> m_mBackedEntities;
-	protected ref set<EL_PersistenceComponent> m_aPendingIdAssignments;
+	protected ref set<string> m_aBakedEntityIds;
 
 	// Find by id system
 	protected ref map<string, IEntity> m_mAllEntities;
 	protected ref map<string, EL_PersistentScriptedStateBase> m_mAllScriptedStates;
 
+	// Only used during setup
+	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
+	protected ref map<string, ref EL_EntitySaveData> m_mInitEntitySaveData;
+	protected ref map<string, IEntity> m_mBakedEntities;
+	protected ref set<EL_PersistenceComponent> m_aPendingIdAssignments;
+	
 	//------------------------------------------------------------------------------------------------
 	//! Check if current game instance is intended to run the persistence system. Only the mission host should do so.
 	//! \return true if persistence should be run, false otherwise.
@@ -127,8 +130,8 @@ class EL_PersistenceManager
 				m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
 			}
 
-			m_mBackedEntities.Set(id, worldEntity);
-			m_aBackedEntityIds.Insert(id);
+			m_mBakedEntities.Set(id, worldEntity);
+			m_aBakedEntityIds.Insert(id);
 		}
 		else if (m_sNextPersistentId)
 		{
@@ -185,7 +188,7 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected bool IsBaked(EL_PersistenceComponent persistenceComponent)
 	{
-		return m_aBackedEntityIds.Contains(persistenceComponent.GetPersistentId());
+		return m_aBakedEntityIds.Contains(persistenceComponent.GetPersistentId());
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -312,14 +315,14 @@ class EL_PersistenceManager
 		array<string> staleIds();
 		foreach (string persistentId : m_pRootEntityCollection.m_aRemovedBackedEntities)
 		{
-			IEntity worldEntity = m_mBackedEntities.Get(persistentId);
+			IEntity worldEntity = m_mBakedEntities.Get(persistentId);
 			if (!worldEntity)
 			{
 				staleIds.Insert(persistentId);
 				continue;
 			}
 
-			m_mBackedEntities.Remove(persistentId);
+			m_mBakedEntities.Remove(persistentId);
 			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting baked entity '%1'@%2.", EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin()), LogLevel.SPAM);
 			SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
 		}
@@ -332,7 +335,7 @@ class EL_PersistenceManager
 		}
 
 		// Apply save-data to baked entities
-		foreach (string persistentId, IEntity bakedEntity : m_mBackedEntities)
+		foreach (string persistentId, IEntity bakedEntity : m_mBakedEntities)
 		{
 			EL_EntitySaveData saveData = m_mInitEntitySaveData.Get(persistentId);
 			if (!saveData) continue;
@@ -513,11 +516,11 @@ class EL_PersistenceManager
 
 		m_mRootPersistenceComponents = new map<EL_PersistenceComponent, bool>();
 		m_mRootScriptedStates = new map<EL_PersistentScriptedStateBase, bool>();
-		m_aBackedEntityIds = new set<string>();
+		m_aBakedEntityIds = new set<string>();
 		m_aPendingIdAssignments = new set<EL_PersistenceComponent>();
 
 		m_mInitEntitySaveData = new map<string, ref EL_EntitySaveData>();
-		m_mBackedEntities = new map<string, IEntity>();
+		m_mBakedEntities = new map<string, IEntity>();
 
 		m_mAllEntities = new map<string, IEntity>();
 		m_mAllScriptedStates = new map<string, EL_PersistentScriptedStateBase>();
