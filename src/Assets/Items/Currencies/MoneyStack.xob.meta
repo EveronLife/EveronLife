@@ -3,23 +3,17 @@ MetaFileClass {
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {
-    MaterialAssignClass "{5AD6A5C28F0A196C}" {
-     SourceMaterial "MoneyStack"
-     AssignedMaterial "{F1470E3E995AE04F}Assets/Items/Currencies/data/MoneyStack.emat"
+    MaterialAssignClass "{5D0955083D454920}" {
+     SourceMaterial "aiStandardSurface1SG"
+     AssignedMaterial "{7ACCA12BFD006A69}Assets/Items/Currencies/Data/aiStandardSurface1SG.emat"
+    }
+    MaterialAssignClass "{5D0955083D454910}" {
+     SourceMaterial "aiStandardSurface2SG"
+     AssignedMaterial "{C81BE3C0A2A259F1}Assets/Items/Currencies/Data/aiStandardSurface2SG.emat"
     }
    }
    MeshParams {
-    MeshParam MoneyStack {
-    }
-   }
-   GeometryParams {
-    GeometryParam UBX_box {
-     LayerPreset "ItemFireView"
-     SurfaceProperties {
-      "{13581C35484F3000}Common/Materials/Game/fabric.gamemat"
-     }
-     Mass 0
-     Margin 0
+    MeshParam money {
     }
    }
    Common TXOCommonClass "{5AD6A5C28F0D3C27}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
