@@ -1,3 +1,19 @@
 MatPBRBasic {
+ Diffuse 0.046 0.225 0.047 1
+ Specular 0.074 0.221 0.09 1
+ SpecularMul 1.474
+ WetnessScale 0
+ RoughnessScale 0.722
+ MetalnessScale 0.723
+ AOScale 2.428
+ DielectricReflectance 0.057
+ CavityFromAO 0.249
  BCRMap "{0B5F6DE1B6025585}Assets/Items/Currencies/Data/cashTexture.edds"
+ NormalPower 1.526
+ NMOMap "{A2AA2A6089838618}Assets/Items/Currencies/Data/cashTexture_displacement.edds"
+ DetailNormalPower 1.156
+ DetailNormalMap "{12560F6EB060BD71}Assets/Items/Currencies/Data/cashTexture_normal.edds"
+ HeightMap "{12560F6EB060BD71}Assets/Items/Currencies/Data/cashTexture_normal.edds"
+ ParallaxScale 0.002
+ ParallaxShadowScale 0.01
 }

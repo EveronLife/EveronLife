@@ -2,6 +2,7 @@ MetaFileClass {
  Name "{773BE5E227A5A9CB}Assets/Items/Currencies/MoneyStack.xob"
  Configurations {
   FBXResourceClass PC {
+   Scale 0.03 0.03 0.03
    MaterialAssigns {
     MaterialAssignClass "{5D0EE2C59B6C310E}" {
      SourceMaterial "material"
