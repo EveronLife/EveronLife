@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{FFC62BCA4B4DADD9}Prefabs/MP/Modes/Roleplay/SpawnPoint_LIFE.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
