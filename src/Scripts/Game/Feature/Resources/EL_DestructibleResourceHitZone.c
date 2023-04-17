@@ -11,7 +11,7 @@ class EL_DestructibleResourceHitZone : ScriptedHitZone
 		EL_DestructibleResourceComponent destructibleResource = EL_Component<EL_DestructibleResourceComponent>.Find(owner);
 		if (destructibleResource)
 		{
-            EL_PersistenceComponentClass settings = EL_ComponentData<EL_DestructibleResourceComponentClass>.Get(destructibleResource);
+			EL_DestructibleResourceComponentClass settings = EL_DestructibleResourceComponentClass.Cast(destructibleResource.GetComponentData(owner));
 			EL_Utils.SpawnEntityPrefab(settings.m_rHitEffect, hitTransform[0], hitTransform[2], false);
 		}
 	}
@@ -22,7 +22,7 @@ class EL_DestructibleResourceHitZone : ScriptedHitZone
 		EL_DestructibleResourceComponent destructibleResource = EL_Component<EL_DestructibleResourceComponent>.Find(GetOwner());
 		if (destructibleResource)
 		{
-            EL_PersistenceComponentClass settings = EL_ComponentData<EL_DestructibleResourceComponentClass>.Get(destructibleResource);
+			EL_DestructibleResourceComponentClass settings = EL_DestructibleResourceComponentClass.Cast(destructibleResource.GetComponentData(destructibleResource.GetOwner()));
 			ResourceName currentTool = EL_Utils.GetPrefabName(damageSource);
 			foreach (EL_ResourceDestructionTool tool : settings.m_aTools)
 			{

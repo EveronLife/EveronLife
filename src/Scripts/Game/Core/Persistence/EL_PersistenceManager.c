@@ -672,7 +672,7 @@ class EL_PersistenceManager
 	event void OnPostInit(IEntity gameMode)
 	{
 		EL_PersistenceManagerComponent managerComponent = EL_Component<EL_PersistenceManagerComponent>.Find(gameMode);
-        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceManagerComponentClass>.Get(managerComponent);
+        EL_PersistenceManagerComponentClass settings = EL_ComponentData<EL_PersistenceManagerComponentClass>.Get(managerComponent);
 		if (!settings.m_bEnabled) return;
 		m_fAutoSaveInterval = settings.m_fInterval;
 		m_iAutoSaveIterations = Math.Clamp(settings.m_iIterations, 1, 128);
