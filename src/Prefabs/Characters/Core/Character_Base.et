@@ -20,6 +20,8 @@ SCR_ChimeraCharacter {
      }
      EL_CharacterControllerComponentSaveDataClass "{5CFED52E8CB02A22}" {
      }
+     EL_BaseInventoryStorageComponentSaveDataClass "{5D22E99D79014EF0}" {
+     }
      EL_CharacterInventoryStorageComponentSaveDataClass "{5CFED52E980265CA}" {
      }
     }
