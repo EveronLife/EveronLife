@@ -1,20 +1,17 @@
 [ComponentEditorProps(category: "EveronLife/Core/Persistence", description: "Used to make an entity persistent.")]
 class EL_PersistenceComponentClass : ScriptComponentClass
 {
-	[Attribute(defvalue: "1", desc: "Only storage root entities can be saved in the open world.\nIf disabled the entity will only be saved if inside another storage root (e.g. character, vehicle).")]
-	bool m_bStorageRoot;
-
-	[Attribute(defvalue: "1", desc: "Regulary save this entity during active session.\nThe interval is configured in the persitence manager component on your game mode.")]
-	bool m_bAutosave;
-
-	[Attribute(defvalue: "1", desc: "Save entity on session shutdown.\nOnly disable this, if you know what you are doing!")]
-	bool m_bShutdownsave;
+	[Attribute(defvalue: "2", uiwidget: UIWidgets.ComboBox, desc: "Should the entity be saved automatically and if so only on shutdown or regulary.\nThe interval is configured in the persitence manager component on your game mode.", enums: ParamEnumArray.FromEnum(EL_ESaveType))]
+	EL_ESaveType m_eSaveType;
 
 	[Attribute(defvalue: "1", desc: "If enabled the entity will spawn back into the world automatically after session restart.\nAlways true for baked map objects.")]
 	bool m_bSelfSpawn;
 
 	[Attribute(defvalue: "1", desc: "If enabled the entity will deleted from persistence when deleted from the world automatically.")]
 	bool m_bSelfDelete;
+
+	[Attribute(defvalue: "1", desc: "Only storage root entities can be saved in the open world.\nIf disabled the entity will only be saved if inside another storage root (e.g. character, vehicle).")]
+	bool m_bStorageRoot;
 
 	[Attribute(desc: "Type of save-data to represent this entity.")]
 	ref EL_EntitySaveDataClass m_pSaveData;
@@ -27,26 +24,29 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 	{
 		return true; // Forcing persistence to be loaded last so other components are properly initalized to be read from and applied to.
 	}
-}
 
-enum EL_EPersistenceFlags
-{
-	STORAGE_ROOT = 0x01,
-	STORAGE_ROOT_SAVED = 0x02,
-	DETACHED = 0x04,
+	//------------------------------------------------------------------------------------------------
+	static override array<typename> CannotCombine(IEntityComponentSource src)
+	{
+		return {EL_PersistenceComponent}; //Prevent multiple persistence components from being added.
+	}
 }
 
 class EL_PersistenceComponent : ScriptComponent
 {
-	protected string m_sId;
-	protected EL_DateTimeUtcAsInt m_iLastSaved;
+	private string m_sId;
+	private EL_DateTimeUtcAsInt m_iLastSaved;
+	[NonSerialized()]
+	private EL_EPersistenceFlags m_eFlags;
 
-	protected EL_EPersistenceFlags m_eFlags;
-
-	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterSave;
-	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterPersist;
-	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnBeforeLoad;
-	protected ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterLoad;
+	[NonSerialized()]
+	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterSave;
+	[NonSerialized()]
+	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterPersist;
+	[NonSerialized()]
+	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnBeforeLoad;
+	[NonSerialized()]
+	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterLoad;
 
 	//------------------------------------------------------------------------------------------------
 	//! static helper see GetPersistentId()
@@ -59,11 +59,25 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Get the assigned persistent id of this entity
-	//! \return the id or empty string if persistence data is deleted and only the instance remains
+	//! Get the assigned persistent id of this entity.
 	string GetPersistentId()
 	{
+		if (!m_sId) m_sId = EL_PersistenceManager.GetInstance().Register(this);
 		return m_sId;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Set the assigned persistent id of this entity.
+	//! USE WITH CAUTION! Only in rare situations you need to manually assign an id.
+	void SetPersistentId(string id)
+	{
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		if (m_sId && m_sId != id)
+		{
+			persistenceManager.Unregister(this);
+			m_sId = string.Empty;
+		}
+		if (!m_sId) m_sId = persistenceManager.Register(this, id);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -75,11 +89,10 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Set the last time this entity was saved as packed UTC date time.
-	//! ONLY USE WHEN YOU KNOW WHAT YOU ARE DOING! PRIMARILY INTERNAL USE.
-	void SetLastSaved(EL_DateTimeUtcAsInt dateTime)
+	//! Get internal state flags of the persistence tracking
+	EL_EPersistenceFlags GetFlags()
 	{
-		m_iLastSaved = dateTime;
+		return m_eFlags;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -124,8 +137,6 @@ class EL_PersistenceComponent : ScriptComponent
 	//! \return the save-data instance that was submitted to the database
 	EL_EntitySaveData Save()
 	{
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) || !m_sId) return null;
-
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 
 		IEntity owner = GetOwner();
@@ -141,10 +152,10 @@ class EL_PersistenceComponent : ScriptComponent
 
 		if (m_pOnAfterSave) m_pOnAfterSave.Invoke(this, saveData);
 
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
 		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) && !EL_PersistenceUtils.IsAttached(owner))
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT))
 		{
 			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
@@ -167,11 +178,17 @@ class EL_PersistenceComponent : ScriptComponent
 	{
 		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
 
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		if (m_sId && m_sId != saveData.GetId())
+		{
+			persistenceManager.Unregister(this);
+			m_sId = string.Empty;
+		}
+		if (!m_sId) m_sId = persistenceManager.Register(this, saveData.GetId());
+
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) ||
-			saveData.GetId() != m_sId ||
-			!saveData.ApplyTo(owner, settings.m_pSaveData))
+		if (!saveData.ApplyTo(owner, settings.m_pSaveData))
 		{
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
 			return false;
@@ -188,9 +205,8 @@ class EL_PersistenceComponent : ScriptComponent
 		// Persistence logic only runs on the server
 		if (!EL_PersistenceManager.IsPersistenceMaster()) return;
 
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-
 		// Init and validate settings on shared class-class instance once
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		if (!settings.m_tSaveDataTypename)
 		{
 			if (!settings.m_pSaveData || settings.m_pSaveData.Type() == EL_EntitySaveDataClass)
@@ -235,78 +251,75 @@ class EL_PersistenceComponent : ScriptComponent
 			settings.m_pSaveData.m_aComponents = sortedComponents;
 		}
 
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+		EL_PersistenceManager.GetInstance().EnqueueForRegistration(this);
 
-		persistenceManager.RequestPersistentId(this);
+		// TODO: Remove afer 0.9.8 and rely only on OnAddedToParent
+		InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(owner);
+		if (invItem) invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
+	}
 
-		if (settings.m_bStorageRoot)
+	//------------------------------------------------------------------------------------------------
+	void OnParentSlotChanged(InventoryStorageSlot oldSlot, InventoryStorageSlot newSlot)
+	{
+		if (newSlot)
 		{
-			persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+			OnAddedToParentPlaceholder(GetOwner(), newSlot.GetOwner());
+		}
+		else if (oldSlot)
+		{
+			OnRemovedFromParentPlaceholder(GetOwner(), oldSlot.GetOwner());
 		}
 	}
 
 	//------------------------------------------------------------------------------------------------
-	event void OnPersistentIdAssigned(string persistentId)
+	/*override*/ event void OnAddedToParentPlaceholder(IEntity child, IEntity parent)
 	{
-		m_sId = persistentId;
+		/*if (EL_Utils.GetPrefabName(child).Contains("Binoculars_B12"))
+		{
+			//Print("eeeehre");
+		}
+		*/
+		//PrintFormat("%1 was added as child to parent %2", EL_Utils.GetPrefabName(child), EL_Utils.GetPrefabName(parent));
+		UpdateRootStatus();
 	}
 
 	//------------------------------------------------------------------------------------------------
-	event void OnStorageParentChanged(IEntity owner, IEntity storageParent)
+	/*override*/ event void OnRemovedFromParentPlaceholder(IEntity child, IEntity parent)
 	{
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-
-		// If not currently tracked by persistence ignore changes.
-		// This can happen on delete from inventory manager where the event comes after OnDelete of this component
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) || !m_sId || !settings.m_bStorageRoot) return;
-
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) && storageParent)
-		{
-			// Entity was previously the save root, but now got a parent assigned, so unregister
-			persistenceManager.UnregisterSaveRoot(this);
-			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
-		}
-		else if (!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) && !storageParent)
-		{
-			// Entity was previously a save child, but now has no parent anymore and thus needs to be registerd as own root
-			persistenceManager.RegisterSaveRoot(this, settings.m_bAutosave);
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
-		}
+		//PrintFormat("%1 was removed as child from parent %2", EL_Utils.GetPrefabName(child), EL_Utils.GetPrefabName(parent));
+		UpdateRootStatus(true);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override event void OnDelete(IEntity owner)
 	{
+		// TODO: Remove afer 0.9.8 and rely only on OnRemovedFromParent
+		InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(owner);
+		if (invItem) invItem.m_OnParentSlotChangedInvoker.Remove(OnParentSlotChanged);
+
 		// Check that we are not in session dtor phase
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance(false);
-		if (!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance(false);
+		if (!persistenceManager || persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN) return;
+
+		persistenceManager.Unregister(this);
+
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-
-		if (settings.m_bStorageRoot)
+		if (IsTracked())
 		{
-			persistenceManager.UnregisterSaveRoot(this);
+			persistenceManager.UpdateRootEntityCollection(this, m_sId, false);
+			if (settings.m_bSelfDelete) Delete();
 		}
-
-		persistenceManager.UnloadPersistentId(m_sId);
-
-		// Only auto self delete if setting for it is enabled
-		if (!settings.m_bSelfDelete) return;
-
-		Delete();
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Delete the persistence data of this entity. Does not delete the entity itself.
 	void Delete()
 	{
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.DETACHED) || !m_sId) return;
-
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
+		if (m_sId && EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
 		{
 			// Only attempt to delete if there is a chance it was already saved as own entity in db
-			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
 		}
@@ -316,10 +329,19 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Mark the entity as detached from persistence, to ignore Save, Load and Delete operations. Can not be undone. Used primarily to handle removal of the instance externally.
-	void Detach()
+	//! Pause automated tracking for auto-/shutdown-save, root entity changes and removal.
+	//! Used primarily to handle the conditional removal of an entity manually. E.g. pause before virtually storing a vehicle in a garage (during which the entity gets deleted).
+	void PauseTracking()
 	{
-		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.DETACHED);
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Undo PauseTracking().
+	void ResumeTracking()
+	{
+		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+		UpdateRootStatus();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -345,6 +367,86 @@ class EL_PersistenceComponent : ScriptComponent
 		}
 
 		return null;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void UpdateRootStatus(bool forceRoot = false)
+	{
+		if (!IsTracked()) return;
+
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
+
+		// Only count valid entity link systems as non root
+		bool isRoot = settings.m_bStorageRoot && (forceRoot || IsRootEntity());
+		if (isRoot)
+		{
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+		}
+		else
+		{
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+		}
+
+		EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, settings.m_eSaveType, isRoot);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool IsTracked()
+	{
+		return m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool IsRootEntity()
+	{
+		IEntity child = GetOwner();
+
+		// No parent, but all other systems checked would result in it having a parent so we can stop early
+		IEntity parent = child.GetParent();
+		if (!parent) return false;
+
+		// If inventory item then return if parent slot is null or not
+		InventoryItemComponent inventoryItem = EL_ComponentFinder<InventoryItemComponent>.Find(child);
+		if (inventoryItem && inventoryItem.GetParentSlot()) return false;
+
+		// Check if stored inside any storage on the parent
+		array<Managed> outComponents();
+		/*parent.FindComponents(BaseInventoryStorageComponent, outComponents);
+		foreach (Managed componentRef : outComponents)
+		{
+			if (BaseInventoryStorageComponent.Cast(componentRef).Contains(child)) return false;
+		}
+		*/
+
+		// Check if entity is attached to any of the parents slots
+		SlotManagerComponent slotManager = EL_ComponentFinder<SlotManagerComponent>.Find(parent);
+		if (slotManager)
+		{
+			array<EntitySlotInfo> outSlots();
+			slotManager.GetSlotInfos(outSlots);
+			foreach (EntitySlotInfo slot : outSlots)
+			{
+				if (slot.GetAttachedEntity() == child) return false;
+			}
+		}
+
+		// Check attachment slot components
+		//outComponents.Clear();
+		parent.FindComponents(AttachmentSlotComponent, outComponents);
+		foreach (Managed componentRef : outComponents)
+		{
+			if (AttachmentSlotComponent.Cast(componentRef).GetAttachedEntity() == child) return false;
+		}
+
+		// Check magazines in case parent might be a weapon
+		outComponents.Clear();
+		parent.FindComponents(BaseMuzzleComponent, outComponents);
+		foreach (Managed componentRef : outComponents)
+		{
+			if (BaseMuzzleComponent.Cast(componentRef).GetMagazine() == child) return false;
+		}
+
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------

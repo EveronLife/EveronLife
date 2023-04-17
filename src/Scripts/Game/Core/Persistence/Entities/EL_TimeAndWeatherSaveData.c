@@ -37,8 +37,6 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
 		if (!persistenceComponent || !timeAndWeatherManager) return false;
 
-		ApplyMetaData(persistenceComponent);
-		
 		timeAndWeatherManager.ForceWeatherTo(m_bWeatherLooping, m_sWeatherState);
 		timeAndWeatherManager.SetDate(m_iYear, m_iMonth, m_iDay);
 		timeAndWeatherManager.SetHoursMinutesSeconds(m_iHour, m_iMinute, m_iSecond);

@@ -102,8 +102,6 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	//! \return true if save-data could be applied, false if something failed.
 	bool ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
-		ApplyMetaData(EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity));
-
 		// Transform
 		if (m_pTransformation)
 		{

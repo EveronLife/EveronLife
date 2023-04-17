@@ -1,0 +1,6 @@
+enum EL_EPersistenceFlags
+{
+	STORAGE_ROOT = 0x01,
+	STORAGE_ROOT_SAVED = 0x02,
+	PAUSE_TRACKING = 0x04,
+}

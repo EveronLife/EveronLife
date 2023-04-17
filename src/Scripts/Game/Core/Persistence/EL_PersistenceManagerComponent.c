@@ -16,7 +16,7 @@ class EL_PersistenceManagerComponentClass : SCR_BaseGameModeComponentClass
 
 class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 {
-	protected EL_PersistenceManagerInternal m_pPersistenceManager;
+	protected EL_PersistenceManager m_pPersistenceManager;
 	protected float m_fAccumulator;
 	protected float m_fUpdateRateSetting;
 
@@ -67,7 +67,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 
 		m_fUpdateRateSetting = settings.m_fUpdateRate;
 
-		m_pPersistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		m_pPersistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPersistenceManager.OnPostInit(owner);
 
 		SetEventMask(owner, EntityEvent.POSTFRAME);

@@ -12,14 +12,6 @@ class EL_MetaDataDbEntity : EL_DbEntity
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Utility function to read meta-data
-	void ApplyMetaData(notnull EL_PersistenceComponent persistenceComponent)
-	{
-		// Id alraedy loaded on component through persistence manager
-		persistenceComponent.SetLastSaved(m_iLastSaved);
-	}
-
-	//------------------------------------------------------------------------------------------------
 	//! Utility function to write meta-data to serializer
 	void SerializeMetaData(notnull BaseSerializationSaveContext saveContext)
 	{

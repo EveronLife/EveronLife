@@ -16,7 +16,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 			return TScriptedState.Cast(spawnType.Spawn());
 		}
 
-		return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResults.Get(0))));
+		return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveData.Cast(findResults.Get(0))));
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().Equals(persistentId), limit: 1).GetEntities();
 		if (!findResults || findResults.Count() != 1) return null;
 
-		return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResults.Get(0))));
+		return TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveData.Cast(findResults.Get(0))));
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 		{
 			foreach (EL_DbEntity findResult : findResults)
 			{
-				TScriptedState state = TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveDataBase.Cast(findResult)));
+				TScriptedState state = TScriptedState.Cast(persistenceManager.SpawnScriptedState(EL_ScriptedStateSaveData.Cast(findResult)));
 				if (state) resultStates.Insert(state);
 			}
 		}
@@ -103,7 +103,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	protected static bool TypeAndSettingsValidation(out typename saveDataType)
 	{
 		typename resultType = TScriptedState;
-		if (!resultType.IsInherited(EL_PersistentScriptedStateBase)) return false;
+		if (!resultType.IsInherited(EL_PersistentScriptedState)) return false;
 
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(TScriptedState);
 		if (!settings || !settings.m_tSaveDataType)
@@ -154,26 +154,26 @@ class EL_ScriptedStateLoaderCallbackMultiple<Class T> : EL_ScriptedStateLoaderCa
 	void OnComplete(Managed context, array<ref T> data);
 }
 
-class EL_ScriptedStateLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_ScriptedStateSaveDataBase>
+class EL_ScriptedStateLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_ScriptedStateSaveData>
 {
 	ref EL_ScriptedStateLoaderCallbackInvokerBase m_pCallbackInvoker;
 	bool m_bCreateSingleton;
 	typename m_tCreateType;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnSuccess(Managed context, EL_ScriptedStateSaveDataBase resultData)
+	override void OnSuccess(Managed context, EL_ScriptedStateSaveData resultData)
 	{
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-		EL_PersistentScriptedStateBase resultScriptedState;
+		EL_PersistentScriptedState resultScriptedState;
 
 		if (resultData)
 		{
-			resultScriptedState = EL_PersistentScriptedStateBase.Cast(persistenceManager.SpawnScriptedState(resultData))
+			resultScriptedState = EL_PersistentScriptedState.Cast(persistenceManager.SpawnScriptedState(resultData))
 		}
 		else if (m_bCreateSingleton)
 		{
-			resultScriptedState = EL_PersistentScriptedStateBase.Cast(m_tCreateType.Spawn());
+			resultScriptedState = EL_PersistentScriptedState.Cast(m_tCreateType.Spawn());
 		}
 
 		GetGame().GetScriptModule().Call(m_pCallbackInvoker, "Invoke", false, null, resultScriptedState);
@@ -194,20 +194,20 @@ class EL_ScriptedStateLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL
 	}
 }
 
-class EL_ScriptedStateLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_ScriptedStateSaveDataBase>
+class EL_ScriptedStateLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_ScriptedStateSaveData>
 {
 	ref EL_ScriptedStateLoaderCallbackInvokerBase m_pCallbackInvoker;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnSuccess(Managed context, array<ref EL_ScriptedStateSaveDataBase> resultData)
+	override void OnSuccess(Managed context, array<ref EL_ScriptedStateSaveData> resultData)
 	{
 		if (resultData)
 		{
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-			foreach (EL_ScriptedStateSaveDataBase saveData : resultData)
+			foreach (EL_ScriptedStateSaveData saveData : resultData)
 			{
-				EL_PersistentScriptedStateBase resultScriptedState = EL_PersistentScriptedStateBase.Cast(persistenceManager.SpawnScriptedState(saveData));
+				EL_PersistentScriptedState resultScriptedState = EL_PersistentScriptedState.Cast(persistenceManager.SpawnScriptedState(saveData));
 				if (resultScriptedState) GetGame().GetScriptModule().Call(m_pCallbackInvoker, "AddResult", false, null, resultScriptedState);
 			}
 		}
@@ -243,7 +243,7 @@ class EL_ScriptedStateLoaderCallbackInvokerBase
 class EL_ScriptedStateLoaderCallbackInvokerSingle<Class T> : EL_ScriptedStateLoaderCallbackInvokerBase
 {
 	//------------------------------------------------------------------------------------------------
-	void Invoke(EL_PersistentScriptedStateBase resultScriptedState)
+	void Invoke(EL_PersistentScriptedState resultScriptedState)
 	{
 		T typedResult = T.Cast(resultScriptedState);
 		auto typedCallback = EL_ScriptedStateLoaderCallbackSingle<T>.Cast(m_pCallback);
@@ -256,7 +256,7 @@ class EL_ScriptedStateLoaderCallbackInvokerMultiple<Class T> : EL_ScriptedStateL
 	ref array<ref T> m_aResultBuffer = {};
 
 	//------------------------------------------------------------------------------------------------
-	void AddResult(EL_PersistentScriptedStateBase resultScriptedState)
+	void AddResult(EL_PersistentScriptedState resultScriptedState)
 	{
 		T resultTyped = T.Cast(resultScriptedState);
 		if (resultTyped) m_aResultBuffer.Insert(resultTyped);

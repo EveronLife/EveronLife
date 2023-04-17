@@ -1,5 +1,5 @@
-[EL_PersistentScriptedStateSettings(EL_PlayerAccount, EL_PlayerAccountSaveData, autoSave: false, shutDownSave: true, selfDelete: false)]
-class EL_PlayerAccount : EL_PersistentScriptedStateBase
+[EL_PersistentScriptedStateSettings(EL_PlayerAccount, EL_PlayerAccountSaveData, saveType: EL_ESaveType.INTERVAL_SHUTDOWN, selfDelete: false)]
+class EL_PlayerAccount : EL_PersistentScriptedState
 {
 	ref array<string> m_aCharacterIds;
 
@@ -7,7 +7,7 @@ class EL_PlayerAccount : EL_PersistentScriptedStateBase
 	static EL_PlayerAccount Create(string playerUid)
 	{
 		EL_PlayerAccount account();
-		account.m_sId = playerUid;
+		account.SetPersistentId(playerUid);
 		account.m_aCharacterIds = new array<string>();
 		return account;
 	}

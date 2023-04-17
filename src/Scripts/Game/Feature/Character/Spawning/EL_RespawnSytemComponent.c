@@ -39,15 +39,15 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		EL_CharacterSaveData saveData = m_mSpawnData.Get(playerId);
 		if (saveData && saveData.m_rPrefab)
 		{
-			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-			persistenceManager.SetNextPersistentId(saveData.GetId());
+			//persistenceManager.SetNextPersistentId(saveData.GetId());
 			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
 			playerEntity = DoSpawn(saveData.m_rPrefab, saveData.m_pTransformation.m_vOrigin, spawnAngles);
 
 			// Validate and return if persistence component is active, aka save-data loaded and entity ready to be used.
 			SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
-			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
+			EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(playerEntity);
 			if (respawnComponent && persistenceComponent && persistenceComponent.Load(saveData))
 			{
 				auto charControllerSaveData = EL_CharacterControllerComponentSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_CharacterControllerComponentSaveData)[0]);

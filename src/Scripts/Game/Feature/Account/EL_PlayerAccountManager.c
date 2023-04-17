@@ -29,8 +29,8 @@ class EL_PlayerAccountManager
 		EL_PlayerAccount account = m_mAccounts.Get(playerUid);
 		if (!account) return;
 
+		account.PauseTracking();
 		account.Save();
-		account.Detach();
 		m_mAccounts.Remove(playerUid);
 	}
 
