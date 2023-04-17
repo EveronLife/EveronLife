@@ -60,7 +60,7 @@ modded class ScriptedInventoryStorageManagerComponent
 		{
 			EL_RecountItemsDebounced(prefab);
 
-			EL_QuantityComponent quantity = EL_ComponentFinder<EL_QuantityComponent>.Find(item);
+			EL_QuantityComponent quantity = EL_Component<EL_QuantityComponent>.Find(item);
 			if (quantity) quantity.GetOnQuantityChanged().Insert(EL_HandleOnQuantityChanged);
 		}
 	}
@@ -75,7 +75,7 @@ modded class ScriptedInventoryStorageManagerComponent
 		{
 			EL_RecountItemsDebounced(prefab);
 
-			EL_QuantityComponent quantity = EL_ComponentFinder<EL_QuantityComponent>.Find(item);
+			EL_QuantityComponent quantity = EL_Component<EL_QuantityComponent>.Find(item);
 			if (quantity) quantity.GetOnQuantityChanged().Remove(EL_HandleOnQuantityChanged);
 		}
 	}
@@ -96,7 +96,7 @@ modded class ScriptedInventoryStorageManagerComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RPC_EL_RequestQuantitySplit(RplId quantitySourceRplId, int splitSize)
 	{
-		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
+		EL_QuantityComponent quantitySource = EL_Component<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
 		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
 		quantitySource.Split(splitSize);
 	}
@@ -111,10 +111,10 @@ modded class ScriptedInventoryStorageManagerComponent
 	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	protected void RPC_EL_QuantityTransfer(RplId quantitySourceRplId, RplId quantityDestinationRplId, int amount)
 	{
-		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
+		EL_QuantityComponent quantitySource = EL_Component<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantitySourceRplId));
 		if (!quantitySource || !EL_CanManipulate(quantitySource.GetOwner())) return;
 
-		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantityDestinationRplId));
+		EL_QuantityComponent quantityDestination = EL_Component<EL_QuantityComponent>.Find(EL_NetworkUtils.FindEntityByRplId(quantityDestinationRplId));
 		if (!quantityDestination || !EL_CanManipulate(quantityDestination.GetOwner())) return;
 
 		quantityDestination.Combine(quantitySource, amount);

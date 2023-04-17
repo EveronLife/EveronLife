@@ -39,7 +39,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	//! \return true if save-data could be read, false if something failed.
 	bool ReadFrom(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
-		ReadMetaData(EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity));
+		ReadMetaData(EL_Component<EL_PersistenceComponent>.Find(worldEntity));
 
 		// Prefab
 		m_rPrefab = EL_Utils.GetPrefabName(worldEntity);

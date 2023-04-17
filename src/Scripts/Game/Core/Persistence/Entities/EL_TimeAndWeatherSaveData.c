@@ -14,7 +14,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 	//------------------------------------------------------------------------------------------------
 	override bool ReadFrom(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
-		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity);
+		EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(worldEntity);
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
 		if (!persistenceComponent || !timeAndWeatherManager) return false;
 
@@ -33,7 +33,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 	//------------------------------------------------------------------------------------------------
 	override bool ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
-		EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(worldEntity);
+		EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(worldEntity);
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
 		if (!persistenceComponent || !timeAndWeatherManager) return false;
 

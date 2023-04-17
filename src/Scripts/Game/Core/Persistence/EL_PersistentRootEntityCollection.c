@@ -24,7 +24,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 			return;
 		}
 
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
+        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		if (!settings.m_bSelfSpawn) return;
 
 		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
@@ -47,7 +47,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 			return; // Skip rest for baked entities
 		}
 
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
+        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		if (!ids) return;
 

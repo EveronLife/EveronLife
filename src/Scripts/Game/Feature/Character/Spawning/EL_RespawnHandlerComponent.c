@@ -51,7 +51,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 			IEntity player = playerController.GetControlledEntity();
 			if (player)
 			{
-				EL_PersistenceComponent persistence = EL_ComponentFinder<EL_PersistenceComponent>.Find(player);
+				EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(player);
 				persistence.PauseTracking();
 				persistence.Save();
 			}

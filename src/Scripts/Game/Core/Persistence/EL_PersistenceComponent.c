@@ -255,7 +255,7 @@ class EL_PersistenceComponent : ScriptComponent
 		EL_PersistenceManager.GetInstance().EnqueueForRegistration(this);
 
 		// TODO: Remove afer 0.9.8 and rely only on OnAddedToParent
-		InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(owner);
+		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
 		if (invItem) invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
 	}
 
@@ -295,7 +295,7 @@ class EL_PersistenceComponent : ScriptComponent
 	override event void OnDelete(IEntity owner)
 	{
 		// TODO: Remove afer 0.9.8 and rely only on OnRemovedFromParent
-		InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(owner);
+		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
 		if (invItem) invItem.m_OnParentSlotChangedInvoker.Remove(OnParentSlotChanged);
 
 		// Check that we are not in session dtor phase
@@ -406,7 +406,7 @@ class EL_PersistenceComponent : ScriptComponent
 		if (!parent) return false;
 
 		// If inventory item then return if parent slot is null or not
-		InventoryItemComponent inventoryItem = EL_ComponentFinder<InventoryItemComponent>.Find(child);
+		InventoryItemComponent inventoryItem = EL_Component<InventoryItemComponent>.Find(child);
 		if (inventoryItem && inventoryItem.GetParentSlot()) return false;
 
 		// Check if stored inside any storage on the parent
@@ -419,7 +419,7 @@ class EL_PersistenceComponent : ScriptComponent
 		*/
 
 		// Check if entity is attached to any of the parents slots
-		SlotManagerComponent slotManager = EL_ComponentFinder<SlotManagerComponent>.Find(parent);
+		SlotManagerComponent slotManager = EL_Component<SlotManagerComponent>.Find(parent);
 		if (slotManager)
 		{
 			array<EntitySlotInfo> outSlots();

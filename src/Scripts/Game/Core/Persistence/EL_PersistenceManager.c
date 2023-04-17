@@ -206,7 +206,7 @@ class EL_PersistenceManager
 			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING) ||
 				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT_SAVED)) continue;
 
-			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
+			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 			GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, persistenceComponent.GetPersistentId());
 		}
 
@@ -236,7 +236,7 @@ class EL_PersistenceManager
 			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING) ||
 				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT_SAVED)) continue;
 
-			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(persistenceComponent.GetOwner()));
+            EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 			GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, persistenceComponent.GetPersistentId());
 		}
 	}
@@ -446,7 +446,7 @@ class EL_PersistenceManager
 			if (!id)
 			{
 				id = EL_DbEntityIdGenerator.Generate();
-				EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(worldEntity));
+                EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 				m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
 			}
 		}
@@ -513,7 +513,7 @@ class EL_PersistenceManager
 
 		if (!id) id = GetPersistentId(persistenceComponent);
 
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(persistenceComponent.GetComponentData(owner));
+        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		if (!owner.GetParent())
 		{
 			UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, settings.m_bStorageRoot);
@@ -671,8 +671,8 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	event void OnPostInit(IEntity gameMode)
 	{
-		EL_PersistenceManagerComponent managerComponent = EL_ComponentFinder<EL_PersistenceManagerComponent>.Find(gameMode);
-		EL_PersistenceManagerComponentClass settings = EL_PersistenceManagerComponentClass.Cast(managerComponent.GetComponentData(gameMode));
+		EL_PersistenceManagerComponent managerComponent = EL_Component<EL_PersistenceManagerComponent>.Find(gameMode);
+        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceManagerComponentClass>.Get(managerComponent);
 		if (!settings.m_bEnabled) return;
 		m_fAutoSaveInterval = settings.m_fInterval;
 		m_iAutoSaveIterations = Math.Clamp(settings.m_iIterations, 1, 128);

@@ -1,4 +1,4 @@
-class EL_ComponentFinder<Class T>
+class EL_Component<Class T>
 {
 	//------------------------------------------------------------------------------------------------
 	//! Finds the component of the given template type

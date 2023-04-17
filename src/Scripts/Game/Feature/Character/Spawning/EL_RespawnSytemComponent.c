@@ -47,7 +47,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 
 			// Validate and return if persistence component is active, aka save-data loaded and entity ready to be used.
 			SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
-			EL_PersistenceComponent persistenceComponent = EL_ComponentFinder<EL_PersistenceComponent>.Find(playerEntity);
+			EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(playerEntity);
 			if (respawnComponent && persistenceComponent && persistenceComponent.Load(saveData))
 			{
 				auto charControllerSaveData = EL_CharacterControllerComponentSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_CharacterControllerComponentSaveData)[0]);

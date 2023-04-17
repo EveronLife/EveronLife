@@ -18,7 +18,7 @@ modded class SCR_InventoryMenuUI
 		if(m_pSelectedSlotUI)
 		{
 			itemSource = m_pSelectedSlotUI.GetInventoryItemComponent();
-			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+			if (itemSource) quantitySource = EL_Component<EL_QuantityComponent>.Find(itemSource.GetOwner());
 		}
 
 		if (quantitySource)
@@ -28,7 +28,7 @@ modded class SCR_InventoryMenuUI
 			if (m_pFocusedSlotUI)
 			{
 				itemDestination = m_pFocusedSlotUI.GetInventoryItemComponent();
-				if (itemDestination) quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(itemDestination.GetOwner());
+				if (itemDestination) quantityDestination = EL_Component<EL_QuantityComponent>.Find(itemDestination.GetOwner());
 			}
 
 			if (quantityDestination)
@@ -256,7 +256,7 @@ modded class SCR_InventoryMenuUI
 		{
 			InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
 			EL_QuantityComponent quantitySource;
-			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+			if (itemSource) quantitySource = EL_Component<EL_QuantityComponent>.Find(itemSource.GetOwner());
 			EL_NavigationBarSplitControlsUpdate(itemSource, quantitySource);
 		}
 	}
@@ -268,7 +268,7 @@ modded class SCR_InventoryMenuUI
 		{
 			EL_QuantityComponent quantitySource;
 			InventoryItemComponent itemSource = m_pSelectedSlotUI.GetInventoryItemComponent();
-			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+			if (itemSource) quantitySource = EL_Component<EL_QuantityComponent>.Find(itemSource.GetOwner());
 			if (quantitySource)
 			{
 				m_pNavigationBar.SetAllButtonEnabled(false);
@@ -281,7 +281,7 @@ modded class SCR_InventoryMenuUI
 				if (m_pFocusedSlotUI)
 				{
 					InventoryItemComponent itemDestination = m_pFocusedSlotUI.GetInventoryItemComponent();
-					if (itemDestination) quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(itemDestination.GetOwner());
+					if (itemDestination) quantityDestination = EL_Component<EL_QuantityComponent>.Find(itemDestination.GetOwner());
 				}
 
 				if ((isValidTargetStorage && canTransfer) || quantityDestination && quantityDestination.CanCombine(quantitySource))
@@ -303,7 +303,7 @@ modded class SCR_InventoryMenuUI
 		{
 			InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
 			EL_QuantityComponent quantitySource;
-			if (itemSource) quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+			if (itemSource) quantitySource = EL_Component<EL_QuantityComponent>.Find(itemSource.GetOwner());
 			if (quantitySource)
 			{
 				super.NavigationBarUpdateGamepad();
@@ -392,7 +392,7 @@ modded class SCR_InventoryMenuUI
 				InventoryItemComponent itemSource = m_pFocusedSlotUI.GetInventoryItemComponent();
 				if (itemSource && itemSource.GetOwner())
 				{
-					EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(itemSource.GetOwner());
+					EL_QuantityComponent quantitySource = EL_Component<EL_QuantityComponent>.Find(itemSource.GetOwner());
 
 					if (action == "EL_Inventory_QuickSplitQuantity")
 					{
