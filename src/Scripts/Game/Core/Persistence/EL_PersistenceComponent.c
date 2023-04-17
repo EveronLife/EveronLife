@@ -431,7 +431,6 @@ class EL_PersistenceComponent : ScriptComponent
 		}
 
 		// Check attachment slot components
-		//outComponents.Clear();
 		parent.FindComponents(AttachmentSlotComponent, outComponents);
 		foreach (Managed componentRef : outComponents)
 		{
@@ -439,7 +438,6 @@ class EL_PersistenceComponent : ScriptComponent
 		}
 
 		// Check magazines in case parent might be a weapon
-		outComponents.Clear();
 		parent.FindComponents(BaseMuzzleComponent, outComponents);
 		foreach (Managed componentRef : outComponents)
 		{
