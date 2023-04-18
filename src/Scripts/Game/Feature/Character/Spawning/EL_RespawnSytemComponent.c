@@ -143,13 +143,22 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 
 			playerEntity = DoSpawn(charPrefab, position, angles);
 
-			InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(InventoryStorageManagerComponent));
-			BaseLoadoutManagerComponent loadoutManager = BaseLoadoutManagerComponent.Cast(playerEntity.FindComponent(BaseLoadoutManagerComponent));
+			InventoryStorageManagerComponent storageManager = EL_Component<InventoryStorageManagerComponent>.Find(playerEntity);
 			foreach (EL_DefaultLoadoutItem loadoutItem : m_aDefaultCharacterItems)
 			{
+				if (loadoutItem.m_ePurpose != EStoragePurpose.PURPOSE_LOADOUT_PROXY)
+				{
+					Debug.Error(string.Format("Failed to add '%1' as default character item. Only clothing/backpack/vest etc. with purpose '%2' are allowed as top level entries.", loadoutItem.m_rPrefab, typename.EnumToString(EStoragePurpose, EStoragePurpose.PURPOSE_LOADOUT_PROXY)));
+					continue;
+				}
+
 				IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, loadoutItem);
 				if (!slotEntity) continue;
-				loadoutManager.Wear(slotEntity);
+
+				if (!storageManager.TryInsertItem(slotEntity, loadoutItem.m_ePurpose))
+				{
+					SCR_EntityHelper.DeleteEntityAndChildren(slotEntity);
+				}
 			}
 
 			// Add new character to account

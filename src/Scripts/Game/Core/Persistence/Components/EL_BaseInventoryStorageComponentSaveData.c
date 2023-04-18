@@ -20,9 +20,9 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 		m_aSlots = new array<ref EL_PersistentInventoryStorageSlot>();
 
-		for (int i = 0, nSlot = 0, slots = storageComponent.GetSlotsCount(); i < slots; i++)
+		for (int nSlot = 0, slots = storageComponent.GetSlotsCount(); nSlot < slots; nSlot++)
 		{
-			IEntity slotEntity = storageComponent.Get(i);
+			IEntity slotEntity = storageComponent.Get(nSlot);
 			if (!slotEntity) continue;
 
 			EL_PersistenceComponent slotPersistenceComponent = EL_PersistenceComponent.Cast(slotEntity.FindComponent(EL_PersistenceComponent));
@@ -33,9 +33,12 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 			// Reset transformation data, as that won't be needed for stored entites
 			saveData.m_pTransformation.Reset();
+			
+			// Remove GarbageManager lifetime until the game fixes it being known for child entities some day.
+			saveData.m_fRemainingLifetime = 0;
 
 			EL_PersistentInventoryStorageSlot slotInfo();
-			slotInfo.m_iSlotId = nSlot++;
+			slotInfo.m_iSlotId = nSlot;
 			slotInfo.m_pEntity = saveData;
 			m_aSlots.Insert(slotInfo);
 		}
@@ -73,15 +76,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 				continue;
 			}
 
-			if (m_ePurposeFlags & EStoragePurpose.PURPOSE_LOADOUT_PROXY)
-			{
-				BaseLoadoutManagerComponent loadout = BaseLoadoutManagerComponent.Cast(storageComponent.GetOwner().FindComponent(BaseLoadoutManagerComponent));
-				loadout.Wear(slotEntity);
-			}
-			else
-			{
-				storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId);
-			}
+			storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId);
 
 			InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(slotEntity.FindComponent(InventoryItemComponent));
 			if (inventoryItemComponent && !inventoryItemComponent.GetParentSlot())

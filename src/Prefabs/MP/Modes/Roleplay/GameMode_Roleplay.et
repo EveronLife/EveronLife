@@ -12,6 +12,7 @@ EL_GameModeRoleplay {
    m_aDefaultCharacterItems {
     EL_DefaultLoadoutItem "{5B04BEA632661AF2}" {
      m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
+     m_ePurpose PURPOSE_LOADOUT_PROXY
      m_aStoredItems {
       EL_DefaultLoadoutItem "{5B04BEA625F04EAC}" {
        m_rPrefab "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
@@ -25,9 +26,11 @@ EL_GameModeRoleplay {
     }
     EL_DefaultLoadoutItem "{5B04BEA657DB0F2D}" {
      m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
+     m_ePurpose PURPOSE_LOADOUT_PROXY
     }
     EL_DefaultLoadoutItem "{5B04BEA6507A8381}" {
      m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+     m_ePurpose PURPOSE_LOADOUT_PROXY
     }
    }
   }

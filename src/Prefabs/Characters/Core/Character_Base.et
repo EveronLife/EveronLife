@@ -16,8 +16,6 @@ SCR_ChimeraCharacter {
     m_aComponents {
      EL_HitZoneContainerComponentSaveDataClass "{5A12D8F4D807DD8A}" {
      }
-     EL_EquipedWeaponStorageComponentSaveDataClass "{5A2EDE88639C8657}" {
-     }
      EL_CharacterControllerComponentSaveDataClass "{5CFED52E8CB02A22}" {
      }
      EL_BaseInventoryStorageComponentSaveDataClass "{5D22E99D79014EF0}" {
