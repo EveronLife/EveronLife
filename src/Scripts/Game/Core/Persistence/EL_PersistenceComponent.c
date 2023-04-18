@@ -154,7 +154,7 @@ class EL_PersistenceComponent : ScriptComponent
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-		// Ignore "root" entities if they are stored inside others until we have access to that event properly in script
+		// Ignore "root" entities if they are stored inside others
 		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT))
 		{
 			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
@@ -275,19 +275,12 @@ class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	/*override*/ event void OnAddedToParentPlaceholder(IEntity child, IEntity parent)
 	{
-		/*if (EL_Utils.GetPrefabName(child).Contains("Binoculars_B12"))
-		{
-			//Print("eeeehre");
-		}
-		*/
-		//PrintFormat("%1 was added as child to parent %2", EL_Utils.GetPrefabName(child), EL_Utils.GetPrefabName(parent));
 		UpdateRootStatus();
 	}
 
 	//------------------------------------------------------------------------------------------------
 	/*override*/ event void OnRemovedFromParentPlaceholder(IEntity child, IEntity parent)
 	{
-		//PrintFormat("%1 was removed as child from parent %2", EL_Utils.GetPrefabName(child), EL_Utils.GetPrefabName(parent));
 		UpdateRootStatus(true);
 	}
 
@@ -305,7 +298,7 @@ class EL_PersistenceComponent : ScriptComponent
 		persistenceManager.Unregister(this);
 
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if (IsTracked())
+		if (!m_sId || EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
 		{
 			persistenceManager.UpdateRootEntityCollection(this, m_sId, false);
 			if (settings.m_bSelfDelete) Delete();
@@ -372,8 +365,6 @@ class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	protected void UpdateRootStatus(bool forceRoot = false)
 	{
-		if (!IsTracked()) return;
-
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
 
 		// Only count valid entity link systems as non root
@@ -387,13 +378,10 @@ class EL_PersistenceComponent : ScriptComponent
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
 		}
 
-		EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, settings.m_eSaveType, isRoot);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected bool IsTracked()
-	{
-		return m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
+		{
+			EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, settings.m_eSaveType, isRoot);
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------

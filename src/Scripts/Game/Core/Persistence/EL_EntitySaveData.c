@@ -11,6 +11,9 @@ class EL_EntitySaveDataClass
 	[Attribute("3", UIWidgets.Flags, desc: "Choose which aspects from the entity transformation are persisted.", enums: ParamEnumArray.FromEnum(EL_ETransformSaveFlags))]
 	EL_ETransformSaveFlags m_eTranformSaveFlags;
 
+	[Attribute("1", desc: "Only relevant if the world contains an active GarbageManager.")]
+	bool m_bSaveRemainingLifetime;
+
 	[Attribute(desc: "Components to persist.")]
 	ref array<ref EL_ComponentSaveDataClass> m_aComponents;
 }
@@ -18,8 +21,8 @@ class EL_EntitySaveDataClass
 class EL_EntitySaveData : EL_MetaDataDbEntity
 {
 	ResourceName m_rPrefab;
-
 	ref EL_PersistentTransformation m_pTransformation;
+	float m_fRemainingLifetime;
 
 	// TODO: Just simple array or we we really need the map?
 	ref map<typename, ref array<ref EL_ComponentSaveData>> m_mComponentsSaveData;
@@ -57,6 +60,13 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
 		{
 			m_pTransformation.m_fScale = worldEntity.GetScale();
+		}
+
+		// Lifetime
+		if (attributes.m_bSaveRemainingLifetime)
+		{
+			GarbageManager garbageManager = GetGame().GetGarbageManager();
+			if (garbageManager) m_fRemainingLifetime = garbageManager.GetRemainingLifetime(worldEntity);
 		}
 
 		// Components
@@ -106,6 +116,13 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		if (m_pTransformation)
 		{
 			EL_Utils.ForceTransform(worldEntity, m_pTransformation.m_vOrigin, m_pTransformation.m_vAngles, m_pTransformation.m_fScale);
+		}
+
+		// Lifetime
+		if (attributes.m_bSaveRemainingLifetime)
+		{
+			GarbageManager garbageManager = GetGame().GetGarbageManager();
+			if (garbageManager && m_fRemainingLifetime > 0) garbageManager.Insert(worldEntity, m_fRemainingLifetime);
 		}
 
 		// Components
@@ -198,6 +215,12 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		// Transform
 		saveContext.WriteValue("m_pTransformation", m_pTransformation);
 
+		// Lifetime
+		if (m_fRemainingLifetime > 0 || ContainerSerializationSaveContext.Cast(saveContext).GetContainer().IsInherited(BinSaveContainer))
+		{
+			saveContext.WriteValue("m_fRemainingLifetime", m_fRemainingLifetime);
+		}
+
 		// Components
 		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
 		foreach (auto _, array<ref EL_ComponentSaveData> componentsSaveData : m_mComponentsSaveData)
@@ -228,6 +251,9 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Transform
 		loadContext.ReadValue("m_pTransformation", m_pTransformation);
+
+		// Lifetime
+		loadContext.ReadValue("m_fRemainingLifetime", m_fRemainingLifetime);
 
 		// Components
 		m_mComponentsSaveData = new map<typename, ref array<ref EL_ComponentSaveData>>();

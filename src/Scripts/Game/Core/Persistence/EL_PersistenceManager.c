@@ -514,10 +514,7 @@ class EL_PersistenceManager
 		if (!id) id = GetPersistentId(persistenceComponent);
 
         EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		if (!owner.GetParent())
-		{
-			UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, settings.m_bStorageRoot);
-		}
+		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, settings.m_bStorageRoot);
 
 		return id;
 	}
