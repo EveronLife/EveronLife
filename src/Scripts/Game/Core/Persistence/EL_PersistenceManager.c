@@ -17,9 +17,6 @@ class EL_PersistenceManager
 	// Underlying database connection
 	protected ref EL_DbContext m_pDbContext;
 
-	// Component init
-	//protected string m_sNextPersistentId;
-
 	// Instance tracking
 	protected ref array<EL_PersistenceComponent> m_aPendingEntityRegistrations;
 	protected ref array<EL_PersistentScriptedState> m_aPendingScriptedStateRegistrations;
@@ -313,7 +310,6 @@ class EL_PersistenceManager
 			return null;
 		}
 
-		//m_sNextPersistentId = saveData.GetId();
 		IEntity worldEntity = GetGame().SpawnEntityPrefab(resource);
 		if (!worldEntity)
 		{
@@ -340,7 +336,6 @@ class EL_PersistenceManager
 		if (!saveData || !saveData.GetId()) return null;
 
 		typename scriptedStateType = EL_PersistentScriptedStateSettings.GetScriptedStateType(saveData.Type());
-		//m_sNextPersistentId = saveData.GetId();
 		EL_PersistentScriptedState state = EL_PersistentScriptedState.Cast(scriptedStateType.Spawn());
 		if (!state)
 		{
@@ -451,11 +446,6 @@ class EL_PersistenceManager
 				m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
 			}
 		}
-		/*else if (m_sNextPersistentId)
-		{
-			id = m_sNextPersistentId;
-			m_sNextPersistentId = string.Empty;
-		}*/
 		else
 		{
 			id = EL_DbEntityIdGenerator.Generate();
@@ -468,19 +458,7 @@ class EL_PersistenceManager
 	//! Get the scripted state persistent id from buffer or generate a new one
 	protected string GetPersistentId(notnull EL_PersistentScriptedState scripedState)
 	{
-		string id;
-
-		/*if (m_sNextPersistentId)
-		{
-			id = m_sNextPersistentId;
-			m_sNextPersistentId = string.Empty;
-		}
-		else
-		{*/
-			id = EL_DbEntityIdGenerator.Generate();
-		//}
-
-		return id;
+		return EL_DbEntityIdGenerator.Generate();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -657,15 +635,6 @@ class EL_PersistenceManager
 		}
 		m_aPendingScriptedStateRegistrations.Clear();
 	}
-
-	/*
-	//------------------------------------------------------------------------------------------------
-	//! Prepare the persistent entity id buffer so the next constructor of entity or scripted state will get assigned this id
-	void SetNextPersistentId(string persistentId)
-	{
-		m_sNextPersistentId = persistentId;
-	}
-	*/
 
 	//------------------------------------------------------------------------------------------------
 	event void OnPostInit(IEntity gameMode)

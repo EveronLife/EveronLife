@@ -33,7 +33,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 			// Reset transformation data, as that won't be needed for stored entites
 			saveData.m_pTransformation.Reset();
-			
+
 			// Remove GarbageManager lifetime until the game fixes it being known for child entities some day.
 			saveData.m_fRemainingLifetime = 0;
 
@@ -62,13 +62,27 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 		array<IEntity> prefabItems();
 		storageComponent.GetAll(prefabItems);
-		foreach (IEntity prefabItem : prefabItems)
-		{
-			storageManager.TryDeleteItem(prefabItem);
-		}
 
 		foreach (EL_PersistentInventoryStorageSlot slot : m_aSlots)
 		{
+			// Try to use existing items in storage that are part of the prefab
+			bool reUsedPrefabItem = false;
+			foreach (IEntity prefabItem : prefabItems)
+			{
+				if (EL_Utils.GetPrefabName(prefabItem) == slot.m_pEntity.m_rPrefab)
+				{
+					EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(prefabItem);
+					if (persistenceComponent && persistenceComponent.Load(slot.m_pEntity))
+					{
+						reUsedPrefabItem = true;
+						prefabItems.RemoveItem(prefabItem);
+						break;
+					}
+				}
+			}
+			if (reUsedPrefabItem) continue;
+
+			// Spawn new entity and insert it if not part of the prefab
 			IEntity slotEntity = slot.m_pEntity.Spawn();
 			if (!slotEntity)
 			{
@@ -76,14 +90,17 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 				continue;
 			}
 
-			storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId);
-
-			InventoryItemComponent inventoryItemComponent = InventoryItemComponent.Cast(slotEntity.FindComponent(InventoryItemComponent));
-			if (inventoryItemComponent && !inventoryItemComponent.GetParentSlot())
+			if (storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId))
 			{
 				// Unable to add it to the storage parent, so put it on the ground at the parent origin
 				EL_Utils.Teleport(slotEntity, storageComponent.GetOwner().GetOrigin(), storageComponent.GetOwner().GetYawPitchRoll()[0]);
 			}
+		}
+
+		// Remove all remainin prefab items
+		foreach (IEntity prefabItem : prefabItems)
+		{
+			storageManager.TryDeleteItem(prefabItem);
 		}
 
 		return true;

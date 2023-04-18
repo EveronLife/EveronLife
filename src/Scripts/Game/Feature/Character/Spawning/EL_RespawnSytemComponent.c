@@ -41,7 +41,6 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		{
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-			//persistenceManager.SetNextPersistentId(saveData.GetId());
 			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
 			playerEntity = DoSpawn(saveData.m_rPrefab, saveData.m_pTransformation.m_vOrigin, spawnAngles);
 
