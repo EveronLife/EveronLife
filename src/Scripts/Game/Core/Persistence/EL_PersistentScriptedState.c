@@ -118,7 +118,7 @@ class EL_PersistentScriptedState
 	{
 		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
 
-
+		SetPersistentId(saveData.GetId());
 
 		if (!saveData.ApplyTo(this))
 		{

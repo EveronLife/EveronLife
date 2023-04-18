@@ -178,13 +178,7 @@ class EL_PersistenceComponent : ScriptComponent
 	{
 		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
 
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		if (m_sId && m_sId != saveData.GetId())
-		{
-			persistenceManager.Unregister(this);
-			m_sId = string.Empty;
-		}
-		if (!m_sId) m_sId = persistenceManager.Register(this, saveData.GetId());
+		SetPersistentId(saveData.GetId());
 
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));

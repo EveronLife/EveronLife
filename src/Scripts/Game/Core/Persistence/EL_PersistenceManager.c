@@ -155,13 +155,12 @@ class EL_PersistenceManager
 		m_iSaveOperation = 0;
 		m_iAutoSaveEntityIt = m_mRootAutoSave.Begin();
 		m_iAutoSaveScriptedStateIt = m_mScriptedStateAutoSave.Begin();
+		FlushRegistrations();
 	}
 
 	//------------------------------------------------------------------------------------------------
 	protected void AutoSaveTick()
 	{
-		FlushRegistrations();
-
 		if (!m_bAutoSaveActive) return;
 
 		while (m_iAutoSaveEntityIt != m_mRootAutoSave.End())
@@ -216,6 +215,8 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected void ShutDownSave()
 	{
+		FlushRegistrations();
+
 		foreach (auto _, EL_PersistenceComponent persistenceComponent : m_mRootShutdown)
 		{
 			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING)) continue;
@@ -514,7 +515,8 @@ class EL_PersistenceManager
 		if (!id) id = GetPersistentId(persistenceComponent);
 
         EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, settings.m_bStorageRoot);
+		bool isRoot = settings.m_bStorageRoot&& EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT);
+		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, isRoot);
 
 		return id;
 	}

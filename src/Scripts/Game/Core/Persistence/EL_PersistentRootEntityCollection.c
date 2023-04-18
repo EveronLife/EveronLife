@@ -16,11 +16,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		else if (m_aBakedRootEntityIds.Contains(persistentId))
 		{
 			int idx = m_aRemovedBackedRootEntities.Find(persistentId);
-			if (idx != -1)
-			{
-				m_aRemovedBackedRootEntities.Remove(idx);
-				//PrintFormat("Re-Added baked %1(%2).", EL_Utils.GetPrefabName(persistenceComponent.GetOwner()), persistentId);
-			}
+			if (idx != -1) m_aRemovedBackedRootEntities.Remove(idx);
 			return;
 		}
 
@@ -33,8 +29,8 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 			ids = new set<string>();
 			m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
 		}
+
 		ids.Insert(persistentId);
-		//PrintFormat("Added dynamic spawn %1(%2).", EL_Utils.GetPrefabName(persistenceComponent.GetOwner()), persistentId);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -42,7 +38,6 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	{
 		if (m_aBakedRootEntityIds.Contains(persistentId))
 		{
-			//PrintFormat("Removed backed %1(%2).", EL_Utils.GetPrefabName(persistenceComponent.GetOwner()), persistentId);
 			m_aRemovedBackedRootEntities.Insert(persistentId);
 			return; // Skip rest for baked entities
 		}
@@ -54,8 +49,6 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		int idx = ids.Find(persistentId);
 		if (idx != -1) ids.Remove(idx);
 		if (ids.IsEmpty()) m_mSelfSpawnDynamicEntities.Remove(settings.m_tSaveDataTypename);
-
-		//PrintFormat("Removed dynamic spawn %1(%2).", EL_Utils.GetPrefabName(persistenceComponent.GetOwner()), persistentId);
 	}
 
 	//------------------------------------------------------------------------------------------------
