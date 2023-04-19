@@ -93,6 +93,8 @@ class EL_PersistentScriptedState
 	//! \return the save-data instance that was submitted to the database
 	EL_ScriptedStateSaveData Save()
 	{
+		GetPersistentId(); // Make sure the id has been assigned
+		
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());

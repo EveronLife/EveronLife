@@ -6,7 +6,7 @@ class EL_PersistentWorldEntityLoaderTests : TestSuite
     void Setup()
     {
 		// Change db context to in memory for this test suite
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPreviousContext = persistenceManager.GetDbContext();
 		persistenceManager.SetDbContext(EL_DbContextFactory.GetContext("testing", false));
     }
@@ -14,7 +14,7 @@ class EL_PersistentWorldEntityLoaderTests : TestSuite
     [Step(EStage.TearDown)]
     void TearDown()
     {
-		EL_PersistenceManagerInternal.GetInternalInstance().SetDbContext(m_pPreviousContext);
+		EL_PersistenceManager.GetInstance().SetDbContext(m_pPreviousContext);
 		m_pPreviousContext = null;
     }
 }
@@ -50,7 +50,7 @@ class PersistentWorldEntityLoaderBase : TestBase
 }
 
 [Test("EL_PersistentWorldEntityLoaderTests", 3)]
-class EL_Test_PersistentWorldEntityLoader_Get_Existing_Spawned : PersistentWorldEntityLoaderBase
+class EL_Test_PersistentWorldEntityLoader_Load_Existing_Spawned : PersistentWorldEntityLoaderBase
 { 
 	[Step(EStage.Main)]
 	void ActAndAsset()
@@ -70,7 +70,7 @@ class EL_Test_PersistentWorldEntityLoader_Get_Existing_Spawned : PersistentWorld
 }
 
 [Test("EL_PersistentWorldEntityLoaderTests", 3)]
-class EL_Test_PersistentWorldEntityLoader_GetAsync_Existing_Spawned : PersistentWorldEntityLoaderBase
+class EL_Test_PersistentWorldEntityLoader_LoadAsync_Existing_Spawned : PersistentWorldEntityLoaderBase
 { 
 	[Step(EStage.Main)]
 	void Act()
@@ -99,7 +99,7 @@ class EL_Test_PersistentWorldEntityLoader_GetAsync_Existing_Spawned : Persistent
 }
 
 [Test("EL_PersistentWorldEntityLoaderTests", 3)]
-class EL_Test_PersistentWorldEntityLoader_Get_MultiExisting_AllSpawned : PersistentWorldEntityLoaderBase
+class EL_Test_PersistentWorldEntityLoader_Load_MultiExisting_AllSpawned : PersistentWorldEntityLoaderBase
 { 
 	EL_PersistenceComponent m_pExisting2;
 	ref array<string> m_aIds;
@@ -147,7 +147,7 @@ class EL_Test_PersistentWorldEntityLoader_Get_MultiExisting_AllSpawned : Persist
 }
 
 [Test("EL_PersistentWorldEntityLoaderTests", 3)]
-class EL_Test_PersistentWorldEntityLoader_GetAsync_MultiExisting_AllSpawned : EL_Test_PersistentWorldEntityLoader_Get_MultiExisting_AllSpawned
+class EL_Test_PersistentWorldEntityLoader_LoadAsync_MultiExisting_AllSpawned : EL_Test_PersistentWorldEntityLoader_Load_MultiExisting_AllSpawned
 { 
 	[Step(EStage.Main)]
 	void Act()

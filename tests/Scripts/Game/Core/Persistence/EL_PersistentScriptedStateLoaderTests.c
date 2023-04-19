@@ -7,7 +7,7 @@ class EL_PersistentScriptedStateLoaderTests : TestSuite
     void Setup()
     {
 		// Change db context to in memory for this test suite
-		EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPreviousContext = persistenceManager.GetDbContext();
 		persistenceManager.SetDbContext(EL_DbContextFactory.GetContext("testing", false));
     }
@@ -16,13 +16,13 @@ class EL_PersistentScriptedStateLoaderTests : TestSuite
     [Step(EStage.TearDown)]
     void TearDown()
     {
-		EL_PersistenceManagerInternal.GetInternalInstance().SetDbContext(m_pPreviousContext);
+		EL_PersistenceManager.GetInstance().SetDbContext(m_pPreviousContext);
 		m_pPreviousContext = null;
     }
 }
 
 [EL_PersistentScriptedStateSettings(EL_Test_ScriptedStateLoaderDummy, EL_Test_ScriptedStateLoaderDummySaveData, selfDelete: true)]
-class EL_Test_ScriptedStateLoaderDummy : EL_PersistentScriptedStateBase
+class EL_Test_ScriptedStateLoaderDummy : EL_PersistentScriptedState
 {
 	int m_iIntValue;
 
@@ -36,13 +36,13 @@ class EL_Test_ScriptedStateLoaderDummy : EL_PersistentScriptedStateBase
 }
 
 [EL_DbName(EL_Test_ScriptedStateLoaderDummySaveData, "ScriptedStateLoaderDummy")]
-class EL_Test_ScriptedStateLoaderDummySaveData : EL_ScriptedStateSaveDataBase
+class EL_Test_ScriptedStateLoaderDummySaveData : EL_ScriptedStateSaveData
 {
 	int m_iIntValue;
 }
 
 [Test("EL_PersistentScriptedStateLoaderTests", 3)]
-class EL_Test_PersistentScriptedStateLoader_GetSingleton_NotExisting_Created : TestBase
+class EL_Test_PersistentScriptedStateLoader_LoadSingleton_NotExisting_Created : TestBase
 {
 	//------------------------------------------------------------------------------------------------
 	[Step(EStage.Main)]
@@ -57,7 +57,7 @@ class EL_Test_PersistentScriptedStateLoader_GetSingleton_NotExisting_Created : T
 }
 
 [Test("EL_PersistentScriptedStateLoaderTests", 3)]
-class EL_Test_PersistentScriptedStateLoader_GetSingleton_Existing_Returned : TestBase
+class EL_Test_PersistentScriptedStateLoader_LoadSingleton_Existing_Returned : TestBase
 {
 	ref EL_Test_ScriptedStateLoaderDummy m_pExisting;
 
@@ -92,7 +92,7 @@ class EL_Test_PersistentScriptedStateLoader_GetSingleton_Existing_Returned : Tes
 }
 
 [Test("EL_PersistentScriptedStateLoaderTests", 3)]
-class EL_Test_PersistentScriptedStateLoader_GetSingletonAsync_NotExisting_Created : TestBase
+class EL_Test_PersistentScriptedStateLoader_LoadSingletonAsync_NotExisting_Created : TestBase
 {
 	//------------------------------------------------------------------------------------------------
 	[Step(EStage.Main)]
@@ -118,7 +118,7 @@ class EL_Test_PersistentScriptedStateLoader_GetSingletonAsync_NotExisting_Create
 }
 
 [Test("EL_PersistentScriptedStateLoaderTests", 3)]
-class EL_Test_PersistentScriptedStateLoader_GetSingletonAsync_Existing_Returned : TestBase
+class EL_Test_PersistentScriptedStateLoader_LoadSingletonAsync_Existing_Returned : TestBase
 {
 	ref EL_Test_ScriptedStateLoaderDummy m_pExisting;
 
@@ -164,7 +164,7 @@ class EL_Test_PersistentScriptedStateLoader_GetSingletonAsync_Existing_Returned 
 }
 
 [Test("EL_PersistentScriptedStateLoaderTests", 3)]
-class EL_Test_PersistentScriptedStateLoader_GetAsync_Existing_Returned : TestBase
+class EL_Test_PersistentScriptedStateLoader_LoadAsync_Existing_Returned : TestBase
 {
 	ref EL_Test_ScriptedStateLoaderDummy m_pExisting;
 
@@ -210,7 +210,7 @@ class EL_Test_PersistentScriptedStateLoader_GetAsync_Existing_Returned : TestBas
 }
 
 [Test("EL_PersistentScriptedStateLoaderTests", 3)]
-class EL_Test_PersistentScriptedStateLoader_GetAsync_MultipleExisting_AllReturned : TestBase
+class EL_Test_PersistentScriptedStateLoader_LoadAsync_MultipleExisting_AllReturned : TestBase
 {
 	ref EL_Test_ScriptedStateLoaderDummy m_pExisting1;
 	ref EL_Test_ScriptedStateLoaderDummy m_pExisting2;
@@ -233,7 +233,8 @@ class EL_Test_PersistentScriptedStateLoader_GetAsync_MultipleExisting_AllReturne
 	{
 		EL_ScriptedStateLoaderCallbackMultiple<EL_Test_ScriptedStateLoaderDummy> callback();
 		callback.ConfigureInvoker(this, "Assert");
-		EL_PersistentScriptedStateLoader<EL_Test_ScriptedStateLoaderDummy>.LoadAsync(m_aIds, callback);
+		// Load all ids
+		EL_PersistentScriptedStateLoader<EL_Test_ScriptedStateLoaderDummy>.LoadAsync(null, callback);
 	}
 
 	//------------------------------------------------------------------------------------------------

@@ -28,7 +28,7 @@ class EL_PersistentWorldEntityLoader
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(typename, string)
-	static void LoadAsync(typename saveDataType, string persistentId, notnull EL_WorldEntityLoaderCallbackSingle callback)
+	static void LoadAsync(typename saveDataType, string persistentId, EL_WorldEntityLoaderCallbackSingle callback = null)
 	{
 		EL_WorldEntityLoaderProcessorCallbackSingle processorCallback();
 		processorCallback.Setup(callback);
@@ -37,23 +37,29 @@ class EL_PersistentWorldEntityLoader
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(string, string)
-	static void LoadAsync(string prefab, string persistentId, notnull EL_WorldEntityLoaderCallbackSingle callback)
+	static void LoadAsync(string prefab, string persistentId, EL_WorldEntityLoaderCallbackSingle callback = null)
 	{
 		typename type = GetSaveDataType(prefab); // Can not be inlined because of typename crash bug
 		LoadAsync(type, persistentId, callback);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load and spawn multiple entities by save-data type and persistent ids
+	//! Load and spawn multiple entities by save-data type and persistent ids / or all if ids is null/empty
 	//! \param saveDataType save-data type of the entities
-	//! \param persistentId Array of persistent ids
+	//! \param persistentId Array of persistent ids - or null/empty for load all.
 	//! \return array of entities if spawned successfully, else empty
-	static array<IEntity> Load(typename saveDataType, array<string> persistentIds)
+	static array<IEntity> Load(typename saveDataType, array<string> persistentIds = null)
 	{
 		array<IEntity> resultWorldEntities();
 
+		EL_DbFindCondition condition;
+		if (persistentIds && !persistentIds.IsEmpty())
+		{
+			condition = EL_DbFind.Id().EqualsAnyOf(persistentIds);
+		}
+
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
+		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, condition).GetEntities();
 		if (findResults)
 		{
 			foreach (EL_DbEntity findResult : findResults)
@@ -67,11 +73,11 @@ class EL_PersistentWorldEntityLoader
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load and spawn multiple entities by prefab and persistent ids
+	//! Load and spawn multiple entities by prefab and persistent ids / or all if ids is null/empty
 	//! \param Prefab resource name of the entities
-	//! \param persistentId Array of persistent ids
+	//! \param persistentId Array of persistent ids - or null/empty for load all.
 	//! \return array of entities if spawned successfully, else empty
-	static array<IEntity> Load(string prefab, array<string> persistentIds)
+	static array<IEntity> Load(string prefab, array<string> persistentIds = null)
 	{
 		typename type = GetSaveDataType(prefab); // Can not be inlined because of typename crash bug
 		return Load(type, persistentIds);
@@ -79,16 +85,23 @@ class EL_PersistentWorldEntityLoader
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(typename, array<string>)
-	static void LoadAsync(typename saveDataType, array<string> persistentIds, notnull EL_WorldEntityLoaderCallbackMultiple callback)
+	static void LoadAsync(typename saveDataType, array<string> persistentIds = null, EL_WorldEntityLoaderCallbackMultiple callback = null)
 	{
 		EL_WorldEntityLoaderProcessorCallbackMultiple processorCallback();
 		processorCallback.Setup(callback);
-		EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds), callback: processorCallback);
+
+		EL_DbFindCondition condition;
+		if (persistentIds && !persistentIds.IsEmpty())
+		{
+			condition = EL_DbFind.Id().EqualsAnyOf(persistentIds);
+		}
+
+		EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, condition, callback: processorCallback);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(string, array<string>)
-	static void LoadAsync(string prefab, array<string> persistentIds, notnull EL_WorldEntityLoaderCallbackMultiple callback)
+	static void LoadAsync(string prefab, array<string> persistentIds = null, EL_WorldEntityLoaderCallbackMultiple callback = null)
 	{
 		typename type = GetSaveDataType(prefab); // Can not be inlined because of typename crash bug
 		LoadAsync(type, persistentIds, callback);
@@ -175,13 +188,13 @@ class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_E
 	{
 		IEntity resultWorldEntity;
 		if (resultData) resultWorldEntity = EL_PersistenceManager.GetInstance().SpawnWorldEntity(resultData);
-		m_pOuterCallback.Invoke(resultWorldEntity);
+		if (m_pOuterCallback) m_pOuterCallback.Invoke(resultWorldEntity);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode)
 	{
-		m_pOuterCallback.Invoke(null);
+		if (m_pOuterCallback) m_pOuterCallback.Invoke(null);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -211,13 +224,13 @@ class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_Entit
 			}
 		}
 
-		m_pOuterCallback.Invoke(resultWorldEntities);
+		if (m_pOuterCallback) m_pOuterCallback.Invoke(resultWorldEntities);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode)
 	{
-		m_pOuterCallback.Invoke(new array<IEntity>());
+		if (m_pOuterCallback) m_pOuterCallback.Invoke(new array<IEntity>());
 	}
 
 	//------------------------------------------------------------------------------------------------

@@ -137,6 +137,8 @@ class EL_PersistenceComponent : ScriptComponent
 	//! \return the save-data instance that was submitted to the database
 	EL_EntitySaveData Save()
 	{
+		GetPersistentId(); // Make sure the id has been assigned
+
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 
 		IEntity owner = GetOwner();

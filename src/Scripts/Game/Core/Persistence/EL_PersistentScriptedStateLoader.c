@@ -21,7 +21,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 
 	//------------------------------------------------------------------------------------------------
 	//! s. LoadSingleton()
-	static void LoadSingletonAsync(notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
+	static void LoadSingletonAsync(EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback = null)
 	{
 		typename saveDataType;
 		if (!TypeAndSettingsValidation(saveDataType)) return;
@@ -50,7 +50,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 
 	//------------------------------------------------------------------------------------------------
 	//! s. Load()
-	static void LoadAsync(string persistentId, notnull EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback)
+	static void LoadAsync(string persistentId, EL_ScriptedStateLoaderCallbackSingle<TScriptedState> callback = null)
 	{
 		typename saveDataType;
 		if (!TypeAndSettingsValidation(saveDataType)) return;
@@ -62,18 +62,24 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load and instantiate multiple scripted states by their persistent id
+	//! Load and instantiate multiple scripted states by their persistent id or all of this type if left empty/null
 	//! \param persistentIds Persistent ids
 	//! \return array of scripted state instances or emtpy
-	static array<ref TScriptedState> Load(array<string> persistentIds)
+	static array<ref TScriptedState> Load(array<string> persistentIds = null)
 	{
 		typename saveDataType;
 		if (!TypeAndSettingsValidation(saveDataType)) return null;
 
 		array<ref TScriptedState> resultStates();
 
+		EL_DbFindCondition condition;
+		if (persistentIds && !persistentIds.IsEmpty())
+		{
+			condition = EL_DbFind.Id().EqualsAnyOf(persistentIds);
+		}
+
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
+		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, condition).GetEntities();
 		if (findResults)
 		{
 			foreach (EL_DbEntity findResult : findResults)
@@ -87,8 +93,8 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! s. Load(array<string>)
-	static void LoadAsync(array<string> persistentIds, notnull EL_ScriptedStateLoaderCallbackMultiple<TScriptedState> callback)
+	//! s. Load(array<string>?)
+	static void LoadAsync(array<string> persistentIds = null, EL_ScriptedStateLoaderCallbackMultiple<TScriptedState> callback = null)
 	{
 		typename saveDataType;
 		if (!TypeAndSettingsValidation(saveDataType)) return;
@@ -96,7 +102,14 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 		EL_ScriptedStateLoaderCallbackInvokerMultiple<TScriptedState> callbackInvoker(callback);
 		EL_ScriptedStateLoaderProcessorCallbackMultiple processorCallback(callbackInvoker);
 		processorCallback.Setup(callbackInvoker);
-		EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds), callback: processorCallback);
+
+		EL_DbFindCondition condition;
+		if (persistentIds && !persistentIds.IsEmpty())
+		{
+			condition = EL_DbFind.Id().EqualsAnyOf(persistentIds);
+		}
+
+		EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, condition, callback: processorCallback);
 	}
 
 	//------------------------------------------------------------------------------------------------
