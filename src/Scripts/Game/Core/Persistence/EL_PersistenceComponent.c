@@ -133,6 +133,43 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Load existing save-data to apply to this entity
+	bool Load(notnull EL_EntitySaveData saveData)
+	{
+		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
+
+		SetPersistentId(saveData.GetId());
+
+		IEntity owner = GetOwner();
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+		if (!saveData.ApplyTo(owner, settings.m_pSaveData))
+		{
+			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
+			return false;
+		}
+
+		if (m_pOnAfterLoad) m_pOnAfterLoad.Invoke(this, saveData);
+
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Pause automated tracking for auto-/shutdown-save, root entity changes and removal.
+	//! Used primarily to handle the conditional removal of an entity manually. E.g. pause before virtually storing a vehicle in a garage (during which the entity gets deleted).
+	void PauseTracking()
+	{
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Undo PauseTracking().
+	void ResumeTracking()
+	{
+		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+		UpdateRootStatus();
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Save the entity to the database
 	//! \return the save-data instance that was submitted to the database
 	EL_EntitySaveData Save()
@@ -175,24 +212,19 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load existing save-data to apply to this entity
-	bool Load(notnull EL_EntitySaveData saveData)
+	//! Delete the persistence data of this entity. Does not delete the entity itself.
+	void Delete()
 	{
-		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
-
-		SetPersistentId(saveData.GetId());
-
-		IEntity owner = GetOwner();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if (!saveData.ApplyTo(owner, settings.m_pSaveData))
+		if (m_sId && EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
 		{
-			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
-			return false;
+			// Only attempt to delete if there is a chance it was already saved as own entity in db
+			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
+			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
 		}
 
-		if (m_pOnAfterLoad) m_pOnAfterLoad.Invoke(this, saveData);
-
-		return true;
+		m_sId = string.Empty;
+		m_iLastSaved = 0;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -256,7 +288,7 @@ class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void OnParentSlotChanged(InventoryStorageSlot oldSlot, InventoryStorageSlot newSlot)
+	protected void OnParentSlotChanged(InventoryStorageSlot oldSlot, InventoryStorageSlot newSlot)
 	{
 		if (newSlot)
 		{
@@ -299,38 +331,6 @@ class EL_PersistenceComponent : ScriptComponent
 			persistenceManager.UpdateRootEntityCollection(this, m_sId, false);
 			if (settings.m_bSelfDelete) Delete();
 		}
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Delete the persistence data of this entity. Does not delete the entity itself.
-	void Delete()
-	{
-		if (m_sId && EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
-		{
-			// Only attempt to delete if there is a chance it was already saved as own entity in db
-			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
-			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
-		}
-
-		m_sId = string.Empty;
-		m_iLastSaved = 0;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Pause automated tracking for auto-/shutdown-save, root entity changes and removal.
-	//! Used primarily to handle the conditional removal of an entity manually. E.g. pause before virtually storing a vehicle in a garage (during which the entity gets deleted).
-	void PauseTracking()
-	{
-		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Undo PauseTracking().
-	void ResumeTracking()
-	{
-		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
-		UpdateRootStatus();
 	}
 
 	//------------------------------------------------------------------------------------------------

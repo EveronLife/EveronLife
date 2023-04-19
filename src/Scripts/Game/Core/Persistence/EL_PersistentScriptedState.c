@@ -89,12 +89,45 @@ class EL_PersistentScriptedState
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Load existing save-data to apply to this scripted state
+	bool Load(notnull EL_ScriptedStateSaveData saveData)
+	{
+		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
+
+		SetPersistentId(saveData.GetId());
+
+		if (!saveData.ApplyTo(this))
+		{
+			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
+			return false;
+		}
+
+		if (m_pOnAfterLoad) m_pOnAfterLoad.Invoke(this, saveData);
+
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Pause automated tracking for auto-/shutdown-save and removal.
+	void PauseTracking()
+	{
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Undo PauseTracking().
+	void ResumeTracking()
+	{
+		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Save the scripted state to the database
 	//! \return the save-data instance that was submitted to the database
 	EL_ScriptedStateSaveData Save()
 	{
 		GetPersistentId(); // Make sure the id has been assigned
-		
+
 		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
 
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
@@ -115,25 +148,6 @@ class EL_PersistentScriptedState
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load existing save-data to apply to this scripted state
-	bool Load(notnull EL_ScriptedStateSaveData saveData)
-	{
-		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
-
-		SetPersistentId(saveData.GetId());
-
-		if (!saveData.ApplyTo(this))
-		{
-			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
-			return false;
-		}
-
-		if (m_pOnAfterLoad) m_pOnAfterLoad.Invoke(this, saveData);
-
-		return true;
-	}
-
-	//------------------------------------------------------------------------------------------------
 	//! Delete the persistence data of this scripted state. Does not delete the state instance itself.
 	void Delete()
 	{
@@ -146,20 +160,6 @@ class EL_PersistentScriptedState
 
 		m_sId = string.Empty;
 		m_iLastSaved = 0;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Pause automated tracking for auto-/shutdown-save and removal.
-	void PauseTracking()
-	{
-		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Undo PauseTracking().
-	void ResumeTracking()
-	{
-		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING);
 	}
 
 	//------------------------------------------------------------------------------------------------

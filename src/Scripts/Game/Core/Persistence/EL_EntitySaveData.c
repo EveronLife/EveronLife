@@ -209,7 +209,9 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Prefab
 		string prefabString = m_rPrefab;
+		#ifndef PERSISTENCE_DEBUG
 		if (prefabString.StartsWith("{")) prefabString = m_rPrefab.Substring(1, 16);
+		#endif
 		saveContext.WriteValue("m_rPrefab", prefabString);
 
 		// Transform
@@ -247,7 +249,9 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Prefab
 		loadContext.ReadValue("m_rPrefab", m_rPrefab);
+		#ifndef PERSISTENCE_DEBUG
 		if (m_rPrefab) m_rPrefab = string.Format("{%1}", m_rPrefab);
+		#endif
 
 		// Transform
 		loadContext.ReadValue("m_pTransformation", m_pTransformation);
