@@ -247,9 +247,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Prefab
 		loadContext.ReadValue("m_rPrefab", m_rPrefab);
-		#ifndef PERSISTENCE_DEBUG
-		if (m_rPrefab) m_rPrefab = string.Format("{%1}", m_rPrefab);
-		#endif
+		if (m_rPrefab && m_rPrefab[0] != "{") m_rPrefab = string.Format("{%1}", m_rPrefab);
 
 		// Transform
 		loadContext.ReadValue("m_pTransformation", m_pTransformation);
