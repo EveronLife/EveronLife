@@ -23,8 +23,6 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	ResourceName m_rPrefab;
 	ref EL_PersistentTransformation m_pTransformation;
 	float m_fRemainingLifetime;
-
-	// TODO: Just simple array or we we really need the map?
 	ref map<typename, ref array<ref EL_ComponentSaveData>> m_mComponentsSaveData;
 
 	//------------------------------------------------------------------------------------------------
@@ -373,4 +371,16 @@ class EL_PersistentComponentSaveData
 
 		return true;
 	}
+}
+
+class EL_ComponentSaveDataGetter<Class T>
+{
+	//------------------------------------------------------------------------------------------------
+	static T GetFirst(EL_EntitySaveData saveData)
+	{
+		if (!saveData) return null;
+		auto componentsSaveData = saveData.m_mComponentsSaveData.Get(T);
+		if (!componentsSaveData || componentsSaveData.IsEmpty()) return null;
+		return T.Cast(componentsSaveData[0]);
+	}	
 }

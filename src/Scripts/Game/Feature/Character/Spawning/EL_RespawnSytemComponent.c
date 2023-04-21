@@ -49,41 +49,43 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 			EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(playerEntity);
 			if (respawnComponent && persistenceComponent && persistenceComponent.Load(saveData))
 			{
-				auto charControllerSaveData = EL_CharacterControllerComponentSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_CharacterControllerComponentSaveData)[0]);
-				auto charInventorySaveData = EL_CharacterInventoryStorageComponentSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_CharacterInventoryStorageComponentSaveData)[0]);
-
 				EL_RespawnCharacterState state();
-				state.m_eStance = charControllerSaveData.m_eStance;
-
-				IEntity leftHandEntity = persistenceManager.FindEntityByPersistentId(charControllerSaveData.m_sLeftHandItemId);
-				if (leftHandEntity)
+				
+				auto charControllerSaveData = EL_ComponentSaveDataGetter<EL_CharacterControllerComponentSaveData>.GetFirst(saveData);
+				if (charControllerSaveData)
 				{
-					RplComponent replication = RplComponent.Cast(leftHandEntity.FindComponent(RplComponent));
-					if (replication) state.m_pLeftHandItemRplId = replication.Id();
-				}
-				else
-				{
-					state.m_pLeftHandItemRplId = RplId.Invalid();
-				}
-
-				IEntity rightHandEntity = persistenceManager.FindEntityByPersistentId(charControllerSaveData.m_sRightHandItemId);
-				if (rightHandEntity)
-				{
-					RplComponent replication = RplComponent.Cast(rightHandEntity.FindComponent(RplComponent));
-					if (replication)
+					state.m_eStance = charControllerSaveData.m_eStance;
+	
+					IEntity leftHandEntity = persistenceManager.FindEntityByPersistentId(charControllerSaveData.m_sLeftHandItemId);
+					if (leftHandEntity)
 					{
-						state.m_pRightHandItemRplId = replication.Id();
-						state.m_eRightHandType = charControllerSaveData.m_eRightHandType;
-						state.m_bRightHandRaised = charControllerSaveData.m_bRightHandRaised;
+						RplComponent replication = RplComponent.Cast(leftHandEntity.FindComponent(RplComponent));
+						if (replication) state.m_pLeftHandItemRplId = replication.Id();
 					}
-				}
-				else
-				{
-					state.m_pRightHandItemRplId = RplId.Invalid();
+					else
+					{
+						state.m_pLeftHandItemRplId = RplId.Invalid();
+					}
+	
+					IEntity rightHandEntity = persistenceManager.FindEntityByPersistentId(charControllerSaveData.m_sRightHandItemId);
+					if (rightHandEntity)
+					{
+						RplComponent replication = RplComponent.Cast(rightHandEntity.FindComponent(RplComponent));
+						if (replication)
+						{
+							state.m_pRightHandItemRplId = replication.Id();
+							state.m_eRightHandType = charControllerSaveData.m_eRightHandType;
+							state.m_bRightHandRaised = charControllerSaveData.m_bRightHandRaised;
+						}
+					}
+					else
+					{
+						state.m_pRightHandItemRplId = RplId.Invalid();
+					}
 				}
 
 				state.m_aQuickBarRplIds = new array<RplId>();
-				SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(playerEntity.FindComponent(SCR_CharacterInventoryStorageComponent));
+				SCR_CharacterInventoryStorageComponent inventoryStorage = EL_Component<SCR_CharacterInventoryStorageComponent>.Find(playerEntity);
 				if (inventoryStorage)
 				{
 					// Init with invalid ids
@@ -94,6 +96,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 						state.m_aQuickBarRplIds.Insert(RplId.Invalid());
 					}
 
+					auto charInventorySaveData = EL_ComponentSaveDataGetter<EL_CharacterInventoryStorageComponentSaveData>.GetFirst(saveData);
 					foreach (EL_PersistentQuickSlotItem quickSlot : charInventorySaveData.m_aQuickSlotEntities)
 					{
 						IEntity slotEntity = persistenceManager.FindEntityByPersistentId(quickSlot.m_sEntityId);
