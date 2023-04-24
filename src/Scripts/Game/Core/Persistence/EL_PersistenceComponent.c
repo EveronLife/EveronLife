@@ -4,6 +4,9 @@ class EL_PersistenceComponentClass : ScriptComponentClass
 	[Attribute(defvalue: "2", uiwidget: UIWidgets.ComboBox, desc: "Should the entity be saved automatically and if so only on shutdown or regulary.\nThe interval is configured in the persitence manager component on your game mode.", enums: ParamEnumArray.FromEnum(EL_ESaveType))]
 	EL_ESaveType m_eSaveType;
 
+	[Attribute(defvalue: "0", desc: "If enabled a copy of the last save-data is kept to compare against, so the databse is updated only if there are any differences to what is already persisted.\nHelps to reduce expensive database calls at the cost of additional base line memeory allocation.")]
+	bool m_bUseChangeTracker;
+
 	[Attribute(defvalue: "1", desc: "If enabled the entity will spawn back into the world automatically after session restart.\nAlways true for baked map objects.")]
 	bool m_bSelfSpawn;
 
@@ -47,6 +50,9 @@ class EL_PersistenceComponent : ScriptComponent
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnBeforeLoad;
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterLoad;
+
+	[NonSerialized()]
+	private EL_EntitySaveData m_pLastSaveData;
 
 	//------------------------------------------------------------------------------------------------
 	//! static helper see GetPersistentId()
@@ -134,9 +140,14 @@ class EL_PersistenceComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Load existing save-data to apply to this entity
-	bool Load(notnull EL_EntitySaveData saveData)
+	//! \param saveData existing data to restore the entity state from
+	//! \param spawnAsSavedRoot true if the current record is a root entry in the db (not a stored item inside a storage)
+	bool Load(notnull EL_EntitySaveData saveData, bool spawnAsSavedRoot = true)
 	{
 		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
+
+		// Restore information if this entity has its own root record in db to avoid unreferenced junk entries.
+		if (spawnAsSavedRoot) EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
 
 		SetPersistentId(saveData.GetId());
 
@@ -181,7 +192,9 @@ class EL_PersistenceComponent : ScriptComponent
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		EL_EntitySaveData saveData = EL_EntitySaveData.Cast(settings.m_tSaveDataTypename.Spawn());
-		if (!saveData || !saveData.ReadFrom(owner, settings.m_pSaveData))
+		EL_EReadResult readResult;
+		if (saveData) readResult = saveData.ReadFrom(owner, settings.m_pSaveData);
+		if (!readResult)
 		{
 			Debug.Error(string.Format("Failed to persist world entity '%1'@%2. Save-data could not be read.",
 				EL_Utils.GetPrefabName(owner),
@@ -193,8 +206,11 @@ class EL_PersistenceComponent : ScriptComponent
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-		// Ignore "root" entities if they are stored inside others
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT))
+		// Save root entities unless they are baked AND only have default values,
+		// cause then we do not need the record to restore - as the ids will be
+		// known through the name mapping table instead.
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) &&
+			(!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) || readResult == EL_EReadResult.OK))
 		{
 			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
@@ -221,6 +237,7 @@ class EL_PersistenceComponent : ScriptComponent
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
 		}
 
 		m_sId = string.Empty;
@@ -279,8 +296,16 @@ class EL_PersistenceComponent : ScriptComponent
 			settings.m_pSaveData.m_aComponents = sortedComponents;
 		}
 
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+
 		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
-		EL_PersistenceManager.GetInstance().EnqueueForRegistration(this);
+		
+		if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
+		{
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT);
+		}
+
+		persistenceManager.EnqueueForRegistration(this);
 
 		// TODO: Remove afer 0.9.8 and rely only on OnAddedToParent
 		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
@@ -362,7 +387,8 @@ class EL_PersistenceComponent : ScriptComponent
 	protected void UpdateRootStatus(bool forceRoot = false)
 	{
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
-
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		
 		// Only count valid entity link systems as non root
 		bool isRoot = settings.m_bStorageRoot && (forceRoot || IsRootEntity());
 		if (isRoot)
@@ -372,11 +398,16 @@ class EL_PersistenceComponent : ScriptComponent
 		else
 		{
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+
+			if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
+			{
+				EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT);
+			}
 		}
 
 		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
 		{
-			EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, settings.m_eSaveType, isRoot);
+			persistenceManager.UpdateRootStatus(this, m_sId, settings.m_eSaveType, isRoot);
 		}
 	}
 

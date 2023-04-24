@@ -1,53 +1,51 @@
 [EL_DbName(EL_PersistentRootEntityCollection, "RootEntityCollection")]
 class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 {
-	ref set<string> m_aBakedRootEntityIds = new set<string>();
 	ref set<string> m_aRemovedBackedRootEntities = new set<string>();
-	ref map<typename, ref set<string>> m_mSelfSpawnDynamicEntities = new map<typename, ref set<string>>();
+	ref map<typename, ref array<string>> m_mSelfSpawnDynamicEntities = new map<typename, ref array<string>>();
 
 	//------------------------------------------------------------------------------------------------
 	void Add(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
-		if (state < EL_EPersistenceManagerState.SETUP)
+		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_ROOT))
 		{
-			m_aBakedRootEntityIds.Insert(persistentId);
-			return;
-		}
-		else if (m_aBakedRootEntityIds.Contains(persistentId))
-		{
-			int idx = m_aRemovedBackedRootEntities.Find(persistentId);
-			if (idx != -1) m_aRemovedBackedRootEntities.Remove(idx);
+			if (state == EL_EPersistenceManagerState.ACTIVE)
+			{
+				int idx = m_aRemovedBackedRootEntities.Find(persistentId);
+				if (idx != -1) m_aRemovedBackedRootEntities.Remove(idx);
+			}
 			return;
 		}
 
         EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		if (!settings.m_bSelfSpawn) return;
 
-		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
+		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		if (!ids)
 		{
-			ids = new set<string>();
+			ids = new array<string>();
 			m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
 		}
-
+		
 		ids.Insert(persistentId);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void Remove(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
-		if (m_aBakedRootEntityIds.Contains(persistentId))
+		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_ROOT))
 		{
-			m_aRemovedBackedRootEntities.Insert(persistentId);
-			return; // Skip rest for baked entities
+			if (state == EL_EPersistenceManagerState.ACTIVE)
+			{
+				m_aRemovedBackedRootEntities.Insert(persistentId);
+			}
+			return;
 		}
 
         EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		set<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
+		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		if (!ids) return;
-
-		int idx = ids.Find(persistentId);
-		if (idx != -1) ids.Remove(idx);
+		ids.RemoveItem(persistentId);
 		if (ids.IsEmpty()) m_mSelfSpawnDynamicEntities.Remove(settings.m_tSaveDataTypename);
 	}
 
@@ -77,7 +75,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		array<ref EL_SelfSpawnDynamicEntity> selfSpawnDynamicEntities();
 		selfSpawnDynamicEntities.Reserve(m_mSelfSpawnDynamicEntities.Count());
 
-		foreach (typename saveDataType, set<string> ids : m_mSelfSpawnDynamicEntities)
+		foreach (typename saveDataType, array<string> ids : m_mSelfSpawnDynamicEntities)
 		{
 			EL_SelfSpawnDynamicEntity entry();
 			entry.m_sSaveDataType = EL_DbName.Get(saveDataType);
@@ -114,5 +112,5 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 class EL_SelfSpawnDynamicEntity
 {
 	string m_sSaveDataType;
-	ref set<string> m_aIds;
+	ref array<string> m_aIds;
 }

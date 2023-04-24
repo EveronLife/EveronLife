@@ -9,7 +9,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentFuelNode> m_aFuelNodes;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		m_aFuelNodes = new array<ref EL_PersistentFuelNode>();
 
@@ -28,10 +28,13 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 			EL_PersistentFuelNode persistentFuelNode();
 			persistentFuelNode.m_iTankId = fuelNode.GetFuelTankID();
 			persistentFuelNode.m_fFuel = fuelNode.GetFuel();
+
+			if (attributes.m_bTrimDefaults && persistentFuelNode.m_fFuel >= fuelNode.GetMaxFuel()) continue;
 			m_aFuelNodes.Insert(persistentFuelNode);
 		}
 
-		return true;
+		if (m_aFuelNodes.IsEmpty()) return EL_EReadResult.DEFAULT;
+		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

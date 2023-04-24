@@ -9,14 +9,16 @@ class EL_CarControllerSaveData : EL_VehicleControllerSaveData
 	bool m_bHandBrake;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
-		if (!super.ReadFrom(worldEntityComponent, attributes)) return false;
+		EL_EReadResult readResult = super.ReadFrom(worldEntityComponent, attributes);
+		if (!readResult) return EL_EReadResult.ERROR;
 
 		CarControllerComponent carController = CarControllerComponent.Cast(worldEntityComponent);
 		m_bHandBrake = carController.GetPersistentHandBrake();
 
-		return true;
+		if (readResult == EL_EReadResult.DEFAULT && m_bHandBrake) return EL_EReadResult.DEFAULT;
+		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

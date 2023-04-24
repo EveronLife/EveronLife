@@ -9,11 +9,12 @@ class EL_VehicleControllerSaveData : EL_ComponentSaveData
 	bool m_bEngineOn;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		VehicleControllerComponent vehicleController = VehicleControllerComponent.Cast(worldEntityComponent);
 		m_bEngineOn = vehicleController.IsEngineOn();
-		return true;
+		if (!m_bEngineOn) return EL_EReadResult.DEFAULT;
+		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

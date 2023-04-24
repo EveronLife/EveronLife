@@ -61,16 +61,39 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 
 		SerializeMetaData(saveContext);
 
-		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
+		map<typename, ref EL_BakedEntityNameIdMappingType> typeMap();
+
 		foreach (string name, Tuple2<string, typename> tuple : m_mNameIdMapping)
 		{
-			EL_PersistentBakedEntityNameIdMappingEntry entry();
+			EL_BakedEntityNameIdMappingType type = typeMap.Get(tuple.param2);
+			if (!type)
+			{
+				type = new EL_BakedEntityNameIdMappingType();
+				type.m_sSaveDataType = EL_DbName.Get(tuple.param2);
+				typeMap.Set(tuple.param2, type);
+			}
+
+			array<ref EL_BakedEntityNameIdMappingEntry> entries = type.m_aEntries;
+			if (!entries)
+			{
+				entries = new array<ref EL_BakedEntityNameIdMappingEntry>();
+				type.m_aEntries = entries;
+			}
+
+
+			EL_BakedEntityNameIdMappingEntry entry();
 			entry.m_sName = name;
 			entry.m_sId = tuple.param1;
-			entry.m_sSaveDataType = EL_DbName.Get(tuple.param2);
 			entries.Insert(entry);
 		}
-		saveContext.WriteValue("m_aEntries", entries);
+
+		array<ref EL_BakedEntityNameIdMappingType> types();
+		foreach(auto _, EL_BakedEntityNameIdMappingType type : typeMap)
+		{
+			types.Insert(type);
+		}
+		
+		saveContext.WriteValue("m_aTypes", types);
 
 		return true;
 	}
@@ -82,21 +105,29 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 
 		DeserializeMetaData(loadContext);
 
-		array<ref EL_PersistentBakedEntityNameIdMappingEntry> entries();
-		loadContext.ReadValue("m_aEntries", entries);
+		array<ref EL_BakedEntityNameIdMappingType> types();
+		loadContext.ReadValue("m_aTypes", types);
 
-		foreach (EL_PersistentBakedEntityNameIdMappingEntry entry : entries)
+		foreach (EL_BakedEntityNameIdMappingType type : types)
 		{
-			m_mNameIdMapping.Set(entry.m_sName, new Tuple2<string, typename>(entry.m_sId, EL_DbName.GetTypeByName(entry.m_sSaveDataType)));
+			foreach (EL_BakedEntityNameIdMappingEntry entry : type.m_aEntries)
+			{
+				m_mNameIdMapping.Set(entry.m_sName, new Tuple2<string, typename>(entry.m_sId, EL_DbName.GetTypeByName(type.m_sSaveDataType)));
+			}
 		}
 
 		return true;
 	}
 }
 
-class EL_PersistentBakedEntityNameIdMappingEntry
+class EL_BakedEntityNameIdMappingType
+{
+	string m_sSaveDataType;
+	ref array<ref EL_BakedEntityNameIdMappingEntry> m_aEntries;
+}
+
+class EL_BakedEntityNameIdMappingEntry
 {
 	string m_sName;
 	string m_sId;
-	string m_sSaveDataType;
 }

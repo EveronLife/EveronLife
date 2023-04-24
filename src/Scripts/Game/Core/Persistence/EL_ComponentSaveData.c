@@ -2,10 +2,12 @@
 class EL_ComponentSaveDataClass
 {
 	//------------------------------------------------------------------------------------------------
-	array<typename> Requires(); // TODO: Implement automatic entity source changes on prefab edit.
+	array<typename> Requires(); // TODO: Implement error if not satisfied
 
 	//------------------------------------------------------------------------------------------------
-	//array<typename> CannotCombine(); // TODO: Implement
+	array<typename> CannotCombine(); // TODO: Implement error if not satisfied
+	
+	bool m_bTrimDefaults;
 }
 
 class EL_ComponentSaveData
@@ -16,8 +18,8 @@ class EL_ComponentSaveData
 	//! Reads the save-data from the world entity component
 	//! \param worldEntityComponent the component to read the save-data from
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
-	//! \return true if save-data could be read, false if something failed.
-	bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	//! \return EL_EReadResult.OK if save-data could be read, ERROR if something failed, DEFAULT if the data could be trimmed
+	EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(worldEntityComponent, this);
 	}

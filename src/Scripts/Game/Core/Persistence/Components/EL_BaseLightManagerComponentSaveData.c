@@ -1,8 +1,6 @@
 [EL_ComponentSaveDataType(EL_BaseLightManagerComponentSaveDataClass, BaseLightManagerComponent), BaseContainerProps()]
 class EL_BaseLightManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-	[Attribute(defvalue: "1", desc: "Persist only damaged or enabled lights data to reduce overall size.")]
-	bool m_bNonDefaultStateOnly;
 }
 
 [EL_DbName(EL_BaseLightManagerComponentSaveData, "LightManager")]
@@ -11,7 +9,7 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentLightSlot> m_aLightSlots;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(worldEntityComponent);
 
@@ -27,15 +25,12 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 			persistentLightSlot.m_bFunctional = lightSlot.IsLightFunctional();
 			persistentLightSlot.m_bState = lightManager.GetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_iSide);
 
-			//Only save the lightslot if there is any non default property
-			if (!EL_BaseLightManagerComponentSaveDataClass.Cast(attributes).m_bNonDefaultStateOnly ||
-				(!persistentLightSlot.m_bFunctional || persistentLightSlot.m_bState))
-			{
-				m_aLightSlots.Insert(persistentLightSlot);
-			}
+			if (attributes.m_bTrimDefaults && persistentLightSlot.m_bFunctional && !persistentLightSlot.m_bState) continue;
+			m_aLightSlots.Insert(persistentLightSlot);
 		}
 
-		return true;
+		if (m_aLightSlots.IsEmpty()) return EL_EReadResult.DEFAULT;
+		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

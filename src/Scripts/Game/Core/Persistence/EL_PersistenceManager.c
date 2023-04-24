@@ -40,7 +40,7 @@ class EL_PersistenceManager
 	protected MapIterator m_iAutoSaveScriptedStateIt;
 
 	// Setup buffers, discarded after world init
-	protected ref map<string, ref EL_EntitySaveData> m_mInitEntitySaveData;
+	protected ref map<string, EL_PersistenceComponent> m_mBakedRoots;
 	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
 
 	//------------------------------------------------------------------------------------------------
@@ -104,6 +104,60 @@ class EL_PersistenceManager
 		}
 
 		return m_pDbContext;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Used to spawn and correctly register an entity from save-data
+	//! \param saveData Save-data to spawn from
+	//! \param spawnAsSavedRoot true if the current record is a root entry in the db (not a stored item inside a storage)
+	//! \return registered entiy instance or null on failure
+	IEntity SpawnWorldEntity(EL_EntitySaveData saveData, bool spawnAsSavedRoot = true)
+	{
+		if (!saveData || !saveData.GetId()) return null;
+
+		Resource resource = Resource.Load(saveData.m_rPrefab);
+		if (!resource.IsValid())
+		{
+			Debug.Error(string.Format("Invalid prefab type '%1' on '%2:%3' could not be spawned. Ignored.", saveData.m_rPrefab, saveData.Type().ToString(), saveData.GetId()));
+			return null;
+		}
+
+		IEntity worldEntity = GetGame().SpawnEntityPrefab(resource);
+		if (!worldEntity)
+		{
+			Debug.Error(string.Format("Failed to spawn entity '%1:%2'. Ignored.", saveData.Type().ToString(), saveData.GetId()));
+			return null;
+		}
+
+		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		if (!persistenceComponent || !persistenceComponent.Load(saveData, spawnAsSavedRoot))
+		{
+			SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
+			return null;
+		}
+
+		return worldEntity;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Used to instantiate and correctly register a scripted state from save-data
+	//! \param saveData Save-data to instantiate from
+	//! \return registered scripted state instance or null on failure
+	EL_PersistentScriptedState SpawnScriptedState(EL_ScriptedStateSaveData saveData)
+	{
+		if (!saveData || !saveData.GetId()) return null;
+
+		typename scriptedStateType = EL_PersistentScriptedStateSettings.GetScriptedStateType(saveData.Type());
+		EL_PersistentScriptedState state = EL_PersistentScriptedState.Cast(scriptedStateType.Spawn());
+		if (!state)
+		{
+			Debug.Error(string.Format("Failed to spawn scripted state '%1:%2'. Ignored.", saveData.Type().ToString(), saveData.GetId()));
+			return null;
+		}
+
+		if (!state.Load(saveData)) return null;
+
+		return state;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -264,22 +318,54 @@ class EL_PersistenceManager
 			if (idx != -1) m_pRootEntityCollection.m_aRemovedBackedRootEntities.Remove(idx);
 		}
 
-		// Apply save-data to baked entities
-		foreach (string persistentId : m_pRootEntityCollection.m_aBakedRootEntityIds)
+		// Collect type and ids of inital world entities for bulk load
+		map<typename, ref array<string>> bulkLoad();
+		foreach (typename saveType, array<string> persistentIds: m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
 		{
-			EL_EntitySaveData saveData = m_mInitEntitySaveData.Get(persistentId);
-			if (!saveData) continue;
-			EL_PersistenceComponent persistenceComponent = FindPersistenceComponentById(persistentId);
-			if (persistenceComponent) persistenceComponent.Load(saveData);
+		    array<string> loadIds();
+		    loadIds.Copy(persistentIds);
+		    bulkLoad.Set(saveType, loadIds);
+		}
+		foreach (string id, EL_PersistenceComponent persistenceComponent : m_mBakedRoots)
+		{
+			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+		    array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataTypename);
+
+		    if (!loadIds)
+		    {
+		        loadIds = new array<string>();
+		        bulkLoad.Set(settings.m_tSaveDataTypename, loadIds);
+		    }
+
+		    loadIds.Insert(id);
 		}
 
-		// Spawn additional entities from the previously bulk loaded data
-		foreach (auto _, set<string> persistentIds : m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
+		// Load all known inital entity types from db, both baked and dynamic in one bulk operation
+		foreach (typename saveDataType, array<string> persistentIds : bulkLoad)
 		{
-			foreach (string persistentId : persistentIds)
-			{
-				SpawnWorldEntity(m_mInitEntitySaveData.Get(persistentId));
-			}
+		    array<ref EL_DbEntity> findResults = GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
+		    if (!findResults) continue;
+
+		    foreach (EL_DbEntity findResult : findResults)
+		    {
+		        EL_EntitySaveData saveData = EL_EntitySaveData.Cast(findResult);
+		        if (!saveData)
+		        {
+		            Debug.Error(string.Format("Unexpected database find result type '%1' encountered during entity load. Ignored.", findResult.Type().ToString()));
+		            continue;
+		        }
+
+				// Load data for baked roots
+		        EL_PersistenceComponent persistenceComponent = m_mBakedRoots.Get(saveData.GetId());
+				if (persistenceComponent)
+				{
+					persistenceComponent.Load(saveData);
+					continue;
+				}
+
+				// Spawn additional dynamic entites
+				SpawnWorldEntity(saveData);
+		    }
 		}
 
 		// Save any mapping or root entity changes detected during world init
@@ -288,122 +374,11 @@ class EL_PersistenceManager
 		m_pRootEntityCollection.Save(dbContext);
 
 		// Free memory as it not needed after setup
-		m_mInitEntitySaveData = null;
+		m_mBakedRoots = null;
 		m_pBakedEntityNameIdMapping = null;
 
-		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.");
+		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.", LogLevel.VERBOSE);
 		SetState(EL_EPersistenceManagerState.ACTIVE);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Used to spawn and correctly register an entity from save-data
-	//! \param saveData Save-data to spawn from
-	//! \return registered entiy instance or null on failure
-	IEntity SpawnWorldEntity(EL_EntitySaveData saveData)
-	{
-		if (!saveData || !saveData.GetId()) return null;
-
-		Resource resource = Resource.Load(saveData.m_rPrefab);
-		if (!resource.IsValid())
-		{
-			Debug.Error(string.Format("Invalid prefab type '%1' on '%2:%3' could not be spawned. Ignored.", saveData.m_rPrefab, saveData.Type().ToString(), saveData.GetId()));
-			return null;
-		}
-
-		IEntity worldEntity = GetGame().SpawnEntityPrefab(resource);
-		if (!worldEntity)
-		{
-			Debug.Error(string.Format("Failed to spawn entity '%1:%2'. Ignored.", saveData.Type().ToString(), saveData.GetId()));
-			return null;
-		}
-
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
-		if (!persistenceComponent || !persistenceComponent.Load(saveData))
-		{
-			SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
-			return null;
-		}
-
-		return worldEntity;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Used to instantiate and correctly register a scripted state from save-data
-	//! \param saveData Save-data to instantiate from
-	//! \return registered scripted state instance or null on failure
-	EL_PersistentScriptedState SpawnScriptedState(EL_ScriptedStateSaveData saveData)
-	{
-		if (!saveData || !saveData.GetId()) return null;
-
-		typename scriptedStateType = EL_PersistentScriptedStateSettings.GetScriptedStateType(saveData.Type());
-		EL_PersistentScriptedState state = EL_PersistentScriptedState.Cast(scriptedStateType.Spawn());
-		if (!state)
-		{
-			Debug.Error(string.Format("Failed to spawn scripted state '%1:%2'. Ignored.", saveData.Type().ToString(), saveData.GetId()));
-			return null;
-		}
-
-		if (!state.Load(saveData)) return null;
-
-		return state;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected void LoadSetupData()
-	{
-		m_mInitEntitySaveData = new map<string, ref EL_EntitySaveData>();
-		m_pBakedEntityNameIdMapping = EL_DbEntityHelper<EL_PersistentBakedEntityNameIdMapping>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
-		m_pRootEntityCollection = EL_DbEntityHelper<EL_PersistentRootEntityCollection>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
-
-		// Collect type and ids of inital world entities for bulk load
-		map<typename, ref set<string>> bulkLoad();
-		foreach (typename saveType, set<string> persistentIds: m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
-		{
-			set<string> loadIds();
-			loadIds.Copy(persistentIds);
-			bulkLoad.Set(saveType, loadIds);
-		}
-		foreach (string name, Tuple2<string, typename> idTypeTuple : m_pBakedEntityNameIdMapping.m_mNameIdMapping)
-		{
-			//Skip baked objects that will be deleted in load phase
-			if (m_pRootEntityCollection.m_aRemovedBackedRootEntities.Contains(idTypeTuple.param1)) continue;
-
-			set<string> loadIds = bulkLoad.Get(idTypeTuple.param2);
-
-			if (!loadIds)
-			{
-				loadIds = new set<string>();
-				bulkLoad.Set(idTypeTuple.param2, loadIds);
-			}
-
-			loadIds.Insert(idTypeTuple.param1);
-		}
-
-		// Load all known inital entity types from db, both baked and dynamic in one bulk operation
-		foreach (typename saveDataType, set<string> persistentIds : bulkLoad)
-		{
-			array<string> loadIds();
-			loadIds.Reserve(persistentIds.Count());
-			foreach (string id : persistentIds)
-			{
-				loadIds.Insert(id);
-			}
-
-			array<ref EL_DbEntity> findResults = GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(loadIds)).GetEntities();
-			if (!findResults) continue;
-
-			foreach (EL_DbEntity findResult : findResults)
-			{
-				EL_EntitySaveData saveData = EL_EntitySaveData.Cast(findResult);
-				if (!saveData)
-				{
-					Debug.Error(string.Format("Unexpected database find result type '%1' encountered during entity load. Ignored.", findResult.Type().ToString()));
-					continue;
-				}
-
-				m_mInitEntitySaveData.Set(saveData.GetId(), saveData);
-			}
-		}
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -468,14 +443,6 @@ class EL_PersistenceManager
 		m_pDbContext = dbContext;
 	}
 
-	/*
-	//------------------------------------------------------------------------------------------------
-	EL_PersistentRootEntityCollection GetRootEntityCollection()
-	{
-		return m_pRootEntityCollection;
-	}
-	*/
-
 	//------------------------------------------------------------------------------------------------
 	//! Enqueue entity for persistence registration for later (will be flushed before any find by id or save operation takes place)
 	void EnqueueForRegistration(notnull EL_PersistenceComponent persistenceComponent)
@@ -493,7 +460,7 @@ class EL_PersistenceManager
 		if (!id) id = GetPersistentId(persistenceComponent);
 
         EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		bool isRoot = settings.m_bStorageRoot&& EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT);
+		bool isRoot = settings.m_bStorageRoot && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT);
 		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, isRoot);
 
 		return id;
@@ -556,14 +523,20 @@ class EL_PersistenceManager
 
 	//------------------------------------------------------------------------------------------------
 	void UpdateRootEntityCollection(notnull EL_PersistenceComponent persistenceComponent, string id, bool isRootEntity)
-	{
+	{	
 		if (isRootEntity)
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, id, m_eState);
+
+			if (m_mBakedRoots && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_ROOT))
+			{
+				m_mBakedRoots.Set(id, persistenceComponent);
+			}
 		}
 		else
 		{
 			m_pRootEntityCollection.Remove(persistenceComponent, id, m_eState);
+			if (m_mBakedRoots) m_mBakedRoots.Remove(id);
 		}
 	}
 
@@ -694,7 +667,9 @@ class EL_PersistenceManager
 		m_mScriptedStateShutdown = new map<string, EL_PersistentScriptedState>();
 		m_mScriptedStateUncategorized = new map<string, EL_PersistentScriptedState>();
 
-		LoadSetupData();
+		m_mBakedRoots = new map<string, EL_PersistenceComponent>();
+		m_pBakedEntityNameIdMapping = EL_DbEntityHelper<EL_PersistentBakedEntityNameIdMapping>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
+		m_pRootEntityCollection = EL_DbEntityHelper<EL_PersistentRootEntityCollection>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
 	}
 
 	//------------------------------------------------------------------------------------------------

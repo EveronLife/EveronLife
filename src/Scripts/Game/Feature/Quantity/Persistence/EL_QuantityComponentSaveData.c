@@ -9,10 +9,11 @@ class EL_QuantityComponentSaveData : EL_ComponentSaveData
 	int m_iQuantity;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		m_iQuantity = EL_QuantityComponent.Cast(worldEntityComponent).GetQuantity();
-		return true;
+		if (m_iQuantity == 1) return EL_EReadResult.DEFAULT;
+		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

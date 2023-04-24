@@ -1,10 +1,7 @@
 [EL_ComponentSaveDataType(EL_HitZoneContainerComponentSaveDataClass, HitZoneContainerComponent), BaseContainerProps()]
 class EL_HitZoneContainerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-	[Attribute(defvalue: "1", desc: "Persist only damaged hitzones to minimize save sizes. Can be combined with selection filter.")]
-	bool m_bDamagedOnly;
-
-	[Attribute(desc: "If any are provided, each hitzone must be explictly selected to be persisted.")]
+	[Attribute(desc: "If set, only the explictly selected hitzones are persisted.")]
 	ref array<string> m_aHitzoneFilter;
 }
 
@@ -14,7 +11,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentHitZone> m_aHitzones;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		EL_HitZoneContainerComponentSaveDataClass settings = EL_HitZoneContainerComponentSaveDataClass.Cast(attributes);
 		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(worldEntityComponent);
@@ -26,20 +23,18 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 
 		foreach (HitZone hitZone : outHitZones)
 		{
-			float healthScaled = hitZone.GetHealthScaled();
-			if (settings.m_bDamagedOnly && float.AlmostEqual(healthScaled, 1.0)) continue;
-
 			EL_PersistentHitZone persistentHitZone();
 			persistentHitZone.m_sName = hitZone.GetName();
-			persistentHitZone.m_fHealth = healthScaled;
+			persistentHitZone.m_fHealth = hitZone.GetHealthScaled();
 
-			if (settings.m_aHitzoneFilter.IsEmpty() || settings.m_aHitzoneFilter.Contains(persistentHitZone.m_sName))
-			{
-				m_aHitzones.Insert(persistentHitZone);
-			}
+			if (settings.m_bTrimDefaults && float.AlmostEqual(persistentHitZone.m_fHealth, 1.0)) continue;
+			if (!settings.m_aHitzoneFilter.IsEmpty() && !settings.m_aHitzoneFilter.Contains(persistentHitZone.m_sName)) continue;
+
+			m_aHitzones.Insert(persistentHitZone);
 		}
 
-		return true;
+		if (m_aHitzones.IsEmpty()) return EL_EReadResult.DEFAULT;
+		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

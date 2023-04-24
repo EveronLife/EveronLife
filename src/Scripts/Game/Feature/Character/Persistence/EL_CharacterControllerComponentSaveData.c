@@ -13,7 +13,7 @@ class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 	bool m_bRightHandRaised;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(worldEntityComponent);
 
@@ -35,18 +35,25 @@ class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 			}
 		}
 
-		return true;
+		if (attributes.m_bTrimDefaults &&
+			m_eStance == ECharacterStance.STAND &&
+			!m_sLeftHandItemId &&
+			!m_sRightHandItemId &&
+			m_eRightHandType == EEquipItemType.EEquipTypeNone &&
+			!m_bRightHandRaised) return EL_EReadResult.DEFAULT;
+
+		return EL_EReadResult.OK;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		//! >>> For playable character the same code is executed similary on the client in modded SCR_RespawnComponent. Transmitted via RPC <<<
 		CharacterControllerComponent characterController = CharacterControllerComponent.Cast(worldEntityComponent);
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		
+
 		characterController.ForceStance(m_eStance);
-		
+
 		// Apply hand items
 		IEntity rightHandEntity = persistenceManager.FindEntityByPersistentId(m_sRightHandItemId);
 		if (rightHandEntity)
@@ -62,7 +69,7 @@ class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 			SCR_GadgetManagerComponent gadgetMgr = SCR_GadgetManagerComponent.GetGadgetManager(characterController.GetOwner());
 			if (gadgetMgr) gadgetMgr.HandleInput(leftHandEntity, 1);
 		}
-		
+
 		return true;
 	}
 }

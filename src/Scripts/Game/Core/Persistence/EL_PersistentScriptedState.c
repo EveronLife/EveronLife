@@ -202,7 +202,8 @@ class EL_ScriptedStateSaveData : EL_MetaDataDbEntity
 {
 	//------------------------------------------------------------------------------------------------
 	//! Reads the save-data from the scripted state
-	bool ReadFrom(notnull EL_PersistentScriptedState scriptedState)
+	//! \return EL_EReadResult.OK if save-data could be read, ERROR if something failed, DEFAULT if the data could be trimmed
+	EL_EReadResult ReadFrom(notnull EL_PersistentScriptedState scriptedState)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(scriptedState, this);
 	}

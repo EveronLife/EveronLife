@@ -11,7 +11,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentInventoryStorageSlot> m_aSlots;
 
 	//------------------------------------------------------------------------------------------------
-	override bool ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
 
@@ -29,7 +29,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			if (!slotPersistenceComponent) continue;
 
 			EL_EntitySaveData saveData = slotPersistenceComponent.Save();
-			if (!saveData) continue;
+			if (!saveData) return EL_EReadResult.ERROR;
 
 			// Reset transformation data, as that won't be needed for stored entites
 			saveData.m_pTransformation.Reset();
@@ -43,7 +43,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			m_aSlots.Insert(slotInfo);
 		}
 
-		return true;
+		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 				if (EL_Utils.GetPrefabName(prefabItem) == slot.m_pEntity.m_rPrefab)
 				{
 					EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(prefabItem);
-					if (persistenceComponent && persistenceComponent.Load(slot.m_pEntity))
+					if (persistenceComponent && persistenceComponent.Load(slot.m_pEntity, false))
 					{
 						reUsedPrefabItem = true;
 						prefabItems.RemoveItem(prefabItem);
@@ -83,7 +83,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			if (reUsedPrefabItem) continue;
 
 			// Spawn new entity and insert it if not part of the prefab
-			IEntity slotEntity = slot.m_pEntity.Spawn();
+			IEntity slotEntity = slot.m_pEntity.Spawn(false);
 			if (!slotEntity)
 			{
 				PrintFormat("Failed to spawn storage slot entity prefab '%1'.", slot.m_pEntity.m_rPrefab);

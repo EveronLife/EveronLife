@@ -8,6 +8,9 @@ enum EL_ETransformSaveFlags
 [BaseContainerProps()]
 class EL_EntitySaveDataClass
 {
+	[Attribute("1", desc: "Trim default values from the save data to minimize storage and avoid default value entires in the database.\nE.g. there is no need to persist that a cars engine is off.")]
+	bool m_bTrimDefaults;
+
 	[Attribute("3", UIWidgets.Flags, desc: "Choose which aspects from the entity transformation are persisted.", enums: ParamEnumArray.FromEnum(EL_ETransformSaveFlags))]
 	EL_ETransformSaveFlags m_eTranformSaveFlags;
 
@@ -27,37 +30,44 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Spawn the world entity based on this save-data instance
+	//! \param spawnAsSavedRoot true if the current record is a root entry in the db (not a stored item inside a storage)
 	//! \return world entity or null if it could not be correctly spawned/loaded
-	IEntity Spawn()
+	IEntity Spawn(bool spawnAsSavedRoot = true)
 	{
-		return EL_PersistenceManager.GetInstance().SpawnWorldEntity(this);
+		return EL_PersistenceManager.GetInstance().SpawnWorldEntity(this, spawnAsSavedRoot);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Reads the save-data from the world entity
 	//! \param worldEntity the entity to read the save-data from
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
-	//! \return true if save-data could be read, false if something failed.
-	bool ReadFrom(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
+	//! \return EL_EReadResult.OK if save-data could be read, ERROR if something failed, NODATA for all default values
+	EL_EReadResult ReadFrom(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
+		EL_EReadResult resultCode = EL_EReadResult.DEFAULT;
+		if (!attributes.m_bTrimDefaults) resultCode = EL_EReadResult.OK;
+
 		ReadMetaData(EL_Component<EL_PersistenceComponent>.Find(worldEntity));
 
 		// Prefab
 		m_rPrefab = EL_Utils.GetPrefabName(worldEntity);
 
 		// Transform
-		m_pTransformation = new EL_PersistentTransformation();
+		if (attributes.m_eTranformSaveFlags) m_pTransformation = new EL_PersistentTransformation();
 		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS)
 		{
 			m_pTransformation.m_vOrigin = worldEntity.GetOrigin();
+			resultCode = EL_EReadResult.OK;
 		}
 		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES)
 		{
 			m_pTransformation.m_vAngles = worldEntity.GetLocalYawPitchRoll();
+			resultCode = EL_EReadResult.OK;
 		}
 		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
 		{
 			m_pTransformation.m_fScale = worldEntity.GetScale();
+			resultCode = EL_EReadResult.OK;
 		}
 
 		// Lifetime
@@ -65,6 +75,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		{
 			GarbageManager garbageManager = GetGame().GetGarbageManager();
 			if (garbageManager) m_fRemainingLifetime = garbageManager.GetRemainingLifetime(worldEntity);
+			if (m_fRemainingLifetime > 0) resultCode = EL_EReadResult.OK;
 		}
 
 		// Components
@@ -89,7 +100,12 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 				processedComponents.Insert(componentRef);
 
 				EL_ComponentSaveData componentSaveData = EL_ComponentSaveData.Cast(saveDataType.Spawn());
-				if (!componentSaveData || !componentSaveData.ReadFrom(GenericComponent.Cast(componentRef), componentSaveDataClass)) return false;
+				if (!componentSaveData) return EL_EReadResult.ERROR;
+
+				componentSaveDataClass.m_bTrimDefaults = attributes.m_bTrimDefaults;
+				EL_EReadResult componentRead = componentSaveData.ReadFrom(GenericComponent.Cast(componentRef), componentSaveDataClass);
+				if (componentRead == EL_EReadResult.ERROR) return componentRead;
+				if (componentRead == EL_EReadResult.DEFAULT && attributes.m_bTrimDefaults) continue;
 
 				componentsSaveData.Insert(componentSaveData);
 			}
@@ -97,10 +113,11 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 			if (componentsSaveData.Count() > 0)
 			{
 				m_mComponentsSaveData.Set(saveDataType, componentsSaveData);
+				resultCode = EL_EReadResult.OK;
 			}
 		}
 
-		return true;
+		return resultCode;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -333,6 +350,7 @@ class EL_PersistentTransformation
 		return true;
 	}
 
+	//------------------------------------------------------------------------------------------------
 	void EL_PersistentTransformation()
 	{
 		Reset();
@@ -380,5 +398,5 @@ class EL_ComponentSaveDataGetter<Class T>
 		auto componentsSaveData = saveData.m_mComponentsSaveData.Get(T);
 		if (!componentsSaveData || componentsSaveData.IsEmpty()) return null;
 		return T.Cast(componentsSaveData[0]);
-	}	
+	}
 }
