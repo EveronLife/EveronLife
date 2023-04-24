@@ -40,17 +40,24 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 
 		array<BaseLightSlot> lightSlots();
 		lightManager.GetLights(lightSlots);
-		foreach (BaseLightSlot lightSlot : lightSlots)
+		foreach (EL_PersistentLightSlot persistentLightSlot : m_aLightSlots)
 		{
-			foreach (EL_PersistentLightSlot persistentLightSlot : m_aLightSlots)
+			foreach (int idx, BaseLightSlot lightSlot : lightSlots)
 			{
-				if (lightSlot.GetLightType() == persistentLightSlot.m_eType &&
-					lightSlot.GetLightSide() == persistentLightSlot.m_iSide)
-				{
-					lightSlot.SetLightFunctional(persistentLightSlot.m_bFunctional);
-					lightManager.SetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_bState, persistentLightSlot.m_iSide);
-					break;
-				}
+				if (lightSlot.GetLightType() != persistentLightSlot.m_eType ||
+					lightSlot.GetLightSide() != persistentLightSlot.m_iSide) continue;
+
+				lightSlot.SetLightFunctional(persistentLightSlot.m_bFunctional);
+
+				// TODO: Remove this hacky fix after https://feedback.bistudio.com/T171832 has been adressed
+				if (lightSlot.IsPresence()) persistentLightSlot.m_eType = ELightType.Presence;
+
+				lightManager.SetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_bState, persistentLightSlot.m_iSide);
+				lightSlots.Remove(idx);
+
+				PrintFormat("Set %1 for side %2 to %3", typename.EnumToString(ELightType, persistentLightSlot.m_eType), persistentLightSlot.m_iSide, persistentLightSlot.m_bState);
+
+				break;
 			}
 		}
 
