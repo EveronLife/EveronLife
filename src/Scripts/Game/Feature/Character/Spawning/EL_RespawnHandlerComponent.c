@@ -36,7 +36,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnPlayerDisconnected(int playerId)
+	override void OnPlayerDisconnected(int playerId, KickCauseCode cause, int timeout)
 	{
 		if (!m_pGameMode.IsMaster()) return;
 
