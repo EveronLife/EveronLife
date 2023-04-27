@@ -55,8 +55,6 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 				lightManager.SetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_bState, persistentLightSlot.m_iSide);
 				lightSlots.Remove(idx);
 
-				PrintFormat("Set %1 for side %2 to %3", typename.EnumToString(ELightType, persistentLightSlot.m_eType), persistentLightSlot.m_iSide, persistentLightSlot.m_bState);
-
 				break;
 			}
 		}
