@@ -18,13 +18,12 @@ class EL_FileDbDriverBase : EL_DbDriver
 		FileIO.MakeDirectory(DB_BASE_DIR);
 
 		// Placeholder until we either have proper query string parsing or connection settings object
-		connectionString.Replace("?cache=false", "");
-		if (connectionString.Replace("?cache=true", "") > 0)
-		{
-			m_bUseCache = true;
-		}
+		connectionString.Replace(" = ", "=");
+		m_bUseCache = connectionString.Contains("cache=true");
 
-		string dbName = connectionString;
+		int until = connectionString.IndexOf("?");
+		if (until == -1) until = connectionString.Length();
+		string dbName = connectionString.Substring(0, until);
 
 		m_sDbDir = string.Format("%1/%2", DB_BASE_DIR, dbName);
 
@@ -237,7 +236,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		return m_mEntityIdsyCache;
 	}
-}
+};
 
 class EL_FileDbDriverFindIdsCallback
 {
@@ -254,4 +253,4 @@ class EL_FileDbDriverFindIdsCallback
 
 		m_Ids.Insert(fileName);
 	}
-}
+};

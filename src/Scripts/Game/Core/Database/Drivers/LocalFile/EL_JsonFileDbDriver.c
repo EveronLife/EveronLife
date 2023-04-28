@@ -1,6 +1,16 @@
 [EL_DbDriverName(EL_JsonFileDbDriver, {"JsonFile", "Json"})]
 class EL_JsonFileDbDriver : EL_FileDbDriverBase
 {
+	protected bool m_bPrettyPrint;
+
+	//------------------------------------------------------------------------------------------------
+	override bool Initalize(string connectionString = string.Empty)
+	{
+		bool result = super.Initalize(connectionString);
+		m_bPrettyPrint = connectionString.Contains("pretty=true");
+		return result;
+	}
+
 	//------------------------------------------------------------------------------------------------
 	override protected string GetFileExtension()
 	{
@@ -11,7 +21,16 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 	override protected EL_EDbOperationStatusCode WriteToDisk(EL_DbEntity entity)
 	{
 		ContainerSerializationSaveContext writer();
-		JsonSaveContainer jsonContainer();
+		BaseJsonSerializationSaveContainer jsonContainer;
+		if (m_bPrettyPrint)
+		{
+			jsonContainer = new PrettyJsonSaveContainer();
+		}
+		else
+		{
+			jsonContainer = new JsonSaveContainer();
+		}
+		
 		jsonContainer.SetMaxDecimalPlaces(5);
 		writer.SetContainer(jsonContainer);
 
@@ -42,4 +61,4 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
-}
+};

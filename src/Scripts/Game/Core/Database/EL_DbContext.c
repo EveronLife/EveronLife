@@ -144,7 +144,7 @@ class EL_DbContext
 		}
 		else
 		{
-			connectionString = "jsonfile://EveronLife?cache=true";
+			connectionString = "jsonfile://EveronLife?cache=true&pretty=true";
 		}
 
 		return true;
