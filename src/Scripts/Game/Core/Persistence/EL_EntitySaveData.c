@@ -3,7 +3,7 @@ enum EL_ETransformSaveFlags
 	COORDS = 0x01,
 	ANGLES = 0x02,
 	SCALE = 0x04
-}
+};
 
 [BaseContainerProps()]
 class EL_EntitySaveDataClass
@@ -19,7 +19,7 @@ class EL_EntitySaveDataClass
 
 	[Attribute(desc: "Components to persist.")]
 	ref array<ref EL_ComponentSaveDataClass> m_aComponents;
-}
+};
 
 class EL_EntitySaveData : EL_MetaDataDbEntity
 {
@@ -47,27 +47,33 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		EL_EReadResult resultCode = EL_EReadResult.DEFAULT;
 		if (!attributes.m_bTrimDefaults) resultCode = EL_EReadResult.OK;
 
-		ReadMetaData(EL_Component<EL_PersistenceComponent>.Find(worldEntity));
+		EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(worldEntity);
+		ReadMetaData(persistenceComponent);
 
 		// Prefab
 		m_rPrefab = EL_Utils.GetPrefabName(worldEntity);
 
 		// Transform
-		if (attributes.m_eTranformSaveFlags) m_pTransformation = new EL_PersistentTransformation();
-		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS)
+		m_pTransformation = new EL_PersistentTransformation();
+		if (!attributes.m_bTrimDefaults ||
+			!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_ROOT) ||
+			EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.TRANSFORM_DIRTY))
 		{
-			m_pTransformation.m_vOrigin = worldEntity.GetOrigin();
-			resultCode = EL_EReadResult.OK;
-		}
-		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES)
-		{
-			m_pTransformation.m_vAngles = worldEntity.GetLocalYawPitchRoll();
-			resultCode = EL_EReadResult.OK;
-		}
-		if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
-		{
-			m_pTransformation.m_fScale = worldEntity.GetScale();
-			resultCode = EL_EReadResult.OK;
+			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS)
+			{
+				m_pTransformation.m_vOrigin = worldEntity.GetOrigin();
+				resultCode = EL_EReadResult.OK;
+			}
+			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES)
+			{
+				m_pTransformation.m_vAngles = worldEntity.GetLocalYawPitchRoll();
+				resultCode = EL_EReadResult.OK;
+			}
+			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
+			{
+				m_pTransformation.m_fScale = worldEntity.GetScale();
+				resultCode = EL_EReadResult.OK;
+			}
 		}
 
 		// Lifetime
@@ -128,7 +134,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	bool ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
 		// Transform
-		if (m_pTransformation)
+		if (m_pTransformation && !m_pTransformation.IsDefault())
 		{
 			EL_Utils.ForceTransform(worldEntity, m_pTransformation.m_vOrigin, m_pTransformation.m_vAngles, m_pTransformation.m_fScale);
 		}
@@ -292,7 +298,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		return true;
 	}
-}
+};
 
 class EL_PersistentTransformation
 {
@@ -306,6 +312,14 @@ class EL_PersistentTransformation
 		m_vOrigin = EL_Const.VEC_INFINITY;
 		m_vAngles = EL_Const.VEC_INFINITY;
 		m_fScale = float.INFINITY;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	bool IsDefault()
+	{
+		return m_vOrigin == EL_Const.VEC_INFINITY &&
+			m_vAngles == EL_Const.VEC_INFINITY &&
+			m_fScale == float.INFINITY;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -355,7 +369,7 @@ class EL_PersistentTransformation
 	{
 		Reset();
 	}
-}
+};
 
 class EL_PersistentComponentSaveData
 {
@@ -387,7 +401,7 @@ class EL_PersistentComponentSaveData
 
 		return true;
 	}
-}
+};
 
 class EL_ComponentSaveDataGetter<Class T>
 {
@@ -399,4 +413,4 @@ class EL_ComponentSaveDataGetter<Class T>
 		if (!componentsSaveData || componentsSaveData.IsEmpty()) return null;
 		return T.Cast(componentsSaveData[0]);
 	}
-}
+};

@@ -4,7 +4,7 @@ enum EL_EPersistenceManagerState
 	SETUP,
 	ACTIVE,
 	SHUTDOWN
-}
+};
 
 class EL_PersistenceManager
 {
@@ -288,7 +288,7 @@ class EL_PersistenceManager
 			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING) ||
 				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT_SAVED)) continue;
 
-            EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 			GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, persistenceComponent.GetPersistentId());
 		}
 	}
@@ -320,43 +320,43 @@ class EL_PersistenceManager
 
 		// Collect type and ids of inital world entities for bulk load
 		map<typename, ref array<string>> bulkLoad();
-		foreach (typename saveType, array<string> persistentIds: m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
+		foreach (typename saveType, array<string> persistentIds : m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
 		{
-		    array<string> loadIds();
-		    loadIds.Copy(persistentIds);
-		    bulkLoad.Set(saveType, loadIds);
+			array<string> loadIds();
+			loadIds.Copy(persistentIds);
+			bulkLoad.Set(saveType, loadIds);
 		}
 		foreach (string id, EL_PersistenceComponent persistenceComponent : m_mBakedRoots)
 		{
 			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		    array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataTypename);
+			array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataTypename);
 
-		    if (!loadIds)
-		    {
-		        loadIds = new array<string>();
-		        bulkLoad.Set(settings.m_tSaveDataTypename, loadIds);
-		    }
+			if (!loadIds)
+			{
+				loadIds = {};
+				bulkLoad.Set(settings.m_tSaveDataTypename, loadIds);
+			}
 
-		    loadIds.Insert(id);
+			loadIds.Insert(id);
 		}
 
 		// Load all known inital entity types from db, both baked and dynamic in one bulk operation
 		foreach (typename saveDataType, array<string> persistentIds : bulkLoad)
 		{
-		    array<ref EL_DbEntity> findResults = GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
-		    if (!findResults) continue;
+			array<ref EL_DbEntity> findResults = GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
+			if (!findResults) continue;
 
-		    foreach (EL_DbEntity findResult : findResults)
-		    {
-		        EL_EntitySaveData saveData = EL_EntitySaveData.Cast(findResult);
-		        if (!saveData)
-		        {
-		            Debug.Error(string.Format("Unexpected database find result type '%1' encountered during entity load. Ignored.", findResult.Type().ToString()));
-		            continue;
-		        }
+			foreach (EL_DbEntity findResult : findResults)
+			{
+				EL_EntitySaveData saveData = EL_EntitySaveData.Cast(findResult);
+				if (!saveData)
+				{
+					Debug.Error(string.Format("Unexpected database find result type '%1' encountered during entity load. Ignored.", findResult.Type().ToString()));
+					continue;
+				}
 
 				// Load data for baked roots
-		        EL_PersistenceComponent persistenceComponent = m_mBakedRoots.Get(saveData.GetId());
+				EL_PersistenceComponent persistenceComponent = m_mBakedRoots.Get(saveData.GetId());
 				if (persistenceComponent)
 				{
 					persistenceComponent.Load(saveData);
@@ -365,7 +365,7 @@ class EL_PersistenceManager
 
 				// Spawn additional dynamic entites
 				SpawnWorldEntity(saveData);
-		    }
+			}
 		}
 
 		// Save any mapping or root entity changes detected during world init
@@ -396,13 +396,13 @@ class EL_PersistenceManager
 				IEntity parent = worldEntity.GetParent();
 				if (parent && parent.GetName())
 				{
+					string namePart = string.Format("%1_%2", parent.GetName(), EL_Utils.GetPrefabName(worldEntity).Substring(1, 16));
 					int duplicate;
-					while(true)
+					while (true)
 					{
-						name = string.Format("%1_%2_%3", parent.GetName(), EL_Utils.GetPrefabName(worldEntity).Substring(1, 16), duplicate);
+						name = string.Format("%1_%2", namePart, duplicate++);
 						// Make sure the name is not already taken, otherwise increment counter of same child prefab type
-						if(!GetGame().FindEntity(name)) break;
-						duplicate++;
+						if (!m_pBakedEntityNameIdMapping.Contains(name)) break;
 					}
 				}
 				else
@@ -417,7 +417,7 @@ class EL_PersistenceManager
 			if (!id)
 			{
 				id = EL_DbEntityIdGenerator.Generate();
-                EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+				EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 				m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
 			}
 		}
@@ -459,7 +459,7 @@ class EL_PersistenceManager
 
 		if (!id) id = GetPersistentId(persistenceComponent);
 
-        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		bool isRoot = settings.m_bStorageRoot && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT);
 		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, isRoot);
 
@@ -469,7 +469,7 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	void UpdateRootStatus(notnull EL_PersistenceComponent persistenceComponent, string id, EL_ESaveType saveType, bool isRootEntity)
 	{
-		switch(saveType)
+		switch (saveType)
 		{
 			case EL_ESaveType.INTERVAL_SHUTDOWN:
 			{
@@ -523,7 +523,7 @@ class EL_PersistenceManager
 
 	//------------------------------------------------------------------------------------------------
 	void UpdateRootEntityCollection(notnull EL_PersistenceComponent persistenceComponent, string id, bool isRootEntity)
-	{	
+	{
 		if (isRootEntity)
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, id, m_eState);
@@ -596,13 +596,13 @@ class EL_PersistenceManager
 	{
 		// Ask for persistent ids. If they were already registerd, they will have them, if not they are registered now.
 
-		foreach(EL_PersistenceComponent persistenceComponent : m_aPendingEntityRegistrations)
+		foreach (EL_PersistenceComponent persistenceComponent : m_aPendingEntityRegistrations)
 		{
 			if (persistenceComponent) persistenceComponent.GetPersistentId();
 		}
 		m_aPendingEntityRegistrations.Clear();
 
-		foreach(EL_PersistentScriptedState scripedState : m_aPendingScriptedStateRegistrations)
+		foreach (EL_PersistentScriptedState scripedState : m_aPendingScriptedStateRegistrations)
 		{
 			if (scripedState) scripedState.GetPersistentId();
 		}
@@ -613,7 +613,7 @@ class EL_PersistenceManager
 	event void OnPostInit(IEntity gameMode)
 	{
 		EL_PersistenceManagerComponent managerComponent = EL_Component<EL_PersistenceManagerComponent>.Find(gameMode);
-        EL_PersistenceManagerComponentClass settings = EL_ComponentData<EL_PersistenceManagerComponentClass>.Get(managerComponent);
+		EL_PersistenceManagerComponentClass settings = EL_ComponentData<EL_PersistenceManagerComponentClass>.Get(managerComponent);
 		if (!settings.m_bEnabled) return;
 		m_fAutoSaveInterval = settings.m_fInterval;
 		m_iAutoSaveIterations = Math.Clamp(settings.m_iIterations, 1, 128);
@@ -656,8 +656,8 @@ class EL_PersistenceManager
 	{
 		SetState(EL_EPersistenceManagerState.WORLD_INIT);
 
-		m_aPendingEntityRegistrations = new array<EL_PersistenceComponent>();
-		m_aPendingScriptedStateRegistrations = new array<EL_PersistentScriptedState>();
+		m_aPendingEntityRegistrations = {};
+		m_aPendingScriptedStateRegistrations = {};
 		m_mRootAutoSave = new map<string, EL_PersistenceComponent>();
 		m_mRootAutoSaveCleanup = new map<string, EL_PersistenceComponent>();
 		m_mRootShutdown = new map<string, EL_PersistenceComponent>();
@@ -677,4 +677,4 @@ class EL_PersistenceManager
 	{
 		s_pInstance = null;
 	}
-}
+};

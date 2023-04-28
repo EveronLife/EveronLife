@@ -1,7 +1,7 @@
 [EL_ComponentSaveDataType(EL_BaseInventoryStorageComponentSaveDataClass, BaseInventoryStorageComponent), BaseContainerProps()]
 class EL_BaseInventoryStorageComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-}
+};
 
 [EL_DbName(EL_BaseInventoryStorageComponentSaveData, "InventoryStorage")]
 class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
@@ -22,10 +22,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 		for (int nSlot = 0, slots = storageComponent.GetSlotsCount(); nSlot < slots; nSlot++)
 		{
-			IEntity slotEntity = storageComponent.Get(nSlot);
-			if (!slotEntity) continue;
-
-			EL_PersistenceComponent slotPersistenceComponent = EL_PersistenceComponent.Cast(slotEntity.FindComponent(EL_PersistenceComponent));
+			EL_PersistenceComponent slotPersistenceComponent = EL_Component<EL_PersistenceComponent>.Find(storageComponent.Get(nSlot));
 			if (!slotPersistenceComponent) continue;
 
 			EL_EntitySaveData saveData = slotPersistenceComponent.Save();
@@ -105,7 +102,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 		return true;
 	}
-}
+};
 
 class EL_PersistentInventoryStorageSlot
 {
@@ -141,4 +138,4 @@ class EL_PersistentInventoryStorageSlot
 
 		return true;
 	}
-}
+};

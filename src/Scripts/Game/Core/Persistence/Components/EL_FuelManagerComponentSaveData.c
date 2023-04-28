@@ -1,7 +1,7 @@
 [EL_ComponentSaveDataType(EL_FuelManagerComponentSaveDataClass, FuelManagerComponent), BaseContainerProps()]
 class EL_FuelManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-}
+};
 
 [EL_DbName(EL_FuelManagerComponentSaveData, "FuelManager")]
 class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
@@ -29,7 +29,15 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 			persistentFuelNode.m_iTankId = fuelNode.GetFuelTankID();
 			persistentFuelNode.m_fFuel = fuelNode.GetFuel();
 
-			if (attributes.m_bTrimDefaults && persistentFuelNode.m_fFuel >= fuelNode.GetMaxFuel()) continue;
+			if (attributes.m_bTrimDefaults)
+			{
+				if (persistentFuelNode.m_fFuel >= fuelNode.GetMaxFuel()) continue;
+
+				float initalFuelState;
+				if (EL_ReflectionUtils<float>.Get(fuelNode, "m_fInitialFuelTankState", initalFuelState) &&
+					float.AlmostEqual(persistentFuelNode.m_fFuel, initalFuelState)) continue;
+			}
+
 			m_aFuelNodes.Insert(persistentFuelNode);
 		}
 
@@ -82,10 +90,10 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 
 		return true;
 	}
-}
+};
 
 class EL_PersistentFuelNode
 {
 	int m_iTankId;
 	float m_fFuel;
-}
+};

@@ -6,6 +6,12 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 	protected bool m_bHasChanges;
 
 	//------------------------------------------------------------------------------------------------
+	bool Contains(string name)
+	{
+		return m_mNameIdMapping.Contains(name);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	void Insert(string name, string id, typename saveDataType)
 	{
 		m_mNameIdMapping.Set(name, new Tuple2<string, typename>(id, saveDataType));
@@ -88,11 +94,11 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 		}
 
 		array<ref EL_BakedEntityNameIdMappingType> types();
-		foreach(auto _, EL_BakedEntityNameIdMappingType type : typeMap)
+		foreach (auto _, EL_BakedEntityNameIdMappingType type : typeMap)
 		{
 			types.Insert(type);
 		}
-		
+
 		saveContext.WriteValue("m_aTypes", types);
 
 		return true;
@@ -118,16 +124,16 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 
 		return true;
 	}
-}
+};
 
 class EL_BakedEntityNameIdMappingType
 {
 	string m_sSaveDataType;
 	ref array<ref EL_BakedEntityNameIdMappingEntry> m_aEntries;
-}
+};
 
 class EL_BakedEntityNameIdMappingEntry
 {
 	string m_sName;
 	string m_sId;
-}
+};
