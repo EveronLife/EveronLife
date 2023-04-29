@@ -394,6 +394,11 @@ class EL_PersistenceManager
 			if (!name)
 			{
 				IEntity parent = worldEntity.GetParent();
+				while (parent && !parent.GetName())
+				{
+					parent = parent.GetParent()
+				}
+
 				if (parent && parent.GetName())
 				{
 					string namePart = string.Format("%1_%2", parent.GetName(), EL_Utils.GetPrefabName(worldEntity).Substring(1, 16));
@@ -402,8 +407,10 @@ class EL_PersistenceManager
 					{
 						name = string.Format("%1_%2", namePart, duplicate++);
 						// Make sure the name is not already taken, otherwise increment counter of same child prefab type
-						if (!m_pBakedEntityNameIdMapping.Contains(name)) break;
+						if (m_pBakedEntityNameIdMapping.m_aBakedNames.Insert(name))
+							break;
 					}
+					
 				}
 				else
 				{
@@ -675,6 +682,7 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected static void Reset()
 	{
+		EL_PersistencePrefabInfo.Reset();
 		s_pInstance = null;
 	}
 };

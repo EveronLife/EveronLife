@@ -1,6 +1,8 @@
 [EL_DbName(EL_PersistentBakedEntityNameIdMapping, "BakedEntityNameIdMapping")]
 class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 {
+	ref set<string> m_aBakedNames = new set<string>();
+
 	ref map<string, ref Tuple2<string, typename>> m_mNameIdMapping = new map<string, ref Tuple2<string, typename>>();
 	protected ref set<string> m_aNamesRequested = new set<string>();
 	protected bool m_bHasChanges;

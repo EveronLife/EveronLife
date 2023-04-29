@@ -157,6 +157,9 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			FlagTransformAsDirty();
 		}
 
+		// Remove any default flag for prefab children, as an explicit load on them indicates they were changed some time.
+		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.BAKED_PREFAB_CHILD);
+
 		SetPersistentId(saveData.GetId());
 
 		IEntity owner = GetOwner();
@@ -190,7 +193,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	//! Save the entity to the database
 	//! \return the save-data instance that was submitted to the database
-	EL_EntitySaveData Save()
+	EL_EntitySaveData Save(out EL_EReadResult readResult = EL_EReadResult.ERROR)
 	{
 		GetPersistentId(); // Make sure the id has been assigned
 
@@ -199,7 +202,6 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		EL_EntitySaveData saveData = EL_EntitySaveData.Cast(settings.m_tSaveDataTypename.Spawn());
-		EL_EReadResult readResult;
 		if (saveData) readResult = saveData.ReadFrom(owner, settings.m_pSaveData);
 		if (!readResult)
 		{
@@ -252,7 +254,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override event void OnPostInit(IEntity owner)
+	override protected event void OnPostInit(IEntity owner)
 	{
 		// Persistence logic only runs on the server
 		if (!EL_PersistenceManager.IsPersistenceMaster()) return;
@@ -326,6 +328,15 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
 		if (invItem) invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
+
+		SetEventMask(owner, EntityEvent.INIT);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override protected void EOnInit(IEntity owner)
+	{
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.INITIALIZED);
+		EL_PersistencePrefabInfo.Finalize(owner);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -374,6 +385,10 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			{
 				FlagTransformAsDirty();
 			}
+
+			// Once moved out, force entire storage to be saved to avoid swapping
+			// of same prefab baked children between different parents
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.BAKED_PREFAB_CHILD);
 		}
 		else
 		{
@@ -385,6 +400,18 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 				// Tracking for movement is only relevant to baked roots.
 				StopTransformDirtyTracking();
+			}
+
+			if (newSlot)
+			{
+				EL_PersistenceComponent parentPersistence = EL_Component<EL_PersistenceComponent>.Find(newSlot.GetOwner());
+				if (parentPersistence && !EL_BitFlags.CheckFlags(parentPersistence.GetFlags(), EL_EPersistenceFlags.INITIALIZED))
+				{
+					if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
+						EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED_PREFAB_CHILD);
+
+					EL_PersistencePrefabInfo.Add(owner, newSlot);
+				}
 			}
 		}
 

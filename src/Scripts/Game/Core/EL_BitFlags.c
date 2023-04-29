@@ -19,8 +19,9 @@ class EL_BitFlags
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static bool CheckFlags(int value, int flags)
+	static bool CheckFlags(int value, int flags, bool exactFlags = false)
 	{
-		return (value & flags) == flags;
+		if (exactFlags) return (value & flags) == flags;
+		return (value & flags);
 	}
-}
+};

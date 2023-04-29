@@ -18,15 +18,20 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 		m_iPriority = storageComponent.GetPriority();
 		m_ePurposeFlags = storageComponent.GetPurpose();
 
-		m_aSlots = new array<ref EL_PersistentInventoryStorageSlot>();
+		m_aSlots = {};
+
+		bool isDefault = true;
+		array<string> defaultPrefabs = GetDefaultPrefabs(storageComponent);
 
 		for (int nSlot = 0, slots = storageComponent.GetSlotsCount(); nSlot < slots; nSlot++)
 		{
 			EL_PersistenceComponent slotPersistenceComponent = EL_Component<EL_PersistenceComponent>.Find(storageComponent.Get(nSlot));
 			if (!slotPersistenceComponent) continue;
 
-			EL_EntitySaveData saveData = slotPersistenceComponent.Save();
-			if (!saveData) return EL_EReadResult.ERROR;
+			EL_EReadResult readResult;
+			EL_EntitySaveData saveData = slotPersistenceComponent.Save(readResult);
+			if (!saveData)
+				return EL_EReadResult.ERROR;
 
 			// Reset transformation data, as that won't be needed for stored entites
 			saveData.m_pTransformation.Reset();
@@ -34,13 +39,35 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			// Remove GarbageManager lifetime until the game fixes it being known for child entities some day.
 			saveData.m_fRemainingLifetime = 0;
 
-			EL_PersistentInventoryStorageSlot slotInfo();
-			slotInfo.m_iSlotId = nSlot;
-			slotInfo.m_pEntity = saveData;
-			m_aSlots.Insert(slotInfo);
+			EL_PersistentInventoryStorageSlot storageSlot();
+			storageSlot.m_iSlotId = nSlot;
+			storageSlot.m_pEntity = saveData;
+
+			if ((readResult == EL_EReadResult.DEFAULT) &&
+				(defaultPrefabs && !defaultPrefabs.IsEmpty()) &&
+				EL_BitFlags.CheckFlags(slotPersistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_PREFAB_CHILD) &&
+				defaultPrefabs.Contains(saveData.m_rPrefab))
+			{
+				defaultPrefabs.RemoveItem(saveData.m_rPrefab);
+			}
+			else
+			{
+				isDefault = false;
+			}
+
+			m_aSlots.Insert(storageSlot);
 		}
 
+		// If any default prefabs are left over, it means some default items are missing -> can not be default
+		if (isDefault && (!defaultPrefabs || defaultPrefabs.IsEmpty())) return EL_EReadResult.DEFAULT;
+
 		return EL_EReadResult.OK;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected array<string> GetDefaultPrefabs(BaseInventoryStorageComponent storageComponent)
+	{
+		return EL_PersistencePrefabInfo.GetPrefabChildren(storageComponent);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -57,47 +84,48 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 		InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(storageComponent.GetOwner().FindComponent(InventoryStorageManagerComponent));
 		if (!storageManager) storageManager = EL_GlobalInventoryStorageManagerComponent.GetInstance();
 
-		array<IEntity> prefabItems();
-		storageComponent.GetAll(prefabItems);
-
+		set<int> processedSlots();
 		foreach (EL_PersistentInventoryStorageSlot slot : m_aSlots)
 		{
-			// Try to use existing items in storage that are part of the prefab
-			bool reUsedPrefabItem = false;
-			foreach (IEntity prefabItem : prefabItems)
-			{
-				if (EL_Utils.GetPrefabName(prefabItem) == slot.m_pEntity.m_rPrefab)
-				{
-					EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(prefabItem);
-					if (persistenceComponent && persistenceComponent.Load(slot.m_pEntity, false))
-					{
-						reUsedPrefabItem = true;
-						prefabItems.RemoveItem(prefabItem);
-						break;
-					}
-				}
-			}
-			if (reUsedPrefabItem) continue;
+			processedSlots.Insert(slot.m_iSlotId);
 
-			// Spawn new entity and insert it if not part of the prefab
-			IEntity slotEntity = slot.m_pEntity.Spawn(false);
-			if (!slotEntity)
+			// Try to use existing items in storage that are part of the prefab
+			IEntity slotEntity = storageComponent.Get(slot.m_iSlotId);
+			if (EL_Utils.GetPrefabName(slotEntity) == slot.m_pEntity.m_rPrefab)
 			{
-				PrintFormat("Failed to spawn storage slot entity prefab '%1'.", slot.m_pEntity.m_rPrefab);
+				EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
+				if (!persistenceComponent || !persistenceComponent.Load(slot.m_pEntity, false))
+				{
+					storageManager.TryDeleteItem(slotEntity);
+				}
+
 				continue;
 			}
+
+			// Slot did not match save-data, delete current entity on it
+			storageManager.TryDeleteItem(slotEntity);
+
+			// Spawn new entity and insert it if not part of the prefab
+			slotEntity = slot.m_pEntity.Spawn(false);
+			if (!slotEntity)
+				continue;
 
 			if (storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId))
 			{
 				// Unable to add it to the storage parent, so put it on the ground at the parent origin
 				EL_Utils.Teleport(slotEntity, storageComponent.GetOwner().GetOrigin(), storageComponent.GetOwner().GetYawPitchRoll()[0]);
 			}
+
+			processedSlots.Insert(slot.m_iSlotId);
 		}
 
-		// Remove all remainin prefab items
-		foreach (IEntity prefabItem : prefabItems)
+		// Remove all remaining prefab items
+		for (int nSlot = 0, slots = storageComponent.GetSlotsCount(); nSlot < slots; nSlot++)
 		{
-			storageManager.TryDeleteItem(prefabItem);
+			if (processedSlots.Contains(nSlot))
+				continue;
+
+			storageManager.TryDeleteItem(storageComponent.Get(nSlot));
 		}
 
 		return true;
