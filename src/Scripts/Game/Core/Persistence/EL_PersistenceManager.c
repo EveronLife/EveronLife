@@ -254,7 +254,7 @@ class EL_PersistenceManager
 		foreach (auto _, EL_PersistenceComponent persistenceComponent : m_mRootAutoSaveCleanup)
 		{
 			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING) ||
-				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT_SAVED)) continue;
+				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD)) continue;
 
 			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 			GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, persistenceComponent.GetPersistentId());
@@ -286,7 +286,7 @@ class EL_PersistenceManager
 		foreach (auto _, EL_PersistenceComponent persistenceComponent : m_mRootShutdownCleanup)
 		{
 			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING) ||
-				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT_SAVED)) continue;
+				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD)) continue;
 
 			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 			GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, persistenceComponent.GetPersistentId());

@@ -1,4 +1,4 @@
-[EL_PersistentScriptedStateSettings(EL_PlayerAccount, EL_PlayerAccountSaveData, saveType: EL_ESaveType.INTERVAL_SHUTDOWN, selfDelete: false)]
+[EL_PersistentScriptedStateSettings(EL_PlayerAccount, EL_PlayerAccountSaveData, saveType: EL_ESaveType.INTERVAL_SHUTDOWN, options: EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER)]
 class EL_PlayerAccount : EL_PersistentScriptedState
 {
 	ref array<string> m_aCharacterIds;

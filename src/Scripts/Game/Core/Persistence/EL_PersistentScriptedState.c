@@ -14,6 +14,9 @@ class EL_PersistentScriptedState
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistentScriptedState, EL_ScriptedStateSaveData> m_pOnAfterLoad;
 
+	[NonSerialized()]
+	private static ref map<EL_PersistentScriptedState, ref EL_ScriptedStateSaveData> m_mLastSaveData;
+
 	//------------------------------------------------------------------------------------------------
 	//! Get the assigned persistent id of this scripted state
 	//! \return the id or empty string if persistence data is deleted and only the instance remains
@@ -92,7 +95,8 @@ class EL_PersistentScriptedState
 	//! Load existing save-data to apply to this scripted state
 	bool Load(notnull EL_ScriptedStateSaveData saveData)
 	{
-		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
+		if (m_pOnBeforeLoad)
+			m_pOnBeforeLoad.Invoke(this, saveData);
 
 		SetPersistentId(saveData.GetId());
 
@@ -102,7 +106,12 @@ class EL_PersistentScriptedState
 			return false;
 		}
 
-		if (m_pOnAfterLoad) m_pOnAfterLoad.Invoke(this, saveData);
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER))
+			m_mLastSaveData.Set(this, saveData);
+
+		if (m_pOnAfterLoad)
+			m_pOnAfterLoad.Invoke(this, saveData);
 
 		return true;
 	}
@@ -138,11 +147,21 @@ class EL_PersistentScriptedState
 			return null;
 		}
 
-		if (m_pOnAfterSave) m_pOnAfterSave.Invoke(this, saveData);
+		if (m_pOnAfterSave)
+			m_pOnAfterSave.Invoke(this, saveData);
 
-		EL_PersistenceManager.GetInstance().GetDbContext().AddOrUpdateAsync(saveData);
+		EL_ScriptedStateSaveData lastData;
+		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER))
+			lastData = m_mLastSaveData.Get(this);
 
-		if (m_pOnAfterPersist) m_pOnAfterPersist.Invoke(this, saveData);
+		if (!lastData || !lastData.Equals(saveData))
+			EL_PersistenceManager.GetInstance().GetDbContext().AddOrUpdateAsync(saveData);
+
+		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER))
+			m_mLastSaveData.Set(this, saveData);
+
+		if (m_pOnAfterPersist)
+			m_pOnAfterPersist.Invoke(this, saveData);
 
 		return saveData;
 	}
@@ -178,12 +197,18 @@ class EL_PersistentScriptedState
 			return;
 		}
 
+		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER) && !m_mLastSaveData)
+			m_mLastSaveData = new map<EL_PersistentScriptedState, ref EL_ScriptedStateSaveData>();
+
 		EL_PersistenceManager.GetInstance().EnqueueForRegistration(this);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void ~EL_PersistentScriptedState()
 	{
+		if (m_mLastSaveData)
+			m_mLastSaveData.Remove(this);
+
 		// Check that we are not in session dtor phase.
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance(false);
 		if (!persistenceManager || (persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)) return;
@@ -192,11 +217,10 @@ class EL_PersistentScriptedState
 
 		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING)) return;
 
-		// Only auto self delete if setting for it is enabled
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
-		if (settings.m_bSelfDelete) Delete();
+		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.SELF_DELETE)) Delete();
 	}
-}
+};
 
 class EL_ScriptedStateSaveData : EL_MetaDataDbEntity
 {
@@ -221,7 +245,22 @@ class EL_ScriptedStateSaveData : EL_MetaDataDbEntity
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, scriptedState);
 	}
-}
+
+	//------------------------------------------------------------------------------------------------
+	//! Compare scriped state save-data instances to see if there is any noteable difference
+	//! \param other scriped state save-data to compare against
+	//! \return true if save-data is considered to describe the same data. False on differences.
+	bool Equals(notnull EL_ScriptedStateSaveData other)
+	{
+		return false;
+	}
+};
+
+enum EL_EPersistentScriptedStateOptions
+{
+	USE_CHANGE_TRACKER	= 1,
+	SELF_DELETE			= 2
+};
 
 class EL_PersistentScriptedStateSettings
 {
@@ -230,7 +269,7 @@ class EL_PersistentScriptedStateSettings
 
 	typename m_tSaveDataType;
 	EL_ESaveType m_eSaveType;
-	bool m_bSelfDelete;
+	EL_EPersistentScriptedStateOptions m_eOptions;
 
 	//------------------------------------------------------------------------------------------------
 	static EL_PersistentScriptedStateSettings Get(typename scriptedStateType)
@@ -253,7 +292,7 @@ class EL_PersistentScriptedStateSettings
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_PersistentScriptedStateSettings(typename scriptedStateType, typename saveDataType, EL_ESaveType saveType = EL_ESaveType.SHUTDOWN, bool selfDelete = true)
+	void EL_PersistentScriptedStateSettings(typename scriptedStateType, typename saveDataType, EL_ESaveType saveType = EL_ESaveType.SHUTDOWN, EL_EPersistentScriptedStateOptions options = 0)
 	{
 		if (!saveDataType.IsInherited(EL_ScriptedStateSaveData))
 		{
@@ -268,9 +307,9 @@ class EL_PersistentScriptedStateSettings
 
 		m_tSaveDataType = saveDataType;
 		m_eSaveType = saveType;
-		m_bSelfDelete = selfDelete;
+		m_eOptions = options;
 
 		s_mSettings.Set(scriptedStateType, this);
 		s_mReverseMapping.Set(saveDataType, scriptedStateType);
 	}
-}
+};

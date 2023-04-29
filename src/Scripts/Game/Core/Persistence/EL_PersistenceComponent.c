@@ -52,7 +52,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterLoad;
 
 	[NonSerialized()]
-	private ref EL_EntitySaveData m_pLastSaveData;
+	private static ref map<EL_PersistenceComponent, ref EL_EntitySaveData> m_mLastSaveData;
 
 	//------------------------------------------------------------------------------------------------
 	//! static helper see GetPersistentId()
@@ -149,7 +149,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		// Restore information if this entity has its own root record in db to avoid unreferenced junk entries.
 		if (spawnAsSavedRoot)
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 
 		// Restore transform info relevant for baked entity record trimming
 		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) &&
@@ -173,7 +173,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		}
 
 		if (settings.m_bUseChangeTracker)
-			m_pLastSaveData = saveData;
+			m_mLastSaveData.Set(this, saveData);
 
 		if (m_pOnAfterLoad)
 			m_pOnAfterLoad.Invoke(this, saveData);
@@ -208,7 +208,9 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		EL_EntitySaveData saveData = EL_EntitySaveData.Cast(settings.m_tSaveDataTypename.Spawn());
-		if (saveData) readResult = saveData.ReadFrom(owner, settings.m_pSaveData);
+		if (saveData)
+			readResult = saveData.ReadFrom(owner, settings.m_pSaveData);
+
 		if (!readResult)
 		{
 			Debug.Error(string.Format("Failed to persist world entity '%1'@%2. Save-data could not be read.",
@@ -217,24 +219,30 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			return null;
 		}
 
-		if (m_pOnAfterSave) m_pOnAfterSave.Invoke(this, saveData);
+		if (m_pOnAfterSave)
+			m_pOnAfterSave.Invoke(this, saveData);
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-		bool isPersistent = EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
+		bool isPersistent = EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 
 		// Save root entities unless they are baked AND only have default values,
 		// cause then we do not need the record to restore - as the ids will be
 		// known through the name mapping table instead.
+		bool wasPersisted;
 		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) &&
 			(!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) || readResult == EL_EReadResult.OK))
 		{
 			// Check if the update is really needed
-			if (!isPersistent || !settings.m_bUseChangeTracker || !m_pLastSaveData || !m_pLastSaveData.Equals(saveData))
+			EL_EntitySaveData lastData;
+			if (settings.m_bUseChangeTracker)
+				lastData = m_mLastSaveData.Get(this);
+
+			if (!isPersistent || !lastData || !lastData.Equals(saveData))
 			{
 				persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
-				EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
-				if (m_pOnAfterPersist) m_pOnAfterPersist.Invoke(this, saveData);
+				EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
+				wasPersisted = true;
 			}
 		}
 		else if (isPersistent)
@@ -242,11 +250,14 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
 			// The save-data will be present inside the storage parent instead.
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
-			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 		}
 
 		if (settings.m_bUseChangeTracker)
-			m_pLastSaveData = saveData;
+			m_mLastSaveData.Set(this, saveData);
+
+		if (m_pOnAfterPersist && wasPersisted)
+			m_pOnAfterPersist.Invoke(this, saveData);
 
 		return saveData;
 	}
@@ -255,13 +266,13 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//! Delete the persistence data of this entity. Does not delete the entity itself.
 	void Delete()
 	{
-		if (m_sId && EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
+		if (m_sId && EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD))
 		{
 			// Only attempt to delete if there is a chance it was already saved as own entity in db
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
-			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 		}
 
 		m_sId = string.Empty;
@@ -318,6 +329,9 @@ sealed class EL_PersistenceComponent : ScriptComponent
 				}
 			}
 			settings.m_pSaveData.m_aComponents = sortedComponents;
+
+			if (settings.m_bUseChangeTracker && !m_mLastSaveData)
+				m_mLastSaveData = new map<EL_PersistenceComponent, ref EL_EntitySaveData>();
 		}
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
@@ -441,6 +455,9 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	{
 		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
 		if (invItem) invItem.m_OnParentSlotChangedInvoker.Remove(OnParentSlotChanged);
+
+		if (m_mLastSaveData)
+			m_mLastSaveData.Remove(this);
 
 		// Check that we are not in session dtor phase
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance(false);
