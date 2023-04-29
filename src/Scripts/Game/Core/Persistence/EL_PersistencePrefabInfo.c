@@ -81,7 +81,8 @@ class EL_PersistencePrefabInfo
 	//------------------------------------------------------------------------------------------------
 	protected static string GetPrefabOrBakedName(IEntity entity)
 	{
-		string name = EL_Utils.GetPrefabName(entity);
+		// Using prefab name will tell us if the entity is fully prefabbed or there are any adjustments
+		string name = entity.GetPrefabData().GetPrefabName();
 		if (!name)
 			name = entity.GetName();
 
