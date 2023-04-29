@@ -80,8 +80,17 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		if (attributes.m_bSaveRemainingLifetime)
 		{
 			GarbageManager garbageManager = GetGame().GetGarbageManager();
-			if (garbageManager) m_fRemainingLifetime = garbageManager.GetRemainingLifetime(worldEntity);
-			if (m_fRemainingLifetime > 0) resultCode = EL_EReadResult.OK;
+			if (garbageManager)
+				m_fRemainingLifetime = garbageManager.GetRemainingLifetime(worldEntity);
+
+			if (m_fRemainingLifetime == -1)
+			{
+				m_fRemainingLifetime = 0;
+			}
+			else if (m_fRemainingLifetime > 0)
+			{
+				resultCode = EL_EReadResult.OK;
+			}
 		}
 
 		// Components
@@ -157,6 +166,63 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Update any non character entity. On character this can cause fall through ground.
 		if (!ChimeraCharacter.Cast(worldEntity)) worldEntity.Update();
+
+		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Compare entity save-data instances to see if there is any noteable difference
+	//! \param other entity save-data to compare against
+	//! \return true if save-data is considered to describe the same data. False on differences.
+	bool Equals(notnull EL_EntitySaveData other)
+	{
+		// Same prefab?
+		if (m_rPrefab != other.m_rPrefab)
+			return false;
+
+		// Same transformation?
+		if ((vector.Distance(m_pTransformation.m_vOrigin, other.m_pTransformation.m_vOrigin) > 0.0001) ||
+			(vector.Distance(m_pTransformation.m_vAngles, other.m_pTransformation.m_vAngles) > 0.0001) ||
+			((m_pTransformation.m_fScale != float.INFINITY || other.m_pTransformation.m_fScale != float.INFINITY) &&
+				!float.AlmostEqual(m_pTransformation.m_fScale, other.m_pTransformation.m_fScale)))
+		{
+			return false;
+		}
+
+		// Same lifetime?
+		if (m_fRemainingLifetime != other.m_fRemainingLifetime)
+			return false;
+
+		// See if we can match all component save-data instances
+		foreach (typename saveDataType, array<ref EL_ComponentSaveData> components : m_mComponentsSaveData)
+		{
+			array<ref EL_ComponentSaveData> otherComponents = other.m_mComponentsSaveData.Get(saveDataType);
+			if (!otherComponents || otherComponents.Count() != components.Count())
+				return false;
+
+			foreach (int idx, EL_ComponentSaveData componentSaveData : components)
+			{
+				// Try same index first as they are likely to be the correct ones.
+				if (componentSaveData.Equals(otherComponents.Get(idx)))
+					continue;
+
+				bool found;
+				foreach (int compareIdx, EL_ComponentSaveData otherComponent : otherComponents)
+				{
+					if (compareIdx == idx)
+						continue; // Already tried in idx direct compare
+
+					if (componentSaveData.Equals(otherComponent))
+					{
+						found = true;
+						break;
+					}
+				}
+
+				if (!found)
+					return false; //Unable to find any matching component save-data
+			}
+		}
 
 		return true;
 	}

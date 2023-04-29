@@ -1,7 +1,7 @@
 [EL_ComponentSaveDataType(EL_BaseMagazineComponentSaveDataClass, BaseMagazineComponent), BaseContainerProps()]
 class EL_BaseMagazineComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-}
+};
 
 [EL_DbName(EL_BaseMagazineComponentSaveData, "Magazine")]
 class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
@@ -26,4 +26,11 @@ class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 		magazine.SetAmmoCount(m_iAmmoCount);
 		return true;
 	}
-}
+
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_BaseMagazineComponentSaveData otherData = EL_BaseMagazineComponentSaveData.Cast(other);
+		return m_iAmmoCount == otherData.m_iAmmoCount;
+	}
+};

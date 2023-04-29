@@ -185,26 +185,25 @@ class EL_DbEntitySorter
 	protected static void GetSortValue(Class instance, array<string> fieldSplits, int currentIndex, out string sortValue, out typename valueType)
 	{
 		string currentFieldName = fieldSplits.Get(currentIndex);
-		typename type = instance.Type();
-		int vIdx = GetVIdx(type, currentFieldName);
-		valueType = type.GetVariableType(vIdx);
+		EL_ReflectionVariableInfo variableinfo = EL_ReflectionVariableInfo.Get(instance, currentFieldName);
+		valueType = variableinfo.m_tVaribleType;
 
 		// Expand nested object
 		if (currentIndex < fieldSplits.Count() - 1)
 		{
 			if (valueType.IsInherited(array) || valueType.IsInherited(set) || valueType.IsInherited(map))
 			{
-				Debug.Error(string.Format("Can not get sort value from collection type '%1' on '%2.%3'", valueType, type, currentFieldName));
+				Debug.Error(string.Format("Can not get sort value from collection type '%1' on '%2.%3'", valueType, variableinfo.m_tHolderType, currentFieldName));
 				return;
 			}
 			else if (!valueType.IsInherited(Class))
 			{
-				Debug.Error(string.Format("Can not expand primitive type '%1' on '%2.%3' to read field '%4'", valueType, type, currentFieldName, fieldSplits.Get(currentIndex + 1)));
+				Debug.Error(string.Format("Can not expand primitive type '%1' on '%2.%3' to read field '%4'", valueType, variableinfo.m_tHolderType, currentFieldName, fieldSplits.Get(currentIndex + 1)));
 				return;
 			}
 
 			Class complexHolder;
-			if (!type.GetVariableValue(instance, vIdx, complexHolder)) return;
+			if (!variableinfo.m_tHolderType.GetVariableValue(instance, variableinfo.m_iVariableindex, complexHolder)) return;
 			GetSortValue(complexHolder, fieldSplits, currentIndex + 1, sortValue, valueType);
 		}
 
@@ -214,7 +213,7 @@ class EL_DbEntitySorter
 			case int:
 			{
 				int outVal;
-				if (!type.GetVariableValue(instance, vIdx, outVal)) return;
+				if (!variableinfo.m_tHolderType.GetVariableValue(instance, variableinfo.m_iVariableindex, outVal)) return;
 				sortValue = outVal.ToString();
 				return;
 			}
@@ -222,7 +221,7 @@ class EL_DbEntitySorter
 			case float:
 			{
 				float outVal;
-				if (!type.GetVariableValue(instance, vIdx, outVal)) return;
+				if (!variableinfo.m_tHolderType.GetVariableValue(instance, variableinfo.m_iVariableindex, outVal)) return;
 				sortValue = outVal.ToString();
 				return;
 			}
@@ -230,41 +229,26 @@ class EL_DbEntitySorter
 			case bool:
 			{
 				bool outVal;
-				if (!type.GetVariableValue(instance, vIdx, outVal)) return;
+				if (!variableinfo.m_tHolderType.GetVariableValue(instance, variableinfo.m_iVariableindex, outVal)) return;
 				sortValue = outVal.ToString();
 				return;
 			}
 
 			case string:
 			{
-				if (!type.GetVariableValue(instance, vIdx, sortValue)) return;
+				if (!variableinfo.m_tHolderType.GetVariableValue(instance, variableinfo.m_iVariableindex, sortValue)) return;
 				return;
 			}
 
 			case vector:
 			{
 				vector outVal;
-				if (!type.GetVariableValue(instance, vIdx, outVal)) return;
+				if (!variableinfo.m_tHolderType.GetVariableValue(instance, variableinfo.m_iVariableindex, outVal)) return;
 				sortValue = outVal.ToString(false);
 				return;
 			}
 		}
 
 		Debug.Error(string.Format("Can not sort entity collection by field '%1' with non sortable type '%2'.", currentFieldName, valueType));
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected static int GetVIdx(typename type, string fieldName)
-	{
-		for (int vIdx = 0; vIdx < type.GetVariableCount(); vIdx++)
-		{
-			string variableName = type.GetVariableName(vIdx);
-
-			if (!variableName) break;
-
-			if (variableName == fieldName) return vIdx;
-		}
-
-		return -1;
 	}
 }

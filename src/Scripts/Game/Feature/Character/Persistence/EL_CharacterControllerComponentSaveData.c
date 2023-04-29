@@ -1,7 +1,7 @@
 [EL_ComponentSaveDataType(EL_CharacterControllerComponentSaveDataClass, CharacterControllerComponent), BaseContainerProps()]
 class EL_CharacterControllerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-}
+};
 
 [EL_DbName(EL_CharacterControllerComponentSaveData, "CharacterController")]
 class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
@@ -67,9 +67,21 @@ class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 		if (leftHandEntity)
 		{
 			SCR_GadgetManagerComponent gadgetMgr = SCR_GadgetManagerComponent.GetGadgetManager(characterController.GetOwner());
-			if (gadgetMgr) gadgetMgr.HandleInput(leftHandEntity, 1);
+			if (gadgetMgr)
+				gadgetMgr.HandleInput(leftHandEntity, 1);
 		}
 
 		return true;
 	}
-}
+
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_CharacterControllerComponentSaveData otherData = EL_CharacterControllerComponentSaveData.Cast(other);
+		return m_eStance == otherData.m_eStance &&
+			m_sLeftHandItemId == otherData.m_sLeftHandItemId &&
+			m_sRightHandItemId == otherData.m_sRightHandItemId &&
+			m_eRightHandType == otherData.m_eRightHandType &&
+			m_bRightHandRaised == otherData.m_bRightHandRaised;
+	}
+};

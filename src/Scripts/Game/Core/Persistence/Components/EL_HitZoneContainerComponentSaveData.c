@@ -3,7 +3,7 @@ class EL_HitZoneContainerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 	[Attribute(desc: "If set, only the explictly selected hitzones are persisted.")]
 	ref array<string> m_aHitzoneFilter;
-}
+};
 
 [EL_DbName(EL_HitZoneContainerComponentSaveData, "HitZoneContainer")]
 class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
@@ -16,7 +16,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 		EL_HitZoneContainerComponentSaveDataClass settings = EL_HitZoneContainerComponentSaveDataClass.Cast(attributes);
 		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(worldEntityComponent);
 
-		m_aHitzones = new array<ref EL_PersistentHitZone>();
+		m_aHitzones = {};
 
 		array<HitZone> outHitZones();
 		hitZoneContainer.GetAllHitZones(outHitZones);
@@ -81,10 +81,50 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 
 		return true;
 	}
-}
+
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_HitZoneContainerComponentSaveData otherData = EL_HitZoneContainerComponentSaveData.Cast(other);
+
+		if (m_aHitzones.Count() != otherData.m_aHitzones.Count())
+			return false;
+
+		foreach (int idx, EL_PersistentHitZone hitZone : m_aHitzones)
+		{
+			// Try same index first as they are likely to be the correct ones.
+			if (hitZone.Equals(otherData.m_aHitzones.Get(idx)))
+				continue;
+
+			bool found;
+			foreach (int compareIdx, EL_PersistentHitZone otherhitZone : otherData.m_aHitzones)
+			{
+				if (compareIdx == idx)
+					continue; // Already tried in idx direct compare
+
+				if (hitZone.Equals(otherhitZone))
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				return false;
+		}
+
+		return true;
+	}
+};
 
 class EL_PersistentHitZone
 {
 	string m_sName;
 	float m_fHealth;
-}
+
+	//------------------------------------------------------------------------------------------------
+	bool Equals(notnull EL_PersistentHitZone other)
+	{
+		return m_sName == other.m_sName && float.AlmostEqual(m_fHealth, other.m_fHealth);
+	}
+};

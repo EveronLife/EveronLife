@@ -1,40 +1,102 @@
-class EL_ReflectionUtils<Class T>
+enum EL_ReflectionVariableType
 {
-	protected static ref map<string, int> s_mIdxCache;
+	NONE,
+	ARRAY,
+	SET,
+	MAP
+};
+
+class EL_ReflectionVariableInfo
+{
+	protected static ref map<string, ref EL_ReflectionVariableInfo> s_mTypeCache;
+
+	int m_iVariableindex;
+	typename m_tVaribleType;
+	typename m_tHolderType;
+	typename m_tCollectionKeyType;
+	typename m_tCollectionValueType;
+	EL_ReflectionVariableType m_eCollectionType;
 
 	//------------------------------------------------------------------------------------------------
-	static bool Get(notnull Class instance, string variableName, out T value)
+	static EL_ReflectionVariableInfo Get(notnull Class instance, string fieldName)
 	{
+		if (!s_mTypeCache)
+			s_mTypeCache = new map<string, ref EL_ReflectionVariableInfo>();
+
 		typename type = instance.Type();
-		int vIdx = GetVIdx(type, variableName);
-		return type.GetVariableValue(instance, vIdx, value);
-	}
-
-	//TODO: Add Set() via Json serializer
-	
-	//------------------------------------------------------------------------------------------------
-	static int GetVIdx(typename type, string fieldName)
-	{
-		int idx;
-
-		if (!s_mIdxCache)
-			s_mIdxCache = new map<string, int>();
-
-		string key = type.ToString() + "::" + fieldName;
-		if (!s_mIdxCache.Find(key, idx))
+		string typeCacheKey = string.Format("%1::%2", type.ToString(), fieldName);
+		EL_ReflectionVariableInfo info = s_mTypeCache.Get(typeCacheKey);
+		if (!info)
 		{
-			idx = -1;
 			for (int vIdx = 0; vIdx < type.GetVariableCount(); vIdx++)
 			{
 				if (type.GetVariableName(vIdx) == fieldName)
 				{
-					idx = vIdx;
-					s_mIdxCache.Set(key, idx);
+					info = new EL_ReflectionVariableInfo(vIdx, type.GetVariableType(vIdx), type);
+					s_mTypeCache.Set(typeCacheKey, info);
 					break;
 				}
 			}
 		}
 
-		return idx;
+		return info;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void EL_ReflectionVariableInfo(int variableIndex, typename variableType, typename holderType)
+	{
+		m_iVariableindex = variableIndex;
+		m_tVaribleType = variableType;
+		m_tHolderType = holderType;
+
+		if (m_tVaribleType.IsInherited(array) || m_tVaribleType.IsInherited(set))
+		{
+			if (m_tVaribleType.IsInherited(array))
+			{
+				m_eCollectionType = EL_ReflectionVariableType.ARRAY;
+			}
+			else
+			{
+				m_eCollectionType = EL_ReflectionVariableType.SET;
+			}
+
+			string typeString = m_tVaribleType.ToString();
+			typeString.Replace("@", "");
+
+			int templateStart = typeString.IndexOf("<") + 1;
+			string collectionValueTypeString = typeString.Substring(templateStart, typeString.Length() - templateStart - 1);
+			m_tCollectionValueType = collectionValueTypeString.ToType();
+		}
+		else if (m_tVaribleType.IsInherited(map))
+		{
+			m_eCollectionType = EL_ReflectionVariableType.MAP;
+
+			string typeString = m_tVaribleType.ToString();
+			typeString.Replace("@", "");
+
+			int keyTypeStart = typeString.IndexOf("<") + 1;
+			int valueTypeStart = typeString.IndexOfFrom(keyTypeStart, ",") + 1;
+
+			string collectionKeyTypeString = typeString.Substring(keyTypeStart, valueTypeStart - keyTypeStart - 1);
+			m_tCollectionKeyType = collectionKeyTypeString.ToType();
+
+			string collectionValueTypeString = typeString.Substring(valueTypeStart, typeString.Length() - valueTypeStart - 1);
+			m_tCollectionValueType = collectionValueTypeString.ToType();
+		}
+	}
+};
+
+class EL_ReflectionUtils<Class T>
+{
+	//------------------------------------------------------------------------------------------------
+	static bool Get(notnull Class instance, string variableName, out T value)
+	{
+		EL_ReflectionVariableInfo info = EL_ReflectionVariableInfo.Get(instance, variableName);
+		if (!info)
+			return false;
+		return info.m_tVaribleType.GetVariableValue(instance, info.m_iVariableindex, value);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//TODO: Add Set() via Json serializer
 };

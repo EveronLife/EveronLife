@@ -7,7 +7,7 @@ enum EL_DbFindFieldPathSegmentFlags
 	KEYS = 16,
 	VALUES = 32,
 	COUNT = 64
-}
+};
 
 class EL_DbFindFieldPathSegment
 {
@@ -20,106 +20,7 @@ class EL_DbFindFieldPathSegment
 		m_sFieldName = fieldName;
 		m_iFlags = flags;
 	}
-}
-
-enum EL_DbFindFieldCollectionType
-{
-	NONE,
-	ARRAY,
-	SET,
-	MAP
-}
-
-class EL_DbFindFieldTypeInfo
-{
-	protected static ref map<string, ref EL_DbFindFieldTypeInfo> s_mTypeCache;
-
-	int m_iVariableindex;
-	typename m_tType;
-	typename m_tCollectionKeyType;
-	typename m_tCollectionValueType;
-	EL_DbFindFieldCollectionType m_eCollectionType;
-
-	//------------------------------------------------------------------------------------------------
-	static EL_DbFindFieldTypeInfo Get(Class instance, string fieldName)
-	{
-		if (!s_mTypeCache)
-		{
-			s_mTypeCache = new map<string, ref EL_DbFindFieldTypeInfo>();
-		}
-
-		string typeCacheKey = string.Format("%1::%2", instance.Type().ToString(), fieldName);
-
-		EL_DbFindFieldTypeInfo info = s_mTypeCache.Get(typeCacheKey);
-
-		if (!info)
-		{
-			typename type = instance.Type();
-
-			for (int vIdx = 0; vIdx < type.GetVariableCount(); vIdx++)
-			{
-				string variableName = type.GetVariableName(vIdx);
-
-				if (!variableName) break;
-
-				if (variableName == fieldName)
-				{
-					info = new EL_DbFindFieldTypeInfo(vIdx, type.GetVariableType(vIdx));
-					break;
-				}
-			}
-
-			if (info)
-			{
-				s_mTypeCache.Set(typeCacheKey, info);
-			}
-		}
-
-		return info;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void EL_DbFindFieldTypeInfo(int variableIndex, typename type)
-	{
-		m_iVariableindex = variableIndex;
-		m_tType = type;
-
-		if (m_tType.IsInherited(array) || m_tType.IsInherited(set))
-		{
-			if (m_tType.IsInherited(array))
-			{
-				m_eCollectionType = EL_DbFindFieldCollectionType.ARRAY;
-			}
-			else
-			{
-				m_eCollectionType = EL_DbFindFieldCollectionType.SET;
-			}
-
-			string typeString = m_tType.ToString();
-			typeString.Replace("@", "");
-
-			int templateStart = typeString.IndexOf("<") + 1;
-			string collectionValueTypeString = typeString.Substring(templateStart, typeString.Length() - templateStart - 1);
-			m_tCollectionValueType = collectionValueTypeString.ToType();
-		}
-		else if (m_tType.IsInherited(map))
-		{
-			m_eCollectionType = EL_DbFindFieldCollectionType.MAP;
-
-			string typeString = m_tType.ToString();
-			typeString.Replace("@", "");
-
-			int keyTypeStart = typeString.IndexOf("<") + 1;
-			int valueTypeStart = typeString.IndexOfFrom(keyTypeStart, ",") + 1;
-
-			string collectionKeyTypeString = typeString.Substring(keyTypeStart, valueTypeStart - keyTypeStart - 1);
-			m_tCollectionKeyType = collectionKeyTypeString.ToType();
-
-			string collectionValueTypeString = typeString.Substring(valueTypeStart, typeString.Length() - valueTypeStart - 1);
-			m_tCollectionValueType = collectionValueTypeString.ToType();
-		}
-	}
-}
+};
 
 class EL_DbFindConditionEvaluator
 {
@@ -142,7 +43,7 @@ class EL_DbFindConditionEvaluator
 	//------------------------------------------------------------------------------------------------
 	static bool Evaluate(notnull EL_DbEntity entity, notnull EL_DbFindCondition condition)
 	{
-		switch(condition.Type())
+		switch (condition.Type())
 		{
 			case EL_DbFindAnd:
 			{
@@ -252,22 +153,22 @@ class EL_DbFindConditionEvaluator
 		}
 
 		EL_DbFindFieldPathSegment currentSegment = pathSegments.Get(currentSegmentIndex);
-		EL_DbFindFieldTypeInfo typeInfo = EL_DbFindFieldTypeInfo.Get(instance, currentSegment.m_sFieldName);
+		EL_ReflectionVariableInfo variableInfo = EL_ReflectionVariableInfo.Get(instance, currentSegment.m_sFieldName);
 
 		// Expand complex/collection type as this is not yet the final path segment
 		if (currentSegmentIndex < pathSegments.Count() - 1)
 		{
-			if (typeInfo.m_tType.IsInherited(Class))
+			if (variableInfo.m_tVaribleType.IsInherited(Class))
 			{
 				Class complexFieldValue;
-				if (!instance.Type().GetVariableValue(instance, typeInfo.m_iVariableindex, complexFieldValue))
+				if (!instance.Type().GetVariableValue(instance, variableInfo.m_iVariableindex, complexFieldValue))
 				{
-					Debug.Error(string.Format("Failed to read field '%1' of type '%2' on '%3'.", currentSegment.m_sFieldName, typeInfo.m_tType, instance));
+					Debug.Error(string.Format("Failed to read field '%1' of type '%2' on '%3'.", currentSegment.m_sFieldName, variableInfo.m_tVaribleType, instance));
 					return false;
 				}
 
 				// Expand collections
-				if (typeInfo.m_eCollectionType != EL_DbFindFieldCollectionType.NONE)
+				if (variableInfo.m_eCollectionType != EL_ReflectionVariableType.NONE)
 				{
 					int collectionCount;
 					GetGame().GetScriptModule().Call(complexFieldValue, "Count", false, collectionCount);
@@ -293,7 +194,7 @@ class EL_DbFindConditionEvaluator
 
 						if (collectionStartIndex >= collectionCount)
 						{
-							Debug.Error(string.Format("Tried to access ilegal collection index '%1' of type '%2' on '%3'. Collection only contained '%4' items.", collectionStartIndex, typeInfo.m_tType, instance, collectionCount));
+							Debug.Error(string.Format("Tried to access ilegal collection index '%1' of type '%2' on '%3'. Collection only contained '%4' items.", collectionStartIndex, variableInfo.m_tVaribleType, instance, collectionCount));
 							return false;
 						}
 
@@ -308,7 +209,7 @@ class EL_DbFindConditionEvaluator
 						string getFnc = "Get";
 
 						// Access n-th map element by key(default) or value
-						if (typeInfo.m_eCollectionType == EL_DbFindFieldCollectionType.MAP)
+						if (variableInfo.m_eCollectionType == EL_ReflectionVariableType.MAP)
 						{
 							if (currentSegment.m_iFlags & EL_DbFindFieldPathSegmentFlags.VALUES) //Only if Values() was explicitly set
 							{
@@ -355,64 +256,64 @@ class EL_DbFindConditionEvaluator
 			}
 			else
 			{
-				Debug.Error(string.Format("Reading field '%1' of a primtive type '%2' on '%3' is not possible.", currentSegment.m_sFieldName, typeInfo.m_tType, instance));
+				Debug.Error(string.Format("Reading field '%1' of a primtive type '%2' on '%3' is not possible.", currentSegment.m_sFieldName, variableInfo.m_tVaribleType, instance));
 				return false;
 			}
 		}
 
 		// Apply condition to result field value
-		switch(fieldCondition.Type())
+		switch (fieldCondition.Type())
 		{
 			case EL_DbFindCheckFieldNull:
 			{
-				if (typeInfo.m_tType.IsInherited(Class))
+				if (variableInfo.m_tVaribleType.IsInherited(Class))
 				{
 					Class fieldValue;
-					if (!instance.Type().GetVariableValue(instance, typeInfo.m_iVariableindex, fieldValue)) return false;
+					if (!instance.Type().GetVariableValue(instance, variableInfo.m_iVariableindex, fieldValue)) return false;
 					return fieldValue == null;
 				}
 
-				Debug.Error(string.Format("Can no null check field '%1' of a primtive type '%2' on '%3' is not possible.", currentSegment.m_sFieldName, typeInfo.m_tType, instance));
+				Debug.Error(string.Format("Can no null check field '%1' of a primtive type '%2' on '%3' is not possible.", currentSegment.m_sFieldName, variableInfo.m_tVaribleType, instance));
 				return false;
 			}
 
 			case EL_DbFindCheckFieldEmpty:
 			{
-				switch(typeInfo.m_tType)
+				switch (variableInfo.m_tVaribleType)
 				{
-					case int: return EL_DbFindFielEmptyChecker<int>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
-					case float: return EL_DbFindFielEmptyChecker<float>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
-					case bool: return EL_DbFindFielEmptyChecker<bool>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
-					case string: return EL_DbFindFielEmptyChecker<string>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
-					case vector: return EL_DbFindFielEmptyChecker<vector>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+					case int: return EL_DbFindFielEmptyChecker<int>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, variableInfo);
+					case float: return EL_DbFindFielEmptyChecker<float>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, variableInfo);
+					case bool: return EL_DbFindFielEmptyChecker<bool>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, variableInfo);
+					case string: return EL_DbFindFielEmptyChecker<string>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, variableInfo);
+					case vector: return EL_DbFindFielEmptyChecker<vector>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, variableInfo);
 				}
 
-				return EL_DbFindFielEmptyChecker<Class>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, typeInfo);
+				return EL_DbFindFielEmptyChecker<Class>.Evaluate(instance, EL_DbFindCheckFieldEmpty.Cast(fieldCondition), currentSegment, variableInfo);
 			}
 
 			case EL_DbFindFieldIntMultiple:
 			{
-				return EL_DbFindFieldValueTypedEvaluator<int>.Evaluate(instance, EL_DbFindFieldIntMultiple.Cast(fieldCondition), currentSegment, typeInfo);
+				return EL_DbFindFieldValueTypedEvaluator<int>.Evaluate(instance, EL_DbFindFieldIntMultiple.Cast(fieldCondition), currentSegment, variableInfo);
 			}
 
 			case EL_DbFindFieldFloatMultiple:
 			{
-				return EL_DbFindFieldValueTypedEvaluator<float>.Evaluate(instance, EL_DbFindFieldFloatMultiple.Cast(fieldCondition), currentSegment, typeInfo);
+				return EL_DbFindFieldValueTypedEvaluator<float>.Evaluate(instance, EL_DbFindFieldFloatMultiple.Cast(fieldCondition), currentSegment, variableInfo);
 			}
 
 			case EL_DbFindFieldBoolMultiple:
 			{
-				return EL_DbFindFieldValueTypedEvaluator<bool>.Evaluate(instance, EL_DbFindFieldBoolMultiple.Cast(fieldCondition), currentSegment, typeInfo);
+				return EL_DbFindFieldValueTypedEvaluator<bool>.Evaluate(instance, EL_DbFindFieldBoolMultiple.Cast(fieldCondition), currentSegment, variableInfo);
 			}
 
 			case EL_DbFindFieldStringMultiple:
 			{
-				return EL_DbFindFieldValueTypedEvaluator<string>.Evaluate(instance, EL_DbFindFieldStringMultiple.Cast(fieldCondition), currentSegment, typeInfo);
+				return EL_DbFindFieldValueTypedEvaluator<string>.Evaluate(instance, EL_DbFindFieldStringMultiple.Cast(fieldCondition), currentSegment, variableInfo);
 			}
 
 			case EL_DbFindFieldVectorMultiple:
 			{
-				return EL_DbFindFieldValueTypedEvaluator<vector>.Evaluate(instance, EL_DbFindFieldVectorMultiple.Cast(fieldCondition), currentSegment, typeInfo);
+				return EL_DbFindFieldValueTypedEvaluator<vector>.Evaluate(instance, EL_DbFindFieldVectorMultiple.Cast(fieldCondition), currentSegment, variableInfo);
 			}
 
 			default:
@@ -425,12 +326,12 @@ class EL_DbFindConditionEvaluator
 		// Fall through
 		return false;
 	}
-}
+};
 
 class EL_DbFindFielEmptyChecker<Class TValueType>
 {
 	//------------------------------------------------------------------------------------------------
-	static bool Evaluate(Class instance, EL_DbFindCheckFieldEmpty valueCondition, EL_DbFindFieldPathSegment currentSegment, EL_DbFindFieldTypeInfo fieldInfo)
+	static bool Evaluate(Class instance, EL_DbFindCheckFieldEmpty valueCondition, EL_DbFindFieldPathSegment currentSegment, EL_ReflectionVariableInfo fieldInfo)
 	{
 		TValueType fieldValue;
 		if (!instance.Type().GetVariableValue(instance, fieldInfo.m_iVariableindex, fieldValue)) return false;
@@ -481,12 +382,12 @@ class EL_DbFindFielEmptyChecker<Class TValueType>
 
 		return value == null;
 	}
-}
+};
 
 class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 {
 	//------------------------------------------------------------------------------------------------
-	static bool Evaluate(Class instance, EL_DbFindCompareFieldValues<TValueType> valueCondition, EL_DbFindFieldPathSegment currentSegment, EL_DbFindFieldTypeInfo fieldInfo)
+	static bool Evaluate(Class instance, EL_DbFindCompareFieldValues<TValueType> valueCondition, EL_DbFindFieldPathSegment currentSegment, EL_ReflectionVariableInfo fieldInfo)
 	{
 		typename valueType = TValueType;
 
@@ -499,7 +400,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 		PreprocessComparisonValues(valueCondition.m_eComparisonOperator, valueCondition.m_aComparisonValues);
 
 		// Handle collection comparison
-		if (fieldInfo.m_eCollectionType != EL_DbFindFieldCollectionType.NONE)
+		if (fieldInfo.m_eCollectionType != EL_ReflectionVariableType.NONE)
 		{
 			Class collectionHolder;
 			if (!instance.Type().GetVariableValue(instance, fieldInfo.m_iVariableindex, collectionHolder)) return false;
@@ -525,7 +426,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 
 				string getFnc = "Get";
 
-				if (fieldInfo.m_eCollectionType == EL_DbFindFieldCollectionType.MAP)
+				if (fieldInfo.m_eCollectionType == EL_ReflectionVariableType.MAP)
 				{
 					if (currentSegment.m_iFlags & EL_DbFindFieldPathSegmentFlags.VALUES) //Only if Values() was explicitly set
 					{
@@ -579,7 +480,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	//------------------------------------------------------------------------------------------------
 	protected static void PreprocessComparisonValues(EL_EDbFindOperator operator, array<string> comparisonValues)
 	{
-		foreach(int idx, string comparisonValue : comparisonValues)
+		foreach (int idx, string comparisonValue : comparisonValues)
 		{
 			comparisonValue.ToLower();
 			comparisonValues.Set(idx, comparisonValue);
@@ -598,7 +499,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	//------------------------------------------------------------------------------------------------
 	protected static bool Compare(int fieldValue, EL_EDbFindOperator operator, array<int> comparisonValues)
 	{
-		switch(operator)
+		switch (operator)
 		{
 			case EL_EDbFindOperator.CONTAINS:
 			case EL_EDbFindOperator.EQUAL:
@@ -659,7 +560,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	//------------------------------------------------------------------------------------------------
 	protected static bool Compare(float fieldValue, EL_EDbFindOperator operator, array<float> comparisonValues)
 	{
-		switch(operator)
+		switch (operator)
 		{
 			case EL_EDbFindOperator.CONTAINS:
 			case EL_EDbFindOperator.EQUAL:
@@ -730,7 +631,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	//------------------------------------------------------------------------------------------------
 	protected static bool Compare(bool fieldValue, EL_EDbFindOperator operator, array<bool> comparisonValues)
 	{
-		switch(operator)
+		switch (operator)
 		{
 			case EL_EDbFindOperator.CONTAINS:
 			case EL_EDbFindOperator.EQUAL:
@@ -753,7 +654,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	{
 		fieldValue.ToLower();
 
-		switch(operator)
+		switch (operator)
 		{
 			case EL_EDbFindOperator.EQUAL:
 			{
@@ -792,7 +693,7 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 	//------------------------------------------------------------------------------------------------
 	protected static bool Compare(vector fieldValue, EL_EDbFindOperator operator, array<vector> comparisonValues)
 	{
-		switch(operator)
+		switch (operator)
 		{
 			case EL_EDbFindOperator.CONTAINS:
 			case EL_EDbFindOperator.EQUAL:
@@ -867,4 +768,4 @@ class EL_DbFindFieldValueTypedEvaluator<Class TValueType>
 
 		return false;
 	}
-}
+};

@@ -11,7 +11,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 	//------------------------------------------------------------------------------------------------
 	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
-		m_aFuelNodes = new array<ref EL_PersistentFuelNode>();
+		m_aFuelNodes = {};
 
 		array<BaseFuelNode> outNodes();
 		FuelManagerComponent.Cast(worldEntityComponent).GetFuelNodesList(outNodes);
@@ -31,7 +31,8 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 
 			if (attributes.m_bTrimDefaults)
 			{
-				if (persistentFuelNode.m_fFuel >= fuelNode.GetMaxFuel()) continue;
+				if (persistentFuelNode.m_fFuel >= fuelNode.GetMaxFuel())
+					continue;
 
 				float initalFuelState;
 				if (EL_ReflectionUtils<float>.Get(fuelNode, "m_fInitialFuelTankState", initalFuelState) &&
@@ -41,7 +42,9 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 			m_aFuelNodes.Insert(persistentFuelNode);
 		}
 
-		if (m_aFuelNodes.IsEmpty()) return EL_EReadResult.DEFAULT;
+		if (m_aFuelNodes.IsEmpty())
+			return EL_EReadResult.DEFAULT;
+
 		return EL_EReadResult.OK;
 	}
 
@@ -62,7 +65,8 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 			{
 				SCR_FuelNode idxNode = SCR_FuelNode.Cast(outNodes.Get(idx));
 
-				if (idxNode.GetFuelTankID() == persistentFuelNode.m_iTankId) fuelNode = idxNode;
+				if (idxNode.GetFuelTankID() == persistentFuelNode.m_iTankId)
+					fuelNode = idxNode;
 			}
 
 			// Iterate all fuel nodes to hopefully find the right tank id
@@ -90,10 +94,50 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 
 		return true;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_FuelManagerComponentSaveData otherData = EL_FuelManagerComponentSaveData.Cast(other);
+
+		if (m_aFuelNodes.Count() != otherData.m_aFuelNodes.Count())
+			return false;
+
+		foreach (int idx, EL_PersistentFuelNode fuelNode : m_aFuelNodes)
+		{
+			// Try same index first as they are likely to be the correct ones.
+			if (fuelNode.Equals(otherData.m_aFuelNodes.Get(idx)))
+				continue;
+
+			bool found;
+			foreach (int compareIdx, EL_PersistentFuelNode otherFuelNode : otherData.m_aFuelNodes)
+			{
+				if (compareIdx == idx)
+					continue; // Already tried in idx direct compare
+
+				if (fuelNode.Equals(otherFuelNode))
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				return false;
+		}
+
+		return true;
+	}
 };
 
 class EL_PersistentFuelNode
 {
 	int m_iTankId;
 	float m_fFuel;
+
+	//------------------------------------------------------------------------------------------------
+	bool Equals(notnull EL_PersistentFuelNode other)
+	{
+		return m_iTankId == other.m_iTankId && float.AlmostEqual(m_fFuel, other.m_fFuel);
+	}
 };

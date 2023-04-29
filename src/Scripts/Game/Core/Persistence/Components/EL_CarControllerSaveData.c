@@ -1,7 +1,7 @@
 [EL_ComponentSaveDataType(EL_CarControllerSaveDataClass, CarControllerComponent), BaseContainerProps()]
 class EL_CarControllerSaveDataClass : EL_VehicleControllerSaveDataClass
 {
-}
+};
 
 [EL_DbName(EL_CarControllerSaveData, "CarController")]
 class EL_CarControllerSaveData : EL_VehicleControllerSaveData
@@ -31,4 +31,11 @@ class EL_CarControllerSaveData : EL_VehicleControllerSaveData
 
 		return true;
 	}
-}
+
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_CarControllerSaveData otherData = EL_CarControllerSaveData.Cast(other);
+		return super.Equals(other) && m_bHandBrake == otherData.m_bHandBrake;
+	}
+};

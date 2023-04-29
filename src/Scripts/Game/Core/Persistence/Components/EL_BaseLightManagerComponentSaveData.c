@@ -1,7 +1,7 @@
 [EL_ComponentSaveDataType(EL_BaseLightManagerComponentSaveDataClass, BaseLightManagerComponent), BaseContainerProps()]
 class EL_BaseLightManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-}
+};
 
 [EL_DbName(EL_BaseLightManagerComponentSaveData, "LightManager")]
 class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
@@ -50,9 +50,10 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 				lightSlot.SetLightFunctional(persistentLightSlot.m_bFunctional);
 
 				// TODO: Remove this hacky fix after https://feedback.bistudio.com/T171832 has been adressed
-				if (lightSlot.IsPresence()) persistentLightSlot.m_eType = ELightType.Presence;
+				ELightType lightType = persistentLightSlot.m_eType;
+				if (lightSlot.IsPresence()) lightType = ELightType.Presence;
 
-				lightManager.SetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_bState, persistentLightSlot.m_iSide);
+				lightManager.SetLightsState(lightType, persistentLightSlot.m_bState, persistentLightSlot.m_iSide);
 				lightSlots.Remove(idx);
 
 				break;
@@ -61,7 +62,41 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 
 		return true;
 	}
-}
+	
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_BaseLightManagerComponentSaveData otherData = EL_BaseLightManagerComponentSaveData.Cast(other);
+		
+		if (m_aLightSlots.Count() != otherData.m_aLightSlots.Count())
+			return false;
+
+		foreach (int idx, EL_PersistentLightSlot lightSlot : m_aLightSlots)
+		{
+			// Try same index first as they are likely to be the correct ones.
+			if (lightSlot.Equals(otherData.m_aLightSlots.Get(idx)))
+				continue;
+
+			bool found;
+			foreach (int compareIdx, EL_PersistentLightSlot otherLightSlot : otherData.m_aLightSlots)
+			{
+				if (compareIdx == idx)
+					continue; // Already tried in idx direct compare
+
+				if (lightSlot.Equals(otherLightSlot))
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				return false;
+		}
+		
+		return true;
+	}
+};
 
 class EL_PersistentLightSlot
 {
@@ -69,4 +104,13 @@ class EL_PersistentLightSlot
 	int m_iSide;
 	bool m_bFunctional;
 	bool m_bState;
-}
+
+	//------------------------------------------------------------------------------------------------
+	bool Equals(notnull EL_PersistentLightSlot other)
+	{
+		return m_eType == other.m_eType &&
+			m_iSide == other.m_iSide &&
+			m_bFunctional == other.m_bFunctional &&
+			m_bState == other.m_bState;
+	}
+};

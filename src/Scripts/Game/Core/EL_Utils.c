@@ -125,7 +125,7 @@ class EL_Utils
 	static void ForceTransform(IEntity entity, vector transform[4])
 	{
 		BaseGameEntity baseGameEntity = BaseGameEntity.Cast(entity);
-		if (baseGameEntity)
+		if (baseGameEntity && !BaseVehicle.Cast(baseGameEntity))
 		{
 			baseGameEntity.Teleport(transform);
 		}
@@ -243,14 +243,14 @@ class EL_Utils
 	//------------------------------------------------------------------------------------------------
 	static int MaxInt(int a, int b)
 	{
-		if(a > b) return a;
+		if (a > b) return a;
 		return b;
 	}
 
 	//------------------------------------------------------------------------------------------------
 	static int MinInt(int a, int b)
 	{
-		if(a < b) return a;
+		if (a < b) return a;
 		return b;
 	}
 
@@ -271,7 +271,7 @@ class EL_Utils
 	{
 		return data.Substring(0, data.Length() - amount);
 	}
-}
+};
 
 class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 {
@@ -295,4 +295,4 @@ class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 
 		return castedResult;
 	}
-}
+};

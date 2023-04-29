@@ -130,12 +130,54 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 		return true;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_BaseInventoryStorageComponentSaveData otherData = EL_BaseInventoryStorageComponentSaveData.Cast(other);
+
+		if (m_iPriority != otherData.m_iPriority ||
+			m_ePurposeFlags != otherData.m_ePurposeFlags ||
+			m_aSlots.Count() != otherData.m_aSlots.Count())
+			return false;
+
+		foreach (int idx, EL_PersistentInventoryStorageSlot slot : m_aSlots)
+		{
+			// Try same index first as they are likely to be the correct ones.
+			if (slot.Equals(otherData.m_aSlots.Get(idx)))
+				continue;
+
+			bool found;
+			foreach (int compareIdx, EL_PersistentInventoryStorageSlot otherSlot : otherData.m_aSlots)
+			{
+				if (compareIdx == idx)
+					continue; // Already tried in idx direct compare
+
+				if (slot.Equals(otherSlot))
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				return false;
+		}
+
+		return true;
+	}
 };
 
 class EL_PersistentInventoryStorageSlot
 {
 	int m_iSlotId;
 	ref EL_EntitySaveData m_pEntity;
+
+	//------------------------------------------------------------------------------------------------
+	bool Equals(notnull EL_PersistentInventoryStorageSlot other)
+	{
+		return m_iSlotId == other.m_iSlotId && m_pEntity.Equals(other.m_pEntity);
+	}
 
 	//------------------------------------------------------------------------------------------------
 	protected bool SerializationSave(BaseSerializationSaveContext saveContext)

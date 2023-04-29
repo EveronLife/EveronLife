@@ -52,7 +52,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterLoad;
 
 	[NonSerialized()]
-	private EL_EntitySaveData m_pLastSaveData;
+	private ref EL_EntitySaveData m_pLastSaveData;
 
 	//------------------------------------------------------------------------------------------------
 	//! static helper see GetPersistentId()
@@ -144,10 +144,12 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//! \param spawnAsSavedRoot true if the current record is a root entry in the db (not a stored item inside a storage)
 	bool Load(notnull EL_EntitySaveData saveData, bool spawnAsSavedRoot = true)
 	{
-		if (m_pOnBeforeLoad) m_pOnBeforeLoad.Invoke(this, saveData);
+		if (m_pOnBeforeLoad)
+			m_pOnBeforeLoad.Invoke(this, saveData);
 
 		// Restore information if this entity has its own root record in db to avoid unreferenced junk entries.
-		if (spawnAsSavedRoot) EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
+		if (spawnAsSavedRoot)
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
 
 		// Restore transform info relevant for baked entity record trimming
 		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) &&
@@ -170,7 +172,11 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			return false;
 		}
 
-		if (m_pOnAfterLoad) m_pOnAfterLoad.Invoke(this, saveData);
+		if (settings.m_bUseChangeTracker)
+			m_pLastSaveData = saveData;
+
+		if (m_pOnAfterLoad)
+			m_pOnAfterLoad.Invoke(this, saveData);
 
 		return true;
 	}
@@ -215,23 +221,32 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
+		bool isPersistent = EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
+
 		// Save root entities unless they are baked AND only have default values,
 		// cause then we do not need the record to restore - as the ids will be
 		// known through the name mapping table instead.
 		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) &&
 			(!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) || readResult == EL_EReadResult.OK))
 		{
-			persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
-			if (m_pOnAfterPersist) m_pOnAfterPersist.Invoke(this, saveData);
+			// Check if the update is really needed
+			if (!isPersistent || !settings.m_bUseChangeTracker || !m_pLastSaveData || !m_pLastSaveData.Equals(saveData))
+			{
+				persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
+				EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
+				if (m_pOnAfterPersist) m_pOnAfterPersist.Invoke(this, saveData);
+			}
 		}
-		else if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED))
+		else if (isPersistent)
 		{
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
 			// The save-data will be present inside the storage parent instead.
 			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT_SAVED);
 		}
+
+		if (settings.m_bUseChangeTracker)
+			m_pLastSaveData = saveData;
 
 		return saveData;
 	}

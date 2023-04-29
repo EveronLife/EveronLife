@@ -43,6 +43,15 @@ class EL_ComponentSaveData
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Compare component save-data instances to see if there is any noteable difference
+	//! \param other component save-data to compare against
+	//! \return true if save-data is considered to describe the same data. False on differences.
+	bool Equals(notnull EL_ComponentSaveData other)
+	{
+		return false;
+	}
 }
 
 class EL_ComponentSaveDataType : BaseContainerCustomTitle

@@ -1,7 +1,7 @@
 [EL_ComponentSaveDataType(EL_QuantityComponentSaveDataClass, EL_QuantityComponent), BaseContainerProps()]
 class EL_QuantityComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-}
+};
 
 [EL_DbName(EL_QuantityComponentSaveData, "Quantity")]
 class EL_QuantityComponentSaveData : EL_ComponentSaveData
@@ -27,4 +27,11 @@ class EL_QuantityComponentSaveData : EL_ComponentSaveData
 		GetGame().GetCallqueue().Call(quantity.RemoveTransferIntent, quantity.GetOwner());
 		return true;
 	}
-}
+
+	//------------------------------------------------------------------------------------------------
+	override bool Equals(notnull EL_ComponentSaveData other)
+	{
+		EL_QuantityComponentSaveData otherData = EL_QuantityComponentSaveData.Cast(other);
+		return m_iQuantity == otherData.m_iQuantity;
+	}
+};
