@@ -28,8 +28,10 @@ modded class ScriptedInventoryStorageManagerComponent
 	{
 		if (!m_aELPendingItemRecountTypes) m_aELPendingItemRecountTypes = new set<ResourceName>();
 		m_aELPendingItemRecountTypes.Insert(prefab);
-		GetGame().GetCallqueue().Remove(EL_FlushRecountItems);
-		GetGame().GetCallqueue().CallLater(EL_FlushRecountItems);
+
+		ScriptCallQueue callQueue = GetGame().GetCallqueue();
+		if (callQueue.GetRemainingTime(EL_FlushRecountItems) == -1)
+			callQueue.Call(EL_FlushRecountItems);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -141,4 +143,4 @@ modded class ScriptedInventoryStorageManagerComponent
 		const int maxManipulationRange = 10;
 		return (vector.Distance(entity.GetOrigin(), GetOwner().GetOrigin()) < maxManipulationRange);
 	}
-}
+};

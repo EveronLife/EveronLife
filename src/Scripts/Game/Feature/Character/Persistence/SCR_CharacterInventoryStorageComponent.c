@@ -23,8 +23,9 @@ modded class SCR_CharacterInventoryStorageComponent
 
 			if (m_iELDebounceTime != -1)
 			{
-				GetGame().GetCallqueue().Remove(EL_SyncQuickSlots);
-				GetGame().GetCallqueue().CallLater(EL_SyncQuickSlots, m_iELDebounceTime);
+				ScriptCallQueue callQueue = GetGame().GetCallqueue();
+				if (callQueue.GetRemainingTime(EL_SyncQuickSlots) == -1)
+					callQueue.CallLater(EL_SyncQuickSlots, m_iELDebounceTime);
 			}
 		}
 	}
