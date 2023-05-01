@@ -32,6 +32,8 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Save(EL_DbContext dbContext)
 	{
+		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
+
 		array<string> stale();
 
 		foreach (string name, Tuple2<string, typename> tuple : m_mNameIdMapping)
@@ -84,10 +86,9 @@ class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 			array<ref EL_BakedEntityNameIdMappingEntry> entries = type.m_aEntries;
 			if (!entries)
 			{
-				entries = new array<ref EL_BakedEntityNameIdMappingEntry>();
+				entries = {};
 				type.m_aEntries = entries;
 			}
-
 
 			EL_BakedEntityNameIdMappingEntry entry();
 			entry.m_sName = name;

@@ -61,6 +61,8 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Save(EL_DbContext dbContext)
 	{
+		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
+
 		// Remove collection if it only holds default values and it was previously saved (aka it has an id)
 		if (m_aRemovedBackedRootEntities.IsEmpty() && m_mSelfSpawnDynamicEntities.IsEmpty())
 		{
