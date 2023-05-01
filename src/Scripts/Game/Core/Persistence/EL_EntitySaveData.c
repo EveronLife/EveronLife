@@ -66,7 +66,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 			}
 			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES)
 			{
-				m_pTransformation.m_vAngles = worldEntity.GetLocalYawPitchRoll();
+				m_pTransformation.m_vAngles = worldEntity.GetYawPitchRoll();
 				resultCode = EL_EReadResult.OK;
 			}
 			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
@@ -296,7 +296,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 					if (componentResult == EL_EApplyResult.ERROR)
 						return EL_EApplyResult.ERROR;
 
-					if (componentResult == EL_EApplyResult.AWAIT_COMPLETION && 
+					if (componentResult == EL_EApplyResult.AWAIT_COMPLETION &&
 						EL_DeferredApplyResult.SetEntitySaveData(componentSaveData, this))
 					{
 						result = EL_EApplyResult.AWAIT_COMPLETION;

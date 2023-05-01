@@ -79,10 +79,9 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		if (!m_pGameMode.IsMaster())
 			return;
 
-		EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(player);
-
 		// Add the dead body root entity collection so it spawns back after restart for looting
-		// EL_PersistenceManager.GetInstance().GetRootEntityCollection().Add(persistence, false, true); // TODO: Check if we have no better way to do this?
+		EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(player);
+		persistence.ForceSelfSpawn();
 
 		// Delete the dead char from account
 		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(player);

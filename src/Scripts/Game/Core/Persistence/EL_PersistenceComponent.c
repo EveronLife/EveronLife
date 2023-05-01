@@ -508,6 +508,13 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	//! Manually force the entity to be self-respawned even if the setting is disabled in prefab
+	void ForceSelfSpawn()
+	{
+		EL_PersistenceManager.GetInstance().ForceSelfSpawn(this);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Manually flag the transform as dirty, so save-data trimming does not remove it.
 	void FlagTransformAsDirty()
 	{

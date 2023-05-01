@@ -40,8 +40,11 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 	//------------------------------------------------------------------------------------------------
 	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
+		EL_EApplyResult result = EL_EApplyResult.OK;
+
 		array<HitZone> outHitZones();
-		HitZoneContainerComponent.Cast(worldEntityComponent).GetAllHitZones(outHitZones);
+		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(worldEntityComponent);
+		hitZoneContainer.GetAllHitZones(outHitZones);
 
 		bool tryIdxAcces = outHitZones.Count() >= m_aHitzones.Count();
 
@@ -79,7 +82,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 			hitZone.SetHealthScaled(persistentHitZone.m_fHealth);
 		}
 
-		return EL_EApplyResult.OK;
+		return result;
 	}
 
 	//------------------------------------------------------------------------------------------------

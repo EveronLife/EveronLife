@@ -17,12 +17,19 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		}
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		if (!settings.m_bSelfSpawn) return;
+		if (!settings.m_bSelfSpawn)
+			return;
 
+		ForceSelfSpawn(persistenceComponent, persistentId, settings);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void ForceSelfSpawn(EL_PersistenceComponent persistenceComponent, string persistentId, EL_PersistenceComponentClass settings)
+	{
 		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		if (!ids)
 		{
-			ids = new array<string>();
+			ids = {};
 			m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
 		}
 
@@ -35,17 +42,20 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_ROOT))
 		{
 			if (state == EL_EPersistenceManagerState.ACTIVE)
-			{
 				m_aRemovedBackedRootEntities.Insert(persistentId);
-			}
+
 			return;
 		}
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
-		if (!ids) return;
+		if (!ids)
+			return;
+
 		ids.RemoveItem(persistentId);
-		if (ids.IsEmpty()) m_mSelfSpawnDynamicEntities.Remove(settings.m_tSaveDataTypename);
+
+		if (ids.IsEmpty())
+			m_mSelfSpawnDynamicEntities.Remove(settings.m_tSaveDataTypename);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -65,7 +75,8 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
 	{
-		if (!saveContext.IsValid()) return false;
+		if (!saveContext.IsValid())
+			return false;
 
 		SerializeMetaData(saveContext);
 
@@ -90,7 +101,8 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
 	{
-		if (!loadContext.IsValid()) return false;
+		if (!loadContext.IsValid())
+			return false;
 
 		DeserializeMetaData(loadContext);
 

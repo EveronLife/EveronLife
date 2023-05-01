@@ -412,7 +412,7 @@ class EL_PersistenceManager
 						if (m_pBakedEntityNameIdMapping.m_aBakedNames.Insert(name))
 							break;
 					}
-					
+
 				}
 				else
 				{
@@ -547,6 +547,13 @@ class EL_PersistenceManager
 			m_pRootEntityCollection.Remove(persistenceComponent, id, m_eState);
 			if (m_mBakedRoots) m_mBakedRoots.Remove(id);
 		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void ForceSelfSpawn(notnull EL_PersistenceComponent persistenceComponent)
+	{
+		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+		m_pRootEntityCollection.ForceSelfSpawn(persistenceComponent, persistenceComponent.GetPersistentId(), settings);
 	}
 
 	//------------------------------------------------------------------------------------------------
