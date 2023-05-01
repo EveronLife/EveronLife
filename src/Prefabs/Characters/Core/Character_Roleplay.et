@@ -14,5 +14,13 @@ SCR_ChimeraCharacter : "{37578B1666981FCE}Prefabs/Characters/Core/Character_Base
     Surname ""
    }
   }
+  EL_PersistenceComponent "{5A12D8F4DFED6D84}" {
+   m_pSaveData EL_CharacterSaveDataClass "{5A12D8F4DA8632DC}" {
+    m_aComponents {
+     EL_CompartmentAccessComponentSaveDataClass "{5D431C1B88F3D6DD}" {
+     }
+    }
+   }
+  }
  }
 }
