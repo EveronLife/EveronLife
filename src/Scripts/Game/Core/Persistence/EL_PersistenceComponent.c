@@ -43,7 +43,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	private EL_EPersistenceFlags m_eFlags;
 
 	[NonSerialized()]
-	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterSave;
+	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnBeforePersist;
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterPersist;
 	[NonSerialized()]
@@ -104,10 +104,10 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	//! Event invoker for when the save-data was created but was not yet persisted to the database.
 	//! Args(EL_PersistenceComponent, EL_EntitySaveData)
-	ScriptInvoker GetOnAfterSaveEvent()
+	ScriptInvoker GetOnBeforePersistEvent()
 	{
-		if (!m_pOnAfterSave) m_pOnAfterSave = new ScriptInvoker();
-		return m_pOnAfterSave;
+		if (!m_pOnBeforePersist) m_pOnBeforePersist = new ScriptInvoker();
+		return m_pOnBeforePersist;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -227,8 +227,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			return null;
 		}
 
-		if (m_pOnAfterSave)
-			m_pOnAfterSave.Invoke(this, saveData);
+		if (m_pOnBeforePersist)
+			m_pOnBeforePersist.Invoke(this, saveData);
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
