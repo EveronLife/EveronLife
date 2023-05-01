@@ -20,11 +20,11 @@ class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseMagazineComponent magazine = BaseMagazineComponent.Cast(worldEntityComponent);
 		magazine.SetAmmoCount(m_iAmmoCount);
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

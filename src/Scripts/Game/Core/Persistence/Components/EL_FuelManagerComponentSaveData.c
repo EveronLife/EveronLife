@@ -49,7 +49,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		array<BaseFuelNode> outNodes();
 		FuelManagerComponent.Cast(worldEntityComponent).GetFuelNodesList(outNodes);
@@ -92,7 +92,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 			fuelNode.SetFuel(persistentFuelNode.m_fFuel);
 		}
 
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

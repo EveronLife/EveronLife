@@ -78,7 +78,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
 		InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(storageComponent.GetOwner().FindComponent(InventoryStorageManagerComponent));
@@ -110,7 +110,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			if (!slotEntity)
 				continue;
 
-			if (storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId))
+			if (!storageManager.TryInsertItemInStorage(slotEntity, storageComponent, slot.m_iSlotId))
 			{
 				// Unable to add it to the storage parent, so put it on the ground at the parent origin
 				EL_Utils.Teleport(slotEntity, storageComponent.GetOwner().GetOrigin(), storageComponent.GetOwner().GetYawPitchRoll()[0]);
@@ -128,7 +128,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 			storageManager.TryDeleteItem(storageComponent.Get(nSlot));
 		}
 
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

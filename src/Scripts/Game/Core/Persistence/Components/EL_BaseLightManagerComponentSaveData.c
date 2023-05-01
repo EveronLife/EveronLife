@@ -34,7 +34,7 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(worldEntityComponent);
 
@@ -60,7 +60,7 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 			}
 		}
 
-		return true;
+		return EL_EApplyResult.OK;
 	}
 	
 	//------------------------------------------------------------------------------------------------

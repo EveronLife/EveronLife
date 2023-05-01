@@ -241,7 +241,7 @@ class EL_ScriptedStateSaveData : EL_MetaDataDbEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Applies the save-data to the scripted state
-	bool ApplyTo(notnull EL_PersistentScriptedState scriptedState)
+	EL_EApplyResult ApplyTo(notnull EL_PersistentScriptedState scriptedState)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, scriptedState);
 	}

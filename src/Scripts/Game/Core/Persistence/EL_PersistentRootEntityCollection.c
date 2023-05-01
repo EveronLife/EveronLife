@@ -11,13 +11,12 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		{
 			if (state == EL_EPersistenceManagerState.ACTIVE)
 			{
-				int idx = m_aRemovedBackedRootEntities.Find(persistentId);
-				if (idx != -1) m_aRemovedBackedRootEntities.Remove(idx);
+				m_aRemovedBackedRootEntities.RemoveItem(persistentId);
 			}
 			return;
 		}
 
-        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		if (!settings.m_bSelfSpawn) return;
 
 		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
@@ -26,7 +25,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 			ids = new array<string>();
 			m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
 		}
-		
+
 		ids.Insert(persistentId);
 	}
 
@@ -42,7 +41,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 			return;
 		}
 
-        EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
 		if (!ids) return;
 		ids.RemoveItem(persistentId);
@@ -107,10 +106,10 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 
 		return true;
 	}
-}
+};
 
 class EL_SelfSpawnDynamicEntity
 {
 	string m_sSaveDataType;
 	ref array<string> m_aIds;
-}
+};

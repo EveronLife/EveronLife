@@ -296,6 +296,8 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected void PrepareInitalWorldState()
 	{
+		SetState(EL_EPersistenceManagerState.SETUP);
+
 		// Remove baked entities that shall no longer be root entities in the world
 		array<string> staleIds();
 		foreach (string persistentId : m_pRootEntityCollection.m_aRemovedBackedRootEntities)
@@ -644,8 +646,7 @@ class EL_PersistenceManager
 	event void OnWorldPostProcess(World world)
 	{
 		FlushRegistrations();
-		SetState(EL_EPersistenceManagerState.SETUP);
-		GetGame().GetCallqueue().Call(PrepareInitalWorldState);
+		PrepareInitalWorldState();
 	}
 
 	//------------------------------------------------------------------------------------------------

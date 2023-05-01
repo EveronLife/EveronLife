@@ -6,9 +6,9 @@ class EL_ComponentSaveDataClass
 
 	//------------------------------------------------------------------------------------------------
 	array<typename> CannotCombine(); // TODO: Implement error if not satisfied
-	
+
 	bool m_bTrimDefaults;
-}
+};
 
 class EL_ComponentSaveData
 {
@@ -39,11 +39,11 @@ class EL_ComponentSaveData
 	//! \param worldEntityComponent the component to apply the save-data to
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if save-data could be applied, false if something failed.
-	bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Compare component save-data instances to see if there is any noteable difference
 	//! \param other component save-data to compare against
@@ -52,7 +52,7 @@ class EL_ComponentSaveData
 	{
 		return false;
 	}
-}
+};
 
 class EL_ComponentSaveDataType : BaseContainerCustomTitle
 {
@@ -100,4 +100,4 @@ class EL_ComponentSaveDataType : BaseContainerCustomTitle
 		return true;
 	}
 	#endif
-}
+};

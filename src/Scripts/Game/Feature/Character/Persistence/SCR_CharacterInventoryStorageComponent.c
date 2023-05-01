@@ -77,4 +77,4 @@ modded class SCR_CharacterInventoryStorageComponent
 			if (slotEntity) m_aQuickSlotsHistory.Set(idx, GetItemType(slotEntity));
 		}
 	}
-}
+};

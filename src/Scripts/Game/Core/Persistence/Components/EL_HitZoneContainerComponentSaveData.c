@@ -38,7 +38,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		array<HitZone> outHitZones();
 		HitZoneContainerComponent.Cast(worldEntityComponent).GetAllHitZones(outHitZones);
@@ -79,7 +79,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 			hitZone.SetHealthScaled(persistentHitZone.m_fHealth);
 		}
 
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

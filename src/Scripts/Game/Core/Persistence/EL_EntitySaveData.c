@@ -140,34 +140,41 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	//! \param worldEntity the entity to apply the data to
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if save-data could be applied, false if something failed.
-	bool ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
+	EL_EApplyResult ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
+		EL_EApplyResult result = EL_EApplyResult.OK;
+
 		// Transform
 		if (m_pTransformation && !m_pTransformation.IsDefault())
-		{
 			EL_Utils.ForceTransform(worldEntity, m_pTransformation.m_vOrigin, m_pTransformation.m_vAngles, m_pTransformation.m_fScale);
-		}
 
 		// Lifetime
 		if (attributes.m_bSaveRemainingLifetime)
 		{
 			GarbageManager garbageManager = GetGame().GetGarbageManager();
-			if (garbageManager && m_fRemainingLifetime > 0) garbageManager.Insert(worldEntity, m_fRemainingLifetime);
+			if (garbageManager && m_fRemainingLifetime > 0)
+				garbageManager.Insert(worldEntity, m_fRemainingLifetime);
 		}
 
 		// Components
 		set<Managed> processedComponents();
 		set<typename> processedSaveDataTypes();
-
 		foreach (EL_ComponentSaveDataClass componentSaveDataClass : attributes.m_aComponents)
 		{
-			if (!ApplyComponent(componentSaveDataClass, worldEntity, processedSaveDataTypes, processedComponents, attributes)) return false;
+			EL_EApplyResult componentResult = ApplyComponent(componentSaveDataClass, worldEntity, processedSaveDataTypes, processedComponents, attributes);
+
+			if (componentResult == EL_EApplyResult.ERROR)
+				return EL_EApplyResult.ERROR;
+
+			if (componentResult == EL_EApplyResult.AWAIT_COMPLETION)
+				result = EL_EApplyResult.AWAIT_COMPLETION;
 		}
 
 		// Update any non character entity. On character this can cause fall through ground.
-		if (!ChimeraCharacter.Cast(worldEntity)) worldEntity.Update();
+		if (!ChimeraCharacter.Cast(worldEntity))
+			worldEntity.Update();
 
-		return true;
+		return result;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -228,34 +235,48 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected bool ApplyComponent(
+	protected EL_EApplyResult ApplyComponent(
 		EL_ComponentSaveDataClass componentSaveDataClass,
 		IEntity worldEntity,
 		set<typename> processedSaveDataTypes,
 		set<Managed> processedComponents,
 		EL_EntitySaveDataClass attributes)
 	{
+		EL_EApplyResult result = EL_EApplyResult.OK;
+
 		typename componentSaveDataType = EL_Utils.TrimEnd(componentSaveDataClass.ClassName(), 5).ToType();
 
 		// Skip already processed save-data
-		if (processedSaveDataTypes.Contains(componentSaveDataType)) return true;
+		if (processedSaveDataTypes.Contains(componentSaveDataType)) return result;
 		processedSaveDataTypes.Insert(componentSaveDataType);
 
 		// Make sure required save-data is already applied
 		array<ref EL_ComponentSaveData> componentsSaveData = m_mComponentsSaveData.Get(componentSaveDataType);
-		if (!componentsSaveData || componentsSaveData.IsEmpty()) return true;
+		if (!componentsSaveData || componentsSaveData.IsEmpty()) return result;
 
 		array<typename> requiredSaveDataClasses = componentSaveDataClass.Requires();
 		if (requiredSaveDataClasses)
 		{
 			foreach (typename requiredSaveDataClass : requiredSaveDataClasses)
 			{
+				if (!requiredSaveDataClass.ToString().EndsWith("Class"))
+				{
+					Debug.Error(string.Format("Save-data class '%1' lists invalid (non xyzClass) requirement type '%2'. Fix or remove it.", componentSaveDataClass.Type().ToString(), requiredSaveDataClass));
+					return EL_EApplyResult.ERROR;
+				}
+
 				foreach (EL_ComponentSaveDataClass possibleComponentClass : attributes.m_aComponents)
 				{
 					if (possibleComponentClass == componentSaveDataClass ||
 						!possibleComponentClass.IsInherited(requiredSaveDataClass)) continue;
 
-					ApplyComponent(possibleComponentClass, worldEntity, processedSaveDataTypes, processedComponents, attributes);
+					EL_EApplyResult componentResult = ApplyComponent(possibleComponentClass, worldEntity, processedSaveDataTypes, processedComponents, attributes);
+
+					if (componentResult == EL_EApplyResult.ERROR)
+						return EL_EApplyResult.ERROR;
+
+					if (componentResult == EL_EApplyResult.AWAIT_COMPLETION)
+						result = EL_EApplyResult.AWAIT_COMPLETION;
 				}
 			}
 		}
@@ -266,12 +287,21 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		foreach (EL_ComponentSaveData componentSaveData : componentsSaveData)
 		{
 			bool applied = false;
-
 			foreach (Managed componentRef : outComponents)
 			{
 				if (!processedComponents.Contains(componentRef) && componentSaveData.IsFor(GenericComponent.Cast(componentRef), componentSaveDataClass))
 				{
-					if (!componentSaveData.ApplyTo(GenericComponent.Cast(componentRef), componentSaveDataClass)) return false;
+					EL_EApplyResult componentResult = componentSaveData.ApplyTo(GenericComponent.Cast(componentRef), componentSaveDataClass);
+
+					if (componentResult == EL_EApplyResult.ERROR)
+						return EL_EApplyResult.ERROR;
+
+					if (componentResult == EL_EApplyResult.AWAIT_COMPLETION && 
+						EL_DeferredApplyResult.SetEntitySaveData(componentSaveData, this))
+					{
+						result = EL_EApplyResult.AWAIT_COMPLETION;
+					}
+
 					processedComponents.Insert(componentRef);
 					applied = true;
 					break;
@@ -284,7 +314,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 			}
 		}
 
-		return true;
+		return result;
 	}
 
 	//------------------------------------------------------------------------------------------------

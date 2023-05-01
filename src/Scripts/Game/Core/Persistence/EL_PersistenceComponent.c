@@ -141,14 +141,14 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	//! Load existing save-data to apply to this entity
 	//! \param saveData existing data to restore the entity state from
-	//! \param spawnAsSavedRoot true if the current record is a root entry in the db (not a stored item inside a storage)
-	bool Load(notnull EL_EntitySaveData saveData, bool spawnAsSavedRoot = true)
+	//! \param rootRecord true if the current record is a root entry in the db (not a stored item inside a storage)
+	bool Load(notnull EL_EntitySaveData saveData, bool rootRecord = true)
 	{
 		if (m_pOnBeforeLoad)
 			m_pOnBeforeLoad.Invoke(this, saveData);
 
 		// Restore information if this entity has its own root record in db to avoid unreferenced junk entries.
-		if (spawnAsSavedRoot)
+		if (rootRecord)
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 
 		// Restore transform info relevant for baked entity record trimming
@@ -166,7 +166,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if (!saveData.ApplyTo(owner, settings.m_pSaveData))
+		EL_EApplyResult applyResult = saveData.ApplyTo(owner, settings.m_pSaveData);
+		if (applyResult == EL_EApplyResult.ERROR)
 		{
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
 			return false;
@@ -175,8 +176,15 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		if (settings.m_bUseChangeTracker)
 			m_mLastSaveData.Set(this, saveData);
 
-		if (m_pOnAfterLoad)
-			m_pOnAfterLoad.Invoke(this, saveData);
+		if (applyResult == EL_EApplyResult.AWAIT_COMPLETION)
+		{
+			EL_DeferredApplyResult.GetOnApplied(saveData).Insert(DeferredApplyCallback)
+		}
+		else
+		{
+			if (m_pOnAfterLoad)
+				m_pOnAfterLoad.Invoke(this, saveData);
+		}
 
 		return true;
 	}
@@ -466,7 +474,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		persistenceManager.Unregister(this);
 
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if (!m_sId || EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
+		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
 		{
 			persistenceManager.UpdateRootEntityCollection(this, m_sId, false);
 			if (settings.m_bSelfDelete) Delete();
@@ -480,7 +488,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	Class GetAttributeClass(typename saveDataClassType)
 	{
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
-		if (settings.m_pSaveData) return null;
+		if (!settings.m_pSaveData)
+			return null;
 
 		if (settings.m_pSaveData.IsInherited(saveDataClassType))
 		{
@@ -502,7 +511,6 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//! Manually flag the transform as dirty, so save-data trimming does not remove it.
 	void FlagTransformAsDirty()
 	{
-		PrintFormat("%1 flagged as transform dirty.", EL_Utils.GetPrefabName(GetOwner()));
 		StopTransformDirtyTracking();
 		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.TRANSFORM_DIRTY);
 	}
@@ -514,6 +522,13 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		ClearEventMask(owner, EntityEvent.CONTACT | EntityEvent.PHYSICSMOVE);
 		EventHandlerManagerComponent ev = EL_Component<EventHandlerManagerComponent>.Find(owner);
 		if (ev) ev.RemoveScriptHandler("OnCompartmentEntered", this, OnCompartmentEntered);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void DeferredApplyCallback(EL_EntitySaveData saveData)
+	{
+		if (m_pOnAfterLoad)
+			m_pOnAfterLoad.Invoke(this, saveData);
 	}
 
 	//------------------------------------------------------------------------------------------------

@@ -22,14 +22,14 @@ class EL_CarControllerSaveData : EL_VehicleControllerSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
-		if (!super.ApplyTo(worldEntityComponent, attributes)) return false;
+		if (!super.ApplyTo(worldEntityComponent, attributes)) return EL_EApplyResult.ERROR;
 
 		CarControllerComponent carController = CarControllerComponent.Cast(worldEntityComponent);
 		carController.SetPersistentHandBrake(m_bHandBrake);
 
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

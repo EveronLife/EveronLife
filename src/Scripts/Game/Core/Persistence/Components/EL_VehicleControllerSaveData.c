@@ -21,14 +21,14 @@ class EL_VehicleControllerSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		VehicleControllerComponent vehicleController = VehicleControllerComponent.Cast(worldEntityComponent);
 
 		if (m_bEngineOn)
 			vehicleController.StartEngine();
 
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

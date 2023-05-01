@@ -28,14 +28,14 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
 	{
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
 		timeAndWeatherManager.ForceWeatherTo(m_bWeatherLooping, m_sWeatherState);
 		timeAndWeatherManager.SetDate(m_iYear, m_iMonth, m_iDay);
 		timeAndWeatherManager.SetHoursMinutesSeconds(m_iHour, m_iMinute, m_iSecond);
 
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ class EL_QuantityComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
 	{
 		EL_QuantityComponent quantity = EL_QuantityComponent.Cast(worldEntityComponent);
 		quantity.SetQuantity(m_iQuantity);
@@ -25,7 +25,7 @@ class EL_QuantityComponentSaveData : EL_ComponentSaveData
 		// Keep seperate for current frame to have (relevant during load into storages situation). Remove intend on next frame
 		quantity.SetTransferIntent(quantity.GetOwner(), true);
 		GetGame().GetCallqueue().Call(quantity.RemoveTransferIntent, quantity.GetOwner());
-		return true;
+		return EL_EApplyResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------
