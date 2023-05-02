@@ -248,7 +248,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 			if (!isPersistent || !lastData || !lastData.Equals(saveData))
 			{
-				persistenceManager.GetDbContext().AddOrUpdateAsync(saveData);
+				persistenceManager.AddOrUpdateAsync(saveData);
 				EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 				wasPersisted = true;
 			}
@@ -257,7 +257,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		{
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
 			// The save-data will be present inside the storage parent instead.
-			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
+			persistenceManager.RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 		}
 
@@ -271,16 +271,17 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Delete the persistence data of this entity. Does not delete the entity itself.
+	//! Mark the persistence data of this entity for deletion. Does not delete the entity itself.
+	//! Note: Will be immediate on EL_ESaveType.MANUAL, otherwise happens on auto/shutdown save.
 	void Delete()
 	{
+		// Only attempt to delete if there is a chance it was already saved as own entity in db
 		if (m_sId && EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD))
 		{
-			// Only attempt to delete if there is a chance it was already saved as own entity in db
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
-			persistenceManager.GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, m_sId);
-			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
+			persistenceManager.EnqueueRemoval(settings.m_tSaveDataTypename, m_sId, settings.m_eSaveType);
 		}
 
 		m_sId = string.Empty;
@@ -351,7 +352,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT);
 		}
 
-		persistenceManager.EnqueueForRegistration(this);
+		persistenceManager.EnqueueRegistration(this);
 
 		// For vehicles we want to get notified when they encounter their first contact or start to be driven
 		if (settings.m_pSaveData.m_bTrimDefaults &&
@@ -454,7 +455,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
 		{
-			persistenceManager.UpdateRootStatus(this, m_sId, settings.m_eSaveType, isRoot);
+			persistenceManager.UpdateRootStatus(this, m_sId, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
 		}
 	}
 

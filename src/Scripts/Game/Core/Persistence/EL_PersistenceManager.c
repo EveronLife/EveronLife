@@ -22,9 +22,9 @@ class EL_PersistenceManager
 	protected ref array<EL_PersistentScriptedState> m_aPendingScriptedStateRegistrations;
 	protected ref EL_PersistentRootEntityCollection m_pRootEntityCollection;
 	protected ref map<string, EL_PersistenceComponent> m_mRootAutoSave;
-	protected ref map<string, EL_PersistenceComponent> m_mRootAutoSaveCleanup;
+	protected ref map<string, typename> m_mRootAutoSaveCleanup;
 	protected ref map<string, EL_PersistenceComponent> m_mRootShutdown;
-	protected ref map<string, EL_PersistenceComponent> m_mRootShutdownCleanup;
+	protected ref map<string, typename> m_mRootShutdownCleanup;
 	protected ref map<string, EL_PersistenceComponent> m_mUncategorizedEntities;
 	protected ref map<string, EL_PersistentScriptedState> m_mScriptedStateAutoSave;
 	protected ref map<string, EL_PersistentScriptedState> m_mScriptedStateShutdown;
@@ -178,9 +178,7 @@ class EL_PersistenceManager
 		FlushRegistrations();
 		EL_PersistenceComponent result;
 		if (m_mRootAutoSave.Find(persistentId, result)) return result;
-		if (m_mRootAutoSaveCleanup.Find(persistentId, result)) return result;
 		if (m_mRootShutdown.Find(persistentId, result)) return result;
-		if (m_mRootShutdownCleanup.Find(persistentId, result)) return result;
 		return m_mUncategorizedEntities.Get(persistentId);
 	}
 
@@ -251,14 +249,11 @@ class EL_PersistenceManager
 		m_pRootEntityCollection.Save(GetDbContext());
 
 		// Remove records about former root enties that were not purged by a persistent parent's recursive save.
-		foreach (auto _, EL_PersistenceComponent persistenceComponent : m_mRootAutoSaveCleanup)
+		foreach (string persistentId, typename saveDataTypename : m_mRootAutoSaveCleanup)
 		{
-			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING) ||
-				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD)) continue;
-
-			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-			GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, persistenceComponent.GetPersistentId());
+			GetDbContext().RemoveAsync(saveDataTypename, persistentId);
 		}
+		m_mRootAutoSaveCleanup.Clear();
 
 		m_bAutoSaveActive = false;
 	}
@@ -283,14 +278,11 @@ class EL_PersistenceManager
 		m_pRootEntityCollection.Save(GetDbContext());
 
 		// Remove records about former root enties that were not purged by a persistent parent's recursive save.
-		foreach (auto _, EL_PersistenceComponent persistenceComponent : m_mRootShutdownCleanup)
+		foreach (string persistentId, typename saveDataTypename : m_mRootShutdownCleanup)
 		{
-			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING) ||
-				!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD)) continue;
-
-			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-			GetDbContext().RemoveAsync(settings.m_tSaveDataTypename, persistenceComponent.GetPersistentId());
+			GetDbContext().RemoveAsync(saveDataTypename, persistentId);
 		}
+		m_mRootShutdownCleanup.Clear();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -454,7 +446,7 @@ class EL_PersistenceManager
 
 	//------------------------------------------------------------------------------------------------
 	//! Enqueue entity for persistence registration for later (will be flushed before any find by id or save operation takes place)
-	void EnqueueForRegistration(notnull EL_PersistenceComponent persistenceComponent)
+	void EnqueueRegistration(notnull EL_PersistenceComponent persistenceComponent)
 	{
 		m_aPendingEntityRegistrations.Insert(persistenceComponent);
 	}
@@ -470,13 +462,13 @@ class EL_PersistenceManager
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		bool isRoot = settings.m_bStorageRoot && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT);
-		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, isRoot);
+		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
 
 		return id;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void UpdateRootStatus(notnull EL_PersistenceComponent persistenceComponent, string id, EL_ESaveType saveType, bool isRootEntity)
+	void UpdateRootStatus(notnull EL_PersistenceComponent persistenceComponent, string id, EL_ESaveType saveType, typename saveDataType, bool isRootEntity)
 	{
 		switch (saveType)
 		{
@@ -493,7 +485,9 @@ class EL_PersistenceManager
 					if (m_mRootAutoSave.Contains(id))
 					{
 						m_mRootAutoSave.Remove(id);
-						m_mRootAutoSaveCleanup.Set(id, persistenceComponent);
+
+						if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD))
+							m_mRootAutoSaveCleanup.Set(id, saveDataType);
 					}
 					m_mUncategorizedEntities.Set(id, persistenceComponent);
 				}
@@ -513,7 +507,9 @@ class EL_PersistenceManager
 					if (m_mRootShutdown.Contains(id))
 					{
 						m_mRootShutdown.Remove(id);
-						m_mRootShutdownCleanup.Set(id, persistenceComponent);
+
+						if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD))
+							m_mRootShutdownCleanup.Set(id, saveDataType);
 					}
 					m_mUncategorizedEntities.Set(id, persistenceComponent);
 				}
@@ -561,15 +557,45 @@ class EL_PersistenceManager
 	{
 		string id = persistenceComponent.GetPersistentId();
 		m_mRootAutoSave.Remove(id);
-		m_mRootAutoSaveCleanup.Remove(id);
 		m_mRootShutdown.Remove(id);
-		m_mRootShutdownCleanup.Remove(id);
 		m_mUncategorizedEntities.Remove(id);
 	}
 
 	//------------------------------------------------------------------------------------------------
+	void AddOrUpdateAsync(notnull EL_EntitySaveData saveData)
+	{
+		GetDbContext().AddOrUpdateAsync(saveData);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void RemoveAsync(typename saveDataType, string id)
+	{
+		m_mRootAutoSaveCleanup.Remove(id);
+		m_mRootShutdownCleanup.Remove(id);
+		GetDbContext().RemoveAsync(saveDataType, id);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void EnqueueRemoval(typename saveDataType, string id, EL_ESaveType saveType)
+	{
+		if (saveType == EL_ESaveType.MANUAL)
+		{
+			RemoveAsync(saveDataType, id);
+			return;
+		}
+
+		if (saveType == EL_ESaveType.INTERVAL_SHUTDOWN)
+		{
+			m_mRootAutoSaveCleanup.Set(id, saveDataType);
+			return;
+		}
+
+		m_mRootShutdownCleanup.Set(id, saveDataType);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	//! Enqueue scripted stat for persistence registration for later (will be flushed before any find by id or save operation takes place)
-	void EnqueueForRegistration(notnull EL_PersistentScriptedState scripedState)
+	void EnqueueRegistration(notnull EL_PersistentScriptedState scripedState)
 	{
 		m_aPendingScriptedStateRegistrations.Insert(scripedState);
 	}
@@ -674,9 +700,9 @@ class EL_PersistenceManager
 		m_aPendingEntityRegistrations = {};
 		m_aPendingScriptedStateRegistrations = {};
 		m_mRootAutoSave = new map<string, EL_PersistenceComponent>();
-		m_mRootAutoSaveCleanup = new map<string, EL_PersistenceComponent>();
+		m_mRootAutoSaveCleanup = new map<string, typename>();
 		m_mRootShutdown = new map<string, EL_PersistenceComponent>();
-		m_mRootShutdownCleanup = new map<string, EL_PersistenceComponent>();
+		m_mRootShutdownCleanup = new map<string, typename>();
 		m_mUncategorizedEntities = new map<string, EL_PersistenceComponent>();
 		m_mScriptedStateAutoSave = new map<string, EL_PersistentScriptedState>();
 		m_mScriptedStateShutdown = new map<string, EL_PersistentScriptedState>();

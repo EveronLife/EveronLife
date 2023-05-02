@@ -200,7 +200,7 @@ class EL_PersistentScriptedState
 		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER) && !m_mLastSaveData)
 			m_mLastSaveData = new map<EL_PersistentScriptedState, ref EL_ScriptedStateSaveData>();
 
-		EL_PersistenceManager.GetInstance().EnqueueForRegistration(this);
+		EL_PersistenceManager.GetInstance().EnqueueRegistration(this);
 	}
 
 	//------------------------------------------------------------------------------------------------
