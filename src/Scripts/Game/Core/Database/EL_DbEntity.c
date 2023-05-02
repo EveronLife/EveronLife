@@ -1,4 +1,3 @@
-[EL_DbName(EL_DbEntity, "DbEntity")]
 class EL_DbEntity
 {
 	static const string FIELD_ID = "m_sId";
@@ -87,8 +86,8 @@ class EL_DbName
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_DbName(typename entityType, string name)
+	void EL_DbName(string name)
 	{
-		Set(entityType, name);
+		Set(EL_ReflectionUtils.GetAttributeParent(), name);
 	}
 }

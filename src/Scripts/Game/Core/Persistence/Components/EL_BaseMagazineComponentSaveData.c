@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_BaseMagazineComponentSaveDataClass, BaseMagazineComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(BaseMagazineComponent), BaseContainerProps()]
 class EL_BaseMagazineComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_BaseMagazineComponentSaveData, "Magazine")]
+[EL_DbName("Magazine")]
 class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 {
 	int m_iAmmoCount;

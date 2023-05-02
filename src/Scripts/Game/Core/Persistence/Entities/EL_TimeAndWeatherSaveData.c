@@ -3,7 +3,7 @@ class EL_TimeAndWeatherSaveDataClass : EL_EntitySaveDataClass
 {
 }
 
-[EL_DbName(EL_TimeAndWeatherSaveData, "TimeAndWeather")]
+[EL_DbName("TimeAndWeather")]
 class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 {
 	string m_sWeatherState;

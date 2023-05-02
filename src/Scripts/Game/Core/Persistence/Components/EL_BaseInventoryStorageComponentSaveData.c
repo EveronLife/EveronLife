@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_BaseInventoryStorageComponentSaveDataClass, BaseInventoryStorageComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(BaseInventoryStorageComponent), BaseContainerProps()]
 class EL_BaseInventoryStorageComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_BaseInventoryStorageComponentSaveData, "InventoryStorage")]
+[EL_DbName("InventoryStorage")]
 class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 {
 	int m_iPriority;

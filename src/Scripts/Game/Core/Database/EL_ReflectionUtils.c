@@ -1,3 +1,30 @@
+class EL_ReflectionUtils
+{
+	static typename GetAttributeParent()
+	{
+		string callStack;
+		Debug.DumpStack(callStack);
+		int startRead = callStack.LastIndexOf("#CreateAttributes") + 17;
+		int stopRead = callStack.IndexOfFrom(startRead, "(");
+		return callStack.Substring(startRead, stopRead - startRead).ToType();
+	}
+};
+
+class EL_ReflectionUtilsT<Class T>
+{
+	//------------------------------------------------------------------------------------------------
+	static bool Get(notnull Class instance, string variableName, out T value)
+	{
+		EL_ReflectionVariableInfo info = EL_ReflectionVariableInfo.Get(instance, variableName);
+		if (!info)
+			return false;
+		return info.m_tVaribleType.GetVariableValue(instance, info.m_iVariableindex, value);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//TODO: Add Set() via Json serializer
+};
+
 enum EL_ReflectionVariableType
 {
 	NONE,
@@ -84,19 +111,4 @@ class EL_ReflectionVariableInfo
 			m_tCollectionValueType = collectionValueTypeString.ToType();
 		}
 	}
-};
-
-class EL_ReflectionUtils<Class T>
-{
-	//------------------------------------------------------------------------------------------------
-	static bool Get(notnull Class instance, string variableName, out T value)
-	{
-		EL_ReflectionVariableInfo info = EL_ReflectionVariableInfo.Get(instance, variableName);
-		if (!info)
-			return false;
-		return info.m_tVaribleType.GetVariableValue(instance, info.m_iVariableindex, value);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//TODO: Add Set() via Json serializer
 };

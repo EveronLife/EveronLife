@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_CompartmentAccessComponentSaveDataClass, CompartmentAccessComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(CompartmentAccessComponent), BaseContainerProps()]
 class EL_CompartmentAccessComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_CompartmentAccessComponentSaveData, "CompartmentAccess")]
+[EL_DbName("CompartmentAccess")]
 class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 {
 	string m_sEntity;

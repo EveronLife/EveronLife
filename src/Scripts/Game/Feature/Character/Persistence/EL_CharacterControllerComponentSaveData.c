@@ -1,4 +1,4 @@
-[EL_ComponentSaveDataType(EL_CharacterControllerComponentSaveDataClass, SCR_CharacterControllerComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(SCR_CharacterControllerComponent), BaseContainerProps()]
 class EL_CharacterControllerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 	override array<typename> Requires()
@@ -7,7 +7,7 @@ class EL_CharacterControllerComponentSaveDataClass : EL_ComponentSaveDataClass
 	}
 };
 
-[EL_DbName(EL_CharacterControllerComponentSaveData, "CharacterController")]
+[EL_DbName("CharacterController")]
 class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 {
 	ECharacterStance m_eStance;

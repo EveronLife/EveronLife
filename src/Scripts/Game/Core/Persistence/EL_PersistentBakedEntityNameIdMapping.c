@@ -1,4 +1,4 @@
-[EL_DbName(EL_PersistentBakedEntityNameIdMapping, "BakedEntityNameIdMapping")]
+[EL_DbName("BakedEntityNameIdMapping")]
 class EL_PersistentBakedEntityNameIdMapping : EL_MetaDataDbEntity
 {
 	ref set<string> m_aBakedNames = new set<string>();

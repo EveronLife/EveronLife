@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_VehicleControllerSaveDataClass, VehicleControllerComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(VehicleControllerComponent), BaseContainerProps()]
 class EL_VehicleControllerSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_VehicleControllerSaveData, "VehicleController")]
+[EL_DbName("VehicleController")]
 class EL_VehicleControllerSaveData : EL_ComponentSaveData
 {
 	bool m_bEngineOn;

@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_BaseLightManagerComponentSaveDataClass, BaseLightManagerComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(BaseLightManagerComponent), BaseContainerProps()]
 class EL_BaseLightManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_BaseLightManagerComponentSaveData, "LightManager")]
+[EL_DbName("LightManager")]
 class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentLightSlot> m_aLightSlots;

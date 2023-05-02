@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_WeaponAttachmentsStorageComponentSaveDataClass, WeaponAttachmentsStorageComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(WeaponAttachmentsStorageComponent), BaseContainerProps()]
 class EL_WeaponAttachmentsStorageComponentSaveDataClass : EL_BaseInventoryStorageComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_WeaponAttachmentsStorageComponentSaveData, "WeaponAttachmentsStorage")]
+[EL_DbName("WeaponAttachmentsStorage")]
 class EL_WeaponAttachmentsStorageComponentSaveData : EL_BaseInventoryStorageComponentSaveData
 {
 	//------------------------------------------------------------------------------------------------

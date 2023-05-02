@@ -71,8 +71,10 @@ class EL_ComponentSaveDataType : BaseContainerCustomTitle
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_ComponentSaveDataType(typename saveDataType, typename componentType)
+	void EL_ComponentSaveDataType(typename componentType)
 	{
+		typename saveDataType = EL_ReflectionUtils.GetAttributeParent();
+
 		if (!saveDataType.IsInherited(EL_ComponentSaveDataClass))
 		{
 			Debug.Error(string.Format("Failed to register '%1' as persistence save-data type for '%2'. '%1' must inherit from '%3'.", saveDataType, componentType, EL_ComponentSaveDataClass));

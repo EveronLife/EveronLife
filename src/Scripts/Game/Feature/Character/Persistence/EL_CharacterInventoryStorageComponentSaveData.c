@@ -1,11 +1,11 @@
-[EL_ComponentSaveDataType(EL_CharacterInventoryStorageComponentSaveDataClass, SCR_CharacterInventoryStorageComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType( SCR_CharacterInventoryStorageComponent), BaseContainerProps()]
 class EL_CharacterInventoryStorageComponentSaveDataClass : EL_BaseInventoryStorageComponentSaveDataClass
 {
 	[Attribute(defvalue: "30", uiwidget: UIWidgets.Slider, desc: "Maximum time until the quickbar is synced after a change in SECONDS. Higher values reduce traffic.", params: "1 1000 1")]
 	int m_iMaxQuickbarSaveTime;
 }
 
-[EL_DbName(EL_CharacterInventoryStorageComponentSaveData, "CharacterInventoryStorage")]
+[EL_DbName("CharacterInventoryStorage")]
 class EL_CharacterInventoryStorageComponentSaveData : EL_BaseInventoryStorageComponentSaveData
 {
 	ref array<ref EL_PersistentQuickSlotItem> m_aQuickSlotEntities;

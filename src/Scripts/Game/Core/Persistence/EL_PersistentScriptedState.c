@@ -292,8 +292,10 @@ class EL_PersistentScriptedStateSettings
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_PersistentScriptedStateSettings(typename scriptedStateType, typename saveDataType, EL_ESaveType saveType = EL_ESaveType.SHUTDOWN, EL_EPersistentScriptedStateOptions options = 0)
+	void EL_PersistentScriptedStateSettings(typename scriptedStateType, EL_ESaveType saveType = EL_ESaveType.SHUTDOWN, EL_EPersistentScriptedStateOptions options = 0)
 	{
+		typename saveDataType = EL_ReflectionUtils.GetAttributeParent();
+
 		if (!saveDataType.IsInherited(EL_ScriptedStateSaveData))
 		{
 			Debug.Error(string.Format("Failed to register '%1' as persistence save struct for '%2'. '%1' must inherit from '%3'.", saveDataType, scriptedStateType, EL_ScriptedStateSaveData));
@@ -308,6 +310,13 @@ class EL_PersistentScriptedStateSettings
 		m_tSaveDataType = saveDataType;
 		m_eSaveType = saveType;
 		m_eOptions = options;
+
+		EL_PersistentScriptedStateSettings existingSettings = s_mSettings.Get(scriptedStateType);
+		if (existingSettings)
+		{
+			Debug.Error(string.Format("Failed to register '%1' as persistence save struct for '%2'. '%3' was already assigned to handle that type.", saveDataType, scriptedStateType, existingSettings.m_tSaveDataType));
+			return;
+		}
 
 		s_mSettings.Set(scriptedStateType, this);
 		s_mReverseMapping.Set(saveDataType, scriptedStateType);

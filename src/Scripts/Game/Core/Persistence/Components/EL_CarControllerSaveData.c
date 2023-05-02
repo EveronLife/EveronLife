@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_CarControllerSaveDataClass, CarControllerComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(CarControllerComponent), BaseContainerProps()]
 class EL_CarControllerSaveDataClass : EL_VehicleControllerSaveDataClass
 {
 };
 
-[EL_DbName(EL_CarControllerSaveData, "CarController")]
+[EL_DbName("CarController")]
 class EL_CarControllerSaveData : EL_VehicleControllerSaveData
 {
 	bool m_bHandBrake;

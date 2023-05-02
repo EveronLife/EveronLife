@@ -1,11 +1,11 @@
-[EL_ComponentSaveDataType(EL_HitZoneContainerComponentSaveDataClass, HitZoneContainerComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(HitZoneContainerComponent), BaseContainerProps()]
 class EL_HitZoneContainerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 	[Attribute(desc: "If set, only the explictly selected hitzones are persisted.")]
 	ref array<string> m_aHitzoneFilter;
 };
 
-[EL_DbName(EL_HitZoneContainerComponentSaveData, "HitZoneContainer")]
+[EL_DbName("HitZoneContainer")]
 class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentHitZone> m_aHitzones;

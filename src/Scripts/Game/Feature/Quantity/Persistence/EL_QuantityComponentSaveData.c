@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_QuantityComponentSaveDataClass, EL_QuantityComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(EL_QuantityComponent), BaseContainerProps()]
 class EL_QuantityComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_QuantityComponentSaveData, "Quantity")]
+[EL_DbName("Quantity")]
 class EL_QuantityComponentSaveData : EL_ComponentSaveData
 {
 	int m_iQuantity;

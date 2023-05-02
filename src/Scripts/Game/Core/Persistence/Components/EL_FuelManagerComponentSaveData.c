@@ -1,9 +1,9 @@
-[EL_ComponentSaveDataType(EL_FuelManagerComponentSaveDataClass, FuelManagerComponent), BaseContainerProps()]
+[EL_ComponentSaveDataType(FuelManagerComponent), BaseContainerProps()]
 class EL_FuelManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName(EL_FuelManagerComponentSaveData, "FuelManager")]
+[EL_DbName("FuelManager")]
 class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentFuelNode> m_aFuelNodes;
@@ -35,7 +35,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 					continue;
 
 				float initalFuelState;
-				if (EL_ReflectionUtils<float>.Get(fuelNode, "m_fInitialFuelTankState", initalFuelState) &&
+				if (EL_ReflectionUtilsT<float>.Get(fuelNode, "m_fInitialFuelTankState", initalFuelState) &&
 					float.AlmostEqual(persistentFuelNode.m_fFuel, initalFuelState)) continue;
 			}
 

@@ -3,7 +3,7 @@ class EL_VehicleSaveDataClass : EL_EntitySaveDataClass
 {
 }
 
-[EL_DbName(EL_VehicleSaveData, "Vehicle")]
+[EL_DbName("Vehicle")]
 class EL_VehicleSaveData : EL_EntitySaveData
 {
 }

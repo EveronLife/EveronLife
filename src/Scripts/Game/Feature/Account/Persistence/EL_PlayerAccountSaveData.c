@@ -1,4 +1,7 @@
-[EL_DbName(EL_PlayerAccountSaveData, "Account")]
+[
+	EL_PersistentScriptedStateSettings(EL_PlayerAccount, saveType: EL_ESaveType.INTERVAL_SHUTDOWN, options: EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER),
+	EL_DbName("Account")
+]
 class EL_PlayerAccountSaveData : EL_ScriptedStateSaveData
 {
 	ref array<string> m_aCharacterIds;
