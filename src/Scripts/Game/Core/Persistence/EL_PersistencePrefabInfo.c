@@ -14,7 +14,7 @@ class EL_PersistencePrefabInfo
 		string childName = GetPrefabOrBakedName(prefabChild);
 		BaseInventoryStorageComponent storage = prefabSlot.GetStorage();
 		if (!storage)
-			return; // Ignore special cases such as magazines etc and handle them in their concrete storage
+			return; // Ignore special cases where sttorage is not known such as magazines and handle them in an inherited implementation
 
 		string prefabParent = GetPrefabOrBakedName(prefabSlot.GetOwner());
 		EL_PersistencePrefabInfo info = s_mPrefabInfos.Get(prefabParent);

@@ -6,6 +6,8 @@ GenericEntity {
     m_aComponents {
      EL_WeaponAttachmentsStorageComponentSaveDataClass "{5A28749F9C0C5DD1}" {
      }
+     EL_MuzzleComponentSaveDataClass "{5D44CC6FDFBB450C}" {
+     }
     }
    }
   }

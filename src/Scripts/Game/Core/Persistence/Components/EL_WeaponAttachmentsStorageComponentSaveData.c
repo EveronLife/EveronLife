@@ -1,6 +1,10 @@
 [EL_ComponentSaveDataType(WeaponAttachmentsStorageComponent), BaseContainerProps()]
 class EL_WeaponAttachmentsStorageComponentSaveDataClass : EL_BaseInventoryStorageComponentSaveDataClass
 {
+	override array<typename> Requires()
+	{
+		return {EL_BaseMuzzleComponentSaveDataClass};
+	}
 };
 
 [EL_DbName("WeaponAttachmentsStorage")]
@@ -15,9 +19,9 @@ class EL_WeaponAttachmentsStorageComponentSaveData : EL_BaseInventoryStorageComp
 			MuzzleComponent muzzle = EL_Component<MuzzleComponent>.Find(storageComponent.GetOwner());
 			if (muzzle)
 			{
-				ResourceName magazinePrefab = muzzle.GetDefaultMagazinePrefab().GetResourceName();
+				BaseContainer magazinePrefab = muzzle.GetDefaultMagazinePrefab();
 				if (magazinePrefab)
-					result.Insert(magazinePrefab);
+					result.Insert(magazinePrefab.GetResourceName());
 			}
 		}
 		return result;

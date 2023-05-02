@@ -13,9 +13,17 @@ class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 	{
 		BaseMagazineComponent magazine = BaseMagazineComponent.Cast(worldEntityComponent);
 		m_iAmmoCount = magazine.GetAmmoCount();
-		if (magazine.IsUsed()) m_iAmmoCount++; // Add one for when its loaded back because it consumes one for chambering
 
-		if (m_iAmmoCount >= magazine.GetMaxAmmoCount()) return EL_EReadResult.DEFAULT;
+		if (magazine.IsUsed())
+		{
+			// On load all barrels will fill from magazine and be cleared afterwards if needed. so we need to compensate in ammo count
+			BaseMuzzleComponent parentMuzzle = EL_Component<BaseMuzzleComponent>.Find(magazine.GetOwner().GetParent());
+			m_iAmmoCount += parentMuzzle.GetBarrelsCount();
+		}
+
+		if (m_iAmmoCount >= magazine.GetMaxAmmoCount())
+			return EL_EReadResult.DEFAULT;
+
 		return EL_EReadResult.OK;
 	}
 
