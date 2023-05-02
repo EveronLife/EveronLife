@@ -88,6 +88,7 @@ class EL_DbName
 	//------------------------------------------------------------------------------------------------
 	void EL_DbName(string name)
 	{
-		Set(EL_ReflectionUtils.GetAttributeParent(), name);
+		typename dbEntityType = EL_ReflectionUtils.GetAttributeParent();
+		Set(dbEntityType, name);
 	}
 }

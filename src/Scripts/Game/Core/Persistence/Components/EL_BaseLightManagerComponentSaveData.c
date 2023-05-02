@@ -13,7 +13,7 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 	{
 		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(worldEntityComponent);
 
-		m_aLightSlots = new array<ref EL_PersistentLightSlot>();
+		m_aLightSlots = {};
 
 		array<BaseLightSlot> lightSlots();
 		lightManager.GetLights(lightSlots);
@@ -25,11 +25,15 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 			persistentLightSlot.m_bFunctional = lightSlot.IsLightFunctional();
 			persistentLightSlot.m_bState = lightManager.GetLightsState(persistentLightSlot.m_eType, persistentLightSlot.m_iSide);
 
-			if (attributes.m_bTrimDefaults && persistentLightSlot.m_bFunctional && !persistentLightSlot.m_bState) continue;
+			if (attributes.m_bTrimDefaults && persistentLightSlot.m_bFunctional && !persistentLightSlot.m_bState)
+				continue;
+
 			m_aLightSlots.Insert(persistentLightSlot);
 		}
 
-		if (m_aLightSlots.IsEmpty()) return EL_EReadResult.DEFAULT;
+		if (m_aLightSlots.IsEmpty())
+			return EL_EReadResult.DEFAULT;
+
 		return EL_EReadResult.OK;
 	}
 
@@ -51,7 +55,8 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 
 				// TODO: Remove this hacky fix after https://feedback.bistudio.com/T171832 has been adressed
 				ELightType lightType = persistentLightSlot.m_eType;
-				if (lightSlot.IsPresence()) lightType = ELightType.Presence;
+				if (lightSlot.IsPresence())
+					lightType = ELightType.Presence;
 
 				lightManager.SetLightsState(lightType, persistentLightSlot.m_bState, persistentLightSlot.m_iSide);
 				lightSlots.Remove(idx);
@@ -62,12 +67,12 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 
 		return EL_EApplyResult.OK;
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	override bool Equals(notnull EL_ComponentSaveData other)
 	{
 		EL_BaseLightManagerComponentSaveData otherData = EL_BaseLightManagerComponentSaveData.Cast(other);
-		
+
 		if (m_aLightSlots.Count() != otherData.m_aLightSlots.Count())
 			return false;
 
@@ -93,7 +98,7 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 			if (!found)
 				return false;
 		}
-		
+
 		return true;
 	}
 };
