@@ -62,8 +62,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 
 		// Remove id from pool of all known ids
 		set<string> ids = GetIdsByType(entityType);
-		int idx = ids.Find(entityId);
-		if (idx >= 0) ids.Remove(idx);
+		ids.RemoveItem(entityId);
 
 		// If collection of that entity type is empty remove the folder too to keep the file structure clean
 		if (ids.IsEmpty())

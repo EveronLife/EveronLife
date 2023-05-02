@@ -308,8 +308,7 @@ class EL_PersistenceManager
 		// Remove any removal entries for baked objects that no longer exist
 		foreach (string staleId : staleIds)
 		{
-			int idx = m_pRootEntityCollection.m_aRemovedBackedRootEntities.Find(staleId);
-			if (idx != -1) m_pRootEntityCollection.m_aRemovedBackedRootEntities.Remove(idx);
+			m_pRootEntityCollection.m_aRemovedBackedRootEntities.RemoveItem(staleId);
 		}
 
 		// Collect type and ids of inital world entities for bulk load
