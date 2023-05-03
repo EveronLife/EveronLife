@@ -34,6 +34,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 				if (persistentFuelNode.m_fFuel >= fuelNode.GetMaxFuel())
 					continue;
 
+				// Remove relfection getter when https://feedback.bistudio.com/T171947 is resolved in 0.9.9
 				float initalFuelState;
 				if (EL_ReflectionUtilsT<float>.Get(fuelNode, "m_fInitialFuelTankState", initalFuelState) &&
 					float.AlmostEqual(persistentFuelNode.m_fFuel, initalFuelState)) continue;
