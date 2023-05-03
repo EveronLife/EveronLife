@@ -407,7 +407,7 @@ class EL_PersistenceManager
 				}
 				else
 				{
-					Debug.Error("Unnamed baked parent entity. Unable to assign persistent id from name<->id mapping. Check your world setup!");
+					Debug.Error(string.Format("Unnamed baked parent '%1'. Unable to assign persistent id from name<->id mapping. Check your world setup!", EL_Utils.GetPrefabName(entity.GetParent())));
 					return string.Empty;
 				}
 			}
@@ -716,6 +716,7 @@ class EL_PersistenceManager
 	protected static void Reset()
 	{
 		EL_DefaultPrefabItemsInfo.Reset();
+		EL_EntitySlotPrefabInfo.Reset();
 		s_pInstance = null;
 	}
 };

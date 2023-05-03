@@ -66,7 +66,8 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 		}
 
 		// If any default prefabs are left over, it means some default items are missing -> can not be default
-		if (isDefault && (!defaultPrefabs || defaultPrefabs.IsEmpty())) return EL_EReadResult.DEFAULT;
+		if (isDefault && (!defaultPrefabs || defaultPrefabs.IsEmpty())) 
+			return EL_EReadResult.DEFAULT;
 
 		return EL_EReadResult.OK;
 	}

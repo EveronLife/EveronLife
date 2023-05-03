@@ -16,6 +16,8 @@ Vehicle {
      }
      EL_BaseLightManagerComponentSaveDataClass "{5A309BE3FE6421AC}" {
      }
+     EL_SlotManagerComponentSaveDataClass "{5D46776070A12985}" {
+     }
     }
    }
   }

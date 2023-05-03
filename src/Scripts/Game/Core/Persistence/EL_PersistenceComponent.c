@@ -365,7 +365,17 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		}
 
 		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
-		if (invItem) invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
+		if (invItem)
+		{
+			invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
+		}
+		else
+		{
+			// Scuffed hack until we have https://feedback.bistudio.com/T171945.
+			// Added to parent event does not fire because our component is loaded after hierarchy ... bruh
+			// We can't use on child added from parent side, as parent might not be involved in persistence system
+			GetGame().GetCallqueue().Call(CheckForParentSlot);
+		}
 
 		SetEventMask(owner, EntityEvent.INIT);
 	}
@@ -403,14 +413,17 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void OnParentSlotChanged(InventoryStorageSlot oldSlot, InventoryStorageSlot newSlot)
+	protected void OnParentSlotChanged(InventoryStorageSlot oldSlot, InventoryStorageSlot newSlot, IEntity newParent)
 	{
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
+		if (newSlot)
+			newParent = newSlot.GetOwner();
+
 		// Only count valid entity link systems as non root
-		bool isRoot = settings.m_bStorageRoot && !newSlot;
+		bool isRoot = settings.m_bStorageRoot && !newParent;
 		if (isRoot)
 		{
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
@@ -460,10 +473,39 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override event void OnDelete(IEntity owner)
+	protected void CheckForParentSlot()
+	{
+		IEntity owner = GetOwner();
+		IEntity parent = owner.GetParent();
+		if (!parent) return;
+
+		array<EntitySlotInfo> slotInfos();
+		EntitySlotInfo.GetSlotInfos(parent, slotInfos);
+		foreach (EntitySlotInfo entitySlot : slotInfos)
+		{
+			if (entitySlot.GetAttachedEntity() == owner)
+			{
+				OnParentSlotChanged(null, null, parent);
+				return;
+			}
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override event protected void OnRemovedFromParent(IEntity child, IEntity parent)
+	{
+		if (EL_Component<InventoryItemComponent>.Find(child))
+			return; // For inv items we listen to their events already
+
+		OnParentSlotChanged(null, null, null);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override event protected void OnDelete(IEntity owner)
 	{
 		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
 		if (invItem) invItem.m_OnParentSlotChangedInvoker.Remove(OnParentSlotChanged);
+		GetGame().GetCallqueue().Remove(CheckForParentSlot);
 
 		if (m_mLastSaveData)
 			m_mLastSaveData.Remove(this);
