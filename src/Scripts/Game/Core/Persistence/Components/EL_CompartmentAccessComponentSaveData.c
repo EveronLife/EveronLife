@@ -16,15 +16,16 @@ class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 		BaseCompartmentSlot comparmentSlot = compartment.GetCompartment();
 		if (comparmentSlot)
 		{
-			BaseCompartmentManagerComponent compartmentManager = EL_Component<BaseCompartmentManagerComponent>.Find(owner);
+			IEntity slotOwner = comparmentSlot.GetOwner();
+			BaseCompartmentManagerComponent compartmentManager = EL_Component<BaseCompartmentManagerComponent>.Find(slotOwner);
 			while (compartmentManager)
 			{
-				IEntity parent = owner.GetParent();
+				IEntity parent = slotOwner.GetParent();
 				BaseCompartmentManagerComponent parentManager = EL_Component<BaseCompartmentManagerComponent>.Find(parent);
 				if (!parentManager)
 					break;
 
-				owner = parent;
+				slotOwner = parent;
 				compartmentManager = parentManager;
 			}
 
@@ -36,7 +37,7 @@ class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 				{
 					if (slot == comparmentSlot)
 					{
-						m_sEntity = EL_PersistenceComponent.GetPersistentId(owner);
+						m_sEntity = EL_PersistenceComponent.GetPersistentId(slotOwner);
 						m_iSlotIdx = idx;
 					}
 				}
@@ -47,7 +48,9 @@ class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 			m_iSlotIdx = -1;
 		}
 
-		if (!m_sEntity || m_iSlotIdx == -1) return EL_EReadResult.DEFAULT;
+		if (!m_sEntity || m_iSlotIdx == -1)
+			return EL_EReadResult.DEFAULT;
+
 		return EL_EReadResult.OK;
 	}
 
