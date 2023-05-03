@@ -9,9 +9,9 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentLightSlot> m_aLightSlots;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(worldEntityComponent);
+		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(component);
 
 		m_aLightSlots = {};
 
@@ -38,9 +38,9 @@ class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(worldEntityComponent);
+		BaseLightManagerComponent lightManager = BaseLightManagerComponent.Cast(component);
 
 		array<BaseLightSlot> lightSlots();
 		lightManager.GetLights(lightSlots);

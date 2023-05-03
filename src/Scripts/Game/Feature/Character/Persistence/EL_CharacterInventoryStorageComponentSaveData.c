@@ -11,11 +11,11 @@ class EL_CharacterInventoryStorageComponentSaveData : EL_BaseInventoryStorageCom
 	ref array<ref EL_PersistentQuickSlotItem> m_aQuickSlotEntities;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		if (!super.ReadFrom(worldEntityComponent, attributes)) return EL_EReadResult.ERROR;
+		if (!super.ReadFrom(owner, component, attributes)) return EL_EReadResult.ERROR;
 
-		SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(worldEntityComponent);
+		SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(component);
 
 		m_aQuickSlotEntities = new array<ref EL_PersistentQuickSlotItem>();
 

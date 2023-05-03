@@ -15,9 +15,9 @@ class EL_BaseMuzzleComponentSaveData : EL_ComponentSaveData
 	ref array<bool> m_aChamberStatus;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseMuzzleComponent muzzle = BaseMuzzleComponent.Cast(worldEntityComponent);
+		BaseMuzzleComponent muzzle = BaseMuzzleComponent.Cast(component);
 		int barrelsCount = muzzle.GetBarrelsCount();
 		int ammoCount = muzzle.GetAmmoCount();
 
@@ -34,9 +34,9 @@ class EL_BaseMuzzleComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseMuzzleComponent muzzle = BaseMuzzleComponent.Cast(worldEntityComponent);
+		BaseMuzzleComponent muzzle = BaseMuzzleComponent.Cast(component);
 
 		foreach (int idx, bool chambered : m_aChamberStatus)
 		{
@@ -48,9 +48,9 @@ class EL_BaseMuzzleComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool IsFor(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override bool IsFor(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseMuzzleComponent muzzle = BaseMuzzleComponent.Cast(worldEntityComponent);
+		BaseMuzzleComponent muzzle = BaseMuzzleComponent.Cast(component);
 		return muzzle.GetMuzzleType() == m_eMuzzleType && muzzle.GetBarrelsCount() == m_aChamberStatus.Count();
 	}
 

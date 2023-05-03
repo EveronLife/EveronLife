@@ -56,10 +56,10 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! static helper see GetPersistentId()
-	static string GetPersistentId(IEntity worldEntity)
+	static string GetPersistentId(IEntity entity)
 	{
-		if (!worldEntity) return string.Empty;
-		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		if (!entity) return string.Empty;
+		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(entity.FindComponent(EL_PersistenceComponent));
 		if (!persistence) return string.Empty;
 		return persistence.GetPersistentId();
 	}

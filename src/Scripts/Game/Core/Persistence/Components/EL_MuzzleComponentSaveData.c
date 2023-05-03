@@ -7,12 +7,12 @@ class EL_MuzzleComponentSaveDataClass : EL_BaseMuzzleComponentSaveDataClass
 class EL_MuzzleComponentSaveData : EL_BaseMuzzleComponentSaveData
 {
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		MuzzleComponent muzzle = MuzzleComponent.Cast(worldEntityComponent);
+		MuzzleComponent muzzle = MuzzleComponent.Cast(component);
 		BaseContainer defaultMag = muzzle.GetDefaultMagazinePrefab();
 
-		if (!super.ReadFrom(worldEntityComponent, attributes))
+		if (!super.ReadFrom(owner, component, attributes))
 			return EL_EReadResult.ERROR;
 
 		// Default mag attached so all chambers should be loaded

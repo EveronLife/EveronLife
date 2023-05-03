@@ -11,10 +11,10 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentHitZone> m_aHitzones;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
 		EL_HitZoneContainerComponentSaveDataClass settings = EL_HitZoneContainerComponentSaveDataClass.Cast(attributes);
-		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(worldEntityComponent);
+		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(component);
 
 		m_aHitzones = {};
 
@@ -38,12 +38,12 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
 		EL_EApplyResult result = EL_EApplyResult.OK;
 
 		array<HitZone> outHitZones();
-		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(worldEntityComponent);
+		HitZoneContainerComponent hitZoneContainer = HitZoneContainerComponent.Cast(component);
 		hitZoneContainer.GetAllHitZones(outHitZones);
 
 		bool tryIdxAcces = outHitZones.Count() >= m_aHitzones.Count();
@@ -75,7 +75,7 @@ class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 
 			if (!hitZone)
 			{
-				Debug.Error(string.Format("'%1' unable to find hitZone with name '%2'. Ignored.", worldEntityComponent, persistentHitZone.m_sName));
+				Debug.Error(string.Format("'%1' unable to find hitZone with name '%2'. Ignored.", component, persistentHitZone.m_sName));
 				continue;
 			}
 

@@ -39,19 +39,19 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Reads the save-data from the world entity
-	//! \param worldEntity the entity to read the save-data from
+	//! \param entity to read the save-data from
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return EL_EReadResult.OK if save-data could be read, ERROR if something failed, NODATA for all default values
-	EL_EReadResult ReadFrom(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
+	EL_EReadResult ReadFrom(IEntity entity, EL_EntitySaveDataClass attributes)
 	{
 		EL_EReadResult resultCode = EL_EReadResult.DEFAULT;
 		if (!attributes.m_bTrimDefaults) resultCode = EL_EReadResult.OK;
 
-		EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(worldEntity);
+		EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(entity);
 		ReadMetaData(persistenceComponent);
 
 		// Prefab
-		m_rPrefab = EL_Utils.GetPrefabName(worldEntity);
+		m_rPrefab = EL_Utils.GetPrefabName(entity);
 
 		// Transform
 		m_pTransformation = new EL_PersistentTransformation();
@@ -61,17 +61,17 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		{
 			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS)
 			{
-				m_pTransformation.m_vOrigin = worldEntity.GetOrigin();
+				m_pTransformation.m_vOrigin = entity.GetOrigin();
 				resultCode = EL_EReadResult.OK;
 			}
 			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES)
 			{
-				m_pTransformation.m_vAngles = worldEntity.GetYawPitchRoll();
+				m_pTransformation.m_vAngles = entity.GetYawPitchRoll();
 				resultCode = EL_EReadResult.OK;
 			}
 			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
 			{
-				m_pTransformation.m_fScale = worldEntity.GetScale();
+				m_pTransformation.m_fScale = entity.GetScale();
 				resultCode = EL_EReadResult.OK;
 			}
 		}
@@ -81,7 +81,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		{
 			GarbageManager garbageManager = GetGame().GetGarbageManager();
 			if (garbageManager)
-				m_fRemainingLifetime = garbageManager.GetRemainingLifetime(worldEntity);
+				m_fRemainingLifetime = garbageManager.GetRemainingLifetime(entity);
 
 			if (m_fRemainingLifetime == -1)
 			{
@@ -107,7 +107,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 			if (!saveDataType) return false;
 
 			array<Managed> outComponents();
-			worldEntity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataClass.Type()), outComponents);
+			entity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataClass.Type()), outComponents);
 			foreach (Managed componentRef : outComponents)
 			{
 				// Ingore base class find machtes if a parent class was already processed
@@ -118,7 +118,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 				if (!componentSaveData) return EL_EReadResult.ERROR;
 
 				componentSaveDataClass.m_bTrimDefaults = attributes.m_bTrimDefaults;
-				EL_EReadResult componentRead = componentSaveData.ReadFrom(GenericComponent.Cast(componentRef), componentSaveDataClass);
+				EL_EReadResult componentRead = componentSaveData.ReadFrom(entity, GenericComponent.Cast(componentRef), componentSaveDataClass);
 				if (componentRead == EL_EReadResult.ERROR) return componentRead;
 				if (componentRead == EL_EReadResult.DEFAULT && attributes.m_bTrimDefaults) continue;
 
@@ -137,23 +137,23 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Applies the save-data a world entity
-	//! \param worldEntity the entity to apply the data to
+	//! \param entity to apply the data to
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if save-data could be applied, false if something failed.
-	EL_EApplyResult ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
+	EL_EApplyResult ApplyTo(IEntity entity, EL_EntitySaveDataClass attributes)
 	{
 		EL_EApplyResult result = EL_EApplyResult.OK;
 
 		// Transform
 		if (m_pTransformation && !m_pTransformation.IsDefault())
-			EL_Utils.ForceTransform(worldEntity, m_pTransformation.m_vOrigin, m_pTransformation.m_vAngles, m_pTransformation.m_fScale);
+			EL_Utils.ForceTransform(entity, m_pTransformation.m_vOrigin, m_pTransformation.m_vAngles, m_pTransformation.m_fScale);
 
 		// Lifetime
 		if (attributes.m_bSaveRemainingLifetime)
 		{
 			GarbageManager garbageManager = GetGame().GetGarbageManager();
 			if (garbageManager && m_fRemainingLifetime > 0)
-				garbageManager.Insert(worldEntity, m_fRemainingLifetime);
+				garbageManager.Insert(entity, m_fRemainingLifetime);
 		}
 
 		// Components
@@ -161,7 +161,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		set<typename> processedSaveDataTypes();
 		foreach (EL_ComponentSaveDataClass componentSaveDataClass : attributes.m_aComponents)
 		{
-			EL_EApplyResult componentResult = ApplyComponent(componentSaveDataClass, worldEntity, processedSaveDataTypes, processedComponents, attributes);
+			EL_EApplyResult componentResult = ApplyComponent(componentSaveDataClass, entity, processedSaveDataTypes, processedComponents, attributes);
 
 			if (componentResult == EL_EApplyResult.ERROR)
 				return EL_EApplyResult.ERROR;
@@ -171,8 +171,8 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		}
 
 		// Update any non character entity. On character this can cause fall through ground.
-		if (!ChimeraCharacter.Cast(worldEntity))
-			worldEntity.Update();
+		if (!ChimeraCharacter.Cast(entity))
+			entity.Update();
 
 		return result;
 	}
@@ -237,7 +237,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	protected EL_EApplyResult ApplyComponent(
 		EL_ComponentSaveDataClass componentSaveDataClass,
-		IEntity worldEntity,
+		IEntity entity,
 		set<typename> processedSaveDataTypes,
 		set<Managed> processedComponents,
 		EL_EntitySaveDataClass attributes)
@@ -270,7 +270,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 					if (possibleComponentClass == componentSaveDataClass ||
 						!possibleComponentClass.IsInherited(requiredSaveDataClass)) continue;
 
-					EL_EApplyResult componentResult = ApplyComponent(possibleComponentClass, worldEntity, processedSaveDataTypes, processedComponents, attributes);
+					EL_EApplyResult componentResult = ApplyComponent(possibleComponentClass, entity, processedSaveDataTypes, processedComponents, attributes);
 
 					if (componentResult == EL_EApplyResult.ERROR)
 						return EL_EApplyResult.ERROR;
@@ -283,15 +283,15 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Apply save-data to matching components
 		array<Managed> outComponents();
-		worldEntity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataClass.Type()), outComponents);
+		entity.FindComponents(EL_ComponentSaveDataType.Get(componentSaveDataClass.Type()), outComponents);
 		foreach (EL_ComponentSaveData componentSaveData : componentsSaveData)
 		{
 			bool applied = false;
 			foreach (Managed componentRef : outComponents)
 			{
-				if (!processedComponents.Contains(componentRef) && componentSaveData.IsFor(GenericComponent.Cast(componentRef), componentSaveDataClass))
+				if (!processedComponents.Contains(componentRef) && componentSaveData.IsFor(entity, GenericComponent.Cast(componentRef), componentSaveDataClass))
 				{
-					EL_EApplyResult componentResult = componentSaveData.ApplyTo(GenericComponent.Cast(componentRef), componentSaveDataClass);
+					EL_EApplyResult componentResult = componentSaveData.ApplyTo(entity, GenericComponent.Cast(componentRef), componentSaveDataClass);
 
 					if (componentResult == EL_EApplyResult.ERROR)
 						return EL_EApplyResult.ERROR;
@@ -310,7 +310,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 			if (!applied)
 			{
-				Print(string.Format("No matching component for '%1' found on entity '%2'@%3", componentSaveData.Type().ToString(), EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin()), LogLevel.VERBOSE);
+				Print(string.Format("No matching component for '%1' found on entity '%2'@%3", componentSaveData.Type().ToString(), EL_Utils.GetPrefabName(entity), entity.GetOrigin()), LogLevel.VERBOSE);
 			}
 		}
 

@@ -9,19 +9,19 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentFuelNode> m_aFuelNodes;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
 		m_aFuelNodes = {};
 
 		array<BaseFuelNode> outNodes();
-		FuelManagerComponent.Cast(worldEntityComponent).GetFuelNodesList(outNodes);
+		FuelManagerComponent.Cast(component).GetFuelNodesList(outNodes);
 
 		foreach (BaseFuelNode node : outNodes)
 		{
 			SCR_FuelNode fuelNode = SCR_FuelNode.Cast(node);
 			if (!fuelNode)
 			{
-				Debug.Error(string.Format("'%1' contains non persistable fuel node type '%2'. Inherit from SCR_FuelNode instead. Ignored.", worldEntityComponent, node.Type()));
+				Debug.Error(string.Format("'%1' contains non persistable fuel node type '%2'. Inherit from SCR_FuelNode instead. Ignored.", component, node.Type()));
 				continue;
 			}
 
@@ -49,10 +49,10 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
 		array<BaseFuelNode> outNodes();
-		FuelManagerComponent.Cast(worldEntityComponent).GetFuelNodesList(outNodes);
+		FuelManagerComponent.Cast(component).GetFuelNodesList(outNodes);
 
 		bool tryIdxAcces = outNodes.Count() >= m_aFuelNodes.Count();
 
@@ -85,7 +85,7 @@ class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 
 			if (!fuelNode)
 			{
-				Debug.Error(string.Format("'%1' unable to find fuel tank id '%2'. Ignored.", worldEntityComponent, persistentFuelNode.m_iTankId));
+				Debug.Error(string.Format("'%1' unable to find fuel tank id '%2'. Ignored.", component, persistentFuelNode.m_iTankId));
 				continue;
 			}
 

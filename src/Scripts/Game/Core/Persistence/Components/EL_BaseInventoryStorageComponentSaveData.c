@@ -11,9 +11,9 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 	ref array<ref EL_PersistentInventoryStorageSlot> m_aSlots;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
+		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(component);
 
 		m_iPriority = storageComponent.GetPriority();
 		m_ePurposeFlags = storageComponent.GetPurpose();
@@ -72,16 +72,16 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override bool IsFor(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override bool IsFor(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
+		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(component);
 		return (storageComponent.GetPriority() == m_iPriority) && (storageComponent.GetPurpose() == m_ePurposeFlags);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(worldEntityComponent);
+		BaseInventoryStorageComponent storageComponent = BaseInventoryStorageComponent.Cast(component);
 		InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(storageComponent.GetOwner().FindComponent(InventoryStorageManagerComponent));
 		if (!storageManager) storageManager = EL_GlobalInventoryStorageManagerComponent.GetInstance();
 

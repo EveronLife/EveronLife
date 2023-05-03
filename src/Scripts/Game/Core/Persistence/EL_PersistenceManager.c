@@ -122,21 +122,21 @@ class EL_PersistenceManager
 			return null;
 		}
 
-		IEntity worldEntity = GetGame().SpawnEntityPrefab(resource);
-		if (!worldEntity)
+		IEntity entity = GetGame().SpawnEntityPrefab(resource);
+		if (!entity)
 		{
 			Debug.Error(string.Format("Failed to spawn entity '%1:%2'. Ignored.", saveData.Type().ToString(), saveData.GetId()));
 			return null;
 		}
 
-		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(worldEntity.FindComponent(EL_PersistenceComponent));
+		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(entity.FindComponent(EL_PersistenceComponent));
 		if (!persistenceComponent || !persistenceComponent.Load(saveData, spawnAsSavedRoot))
 		{
-			SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
+			SCR_EntityHelper.DeleteEntityAndChildren(entity);
 			return null;
 		}
 
-		return worldEntity;
+		return entity;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -294,15 +294,15 @@ class EL_PersistenceManager
 		array<string> staleIds();
 		foreach (string persistentId : m_pRootEntityCollection.m_aRemovedBackedRootEntities)
 		{
-			IEntity worldEntity = FindEntityByPersistentId(persistentId);
-			if (!worldEntity)
+			IEntity entity = FindEntityByPersistentId(persistentId);
+			if (!entity)
 			{
 				staleIds.Insert(persistentId);
 				continue;
 			}
 
-			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting baked entity '%1'@%2.", EL_Utils.GetPrefabName(worldEntity), worldEntity.GetOrigin()), LogLevel.SPAM);
-			SCR_EntityHelper.DeleteEntityAndChildren(worldEntity);
+			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting baked entity '%1'@%2.", EL_Utils.GetPrefabName(entity), entity.GetOrigin()), LogLevel.SPAM);
+			SCR_EntityHelper.DeleteEntityAndChildren(entity);
 		}
 
 		// Remove any removal entries for baked objects that no longer exist
@@ -382,11 +382,11 @@ class EL_PersistenceManager
 
 		if (m_eState < EL_EPersistenceManagerState.SETUP)
 		{
-			IEntity worldEntity = persistenceComponent.GetOwner();
-			string name = worldEntity.GetName();
+			IEntity entity = persistenceComponent.GetOwner();
+			string name = entity.GetName();
 			if (!name)
 			{
-				IEntity parent = worldEntity.GetParent();
+				IEntity parent = entity.GetParent();
 				while (parent && !parent.GetName())
 				{
 					parent = parent.GetParent()
@@ -394,7 +394,7 @@ class EL_PersistenceManager
 
 				if (parent && parent.GetName())
 				{
-					string namePart = string.Format("%1_%2", parent.GetName(), EL_Utils.GetPrefabName(worldEntity).Substring(1, 16));
+					string namePart = string.Format("%1_%2", parent.GetName(), EL_Utils.GetPrefabName(entity).Substring(1, 16));
 					int duplicate;
 					while (true)
 					{

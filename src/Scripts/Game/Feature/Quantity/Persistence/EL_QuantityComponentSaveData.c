@@ -9,17 +9,17 @@ class EL_QuantityComponentSaveData : EL_ComponentSaveData
 	int m_iQuantity;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		m_iQuantity = EL_QuantityComponent.Cast(worldEntityComponent).GetQuantity();
+		m_iQuantity = EL_QuantityComponent.Cast(component).GetQuantity();
 		if (m_iQuantity == 1) return EL_EReadResult.DEFAULT;
 		return EL_EReadResult.OK;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		EL_QuantityComponent quantity = EL_QuantityComponent.Cast(worldEntityComponent);
+		EL_QuantityComponent quantity = EL_QuantityComponent.Cast(component);
 		quantity.SetQuantity(m_iQuantity);
 
 		// Keep seperate for current frame to have (relevant during load into storages situation). Remove intend on next frame

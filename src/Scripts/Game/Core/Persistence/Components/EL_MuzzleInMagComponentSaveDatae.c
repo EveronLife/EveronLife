@@ -7,9 +7,9 @@ class EL_MuzzleInMagComponentSaveDataClass : EL_BaseMuzzleComponentSaveDataClass
 class EL_MuzzleInMagComponentSaveData : EL_BaseMuzzleComponentSaveData
 {
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		if (!super.ReadFrom(worldEntityComponent, attributes))
+		if (!super.ReadFrom(owner, component, attributes))
 			return EL_EReadResult.ERROR;
 
 		// Assume all muzzle in mags have a default ammo chambered

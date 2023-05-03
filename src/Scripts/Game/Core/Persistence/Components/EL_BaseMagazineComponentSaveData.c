@@ -9,9 +9,9 @@ class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 	int m_iAmmoCount;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseMagazineComponent magazine = BaseMagazineComponent.Cast(worldEntityComponent);
+		BaseMagazineComponent magazine = BaseMagazineComponent.Cast(component);
 		m_iAmmoCount = magazine.GetAmmoCount();
 
 		if (magazine.IsUsed())
@@ -28,9 +28,9 @@ class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		BaseMagazineComponent magazine = BaseMagazineComponent.Cast(worldEntityComponent);
+		BaseMagazineComponent magazine = BaseMagazineComponent.Cast(component);
 		magazine.SetAmmoCount(m_iAmmoCount);
 		return EL_EApplyResult.OK;
 	}

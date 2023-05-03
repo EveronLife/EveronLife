@@ -50,7 +50,7 @@ class EL_PersistentWorldEntityLoader
 	//! \return array of entities if spawned successfully, else empty
 	static array<IEntity> Load(typename saveDataType, array<string> persistentIds = null)
 	{
-		array<IEntity> resultWorldEntities();
+		array<IEntity> resultEntities();
 
 		EL_DbFindCondition condition;
 		if (persistentIds && !persistentIds.IsEmpty())
@@ -64,12 +64,12 @@ class EL_PersistentWorldEntityLoader
 		{
 			foreach (EL_DbEntity findResult : findResults)
 			{
-				IEntity worldEntity = persistenceManager.SpawnWorldEntity(EL_EntitySaveData.Cast(findResult));
-				if (worldEntity) resultWorldEntities.Insert(worldEntity);
+				IEntity entity = persistenceManager.SpawnWorldEntity(EL_EntitySaveData.Cast(findResult));
+				if (entity) resultEntities.Insert(entity);
 			}
 		}
 
-		return resultWorldEntities;
+		return resultEntities;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_Entit
 	//------------------------------------------------------------------------------------------------
 	override void OnSuccess(Managed context, array<ref EL_EntitySaveData> resultData)
 	{
-		array<IEntity> resultWorldEntities();
+		array<IEntity> resultEntities();
 
 		if (resultData)
 		{
@@ -219,12 +219,12 @@ class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_Entit
 
 			foreach (EL_EntitySaveData saveData : resultData)
 			{
-				IEntity worldEntity = persistenceManager.SpawnWorldEntity(saveData);
-				if (worldEntity) resultWorldEntities.Insert(worldEntity);
+				IEntity entity = persistenceManager.SpawnWorldEntity(saveData);
+				if (entity) resultEntities.Insert(entity);
 			}
 		}
 
-		if (m_pOuterCallback) m_pOuterCallback.Invoke(resultWorldEntities);
+		if (m_pOuterCallback) m_pOuterCallback.Invoke(resultEntities);
 	}
 
 	//------------------------------------------------------------------------------------------------

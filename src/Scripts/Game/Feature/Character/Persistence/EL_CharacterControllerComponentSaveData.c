@@ -17,9 +17,9 @@ class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 	bool m_bRightHandRaised;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		SCR_CharacterControllerComponent characterController = SCR_CharacterControllerComponent.Cast(worldEntityComponent);
+		SCR_CharacterControllerComponent characterController = SCR_CharacterControllerComponent.Cast(component);
 
 		m_eStance = characterController.GetStance();
 		m_sLeftHandItemId = EL_PersistenceComponent.GetPersistentId(characterController.GetAttachedGadgetAtLeftHandSlot());
@@ -50,12 +50,12 @@ class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
 		EL_EApplyResult result = EL_EApplyResult.OK;
 
 		// Apply stance
-		SCR_CharacterControllerComponent characterController = SCR_CharacterControllerComponent.Cast(worldEntityComponent);
+		SCR_CharacterControllerComponent characterController = SCR_CharacterControllerComponent.Cast(component);
 		if (characterController.GetStance() != m_eStance)
 		{
 			switch (m_eStance)

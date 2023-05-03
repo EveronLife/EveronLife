@@ -10,13 +10,12 @@ class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 	int m_iSlotIdx;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		CompartmentAccessComponent compartment = CompartmentAccessComponent.Cast(worldEntityComponent);
+		CompartmentAccessComponent compartment = CompartmentAccessComponent.Cast(component);
 		BaseCompartmentSlot comparmentSlot = compartment.GetCompartment();
 		if (comparmentSlot)
 		{
-			IEntity owner = comparmentSlot.GetOwner();
 			BaseCompartmentManagerComponent compartmentManager = EL_Component<BaseCompartmentManagerComponent>.Find(owner);
 			while (compartmentManager)
 			{
@@ -53,9 +52,9 @@ class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		CompartmentAccessComponent compartment = CompartmentAccessComponent.Cast(worldEntityComponent);
+		CompartmentAccessComponent compartment = CompartmentAccessComponent.Cast(component);
 		IEntity compartmentHolder = EL_PersistenceManager.GetInstance().FindEntityByPersistentId(m_sEntity);
 		BaseCompartmentManagerComponent compartmentManager = EL_Component<BaseCompartmentManagerComponent>.Find(compartmentHolder);
 		if (compartmentManager)
@@ -70,7 +69,6 @@ class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 		}
 
 		// No longer able to enter compartment so find free position on the ground to spawn instead
-		IEntity owner = compartment.GetOwner();
 		vector currentPos = owner.GetOrigin();
 		if (SCR_WorldTools.FindEmptyTerrainPosition(currentPos, currentPos, 50, cylinderHeight: 1000))
 			EL_Utils.Teleport(owner, currentPos);

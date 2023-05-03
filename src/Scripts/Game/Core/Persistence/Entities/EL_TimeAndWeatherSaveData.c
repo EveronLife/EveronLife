@@ -12,11 +12,11 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 	int m_iYear, m_iMonth, m_iDay, m_iHour, m_iMinute, m_iSecond;
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
+	override EL_EReadResult ReadFrom(IEntity entity, EL_EntitySaveDataClass attributes)
 	{
-		ReadMetaData(EL_Component<EL_PersistenceComponent>.Find(worldEntity));
+		ReadMetaData(EL_Component<EL_PersistenceComponent>.Find(entity));
 
-		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
+		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(entity);
 		WeatherState currentWeather = timeAndWeatherManager.GetCurrentWeatherState();
 		m_sWeatherState = currentWeather.GetStateName();
 		m_bWeatherLooping = timeAndWeatherManager.IsWeatherLooping();
@@ -28,9 +28,9 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_EApplyResult ApplyTo(notnull IEntity worldEntity, notnull EL_EntitySaveDataClass attributes)
+	override EL_EApplyResult ApplyTo(IEntity entity, EL_EntitySaveDataClass attributes)
 	{
-		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(worldEntity);
+		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(entity);
 		timeAndWeatherManager.ForceWeatherTo(m_bWeatherLooping, m_sWeatherState);
 		timeAndWeatherManager.SetDate(m_iYear, m_iMonth, m_iDay);
 		timeAndWeatherManager.SetHoursMinutesSeconds(m_iHour, m_iMinute, m_iSecond);

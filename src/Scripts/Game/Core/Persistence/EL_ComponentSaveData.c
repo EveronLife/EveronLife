@@ -16,32 +16,35 @@ class EL_ComponentSaveData
 
 	//------------------------------------------------------------------------------------------------
 	//! Reads the save-data from the world entity component
-	//! \param worldEntityComponent the component to read the save-data from
+	//! \param owner of the component
+	//! \param component to read the save-data from
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return EL_EReadResult.OK if save-data could be read, ERROR if something failed, DEFAULT if the data could be trimmed
-	EL_EReadResult ReadFrom(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		return EL_DbEntityUtils.StructAutoCopy(worldEntityComponent, this);
+		return EL_DbEntityUtils.StructAutoCopy(component, this);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Compares the save-data against a world entity component to find out which save-data belongs to with component in case there are multiple instances of the component present (e.g. storages).
-	//! \param worldEntityComponent the component to compare against
+	//! \param owner of the component
+	//! \param component to compare against
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if the component is the one the save-data was meant for, false otherwise.
-	bool IsFor(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	bool IsFor(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
 		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Applies the save-data to the world entity component
-	//! \param worldEntityComponent the component to apply the save-data to
+	//! \param owner of the component
+	//! \param component to apply the save-data to
 	//! \param attributes the class-class shared configuration attributes assigned in the world editor
 	//! \return true if save-data could be applied, false if something failed.
-	EL_EApplyResult ApplyTo(notnull GenericComponent worldEntityComponent, notnull EL_ComponentSaveDataClass attributes)
+	EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		return EL_DbEntityUtils.StructAutoCopy(this, worldEntityComponent);
+		return EL_DbEntityUtils.StructAutoCopy(this, component);
 	}
 
 	//------------------------------------------------------------------------------------------------
