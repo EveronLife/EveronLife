@@ -374,7 +374,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	override protected void EOnInit(IEntity owner)
 	{
 		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.INITIALIZED);
-		EL_PersistencePrefabInfo.Finalize(owner);
+		EL_DefaultPrefabItemsInfo.Finalize(owner);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -448,7 +448,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 					if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
 						EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED_PREFAB_CHILD);
 
-					EL_PersistencePrefabInfo.Add(owner, newSlot);
+					EL_DefaultPrefabItemsInfo.Add(owner, newSlot);
 				}
 			}
 		}

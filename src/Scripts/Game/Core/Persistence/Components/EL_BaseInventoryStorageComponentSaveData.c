@@ -21,7 +21,8 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 		m_aSlots = {};
 
 		bool isDefault = true;
-		array<string> defaultPrefabs = GetDefaultPrefabs(storageComponent);
+		array<string> defaultPrefabs();
+		defaultPrefabs.Copy(GetDefaultPrefabs(storageComponent));
 
 		for (int nSlot = 0, slots = storageComponent.GetSlotsCount(); nSlot < slots; nSlot++)
 		{
@@ -67,7 +68,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 	//------------------------------------------------------------------------------------------------
 	protected array<string> GetDefaultPrefabs(BaseInventoryStorageComponent storageComponent)
 	{
-		return EL_PersistencePrefabInfo.GetPrefabChildren(storageComponent);
+		return EL_DefaultPrefabItemsInfo.GetPrefabChildren(storageComponent);
 	}
 
 	//------------------------------------------------------------------------------------------------

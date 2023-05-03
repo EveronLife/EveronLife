@@ -13,7 +13,7 @@ class EL_WeaponAttachmentsStorageComponentSaveData : EL_BaseInventoryStorageComp
 	//------------------------------------------------------------------------------------------------
 	override protected array<string> GetDefaultPrefabs(BaseInventoryStorageComponent storageComponent)
 	{
-		array<string> result = EL_PersistencePrefabInfo.GetPrefabChildren(storageComponent);
+		array<string> result = EL_DefaultPrefabItemsInfo.GetPrefabChildren(storageComponent);
 		if (result)
 		{
 			MuzzleComponent muzzle = EL_Component<MuzzleComponent>.Find(storageComponent.GetOwner());

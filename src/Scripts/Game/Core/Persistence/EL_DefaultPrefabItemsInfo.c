@@ -1,6 +1,6 @@
-class EL_PersistencePrefabInfo
+class EL_DefaultPrefabItemsInfo
 {
-	protected static ref map<string, ref EL_PersistencePrefabInfo>> s_mPrefabInfos;
+	protected static ref map<string, ref EL_DefaultPrefabItemsInfo>> s_mPrefabInfos;
 
 	protected bool m_bReadOnly;
 	protected ref map<string, ref array<string>> m_mStorageItems = new map<string, ref array<string>>();
@@ -9,7 +9,7 @@ class EL_PersistencePrefabInfo
 	static void Add(IEntity prefabChild, InventoryStorageSlot prefabSlot)
 	{
 		if (!s_mPrefabInfos)
-			s_mPrefabInfos = new map<string, ref EL_PersistencePrefabInfo>>();
+			s_mPrefabInfos = new map<string, ref EL_DefaultPrefabItemsInfo>>();
 
 		string childName = GetPrefabOrBakedName(prefabChild);
 		BaseInventoryStorageComponent storage = prefabSlot.GetStorage();
@@ -17,10 +17,10 @@ class EL_PersistencePrefabInfo
 			return; // Ignore special cases where sttorage is not known such as magazines and handle them in an inherited implementation
 
 		string prefabParent = GetPrefabOrBakedName(prefabSlot.GetOwner());
-		EL_PersistencePrefabInfo info = s_mPrefabInfos.Get(prefabParent);
+		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(prefabParent);
 		if (!info)
 		{
-			info = new EL_PersistencePrefabInfo();
+			info = new EL_DefaultPrefabItemsInfo();
 			s_mPrefabInfos.Set(prefabParent, info);
 		}
 		else if (info.m_bReadOnly)
@@ -44,7 +44,7 @@ class EL_PersistencePrefabInfo
 		if (!s_mPrefabInfos)
 			return;
 
-		EL_PersistencePrefabInfo info = s_mPrefabInfos.Get(GetPrefabOrBakedName(prefabParent));
+		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(GetPrefabOrBakedName(prefabParent));
 		if (!info)
 			return;
 
@@ -58,18 +58,12 @@ class EL_PersistencePrefabInfo
 			return null;
 
 		string prefabParent = GetPrefabOrBakedName(storage.GetOwner());
-		EL_PersistencePrefabInfo info = s_mPrefabInfos.Get(prefabParent);
+		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(prefabParent);
 		if (!info || !info.m_bReadOnly)
 			return null;
 
 		string storageKey = string.Format("%1:%2:%3", storage.Type().ToString(), storage.GetPurpose(), storage.GetPriority());
-		array<string> prefabs = info.m_mStorageItems.Get(storageKey);
-		if (!prefabs)
-			return null;
-
-		array<string> result();
-		result.Copy(prefabs);
-		return result;
+		return info.m_mStorageItems.Get(storageKey);
 	}
 
 	//------------------------------------------------------------------------------------------------

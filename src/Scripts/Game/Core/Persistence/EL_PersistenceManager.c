@@ -715,7 +715,7 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected static void Reset()
 	{
-		EL_PersistencePrefabInfo.Reset();
+		EL_DefaultPrefabItemsInfo.Reset();
 		s_pInstance = null;
 	}
 };
