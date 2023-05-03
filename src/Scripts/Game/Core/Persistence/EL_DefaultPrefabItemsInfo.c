@@ -11,12 +11,12 @@ class EL_DefaultPrefabItemsInfo
 		if (!s_mPrefabInfos)
 			s_mPrefabInfos = new map<string, ref EL_DefaultPrefabItemsInfo>>();
 
-		string childName = GetPrefabOrBakedName(prefabChild);
+		string childName = EL_Utils.GetPrefabOrMapName(prefabChild);
 		BaseInventoryStorageComponent storage = prefabSlot.GetStorage();
 		if (!storage)
 			return; // Ignore special cases where sttorage is not known such as magazines and handle them in an inherited implementation
 
-		string prefabParent = GetPrefabOrBakedName(prefabSlot.GetOwner());
+		string prefabParent = EL_Utils.GetPrefabOrMapName(prefabSlot.GetOwner());
 		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(prefabParent);
 		if (!info)
 		{
@@ -44,7 +44,7 @@ class EL_DefaultPrefabItemsInfo
 		if (!s_mPrefabInfos)
 			return;
 
-		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(GetPrefabOrBakedName(prefabParent));
+		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(EL_Utils.GetPrefabOrMapName(prefabParent));
 		if (!info)
 			return;
 
@@ -57,7 +57,7 @@ class EL_DefaultPrefabItemsInfo
 		if (!s_mPrefabInfos)
 			return null;
 
-		string prefabParent = GetPrefabOrBakedName(storage.GetOwner());
+		string prefabParent = EL_Utils.GetPrefabOrMapName(storage.GetOwner());
 		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(prefabParent);
 		if (!info || !info.m_bReadOnly)
 			return null;
@@ -70,16 +70,5 @@ class EL_DefaultPrefabItemsInfo
 	static void Reset()
 	{
 		s_mPrefabInfos = null;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected static string GetPrefabOrBakedName(IEntity entity)
-	{
-		// Using prefab name will tell us if the entity is fully prefabbed or there are any adjustments
-		string name = entity.GetPrefabData().GetPrefabName();
-		if (!name)
-			name = entity.GetName();
-
-		return name;
 	}
 };

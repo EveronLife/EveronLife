@@ -18,7 +18,7 @@ class EL_ReflectionUtilsT<Class T>
 		EL_ReflectionVariableInfo info = EL_ReflectionVariableInfo.Get(instance, variableName);
 		if (!info)
 			return false;
-		return info.m_tVaribleType.GetVariableValue(instance, info.m_iVariableindex, value);
+		return info.m_tHolderType.GetVariableValue(instance, info.m_iVariableindex, value);
 	}
 
 	//------------------------------------------------------------------------------------------------

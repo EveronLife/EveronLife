@@ -21,8 +21,14 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 		m_aSlots = {};
 
 		bool isDefault = true;
-		array<string> defaultPrefabs();
-		defaultPrefabs.Copy(GetDefaultPrefabs(storageComponent));
+
+		array<string> defaultPrefabs;
+		array<string> defaultPrefabsData = GetDefaultPrefabs(storageComponent);
+		if (defaultPrefabsData)
+		{
+			defaultPrefabs = {};
+			defaultPrefabs.Copy(defaultPrefabsData);
+		}
 
 		for (int nSlot = 0, slots = storageComponent.GetSlotsCount(); nSlot < slots; nSlot++)
 		{

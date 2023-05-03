@@ -58,13 +58,25 @@ class EL_Utils
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Gets the prefab the entitty uses
-	//! \param entity Instance of which to get tthe prefab name
+	//! Gets the prefab the entity uses
+	//! \param entity Instance of which to get the prefab name
 	//! \return the resource name of the prefab or empty string if no prefab was used or entity is invalid
 	static ResourceName GetPrefabName(IEntity entity)
 	{
 		if (!entity) return string.Empty;
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! Gets the prefab the entity uses or the unique map name
+	//! \param entity Instance of which to get the prefab/map name
+	//! \return the resource name of the prefab or name on the map (might be empt)
+	static string GetPrefabOrMapName(IEntity entity)
+	{
+		if (!entity) return string.Empty;
+		string name = entity.GetPrefabData().GetPrefabName();
+		if (!name) name = entity.GetName();
+		return name;
 	}
 
 	//------------------------------------------------------------------------------------------------
