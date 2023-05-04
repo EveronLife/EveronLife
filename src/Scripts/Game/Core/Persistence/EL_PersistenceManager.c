@@ -460,7 +460,7 @@ class EL_PersistenceManager
 		if (!id) id = GetPersistentId(persistenceComponent);
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		bool isRoot = settings.m_bStorageRoot && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.STORAGE_ROOT);
+		bool isRoot = settings.m_bStorageRoot && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.ROOT);
 		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
 
 		return id;
@@ -532,15 +532,14 @@ class EL_PersistenceManager
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, id, m_eState);
 
-			if (m_mBakedRoots && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_ROOT))
-			{
+			if (m_mBakedRoots && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
 				m_mBakedRoots.Set(id, persistenceComponent);
-			}
 		}
 		else
 		{
 			m_pRootEntityCollection.Remove(persistenceComponent, id, m_eState);
-			if (m_mBakedRoots) m_mBakedRoots.Remove(id);
+			if (m_mBakedRoots)
+				m_mBakedRoots.Remove(id);
 		}
 	}
 

@@ -52,7 +52,7 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 
 			if ((readResult == EL_EReadResult.DEFAULT) &&
 				(defaultPrefabs && !defaultPrefabs.IsEmpty()) &&
-				EL_BitFlags.CheckFlags(slotPersistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED_PREFAB_CHILD) &&
+				EL_BitFlags.CheckFlags(slotPersistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED) &&
 				defaultPrefabs.Contains(saveData.m_rPrefab))
 			{
 				defaultPrefabs.RemoveItem(saveData.m_rPrefab);

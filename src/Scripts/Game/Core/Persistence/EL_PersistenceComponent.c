@@ -152,15 +152,12 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 
 		// Restore transform info relevant for baked entity record trimming
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) &&
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED) &&
 			saveData.m_pTransformation &&
 			!saveData.m_pTransformation.IsDefault())
 		{
 			FlagTransformAsDirty();
 		}
-
-		// Remove any default flag for prefab children, as an explicit load on them indicates they were changed some time.
-		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.BAKED_PREFAB_CHILD);
 
 		SetPersistentId(saveData.GetId());
 
@@ -238,8 +235,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		// cause then we do not need the record to restore - as the ids will be
 		// known through the name mapping table instead.
 		bool wasPersisted;
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT) &&
-			(!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) || readResult == EL_EReadResult.OK))
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.ROOT) &&
+			(!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED) || readResult == EL_EReadResult.OK))
 		{
 			// Check if the update is really needed
 			EL_EntitySaveData lastData;
@@ -345,12 +342,10 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
-		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
 
 		if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
-		{
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT);
-		}
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED);
 
 		persistenceManager.EnqueueRegistration(this);
 
@@ -426,50 +421,34 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		bool isRoot = settings.m_bStorageRoot && !newParent;
 		if (isRoot)
 		{
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
 
 			// Baked root entity was stored and is now put back into the world,
 			// so it's transform is likely to have changed from original baked map pos.
-			if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT) &&
+			if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED) &&
 				settings.m_pSaveData.m_bTrimDefaults &&
 				settings.m_pSaveData.m_eTranformSaveFlags)
 			{
 				FlagTransformAsDirty();
 			}
-
-			// Once moved out, force entire storage to be saved to avoid swapping
-			// of same prefab baked children between different parents
-			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.BAKED_PREFAB_CHILD);
 		}
 		else
 		{
-			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.STORAGE_ROOT);
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
 
-			if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
-			{
-				EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.BAKED_ROOT);
-
-				// Tracking for movement is only relevant to baked roots.
+			if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED))
 				StopTransformDirtyTracking();
-			}
 
 			if (newSlot)
 			{
 				EL_PersistenceComponent parentPersistence = EL_Component<EL_PersistenceComponent>.Find(newSlot.GetOwner());
 				if (parentPersistence && !EL_BitFlags.CheckFlags(parentPersistence.GetFlags(), EL_EPersistenceFlags.INITIALIZED))
-				{
-					if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
-						EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED_PREFAB_CHILD);
-
 					EL_DefaultPrefabItemsInfo.Add(owner, newSlot);
-				}
 			}
 		}
 
 		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
-		{
 			persistenceManager.UpdateRootStatus(this, m_sId, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
-		}
 	}
 
 	//------------------------------------------------------------------------------------------------
