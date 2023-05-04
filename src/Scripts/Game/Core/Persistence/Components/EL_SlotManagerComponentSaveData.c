@@ -176,7 +176,7 @@ class EL_PersistentEntitySlot
 
 		saveContext.WriteValue("m_sName", m_sName);
 
-		string entityType = "NODATA";
+		string entityType = "EMPTY";
 		if (m_pEntity)
 			entityType = EL_DbName.Get(m_pEntity.Type());
 
@@ -199,7 +199,7 @@ class EL_PersistentEntitySlot
 		string entityTypeString;
 		loadContext.ReadValue("entityType", entityTypeString);
 
-		if (entityTypeString == "NODATA")
+		if (entityTypeString == "EMPTY")
 			return true;
 
 		typename entityType = EL_DbName.GetTypeByName(entityTypeString);
