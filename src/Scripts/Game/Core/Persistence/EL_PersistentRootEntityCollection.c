@@ -7,7 +7,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Add(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
-		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
+		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED | EL_EPersistenceFlags.ROOT, true))
 		{
 			if (state == EL_EPersistenceManagerState.ACTIVE)
 			{
@@ -39,7 +39,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Remove(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
-		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
+		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED | EL_EPersistenceFlags.ROOT, true))
 		{
 			if (state == EL_EPersistenceManagerState.ACTIVE)
 				m_aRemovedBackedRootEntities.Insert(persistentId);

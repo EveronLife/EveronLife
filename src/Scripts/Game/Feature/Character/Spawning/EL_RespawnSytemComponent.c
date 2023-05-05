@@ -120,31 +120,34 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		SCR_CharacterInventoryStorageComponent inventoryStorage = EL_Component<SCR_CharacterInventoryStorageComponent>.Find(playerEntity);
 		if (inventoryStorage)
 		{
-			array<RplId> quickBarRplIds();
-			// Init with invalid ids
-			int nQuickslots = inventoryStorage.GetQuickSlotItems().Count();
-			quickBarRplIds.Reserve(nQuickslots);
-			for (int i = 0; i < nQuickslots; i++)
+			EL_CharacterInventoryStorageComponentSaveData charInventorySaveData = EL_ComponentSaveDataGetter<EL_CharacterInventoryStorageComponentSaveData>.GetFirst(saveData);
+			if (charInventorySaveData && charInventorySaveData.m_aQuickSlotEntities)
 			{
-				quickBarRplIds.Insert(RplId.Invalid());
-			}
-
-			auto charInventorySaveData = EL_ComponentSaveDataGetter<EL_CharacterInventoryStorageComponentSaveData>.GetFirst(saveData);
-			foreach (EL_PersistentQuickSlotItem quickSlot : charInventorySaveData.m_aQuickSlotEntities)
-			{
-				IEntity slotEntity = persistenceManager.FindEntityByPersistentId(quickSlot.m_sEntityId);
-				if (slotEntity && quickSlot.m_iIndex < quickBarRplIds.Count())
+				array<RplId> quickBarRplIds();
+				// Init with invalid ids
+				int nQuickslots = inventoryStorage.GetQuickSlotItems().Count();
+				quickBarRplIds.Reserve(nQuickslots);
+				for (int i = 0; i < nQuickslots; i++)
 				{
-					RplComponent replication = RplComponent.Cast(slotEntity.FindComponent(RplComponent));
-					if (replication) quickBarRplIds.Set(quickSlot.m_iIndex, replication.Id());
+					quickBarRplIds.Insert(RplId.Invalid());
 				}
+
+				foreach (EL_PersistentQuickSlotItem quickSlot : charInventorySaveData.m_aQuickSlotEntities)
+				{
+					IEntity slotEntity = persistenceManager.FindEntityByPersistentId(quickSlot.m_sEntityId);
+					if (slotEntity && quickSlot.m_iIndex < quickBarRplIds.Count())
+					{
+						RplComponent replication = RplComponent.Cast(slotEntity.FindComponent(RplComponent));
+						if (replication) quickBarRplIds.Set(quickSlot.m_iIndex, replication.Id());
+					}
+				}
+
+				// Apply quick item slots serverside to avoid inital sync back from client with same data
+				inventoryStorage.EL_Rpc_UpdateQuickSlotItems(quickBarRplIds);
+
+				SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
+				respawnComponent.EL_SetQuickBarItems(quickBarRplIds);
 			}
-
-			// Apply quick item slots serverside to avoid inital sync back from client with same data
-			inventoryStorage.EL_Rpc_UpdateQuickSlotItems(quickBarRplIds);
-
-			SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
-			respawnComponent.EL_SetQuickBarItems(quickBarRplIds);
 		}
 
 		m_mPerparedCharacters.Set(playerId, playerEntity);

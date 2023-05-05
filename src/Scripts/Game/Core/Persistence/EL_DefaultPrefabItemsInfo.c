@@ -3,7 +3,7 @@ class EL_DefaultPrefabItemsInfo
 	protected static ref map<string, ref EL_DefaultPrefabItemsInfo>> s_mPrefabInfos;
 
 	protected bool m_bReadOnly;
-	protected ref map<string, ref array<string>> m_mStorageItems = new map<string, ref array<string>>();
+	protected ref map<string, ResourceName> m_mStorageItems = new map<string, ResourceName>();
 
 	//------------------------------------------------------------------------------------------------
 	static void Add(IEntity prefabChild, InventoryStorageSlot prefabSlot)
@@ -11,10 +11,25 @@ class EL_DefaultPrefabItemsInfo
 		if (!s_mPrefabInfos)
 			s_mPrefabInfos = new map<string, ref EL_DefaultPrefabItemsInfo>>();
 
-		string childName = EL_Utils.GetPrefabOrMapName(prefabChild);
+		ResourceName childName = EL_Utils.GetPrefabName(prefabChild);
+		if (!childName)
+			return;
+
+		int slotId = prefabSlot.GetID();
 		BaseInventoryStorageComponent storage = prefabSlot.GetStorage();
 		if (!storage)
-			return; // Ignore special cases where sttorage is not known such as magazines and handle them in an inherited implementation
+		{
+			// TODO: Remove workaround after https://feedback.bistudio.com/T172162 has been adressed
+			if (MuzzleComponent.Cast(prefabSlot.GetParentContainer()))
+			{
+				storage = EL_Component<WeaponAttachmentsStorageComponent>.Find(prefabChild.GetParent());
+				slotId = 0;
+			}
+			else
+			{
+				return;
+			}
+		}
 
 		string prefabParent = EL_Utils.GetPrefabOrMapName(prefabSlot.GetOwner());
 		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(prefabParent);
@@ -28,14 +43,8 @@ class EL_DefaultPrefabItemsInfo
 			return; //Info for prefab alraedy finalized, a second instance of the prefab needs to be prevented from writing
 		}
 
-		string storageKey = string.Format("%1:%2:%3", storage.Type().ToString(), storage.GetPurpose(), storage.GetPriority());
-		array<string> prefabChildren = info.m_mStorageItems.Get(storageKey);
-		if (!prefabChildren)
-		{
-			prefabChildren = {};
-			info.m_mStorageItems.Set(storageKey, prefabChildren);
-		}
-		prefabChildren.Insert(childName);
+		string storageKey = string.Format("%1:%2:%3:%4", storage.Type().ToString(), storage.GetPurpose(), storage.GetPriority(), slotId);
+		info.m_mStorageItems.Set(storageKey, childName);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -52,18 +61,22 @@ class EL_DefaultPrefabItemsInfo
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static array<string> GetPrefabChildren(BaseInventoryStorageComponent storage)
+	static ResourceName GetDefaultPrefab(BaseInventoryStorageComponent storage, int slotId)
 	{
-		if (!s_mPrefabInfos)
-			return null;
+		ResourceName result;
 
-		string prefabParent = EL_Utils.GetPrefabOrMapName(storage.GetOwner());
-		EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(prefabParent);
-		if (!info || !info.m_bReadOnly)
-			return null;
+		if (s_mPrefabInfos)
+		{
+			string prefabParent = EL_Utils.GetPrefabOrMapName(storage.GetOwner());
+			EL_DefaultPrefabItemsInfo info = s_mPrefabInfos.Get(prefabParent);
+			if (info && info.m_bReadOnly)
+			{
+				string storageKey = string.Format("%1:%2:%3:%4", storage.Type().ToString(), storage.GetPurpose(), storage.GetPriority(), slotId);
+				result = info.m_mStorageItems.Get(storageKey);
+			}
+		}
 
-		string storageKey = string.Format("%1:%2:%3", storage.Type().ToString(), storage.GetPurpose(), storage.GetPriority());
-		return info.m_mStorageItems.Get(storageKey);
+		return result;
 	}
 
 	//------------------------------------------------------------------------------------------------

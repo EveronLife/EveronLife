@@ -6,6 +6,8 @@ GameEntity {
     m_aComponents {
      EL_TurretControllerComponentSaveDataClass "{5D46D95BE9139026}" {
      }
+     EL_WeaponSlotComponentSaveDataClass "{5D48D07BA76401FC}" {
+     }
     }
    }
   }

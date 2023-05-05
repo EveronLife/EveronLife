@@ -361,16 +361,12 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
 		if (invItem)
-		{
 			invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
-		}
-		else
-		{
-			// Scuffed hack until we have https://feedback.bistudio.com/T171945.
-			// Added to parent event does not fire because our component is loaded after hierarchy ... bruh
-			// We can't use on child added from parent side, as parent might not be involved in persistence system
-			GetGame().GetCallqueue().Call(CheckForParentSlot);
-		}
+
+		// Scuffed hack until we have https://feedback.bistudio.com/T171945.
+		// Added to parent event does not fire because our component is loaded after hierarchy ... bruh
+		// We can't use on child added from parent side, as parent might not be involved in persistence system
+		GetGame().GetCallqueue().Call(CheckForParentSlot);
 
 		SetEventMask(owner, EntityEvent.INIT);
 	}
@@ -454,9 +450,13 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	protected void CheckForParentSlot()
 	{
+		if (!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.ROOT))
+			return; // ignore if e.g. inv slot alraedy made it non root
+
 		IEntity owner = GetOwner();
 		IEntity parent = owner.GetParent();
-		if (!parent) return;
+		if (!parent)
+			return;
 
 		array<EntitySlotInfo> slotInfos();
 		EntitySlotInfo.GetSlotInfos(parent, slotInfos);

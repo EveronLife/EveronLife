@@ -504,9 +504,13 @@ class EL_ComponentSaveDataGetter<Class T>
 	//------------------------------------------------------------------------------------------------
 	static T GetFirst(EL_EntitySaveData saveData)
 	{
-		if (!saveData) return null;
-		auto componentsSaveData = saveData.m_mComponentsSaveData.Get(T);
-		if (!componentsSaveData || componentsSaveData.IsEmpty()) return null;
+		if (!saveData)
+			return null;
+
+		array<ref EL_ComponentSaveData> componentsSaveData = saveData.m_mComponentsSaveData.Get(T);
+		if (!componentsSaveData || componentsSaveData.IsEmpty())
+			return null;
+
 		return T.Cast(componentsSaveData[0]);
 	}
 };

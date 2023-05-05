@@ -1,12 +1,6 @@
 [BaseContainerProps()]
 class EL_BaseMuzzleComponentSaveDataClass : EL_ComponentSaveDataClass
 {
-	//------------------------------------------------------------------------------------------------
-	override array<typename> Requires()
-	{
-		// Make sure attached magazines are alraedy loaded
-		return {EL_WeaponAttachmentsStorageComponentSaveDataClass};
-	}
 };
 
 class EL_BaseMuzzleComponentSaveData : EL_ComponentSaveData

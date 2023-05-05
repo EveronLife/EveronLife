@@ -39,7 +39,33 @@ class EL_EntitySlotPrefabInfo
 
 		return infos;
 	}
-	
+
+	//------------------------------------------------------------------------------------------------
+	static ResourceName GetSlotPrefab(notnull IEntity owner, notnull BaseSlotComponent slotComponent)
+	{
+		BaseContainer prefabInfo = slotComponent.GetComponentSource(owner);
+
+		bool enabled = false;
+		ResourceName prefab = ResourceName.Empty;
+		if (prefabInfo.Get("Enabled", enabled) && enabled)
+			prefabInfo.Get("Prefab", prefab);
+
+		return prefab;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static ResourceName GetSlotPrefab(notnull IEntity owner, notnull WeaponSlotComponent slotComponent)
+	{
+		BaseContainer prefabInfo = slotComponent.GetComponentSource(owner);
+
+		bool enabled = false;
+		ResourceName prefab = ResourceName.Empty;
+		if (prefabInfo.Get("Enabled", enabled) && enabled)
+			prefabInfo.Get("WeaponTemplate", prefab);
+
+		return prefab;
+	}
+
 	//------------------------------------------------------------------------------------------------
 	static void Reset()
 	{

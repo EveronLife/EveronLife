@@ -52,16 +52,18 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 			saveData.m_fRemainingLifetime = 0;
 
 			// We can safely ignore baked objects with default info on them, but anything else needs to be saved.
-			if (!attributes.m_bTrimDefaults ||
-				!isPrefabMatch ||
-				readResult != EL_EReadResult.DEFAULT/* ||
-				!EL_BitFlags.CheckFlags(slotPersistence.GetFlags(), EL_EPersistenceFlags.BAKED_PREFAB_CHILD)*/)
+			if (attributes.m_bTrimDefaults &&
+				isPrefabMatch &&
+				EL_BitFlags.CheckFlags(slotPersistence.GetFlags(), EL_EPersistenceFlags.BAKED) &&
+				readResult == EL_EReadResult.DEFAULT)
 			{
-				EL_PersistentEntitySlot persistentSlot();
-				persistentSlot.m_sName = prefabInfo.param1;
-				persistentSlot.m_pEntity = saveData;
-				m_aSlots.Insert(persistentSlot);
+				continue;
 			}
+
+			EL_PersistentEntitySlot persistentSlot();
+			persistentSlot.m_sName = prefabInfo.param1;
+			persistentSlot.m_pEntity = saveData;
+			m_aSlots.Insert(persistentSlot);
 		}
 
 		if (m_aSlots.IsEmpty())
@@ -88,15 +90,15 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 				if (slotInfo.param1 == slot.m_sName)
 				{
 					EntitySlotInfo entitySlot = outSlotInfos.Get(idx);
-
 					IEntity slotEntity = entitySlot.GetAttachedEntity();
-					ResourceName prefab = EL_Utils.GetPrefabName(slotEntity);
 
 					// Found matching entity, no need to spawn, just apply save-data
-					if (prefab == slotInfo.param2)
+					if (slot.m_pEntity &&
+						slotEntity &&
+						EL_Utils.GetPrefabName(slotEntity) == slotInfo.param2)
 					{
-						EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
-						if (persistenceComponent && !persistenceComponent.Load(slot.m_pEntity, false))
+						EL_PersistenceComponent slotPersistence = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
+						if (slotPersistence && !slotPersistence.Load(slot.m_pEntity, false))
 							return EL_EApplyResult.ERROR;
 
 						continue;
@@ -104,6 +106,9 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 
 					// Slot did not match save-data, delete current entity on it
 					SCR_EntityHelper.DeleteEntityAndChildren(slotEntity);
+
+					if (!slot.m_pEntity)
+						continue;
 
 					// Spawn new entity and attach it
 					slotEntity = slot.m_pEntity.Spawn(false);
