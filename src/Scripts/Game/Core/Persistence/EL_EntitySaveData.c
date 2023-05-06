@@ -57,7 +57,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		m_pTransformation = new EL_PersistentTransformation();
 		if (!attributes.m_bTrimDefaults ||
 			!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED) ||
-			EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.TRANSFORM_DIRTY))
+			EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.WAS_MOVED))
 		{
 			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS)
 			{

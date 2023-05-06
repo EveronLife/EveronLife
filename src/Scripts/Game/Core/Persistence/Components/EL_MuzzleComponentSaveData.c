@@ -7,22 +7,10 @@ class EL_MuzzleComponentSaveDataClass : EL_BaseMuzzleComponentSaveDataClass
 class EL_MuzzleComponentSaveData : EL_BaseMuzzleComponentSaveData
 {
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
+	override protected bool IsDefaultChambered(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		MuzzleComponent muzzle = MuzzleComponent.Cast(component);
-		BaseContainer defaultMag = muzzle.GetDefaultMagazinePrefab();
-
-		if (!super.ReadFrom(owner, component, attributes))
-			return EL_EReadResult.ERROR;
-
-		// Default mag attached so all chambers should be loaded
-		if (defaultMag && !m_aChamberStatus.Contains(false))
-			return EL_EReadResult.DEFAULT;
-
-		// No default so all chambers should be empty
-		if (!defaultMag && !m_aChamberStatus.Contains(true))
-			return EL_EReadResult.DEFAULT;
-
-		return EL_EReadResult.OK;
+		EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(owner);
+		return MuzzleComponent.Cast(component).GetDefaultMagazinePrefab() &&
+			EL_BitFlags.CheckFlags(persistence.GetFlags(), EL_EPersistenceFlags.WAS_SELECTED);
 	}
 };

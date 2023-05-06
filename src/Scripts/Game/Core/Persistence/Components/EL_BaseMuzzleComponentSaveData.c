@@ -13,19 +13,30 @@ class EL_BaseMuzzleComponentSaveData : EL_ComponentSaveData
 	{
 		BaseMuzzleComponent muzzle = BaseMuzzleComponent.Cast(component);
 		int barrelsCount = muzzle.GetBarrelsCount();
-		int ammoCount = muzzle.GetAmmoCount();
 
 		m_eMuzzleType = muzzle.GetMuzzleType();
 		m_aChamberStatus = {};
 		m_aChamberStatus.Reserve(barrelsCount);
 
+		bool isDefaultChambered = IsDefaultChambered(owner, component, attributes);
+		bool isDefault = true;
 		for (int nBarrel = 0; nBarrel < barrelsCount; nBarrel++)
 		{
-			m_aChamberStatus.Insert(muzzle.IsBarrelChambered(nBarrel) || nBarrel < ammoCount);
+			bool isChambered = muzzle.IsBarrelChambered(nBarrel);
+			if (isChambered != isDefaultChambered)
+				isDefault = false;
+
+			m_aChamberStatus.Insert(isChambered);
 		}
+
+		if (isDefault)
+			return EL_EReadResult.DEFAULT;
 
 		return EL_EReadResult.OK;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool IsDefaultChambered(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes);
 
 	//------------------------------------------------------------------------------------------------
 	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)

@@ -66,7 +66,7 @@ class EL_Utils
 		if (!entity) return string.Empty;
 		return SCR_BaseContainerTools.GetPrefabResourceName(entity.GetPrefabData().GetPrefab());
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Gets the prefab the entity uses or the unique map name
 	//! \param entity Instance of which to get the prefab/map name
@@ -269,11 +269,15 @@ class EL_Utils
 	//------------------------------------------------------------------------------------------------
 	static bool IsAnyInherited(Class instance, notnull array<typename> from)
 	{
-		typename type = instance.Type();
-		foreach (typename candiate : from)
+		if (instance)
 		{
-			if (type.IsInherited(candiate)) return true;
+			typename type = instance.Type();
+			foreach (typename candiate : from)
+			{
+				if (type.IsInherited(candiate)) return true;
+			}
 		}
+
 		return false;
 	}
 

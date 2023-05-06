@@ -7,15 +7,18 @@ class EL_MuzzleInMagComponentSaveDataClass : EL_BaseMuzzleComponentSaveDataClass
 class EL_MuzzleInMagComponentSaveData : EL_BaseMuzzleComponentSaveData
 {
 	//------------------------------------------------------------------------------------------------
-	override EL_EReadResult ReadFrom(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
+	override protected bool IsDefaultChambered(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
-		if (!super.ReadFrom(owner, component, attributes))
-			return EL_EReadResult.ERROR;
+		MuzzleInMagComponent muzzleInMag = MuzzleInMagComponent.Cast(component);
+		BaseContainer muzzleInMagSource = muzzleInMag.GetComponentSource(owner);
 
-		// Assume all muzzle in mags have a default ammo chambered
-		if (!m_aChamberStatus.Contains(false))
-			return EL_EReadResult.DEFAULT;
+		int initialAmmo;
+		muzzleInMagSource.Get("InitialAmmo", initialAmmo);
 
-		return EL_EReadResult.OK;
+		ResourceName ammoTemplate;
+		if (initialAmmo > 0)
+			muzzleInMagSource.Get("AmmoTemplate", ammoTemplate);
+
+		return ammoTemplate;
 	}
 };

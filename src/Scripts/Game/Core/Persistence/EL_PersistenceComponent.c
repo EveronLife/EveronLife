@@ -156,7 +156,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			saveData.m_pTransformation &&
 			!saveData.m_pTransformation.IsDefault())
 		{
-			FlagTransformAsDirty();
+			FlagAsMoved();
 		}
 
 		SetPersistentId(saveData.GetId());
@@ -350,9 +350,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		persistenceManager.EnqueueRegistration(this);
 
 		// For vehicles we want to get notified when they encounter their first contact or start to be driven
-		if (settings.m_pSaveData.m_bTrimDefaults &&
-			settings.m_pSaveData.m_eTranformSaveFlags &&
-			EL_Component<VehicleControllerComponent>.Find(owner))
+		if (settings.m_pSaveData.m_bTrimDefaults && EL_Component<VehicleControllerComponent>.Find(owner))
 		{
 			SetEventMask(owner, EntityEvent.CONTACT);
 			EventHandlerManagerComponent ev = EL_Component<EventHandlerManagerComponent>.Find(owner);
@@ -362,6 +360,20 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
 		if (invItem)
 			invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
+
+		bool isChar = ChimeraCharacter.Cast(owner);
+		bool isTurret = EL_Component<TurretControllerComponent>.Find(owner);
+		if (isChar || isTurret)
+		{
+			EventHandlerManagerComponent eventHandler = EL_Component<EventHandlerManagerComponent>.Find(owner);
+			if (eventHandler)
+				eventHandler.RegisterScriptHandler("OnWeaponChanged", this, OnWeaponChanged, delayed: false);
+		}
+		if (isChar)
+		{
+			SCR_CharacterControllerComponent characterController = EL_Component<SCR_CharacterControllerComponent>.Find(owner);
+			characterController.m_OnGadgetStateChangedInvoker.Insert(OnGadgetStateChanged);
+		}
 
 		// Scuffed hack until we have https://feedback.bistudio.com/T171945.
 		// Added to parent event does not fire because our component is loaded after hierarchy ... bruh
@@ -391,7 +403,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	override event protected void EOnContact(IEntity owner, IEntity other, Contact contact)
 	{
 		if (GenericTerrainEntity.Cast(other)) return; // Ignore collision with terrain.
-		FlagTransformAsDirty(); // Something moved the current vehicle via physics contact.
+		FlagAsMoved(); // Something moved the current vehicle via physics contact.
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -400,7 +412,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		// Check for if engine is one as there is tiny jitter movement during engine startup we want to ignore.
 		VehicleControllerComponent vehicleController = EL_Component<VehicleControllerComponent>.Find(owner);
 		if (!vehicleController || !vehicleController.IsEngineOn()) return;
-		FlagTransformAsDirty();
+		FlagAsMoved();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -408,43 +420,42 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	{
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
 		if (newSlot)
 			newParent = newSlot.GetOwner();
 
-		// Only count valid entity link systems as non root
 		bool isRoot = settings.m_bStorageRoot && !newParent;
 		if (isRoot)
 		{
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
-
-			// Baked root entity was stored and is now put back into the world,
-			// so it's transform is likely to have changed from original baked map pos.
-			if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED) &&
-				settings.m_pSaveData.m_bTrimDefaults &&
-				settings.m_pSaveData.m_eTranformSaveFlags)
-			{
-				FlagTransformAsDirty();
-			}
+			FlagAsMoved();
 		}
 		else
 		{
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
-
-			if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED))
-				StopTransformDirtyTracking();
-
 			if (newSlot)
 			{
 				EL_PersistenceComponent parentPersistence = EL_Component<EL_PersistenceComponent>.Find(newSlot.GetOwner());
 				if (parentPersistence && !EL_BitFlags.CheckFlags(parentPersistence.GetFlags(), EL_EPersistenceFlags.INITIALIZED))
+				{
 					EL_DefaultPrefabItemsInfo.Add(owner, newSlot);
+				}
+				else
+				{
+					FlagAsMoved();
+				}
+
+				if (EL_Utils.IsAnyInherited(newSlot.GetStorage(), {EquipedLoadoutStorageComponent, BaseEquipmentStorageComponent, BaseEquipedWeaponStorageComponent}))
+					EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.WAS_EQUIPPED);
+			}
+			else
+			{
+				StopMoveTracking();
 			}
 		}
 
 		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
-			persistenceManager.UpdateRootStatus(this, m_sId, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
+			EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -477,6 +488,33 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			return; // For inv items we listen to their events already
 
 		OnParentSlotChanged(null, null, null);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void OnWeaponChanged(BaseWeaponComponent weapon, BaseWeaponComponent prevWeapon)
+	{
+		if (!weapon)
+			return;
+
+		IEntity weaponEntity = weapon.GetOwner();
+		WeaponSlotComponent weaponSlot = WeaponSlotComponent.Cast(weapon);
+		if (weaponSlot)
+			weaponEntity = weaponSlot.GetWeaponEntity();
+
+		EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(weaponEntity);
+		if (persistence)
+			persistence.FlagAsSelected();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void OnGadgetStateChanged(IEntity gadget, bool isInHand, bool isOnGround)
+	{
+		if (!gadget || !isInHand)
+			return;
+
+		EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(gadget);
+		if (persistence)
+			persistence.FlagAsSelected();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -537,15 +575,20 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Manually flag the transform as dirty, so save-data trimming does not remove it.
-	void FlagTransformAsDirty()
+	void FlagAsMoved()
 	{
-		StopTransformDirtyTracking();
-		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.TRANSFORM_DIRTY);
+		StopMoveTracking();
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.WAS_MOVED);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void StopTransformDirtyTracking()
+	void FlagAsSelected()
+	{
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.WAS_SELECTED);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void StopMoveTracking()
 	{
 		IEntity owner = GetOwner();
 		ClearEventMask(owner, EntityEvent.CONTACT | EntityEvent.PHYSICSMOVE);

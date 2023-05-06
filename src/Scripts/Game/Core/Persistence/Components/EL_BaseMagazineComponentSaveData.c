@@ -14,7 +14,14 @@ class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 		BaseMagazineComponent magazine = BaseMagazineComponent.Cast(component);
 		m_iAmmoCount = magazine.GetAmmoCount();
 
-		if (m_iAmmoCount >= magazine.GetMaxAmmoCount())
+		int maxAmmo = magazine.GetMaxAmmoCount();
+		if (magazine.IsUsed())
+		{
+			BaseMuzzleComponent parentMuzzle = EL_Component<BaseMuzzleComponent>.Find(owner.GetParent());
+			maxAmmo -= parentMuzzle.GetBarrelsCount();
+		}
+
+		if (m_iAmmoCount >= maxAmmo)
 			return EL_EReadResult.DEFAULT;
 
 		return EL_EReadResult.OK;
