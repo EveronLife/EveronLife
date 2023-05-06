@@ -310,6 +310,9 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			componentSaveDataTypes.Reserve(settings.m_pSaveData.m_aComponents.Count());
 			foreach (EL_ComponentSaveDataClass componentSaveData : settings.m_pSaveData.m_aComponents)
 			{
+				if (!componentSaveData.m_bEnabled)
+					continue;
+
 				typename componentSaveDataType = componentSaveData.Type();
 
 				if (!componentSaveDataType || componentSaveDataType == EL_ComponentSaveDataClass)

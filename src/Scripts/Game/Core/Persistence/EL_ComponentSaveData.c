@@ -1,13 +1,16 @@
 [BaseContainerProps()]
 class EL_ComponentSaveDataClass
 {
+	[Attribute("1", desc: "Should this component save-data type be saved/loaded or if disabled skipped.")]
+	bool m_bEnabled;
+
+	bool m_bTrimDefaults; //"Inherited" attribute value from parent save data
+
 	//------------------------------------------------------------------------------------------------
 	array<typename> Requires(); // TODO: Implement error if not satisfied
 
 	//------------------------------------------------------------------------------------------------
 	array<typename> CannotCombine(); // TODO: Implement error if not satisfied
-
-	bool m_bTrimDefaults;
 };
 
 class EL_ComponentSaveData
