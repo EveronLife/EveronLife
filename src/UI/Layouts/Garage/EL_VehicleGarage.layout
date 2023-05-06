@@ -1,0 +1,111 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ Slot WidgetSlot "{59C6813091C46784}" {
+ }
+ {
+  VerticalLayoutWidgetClass "{5B24A44FD0D6C98F}" {
+   Prefab "{5ACF360B0FFF814C}"
+   Name "VehiclePreviewGrid"
+   Slot FrameWidgetSlot "{5AD07BC91B6699FC}" {
+    Anchor 1 0 1 1
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 600
+    OffsetRight -600
+    SizeY 0
+    OffsetBottom 0
+    Alignment 1 0
+   }
+   "Fill Origin" Center
+   {
+    OverlayWidgetClass "{5B2895A99EA975C6}" {
+     Name "Overlay0"
+     Slot LayoutSlot "{5B2895A99EA9753C}" {
+      Padding 20 5 20 5
+     }
+     {
+      ImageWidgetClass "{5B2895A999645B43}" {
+       Name "Image0"
+       Slot OverlayWidgetSlot "{5B289E0B0BB0948D}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.102 0.102 0.102 0.588
+      }
+      SizeLayoutWidgetClass "{5B2895A97A2EA133}" {
+       Name "SizeLayout1"
+       Slot OverlayWidgetSlot "{5B289E0B0BB094F7}" {
+       }
+       AllowHeightOverride 1
+       HeightOverride 100
+       {
+        TextWidgetClass "{5B2895A971D1EC67}" {
+         Name "Title"
+         Slot AlignableSlot "{5B2895A971D1F395}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         Text "Garage"
+         "Font Size" 45
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5B289E0A15CED1F3}" {
+          Bold 1
+         }
+        }
+       }
+      }
+     }
+    }
+    VerticalLayoutWidgetClass "{5B2895AE2777B1A1}" {
+     Prefab "{5ACF360B0FFF814C}"
+     Name "GarageVehicleList"
+     Slot LayoutSlot "{5B2895AEACA9424D}" {
+      SizeMode Auto
+     }
+     "Fill Origin" Center
+    }
+    SizeLayoutWidgetClass "{5B2895A943F9ACB6}" {
+     Name "SizeLayout0"
+     Slot LayoutSlot "{5B289E0B0BB09729}" {
+      Padding 0 0 0 0
+     }
+     AllowHeightOverride 1
+     HeightOverride 100
+     {
+      ButtonWidgetClass "{5B2895A90A2788D7}" {
+       Name "ExitButton"
+       Slot AlignableSlot "{5B2895A959250DBD}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 20 5 20 5
+       }
+       Color 0.078 0.078 0.078 0.588
+       components {
+        SCR_ModularButtonComponent "{5B289E0B88EFEA0F}" {
+         m_eEventReturnValue 2147483585
+        }
+       }
+       {
+        TextWidgetClass "{5B2895A9053EC603}" {
+         Name "Text0"
+         Slot ButtonWidgetSlot "{5B2895A9053EC669}" {
+         }
+         Text "Exit"
+         "Font Size" 44
+         "Horizontal Alignment" Center
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5B289E0A17B675C0}" {
+          Bold 1
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

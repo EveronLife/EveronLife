@@ -23,4 +23,22 @@ class EL_FormatUtils
 
 		return result;
 	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Int to decimal seperated format (eg.: 9.999.999)
+	//! \param number Number to convert
+	static string DecimalSeperator(int number)
+	{
+		string numberText = number.ToString();
+		string formatNumberText;
+
+		int dotAmount = (numberText.Length() - 1) / 3;
+		for (int i=0; i < dotAmount; i++)
+		{
+			formatNumberText = string.Format(".%1%2", numberText.Substring(numberText.Length() - ((i + 1) * 3), 3), formatNumberText);
+		}
+		formatNumberText = string.Format("%1%2", numberText.Substring(0, numberText.Length() - dotAmount * 3), formatNumberText);
+
+		return formatNumberText;
+	}
 }

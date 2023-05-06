@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{C59B9F5ACF4D494E}Prefabs/Buildings/VehicleShop/VEHICLE_SHOP_PREVIEW.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

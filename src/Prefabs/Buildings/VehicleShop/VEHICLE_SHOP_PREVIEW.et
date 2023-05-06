@@ -1,0 +1,15 @@
+SCR_DestructibleBuildingEntity {
+ ID "5B2CF8A783B996B9"
+ components {
+  MeshObject "{5B2CF8A788E2824D}" {
+   Object "{6B847AA6D5D9E2BD}Assets/Structures/Military/Houses/GarageMilitary_E_01/GarageMilitary_E_01.xob"
+  }
+ }
+ coords 0 38.26 0
+ {
+  BaseGameTriggerEntity : "{98F71F6650C6767E}Prefabs/Vehicles/Core/EL_VehicleSpawnPoint.et" {
+   ID "5B2CF8A783B996A1"
+   coords 0 0.572 0
+  }
+ }
+}

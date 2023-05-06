@@ -1,0 +1,70 @@
+ButtonWidgetClass {
+ Name "GarageVehicleButton"
+ Slot AlignableSlot "{5B24F4F131901C99}" {
+  HorizontalAlign 3
+  VerticalAlign 3
+  Padding 20 5 20 5
+ }
+ Color 1 1 1 0
+ components {
+  SCR_ModularButtonComponent "{5B272D9BC33D796E}" {
+   m_eEventReturnValue 2147483585
+  }
+ }
+ {
+  HorizontalLayoutWidgetClass "{5B24F4F00E3D44E0}" {
+   Name "VerticalLayout0"
+   Slot ButtonWidgetSlot "{5B26A82853A53815}" {
+    HorizontalAlign 3
+    VerticalAlign 1
+   }
+   {
+    ImageWidgetClass "{5B24F4F002BAC9F5}" {
+     Name "VehicleImage"
+     Slot LayoutSlot "{5B26A56B6B2A71AB}" {
+      HorizontalAlign 3
+      VerticalAlign 1
+      SizeMode Fill
+      FillWeight 25
+     }
+     Texture "{0B03F611D52043AE}UI/Textures/placeholder.edds"
+     Size 128 128
+    }
+    OverlayWidgetClass "{5B24F4F08242E0C8}" {
+     Name "TextOverlay"
+     Slot LayoutSlot "{5B24F4F08242E324}" {
+      VerticalAlign 1
+      SizeMode Fill
+      FillWeight 75
+     }
+     {
+      ImageWidgetClass "{5B24F4F07691FB46}" {
+       Name "VehicleTextBackground"
+       Slot OverlayWidgetSlot "{5B26A56B6B2A71DA}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.162 0.162 0.162 0.6
+       Size 32 128
+      }
+      TextWidgetClass "{5B24F4F01DB8BBEF}" {
+       Name "VehicleTitle"
+       Slot OverlayWidgetSlot "{5B26A56B6B2A7038}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       "Left rule" Wrap
+       "Right rule" Wrap
+       "Up rule" Wrap
+       "Down rule" Wrap
+       Text "Vehicle Title"
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+       Wrap 1
+      }
+     }
+    }
+   }
+  }
+ }
+}

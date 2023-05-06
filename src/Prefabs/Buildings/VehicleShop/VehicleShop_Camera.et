@@ -1,0 +1,8 @@
+SCR_ManualCamera {
+ ID "5AB2A7BBF5F6ABEF"
+ coords 79.516 0.001 141.366
+ cameraFlags 2
+ m_bStartAtEntity 1
+ m_sActionContext ""
+ m_DefaultFlags 0
+}

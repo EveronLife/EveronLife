@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{1608FC6EC0DEBC25}UI/Layouts/Shop/EL_VehicleColorPicker.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

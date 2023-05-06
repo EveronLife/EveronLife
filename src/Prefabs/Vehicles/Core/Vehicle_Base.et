@@ -1,6 +1,8 @@
 Vehicle {
  ID "BBCBA43A9778AE21"
  components {
+  EL_CharacterOwnerComponent "{5AC91C63DBD9C6F2}" {
+  }
   EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
   }
   EL_PersistenceComponent "{5A0D2D215F2F2559}" {
@@ -18,6 +20,37 @@ Vehicle {
      }
      EL_BaseLightManagerComponentSaveData "{5A309BE3FE6421AC}" {
      }
+     EL_CharacterOwnerSaveData "{5AC91C63DDEABA05}" {
+     }
+     EL_VehicleAppearanceSaveData "{5AD7233A3F110D08}" {
+     }
+    }
+   }
+  }
+  EL_VehicleAppearanceComponent "{5AD72339C5F51BFF}" {
+  }
+  ParametricMaterialInstanceComponent "{5ACAA3E4E9BF690C}" {
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   ActionContexts {
+    UserActionContext "{5AC91C63D5A545C7}" {
+     ContextName "EL_default"
+     Position PointInfo "{5AC91C63F4F81FBF}" {
+      Offset 0 1.25 0
+     }
+     Radius 3
+    }
+   }
+   additionalActions {
+    EL_ParkVehicleAction "{5AC91C63E85AD98D}" {
+     ParentContextList {
+      "EL_default"
+     }
+     UIInfo UIInfo "{5AC91C63E350766E}" {
+      Name "Park Vehicle"
+     }
+     Duration 2
+     m_fGarageSearchRadius 25
     }
    }
   }

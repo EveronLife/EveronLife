@@ -1,5 +1,110 @@
 class EL_Utils
 {
+	static ResourceName PLACEHOLDER_ICON = "{AC7E384FF9D8016A}Common/Textures/placeholder_BCR.edds";
+
+	//------------------------------------------------------------------------------------------------
+	static void ChangeColorRecursive(IEntity parent, Color color)
+	{
+		IEntity child = parent.GetChildren();
+		while (child)
+		{
+			if (child.GetChildren())
+				ChangeColorRecursive(child, color);
+
+			SetColor(child, color);
+			child = child.GetSibling();
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static void SetSlotsColor(notnull IEntity entity, int color)
+	{
+		SlotManagerComponent slotManager = EL_ComponentFinder<SlotManagerComponent>.Find(entity);
+		if (!slotManager)
+			return;
+		array<EntitySlotInfo> slots = new array<EntitySlotInfo>;
+		slotManager.GetSlotInfos(slots);
+		foreach (EntitySlotInfo slotInfo : slots)
+		{
+			IEntity slotEnt = slotInfo.GetAttachedEntity();
+			if (!slotEnt)
+				continue;
+
+			EL_VehicleAppearanceComponent slotAppearance = EL_ComponentFinder<EL_VehicleAppearanceComponent>.Find(slotEnt);
+			if (slotAppearance)
+				slotAppearance.SetVehicleColor(color);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Creates and sets new material with given color to entity
+	//! \param entity Entity to set new color material
+	//! \param color Color for the new material
+	static void SetColor(notnull IEntity entity, Color color)
+	{
+		
+		VObject mesh = entity.GetVObject();
+			
+		if (!mesh || !color)
+			return;
+
+		string materialName = "vehicle_material_" + entity;
+
+		float materialColorRGBA[] = { color.R(), color.G(), color.B(), color.A() };
+
+		
+		Material dynamicColorMaterial = Material.Create(materialName, "MatPBRMulti");
+		
+		dynamicColorMaterial.SetParam("Color", materialColorRGBA);
+		
+		string matName;
+		dynamicColorMaterial.GetName(matName);
+		
+		string remap;
+		string materials[256];
+		
+		int numMats = mesh.GetMaterials(materials);
+		if (numMats == 0)
+			return;
+
+		for (int i = 0; i < numMats; i++)
+		{
+			string originalMatName = materials[i];
+			if (originalMatName.EndsWith("Body") || originalMatName.EndsWith("Base") || originalMatName.EndsWith("Body_Roof"))
+			{
+				
+				remap += string.Format("$remap '%1' '%2';", materials[i], matName);
+			}
+		}
+		entity.SetObject(mesh, remap);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Gets prefab VObject
+	//! \param prefab Prefab path
+	//! \return the VObject of the prefab
+	static VObject GetPrefabVObject(ResourceName prefab)
+	{
+		BaseContainer meshComponent;
+		IEntitySource prefabSource = Resource.Load(prefab).GetResource().ToEntitySource();
+		int count = prefabSource.GetComponentCount();
+
+		for(int i = 0; i < count; i++)
+		{
+			IEntityComponentSource comp = prefabSource.GetComponent(i);
+
+			if(comp.GetClassName() == "MeshObject")
+			{
+				meshComponent = comp;
+				break;
+			}
+		}
+		ResourceName prefabObject;
+		meshComponent.Get("Object", prefabObject);
+		return Resource.Load(prefabObject).GetResource().ToVObject();
+	}
+
+
 	//------------------------------------------------------------------------------------------------
 	//! Gets the Bohemia UID
 	//! \param playerId Index of the player inside player manager
@@ -7,7 +112,12 @@ class EL_Utils
 	static string GetPlayerUID(int playerId)
 	{
 		string uid = GetGame().GetBackendApi().GetPlayerUID(playerId);
-		if (!uid) uid = string.Format("LOCAL_UID_%1", playerId);
+		if (!uid)
+		{
+			if (RplSession.Mode() == RplMode.Dedicated)
+				Print("Error getting uid for playerId: " + playerId, LogLevel.ERROR);
+			uid = string.Format("LOCAL_UID_%1", playerId);
+		}	
 		return uid;
 	}
 
@@ -26,7 +136,7 @@ class EL_Utils
 	//! \param origin Position(origin) where to spawn the entity
 	//! \param orientation Angles(yaw, pitch, rolle in degrees) to apply to the entity
 	//! \return the spawned entity or null on failure
-	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0", bool global = true)
+	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0", IEntity parent = null, bool global = true)
 	{
 		EntitySpawnParams spawnParams();
 
@@ -34,10 +144,17 @@ class EL_Utils
 
 		Math3D.AnglesToMatrix(orientation, spawnParams.Transform);
 		spawnParams.Transform[3] = origin;
+		spawnParams.Parent = parent;
 
-		if (!global) return GetGame().SpawnEntityPrefabLocal(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		IEntity newEnt;
+		if (!global)
+			newEnt = GetGame().SpawnEntityPrefabLocal(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		else
+			newEnt = GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
 
-		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		if (parent)
+			parent.AddChild(newEnt, -1);
+		return newEnt;
 	}
 
 	//------------------------------------------------------------------------------------------------

@@ -1,0 +1,613 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ Slot WidgetSlot "{59C6813091C46784}" {
+ }
+ {
+  FrameWidgetClass "{5B2D123634EC3925}" {
+   Name "ShopOverlay"
+   Slot FrameWidgetSlot "{5B2D123634EC3912}" {
+    Anchor 0 0 1 1
+    PositionX 50
+    OffsetLeft 50
+    PositionY 50
+    OffsetTop 50
+    SizeX -100
+    OffsetRight 50
+    SizeY -100
+    OffsetBottom 50
+    Alignment 0 0
+   }
+   {
+    ImageWidgetClass "{5B2E969CC6406322}" {
+     Name "Image0"
+     Slot FrameWidgetSlot "{5B2E969CC640630F}" {
+      Anchor 0 0 1 1
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX -1720
+      OffsetRight 0
+      SizeY -950
+      OffsetBottom 0
+     }
+     Color 0.12 0.12 0.12 0
+     Size 3840 2160
+    }
+    HorizontalLayoutWidgetClass "{5B2D70A3B6D83CFC}" {
+     Name "VehiclePreviewGrid"
+     Slot FrameWidgetSlot "{5B2D70A3B6D83CDD}" {
+      Anchor 0 1 1 1
+      PositionX 0
+      OffsetLeft -7
+      PositionY -55
+      OffsetTop -55
+      SizeX 0
+      OffsetRight 0
+      SizeY 164
+      OffsetBottom -109
+      Alignment 0 1
+     }
+    }
+    ButtonWidgetClass "{5B2E969ED9AC29E6}" {
+     Name "FocusVehicleGridButton"
+     Slot FrameWidgetSlot "{5B2E969ED9AC2835}" {
+      Anchor 0 1 0 1
+      PositionX 12
+      OffsetLeft 12
+      PositionY -220
+      OffsetTop -220
+      SizeX 266
+      OffsetRight -278
+      SizeY 166
+      OffsetBottom 54
+     }
+     Color 1 1 1 0
+     components {
+      SCR_ModularButtonComponent "{5B2E969EE4263CAC}" {
+       m_eEventReturnValue 2147483596
+      }
+     }
+     {
+      ImageWidgetClass "{5AD0C3F7D7E76A12}" {
+       Name "GlowImage"
+       Slot ButtonWidgetSlot "{5B2E969979E9D5A4}" {
+       }
+       "Z Order" 1
+       Color 0.761 0.392 0.08 1
+       Pivot 0 1
+       Texture "{367B8D5FF0B529F5}UI/Layouts/Shop/VehiclePreviewGlow.edds"
+       Size 266 166
+      }
+     }
+    }
+    OverlayWidgetClass "{59C6EE3CDDA9E32D}" {
+     Name "LeftOverlay"
+     Slot FrameWidgetSlot "{5B2D123573E2FB76}" {
+      Anchor 0 0 0 1
+      PositionX 0.439
+      OffsetLeft 0.439
+      PositionY -0.439
+      OffsetTop -0.439
+      SizeX 600
+      OffsetRight -600.439
+      SizeY 0
+      OffsetBottom 0.439
+     }
+     Color 1 1 1 0
+     {
+      HorizontalLayoutWidgetClass "{5B2D1237B7AD7692}" {
+       Name "ButtonHorizontalLayout"
+       Slot OverlayWidgetSlot "{5B2D1237B7AD76F1}" {
+        HorizontalAlign 3
+        VerticalAlign 2
+       }
+       {
+        ButtonWidgetClass "{5ACB2E2E1E149A6B}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
+         Name "ExitButton"
+         Slot LayoutSlot "{5B2D1233F9564DF5}" {
+          HorizontalAlign 0
+          Padding 10 0 20 0
+          SizeMode Fill
+         }
+         components {
+          SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+           m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+           m_bShowBorderOnFocus 1
+           m_sLabel "Exit"
+           m_sActionName "MenuBack"
+          }
+          ButtonActionComponent "{56EEDE01BE93EE7D}" {
+           m_bActionName "MenuBack"
+          }
+         }
+         "no focus" 0
+         {
+          SizeLayoutWidgetClass "{5562AD435529FB36}" {
+           Prefab "{5562AD435529FB36}"
+           {
+            OverlayWidgetClass "{000000005E70868E}" {
+             Prefab "{000000005E70868E}"
+             {
+              HorizontalLayoutWidgetClass "{00000000E3602307}" {
+               Prefab "{00000000E3602307}"
+               Slot OverlayWidgetSlot "{547290FBCA5E9358}" {
+                Padding 10 10 16 10
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        ButtonWidgetClass "{5ACB2E2E29AECA26}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
+         Name "LeftButton"
+         Slot LayoutSlot "{5B2D1233F9564C06}" {
+          HorizontalAlign 1
+          VerticalAlign 3
+          Padding 10 0 10 0
+         }
+         components {
+          SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+           m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+           m_bShowBorderOnFocus 1
+           m_sLabel "Last Vehicle"
+           m_sActionName "MenuLeft"
+          }
+          ButtonActionComponent "{56EEDE01BE93EE7D}" {
+           m_bActionName "MenuLeft"
+          }
+         }
+         "no focus" 0
+         {
+          SizeLayoutWidgetClass "{5562AD435529FB36}" {
+           Prefab "{5562AD435529FB36}"
+           Slot ButtonWidgetSlot "{5562AD435529FB5D}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            OverlayWidgetClass "{000000005E70868E}" {
+             Prefab "{000000005E70868E}"
+             {
+              HorizontalLayoutWidgetClass "{00000000E3602307}" {
+               Prefab "{00000000E3602307}"
+               Slot OverlayWidgetSlot "{547290FBCA5E9358}" {
+                Padding 10 10 16 10
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        ButtonWidgetClass "{5ACB2E2E2DF753E4}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
+         Name "RightButton"
+         Slot LayoutSlot "{5B2D1233F9564CBA}" {
+          HorizontalAlign 2
+          Padding 10 0 10 0
+         }
+         components {
+          SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+           m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+           m_bShowBorderOnFocus 1
+           m_sLabel "Next Vehicle"
+           m_sActionName "MenuRight"
+          }
+          ButtonActionComponent "{56EEDE01BE93EE7D}" {
+           m_bActionName "MenuRight"
+          }
+         }
+         "no focus" 0
+         {
+          SizeLayoutWidgetClass "{5562AD435529FB36}" {
+           Prefab "{5562AD435529FB36}"
+           Slot ButtonWidgetSlot "{5562AD435529FB5D}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            OverlayWidgetClass "{000000005E70868E}" {
+             Prefab "{000000005E70868E}"
+             {
+              HorizontalLayoutWidgetClass "{00000000E3602307}" {
+               Prefab "{00000000E3602307}"
+               Slot OverlayWidgetSlot "{547290FBCA5E9358}" {
+                Padding 10 10 16 10
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+      VerticalLayoutWidgetClass "{5B2303D291E80F05}" {
+       Name "ColorVerticalLayout"
+       Slot OverlayWidgetSlot "{5B2303D291E80F65}" {
+        HorizontalAlign 3
+        Padding 20 0 20 0
+       }
+       "Fill Origin" Center
+       {
+        HorizontalLayoutWidgetClass "{5B2303D2A0B9620F}" {
+         Name "RedLayout"
+         Slot LayoutSlot "{5B2303D2A0B96273}" {
+          Padding 0 10 0 10
+         }
+         {
+          SliderWidgetClass "{59C681319AE3CDFE}" {
+           Name "RedSlider"
+           Slot LayoutSlot "{5B24A44C0BE7CE58}" {
+            SizeMode Fill
+            FillWeight 80
+           }
+           Color 1 0.001 0 1
+           components {
+            SCR_EventHandlerComponent "{5B2E9698EC7F283C}" {
+            }
+           }
+           maximum 255
+           current 125
+          }
+          TextWidgetClass "{59C6EE3F8B8EB6B4}" {
+           Name "RedChar"
+           Slot LayoutSlot "{5B24A44C0BE7CEB7}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            SizeMode Fill
+            FillWeight 10
+           }
+           Text "R"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+          TextWidgetClass "{59C6EE3FAD6C1DA4}" {
+           Name "RedIndex"
+           Slot LayoutSlot "{5B24A44C0BE7CEA7}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+            SizeMode Fill
+            FillWeight 10
+           }
+           Color 0 0 0 1
+           Text "255"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           FontProperties FontProperties "{5ACC82E693DF707F}" {
+            Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+            Bold 1
+           }
+          }
+         }
+        }
+        HorizontalLayoutWidgetClass "{5B2303D2FA85B9B2}" {
+         Name "GreenLayout"
+         Slot LayoutSlot "{5B2303D2FA85B995}" {
+          Padding 0 10 0 10
+         }
+         {
+          SliderWidgetClass "{59C6EE3FBF453CFA}" {
+           Name "GreenSlider"
+           Slot LayoutSlot "{5B24A44C0BE7CEF9}" {
+            SizeMode Fill
+            FillWeight 80
+           }
+           Color 0 1 0 1
+           components {
+            SCR_EventHandlerComponent "{5B2E9698E0DF23C9}" {
+            }
+           }
+           maximum 255
+           current 125
+          }
+          TextWidgetClass "{59C6EE3F8ACB6746}" {
+           Name "GreenChar"
+           Slot LayoutSlot "{5B24A44C0BE7CEEC}" {
+            SizeMode Fill
+            FillWeight 10
+           }
+           Text "G"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+          TextWidgetClass "{59C6EE3FAC558026}" {
+           Name "GreenIndex"
+           Slot LayoutSlot "{5B24A44C0BE7CEE0}" {
+            SizeMode Fill
+            FillWeight 10
+           }
+           Color 0 0 0 1
+           Text "255"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           FontProperties FontProperties "{5ACC82E6A03BB170}" {
+            Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+            Bold 1
+           }
+          }
+         }
+        }
+        HorizontalLayoutWidgetClass "{5B2303D2FBB46C26}" {
+         Name "BlueLayout"
+         Slot LayoutSlot "{5B2303D2FBB46C00}" {
+          Padding 0 10 0 10
+         }
+         {
+          SliderWidgetClass "{59C68130F10622A4}" {
+           Name "BlueSlider"
+           Slot LayoutSlot "{5B24A44C0BE7CEC6}" {
+            SizeMode Fill
+            FillWeight 80
+           }
+           Color 0 0.002 1 1
+           components {
+            SCR_EventHandlerComponent "{5B2E9698E29B7C8A}" {
+            }
+           }
+           maximum 255
+           current 125
+          }
+          TextWidgetClass "{59C6EE3F66CA67B6}" {
+           Name "BlueChar"
+           Slot LayoutSlot "{5B24A44C0BE7C93A}" {
+            SizeMode Fill
+            FillWeight 10
+           }
+           Text "B"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+          TextWidgetClass "{59C68130FA09024F}" {
+           Name "BlueIndex"
+           Slot LayoutSlot "{5B24A44C0BE7C92E}" {
+            SizeMode Fill
+            FillWeight 10
+           }
+           Color 0 0 0 1
+           Text "255"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+           FontProperties FontProperties "{5ACC82E6B9782F71}" {
+            Font "{CD2634D279AB011A}UI/Fonts/Roboto/Roboto_Bold.fnt"
+            Bold 1
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+    TextWidgetClass "{5ACC82EA577C088A}" {
+     Name "VehicleTitle"
+     Slot FrameWidgetSlot "{5B2D123573E2FB6A}" {
+      Anchor 0.5 0 0.5 0
+      PositionX 0
+      OffsetLeft 0
+      PositionY 100
+      OffsetTop 100
+      SizeX 0
+      OffsetRight 0
+      SizeY 0
+      OffsetBottom -100
+      Alignment 0.5 0
+      SizeToContent 1
+     }
+     Text "BON's Vehicle Shop"
+     "Font Size" 40
+     "Min Font Size" 40
+     "Horizontal Alignment" Center
+     "Vertical Alignment" Center
+     FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
+      Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
+      Bold 1
+     }
+    }
+    OverlayWidgetClass "{5B2303D4B2BD45C5}" {
+     Name "RightOverlay"
+     Slot FrameWidgetSlot "{5B2D123573E2FB48}" {
+      Anchor 1 0 1 1
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX 600
+      OffsetRight -600
+      SizeY 0
+      OffsetBottom 229.7
+      Alignment 1 0
+     }
+     {
+      VerticalLayoutWidgetClass "{5B2303D4FDE0D518}" {
+       Name "VerticalLayout0"
+       Slot OverlayWidgetSlot "{5B2303D4FDE0D571}" {
+        HorizontalAlign 3
+        Padding 100 100 50 20
+       }
+       {
+        TextWidgetClass "{5ACC82F161B55EC4}" {
+         Name "BrakingText"
+         Slot LayoutSlot "{5B24A44C0BE7CD5E}" {
+          Padding 0 20 0 10
+         }
+         Text "Braking"
+         "Font Size" 30
+         "Min Font Size" 30
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
+          Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
+          Bold 1
+         }
+        }
+        SliderWidgetClass "{5ACB11E00B907017}" {
+         Name "BrakingSlider"
+         Slot LayoutSlot "{5B24A44C0BE7CDFF}" {
+         }
+         "Ignore Cursor" 1
+         "no focus" 1
+         maximum 4
+         current 0
+        }
+        TextWidgetClass "{5ACC82F1630D884B}" {
+         Name "EngineText"
+         Slot LayoutSlot "{5B24A44C0BE7CDDB}" {
+          Padding 0 20 0 10
+         }
+         Text "Engine"
+         "Font Size" 30
+         "Min Font Size" 30
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
+          Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
+          Bold 1
+         }
+        }
+        SliderWidgetClass "{5ACB11E00FC6CB19}" {
+         Name "EngineSlider"
+         Slot LayoutSlot "{5B24A44C0BE7CC3D}" {
+         }
+         "Ignore Cursor" 1
+         "no focus" 1
+         maximum 300
+         current 0
+        }
+        TextWidgetClass "{5ACC82F159B59711}" {
+         Name "HandlingText"
+         Slot LayoutSlot "{5B24A44C0BE7CC36}" {
+          Padding 0 20 0 10
+         }
+         Text "Handling"
+         "Font Size" 30
+         "Min Font Size" 30
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
+          Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
+          Bold 1
+         }
+        }
+        SliderWidgetClass "{5ACB11E7D4F06D4A}" {
+         Name "HandlingSlider"
+         Slot LayoutSlot "{5B24A44C0BE7CC1E}" {
+         }
+         "Ignore Cursor" 1
+         "no focus" 1
+         maximum 500
+         step 1
+         current 0
+        }
+        TextWidgetClass "{5ACC82F1AB52AFB4}" {
+         Name "StorageSizeText"
+         Slot LayoutSlot "{5B24A44C0BE7CC0D}" {
+          Padding 0 20 0 10
+          FillWeight 90
+         }
+         Text "Storage Size"
+         "Font Size" 30
+         "Min Font Size" 30
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5ACC82EABEA3A4CF}" {
+          Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
+          Bold 1
+         }
+        }
+        SliderWidgetClass "{5ACC82F1A2D7A107}" {
+         Name "InventorySizeSlider"
+         Slot LayoutSlot "{5B24A44C0BE7CC7E}" {
+         }
+         "Ignore Cursor" 1
+         "no focus" 1
+         maximum 1000
+         current 0
+        }
+        TextWidgetClass "{5ACB11E033B06374}" {
+         Name "VehiclePriceText"
+         Slot LayoutSlot "{5B24A44C0BE7CC70}" {
+          HorizontalAlign 1
+          VerticalAlign 1
+          Padding 0 50 0 10
+         }
+         Color 0.672 0 0.052 1
+         Text "$ 999.999.999"
+         "Font Size" 44
+         "Min Font Size" 44
+         "Horizontal Alignment" Right
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5ACB59DFC8F209F5}" {
+          Font "{DE4B66C39B62E39B}UI/Fonts/Purista/Purista Medium.fnt"
+          Bold 1
+          ShadowOffset 0 0
+         }
+        }
+        ButtonWidgetClass "{5ACB11ED518CF385}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
+         Name "BuyButton"
+         Slot LayoutSlot "{5B24A44C0BE7CC9F}" {
+          Padding 0 10 0 0
+         }
+         components {
+          SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+           m_sSoundClicked "SOUND_FE_BUTTON_CANCEL"
+           m_sLabel "Buy"
+           m_sActionName "MenuSelect"
+          }
+          ButtonActionComponent "{56EEDE01BE93EE7D}" {
+           m_bActionName "MenuSelect"
+          }
+         }
+         "no focus" 0
+         {
+          SizeLayoutWidgetClass "{5562AD435529FB36}" {
+           Prefab "{5562AD435529FB36}"
+           "Inherit Color" 1
+           HeightOverride 75
+           {
+            OverlayWidgetClass "{000000005E70868E}" {
+             Prefab "{000000005E70868E}"
+             {
+              ImageWidgetClass "{0000000054A64973}" {
+               Prefab "{0000000054A64973}"
+               Slot OverlayWidgetSlot "{5452C531C2876D22}" {
+               }
+               Color 0 0 0 1
+              }
+              PanelWidgetClass "{5562AD426F7EB8C6}" {
+               Prefab "{5562AD426F7EB8C6}"
+               "Is Enabled" 0
+              }
+              HorizontalLayoutWidgetClass "{00000000E3602307}" {
+               Prefab "{00000000E3602307}"
+               Slot OverlayWidgetSlot "{547290FBCA5E9358}" {
+                Padding 10 10 16 10
+               }
+               {
+                RichTextWidgetClass "{00000000B0FD85CE}" {
+                 Prefab "{00000000B0FD85CE}"
+                 "Font Size" 25
+                }
+                RichTextWidgetClass "{00000000DB061E92}" {
+                 Prefab "{00000000DB061E92}"
+                 Slot LayoutSlot "{547AD5678196CD13}" {
+                  FillWeight 1
+                 }
+                 "Font Size" 33
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

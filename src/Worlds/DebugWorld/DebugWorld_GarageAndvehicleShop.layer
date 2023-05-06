@@ -1,0 +1,41 @@
+SCR_DestructibleBuildingEntity : "{396E66B8F304B20B}Prefabs/Buildings/VehicleShop/VehicleShop.et" {
+ coords 76.431 0 123.217
+ Flags 525315
+ {
+  BaseGameTriggerEntity {
+   ID "5B2CBBA0476C0A62"
+   DrawShape 0
+  }
+  GenericEntity {
+   ID "5B2CBBA0476C0A58"
+   components {
+    EL_VehicleShopManagerComponent "{5ACAE5EDE08D8FDE}" {
+     m_VehiclePriceConfig EL_VehiclePriceConfig "{5C672D648F080A79}" : "{35914B106F14CB9F}EL_VehiclePriceList.conf" {
+      m_aVehiclePriceConfigs {
+       EL_VehiclePrice "{5C672D64701BC0C3}" {
+        m_Prefab "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et"
+        m_iBuyPrice 10
+       }
+       EL_VehiclePrice "{5C672D64A6BA517A}" {
+        m_Prefab "{259EE7B78C51B624}Prefabs/Vehicles/Wheeled/UAZ469/UAZ469.et"
+        m_iBuyPrice 1
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+SCR_DestructibleBuildingEntity VEHICLE_SHOP_PREVIEW : "{C59B9F5ACF4D494E}Prefabs/Buildings/VehicleShop/VEHICLE_SHOP_PREVIEW.et" {
+ coords 0 38.26 0
+}
+SCR_DestructibleBuildingEntity : "{EAD5EA324E4B1C1C}Prefabs/Buildings/Garage/VehicleGarage.et" {
+ coords 48.805 0.001 123.201
+ Flags 525315
+ {
+  GenericEntity Suitcase_01_5B2CBBA08E87F1C8 {
+   ID "5B2CBBA077D1402B"
+  }
+ }
+}

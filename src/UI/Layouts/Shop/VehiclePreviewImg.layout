@@ -1,0 +1,30 @@
+SizeLayoutWidgetClass {
+ Name "VehiclePreview"
+ Slot FrameWidgetSlot "{5B2D7A06165BCDBA}" {
+  OffsetLeft 0
+  OffsetTop 0
+  SizeX 276
+  OffsetRight -276
+  SizeY 176
+  OffsetBottom -176
+ }
+ AllowWidthOverride 1
+ WidthOverride 265
+ AllowHeightOverride 1
+ HeightOverride 164
+ {
+  ImageWidgetClass "{5B2D7A06E37C98E3}" {
+   Name "VehicleImage"
+   Slot AlignableSlot "{5B2D28D18C539959}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 0 0 0 0
+   }
+   Texture "{57BDB0532AD2427A}UI/Textures/EditorPreviews/Vehicles/Wheeled/UAZ469/UAZ469.edds"
+   Size 264 164
+   Mask "{DA56B57C99A96861}UI/Layouts/Shop/VehiclePreviewMask.edds"
+   Progress 0.5
+   "Mask Mode" "Include Below"
+  }
+ }
+}

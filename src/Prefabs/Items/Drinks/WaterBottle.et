@@ -16,6 +16,9 @@ GenericEntity : "{693D54F74C95B3D6}Prefabs/Items/Drinks/Drink_Base.et" {
   MeshObject "{5A4ACD10B8DA304F}" {
    Object "{1F941A15AF4D93BF}Assets/Items/Drinks/WaterBottle/Bottle.xob"
   }
+  SCR_ConsumableItemComponent "{5A44B634F44389F0}" {
+   m_eAnimVariable ADRIANOV
+  }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {
     UserActionContext "{508AC2ABEC97066C}" {

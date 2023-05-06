@@ -1,7 +1,7 @@
 EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
 }
 EL_SpawnPoint Gobal_Spawn {
- coords 110 0 137.516
+ coords 86.813 0 127.941
  angleY 180
  m_fSpawnRadius 2
 }

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{855936EF4419BB7C}UI/Layouts/Shop/EL_VehicleGarage.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

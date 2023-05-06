@@ -1,0 +1,10 @@
+SCR_BasePreviewEntity {
+ ID "5AD2F29021615A26"
+ components {
+  MeshObject "{5AD4EBD14A3AF049}" {
+  }
+  Hierarchy "{5AD4EBD15C1305E9}" {
+  }
+ }
+ coords 69.839 0.001 136.541
+}
