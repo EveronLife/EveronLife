@@ -1,6 +1,7 @@
 enum EL_EPersistenceManagerState
 {
-	WORLD_INIT,
+	PRE_INIT,
+	POST_INIT,
 	SETUP,
 	ACTIVE,
 	SHUTDOWN
@@ -97,12 +98,6 @@ class EL_PersistenceManager
 	//! \return database context instance
 	EL_DbContext GetDbContext()
 	{
-		if (!m_pDbContext)
-		{
-			// TODO: Read persistence db source from server config.
-			m_pDbContext = EL_DbContextFactory.GetContext();
-		}
-
 		return m_pDbContext;
 	}
 
@@ -246,12 +241,12 @@ class EL_PersistenceManager
 			}
 		}
 
-		m_pRootEntityCollection.Save(GetDbContext());
+		m_pRootEntityCollection.Save(m_pDbContext);
 
 		// Remove records about former root enties that were not purged by a persistent parent's recursive save.
 		foreach (string persistentId, typename saveDataTypename : m_mRootAutoSaveCleanup)
 		{
-			GetDbContext().RemoveAsync(saveDataTypename, persistentId);
+			m_pDbContext.RemoveAsync(saveDataTypename, persistentId);
 		}
 		m_mRootAutoSaveCleanup.Clear();
 
@@ -275,103 +270,14 @@ class EL_PersistenceManager
 			scriptedState.Save();
 		}
 
-		m_pRootEntityCollection.Save(GetDbContext());
+		m_pRootEntityCollection.Save(m_pDbContext);
 
 		// Remove records about former root enties that were not purged by a persistent parent's recursive save.
 		foreach (string persistentId, typename saveDataTypename : m_mRootShutdownCleanup)
 		{
-			GetDbContext().RemoveAsync(saveDataTypename, persistentId);
+			m_pDbContext.RemoveAsync(saveDataTypename, persistentId);
 		}
 		m_mRootShutdownCleanup.Clear();
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected void PrepareInitalWorldState()
-	{
-		SetState(EL_EPersistenceManagerState.SETUP);
-
-		// Remove baked entities that shall no longer be root entities in the world
-		array<string> staleIds();
-		foreach (string persistentId : m_pRootEntityCollection.m_aRemovedBackedRootEntities)
-		{
-			IEntity entity = FindEntityByPersistentId(persistentId);
-			if (!entity)
-			{
-				staleIds.Insert(persistentId);
-				continue;
-			}
-
-			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting baked entity '%1'@%2.", EL_Utils.GetPrefabName(entity), entity.GetOrigin()), LogLevel.SPAM);
-			SCR_EntityHelper.DeleteEntityAndChildren(entity);
-		}
-
-		// Remove any removal entries for baked objects that no longer exist
-		foreach (string staleId : staleIds)
-		{
-			m_pRootEntityCollection.m_aRemovedBackedRootEntities.RemoveItem(staleId);
-		}
-
-		// Collect type and ids of inital world entities for bulk load
-		map<typename, ref array<string>> bulkLoad();
-		foreach (typename saveType, array<string> persistentIds : m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
-		{
-			array<string> loadIds();
-			loadIds.Copy(persistentIds);
-			bulkLoad.Set(saveType, loadIds);
-		}
-		foreach (string id, EL_PersistenceComponent persistenceComponent : m_mBakedRoots)
-		{
-			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-			array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataTypename);
-
-			if (!loadIds)
-			{
-				loadIds = {};
-				bulkLoad.Set(settings.m_tSaveDataTypename, loadIds);
-			}
-
-			loadIds.Insert(id);
-		}
-
-		// Load all known inital entity types from db, both baked and dynamic in one bulk operation
-		foreach (typename saveDataType, array<string> persistentIds : bulkLoad)
-		{
-			array<ref EL_DbEntity> findResults = GetDbContext().FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
-			if (!findResults) continue;
-
-			foreach (EL_DbEntity findResult : findResults)
-			{
-				EL_EntitySaveData saveData = EL_EntitySaveData.Cast(findResult);
-				if (!saveData)
-				{
-					Debug.Error(string.Format("Unexpected database find result type '%1' encountered during entity load. Ignored.", findResult.Type().ToString()));
-					continue;
-				}
-
-				// Load data for baked roots
-				EL_PersistenceComponent persistenceComponent = m_mBakedRoots.Get(saveData.GetId());
-				if (persistenceComponent)
-				{
-					persistenceComponent.Load(saveData);
-					continue;
-				}
-
-				// Spawn additional dynamic entites
-				SpawnWorldEntity(saveData);
-			}
-		}
-
-		// Save any mapping or root entity changes detected during world init
-		EL_DbContext dbContext = GetDbContext();
-		m_pBakedEntityNameIdMapping.Save(dbContext);
-		m_pRootEntityCollection.Save(dbContext);
-
-		// Free memory as it not needed after setup
-		m_mBakedRoots = null;
-		m_pBakedEntityNameIdMapping = null;
-
-		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.", LogLevel.VERBOSE);
-		SetState(EL_EPersistenceManagerState.ACTIVE);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -562,7 +468,7 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	void AddOrUpdateAsync(notnull EL_EntitySaveData saveData)
 	{
-		GetDbContext().AddOrUpdateAsync(saveData);
+		m_pDbContext.AddOrUpdateAsync(saveData);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -570,7 +476,7 @@ class EL_PersistenceManager
 	{
 		m_mRootAutoSaveCleanup.Remove(id);
 		m_mRootShutdownCleanup.Remove(id);
-		GetDbContext().RemoveAsync(saveDataType, id);
+		m_pDbContext.RemoveAsync(saveDataType, id);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -635,28 +541,40 @@ class EL_PersistenceManager
 	protected void FlushRegistrations()
 	{
 		// Ask for persistent ids. If they were already registerd, they will have them, if not they are registered now.
-
-		foreach (EL_PersistenceComponent persistenceComponent : m_aPendingEntityRegistrations)
+		if (m_eState >= EL_EPersistenceManagerState.POST_INIT)
 		{
-			if (persistenceComponent) persistenceComponent.GetPersistentId();
+			foreach (EL_PersistenceComponent persistenceComponent : m_aPendingEntityRegistrations)
+			{
+				if (persistenceComponent)
+					persistenceComponent.GetPersistentId();
+			}
+			m_aPendingEntityRegistrations.Clear();
 		}
-		m_aPendingEntityRegistrations.Clear();
 
 		foreach (EL_PersistentScriptedState scripedState : m_aPendingScriptedStateRegistrations)
 		{
-			if (scripedState) scripedState.GetPersistentId();
+			if (scripedState)
+				scripedState.GetPersistentId();
 		}
 		m_aPendingScriptedStateRegistrations.Clear();
 	}
 
 	//------------------------------------------------------------------------------------------------
-	event void OnPostInit(IEntity gameMode)
+	event void OnPostInit(IEntity gameMode, EL_PersistenceManagerComponentClass settings)
 	{
-		EL_PersistenceManagerComponent managerComponent = EL_Component<EL_PersistenceManagerComponent>.Find(gameMode);
-		EL_PersistenceManagerComponentClass settings = EL_ComponentData<EL_PersistenceManagerComponentClass>.Get(managerComponent);
-		if (!settings.m_bEnabled) return;
-		m_fAutoSaveInterval = settings.m_fInterval;
-		m_iAutoSaveIterations = Math.Clamp(settings.m_iIterations, 1, 128);
+		m_pDbContext = EL_DbContext.Create(settings.m_sDatabaseConnectionString);
+		if (!m_pDbContext)
+			return;
+
+		m_pBakedEntityNameIdMapping = EL_DbEntityHelper<EL_PersistentBakedEntityNameIdMapping>.GetRepository(m_pDbContext).FindSingleton().GetEntity();
+		m_pRootEntityCollection = EL_DbEntityHelper<EL_PersistentRootEntityCollection>.GetRepository(m_pDbContext).FindSingleton().GetEntity();
+		SetState(EL_EPersistenceManagerState.POST_INIT);
+
+		if (!settings.m_bEnableAutosave)
+			return;
+
+		m_fAutoSaveInterval = settings.m_fAutosaveInterval;
+		m_iAutoSaveIterations = Math.Clamp(settings.m_iAutosaveIterations, 1, 128);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -664,11 +582,8 @@ class EL_PersistenceManager
 	{
 		m_fAutoSaveAccumultor += timeSlice;
 
-		if ((m_fAutoSaveInterval > 0) &&
-			(m_fAutoSaveAccumultor >= m_fAutoSaveInterval))
-		{
+		if (m_fAutoSaveInterval && (m_fAutoSaveAccumultor >= m_fAutoSaveInterval))
 			AutoSave();
-		}
 
 		AutoSaveTick();
 	}
@@ -677,7 +592,89 @@ class EL_PersistenceManager
 	event void OnWorldPostProcess(World world)
 	{
 		FlushRegistrations();
-		PrepareInitalWorldState();
+		SetState(EL_EPersistenceManagerState.SETUP);
+
+		// Remove baked entities that shall no longer be root entities in the world
+		array<string> staleIds();
+		foreach (string persistentId : m_pRootEntityCollection.m_aRemovedBackedRootEntities)
+		{
+			IEntity entity = FindEntityByPersistentId(persistentId);
+			if (!entity)
+			{
+				staleIds.Insert(persistentId);
+				continue;
+			}
+
+			Print(string.Format("EL_PersistenceManager::PrepareInitalWorldState() -> Deleting baked entity '%1'@%2.", EL_Utils.GetPrefabName(entity), entity.GetOrigin()), LogLevel.SPAM);
+			SCR_EntityHelper.DeleteEntityAndChildren(entity);
+		}
+
+		// Remove any removal entries for baked objects that no longer exist
+		foreach (string staleId : staleIds)
+		{
+			m_pRootEntityCollection.m_aRemovedBackedRootEntities.RemoveItem(staleId);
+		}
+
+		// Collect type and ids of inital world entities for bulk load
+		map<typename, ref array<string>> bulkLoad();
+		foreach (typename saveType, array<string> persistentIds : m_pRootEntityCollection.m_mSelfSpawnDynamicEntities)
+		{
+			array<string> loadIds();
+			loadIds.Copy(persistentIds);
+			bulkLoad.Set(saveType, loadIds);
+		}
+		foreach (string id, EL_PersistenceComponent persistenceComponent : m_mBakedRoots)
+		{
+			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
+			array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataTypename);
+
+			if (!loadIds)
+			{
+				loadIds = {};
+				bulkLoad.Set(settings.m_tSaveDataTypename, loadIds);
+			}
+
+			loadIds.Insert(id);
+		}
+
+		// Load all known inital entity types from db, both baked and dynamic in one bulk operation
+		foreach (typename saveDataType, array<string> persistentIds : bulkLoad)
+		{
+			array<ref EL_DbEntity> findResults = m_pDbContext.FindAll(saveDataType, EL_DbFind.Id().EqualsAnyOf(persistentIds)).GetEntities();
+			if (!findResults) continue;
+
+			foreach (EL_DbEntity findResult : findResults)
+			{
+				EL_EntitySaveData saveData = EL_EntitySaveData.Cast(findResult);
+				if (!saveData)
+				{
+					Debug.Error(string.Format("Unexpected database find result type '%1' encountered during entity load. Ignored.", findResult.Type().ToString()));
+					continue;
+				}
+
+				// Load data for baked roots
+				EL_PersistenceComponent persistenceComponent = m_mBakedRoots.Get(saveData.GetId());
+				if (persistenceComponent)
+				{
+					persistenceComponent.Load(saveData);
+					continue;
+				}
+
+				// Spawn additional dynamic entites
+				SpawnWorldEntity(saveData);
+			}
+		}
+
+		// Save any mapping or root entity changes detected during world init
+		m_pBakedEntityNameIdMapping.Save(m_pDbContext);
+		m_pRootEntityCollection.Save(m_pDbContext);
+
+		// Free memory as it not needed after setup
+		m_mBakedRoots = null;
+		m_pBakedEntityNameIdMapping = null;
+
+		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.", LogLevel.VERBOSE);
+		SetState(EL_EPersistenceManagerState.ACTIVE);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -693,8 +690,6 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected void EL_PersistenceManager()
 	{
-		SetState(EL_EPersistenceManagerState.WORLD_INIT);
-
 		m_aPendingEntityRegistrations = {};
 		m_aPendingScriptedStateRegistrations = {};
 		m_mRootAutoSave = new map<string, EL_PersistenceComponent>();
@@ -705,10 +700,7 @@ class EL_PersistenceManager
 		m_mScriptedStateAutoSave = new map<string, EL_PersistentScriptedState>();
 		m_mScriptedStateShutdown = new map<string, EL_PersistentScriptedState>();
 		m_mScriptedStateUncategorized = new map<string, EL_PersistentScriptedState>();
-
 		m_mBakedRoots = new map<string, EL_PersistenceComponent>();
-		m_pBakedEntityNameIdMapping = EL_DbEntityHelper<EL_PersistentBakedEntityNameIdMapping>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
-		m_pRootEntityCollection = EL_DbEntityHelper<EL_PersistentRootEntityCollection>.GetRepository(GetDbContext()).FindSingleton().GetEntity();
 	}
 
 	//------------------------------------------------------------------------------------------------

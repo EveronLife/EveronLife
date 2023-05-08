@@ -9,7 +9,7 @@ class EL_PersistentScriptedStateLoaderTests : TestSuite
 		// Change db context to in memory for this test suite
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPreviousContext = persistenceManager.GetDbContext();
-		persistenceManager.SetDbContext(EL_DbContextFactory.GetContext("testing", false));
+		persistenceManager.SetDbContext(EL_DbContext.Create("InMemory://PersistentScriptedStateLoaderTests"));
     }
 
 	//------------------------------------------------------------------------------------------------
@@ -21,7 +21,6 @@ class EL_PersistentScriptedStateLoaderTests : TestSuite
     }
 }
 
-[EL_PersistentScriptedStateSettings(EL_Test_ScriptedStateLoaderDummy, EL_Test_ScriptedStateLoaderDummySaveData, selfDelete: true)]
 class EL_Test_ScriptedStateLoaderDummy : EL_PersistentScriptedState
 {
 	int m_iIntValue;
@@ -35,7 +34,10 @@ class EL_Test_ScriptedStateLoaderDummy : EL_PersistentScriptedState
 	}
 }
 
-[EL_DbName(EL_Test_ScriptedStateLoaderDummySaveData, "ScriptedStateLoaderDummy")]
+[
+	EL_PersistentScriptedStateSettings(EL_Test_ScriptedStateLoaderDummy, options: EL_EPersistentScriptedStateOptions.SELF_DELETE), 
+	EL_DbName("ScriptedStateLoaderDummy")
+]
 class EL_Test_ScriptedStateLoaderDummySaveData : EL_ScriptedStateSaveData
 {
 	int m_iIntValue;

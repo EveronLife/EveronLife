@@ -2,15 +2,17 @@ class EL_PersistentWorldEntityLoaderTests : TestSuite
 {
 	ref EL_DbContext m_pPreviousContext;
 	
+	//------------------------------------------------------------------------------------------------
 	[Step(EStage.Setup)]
     void Setup()
     {
 		// Change db context to in memory for this test suite
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPreviousContext = persistenceManager.GetDbContext();
-		persistenceManager.SetDbContext(EL_DbContextFactory.GetContext("testing", false));
+		persistenceManager.SetDbContext(EL_DbContext.Create("InMemory://PersistentWorldEntityLoaderTests"));
     }
 
+	//------------------------------------------------------------------------------------------------
     [Step(EStage.TearDown)]
     void TearDown()
     {

@@ -8,7 +8,9 @@ class EL_DbContext
 	//! \return status code of the operation
 	EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity)
 	{
-		if (!entity.HasId()) entity.SetId(EL_DbEntityIdGenerator.Generate());
+		if (!entity.HasId())
+			entity.SetId(EL_DbEntityIdGenerator.Generate());
+
 		return m_Driver.AddOrUpdate(entity);
 	}
 
@@ -48,18 +50,19 @@ class EL_DbContext
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Adds a new entry to the database or updates an existing one asynchronously 
+	//! Adds a new entry to the database or updates an existing one asynchronously
 	//! \param entity database entity to add or update
 	//! \param callback optional callback to handle the operation result
 	void AddOrUpdateAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
 	{
-		if (!entity.HasId()) entity.SetId(EL_DbEntityIdGenerator.Generate());
+		if (!entity.HasId())
+			entity.SetId(EL_DbEntityIdGenerator.Generate());
 
 		m_Driver.AddOrUpdateAsync(entity, callback);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Remove an existing database entity asynchronously 
+	//! Remove an existing database entity asynchronously
 	//! \param entity database to remove
 	//! \param callback optional callback to handle the operation result
 	void RemoveAsync(notnull EL_DbEntity entity, EL_DbOperationStatusOnlyCallback callback = null)
@@ -72,7 +75,7 @@ class EL_DbContext
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Remove an existing database entity asynchronously 
+	//! Remove an existing database entity asynchronously
 	//! \param entityType typename of the database entity
 	//! \param entityId unique id of the entity to remove
 	//! \param callback optional callback to handle the operation result
@@ -82,7 +85,7 @@ class EL_DbContext
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Find database entities asynchronously 
+	//! Find database entities asynchronously
 	//! \param entityType typename of the database entity
 	//! \param condition find condition to search by
 	//! \param orderBy field paths in dotnotation to order by e.g. {{"child.subField", "ASC"}, {"thenByField", "DESC"}}
@@ -95,16 +98,8 @@ class EL_DbContext
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Internal use only. Use EL_DbContextFactory::GetContext() to get a context instance.
-	static EL_DbContext _Create(string dataSource)
+	static EL_DbContext Create(string connectionString)
 	{
-		string connectionString;
-		if (!TryGetConnectionString(dataSource, connectionString))
-		{
-			Debug.Error(string.Format("Could not get find connection string for data source '%1'. Please check your server config!", dataSource));
-			return null;
-		}
-
 		int driverEndIdx = connectionString.IndexOf("://");
 		if (driverEndIdx == -1)
 		{
@@ -133,25 +128,7 @@ class EL_DbContext
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Internal use only
-	protected static bool TryGetConnectionString(string dataSource, out string connectionString)
-	{
-		// Todo remove hardcode
-
-		if (dataSource == "testing")
-		{
-			connectionString = "inmemory://EveronLife";
-		}
-		else
-		{
-			connectionString = "jsonfile://EveronLife?cache=true&pretty=true";
-		}
-
-		return true;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Use EL_DbContextFactory::GetContext() to get a context instance.
+	//! Use EL_DbContext::Create(string) to get a context instance.
 	protected void EL_DbContext(EL_DbDriver driver)
 	{
 		m_Driver = driver;
@@ -160,8 +137,10 @@ class EL_DbContext
 	//------------------------------------------------------------------------------------------------
 	void ~EL_DbContext()
 	{
-		if (!m_Driver) return;
+		if (!m_Driver)
+			return;
+
 		m_Driver.Shutdown();
 		m_Driver = null;
 	}
-}
+};

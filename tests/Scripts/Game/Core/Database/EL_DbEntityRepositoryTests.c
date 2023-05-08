@@ -1,15 +1,19 @@
 class EL_DbRepositoryTests : TestSuite
 {
+	static ref EL_DbContext m_pDbContext;
+	
 	//------------------------------------------------------------------------------------------------
 	[Step(EStage.Setup)]
     void Setup()
     {
+		m_pDbContext = EL_DbContext.Create("inmemory://DbRepositoryTests");
     }
 
 	//------------------------------------------------------------------------------------------------
     [Step(EStage.TearDown)]
     void TearDown()
     {
+		m_pDbContext = null;
     }
 }
 
@@ -39,8 +43,7 @@ class EL_Test_DbEntityRepositoryEntityRepository : EL_DbRepository<EL_Test_DbEnt
 TestResultBase EL_Test_DbEntityRepository_AddOrUpdate_NewEntityFindByIntValue_Found()
 {
 	// Arrange
-	EL_DbContext dbContext = EL_DbContextFactory.GetContext();
-	EL_Test_DbEntityRepositoryEntityRepository repository = EL_DbRepositoryHelper<EL_Test_DbEntityRepositoryEntityRepository>.Get(dbContext);
+	EL_Test_DbEntityRepositoryEntityRepository repository = EL_DbRepositoryHelper<EL_Test_DbEntityRepositoryEntityRepository>.Get(EL_DbRepositoryTests.m_pDbContext);
 
 	EL_Test_DbEntityRepositoryEntity entity("TEST0000-0000-0001-0000-000000000001", 1001)
 	
@@ -61,8 +64,7 @@ TestResultBase EL_Test_DbEntityRepository_AddOrUpdate_NewEntityFindByIntValue_Fo
 TestResultBase EL_Test_DbEntityRepository_Remove_ByInstance_Removed()
 {
 	// Arrange
-	EL_DbContext dbContext = EL_DbContextFactory.GetContext();
-	EL_DbRepository<EL_Test_DbEntityRepositoryEntity> repository = EL_DbEntityHelper<EL_Test_DbEntityRepositoryEntity>.GetRepository(dbContext);
+	EL_DbRepository<EL_Test_DbEntityRepositoryEntity> repository = EL_DbEntityHelper<EL_Test_DbEntityRepositoryEntity>.GetRepository(EL_DbRepositoryTests.m_pDbContext);
 
 	EL_Test_DbEntityRepositoryEntity entity("TEST0000-0000-0001-0000-000000000002", 1002);
 	repository.AddOrUpdate(entity);
