@@ -55,29 +55,19 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Transform
 		m_pTransformation = new EL_PersistentTransformation();
-		if (!attributes.m_bTrimDefaults ||
-			!EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED) ||
-			EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.WAS_MOVED))
+		EL_EPersistenceFlags flags = persistenceComponent.GetFlags();
+		// We save it on root entities and always on characters (in case the parent vehicle is not loaded back in)
+		// We can skip transform for baked entities that were not moved.
+		if (EL_BitFlags.CheckFlags(flags, EL_EPersistenceFlags.ROOT) &&
+			(!EL_BitFlags.CheckFlags(flags, EL_EPersistenceFlags.BAKED) || EL_BitFlags.CheckFlags(flags, EL_EPersistenceFlags.WAS_MOVED)))
 		{
-			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS)
-			{
-				m_pTransformation.m_vOrigin = entity.GetOrigin();
+			if (m_pTransformation.ReadFrom(entity, attributes))
 				resultCode = EL_EReadResult.OK;
-			}
-			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES)
-			{
-				m_pTransformation.m_vAngles = entity.GetYawPitchRoll();
-				resultCode = EL_EReadResult.OK;
-			}
-			if (attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE)
-			{
-				m_pTransformation.m_fScale = entity.GetScale();
-				resultCode = EL_EReadResult.OK;
-			}
 		}
 
 		// Lifetime
-		if (attributes.m_bSaveRemainingLifetime)
+		if (EL_BitFlags.CheckFlags(flags, EL_EPersistenceFlags.ROOT) &&
+			attributes.m_bSaveRemainingLifetime)
 		{
 			GarbageManager garbageManager = GetGame().GetGarbageManager();
 			if (garbageManager)
@@ -342,7 +332,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Components
 		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
-		foreach (auto _, array<ref EL_ComponentSaveData> componentsSaveData : m_mComponentsSaveData)
+		foreach (typename type, array<ref EL_ComponentSaveData> componentsSaveData : m_mComponentsSaveData)
 		{
 			foreach (EL_ComponentSaveData component : componentsSaveData)
 			{
@@ -419,6 +409,51 @@ class EL_PersistentTransformation
 	}
 
 	//------------------------------------------------------------------------------------------------
+	bool ReadFrom(IEntity entity, EL_EntitySaveDataClass attributes)
+	{
+		bool anyData;
+
+		vector transform[4];
+
+		// For chars (in vehicles) we want to keep the world transform
+		// for if the parent vehicle is deleted they can still spawn
+		if (!ChimeraCharacter.Cast(entity) && entity.GetParent())
+		{
+			entity.GetLocalTransform(transform);
+		}
+		else
+		{
+			entity.GetWorldTransform(transform);
+		}
+
+		vector angles;
+		float scale = Math3D.MatrixToAnglesAndScale(transform, angles);
+
+		if ((attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS) &&
+			(!attributes.m_bTrimDefaults || (transform[3] != vector.Zero)))
+		{
+			m_vOrigin = transform[3];
+			anyData = true;
+		}
+
+		if ((attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.ANGLES) &&
+			(!attributes.m_bTrimDefaults || (angles != vector.Zero)))
+		{
+			m_vAngles = angles;
+			anyData = true;
+		}
+
+		if ((attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.SCALE) &&
+			(!attributes.m_bTrimDefaults || (scale != 1.0)))
+		{
+			m_fScale = scale;
+			anyData = true;
+		}
+
+		return anyData;
+	}
+
+	//------------------------------------------------------------------------------------------------
 	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
 	{
 		if (!saveContext.IsValid()) return false;
@@ -426,18 +461,26 @@ class EL_PersistentTransformation
 		// For binary stream the info which of the 3 possible props will be written after needs to be known.
 		// JSON just has the keys or not, so there it is not a problem.
 		EL_ETransformSaveFlags flags;
-		if (m_vOrigin != EL_Const.VEC_INFINITY) flags |= EL_ETransformSaveFlags.COORDS;
-		if (m_vAngles != EL_Const.VEC_INFINITY) flags |= EL_ETransformSaveFlags.ANGLES;
-		if (m_fScale != float.INFINITY) flags |= EL_ETransformSaveFlags.SCALE;
+		if (m_vOrigin != EL_Const.VEC_INFINITY)
+			flags |= EL_ETransformSaveFlags.COORDS;
+
+		if (m_vAngles != EL_Const.VEC_INFINITY)
+			flags |= EL_ETransformSaveFlags.ANGLES;
+
+		if (m_fScale != float.INFINITY)
+			flags |= EL_ETransformSaveFlags.SCALE;
 
 		if (ContainerSerializationSaveContext.Cast(saveContext).GetContainer().IsInherited(BinSaveContainer))
-		{
 			saveContext.WriteValue("transformSaveFlags", flags);
-		}
 
-		if (flags & EL_ETransformSaveFlags.COORDS) saveContext.WriteValue("m_vOrigin", m_vOrigin);
-		if (flags & EL_ETransformSaveFlags.ANGLES) saveContext.WriteValue("m_vAngles", m_vAngles);
-		if (flags & EL_ETransformSaveFlags.SCALE) saveContext.WriteValue("m_fScale", m_fScale);
+		if (flags & EL_ETransformSaveFlags.COORDS)
+			saveContext.WriteValue("m_vOrigin", m_vOrigin);
+
+		if (flags & EL_ETransformSaveFlags.ANGLES)
+			saveContext.WriteValue("m_vAngles", m_vAngles);
+
+		if (flags & EL_ETransformSaveFlags.SCALE)
+			saveContext.WriteValue("m_fScale", m_fScale);
 
 		return true;
 	}
@@ -449,13 +492,16 @@ class EL_PersistentTransformation
 
 		EL_ETransformSaveFlags flags = EL_ETransformSaveFlags.COORDS | EL_ETransformSaveFlags.ANGLES | EL_ETransformSaveFlags.SCALE;
 		if (ContainerSerializationLoadContext.Cast(loadContext).GetContainer().IsInherited(BinLoadContainer))
-		{
 			loadContext.ReadValue("transformSaveFlags", flags);
-		}
 
-		if (flags & EL_ETransformSaveFlags.COORDS) loadContext.ReadValue("m_vOrigin", m_vOrigin);
-		if (flags & EL_ETransformSaveFlags.ANGLES) loadContext.ReadValue("m_vAngles", m_vAngles);
-		if (flags & EL_ETransformSaveFlags.SCALE) loadContext.ReadValue("m_fScale", m_fScale);
+		if (flags & EL_ETransformSaveFlags.COORDS)
+			loadContext.ReadValue("m_vOrigin", m_vOrigin);
+
+		if (flags & EL_ETransformSaveFlags.ANGLES)
+			loadContext.ReadValue("m_vAngles", m_vAngles);
+
+		if (flags & EL_ETransformSaveFlags.SCALE)
+			loadContext.ReadValue("m_fScale", m_fScale);
 
 		return true;
 	}
@@ -474,7 +520,8 @@ class EL_PersistentComponentSaveData
 	//------------------------------------------------------------------------------------------------
 	protected bool SerializationSave(BaseSerializationSaveContext saveContext)
 	{
-		if (!saveContext.IsValid()) return false;
+		if (!saveContext.IsValid())
+			return false;
 
 		saveContext.WriteValue("dataType", EL_DbName.Get(m_pData.Type()));
 		saveContext.WriteValue("m_pData", m_pData);
@@ -485,12 +532,14 @@ class EL_PersistentComponentSaveData
 	//------------------------------------------------------------------------------------------------
 	protected bool SerializationLoad(BaseSerializationLoadContext loadContext)
 	{
-		if (!loadContext.IsValid()) return false;
+		if (!loadContext.IsValid())
+			return false;
 
 		string dataTypeString;
 		loadContext.ReadValue("dataType", dataTypeString);
 		typename dataType = EL_DbName.GetTypeByName(dataTypeString);
-		if (!dataType) return false;
+		if (!dataType)
+			return false;
 
 		m_pData = EL_ComponentSaveData.Cast(dataType.Spawn());
 		loadContext.ReadValue("m_pData", m_pData);

@@ -45,11 +45,10 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 			if (!saveData)
 				return EL_EReadResult.ERROR;
 
-			// Reset transformation data, as that won't be needed for slotted entites
-			saveData.m_pTransformation.Reset();
-
-			// Remove GarbageManager lifetime until the game fixes it being known for child entities some day.
-			saveData.m_fRemainingLifetime = 0;
+			// Read transform to see if slot uses OverrideTransformLS set.
+			EL_PersistenceComponentClass slotAttributes = EL_ComponentData<EL_PersistenceComponentClass>.Get(slotEntity);
+			if (saveData.m_pTransformation.ReadFrom(slotEntity, slotAttributes.m_pSaveData))
+				readResult = EL_EReadResult.OK;
 
 			// We can safely ignore baked objects with default info on them, but anything else needs to be saved.
 			if (attributes.m_bTrimDefaults &&
@@ -92,6 +91,14 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 					EntitySlotInfo entitySlot = outSlotInfos.Get(idx);
 					IEntity slotEntity = entitySlot.GetAttachedEntity();
 
+					// If there is an tramsform override saved we need to consume it before load operations
+					EL_PersistentTransformation persistentTransform;
+					if (slot.m_pEntity)
+					{
+						persistentTransform = slot.m_pEntity.m_pTransformation;
+						slot.m_pEntity.m_pTransformation = null;
+					}
+
 					// Found matching entity, no need to spawn, just apply save-data
 					if (slot.m_pEntity &&
 						slotEntity &&
@@ -100,26 +107,48 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 						EL_PersistenceComponent slotPersistence = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
 						if (slotPersistence && !slotPersistence.Load(slot.m_pEntity, false))
 							return EL_EApplyResult.ERROR;
-
-						continue;
 					}
-
-					// Slot did not match save-data, delete current entity on it
-					SCR_EntityHelper.DeleteEntityAndChildren(slotEntity);
-
-					if (!slot.m_pEntity)
-						continue;
-
-					// Spawn new entity and attach it
-					slotEntity = slot.m_pEntity.Spawn(false);
-					if (slotEntity)
+					else
 					{
+						// Slot did not match save-data, delete current entity on it
+						SCR_EntityHelper.DeleteEntityAndChildren(slotEntity);
+
+						if (!slot.m_pEntity)
+							continue;
+
+						// Spawn new entity and attach it
+						slotEntity = slot.m_pEntity.Spawn(false);
+						if (!slotEntity)
+							return EL_EApplyResult.ERROR;
+
 						entitySlot.AttachEntity(slotEntity);
-						if (entitySlot.GetAttachedEntity() == slotEntity)
-							continue; // Success!
+						if (entitySlot.GetAttachedEntity() != slotEntity)
+							return EL_EApplyResult.ERROR;
 					}
 
-					return EL_EApplyResult.ERROR;
+					if (persistentTransform)
+					{
+						vector transform[4];
+
+						if (persistentTransform.m_vOrigin != EL_Const.VEC_INFINITY)
+							transform[3] = persistentTransform.m_vOrigin;
+
+						if (persistentTransform.m_vAngles != EL_Const.VEC_INFINITY)
+						{
+							Math3D.AnglesToMatrix(persistentTransform.m_vAngles, transform);
+						}
+						else
+						{
+							Math3D.MatrixIdentity3(transform);
+						}
+
+						if (persistentTransform.m_fScale != float.INFINITY)
+							SCR_Math3D.ScaleMatrix(transform, persistentTransform.m_fScale);
+
+						entitySlot.OverrideTransformLS(transform);
+					}
+
+					return EL_EApplyResult.OK;
 				}
 			}
 		}

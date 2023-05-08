@@ -33,12 +33,6 @@ class EL_WeaponSlotComponentSaveData : EL_ComponentSaveData
 		if (!saveData)
 			return EL_EReadResult.ERROR;
 
-		// Reset transformation data, as that won't be needed for slotted entites
-		saveData.m_pTransformation.Reset();
-
-		// Remove GarbageManager lifetime until the game fixes it being known for child entities some day.
-		saveData.m_fRemainingLifetime = 0;
-
 		// We can safely ignore baked objects with default info on them, but anything else needs to be saved.
 		if (attributes.m_bTrimDefaults &&
 			isPrefabMatch &&
