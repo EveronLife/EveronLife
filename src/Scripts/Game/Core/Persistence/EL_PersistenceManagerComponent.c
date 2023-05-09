@@ -71,8 +71,6 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		if (System.GetCLIParam("ConnectionString", connectionStringOverride))
 			settings.m_sDatabaseConnectionString = connectionStringOverride;
 
-		Print(settings.m_sDatabaseConnectionString);
-
 		m_fUpdateRateSetting = settings.m_fUpdateRate;
 		m_pPersistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPersistenceManager.OnPostInit(owner, settings);
