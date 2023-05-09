@@ -413,26 +413,28 @@ class EL_PersistentTransformation
 	{
 		bool anyData;
 
-		vector transform[4];
+		vector angles, transform[4];
+		float scale = entity.GetScale();
 
 		// For chars (in vehicles) we want to keep the world transform
 		// for if the parent vehicle is deleted they can still spawn
 		if (!ChimeraCharacter.Cast(entity) && entity.GetParent())
 		{
 			entity.GetLocalTransform(transform);
+			angles = entity.GetLocalYawPitchRoll();
 		}
 		else
 		{
 			entity.GetWorldTransform(transform);
+			angles = entity.GetYawPitchRoll();
 		}
 
-		vector angles;
-		float scale = Math3D.MatrixToAnglesAndScale(transform, angles);
+		vector origin = transform[3];
 
 		if ((attributes.m_eTranformSaveFlags & EL_ETransformSaveFlags.COORDS) &&
-			(!attributes.m_bTrimDefaults || (transform[3] != vector.Zero)))
+			(!attributes.m_bTrimDefaults || (origin != vector.Zero)))
 		{
-			m_vOrigin = transform[3];
+			m_vOrigin = origin;
 			anyData = true;
 		}
 
