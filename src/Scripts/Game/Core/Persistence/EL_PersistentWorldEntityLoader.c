@@ -141,11 +141,11 @@ class EL_PersistentWorldEntityLoader
 
 		return resultType;
 	}
-}
+};
 
 class EL_WorldEntityLoaderCallback : EL_Callback
 {
-}
+};
 
 class EL_WorldEntityLoaderCallbackSingle : EL_WorldEntityLoaderCallback
 {
@@ -153,15 +153,15 @@ class EL_WorldEntityLoaderCallbackSingle : EL_WorldEntityLoaderCallback
 	void Invoke(IEntity data)
 	{
 		if (m_pInvokeInstance &&
-			m_sInvokeMethodName &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
+			m_sInvokeMethod &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, data)) return;
 
 		OnComplete(m_pContext, data);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void OnComplete(Managed context, IEntity data);
-}
+};
 
 class EL_WorldEntityLoaderCallbackMultiple : EL_WorldEntityLoaderCallback
 {
@@ -169,15 +169,15 @@ class EL_WorldEntityLoaderCallbackMultiple : EL_WorldEntityLoaderCallback
 	void Invoke(array<IEntity> data)
 	{
 		if (m_pInvokeInstance &&
-			m_sInvokeMethodName &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, data)) return;
+			m_sInvokeMethod &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, data)) return;
 
 		OnComplete(m_pContext, data);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	void OnComplete(Managed context, array<IEntity> data);
-}
+};
 
 class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_EntitySaveData>
 {
@@ -202,7 +202,7 @@ class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_E
 	{
 		m_pOuterCallback = outerCallback;
 	}
-}
+};
 
 class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_EntitySaveData>
 {
@@ -238,4 +238,4 @@ class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_Entit
 	{
 		m_pOuterCallback = outerCallback;
 	}
-}
+};

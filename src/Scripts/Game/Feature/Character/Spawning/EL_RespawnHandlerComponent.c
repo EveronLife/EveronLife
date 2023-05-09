@@ -15,8 +15,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 			return;
 
 		string playerUid = EL_Utils.GetPlayerUID(playerId);
-		EL_PlayerAccountCallback callback(new Tuple2<int, string>(playerId, playerUid));
-		callback.ConfigureInvoker(this, "OnAccountLoaded");
+		EL_PlayerAccountCallback callback(this, "OnAccountLoaded", new Tuple2<int, string>(playerId, playerUid));
 		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(playerUid, true, callback);
 	}
 
@@ -37,8 +36,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		// Load first available character until selection flow is implemented
 		string characterId = account.m_aCharacterIds.Get(0);
 		Tuple3<int, string, string> characterContext(playerInfo.param1, playerInfo.param2, characterId);
-		EL_DbFindCallbackSingle<EL_CharacterSaveData> characterDataCallback(characterContext);
-		characterDataCallback.ConfigureInvoker(this, "OnCharacterDataLoaded");
+		EL_DbFindCallbackSingle<EL_CharacterSaveData> characterDataCallback(this, "OnCharacterDataLoaded", characterContext);
 		EL_PersistenceEntityHelper<EL_CharacterSaveData>.GetRepository().FindAsync(characterId, characterDataCallback);
 	}
 

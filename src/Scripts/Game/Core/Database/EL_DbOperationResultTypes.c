@@ -13,7 +13,7 @@ enum EL_EDbOperationStatusCode
 
 	// Unknown
 	FAILURE_UNKNOWN
-}
+};
 
 class EL_DbFindResultBase
 {
@@ -30,7 +30,7 @@ class EL_DbFindResultBase
 	{
 		return m_eStatusCode == EL_EDbOperationStatusCode.SUCCESS;
 	}
-}
+};
 
 class EL_DbFindResults<Class TEntityType> : EL_DbFindResultBase
 {
@@ -48,7 +48,7 @@ class EL_DbFindResults<Class TEntityType> : EL_DbFindResultBase
 		m_eStatusCode = statusCode;
 		m_aEntities = entities;
 	}
-}
+};
 
 class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
 {
@@ -74,11 +74,11 @@ class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
 		m_eStatusCode = statusCode;
 		m_pEntity = entity;
 	}
-}
+};
 
 class EL_DbOperationCallback : EL_Callback
 {
-}
+};
 
 class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 {
@@ -86,8 +86,8 @@ class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 	void Invoke(EL_EDbOperationStatusCode code)
 	{
 		if (m_pInvokeInstance &&
-			m_sInvokeMethodName &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code)) return;
+			m_sInvokeMethod &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
@@ -104,12 +104,12 @@ class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 
 	//------------------------------------------------------------------------------------------------
 	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
-}
+};
 
 class EL_DbFindCallbackBase : EL_DbOperationCallback
 {
 	void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults);
-}
+};
 
 class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 {
@@ -119,8 +119,8 @@ class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 		array<ref TEntityType> strongTypedResults = EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults);
 
 		if (m_pInvokeInstance &&
-			m_sInvokeMethodName &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code, strongTypedResults)) return;
+			m_sInvokeMethod &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code, strongTypedResults)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
@@ -137,7 +137,7 @@ class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 
 	//------------------------------------------------------------------------------------------------
 	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
-}
+};
 
 class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 {
@@ -152,8 +152,8 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 		}
 
 		if (m_pInvokeInstance &&
-			m_sInvokeMethodName &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code, typedResult)) return;
+			m_sInvokeMethod &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code, typedResult)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
@@ -170,7 +170,7 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 
 	//------------------------------------------------------------------------------------------------
 	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
-}
+};
 
 class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 {
@@ -190,8 +190,8 @@ class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 		}
 
 		if (m_pInvokeInstance &&
-			m_sInvokeMethodName &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethodName, true, null, m_pContext, code, typedResult)) return;
+			m_sInvokeMethod &&
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code, typedResult)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
@@ -208,4 +208,4 @@ class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 
 	//------------------------------------------------------------------------------------------------
 	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
-}
+};
