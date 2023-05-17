@@ -23,12 +23,6 @@ sealed class EL_PersistenceComponentClass : ScriptComponentClass
 	typename m_tSaveDataTypename;
 
 	//------------------------------------------------------------------------------------------------
-	static override bool DependsOn(string className)
-	{
-		return true; // Forcing persistence to be loaded last so other components are properly initalized to be read from and applied to.
-	}
-
-	//------------------------------------------------------------------------------------------------
 	static override array<typename> CannotCombine(IEntityComponentSource src)
 	{
 		return {EL_PersistenceComponent}; //Prevent multiple persistence components from being added.
@@ -400,9 +394,14 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	override event protected void OnAddedToParent(IEntity child, IEntity parent)
 	{
-		// TODO: Remove workaround root check after https://feedback.bistudio.com/T172461 was fixed
-		if (!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.ROOT))
+		if (!EL_PersistenceManager.IsPersistenceMaster())
 			return;
+
+		// TODO: Remove workaround check after https://feedback.bistudio.com/T172461 was fixed
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.HACK_PARENT_RAN))
+			return;
+
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.HACK_PARENT_RAN);
 
 		// TODO: Replace with subscribe to all parent slots after https://feedback.bistudio.com/T171945 is added.
 		ResourceName prefab = EL_Utils.GetPrefabName(child);
@@ -487,11 +486,16 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			invItem.m_OnParentSlotChangedInvoker.Remove(OnParentSlotChanged);
 
 		// TODO: Also unsubscribe any entity slots
+
+		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.HACK_PARENT_RAN);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override event protected void OnRemovedFromParent(IEntity child, IEntity parent)
 	{
+		if (!EL_PersistenceManager.IsPersistenceMaster())
+			return;
+
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(child);
 		if (!settings.m_bStorageRoot)
 			return;
