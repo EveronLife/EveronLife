@@ -42,7 +42,6 @@ class EL_PersistenceManager
 
 	// Setup buffers, discarded after world init
 	protected ref map<string, EL_PersistenceComponent> m_mBakedRoots;
-	protected ref EL_PersistentBakedEntityNameIdMapping m_pBakedEntityNameIdMapping;
 
 	//------------------------------------------------------------------------------------------------
 	//! Check if current game instance is intended to run the persistence system. Only the mission host should do so.
@@ -104,9 +103,9 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	//! Used to spawn and correctly register an entity from save-data
 	//! \param saveData Save-data to spawn from
-	//! \param spawnAsSavedRoot true if the current record is a root entry in the db (not a stored item inside a storage)
+	//! \param isRoot true if the current entity is a world root (not a stored item inside a storage)
 	//! \return registered entiy instance or null on failure
-	IEntity SpawnWorldEntity(EL_EntitySaveData saveData, bool spawnAsSavedRoot = true)
+	IEntity SpawnWorldEntity(EL_EntitySaveData saveData, bool isRoot = true)
 	{
 		if (!saveData || !saveData.GetId()) return null;
 
@@ -125,7 +124,7 @@ class EL_PersistenceManager
 		}
 
 		EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(entity.FindComponent(EL_PersistenceComponent));
-		if (!persistenceComponent || !persistenceComponent.Load(saveData, spawnAsSavedRoot))
+		if (!persistenceComponent || !persistenceComponent.Load(saveData, isRoot))
 		{
 			SCR_EntityHelper.DeleteEntityAndChildren(entity);
 			return null;
@@ -281,65 +280,21 @@ class EL_PersistenceManager
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Get the entity persistent id from the baked mapping, id buffer or generate a new one
+	//! Get the persistent id for entity based on baked map hash or generate a dynamic one
 	protected string GetPersistentId(notnull EL_PersistenceComponent persistenceComponent)
 	{
-		string id;
-
+		// Baked
 		if (m_eState < EL_EPersistenceManagerState.SETUP)
-		{
-			IEntity entity = persistenceComponent.GetOwner();
-			string name = entity.GetName();
-			if (!name)
-			{
-				IEntity parent = entity.GetParent();
-				while (parent && !parent.GetName())
-				{
-					parent = parent.GetParent()
-				}
+			return EL_PersistenceIdGenerator.Generate(persistenceComponent.GetOwner());
 
-				if (parent && parent.GetName())
-				{
-					string namePart = string.Format("%1_%2", parent.GetName(), EL_Utils.GetPrefabName(entity).Substring(1, 16));
-					int duplicate;
-					while (true)
-					{
-						name = string.Format("%1_%2", namePart, duplicate++);
-						// Make sure the name is not already taken, otherwise increment counter of same child prefab type
-						if (m_pBakedEntityNameIdMapping.m_aBakedNames.Insert(name))
-							break;
-					}
-
-				}
-				else
-				{
-					Debug.Error(string.Format("Unnamed baked parent '%1'. Unable to assign persistent id from name<->id mapping. Check your world setup!", EL_Utils.GetPrefabName(entity.GetParent())));
-					return string.Empty;
-				}
-			}
-
-			id = m_pBakedEntityNameIdMapping.GetIdByName(name);
-
-			if (!id)
-			{
-				id = EL_DbEntityIdGenerator.Generate();
-				EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-				m_pBakedEntityNameIdMapping.Insert(name, id, settings.m_tSaveDataTypename);
-			}
-		}
-		else
-		{
-			id = EL_DbEntityIdGenerator.Generate();
-		}
-
-		return id;
+		return EL_PersistenceIdGenerator.Generate();
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Get the scripted state persistent id from buffer or generate a new one
+	//! Get the scripted state persistent id that is dynamically generated
 	protected string GetPersistentId(notnull EL_PersistentScriptedState scripedState)
 	{
-		return EL_DbEntityIdGenerator.Generate();
+		return EL_PersistenceIdGenerator.Generate();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -366,16 +321,17 @@ class EL_PersistenceManager
 		if (!id) id = GetPersistentId(persistenceComponent);
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		bool isRoot = settings.m_bStorageRoot && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.ROOT);
-		UpdateRootStatus(persistenceComponent, id, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
+		bool isRoot = EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.ROOT);
+		UpdateRootStatus(persistenceComponent, id, settings, isRoot);
 
 		return id;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void UpdateRootStatus(notnull EL_PersistenceComponent persistenceComponent, string id, EL_ESaveType saveType, typename saveDataType, bool isRootEntity)
+	//! id param seperate as it might not be assigned yet onto the persistence componend during registration
+	void UpdateRootStatus(notnull EL_PersistenceComponent persistenceComponent, string id, EL_PersistenceComponentClass settings, bool isRootEntity)
 	{
-		switch (saveType)
+		switch (settings.m_eSaveType)
 		{
 			case EL_ESaveType.INTERVAL_SHUTDOWN:
 			{
@@ -392,7 +348,7 @@ class EL_PersistenceManager
 						m_mRootAutoSave.Remove(id);
 
 						if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD))
-							m_mRootAutoSaveCleanup.Set(id, saveDataType);
+							m_mRootAutoSaveCleanup.Set(id, settings.m_tSaveDataTypename);
 					}
 					m_mUncategorizedEntities.Set(id, persistenceComponent);
 				}
@@ -414,7 +370,7 @@ class EL_PersistenceManager
 						m_mRootShutdown.Remove(id);
 
 						if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD))
-							m_mRootShutdownCleanup.Set(id, saveDataType);
+							m_mRootShutdownCleanup.Set(id, settings.m_tSaveDataTypename);
 					}
 					m_mUncategorizedEntities.Set(id, persistenceComponent);
 				}
@@ -566,7 +522,6 @@ class EL_PersistenceManager
 		if (!m_pDbContext)
 			return;
 
-		m_pBakedEntityNameIdMapping = EL_DbEntityHelper<EL_PersistentBakedEntityNameIdMapping>.GetRepository(m_pDbContext).FindSingleton().GetEntity();
 		m_pRootEntityCollection = EL_DbEntityHelper<EL_PersistentRootEntityCollection>.GetRepository(m_pDbContext).FindSingleton().GetEntity();
 		SetState(EL_EPersistenceManagerState.POST_INIT);
 
@@ -666,12 +621,10 @@ class EL_PersistenceManager
 		}
 
 		// Save any mapping or root entity changes detected during world init
-		m_pBakedEntityNameIdMapping.Save(m_pDbContext);
 		m_pRootEntityCollection.Save(m_pDbContext);
 
 		// Free memory as it not needed after setup
 		m_mBakedRoots = null;
-		m_pBakedEntityNameIdMapping = null;
 
 		Print("EL_PersistenceManager::PrepareInitalWorldState() -> Complete.", LogLevel.VERBOSE);
 		SetState(EL_EPersistenceManagerState.ACTIVE);
@@ -706,6 +659,7 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected static void Reset()
 	{
+		EL_PersistenceIdGenerator.Reset();
 		EL_DefaultPrefabItemsInfo.Reset();
 		EL_EntitySlotPrefabInfo.Reset();
 		s_pInstance = null;

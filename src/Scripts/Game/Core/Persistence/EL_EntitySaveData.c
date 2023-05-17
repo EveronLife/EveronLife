@@ -30,11 +30,11 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Spawn the world entity based on this save-data instance
-	//! \param spawnAsSavedRoot true if the current record is a root entry in the db (not a stored item inside a storage)
+	//! \param isRoot true if the current entity is a world root (not a stored item inside a storage)
 	//! \return world entity or null if it could not be correctly spawned/loaded
-	IEntity Spawn(bool spawnAsSavedRoot = true)
+	IEntity Spawn(bool isRoot = true)
 	{
-		return EL_PersistenceManager.GetInstance().SpawnWorldEntity(this, spawnAsSavedRoot);
+		return EL_PersistenceManager.GetInstance().SpawnWorldEntity(this, isRoot);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -55,9 +55,9 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 
 		// Transform
 		m_pTransformation = new EL_PersistentTransformation();
-		EL_EPersistenceFlags flags = persistenceComponent.GetFlags();
 		// We save it on root entities and always on characters (in case the parent vehicle is not loaded back in)
 		// We can skip transform for baked entities that were not moved.
+		EL_EPersistenceFlags flags = persistenceComponent.GetFlags();
 		if (EL_BitFlags.CheckFlags(flags, EL_EPersistenceFlags.ROOT) &&
 			(!EL_BitFlags.CheckFlags(flags, EL_EPersistenceFlags.BAKED) || EL_BitFlags.CheckFlags(flags, EL_EPersistenceFlags.WAS_MOVED)))
 		{

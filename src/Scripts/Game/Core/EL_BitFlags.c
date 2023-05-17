@@ -5,6 +5,19 @@ class EL_BitFlags
 	{
 		value |= flags;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	static void SetFlags(inout int value, int flags, bool isSet)
+	{
+		if (isSet)
+		{
+			value |= flags;
+		}
+		else
+		{
+			value &= ~flags;
+		}
+	}
 
 	//------------------------------------------------------------------------------------------------
 	static void ClearFlags(inout int value, int flags)

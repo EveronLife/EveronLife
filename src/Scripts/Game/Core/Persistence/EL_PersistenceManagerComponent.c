@@ -67,10 +67,19 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 			return;
 		}
 
+		// Hive management
+		string hiveId;
+		if (!System.GetCLIParam("HiveId", hiveId))
+			hiveId = "1";
+
+		EL_PersistenceIdGenerator.SetHiveId(hiveId.ToInt());
+
+		// Db connection
 		string connectionStringOverride;
 		if (System.GetCLIParam("ConnectionString", connectionStringOverride))
 			settings.m_sDatabaseConnectionString = connectionStringOverride;
 
+		// Auto-save
 		m_fUpdateRateSetting = settings.m_fUpdateRate;
 		m_pPersistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPersistenceManager.OnPostInit(owner, settings);

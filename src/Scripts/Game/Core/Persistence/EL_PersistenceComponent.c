@@ -38,7 +38,7 @@ sealed class EL_PersistenceComponentClass : ScriptComponentClass
 sealed class EL_PersistenceComponent : ScriptComponent
 {
 	private string m_sId;
-	private EL_DateTimeUtcAsInt m_iLastSaved;
+	private int m_iLastSaved;
 	[NonSerialized()]
 	private EL_EPersistenceFlags m_eFlags;
 
@@ -87,9 +87,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Get the last time this entity was saved as packed UTC date time
-	//! \return utc date time represented as packed integer
-	EL_DateTimeUtcAsInt GetLastSaved()
+	//! Get the last time this entity was saved as UTC unix timestamp
+	int GetLastSaved()
 	{
 		return m_iLastSaved;
 	}
@@ -139,54 +138,6 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Load existing save-data to apply to this entity
-	//! \param saveData existing data to restore the entity state from
-	//! \param rootRecord true if the current record is a root entry in the db (not a stored item inside a storage)
-	bool Load(notnull EL_EntitySaveData saveData, bool rootRecord = true)
-	{
-		if (m_pOnBeforeLoad)
-			m_pOnBeforeLoad.Invoke(this, saveData);
-
-		// Restore information if this entity has its own root record in db to avoid unreferenced junk entries.
-		if (rootRecord)
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
-
-		// Restore transform info relevant for baked entity record trimming
-		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED) &&
-			saveData.m_pTransformation &&
-			!saveData.m_pTransformation.IsDefault())
-		{
-			FlagAsMoved();
-		}
-
-		SetPersistentId(saveData.GetId());
-
-		IEntity owner = GetOwner();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		EL_EApplyResult applyResult = saveData.ApplyTo(owner, settings.m_pSaveData);
-		if (applyResult == EL_EApplyResult.ERROR)
-		{
-			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
-			return false;
-		}
-
-		if (settings.m_bUseChangeTracker)
-			m_mLastSaveData.Set(this, saveData);
-
-		if (applyResult == EL_EApplyResult.AWAIT_COMPLETION)
-		{
-			EL_DeferredApplyResult.GetOnApplied(saveData).Insert(DeferredApplyCallback)
-		}
-		else
-		{
-			if (m_pOnAfterLoad)
-				m_pOnAfterLoad.Invoke(this, saveData);
-		}
-
-		return true;
-	}
-
-	//------------------------------------------------------------------------------------------------
 	//! Pause automated tracking for auto-/shutdown-save, root entity changes and removal.
 	//! Used primarily to handle the conditional removal of an entity manually. E.g. pause before virtually storing a vehicle in a garage (during which the entity gets deleted).
 	void PauseTracking()
@@ -208,7 +159,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	{
 		GetPersistentId(); // Make sure the id has been assigned
 
-		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
+		m_iLastSaved = System.GetUnixTime();
 
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
@@ -265,6 +216,61 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			m_pOnAfterPersist.Invoke(this, saveData);
 
 		return saveData;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Load existing save-data to apply to this entity
+	//! \param saveData existing data to restore the entity state from
+	//! \param isRoot true if the current entity is a world root (not a stored item inside a storage)
+	bool Load(notnull EL_EntitySaveData saveData, bool isRoot = true)
+	{
+		if (m_pOnBeforeLoad)
+			m_pOnBeforeLoad.Invoke(this, saveData);
+
+		if (isRoot)
+		{
+			// Restore information if this entity has its own root record in db to avoid unreferenced junk entries.
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
+		}
+		else
+		{
+			// Supress registration as root to reduce map interactions in manager when entity is added as child next call anyway.
+			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
+		}
+
+		// Restore transform info relevant for baked entity record trimming
+		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.BAKED) &&
+			saveData.m_pTransformation &&
+			!saveData.m_pTransformation.IsDefault())
+		{
+			FlagAsMoved();
+		}
+
+		SetPersistentId(saveData.GetId());
+
+		IEntity owner = GetOwner();
+		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
+		EL_EApplyResult applyResult = saveData.ApplyTo(owner, settings.m_pSaveData);
+		if (applyResult == EL_EApplyResult.ERROR)
+		{
+			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
+			return false;
+		}
+
+		if (settings.m_bUseChangeTracker)
+			m_mLastSaveData.Set(this, saveData);
+
+		if (applyResult == EL_EApplyResult.AWAIT_COMPLETION)
+		{
+			EL_DeferredApplyResult.GetOnApplied(saveData).Insert(DeferredApplyCallback)
+		}
+		else
+		{
+			if (m_pOnAfterLoad)
+				m_pOnAfterLoad.Invoke(this, saveData);
+		}
+
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -343,14 +349,32 @@ sealed class EL_PersistenceComponent : ScriptComponent
 				m_mLastSaveData = new map<EL_PersistenceComponent, ref EL_EntitySaveData>();
 		}
 
+		SetEventMask(owner, EntityEvent.INIT);
+
+		if (settings.m_bStorageRoot)
+			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
+
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-
-		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
-
 		if (persistenceManager.GetState() < EL_EPersistenceManagerState.SETUP)
 			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED);
 
 		persistenceManager.EnqueueRegistration(this);
+
+		bool isChar = ChimeraCharacter.Cast(owner);
+		bool isTurret = EL_Component<TurretControllerComponent>.Find(owner);
+		if (isChar || isTurret)
+		{
+			// Weapon/Turret selected flag
+			EventHandlerManagerComponent eventHandler = EL_Component<EventHandlerManagerComponent>.Find(owner);
+			if (eventHandler)
+				eventHandler.RegisterScriptHandler("OnWeaponChanged", this, OnWeaponChanged, delayed: false);
+		}
+		if (isChar)
+		{
+			// Gadget selected flag
+			SCR_CharacterControllerComponent characterController = EL_Component<SCR_CharacterControllerComponent>.Find(owner);
+			characterController.m_OnGadgetStateChangedInvoker.Insert(OnGadgetStateChanged);
+		}
 
 		// For vehicles we want to get notified when they encounter their first contact or start to be driven
 		if (settings.m_pSaveData.m_bTrimDefaults && EL_Component<VehicleControllerComponent>.Find(owner))
@@ -359,31 +383,6 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			EventHandlerManagerComponent ev = EL_Component<EventHandlerManagerComponent>.Find(owner);
 			if (ev) ev.RegisterScriptHandler("OnCompartmentEntered", this, OnCompartmentEntered);
 		}
-
-		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
-		if (invItem)
-			invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
-
-		bool isChar = ChimeraCharacter.Cast(owner);
-		bool isTurret = EL_Component<TurretControllerComponent>.Find(owner);
-		if (isChar || isTurret)
-		{
-			EventHandlerManagerComponent eventHandler = EL_Component<EventHandlerManagerComponent>.Find(owner);
-			if (eventHandler)
-				eventHandler.RegisterScriptHandler("OnWeaponChanged", this, OnWeaponChanged, delayed: false);
-		}
-		if (isChar)
-		{
-			SCR_CharacterControllerComponent characterController = EL_Component<SCR_CharacterControllerComponent>.Find(owner);
-			characterController.m_OnGadgetStateChangedInvoker.Insert(OnGadgetStateChanged);
-		}
-
-		// Scuffed hack until we have https://feedback.bistudio.com/T171945.
-		// Added to parent event does not fire because our component is loaded after hierarchy ... bruh
-		// We can't use on child added from parent side, as parent might not be involved in persistence system
-		GetGame().GetCallqueue().Call(CheckForParentSlot);
-
-		SetEventMask(owner, EntityEvent.INIT);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -391,106 +390,117 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	{
 		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.INITIALIZED);
 		EL_DefaultPrefabItemsInfo.Finalize(owner);
-	}
 
-	//------------------------------------------------------------------------------------------------
-	protected event void OnCompartmentEntered(IEntity vehicle, BaseCompartmentManagerComponent mgr, IEntity occupant, int managerId, int slotID)
-	{
-		// Somebody entered the vehicle to potentially drive it, start listening to physics movements
-		EventHandlerManagerComponent ev = EL_Component<EventHandlerManagerComponent>.Find(vehicle);
-		if (ev) ev.RemoveScriptHandler("OnCompartmentEntered", this, OnCompartmentEntered);
-		SetEventMask(vehicle, EntityEvent.PHYSICSMOVE);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	override event protected void EOnContact(IEntity owner, IEntity other, Contact contact)
-	{
-		if (GenericTerrainEntity.Cast(other)) return; // Ignore collision with terrain.
-		FlagAsMoved(); // Something moved the current vehicle via physics contact.
-	}
-
-	//------------------------------------------------------------------------------------------------
-	override event protected void EOnPhysicsMove(IEntity owner)
-	{
-		// Check for if engine is one as there is tiny jitter movement during engine startup we want to ignore.
-		VehicleControllerComponent vehicleController = EL_Component<VehicleControllerComponent>.Find(owner);
-		if (!vehicleController || !vehicleController.IsEngineOn()) return;
-		FlagAsMoved();
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected void OnParentSlotChanged(InventoryStorageSlot oldSlot, InventoryStorageSlot newSlot, IEntity newParent)
-	{
-		IEntity owner = GetOwner();
-		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-
-		if (newSlot)
-			newParent = newSlot.GetOwner();
-
-		bool isRoot = settings.m_bStorageRoot && !newParent;
-		if (isRoot)
-		{
-			EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
-			FlagAsMoved();
-		}
-		else
-		{
-			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
-			if (newSlot)
-			{
-				EL_PersistenceComponent parentPersistence = EL_Component<EL_PersistenceComponent>.Find(newSlot.GetOwner());
-				if (parentPersistence && !EL_BitFlags.CheckFlags(parentPersistence.GetFlags(), EL_EPersistenceFlags.INITIALIZED))
-				{
-					EL_DefaultPrefabItemsInfo.Add(owner, newSlot);
-				}
-				else
-				{
-					FlagAsMoved();
-				}
-
-				if (EL_Utils.IsAnyInherited(newSlot.GetStorage(), {EquipedLoadoutStorageComponent, BaseEquipmentStorageComponent, BaseEquipedWeaponStorageComponent}))
-					EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.WAS_EQUIPPED);
-			}
-			else
-			{
-				StopMoveTracking();
-			}
-		}
-
-		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
-			EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, settings.m_eSaveType, settings.m_tSaveDataTypename, isRoot);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected void CheckForParentSlot()
-	{
-		if (!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.ROOT))
-			return; // ignore if e.g. inv slot alraedy made it non root
-
-		IEntity owner = GetOwner();
+		// TODO remove after https://feedback.bistudio.com/T172461 has been fixed
 		IEntity parent = owner.GetParent();
-		if (!parent)
+		if (parent)
+			OnAddedToParent(owner, parent);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override event protected void OnAddedToParent(IEntity child, IEntity parent)
+	{
+		// TODO: Remove workaround root check after https://feedback.bistudio.com/T172461 was fixed
+		if (!EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.ROOT))
 			return;
 
-		array<EntitySlotInfo> slotInfos();
-		EntitySlotInfo.GetSlotInfos(parent, slotInfos);
-		foreach (EntitySlotInfo entitySlot : slotInfos)
+		// TODO: Replace with subscribe to all parent slots after https://feedback.bistudio.com/T171945 is added.
+		ResourceName prefab = EL_Utils.GetPrefabName(child);
+		array<Managed> outComponents();
+		parent.FindComponents(SlotManagerComponent, outComponents);
+		foreach (Managed componentRef : outComponents)
 		{
-			if (entitySlot.GetAttachedEntity() == owner)
+			SlotManagerComponent slotManager = SlotManagerComponent.Cast(componentRef);
+			array<ref Tuple2<string, ResourceName>> slotinfos = EL_EntitySlotPrefabInfo.GetSlotInfos(parent, slotManager);
+			foreach (Tuple2<string, ResourceName> slotInfo : slotinfos)
 			{
-				OnParentSlotChanged(null, null, parent);
+				if (prefab == slotInfo.param2)
+				{
+					OnParentAdded();
+					return;
+				}
+			}
+		}
+		parent.FindComponents(BaseSlotComponent, outComponents);
+		foreach (Managed componentRef : outComponents)
+		{
+			if (prefab == EL_EntitySlotPrefabInfo.GetSlotPrefab(parent, BaseSlotComponent.Cast(componentRef)))
+			{
+				OnParentAdded();
 				return;
 			}
 		}
+		parent.FindComponents(WeaponSlotComponent, outComponents);
+		foreach (Managed componentRef : outComponents)
+		{
+			if (prefab == EL_EntitySlotPrefabInfo.GetSlotPrefab(parent, WeaponSlotComponent.Cast(componentRef)))
+			{
+				OnParentAdded();
+				return;
+			}
+		}
+
+		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(child);
+		if (invItem)
+			invItem.m_OnParentSlotChangedInvoker.Insert(OnParentSlotChanged);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void OnParentSlotChanged(InventoryStorageSlot oldSlot, InventoryStorageSlot newSlot)
+	{
+		OnParentAdded(newSlot);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	// TODO: Change signatur to entity slot so event can be reused with slot manager etc
+	protected void OnParentAdded(InventoryStorageSlot newSlot = null)
+	{
+		IEntity owner = GetOwner();
+		EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
+
+		if (newSlot)
+		{
+			EL_PersistenceComponent parentPersistence = EL_Component<EL_PersistenceComponent>.Find(newSlot.GetOwner());
+			if (parentPersistence && !EL_BitFlags.CheckFlags(parentPersistence.GetFlags(), EL_EPersistenceFlags.INITIALIZED))
+			{
+				EL_DefaultPrefabItemsInfo.Add(owner, newSlot);
+			}
+			else
+			{
+				FlagAsMoved();
+			}
+
+			if (EL_Utils.IsAnyInherited(newSlot.GetStorage(), {EquipedLoadoutStorageComponent, BaseEquipmentStorageComponent, BaseEquipedWeaponStorageComponent}))
+				EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.WAS_EQUIPPED);
+		}
+		else
+		{
+			StopMoveTracking();
+		}
+
+		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
+			EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, EL_ComponentData<EL_PersistenceComponentClass>.Get(owner), false);
+
+		// We only needed to know which slot we got attached to, so unsubscribe again
+		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
+		if (invItem)
+			invItem.m_OnParentSlotChangedInvoker.Remove(OnParentSlotChanged);
+
+		// TODO: Also unsubscribe any entity slots
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override event protected void OnRemovedFromParent(IEntity child, IEntity parent)
 	{
-		if (EL_Component<InventoryItemComponent>.Find(child))
-			return; // For inv items we listen to their events already
+		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(child);
+		if (!settings.m_bStorageRoot)
+			return;
 
-		OnParentSlotChanged(null, null, null);
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.ROOT);
+		FlagAsMoved();
+
+		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
+			EL_PersistenceManager.GetInstance().UpdateRootStatus(this, m_sId, settings, true);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -521,18 +531,42 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	protected event void OnCompartmentEntered(IEntity vehicle, BaseCompartmentManagerComponent mgr, IEntity occupant, int managerId, int slotID)
+	{
+		// Somebody entered the vehicle to potentially drive it, start listening to physics movements
+		EventHandlerManagerComponent eventHandler = EL_Component<EventHandlerManagerComponent>.Find(vehicle);
+		if (eventHandler)
+			eventHandler.RemoveScriptHandler("OnCompartmentEntered", this, OnCompartmentEntered);
+
+		SetEventMask(vehicle, EntityEvent.PHYSICSMOVE);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override event protected void EOnContact(IEntity owner, IEntity other, Contact contact)
+	{
+		if (!GenericTerrainEntity.Cast(other))
+			FlagAsMoved(); // Something moved the current vehicle via physics contact.
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override event protected void EOnPhysicsMove(IEntity owner)
+	{
+		// Check for if engine is one as there is tiny jitter movement during engine startup we want to ignore.
+		VehicleControllerComponent vehicleController = EL_Component<VehicleControllerComponent>.Find(owner);
+		if (vehicleController && vehicleController.IsEngineOn())
+			FlagAsMoved();
+	}
+
+	//------------------------------------------------------------------------------------------------
 	override event protected void OnDelete(IEntity owner)
 	{
-		InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(owner);
-		if (invItem) invItem.m_OnParentSlotChangedInvoker.Remove(OnParentSlotChanged);
-		GetGame().GetCallqueue().Remove(CheckForParentSlot);
-
 		if (m_mLastSaveData)
 			m_mLastSaveData.Remove(this);
 
 		// Check that we are not in session dtor phase
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance(false);
-		if (!persistenceManager || persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN) return;
+		if (!persistenceManager || persistenceManager.GetState() == EL_EPersistenceManagerState.SHUTDOWN)
+			return;
 
 		persistenceManager.Unregister(this);
 
@@ -540,7 +574,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		if (m_sId && !EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING))
 		{
 			persistenceManager.UpdateRootEntityCollection(this, m_sId, false);
-			if (settings.m_bSelfDelete) Delete();
+			if (settings.m_bSelfDelete)
+				Delete();
 		}
 	}
 
@@ -578,6 +613,18 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
+	void FlagAsSelected()
+	{
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.WAS_SELECTED);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void FlagAsBaked()
+	{
+		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.BAKED);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	void FlagAsMoved()
 	{
 		StopMoveTracking();
@@ -585,18 +632,13 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void FlagAsSelected()
-	{
-		EL_BitFlags.SetFlags(m_eFlags, EL_EPersistenceFlags.WAS_SELECTED);
-	}
-
-	//------------------------------------------------------------------------------------------------
 	protected void StopMoveTracking()
 	{
 		IEntity owner = GetOwner();
 		ClearEventMask(owner, EntityEvent.CONTACT | EntityEvent.PHYSICSMOVE);
-		EventHandlerManagerComponent ev = EL_Component<EventHandlerManagerComponent>.Find(owner);
-		if (ev) ev.RemoveScriptHandler("OnCompartmentEntered", this, OnCompartmentEntered);
+		EventHandlerManagerComponent eventHandler = EL_Component<EventHandlerManagerComponent>.Find(owner);
+		if (eventHandler)
+			eventHandler.RemoveScriptHandler("OnCompartmentEntered", this, OnCompartmentEntered);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -612,16 +654,20 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	{
 		super._WB_OnInit(owner, mat, src);
 
-		if (owner.GetName()) return;
+		if (owner.GetName())
+			return;
 
 		WorldEditor worldEditor = Workbench.GetModule(WorldEditor);
-		if (!worldEditor || worldEditor.IsPrefabEditMode()) return;
+		if (!worldEditor || worldEditor.IsPrefabEditMode())
+			return;
 
 		WorldEditorAPI worldEditorApi = GenericEntity.Cast(owner)._WB_GetEditorAPI();
-		if (!worldEditorApi) return;
+		if (!worldEditorApi)
+				return;
 
 		string prefabNameOnly = FilePath.StripExtension(FilePath.StripPath(EL_Utils.GetPrefabName(owner)));
-		if (!prefabNameOnly) prefabNameOnly = owner.ClassName();
+		if (!prefabNameOnly)
+			prefabNameOnly = owner.ClassName();
 
 		string uuid = Workbench.GenerateGloballyUniqueID64();
 		worldEditorApi.RenameEntity(owner, string.Format("%1_%2", prefabNameOnly, uuid));

@@ -1,7 +1,7 @@
 class EL_MetaDataDbEntity : EL_DbEntity
 {
 	int m_iDataLayoutVersion = 1;
-	EL_DateTimeUtcAsInt m_iLastSaved;
+	int m_iLastSaved;
 
 	//------------------------------------------------------------------------------------------------
 	//! Utility function to read meta-data

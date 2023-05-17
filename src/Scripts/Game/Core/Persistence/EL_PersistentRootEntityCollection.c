@@ -7,13 +7,19 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Add(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
-		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED | EL_EPersistenceFlags.ROOT, true))
-		{
-			if (state == EL_EPersistenceManagerState.ACTIVE)
-			{
-				m_aRemovedBackedRootEntities.RemoveItem(persistentId);
-			}
+		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
 			return;
+
+		if (state == EL_EPersistenceManagerState.ACTIVE)
+		{
+			// TODO refactor to use https://feedback.bistudio.com/T172042 when patched
+			int idx = m_aRemovedBackedRootEntities.Find(persistentId);
+			if (idx != -1)
+			{
+				m_aRemovedBackedRootEntities.Remove(idx);
+				persistenceComponent.FlagAsBaked();
+				return;
+			}
 		}
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
@@ -39,7 +45,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Remove(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
-		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED | EL_EPersistenceFlags.ROOT, true))
+		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
 		{
 			if (state == EL_EPersistenceManagerState.ACTIVE)
 				m_aRemovedBackedRootEntities.Insert(persistentId);
@@ -61,7 +67,7 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Save(EL_DbContext dbContext)
 	{
-		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
+		m_iLastSaved = System.GetUnixTime();
 
 		// Remove collection if it only holds default values and it was previously saved (aka it has an id)
 		if (m_aRemovedBackedRootEntities.IsEmpty() && m_mSelfSpawnDynamicEntities.IsEmpty())

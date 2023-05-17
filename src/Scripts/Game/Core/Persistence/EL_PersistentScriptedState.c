@@ -1,7 +1,7 @@
 class EL_PersistentScriptedState
 {
 	private string m_sId;
-	private EL_DateTimeUtcAsInt m_iLastSaved;
+	private int m_iLastSaved;
 	[NonSerialized()]
 	private EL_EPersistenceFlags m_eFlags;
 
@@ -41,9 +41,8 @@ class EL_PersistentScriptedState
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Get the last time this scripted state was saved as packed UTC date time
-	//! \return utc date time represented as packed integer
-	EL_DateTimeUtcAsInt GetLastSaved()
+	//! Get the last time this scripted state was saved as UTC unix timestamp
+	int GetLastSaved()
 	{
 		return m_iLastSaved;
 	}
@@ -137,7 +136,7 @@ class EL_PersistentScriptedState
 	{
 		GetPersistentId(); // Make sure the id has been assigned
 
-		m_iLastSaved = EL_DateTimeUtcAsInt.Now();
+		m_iLastSaved = System.GetUnixTime();
 
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
 		EL_ScriptedStateSaveData saveData = EL_ScriptedStateSaveData.Cast(settings.m_tSaveDataType.Spawn());
