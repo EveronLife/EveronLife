@@ -658,8 +658,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			m_pOnAfterLoad.Invoke(this, saveData);
 	}
 
-	//------------------------------------------------------------------------------------------------
 	#ifdef WORKBENCH
+	//------------------------------------------------------------------------------------------------
 	override event void _WB_OnInit(IEntity owner, inout vector mat[4], IEntitySource src)
 	{
 		super._WB_OnInit(owner, mat, src);
@@ -675,12 +675,81 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		if (!worldEditorApi)
 				return;
 
+		worldEditorApi.RenameEntity(owner, GenerateName(owner));
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override array<ref WB_UIMenuItem> _WB_GetContextMenuItems(IEntity owner)
+	{
+		array<ref WB_UIMenuItem> items();
+
+		if (EL_BaseSceneNameProxyEntity.GetProxyForBaseSceneEntity(owner))
+		{
+			items.Insert(new WB_UIMenuItem("Go to base scene name proxy", 0));
+		}
+		else if (!owner.GetName())
+		{
+			items.Insert(new WB_UIMenuItem("Spawn new base scene name proxy", 1));
+
+			if (EL_BaseSceneNameProxyEntity.s_pSelectedProxy)
+				items.Insert(new WB_UIMenuItem(string.Format("Assign proxy '%1'", EL_BaseSceneNameProxyEntity.s_pSelectedProxy.GetName()), 2));
+		}
+
+		return items;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void _WB_OnContextMenu(IEntity owner, int id)
+	{
+		WorldEditor worldEditor = Workbench.GetModule(WorldEditor);
+		if (!worldEditor || worldEditor.IsPrefabEditMode())
+			return;
+
+		WorldEditorAPI worldEditorApi = GenericEntity.Cast(owner)._WB_GetEditorAPI();
+		if (!worldEditorApi)
+				return;
+
+		EL_BaseSceneNameProxyEntity nameProxy;
+
+		if (id == 0)
+		{
+			nameProxy = EL_BaseSceneNameProxyEntity.GetProxyForBaseSceneEntity(owner);
+		}
+		else if (id == 2)
+		{
+			worldEditorApi.BeginEntityAction("BaseSceneNameProxyEntity__Assign");
+			nameProxy = EL_BaseSceneNameProxyEntity.s_pSelectedProxy;
+			EL_BaseSceneNameProxyEntity.s_pSelectedProxy = null;
+			worldEditorApi.ModifyEntityKey(nameProxy, "coords", owner.GetOrigin().ToString(false));
+			worldEditorApi.EndEntityAction();
+		}
+		else
+		{
+			worldEditorApi.BeginEntityAction("BaseSceneNameProxyEntity__Create");
+			nameProxy = EL_BaseSceneNameProxyEntity.Cast(worldEditorApi.CreateEntity(
+				"EL_BaseSceneNameProxyEntity",
+				GenerateName(owner),
+				worldEditorApi.GetCurrentEntityLayerId(),
+				null,
+				owner.GetOrigin(),
+				owner.GetAngles()));
+
+			worldEditorApi.ModifyEntityKey(nameProxy, "m_rTarget", EL_Utils.GetPrefabName(owner));
+			worldEditorApi.EndEntityAction();
+		}
+
+		worldEditorApi.SetEntitySelection(nameProxy);
+		worldEditorApi.UpdateSelectionGui();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected string GenerateName(IEntity owner)
+	{
 		string prefabNameOnly = FilePath.StripExtension(FilePath.StripPath(EL_Utils.GetPrefabName(owner)));
 		if (!prefabNameOnly)
 			prefabNameOnly = owner.ClassName();
 
-		string uuid = Workbench.GenerateGloballyUniqueID64();
-		worldEditorApi.RenameEntity(owner, string.Format("%1_%2", prefabNameOnly, uuid));
+		return string.Format("%1_%2", prefabNameOnly, Workbench.GenerateGloballyUniqueID64());
 	}
 	#endif
 };
