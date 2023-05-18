@@ -23,6 +23,12 @@ sealed class EL_PersistenceComponentClass : ScriptComponentClass
 	typename m_tSaveDataTypename;
 
 	//------------------------------------------------------------------------------------------------
+	static override bool DependsOn(string className)
+	{
+		return true; // Required for child prefab EOnInit order somehow ...
+	}
+
+	//------------------------------------------------------------------------------------------------
 	static override array<typename> CannotCombine(IEntityComponentSource src)
 	{
 		return {EL_PersistenceComponent}; //Prevent multiple persistence components from being added.
