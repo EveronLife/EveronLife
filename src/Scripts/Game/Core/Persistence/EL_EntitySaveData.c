@@ -312,6 +312,8 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 	{
 		if (!saveContext.IsValid()) return false;
 
+		bool isJson = ContainerSerializationSaveContext.Cast(saveContext).GetContainer().IsInherited(BaseJsonSerializationSaveContainer);
+		
 		SerializeMetaData(saveContext);
 
 		// Prefab
@@ -325,10 +327,8 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		saveContext.WriteValue("m_pTransformation", m_pTransformation);
 
 		// Lifetime
-		if (m_fRemainingLifetime > 0 || ContainerSerializationSaveContext.Cast(saveContext).GetContainer().IsInherited(BinSaveContainer))
-		{
+		if (m_fRemainingLifetime > 0 || !isJson)
 			saveContext.WriteValue("m_fRemainingLifetime", m_fRemainingLifetime);
-		}
 
 		// Components
 		array<ref EL_PersistentComponentSaveData> componentSaveDataWrapper();
@@ -342,7 +342,8 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 			}
 		}
 
-		saveContext.WriteValue("m_aComponents", componentSaveDataWrapper);
+		if (!componentSaveDataWrapper.IsEmpty() || !isJson)
+			saveContext.WriteValue("m_aComponents", componentSaveDataWrapper);
 
 		return true;
 	}

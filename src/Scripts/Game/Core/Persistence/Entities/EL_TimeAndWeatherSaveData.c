@@ -1,7 +1,7 @@
 [BaseContainerProps()]
 class EL_TimeAndWeatherSaveDataClass : EL_EntitySaveDataClass
 {
-}
+};
 
 [EL_DbName("TimeAndWeather")]
 class EL_TimeAndWeatherSaveData : EL_EntitySaveData
@@ -14,6 +14,7 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 	//------------------------------------------------------------------------------------------------
 	override EL_EReadResult ReadFrom(IEntity entity, EL_EntitySaveDataClass attributes)
 	{
+
 		ReadMetaData(EL_Component<EL_PersistenceComponent>.Find(entity));
 
 		TimeAndWeatherManagerEntity timeAndWeatherManager = TimeAndWeatherManagerEntity.Cast(entity);
@@ -71,4 +72,4 @@ class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 
 		return true;
 	}
-}
+};

@@ -16,7 +16,10 @@ class EL_MetaDataDbEntity : EL_DbEntity
 	void SerializeMetaData(notnull BaseSerializationSaveContext saveContext)
 	{
 		WriteId(saveContext);
-		saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
+
+		if (m_iDataLayoutVersion != 1 || !ContainerSerializationSaveContext.Cast(saveContext).GetContainer().IsInherited(BaseJsonSerializationSaveContainer))
+			saveContext.WriteValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
+
 		saveContext.WriteValue("m_iLastSaved", m_iLastSaved);
 	}
 
@@ -28,4 +31,4 @@ class EL_MetaDataDbEntity : EL_DbEntity
 		loadContext.ReadValue("m_iDataLayoutVersion", m_iDataLayoutVersion);
 		loadContext.ReadValue("m_iLastSaved", m_iLastSaved);
 	}
-}
+};
