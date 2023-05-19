@@ -68,15 +68,11 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		}
 
 		// Hive management
-		string hiveId;
-		if (!System.GetCLIParam("HiveId", hiveId))
-			hiveId = "1";
-
-		EL_PersistenceIdGenerator.SetHiveId(hiveId.ToInt());
+		EL_PersistenceIdGenerator.SetHiveId(GetHiveId());
 
 		// Db connection
-		string connectionStringOverride;
-		if (System.GetCLIParam("ConnectionString", connectionStringOverride))
+		string connectionStringOverride = GetConnectionString();
+		if (connectionStringOverride)
 			settings.m_sDatabaseConnectionString = connectionStringOverride;
 
 		// Auto-save
@@ -84,5 +80,27 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		m_pPersistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPersistenceManager.OnPostInit(owner, settings);
 		SetEventMask(owner, EntityEvent.POSTFRAME);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Getting the hive id from CLI. 
+	//! Inherit or used modded if you want to get it from another info source.
+	protected int GetHiveId()
+	{
+		string hiveId;
+		if (!System.GetCLIParam("HiveId", hiveId))
+			hiveId = "1";
+
+		return hiveId.ToInt();
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Getting the database connection string. 
+	//! Inherit or used modded if you want to get it from another info source.
+	protected string GetConnectionString()
+	{
+		string connectionString;
+		System.GetCLIParam("ConnectionString", connectionString);
+		return connectionString;
 	}
 };
