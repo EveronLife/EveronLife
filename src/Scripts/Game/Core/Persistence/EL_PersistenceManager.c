@@ -450,24 +450,6 @@ class EL_PersistenceManager
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EnqueueRemoval(typename saveDataType, string id, EL_ESaveType saveType)
-	{
-		if (saveType == EL_ESaveType.MANUAL)
-		{
-			RemoveAsync(saveDataType, id);
-			return;
-		}
-
-		if (saveType == EL_ESaveType.INTERVAL_SHUTDOWN)
-		{
-			m_mRootAutoSaveCleanup.Set(id, saveDataType);
-			return;
-		}
-
-		m_mRootShutdownCleanup.Set(id, saveDataType);
-	}
-
-	//------------------------------------------------------------------------------------------------
 	//! Enqueue scripted stat for persistence registration for later (will be flushed before any find by id or save operation takes place)
 	void EnqueueRegistration(notnull EL_PersistentScriptedState scripedState)
 	{

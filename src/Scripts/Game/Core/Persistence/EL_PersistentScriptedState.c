@@ -201,7 +201,6 @@ class EL_PersistentScriptedState
 
 	//------------------------------------------------------------------------------------------------
 	//! Delete the persistence data of this scripted state. Does not delete the state instance itself.
-	//! Note: Will be immediate on EL_ESaveType.MANUAL, otherwise happens on auto/shutdown save.
 	void Delete()
 	{
 		// Only attempt to remove it if it was ever saved
@@ -216,7 +215,7 @@ class EL_PersistentScriptedState
 				target = this;
 
 			EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
-			EL_PersistenceManager.GetInstance().EnqueueRemoval(settings.m_tSaveDataType, m_sId, settings.m_eSaveType);
+			EL_PersistenceManager.GetInstance().RemoveAsync(settings.m_tSaveDataType, m_sId);
 		}
 
 		m_sId = string.Empty;

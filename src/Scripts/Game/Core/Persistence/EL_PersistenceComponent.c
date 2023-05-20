@@ -281,7 +281,6 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Mark the persistence data of this entity for deletion. Does not delete the entity itself.
-	//! Note: Will be immediate on EL_ESaveType.MANUAL, otherwise happens on auto/shutdown save.
 	void Delete()
 	{
 		// Only attempt to delete if there is a chance it was already saved as own entity in db
@@ -289,8 +288,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		{
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
-			persistenceManager.EnqueueRemoval(settings.m_tSaveDataType, m_sId, settings.m_eSaveType);
+			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(GetOwner());
+			persistenceManager.RemoveAsync(settings.m_tSaveDataType, m_sId);
 		}
 
 		m_sId = string.Empty;
