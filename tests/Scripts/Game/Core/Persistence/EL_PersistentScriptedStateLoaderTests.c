@@ -9,7 +9,9 @@ class EL_PersistentScriptedStateLoaderTests : TestSuite
 		// Change db context to in memory for this test suite
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPreviousContext = persistenceManager.GetDbContext();
-		persistenceManager.SetDbContext(EL_DbContext.Create("InMemory://PersistentScriptedStateLoaderTests"));
+		EL_InMemoryDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = "PersistentScriptedStateLoaderTests";
+		persistenceManager.SetDbContext(EL_DbContext.Create(connectInfo));
 	}
 
 	//------------------------------------------------------------------------------------------------

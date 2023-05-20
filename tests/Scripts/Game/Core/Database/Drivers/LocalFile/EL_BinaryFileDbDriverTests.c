@@ -74,7 +74,9 @@ class EL_Test_BinaryFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully 
 	[Step(EStage.Setup)]
 	void Arrange()
 	{
-		driver.Initalize(string.Format("%1?cache=false", EL_BinaryFileDbDriverTests.DB_NAME));
+		EL_BinaryFileDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = EL_BinaryFileDbDriverTests.DB_NAME;
+		driver.Initalize(connectInfo);
 	}
 
 	//------------------------------------------------------------------------------------------------

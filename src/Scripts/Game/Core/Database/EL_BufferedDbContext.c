@@ -7,9 +7,9 @@ class EL_BufferedDbContext : EL_DbContext
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override static EL_BufferedDbContext Create(string connectionString)
+	override static EL_BufferedDbContext Create(notnull EL_DbConnectionInfoBase connectionInfo)
 	{
-		EL_DbContext baseContext = EL_DbContext.Create(connectionString);
+		EL_DbContext baseContext = EL_DbContext.Create(connectionInfo);
 		if (baseContext)
 			return new EL_BufferedDbContext(baseContext.m_Driver);
 

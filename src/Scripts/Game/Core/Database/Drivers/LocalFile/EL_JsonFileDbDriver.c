@@ -1,14 +1,31 @@
+[EL_DbConnectionInfoDriverType(EL_JsonFileDbDriver), BaseContainerProps()]
+class EL_JsonFileDbConnectionInfo : EL_FileDbDriverInfoBase
+{
+	[Attribute(defvalue: "1", desc: "Save prettified json (formatted, with tabs etc.)")]
+	bool m_bPrettify;
+
+	//------------------------------------------------------------------------------------------------
+	override void Parse(string connectionString)
+	{
+		super.Parse(connectionString);
+		m_bPrettify = connectionString.Contains("prettify=true") || connectionString.Contains("pretty=true");
+	}
+};
+
 [EL_DbDriverName({"JsonFile", "Json"})]
 class EL_JsonFileDbDriver : EL_FileDbDriverBase
 {
-	protected bool m_bPrettyPrint;
+	protected bool m_bPrettify;
 
 	//------------------------------------------------------------------------------------------------
-	override bool Initalize(string connectionString = string.Empty)
+	override bool Initalize(notnull EL_DbConnectionInfoBase connectionInfo)
 	{
-		bool result = super.Initalize(connectionString);
-		m_bPrettyPrint = connectionString.Contains("pretty=true");
-		return result;
+		if (!super.Initalize(connectionInfo))
+			return false;
+
+		auto jsonConnectInfo = EL_JsonFileDbConnectionInfo.Cast(connectionInfo);
+		m_bPrettify = jsonConnectInfo.m_bPrettify;
+		return true;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -22,7 +39,7 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 	{
 		ContainerSerializationSaveContext writer();
 		BaseJsonSerializationSaveContainer jsonContainer;
-		if (m_bPrettyPrint)
+		if (m_bPrettify)
 		{
 			jsonContainer = new PrettyJsonSaveContainer();
 		}

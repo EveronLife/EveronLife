@@ -6,7 +6,9 @@ class EL_DbRepositoryTests : TestSuite
 	[Step(EStage.Setup)]
     void Setup()
     {
-		m_pDbContext = EL_DbContext.Create("inmemory://DbRepositoryTests");
+		EL_InMemoryDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = "DbRepositoryTests";
+		m_pDbContext = EL_DbContext.Create(connectInfo);
     }
 
 	//------------------------------------------------------------------------------------------------

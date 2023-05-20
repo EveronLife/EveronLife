@@ -9,7 +9,9 @@ class EL_PersistentWorldEntityLoaderTests : TestSuite
 		// Change db context to in memory for this test suite
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		m_pPreviousContext = persistenceManager.GetDbContext();
-		persistenceManager.SetDbContext(EL_DbContext.Create("InMemory://PersistentWorldEntityLoaderTests"));
+		EL_InMemoryDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = "PersistentWorldEntityLoaderTests";
+		persistenceManager.SetDbContext(EL_DbContext.Create(connectInfo));
 	}
 
 	//------------------------------------------------------------------------------------------------

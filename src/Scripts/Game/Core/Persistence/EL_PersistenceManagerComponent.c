@@ -13,9 +13,9 @@ class EL_PersistenceManagerComponentClass : SCR_BaseGameModeComponentClass
 	[Attribute(defvalue: "0.33", uiwidget: UIWidgets.Slider, desc: "Adjust the tick rate of the persistence manager", params: "0.01 10 0.01", category: "Advanced", precision: 2)]
 	float m_fUpdateRate;
 
-	[Attribute(defvalue: "JsonFile://EveronLife?pretty=true", desc: "Default database connection string. Can be overriden using \"-ConnectionString=...\" CLI argument", category: "Database")]
-	string m_sDatabaseConnectionString;
-	
+	[Attribute(desc: "Default database connection. Can be overriden using \"-ConnectionString=...\" CLI argument", category: "Database")]
+	ref EL_DbConnectionInfoBase m_pConnectionInfo;
+
 	[Attribute(defvalue: "1", desc: "When using a buffered DB context changes are only flushed on auto-/shutdown-save or when called manually. Can increase constistency.", category: "Database")]
 	bool m_bBufferedDatabaseContext;
 
@@ -77,9 +77,9 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 		EL_PersistenceIdGenerator.SetHiveId(GetHiveId());
 
 		// Db connection
-		string connectionStringOverride = GetConnectionString();
-		if (connectionStringOverride)
-			settings.m_sDatabaseConnectionString = connectionStringOverride;
+		EL_DbConnectionInfoBase connectionInfoOverride = GetConnectionInfo();
+		if (connectionInfoOverride)
+			settings.m_pConnectionInfo = connectionInfoOverride;
 
 		// Auto-save
 		m_fUpdateRateSetting = settings.m_fUpdateRate;
@@ -89,7 +89,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Getting the hive id from CLI.
+	//! Getting the hive id.
 	//! Inherit or used modded if you want to get it from another info source.
 	protected int GetHiveId()
 	{
@@ -101,12 +101,38 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Getting the database connection string.
+	//! Getting the database connection info.
 	//! Inherit or used modded if you want to get it from another info source.
-	protected string GetConnectionString()
+	protected EL_DbConnectionInfoBase GetConnectionInfo()
 	{
 		string connectionString;
-		System.GetCLIParam("ConnectionString", connectionString);
-		return connectionString;
+		if (!System.GetCLIParam("ConnectionString", connectionString))
+			return null;
+
+		int driverEndIdx = connectionString.IndexOf("://");
+		if (driverEndIdx == -1)
+		{
+			Debug.Error(string.Format("Invalid -ConnectionString=... parameter value '%1'.", connectionString));
+			return null;
+		}
+
+		string driverName = connectionString.Substring(0, driverEndIdx);
+		string connectionInfoString = connectionString.Substring(driverEndIdx + 3, connectionString.Length() - (driverName.Length() + 3));
+
+		typename driverType = EL_DbDriverRegistry.Get(driverName);
+		if (!driverType.IsInherited(EL_DbDriver))
+		{
+			Debug.Error(string.Format("Incompatible database driver type '%1'.", driverType));
+			return null;
+		}
+
+		typename connectionInfoType = EL_DbConnectionInfoDriverType.GetConnectionInfoType(driverType);
+		EL_DbConnectionInfoBase connectionInfo = EL_DbConnectionInfoBase.Cast(connectionInfoType.Spawn());
+		if (!connectionInfo)
+			return null;
+
+		connectionInfo.Parse(connectionInfoString);
+
+		return connectionInfo;
 	}
 };

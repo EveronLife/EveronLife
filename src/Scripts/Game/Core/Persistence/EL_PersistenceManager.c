@@ -545,11 +545,11 @@ class EL_PersistenceManager
 
 		if (settings.m_bBufferedDatabaseContext)
 		{
-			m_pDbContext = EL_BufferedDbContext.Create(settings.m_sDatabaseConnectionString);
+			m_pDbContext = EL_BufferedDbContext.Create(settings.m_pConnectionInfo);
 		}
 		else
 		{
-			m_pDbContext = EL_DbContext.Create(settings.m_sDatabaseConnectionString);
+			m_pDbContext = EL_DbContext.Create(settings.m_pConnectionInfo);
 		}
 
 		if (!m_pDbContext)

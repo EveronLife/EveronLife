@@ -3,7 +3,7 @@ class EL_DbDriver
 	static bool s_bForceBlocking; //Used to forced drivers to rely on sync api during session teardown
 
 	//------------------------------------------------------------------------------------------------
-	bool Initalize(string connectionString = string.Empty);
+	bool Initalize(notnull EL_DbConnectionInfoBase connectionInfo);
 
 	//------------------------------------------------------------------------------------------------
 	EL_EDbOperationStatusCode AddOrUpdate(notnull EL_DbEntity entity);

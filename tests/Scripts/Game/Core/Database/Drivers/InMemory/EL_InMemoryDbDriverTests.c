@@ -33,7 +33,9 @@ TestResultBase EL_Test_InMemoryDbDriver_AddOrUpdate_NewEntity_Inserted()
 {
 	// Arrange
 	EL_InMemoryDbDriver driver();
-	driver.Initalize("testing");
+	EL_InMemoryDbConnectionInfo connectInfo();
+	connectInfo.m_sDatabaseName = "Testing";
+	driver.Initalize(connectInfo);
 
 	EL_Test_InMemoryDbDriverEntity entity("TEST0000-0000-0001-0000-000000000001", 42.42, "Hello World");
 
@@ -63,7 +65,9 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_ExistingId_Removed()
 {
 	// Arrange
 	EL_InMemoryDbDriver driver();
-	driver.Initalize("testing");
+	EL_InMemoryDbConnectionInfo connectInfo();
+	connectInfo.m_sDatabaseName = "Testing";
+	driver.Initalize(connectInfo);
 
 	EL_Test_InMemoryDbDriverEntity entity("TEST0000-0000-0001-0000-000000000002", 42.42, "Hello World");
 	driver.AddOrUpdate(entity);

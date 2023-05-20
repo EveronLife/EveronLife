@@ -1,3 +1,8 @@
+[EL_DbConnectionInfoDriverType(EL_BinaryFileDbDriver), BaseContainerProps()]
+class EL_BinaryFileDbConnectionInfo : EL_FileDbDriverInfoBase
+{
+};
+
 [EL_DbDriverName({"BinaryFile", "BinFile", "Bin"})]
 class EL_BinaryFileDbDriver : EL_FileDbDriverBase
 {

@@ -1,26 +1,29 @@
+[EL_DbConnectionInfoDriverType(EL_InMemoryDbDriver), BaseContainerProps()]
+class EL_InMemoryDbConnectionInfo : EL_DbConnectionInfoBase
+{
+};
+
 [EL_DbDriverName({"InMemory"})]
 class EL_InMemoryDbDriver : EL_DbDriver
 {
 	protected static ref map<string, ref EL_InMemoryDatabase> s_mDatabases;
-	protected EL_InMemoryDatabase m_Db;
+	protected EL_InMemoryDatabase m_pDb;
 
 	//------------------------------------------------------------------------------------------------
-	override bool Initalize(string connectionString = string.Empty)
+	override bool Initalize(notnull EL_DbConnectionInfoBase connectionInfo)
 	{
 		// Only create the db holder if at least one driver is initalized. (Avoids allocation on clients)
 		if (!s_mDatabases)
 			s_mDatabases = new map<string, ref EL_InMemoryDatabase>();
 
-		string dbName = connectionString;
-		m_Db = s_mDatabases.Get(dbName);
+		string dbName = connectionInfo.m_sDatabaseName;
+		m_pDb = s_mDatabases.Get(dbName);
 
 		// Init db if driver was the first one to trying to access it
-		if (!m_Db)
+		if (!m_pDb)
 		{
 			s_mDatabases.Set(dbName, new EL_InMemoryDatabase(dbName));
-
-			// Strong ref is held by map, so we need to get it from there
-			m_Db = s_mDatabases.Get(dbName);
+			m_pDb = s_mDatabases.Get(dbName); // Strong ref held by map so get it there
 		}
 
 		return true;
@@ -36,7 +39,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		EL_DbEntity deepCopy = EL_DbEntity.Cast(entity.Type().Spawn());
 		EL_DbEntityUtils.StructAutoCopy(entity, deepCopy);
 
-		m_Db.AddOrUpdate(deepCopy);
+		m_pDb.AddOrUpdate(deepCopy);
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
 
@@ -46,7 +49,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		if (!entityId)
 			return EL_EDbOperationStatusCode.FAILURE_ID_NOT_SET;
 
-		m_Db.Remove(entityType, entityId);
+		m_pDb.Remove(entityType, entityId);
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
 
@@ -63,14 +66,14 @@ class EL_InMemoryDbDriver : EL_DbDriver
 			entities = {};
 			foreach (string relevantId : relevantIds)
 			{
-				EL_DbEntity entity = m_Db.Get(entityType, relevantId);
+				EL_DbEntity entity = m_pDb.Get(entityType, relevantId);
 				if (entity)
 					entities.Insert(entity);
 			}
 		}
 		else
 		{
-			entities = m_Db.GetAll(entityType);
+			entities = m_pDb.GetAll(entityType);
 			needsFilter = true;
 		}
 
@@ -132,7 +135,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 	//------------------------------------------------------------------------------------------------
 	void ~EL_InMemoryDbDriver()
 	{
-		if	(s_mDatabases && m_Db)
-			s_mDatabases.Remove(m_Db.m_DbName);
+		if	(s_mDatabases && m_pDb)
+			s_mDatabases.Remove(m_pDb.m_DbName);
 	}
 };

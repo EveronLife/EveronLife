@@ -74,7 +74,9 @@ class EL_Test_JsonFileDbDriver_AddOrUpdate_NewEntity_ReadFromFileSuccessfully : 
 	[Step(EStage.Setup)]
 	void Arrange()
 	{
-		driver.Initalize(string.Format("%1?cache=false", EL_JsonFileDbDriverTests.DB_NAME));
+		EL_JsonFileDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = EL_JsonFileDbDriverTests.DB_NAME;
+		driver.Initalize(connectInfo);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -128,7 +130,9 @@ class EL_Test_JsonFileDbDriver_Remove_ExistingEntity_FileDeleted : EL_Test_JsonF
 	[Step(EStage.Setup)]
 	void Arrange()
 	{
-		driver.Initalize(string.Format("%1?cache=false", EL_JsonFileDbDriverTests.DB_NAME));
+		EL_JsonFileDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = EL_JsonFileDbDriverTests.DB_NAME;
+		driver.Initalize(connectInfo);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -166,7 +170,10 @@ class EL_Test_JsonFileDbDriver_FindAll_IdOnly_ExactLoadAndCache : EL_Test_JsonFi
 	[Step(EStage.Setup)]
 	void Arrange()
 	{
-		driver.Initalize(string.Format("%1?cache=true", EL_JsonFileDbDriverTests.DB_NAME));
+		EL_JsonFileDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = EL_JsonFileDbDriverTests.DB_NAME;
+		connectInfo.m_bUseCache = true;
+		driver.Initalize(connectInfo);
 
 		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001001", 41.1, "Existing 1001"));
 		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000001002", 41.2, "Existing 1002"));
@@ -207,7 +214,10 @@ class EL_Test_JsonFileDbDriver_FindAll_ContentField_AllLoadedAndCached : EL_Test
 	[Step(EStage.Setup)]
 	void Arrange()
 	{
-		driver.Initalize(string.Format("%1?cache=true", EL_JsonFileDbDriverTests.DB_NAME));
+		EL_JsonFileDbConnectionInfo connectInfo();
+		connectInfo.m_sDatabaseName = EL_JsonFileDbDriverTests.DB_NAME;
+		connectInfo.m_bUseCache = true;
+		driver.Initalize(connectInfo);
 
 		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002001", 42.1, "Existing 2001"));
 		EL_JsonFileDbDriverTests.WriteEntity(driver._GetTypeDirectory(EL_Test_JsonFileDbDriverEntity), new EL_Test_JsonFileDbDriverEntity("TEST0000-0000-0001-0000-000000002002", 42.2, "Existing 2002"));

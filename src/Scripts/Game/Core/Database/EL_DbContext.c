@@ -98,25 +98,9 @@ class EL_DbContext
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static EL_DbContext Create(string connectionString)
+	static EL_DbContext Create(notnull EL_DbConnectionInfoBase connectionInfo)
 	{
-		int driverEndIdx = connectionString.IndexOf("://");
-		if (driverEndIdx == -1)
-		{
-			Debug.Error(string.Format("Tried to create database context with invalid connection string '%1'.", connectionString));
-			return null;
-		}
-
-		string driverName = connectionString.Substring(0, driverEndIdx);
-		string connectionInfo = connectionString.Substring(driverEndIdx + 3, connectionString.Length() - (driverName.Length() + 3));
-
-		typename driverType = EL_DbDriverRegistry.Get(driverName);
-		if (!driverType.IsInherited(EL_DbDriver))
-		{
-			Debug.Error(string.Format("Tried to create database context with incompatible driver type '%1'.", driverType));
-			return null;
-		}
-
+		typename driverType = EL_DbConnectionInfoDriverType.GetDriverType(connectionInfo.Type());
 		EL_DbDriver driver = EL_DbDriver.Cast(driverType.Spawn());
 		if (!driver || !driver.Initalize(connectionInfo))
 		{

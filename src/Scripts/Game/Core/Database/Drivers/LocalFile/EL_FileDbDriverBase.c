@@ -1,3 +1,19 @@
+[EL_DbConnectionInfoDriverType(EL_JsonFileDbDriver), BaseContainerProps()]
+class EL_FileDbDriverInfoBase : EL_DbConnectionInfoBase
+{
+	[Attribute(defvalue: "1", desc: "Cache files loaded to reduce disk IO.")]
+	bool m_bUseCache;
+
+	//------------------------------------------------------------------------------------------------
+	override void Parse(string connectionString)
+	{
+		super.Parse(connectionString);
+		connectionString.ToLower();
+		connectionString.Replace(" = ", "=");
+		m_bUseCache = connectionString.Contains("cache=true");
+	}
+};
+
 class EL_FileDbDriverBase : EL_DbDriver
 {
 	const string DB_BASE_DIR = "$profile:/.db"; //Can be changed through modded class if you want to!
@@ -10,23 +26,20 @@ class EL_FileDbDriverBase : EL_DbDriver
 	protected bool m_bUseCache;
 
 	//------------------------------------------------------------------------------------------------
-	override bool Initalize(string connectionString = string.Empty)
+	override bool Initalize(notnull EL_DbConnectionInfoBase connectionInfo)
 	{
-		if (!m_pEntityCache) m_pEntityCache = new EL_DbEntityCache();
-		if (!m_mEntityIdsyCache) m_mEntityIdsyCache = new map<typename, ref set<string>>();
+		if (!m_pEntityCache)
+			m_pEntityCache = new EL_DbEntityCache();
 
-		FileIO.MakeDirectory(DB_BASE_DIR);
+		if (!m_mEntityIdsyCache)
+			m_mEntityIdsyCache = new map<typename, ref set<string>>();
 
-		// Placeholder until we either have proper query string parsing or connection settings object
-		connectionString.Replace(" = ", "=");
-		m_bUseCache = connectionString.Contains("cache=true");
+		auto fileConnectInfo = EL_FileDbDriverInfoBase.Cast(connectionInfo);
+		m_bUseCache = fileConnectInfo.m_bUseCache;
 
-		int until = connectionString.IndexOf("?");
-		if (until == -1) until = connectionString.Length();
-		string dbName = connectionString.Substring(0, until);
-
+		string dbName = fileConnectInfo.m_sDatabaseName;
 		m_sDbDir = string.Format("%1/%2", DB_BASE_DIR, dbName);
-
+		FileIO.MakeDirectory(DB_BASE_DIR);
 		FileIO.MakeDirectory(m_sDbDir);
 
 		return FileIO.FileExist(m_sDbDir);
@@ -195,7 +208,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 		{
 			entityName = string.Format("%1ies", entityName.Substring(0, entityName.Length() - 1));
 		}
-		else
+		else if(!entityName.EndsWith("s"))
 		{
 			entityName += "s";
 		}
@@ -217,7 +230,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		string file = string.Format("%1/%2%3", _GetTypeDirectory(entityType), entityId, GetFileExtension());
 
-		if (FileIO.FileExist(file) && !FileIO.DeleteFile(file)) 
+		if (FileIO.FileExist(file) && !FileIO.DeleteFile(file))
 			return EL_EDbOperationStatusCode.FAILURE_DB_UNAVAILABLE;
 
 		return EL_EDbOperationStatusCode.SUCCESS;
