@@ -8,9 +8,7 @@ sealed class EL_DbRepositoryFactory
 		EL_DbRepositoryBase repository = null;
 
 		if (!s_mRepositoryCache)
-		{
 			s_mRepositoryCache = new map<string, ref EL_DbRepositoryBase>();
-		}
 
 		string cacheKey = string.Format("%1:%2", repositoryType.ToString(), dbContext);
 
@@ -21,7 +19,8 @@ sealed class EL_DbRepositoryFactory
 		{
 			repository = EL_DbRepositoryBase.Cast(repositoryType.Spawn());
 
-			if (repository) repository.Configure(dbContext);
+			if (repository)
+				repository.Configure(dbContext);
 		}
 
 		// Cache repository to be re-used, even if null because second time it would still create an invalid one
@@ -35,4 +34,4 @@ sealed class EL_DbRepositoryFactory
 	{
 		s_mRepositoryCache = null;
 	}
-}
+};

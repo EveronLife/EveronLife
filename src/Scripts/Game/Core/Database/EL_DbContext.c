@@ -44,7 +44,7 @@ class EL_DbContext
 	//! \param limit maximum amount of returned. Limit is applied on those that matched the conditions
 	//! \param offset used together with limit to offset the result limit count. Can be used to paginate the loading.
 	//! \return find result buffer containing status code and result entities on success
-	EL_DbFindResults<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
+	EL_DbFindResultMultiple<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
 		return m_Driver.FindAll(entityType, condition, orderBy, limit, offset);
 	}
@@ -129,7 +129,7 @@ class EL_DbContext
 
 	//------------------------------------------------------------------------------------------------
 	//! Use EL_DbContext::Create(string) to get a context instance.
-	protected void EL_DbContext(EL_DbDriver driver)
+	protected void EL_DbContext(notnull EL_DbDriver driver)
 	{
 		m_Driver = driver;
 	}
@@ -137,10 +137,6 @@ class EL_DbContext
 	//------------------------------------------------------------------------------------------------
 	void ~EL_DbContext()
 	{
-		if (!m_Driver)
-			return;
-
-		m_Driver.Shutdown();
 		m_Driver = null;
 	}
 };

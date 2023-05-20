@@ -338,7 +338,7 @@ class EL_PersistentScriptedStateProxy : EL_PersistentScriptedState
 
 		if (async)
 		{
-			Tuple2<EL_PersistentScriptedStateProxy, EL_DataCallbackSingle<EL_ScriptedStateSaveData>> context(proxy, callback);
+			EL_PersistentScriptedStateProxyContext context(proxy, callback);
 
 			EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(
 				settings.m_tSaveDataType,
@@ -499,14 +499,26 @@ class EL_PersistentScriptedStateSettings
 	}
 };
 
+class EL_PersistentScriptedStateProxyContext
+{
+	EL_PersistentScriptedStateProxy m_pProxy;
+	ref EL_DataCallbackSingle<EL_ScriptedStateSaveData> m_pCallback;
+
+	//------------------------------------------------------------------------------------------------
+	void EL_PersistentScriptedStateProxyContext(EL_PersistentScriptedStateProxy proxy, EL_DataCallbackSingle<EL_ScriptedStateSaveData> callback)
+	{
+		m_pProxy = proxy;
+		m_pCallback = callback;
+	}
+};
+
 class EL_PersistentScriptedStateProxyCreateCallback : EL_DbFindCallbackSingle<EL_ScriptedStateSaveData>
 {
 	//------------------------------------------------------------------------------------------------
 	override void OnSuccess(EL_ScriptedStateSaveData resultData, Managed context)
 	{
-		auto contextTyped = Tuple2<EL_PersistentScriptedStateProxy, EL_DataCallbackSingle<EL_ScriptedStateSaveData>>.Cast(context);
-
-		if (resultData && contextTyped.param1.Load(resultData))
-			contextTyped.param2.Invoke(resultData);
+		auto contextTyped = EL_PersistentScriptedStateProxyContext.Cast(context);
+		if (resultData && contextTyped.m_pProxy.Load(resultData))
+			contextTyped.m_pCallback.Invoke(resultData);
 	}
 };

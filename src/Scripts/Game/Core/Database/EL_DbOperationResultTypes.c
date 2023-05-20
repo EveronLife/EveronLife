@@ -2,12 +2,11 @@ enum EL_EDbOperationStatusCode
 {
 	SUCCESS,
 
-	// System level failure
-	FAILURE_CONTEXT_INVALID,
-	FAILURE_STORAGE_UNAVAILABLE,
-	FAILURE_DATA_MALFORMED,
+	// System failure
+	FAILURE_DB_UNAVAILABLE,
 
 	// User failure
+	FAILURE_DATA_MALFORMED,
 	FAILURE_ID_NOT_SET,
 	FAILURE_ID_NOT_FOUND,
 
@@ -26,13 +25,13 @@ class EL_DbFindResultBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	bool Success()
+	bool IsSuccess()
 	{
 		return m_eStatusCode == EL_EDbOperationStatusCode.SUCCESS;
 	}
 };
 
-class EL_DbFindResults<Class TEntityType> : EL_DbFindResultBase
+class EL_DbFindResultMultiple<Class TEntityType> : EL_DbFindResultBase
 {
 	protected ref array<ref TEntityType> m_aEntities;
 
@@ -43,14 +42,14 @@ class EL_DbFindResults<Class TEntityType> : EL_DbFindResultBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, array<ref TEntityType> entities = null)
+	void EL_DbFindResultMultiple(EL_EDbOperationStatusCode statusCode, array<ref TEntityType> entities = null)
 	{
 		m_eStatusCode = statusCode;
 		m_aEntities = entities;
 	}
 };
 
-class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
+class EL_DbFindResultSingle<Class TEntityType> : EL_DbFindResultBase
 {
 	protected ref TEntityType m_pEntity;
 
@@ -61,7 +60,7 @@ class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, TEntityType entity = null)
+	void EL_DbFindResultSingle(EL_EDbOperationStatusCode statusCode, TEntityType entity = null)
 	{
 		m_eStatusCode = statusCode;
 		m_pEntity = entity;
@@ -104,7 +103,7 @@ class EL_DbFindCallbackBase : EL_DbOperationCallback
 	void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults);
 };
 
-class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
+class EL_DbFindCallbackMultiple<Class TEntityType> : EL_DbFindCallbackBase
 {
 	//------------------------------------------------------------------------------------------------
 	void OnSuccess(array<ref TEntityType> resultData, Managed context);
@@ -146,9 +145,7 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 		TEntityType typedResult;
 
 		if (findResults.Count() > 0)
-		{
 			typedResult = TEntityType.Cast(findResults.Get(0));
-		}
 
 		if (m_pInvokeInstance &&
 			m_sInvokeMethod &&

@@ -15,6 +15,12 @@ class EL_PersistenceManagerComponentClass : SCR_BaseGameModeComponentClass
 
 	[Attribute(defvalue: "JsonFile://EveronLife?pretty=true", desc: "Default database connection string. Can be overriden using \"-ConnectionString=...\" CLI argument", category: "Database")]
 	string m_sDatabaseConnectionString;
+	
+	[Attribute(defvalue: "1", desc: "When using a buffered DB context changes are only flushed on auto-/shutdown-save or when called manually. Can increase constistency.", category: "Database")]
+	bool m_bBufferedDatabaseContext;
+
+	[Attribute(defvalue: "50", desc: "Max DB operations batch size per frame. Only relevant when buffered DB context is enabled.", category: "Database")]
+	int m_bBufferedDatabaseBatchsize;
 };
 
 class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
@@ -83,7 +89,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Getting the hive id from CLI. 
+	//! Getting the hive id from CLI.
 	//! Inherit or used modded if you want to get it from another info source.
 	protected int GetHiveId()
 	{
@@ -95,7 +101,7 @@ class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Getting the database connection string. 
+	//! Getting the database connection string.
 	//! Inherit or used modded if you want to get it from another info source.
 	protected string GetConnectionString()
 	{

@@ -169,7 +169,7 @@ class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_E
 	}
 };
 
-class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_EntitySaveData>
+class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallbackMultiple<EL_EntitySaveData>
 {
 	ref EL_DataCallbackMultiple<IEntity> m_pOuterCallback;
 

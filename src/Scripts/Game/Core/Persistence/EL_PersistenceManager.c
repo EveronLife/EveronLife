@@ -11,6 +11,8 @@ class EL_PersistenceManager
 {
 	protected static ref EL_PersistenceManager s_pInstance;
 
+	protected ref EL_PersistenceManagerComponentClass m_pSettings;
+
 	// Startup and shutdown sequence
 	protected EL_EPersistenceManagerState m_eState;
 	protected ref ScriptInvoker m_pOnStateChange;
@@ -32,8 +34,6 @@ class EL_PersistenceManager
 	protected ref map<string, EL_PersistentScriptedState> m_mScriptedStateUncategorized;
 
 	// Auto save system
-	protected int m_iAutoSaveIterations;
-	protected float m_fAutoSaveInterval;
 	protected float m_fAutoSaveAccumultor;
 	protected bool m_bAutoSaveActive;
 	protected int m_iSaveOperation;
@@ -206,7 +206,9 @@ class EL_PersistenceManager
 	//! Manually trigger the global auto-save. Resets the timer until the next auto-save cycle. If an auto-save is already in progress it will do nothing.
 	void AutoSave()
 	{
-		if (m_bAutoSaveActive) return;
+		if (m_bAutoSaveActive)
+			return;
+
 		m_bAutoSaveActive = true;
 		m_fAutoSaveAccumultor = 0;
 		m_iSaveOperation = 0;
@@ -218,20 +220,22 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	protected void AutoSaveTick()
 	{
-		if (!m_bAutoSaveActive) return;
+		if (!m_bAutoSaveActive)
+			return;
 
 		while (m_iAutoSaveEntityIt != m_mRootAutoSave.End())
 		{
 			EL_PersistenceComponent persistenceComponent = m_mRootAutoSave.GetIteratorElement(m_iAutoSaveEntityIt);
 			m_iAutoSaveEntityIt = m_mRootAutoSave.Next(m_iAutoSaveEntityIt);
 
-			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING)) continue;
+			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING)) 
+				continue;
 
 			persistenceComponent.Save();
 			m_iSaveOperation++;
 
 			if ((m_eState == EL_EPersistenceManagerState.ACTIVE) &&
-				((m_iSaveOperation + 1) % m_iAutoSaveIterations == 0))
+				((m_iSaveOperation + 1) % m_pSettings.m_iAutosaveIterations == 0))
 			{
 				return; // Pause execution until next tick
 			}
@@ -242,13 +246,14 @@ class EL_PersistenceManager
 			EL_PersistentScriptedState scriptedState = m_mScriptedStateAutoSave.GetIteratorElement(m_iAutoSaveScriptedStateIt);
 			m_iAutoSaveScriptedStateIt = m_mScriptedStateAutoSave.Next(m_iAutoSaveScriptedStateIt);
 
-			if (EL_BitFlags.CheckFlags(scriptedState.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING)) continue;
+			if (EL_BitFlags.CheckFlags(scriptedState.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING)) 
+				continue;
 
 			scriptedState.Save();
 			m_iSaveOperation++;
 
 			if ((m_eState == EL_EPersistenceManagerState.ACTIVE) &&
-				((m_iSaveOperation + 1) % m_iAutoSaveIterations == 0))
+				((m_iSaveOperation + 1) % m_pSettings.m_iAutosaveIterations == 0))
 			{
 				return; // Pause execution until next tick
 			}
@@ -264,6 +269,8 @@ class EL_PersistenceManager
 		m_mRootAutoSaveCleanup.Clear();
 
 		m_bAutoSaveActive = false;
+
+		FlushDatabase();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -291,6 +298,8 @@ class EL_PersistenceManager
 			m_pDbContext.RemoveAsync(saveDataTypename, persistentId);
 		}
 		m_mRootShutdownCleanup.Clear();
+
+		FlushDatabase();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -500,6 +509,14 @@ class EL_PersistenceManager
 	}
 
 	//------------------------------------------------------------------------------------------------
+	void FlushDatabase()
+	{
+		EL_BufferedDbContext bufferedDb = EL_BufferedDbContext.Cast(m_pDbContext);
+		if (bufferedDb)
+			bufferedDb.Flush(m_pSettings.m_bBufferedDatabaseBatchsize);
+	}
+
+	//------------------------------------------------------------------------------------------------
 	protected void FlushRegistrations()
 	{
 		// Ask for persistent ids. If they were already registerd, they will have them, if not they are registered now.
@@ -524,26 +541,33 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	event void OnPostInit(IEntity gameMode, EL_PersistenceManagerComponentClass settings)
 	{
-		m_pDbContext = EL_DbContext.Create(settings.m_sDatabaseConnectionString);
+		m_pSettings = settings;
+
+		if (settings.m_bBufferedDatabaseContext)
+		{
+			m_pDbContext = EL_BufferedDbContext.Create(settings.m_sDatabaseConnectionString);
+		}
+		else
+		{
+			m_pDbContext = EL_DbContext.Create(settings.m_sDatabaseConnectionString);
+		}
+
 		if (!m_pDbContext)
 			return;
 
 		m_pRootEntityCollection = EL_DbEntityHelper<EL_PersistentRootEntityCollection>.GetRepository(m_pDbContext).FindSingleton().GetEntity();
 		SetState(EL_EPersistenceManagerState.POST_INIT);
-
-		if (!settings.m_bEnableAutosave)
-			return;
-
-		m_fAutoSaveInterval = settings.m_fAutosaveInterval;
-		m_iAutoSaveIterations = Math.Clamp(settings.m_iAutosaveIterations, 1, 128);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	event void OnPostFrame(float timeSlice)
 	{
+		if (!m_pSettings.m_bEnableAutosave)
+			return;
+
 		m_fAutoSaveAccumultor += timeSlice;
 
-		if (m_fAutoSaveInterval && (m_fAutoSaveAccumultor >= m_fAutoSaveInterval))
+		if (m_fAutoSaveAccumultor >= m_pSettings.m_fAutosaveInterval)
 			AutoSave();
 
 		AutoSaveTick();

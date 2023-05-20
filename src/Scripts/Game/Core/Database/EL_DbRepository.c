@@ -49,59 +49,51 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindResult<TEntityType> Find(string entityId)
+	EL_DbFindResultSingle<TEntityType> Find(string entityId)
 	{
-		EL_DbFindResult<TEntityType> findResult = FindFirst(EL_DbFind.Id().Equals(entityId));
+		EL_DbFindResultSingle<TEntityType> findResult = FindFirst(EL_DbFind.Id().Equals(entityId));
 
-		if (!findResult.Success())
+		if (!findResult.IsSuccess())
 			return findResult;
 
 		if (!findResult.GetEntity())
-		{
-			return new EL_DbFindResult<TEntityType>(EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND);
-		}
+			return new EL_DbFindResultSingle<TEntityType>(EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND);
 
 		return findResult;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindResult<TEntityType> FindSingleton()
+	EL_DbFindResultSingle<TEntityType> FindSingleton()
 	{
-		EL_DbFindResult<TEntityType> findResult = FindFirst();
+		EL_DbFindResultSingle<TEntityType> findResult = FindFirst();
 
-		if (!findResult.Success() || findResult.GetEntity())
+		if (!findResult.IsSuccess() || findResult.GetEntity())
 			return findResult;
 
 		typename spawnType = TEntityType;
-		return new EL_DbFindResult<TEntityType>(EL_EDbOperationStatusCode.SUCCESS, TEntityType.Cast(spawnType.Spawn()));
+		return new EL_DbFindResultSingle<TEntityType>(EL_EDbOperationStatusCode.SUCCESS, TEntityType.Cast(spawnType.Spawn()));
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindResult<TEntityType> FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
+	EL_DbFindResultSingle<TEntityType> FindFirst(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null)
 	{
-		EL_DbFindResults<EL_DbEntity> findResults = m_DbContext.FindAll(TEntityType, condition, orderBy, 1);
+		EL_DbFindResultMultiple<EL_DbEntity> findResults = m_DbContext.FindAll(TEntityType, condition, orderBy, 1);
 
-		if (!findResults.Success())
-		{
-			return new EL_DbFindResult<TEntityType>(findResults.GetStatusCode());
-		}
+		if (!findResults.IsSuccess())
+			return new EL_DbFindResultSingle<TEntityType>(findResults.GetStatusCode());
 
 		TEntityType entity = null;
-
 		if (findResults.GetEntities().Count() > 0)
-		{
 			entity = TEntityType.Cast(findResults.GetEntities().Get(0));
-		}
 
-		return new EL_DbFindResult<TEntityType>(findResults.GetStatusCode(), entity);
+		return new EL_DbFindResultSingle<TEntityType>(findResults.GetStatusCode(), entity);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	EL_DbFindResults<TEntityType> FindAll(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1)
+	EL_DbFindResultMultiple<TEntityType> FindAll(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1)
 	{
-		EL_DbFindResults<EL_DbEntity> findResults = m_DbContext.FindAll(TEntityType, condition, orderBy, limit, offset);
-
-		return new EL_DbFindResults<TEntityType>(findResults.GetStatusCode(), EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults.GetEntities()));
+		EL_DbFindResultMultiple<EL_DbEntity> findResults = m_DbContext.FindAll(TEntityType, condition, orderBy, limit, offset);
+		return new EL_DbFindResultMultiple<TEntityType>(findResults.GetStatusCode(), EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults.GetEntities()));
 	}
 
 	// ------------------------------------------ ASYNC API ------------------------------------------
@@ -143,7 +135,7 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, notnull EL_DbFindCallback<TEntityType> callback = null)
+	void FindAllAsync(EL_DbFindCondition condition = null, array<ref array<string>> orderBy = null, int limit = -1, int offset = -1, notnull EL_DbFindCallbackMultiple<TEntityType> callback = null)
 	{
 		m_DbContext.FindAllAsync(TEntityType, condition, orderBy, limit, offset, callback);
 	}
@@ -152,8 +144,6 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 	protected void EL_DbRepository()
 	{
 		if (!GetEntityType().IsInherited(EL_DbEntity))
-		{
 			Debug.Error(string.Format("Db repository '%1' created with entity type '%2' that does not inherit from '%3'. Results will be invalid!", this, TEntityType, EL_DbEntity));
-		}
 	}
 };

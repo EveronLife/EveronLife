@@ -172,7 +172,7 @@ class EL_ScriptedStateLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL
 	}
 };
 
-class EL_ScriptedStateLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_ScriptedStateSaveData>
+class EL_ScriptedStateLoaderProcessorCallbackMultiple : EL_DbFindCallbackMultiple<EL_ScriptedStateSaveData>
 {
 	ref EL_ScriptedStateLoaderCallbackInvokerBase m_pCallbackInvoker;
 

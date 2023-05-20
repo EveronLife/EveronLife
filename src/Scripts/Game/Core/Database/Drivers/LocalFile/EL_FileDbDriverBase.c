@@ -74,7 +74,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override EL_DbFindResults<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
+	override EL_DbFindResultMultiple<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
 		// See if we can only load selected few entities by id or we need the entire collection to search through
 		set<string> relevantIds();
@@ -129,7 +129,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 			resultEntites.Insert(entity);
 		}
 
-		return new EL_DbFindResults<EL_DbEntity>(EL_EDbOperationStatusCode.SUCCESS, resultEntites);
+		return new EL_DbFindResultMultiple<EL_DbEntity>(EL_EDbOperationStatusCode.SUCCESS, resultEntites);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	override void FindAllAsync(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1, EL_DbFindCallbackBase callback = null)
 	{
 		// FileIO is blocking, re-use sync api
-		EL_DbFindResults<EL_DbEntity> findResults = FindAll(entityType, condition, orderBy, limit, offset);
+		EL_DbFindResultMultiple<EL_DbEntity> findResults = FindAll(entityType, condition, orderBy, limit, offset);
 		if (callback) callback.Invoke(findResults.GetStatusCode(), findResults.GetEntities());
 	}
 
@@ -217,9 +217,11 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		string file = string.Format("%1/%2%3", _GetTypeDirectory(entityType), entityId, GetFileExtension());
 
-		if (!FileIO.FileExist(file)) return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
+		if (!FileIO.FileExist(file)) 
+			return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
 
-		if (!FileIO.DeleteFile(file)) return EL_EDbOperationStatusCode.FAILURE_STORAGE_UNAVAILABLE;
+		if (!FileIO.DeleteFile(file)) 
+			return EL_EDbOperationStatusCode.FAILURE_DB_UNAVAILABLE;
 
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}

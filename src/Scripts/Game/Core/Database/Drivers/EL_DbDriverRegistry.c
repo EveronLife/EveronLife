@@ -1,8 +1,10 @@
 class EL_DbDriverName
 {
 	//------------------------------------------------------------------------------------------------
-	void EL_DbDriverName(typename driverType, TStringArray driverAliases = null)
+	void EL_DbDriverName(TStringArray driverAliases = null)
 	{
+		typename driverType = EL_ReflectionUtils.GetAttributeParent();
+
 		EL_DbDriverRegistry.Register(driverType.ToString(), driverType);
 
 		if (driverAliases)
@@ -13,7 +15,7 @@ class EL_DbDriverName
 			}
 		}
 	}
-}
+};
 
 class EL_DbDriverRegistry
 {
@@ -23,9 +25,7 @@ class EL_DbDriverRegistry
 	static void Register(string driverName, typename driverType)
 	{
 		if (!s_mDrivers)
-		{
 			s_mDrivers = new map<string, typename>();
-		}
 
 		string driverNameInvariant = driverName;
 		driverNameInvariant.ToLower();
@@ -36,7 +36,8 @@ class EL_DbDriverRegistry
 	//------------------------------------------------------------------------------------------------
 	static void Unregister(string driverName)
 	{
-		if (!s_mDrivers) return;
+		if (!s_mDrivers)
+			return;
 
 		string driverNameInvariant = driverName;
 		driverNameInvariant.ToLower();
@@ -50,7 +51,8 @@ class EL_DbDriverRegistry
 		string driverNameInvariant = driverName;
 		driverNameInvariant.ToLower();
 
-		if (!s_mDrivers || !s_mDrivers.Contains(driverNameInvariant)) return typename.Empty;
+		if (!s_mDrivers || !s_mDrivers.Contains(driverNameInvariant))
+			return typename.Empty;
 
 		return s_mDrivers.Get(driverNameInvariant);
 	}
@@ -76,4 +78,4 @@ class EL_DbDriverRegistry
 	{
 		delete s_mDrivers;
 	}
-}
+};

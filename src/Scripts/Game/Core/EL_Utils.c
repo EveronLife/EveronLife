@@ -297,7 +297,8 @@ class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 	//! \return casted result array
 	static array<ref TResultType> Convert(array<ref TSourceType> sourceArray)
 	{
-		if (!sourceArray) return null;
+		if (!sourceArray)
+			return null;
 
 		array<ref TResultType> castedResult();
 		castedResult.Reserve(sourceArray.Count());
@@ -305,8 +306,8 @@ class EL_RefArrayCaster<Class TSourceType, Class TResultType>
 		foreach (TSourceType element : sourceArray)
 		{
 			TResultType castedElement = TResultType.Cast(element);
-
-			if (castedElement) castedResult.Insert(castedElement);
+			if (castedElement)
+				castedResult.Insert(castedElement);
 		}
 
 		return castedResult;
