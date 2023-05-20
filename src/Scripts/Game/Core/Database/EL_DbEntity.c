@@ -38,7 +38,7 @@ class EL_DbEntity
 	{
 		loadContext.ReadValue(FIELD_ID, m_sId);
 	}
-}
+};
 
 class EL_DbName
 {
@@ -47,7 +47,9 @@ class EL_DbName
 	//------------------------------------------------------------------------------------------------
 	static void Set(typename entityType, string name)
 	{
-		if (!s_mMapping) s_mMapping = new map<typename, string>();
+		if (!s_mMapping)
+			s_mMapping = new map<typename, string>();
+
 		s_mMapping.Set(entityType, name);
 	}
 
@@ -56,13 +58,25 @@ class EL_DbName
 	{
 		if (!entityType) return string.Empty;
 
-		if (!s_mMapping) s_mMapping = new map<typename, string>();
+		if (!s_mMapping)
+			s_mMapping = new map<typename, string>();
 
 		string result = s_mMapping.Get(entityType);
 
 		if (result.IsEmpty())
 		{
 			result = entityType.ToString();
+
+			int tagIdx = result.IndexOf("_");
+			if (tagIdx != -1 && (tagIdx + 1) < result.Length()) ///AAA_
+				result = result.Substring(tagIdx + 1, result.Length() - (tagIdx + 1));
+
+			if (result.StartsWith("Base"))
+				result = result.Substring(4, result.Length() - 4);
+
+			if (result.EndsWith("SaveData"))
+				result = result.Substring(0, result.Length() - 8);
+
 			s_mMapping.Set(entityType, result);
 		}
 
@@ -72,7 +86,8 @@ class EL_DbName
 	//------------------------------------------------------------------------------------------------
 	static typename GetTypeByName(string name)
 	{
-		if (!s_mMapping) s_mMapping = new map<typename, string>();
+		if (!s_mMapping)
+			s_mMapping = new map<typename, string>();
 
 		typename result = s_mMapping.GetKeyByValue(name);
 
@@ -91,4 +106,4 @@ class EL_DbName
 		typename dbEntityType = EL_ReflectionUtils.GetAttributeParent();
 		Set(dbEntityType, name);
 	}
-}
+};

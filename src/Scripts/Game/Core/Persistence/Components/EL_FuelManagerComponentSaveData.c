@@ -3,7 +3,6 @@ class EL_FuelManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName("FuelManager")]
 class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentFuelNode> m_aFuelNodes;

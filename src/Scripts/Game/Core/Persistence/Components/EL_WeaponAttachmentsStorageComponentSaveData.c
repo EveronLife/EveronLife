@@ -7,7 +7,6 @@ class EL_WeaponAttachmentsStorageComponentSaveDataClass : EL_BaseInventoryStorag
 	}
 };
 
-[EL_DbName("WeaponAttachmentsStorage")]
 class EL_WeaponAttachmentsStorageComponentSaveData : EL_BaseInventoryStorageComponentSaveData
 {
 };

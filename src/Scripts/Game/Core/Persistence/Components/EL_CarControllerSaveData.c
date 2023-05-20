@@ -3,7 +3,6 @@ class EL_CarControllerSaveDataClass : EL_VehicleControllerSaveDataClass
 {
 };
 
-[EL_DbName("CarController")]
 class EL_CarControllerSaveData : EL_VehicleControllerSaveData
 {
 	bool m_bHandBrake;

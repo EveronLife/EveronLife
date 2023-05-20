@@ -3,7 +3,6 @@ class EL_BaseSlotComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName("SlotComponent")]
 class EL_BaseSlotComponentSaveData : EL_ComponentSaveData
 {
 	ref EL_EntitySaveData m_pEntity;

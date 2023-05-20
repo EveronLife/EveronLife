@@ -3,7 +3,6 @@ class EL_CompartmentAccessComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName("CompartmentAccess")]
 class EL_CompartmentAccessComponentSaveData : EL_ComponentSaveData
 {
 	string m_sEntity;

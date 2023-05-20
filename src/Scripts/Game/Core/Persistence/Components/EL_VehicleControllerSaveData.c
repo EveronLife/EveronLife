@@ -3,7 +3,6 @@ class EL_VehicleControllerSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName("VehicleController")]
 class EL_VehicleControllerSaveData : EL_ComponentSaveData
 {
 	bool m_bEngineOn;

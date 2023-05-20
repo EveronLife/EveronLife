@@ -3,7 +3,6 @@ class EL_BaseMagazineComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName("Magazine")]
 class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 {
 	int m_iAmmoCount;

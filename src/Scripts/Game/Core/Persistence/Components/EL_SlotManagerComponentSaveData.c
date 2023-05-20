@@ -3,7 +3,6 @@ class EL_SlotManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName("SlotManager")]
 class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentEntitySlot> m_aSlots;

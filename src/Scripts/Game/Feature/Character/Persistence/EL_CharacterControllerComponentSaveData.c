@@ -7,7 +7,6 @@ class EL_CharacterControllerComponentSaveDataClass : EL_ComponentSaveDataClass
 	}
 };
 
-[EL_DbName("CharacterController")]
 class EL_CharacterControllerComponentSaveData : EL_ComponentSaveData
 {
 	ECharacterStance m_eStance;

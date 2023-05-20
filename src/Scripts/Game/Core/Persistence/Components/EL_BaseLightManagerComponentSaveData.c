@@ -3,7 +3,6 @@ class EL_BaseLightManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
-[EL_DbName("LightManager")]
 class EL_BaseLightManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentLightSlot> m_aLightSlots;
