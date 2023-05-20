@@ -79,19 +79,3 @@ TestResultBase EL_Test_InMemoryDbDriver_Remove_ExistingId_Removed()
 	return new EL_TestResult(results.Count() == 0);
 }
 
-//------------------------------------------------------------------------------------------------
-[Test("EL_InMemoryDbDriverTests")]
-TestResultBase EL_Test_InMemoryDbDriver_Remove_UnknownId_Error()
-{
-	// Arrange
-	EL_InMemoryDbDriver driver();
-	driver.Initalize("testing");
-
-	EL_Test_InMemoryDbDriverEntity entity("TEST0000-0000-0001-0000-000000000003", 42.42, "Hello World");
-
-	// Act
-	EL_EDbOperationStatusCode resultCode = driver.Remove(EL_Test_InMemoryDbDriverEntity, "I-DO-NOT-EXIST");
-
-	// Assert
-	return new EL_TestResult(resultCode == EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND);
-}

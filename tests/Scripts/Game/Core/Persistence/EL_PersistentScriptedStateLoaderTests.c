@@ -100,12 +100,12 @@ class EL_Test_PersistentScriptedStateLoader_LoadSingletonAsync_NotExisting_Creat
 	[Step(EStage.Main)]
 	void Act()
 	{
-		EL_ScriptedStateLoaderCallbackSingle<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
+		EL_DataCallbackSingle<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
 		EL_PersistentScriptedStateLoader<EL_Test_ScriptedStateLoaderDummy>.LoadSingletonAsync(callback);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Assert(Managed context, EL_Test_ScriptedStateLoaderDummy instance)
+	void Assert(EL_Test_ScriptedStateLoaderDummy instance, Managed context)
 	{
 		SetResult(new EL_TestResult(instance && instance.GetPersistentId()));
 	}
@@ -135,12 +135,12 @@ class EL_Test_PersistentScriptedStateLoader_LoadSingletonAsync_Existing_Returned
 	[Step(EStage.Main)]
 	void Act()
 	{
-		EL_ScriptedStateLoaderCallbackSingle<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
+		EL_DataCallbackSingle<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
 		EL_PersistentScriptedStateLoader<EL_Test_ScriptedStateLoaderDummy>.LoadSingletonAsync(callback);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Assert(Managed context, EL_Test_ScriptedStateLoaderDummy instance)
+	void Assert(EL_Test_ScriptedStateLoaderDummy instance, Managed context)
 	{
 		SetResult(new EL_TestResult(
 			instance &&
@@ -180,12 +180,12 @@ class EL_Test_PersistentScriptedStateLoader_LoadAsync_Existing_Returned : TestBa
 	[Step(EStage.Main)]
 	void Act()
 	{
-		EL_ScriptedStateLoaderCallbackSingle<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
+		EL_DataCallbackSingle<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
 		EL_PersistentScriptedStateLoader<EL_Test_ScriptedStateLoaderDummy>.LoadAsync(m_pExisting.GetPersistentId(), callback);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Assert(Managed context, EL_Test_ScriptedStateLoaderDummy instance)
+	void Assert(EL_Test_ScriptedStateLoaderDummy instance, Managed context)
 	{
 		SetResult(new EL_TestResult(
 			instance &&
@@ -231,12 +231,12 @@ class EL_Test_PersistentScriptedStateLoader_LoadAsync_MultipleExisting_AllReturn
 	void Act()
 	{
 		// Load all ids
-		EL_ScriptedStateLoaderCallbackMultiple<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
+		EL_DataCallbackMultiple<EL_Test_ScriptedStateLoaderDummy> callback(this, "Assert");
 		EL_PersistentScriptedStateLoader<EL_Test_ScriptedStateLoaderDummy>.LoadAsync(null, callback);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Assert(Managed context, array<ref EL_Test_ScriptedStateLoaderDummy> instances)
+	void Assert(array<EL_Test_ScriptedStateLoaderDummy> instances, Managed context)
 	{
 		SetResult(new EL_TestResult(
 			instances &&

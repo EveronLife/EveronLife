@@ -37,7 +37,6 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		EL_DbEntityUtils.StructAutoCopy(entity, deepCopy);
 
 		m_Db.AddOrUpdate(deepCopy);
-
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
 
@@ -47,13 +46,7 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		if (!entityId)
 			return EL_EDbOperationStatusCode.FAILURE_ID_NOT_SET;
 
-		EL_DbEntity entity = m_Db.Get(entityType, entityId);
-
-		if (!entity)
-			return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
-
-		m_Db.Remove(entity);
-
+		m_Db.Remove(entityType, entityId);
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}
 

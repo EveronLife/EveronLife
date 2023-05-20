@@ -51,15 +51,7 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 	//------------------------------------------------------------------------------------------------
 	EL_DbFindResultSingle<TEntityType> Find(string entityId)
 	{
-		EL_DbFindResultSingle<TEntityType> findResult = FindFirst(EL_DbFind.Id().Equals(entityId));
-
-		if (!findResult.IsSuccess())
-			return findResult;
-
-		if (!findResult.GetEntity())
-			return new EL_DbFindResultSingle<TEntityType>(EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND);
-
-		return findResult;
+		return FindFirst(EL_DbFind.Id().Equals(entityId));
 	}
 
 	//------------------------------------------------------------------------------------------------

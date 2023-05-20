@@ -74,9 +74,7 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 
 		EL_DbFindCondition condition;
 		if (persistentIds && !persistentIds.IsEmpty())
-		{
 			condition = EL_DbFind.Id().EqualsAnyOf(persistentIds);
-		}
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 		array<ref EL_DbEntity> findResults = persistenceManager.GetDbContext().FindAll(saveDataType, condition).GetEntities();
@@ -100,14 +98,12 @@ class EL_PersistentScriptedStateLoader<Class TScriptedState>
 		if (!TypeAndSettingsValidation(saveDataType)) return;
 
 		EL_ScriptedStateLoaderCallbackInvokerMultiple<TScriptedState> callbackInvoker(callback);
-		EL_ScriptedStateLoaderProcessorCallbackMultiple processorCallback(callbackInvoker);
+		EL_ScriptedStateLoaderProcessorCallbackMultiple processorCallback();
 		processorCallback.Setup(callbackInvoker);
 
 		EL_DbFindCondition condition;
 		if (persistentIds && !persistentIds.IsEmpty())
-		{
 			condition = EL_DbFind.Id().EqualsAnyOf(persistentIds);
-		}
 
 		EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(saveDataType, condition, callback: processorCallback);
 	}
@@ -179,15 +175,16 @@ class EL_ScriptedStateLoaderProcessorCallbackMultiple : EL_DbFindCallbackMultipl
 	//------------------------------------------------------------------------------------------------
 	override void OnSuccess(array<ref EL_ScriptedStateSaveData> resultData, Managed context)
 	{
-		if (resultData)
+		array<ref EL_PersistentScriptedState> resultReferences();
+		
+		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		foreach (EL_ScriptedStateSaveData saveData : resultData)
 		{
-			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-
-			foreach (EL_ScriptedStateSaveData saveData : resultData)
+			EL_PersistentScriptedState resultScriptedState = EL_PersistentScriptedState.Cast(persistenceManager.SpawnScriptedState(saveData));
+			if (resultScriptedState)
 			{
-				EL_PersistentScriptedState resultScriptedState = EL_PersistentScriptedState.Cast(persistenceManager.SpawnScriptedState(saveData));
-				if (resultScriptedState)
-					GetGame().GetScriptModule().Call(m_pCallbackInvoker, "AddResult", false, null, resultScriptedState);
+				resultReferences.Insert(resultScriptedState); // Keep the instance alive until we invoked the callback
+				GetGame().GetScriptModule().Call(m_pCallbackInvoker, "AddResult", false, null, resultScriptedState);
 			}
 		}
 

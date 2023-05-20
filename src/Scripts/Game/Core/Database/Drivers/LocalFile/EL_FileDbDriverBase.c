@@ -217,10 +217,7 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		string file = string.Format("%1/%2%3", _GetTypeDirectory(entityType), entityId, GetFileExtension());
 
-		if (!FileIO.FileExist(file)) 
-			return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
-
-		if (!FileIO.DeleteFile(file)) 
+		if (FileIO.FileExist(file) && !FileIO.DeleteFile(file)) 
 			return EL_EDbOperationStatusCode.FAILURE_DB_UNAVAILABLE;
 
 		return EL_EDbOperationStatusCode.SUCCESS;

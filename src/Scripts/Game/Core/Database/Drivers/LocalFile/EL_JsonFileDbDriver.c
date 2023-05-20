@@ -47,16 +47,16 @@ class EL_JsonFileDbDriver : EL_FileDbDriverBase
 	override protected EL_EDbOperationStatusCode ReadFromDisk(typename entityType, string entityId, out EL_DbEntity entity)
 	{
 		string file = string.Format("%1/%2.json", _GetTypeDirectory(entityType), entityId);
-		if (!FileIO.FileExist(file))
-			return EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND;
+		if (FileIO.FileExist(file))
+		{
+			SCR_JsonLoadContext reader();
+			if (!reader.LoadFromFile(file))
+				return EL_EDbOperationStatusCode.FAILURE_DB_UNAVAILABLE;
 
-		SCR_JsonLoadContext reader();
-		if (!reader.LoadFromFile(file))
-			return EL_EDbOperationStatusCode.FAILURE_DB_UNAVAILABLE;
-
-		entity = EL_DbEntity.Cast(entityType.Spawn());
-		if (!reader.ReadValue("", entity))
-			return EL_EDbOperationStatusCode.FAILURE_DATA_MALFORMED;
+			entity = EL_DbEntity.Cast(entityType.Spawn());
+			if (!reader.ReadValue("", entity))
+				return EL_EDbOperationStatusCode.FAILURE_DATA_MALFORMED;
+		}
 
 		return EL_EDbOperationStatusCode.SUCCESS;
 	}

@@ -77,11 +77,11 @@ class EL_Test_PersistentWorldEntityLoader_LoadAsync_Existing_Spawned : Persisten
 	[Step(EStage.Main)]
 	void Act()
 	{
-		EL_WorldEntityLoaderCallbackSingle callback(this, "Assert");
+		EL_DataCallbackSingle<IEntity> callback(this, "Assert");
 		EL_PersistentWorldEntityLoader.LoadAsync(EL_ItemSaveData, m_pExisting.GetPersistentId(), callback);
 	}
 
-	void Assert(Managed context, IEntity worldEntity)
+	void Assert(IEntity worldEntity, Managed context)
 	{
 		SetResult(new EL_TestResult(
 			worldEntity &&
@@ -153,11 +153,11 @@ class EL_Test_PersistentWorldEntityLoader_LoadAsync_MultiExisting_AllSpawned : E
 	[Step(EStage.Main)]
 	void Act()
 	{
-		EL_WorldEntityLoaderCallbackMultiple callback(this, "Assert");
+		EL_DataCallbackMultiple<IEntity> callback(this, "Assert");
 		EL_PersistentWorldEntityLoader.LoadAsync(EL_ItemSaveData, m_aIds, callback);
 	}
 
-	void Assert(Managed context, array<IEntity> worldEntities)
+	void Assert(array<IEntity> worldEntities, Managed context)
 	{
 		SetResult(new EL_TestResult(
 			worldEntities &&

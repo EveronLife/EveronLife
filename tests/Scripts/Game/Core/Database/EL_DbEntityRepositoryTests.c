@@ -32,7 +32,7 @@ class EL_Test_DbEntityRepositoryEntity : EL_DbEntity
 [EL_DbRepositoryType(EL_Test_DbEntityRepositoryEntityRepository, EL_Test_DbEntityRepositoryEntity)]
 class EL_Test_DbEntityRepositoryEntityRepository : EL_DbRepository<EL_Test_DbEntityRepositoryEntity>
 {
-	EL_DbFindResult<EL_Test_DbEntityRepositoryEntity> FindByIntValue(int value)
+	EL_DbFindResultSingle<EL_Test_DbEntityRepositoryEntity> FindByIntValue(int value)
 	{
 		return FindFirst(EL_DbFind.Field("m_iIntValue").Equals(value));
 	}
@@ -75,7 +75,7 @@ TestResultBase EL_Test_DbEntityRepository_Remove_ByInstance_Removed()
 	// Assert
 	EL_TestResult result(
 		statusCode == EL_EDbOperationStatusCode.SUCCESS &&
-		repository.Find("TEST0000-0000-0001-0000-000000000002").GetStatusCode() == EL_EDbOperationStatusCode.FAILURE_ID_NOT_FOUND);
+		!repository.Find("TEST0000-0000-0001-0000-000000000002").GetEntity());
 	
 	// Cleanup
 	repository.Remove(entity);

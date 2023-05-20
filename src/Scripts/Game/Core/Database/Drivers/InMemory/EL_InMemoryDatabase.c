@@ -11,31 +11,23 @@ class EL_InMemoryDatabase
 		EL_InMemoryDatabaseTable table = GetTable(entity.Type());
 
 		if (table)
-		{
 			table.Set(entity.GetId(), entity);
-		}
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Remove(notnull EL_DbEntity entity)
+	void Remove(typename entityType, string entityId)
 	{
-		EL_InMemoryDatabaseTable table = GetTable(entity.Type());
-
+		EL_InMemoryDatabaseTable table = GetTable(entityType);
 		if (table)
-		{
-			table.Remove(entity.GetId());
-		}
+			table.Remove(entityId);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	EL_DbEntity Get(typename entityType, string entityId)
 	{
 		EL_InMemoryDatabaseTable table = GetTable(entityType);
-
 		if (table)
-		{
 			return table.Get(entityId);
-		}
 
 		return null;
 	}
