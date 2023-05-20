@@ -61,14 +61,6 @@ class EL_DbFindResult<Class TEntityType> : EL_DbFindResultBase
 	}
 
 	//------------------------------------------------------------------------------------------------
-	TEntityType GetSuccessEntity()
-	{
-		if (m_eStatusCode != EL_EDbOperationStatusCode.SUCCESS) return null;
-
-		return m_pEntity;
-	}
-
-	//------------------------------------------------------------------------------------------------
 	void EL_DbFindResults(EL_EDbOperationStatusCode statusCode, TEntityType entity = null)
 	{
 		m_eStatusCode = statusCode;
@@ -83,11 +75,17 @@ class EL_DbOperationCallback : EL_Callback
 class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 {
 	//------------------------------------------------------------------------------------------------
-	void Invoke(EL_EDbOperationStatusCode code)
+	void OnSuccess(Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	void OnFailure(EL_EDbOperationStatusCode resultCode, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	sealed void Invoke(EL_EDbOperationStatusCode code)
 	{
 		if (m_pInvokeInstance &&
 			m_sInvokeMethod &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code)) return;
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, code, m_pContext)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
@@ -95,54 +93,55 @@ class EL_DbOperationStatusOnlyCallback : EL_DbOperationCallback
 		}
 		else
 		{
-			OnFailure(m_pContext, code);
+			OnFailure(code, m_pContext);
 		}
 	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnSuccess(Managed context);
-
-	//------------------------------------------------------------------------------------------------
-	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 };
 
 class EL_DbFindCallbackBase : EL_DbOperationCallback
 {
+	//------------------------------------------------------------------------------------------------
 	void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults);
 };
 
 class EL_DbFindCallback<Class TEntityType> : EL_DbFindCallbackBase
 {
 	//------------------------------------------------------------------------------------------------
-	override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	void OnSuccess(array<ref TEntityType> resultData, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	void OnFailure(EL_EDbOperationStatusCode resultCode, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	sealed override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		array<ref TEntityType> strongTypedResults = EL_RefArrayCaster<EL_DbEntity, TEntityType>.Convert(findResults);
 
 		if (m_pInvokeInstance &&
 			m_sInvokeMethod &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code, strongTypedResults)) return;
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, code, strongTypedResults, m_pContext)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
-			OnSuccess(m_pContext, strongTypedResults);
+			OnSuccess(strongTypedResults, m_pContext);
 		}
 		else
 		{
-			OnFailure(m_pContext, code);
+			OnFailure(code, m_pContext);
 		}
 	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnSuccess(Managed context, array<ref TEntityType> resultData);
-
-	//------------------------------------------------------------------------------------------------
-	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 };
 
 class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 {
 	//------------------------------------------------------------------------------------------------
-	override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	void OnSuccess(TEntityType resultData, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	void OnFailure(EL_EDbOperationStatusCode resultCode, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	sealed override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		TEntityType typedResult;
 
@@ -153,29 +152,29 @@ class EL_DbFindCallbackSingle<Class TEntityType> : EL_DbFindCallbackBase
 
 		if (m_pInvokeInstance &&
 			m_sInvokeMethod &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code, typedResult)) return;
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, code, typedResult, m_pContext)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
-			OnSuccess(m_pContext, typedResult);
+			OnSuccess(typedResult, m_pContext);
 		}
 		else
 		{
-			OnFailure(m_pContext, code);
+			OnFailure(code, m_pContext);
 		}
 	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnSuccess(Managed context, TEntityType resultData);
-
-	//------------------------------------------------------------------------------------------------
-	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 };
 
 class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 {
 	//------------------------------------------------------------------------------------------------
-	override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
+	void OnSuccess(TEntityType resultData, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	void OnFailure(EL_EDbOperationStatusCode resultCode, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	sealed override void Invoke(EL_EDbOperationStatusCode code, array<ref EL_DbEntity> findResults)
 	{
 		TEntityType typedResult;
 
@@ -191,21 +190,15 @@ class EL_DbFindCallbackSingleton<Class TEntityType> : EL_DbFindCallbackBase
 
 		if (m_pInvokeInstance &&
 			m_sInvokeMethod &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, code, typedResult)) return;
+			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, code, typedResult, m_pContext)) return;
 
 		if (code == EL_EDbOperationStatusCode.SUCCESS)
 		{
-			OnSuccess(m_pContext, typedResult);
+			OnSuccess(typedResult, m_pContext);
 		}
 		else
 		{
-			OnFailure(m_pContext, code);
+			OnFailure(code, m_pContext);
 		}
 	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnSuccess(Managed context, TEntityType resultData);
-
-	//------------------------------------------------------------------------------------------------
-	void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode);
 };

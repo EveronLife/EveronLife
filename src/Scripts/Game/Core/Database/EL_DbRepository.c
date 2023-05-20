@@ -18,7 +18,7 @@ class EL_DbRepositoryBase
 	//------------------------------------------------------------------------------------------------
 	//! Creation only through EL_DbRepositoryFactory::GetRepository
 	protected void EL_DbRepositoryBase();
-}
+};
 
 class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 {
@@ -28,7 +28,7 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 		return TEntityType;
 	}
 
-	// ---- Sync API (Best used with thread once working: https://feedback.bistudio.com/T167281) -----
+	// ------------------------------------ Sync API -------------------------------------------------
 
 	//------------------------------------------------------------------------------------------------
 	EL_EDbOperationStatusCode AddOrUpdate(notnull TEntityType entity)
@@ -53,7 +53,8 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 	{
 		EL_DbFindResult<TEntityType> findResult = FindFirst(EL_DbFind.Id().Equals(entityId));
 
-		if (!findResult.Success()) return findResult;
+		if (!findResult.Success())
+			return findResult;
 
 		if (!findResult.GetEntity())
 		{
@@ -68,7 +69,8 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 	{
 		EL_DbFindResult<TEntityType> findResult = FindFirst();
 
-		if (!findResult.Success() || findResult.GetEntity()) return findResult;
+		if (!findResult.Success() || findResult.GetEntity())
+			return findResult;
 
 		typename spawnType = TEntityType;
 		return new EL_DbFindResult<TEntityType>(EL_EDbOperationStatusCode.SUCCESS, TEntityType.Cast(spawnType.Spawn()));
@@ -154,4 +156,4 @@ class EL_DbRepository<Class TEntityType> : EL_DbRepositoryBase
 			Debug.Error(string.Format("Db repository '%1' created with entity type '%2' that does not inherit from '%3'. Results will be invalid!", this, TEntityType, EL_DbEntity));
 		}
 	}
-}
+};

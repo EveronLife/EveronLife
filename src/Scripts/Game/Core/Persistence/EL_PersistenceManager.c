@@ -48,7 +48,11 @@ class EL_PersistenceManager
 	//! \return true if persistence should be run, false otherwise.
 	static bool IsPersistenceMaster()
 	{
-		return GetGame().InPlayMode() && Replication.IsServer();
+		if (!Replication.IsServer())
+			return false;
+
+		ArmaReforgerScripted game = GetGame();
+		return game && game.InPlayMode();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -58,7 +62,8 @@ class EL_PersistenceManager
 	static EL_PersistenceManager GetInstance(bool create = true)
 	{
 		// Persistence logic only runs on the server machine
-		if (!IsPersistenceMaster()) return null;
+		if (!IsPersistenceMaster())
+			return null;
 
 		if (!s_pInstance && create)
 		{
@@ -107,7 +112,8 @@ class EL_PersistenceManager
 	//! \return registered entiy instance or null on failure
 	IEntity SpawnWorldEntity(EL_EntitySaveData saveData, bool isRoot = true)
 	{
-		if (!saveData || !saveData.GetId()) return null;
+		if (!saveData || !saveData.GetId())
+			return null;
 
 		Resource resource = Resource.Load(saveData.m_rPrefab);
 		if (!resource.IsValid())
@@ -139,9 +145,16 @@ class EL_PersistenceManager
 	//! \return registered scripted state instance or null on failure
 	EL_PersistentScriptedState SpawnScriptedState(EL_ScriptedStateSaveData saveData)
 	{
-		if (!saveData || !saveData.GetId()) return null;
+		if (!saveData || !saveData.GetId())
+			return null;
 
 		typename scriptedStateType = EL_PersistentScriptedStateSettings.GetScriptedStateType(saveData.Type());
+		if (!scriptedStateType.IsInherited(EL_PersistentScriptedState))
+		{
+			Debug.Error(string.Format("Can not spawn '%1' because it is only a proxy for '%2' instances. Use EL_PersistentScriptedState.CreateProxy instead.", saveData.ClassName(), scriptedStateType.ToString()));
+			return null;
+		}
+
 		EL_PersistentScriptedState state = EL_PersistentScriptedState.Cast(scriptedStateType.Spawn());
 		if (!state)
 		{
@@ -149,7 +162,8 @@ class EL_PersistenceManager
 			return null;
 		}
 
-		if (!state.Load(saveData)) return null;
+		if (!state.Load(saveData))
+			return null;
 
 		return state;
 	}
@@ -466,7 +480,15 @@ class EL_PersistenceManager
 	{
 		if (!id) id = GetPersistentId(scripedState);
 
-		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(scripedState);
+		Managed target;
+		EL_PersistentScriptedStateProxy proxy = EL_PersistentScriptedStateProxy.Cast(scripedState);
+		if (proxy)
+			target = proxy.m_pProxyTarget;
+		
+		if (!target)
+			target = scripedState;
+		
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
 
 		if (settings.m_eSaveType == EL_ESaveType.INTERVAL_SHUTDOWN)
 		{
@@ -662,6 +684,7 @@ class EL_PersistenceManager
 		EL_PersistenceIdGenerator.Reset();
 		EL_DefaultPrefabItemsInfo.Reset();
 		EL_EntitySlotPrefabInfo.Reset();
+		EL_PersistentScriptedStateProxy.s_mProxies = null;
 		s_pInstance = null;
 	}
 };

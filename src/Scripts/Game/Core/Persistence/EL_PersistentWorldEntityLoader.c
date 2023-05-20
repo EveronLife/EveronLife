@@ -28,7 +28,7 @@ class EL_PersistentWorldEntityLoader
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(typename, string)
-	static void LoadAsync(typename saveDataType, string persistentId, EL_WorldEntityLoaderCallbackSingle callback = null)
+	static void LoadAsync(typename saveDataType, string persistentId, EL_DataCallbackSingle<IEntity> callback = null)
 	{
 		EL_WorldEntityLoaderProcessorCallbackSingle processorCallback();
 		processorCallback.Setup(callback);
@@ -37,7 +37,7 @@ class EL_PersistentWorldEntityLoader
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(string, string)
-	static void LoadAsync(string prefab, string persistentId, EL_WorldEntityLoaderCallbackSingle callback = null)
+	static void LoadAsync(string prefab, string persistentId, EL_DataCallbackSingle<IEntity> callback = null)
 	{
 		typename type = GetSaveDataType(prefab); // Can not be inlined because of typename crash bug
 		LoadAsync(type, persistentId, callback);
@@ -85,7 +85,7 @@ class EL_PersistentWorldEntityLoader
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(typename, array<string>)
-	static void LoadAsync(typename saveDataType, array<string> persistentIds = null, EL_WorldEntityLoaderCallbackMultiple callback = null)
+	static void LoadAsync(typename saveDataType, array<string> persistentIds = null, EL_DataCallbackMultiple<IEntity> callback = null)
 	{
 		EL_WorldEntityLoaderProcessorCallbackMultiple processorCallback();
 		processorCallback.Setup(callback);
@@ -101,7 +101,7 @@ class EL_PersistentWorldEntityLoader
 
 	//------------------------------------------------------------------------------------------------
 	//! see Load(string, array<string>)
-	static void LoadAsync(string prefab, array<string> persistentIds = null, EL_WorldEntityLoaderCallbackMultiple callback = null)
+	static void LoadAsync(string prefab, array<string> persistentIds = null, EL_DataCallbackMultiple<IEntity> callback = null)
 	{
 		typename type = GetSaveDataType(prefab); // Can not be inlined because of typename crash bug
 		LoadAsync(type, persistentIds, callback);
@@ -143,62 +143,27 @@ class EL_PersistentWorldEntityLoader
 	}
 };
 
-class EL_WorldEntityLoaderCallback : EL_Callback
-{
-};
-
-class EL_WorldEntityLoaderCallbackSingle : EL_WorldEntityLoaderCallback
-{
-	//------------------------------------------------------------------------------------------------
-	void Invoke(IEntity data)
-	{
-		if (m_pInvokeInstance &&
-			m_sInvokeMethod &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, data)) return;
-
-		OnComplete(m_pContext, data);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnComplete(Managed context, IEntity data);
-};
-
-class EL_WorldEntityLoaderCallbackMultiple : EL_WorldEntityLoaderCallback
-{
-	//------------------------------------------------------------------------------------------------
-	void Invoke(array<IEntity> data)
-	{
-		if (m_pInvokeInstance &&
-			m_sInvokeMethod &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext, data)) return;
-
-		OnComplete(m_pContext, data);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void OnComplete(Managed context, array<IEntity> data);
-};
-
 class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_EntitySaveData>
 {
-	ref EL_WorldEntityLoaderCallbackSingle m_pOuterCallback;
+	ref EL_DataCallbackSingle<IEntity> m_pOuterCallback;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnSuccess(Managed context, EL_EntitySaveData resultData)
+	override void OnSuccess(EL_EntitySaveData resultData, Managed context)
 	{
-		IEntity resultWorldEntity;
-		if (resultData) resultWorldEntity = EL_PersistenceManager.GetInstance().SpawnWorldEntity(resultData);
-		if (m_pOuterCallback) m_pOuterCallback.Invoke(resultWorldEntity);
+		IEntity resultWorldEntity = EL_PersistenceManager.GetInstance().SpawnWorldEntity(resultData);
+		if (m_pOuterCallback) 
+			m_pOuterCallback.Invoke(resultWorldEntity);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode)
+	override void OnFailure(EL_EDbOperationStatusCode resultCode, Managed context)
 	{
-		if (m_pOuterCallback) m_pOuterCallback.Invoke(null);
+		if (m_pOuterCallback) 
+			m_pOuterCallback.Invoke(null);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Setup(EL_WorldEntityLoaderCallbackSingle outerCallback)
+	void Setup(EL_DataCallbackSingle<IEntity> outerCallback)
 	{
 		m_pOuterCallback = outerCallback;
 	}
@@ -206,10 +171,10 @@ class EL_WorldEntityLoaderProcessorCallbackSingle : EL_DbFindCallbackSingle<EL_E
 
 class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_EntitySaveData>
 {
-	ref EL_WorldEntityLoaderCallbackMultiple m_pOuterCallback;
+	ref EL_DataCallbackMultiple<IEntity> m_pOuterCallback;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnSuccess(Managed context, array<ref EL_EntitySaveData> resultData)
+	override void OnSuccess(array<ref EL_EntitySaveData> resultData, Managed context)
 	{
 		array<IEntity> resultEntities();
 
@@ -224,17 +189,19 @@ class EL_WorldEntityLoaderProcessorCallbackMultiple : EL_DbFindCallback<EL_Entit
 			}
 		}
 
-		if (m_pOuterCallback) m_pOuterCallback.Invoke(resultEntities);
+		if (m_pOuterCallback) 
+			m_pOuterCallback.Invoke(resultEntities);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnFailure(Managed context, EL_EDbOperationStatusCode resultCode)
+	override void OnFailure(EL_EDbOperationStatusCode resultCode, Managed context)
 	{
-		if (m_pOuterCallback) m_pOuterCallback.Invoke(new array<IEntity>());
+		if (m_pOuterCallback) 
+			m_pOuterCallback.Invoke(new array<IEntity>());
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void Setup(EL_WorldEntityLoaderCallbackMultiple outerCallback)
+	void Setup(EL_DataCallbackMultiple<IEntity> outerCallback)
 	{
 		m_pOuterCallback = outerCallback;
 	}

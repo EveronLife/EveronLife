@@ -6,11 +6,9 @@ class EL_Callback
 	string m_sInvokeMethod;
 
 	//------------------------------------------------------------------------------------------------
-	void Invoke()
+	sealed void Invoke()
 	{
-		if (m_pInvokeInstance &&
-			m_sInvokeMethod &&
-			GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext)) return;
+		GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, m_pContext);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -19,5 +17,39 @@ class EL_Callback
 		m_pInvokeInstance = invokeInstance;
 		m_sInvokeMethod = invokeMethod;
 		m_pContext = context;
+	}
+};
+
+class EL_DataCallbackSingle<Class T> : EL_Callback
+{
+	//------------------------------------------------------------------------------------------------
+	void OnComplete(T data, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	sealed void Invoke(T data)
+	{
+		if (!m_pInvokeInstance ||
+			!m_sInvokeMethod ||
+			!GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, data, m_pContext))
+		{
+			OnComplete(data, m_pContext);
+		}
+	}
+};
+
+class EL_DataCallbackMultiple<Class T> : EL_Callback
+{
+	//------------------------------------------------------------------------------------------------
+	void OnComplete(array<T> data, Managed context);
+
+	//------------------------------------------------------------------------------------------------
+	sealed void Invoke(array<T> data)
+	{
+		if (!m_pInvokeInstance ||
+			!m_sInvokeMethod ||
+			!GetGame().GetScriptModule().Call(m_pInvokeInstance, m_sInvokeMethod, true, null, data, m_pContext))
+		{
+			OnComplete(data, m_pContext);
+		}
 	}
 };

@@ -6,9 +6,10 @@ class EL_PersistenceEntityHelper<Class TEntityType>
 	static EL_DbRepository<TEntityType> GetRepository()
 	{
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		if (!persistenceManager) return null;
+		if (!persistenceManager)
+			return null;
 
-		typename repositoryType = EL_DbRepositoryType.Get(TEntityType); // Can not be inlined or else illegal read happens because of bug in scriptvm.
+		typename repositoryType = EL_DbRepositoryType.Get(TEntityType);
 		if (!repositoryType)
 		{
 			string repositoryTypeStr = string.Format("EL_DbRepository<%1>", TEntityType);
@@ -17,7 +18,7 @@ class EL_PersistenceEntityHelper<Class TEntityType>
 
 		return EL_DbRepository<TEntityType>.Cast(EL_DbRepositoryFactory.GetRepository(repositoryType, persistenceManager.GetDbContext()));
 	}
-}
+};
 
 class EL_PersistenceRepositoryHelper<Class TRepositoryType>
 {
@@ -27,8 +28,9 @@ class EL_PersistenceRepositoryHelper<Class TRepositoryType>
 	static TRepositoryType Get()
 	{
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
-		if (!persistenceManager) return null;
-		
+		if (!persistenceManager)
+			return null;
+
 		return TRepositoryType.Cast(EL_DbRepositoryFactory.GetRepository(TRepositoryType, persistenceManager.GetDbContext()));
 	}
-}
+};

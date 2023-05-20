@@ -72,16 +72,16 @@ class EL_PlayerAccountManager
 	{
 		m_mAccounts = new map<string, ref EL_PlayerAccount>()
 	}
-}
+};
 
-class EL_PlayerAccountManagerProcessorCallback : EL_ScriptedStateLoaderCallbackSingle<EL_PlayerAccount>
+class EL_PlayerAccountManagerProcessorCallback : EL_DataCallbackSingle<EL_PlayerAccount>
 {
 	string m_sPlayerUid
 	bool m_bCreate;
 	ref EL_PlayerAccountCallback m_pCallback;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnComplete(Managed context, EL_PlayerAccount data)
+	override void OnComplete(EL_PlayerAccount data, Managed context)
 	{
 		EL_PlayerAccount result = data; //Keep explicit strong ref to it or else create on null will fail
 		if (!result && m_bCreate) result = EL_PlayerAccount.Create(m_sPlayerUid);
@@ -98,8 +98,8 @@ class EL_PlayerAccountManagerProcessorCallback : EL_ScriptedStateLoaderCallbackS
 		instance.m_pCallback = callback;
 		return instance;
 	}
-}
+};
 
-class EL_PlayerAccountCallback : EL_ScriptedStateLoaderCallbackSingle<EL_PlayerAccount>
+class EL_PlayerAccountCallback : EL_DataCallbackSingle<EL_PlayerAccount>
 {
-}
+};

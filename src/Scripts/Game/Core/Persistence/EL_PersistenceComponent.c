@@ -1,7 +1,7 @@
 [ComponentEditorProps(category: "EveronLife/Core/Persistence", description: "Used to make an entity persistent.")]
 sealed class EL_PersistenceComponentClass : ScriptComponentClass
 {
-	[Attribute(defvalue: "2", uiwidget: UIWidgets.ComboBox, desc: "Should the entity be saved automatically and if so only on shutdown or regulary.\nThe interval is configured in the persitence manager component on your game mode.", enums: ParamEnumArray.FromEnum(EL_ESaveType))]
+	[Attribute(defvalue: EL_ESaveType.INTERVAL_SHUTDOWN.ToString(), uiwidget: UIWidgets.ComboBox, desc: "Should the entity be saved automatically and if so only on shutdown or regulary.\nThe interval is configured in the persitence manager component on your game mode.", enums: ParamEnumArray.FromEnum(EL_ESaveType))]
 	EL_ESaveType m_eSaveType;
 
 	[Attribute(defvalue: "0", desc: "If enabled a copy of the last save-data is kept to compare against, so the databse is updated only if there are any differences to what is already persisted.\nHelps to reduce expensive database calls at the cost of additional base line memeory allocation.")]
@@ -38,16 +38,21 @@ sealed class EL_PersistenceComponentClass : ScriptComponentClass
 sealed class EL_PersistenceComponent : ScriptComponent
 {
 	private string m_sId;
+
 	private int m_iLastSaved;
+
 	[NonSerialized()]
 	private EL_EPersistenceFlags m_eFlags;
 
 	[NonSerialized()]
-	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnBeforePersist;
+	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterSave;
+
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterPersist;
+
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnBeforeLoad;
+
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistenceComponent, EL_EntitySaveData> m_pOnAfterLoad;
 
@@ -101,12 +106,12 @@ sealed class EL_PersistenceComponent : ScriptComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Event invoker for when the save-data was created but was not yet persisted to the database.
+	//! Event invoker for when the save-data was read but was not yet persisted to the database.
 	//! Args(EL_PersistenceComponent, EL_EntitySaveData)
-	ScriptInvoker GetOnBeforePersistEvent()
+	ScriptInvoker GetOnAfterSaveEvent()
 	{
-		if (!m_pOnBeforePersist) m_pOnBeforePersist = new ScriptInvoker();
-		return m_pOnBeforePersist;
+		if (!m_pOnAfterSave) m_pOnAfterSave = new ScriptInvoker();
+		return m_pOnAfterSave;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -175,8 +180,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			return null;
 		}
 
-		if (m_pOnBeforePersist)
-			m_pOnBeforePersist.Invoke(this, saveData);
+		if (m_pOnAfterSave)
+			m_pOnAfterSave.Invoke(this, saveData);
 
 		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 

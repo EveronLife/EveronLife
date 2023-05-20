@@ -1,16 +1,21 @@
 class EL_PersistentScriptedState
 {
 	private string m_sId;
+
 	private int m_iLastSaved;
+
 	[NonSerialized()]
 	private EL_EPersistenceFlags m_eFlags;
 
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistentScriptedState, EL_ScriptedStateSaveData> m_pOnAfterSave;
+
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistentScriptedState, EL_ScriptedStateSaveData> m_pOnAfterPersist;
+
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistentScriptedState, EL_ScriptedStateSaveData> m_pOnBeforeLoad;
+
 	[NonSerialized()]
 	private ref ScriptInvoker<EL_PersistentScriptedState, EL_ScriptedStateSaveData> m_pOnAfterLoad;
 
@@ -55,7 +60,7 @@ class EL_PersistentScriptedState
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Event invoker for when the save-data was created but was not yet persisted to the database.
+	//! Event invoker for when the save-data was read but was not yet persisted to the database.
 	//! Args(EL_PersistentScriptedState, EL_ScriptedStateSaveData)
 	ScriptInvoker GetOnAfterSaveEvent()
 	{
@@ -73,7 +78,7 @@ class EL_PersistentScriptedState
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Event invoker for when the save-data is about to be loaded/applied to the entity.
+	//! Event invoker for when the save-data is about to be loaded/applied to the cripted state.
 	//! Args(EL_PersistentScriptedState, EL_ScriptedStateSaveData)
 	ScriptInvoker GetOnBeforeLoadEvent()
 	{
@@ -82,7 +87,7 @@ class EL_PersistentScriptedState
 	}
 
 	//------------------------------------------------------------------------------------------------
-	//! Event invoker for when the save-data was loaded/applied to the entity.
+	//! Event invoker for when the save-data was loaded/applied to the scripted state.
 	//! Args(EL_PersistentScriptedState, EL_ScriptedStateSaveData)
 	ScriptInvoker GetOnAfterLoadEvent()
 	{
@@ -99,13 +104,28 @@ class EL_PersistentScriptedState
 
 		SetPersistentId(saveData.GetId());
 
-		if (!saveData.ApplyTo(this))
+		Managed target;
+		EL_PersistentScriptedStateProxy proxy = EL_PersistentScriptedStateProxy.Cast(this);
+		if (proxy)
+			target = proxy.m_pProxyTarget;
+
+		if (!target)
+		{
+			target = this; // No proxy
+		}
+		else
+		{
+			// extract in case of proxy as "this" does not get save-data applied
+			m_iLastSaved = saveData.m_iLastSaved;
+		}
+
+		if (!saveData.ApplyTo(target))
 		{
 			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to entity.", saveData.Type().ToString(), saveData.GetId()));
 			return false;
 		}
 
-		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
 		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER))
 			m_mLastSaveData.Set(this, saveData);
 
@@ -138,12 +158,26 @@ class EL_PersistentScriptedState
 
 		m_iLastSaved = System.GetUnixTime();
 
-		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+		Managed target;
+		EL_PersistentScriptedStateProxy proxy = EL_PersistentScriptedStateProxy.Cast(this);
+		if (proxy)
+			target = proxy.m_pProxyTarget;
+
+		if (!target)
+			target = this;
+
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
 		EL_ScriptedStateSaveData saveData = EL_ScriptedStateSaveData.Cast(settings.m_tSaveDataType.Spawn());
-		if (!saveData || !saveData.ReadFrom(this))
+		if (!saveData || !saveData.ReadFrom(target))
 		{
-			Debug.Error(string.Format("Failed to persist scripted state '%1'. Save-data could not be read.", this));
+			Debug.Error(string.Format("Failed to persist scripted state '%1'. Save-data could not be read.", target));
 			return null;
+		}
+
+		if (proxy)
+		{
+			saveData.SetId(m_sId);
+			saveData.m_iLastSaved = m_iLastSaved;
 		}
 
 		if (m_pOnAfterSave)
@@ -172,7 +206,15 @@ class EL_PersistentScriptedState
 		// Only attempt to remove it if it was ever saved
 		if (m_sId && m_iLastSaved > 0)
 		{
-			EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+			Managed target;
+			EL_PersistentScriptedStateProxy proxy = EL_PersistentScriptedStateProxy.Cast(this);
+			if (proxy)
+				target = proxy.m_pProxyTarget;
+
+			if (!target)
+				target = this;
+
+			EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
 			EL_PersistenceManager.GetInstance().GetDbContext().RemoveAsync(settings.m_tSaveDataType, m_sId);
 		}
 
@@ -183,16 +225,32 @@ class EL_PersistentScriptedState
 	//------------------------------------------------------------------------------------------------
 	void EL_PersistentScriptedState()
 	{
-		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
+		Managed target;
+		EL_PersistentScriptedStateProxy proxy = EL_PersistentScriptedStateProxy.Cast(this);
+		if (proxy)
+		{
+			// Yes this code is dirty as fuck, but no better way to not leak the properties into base class.
+			// can't make them private or else they are not available in EL_PersistentScriptedStateProxy
+			// and on protected they become available in inherited as intended for non proxies, which is also bad.
+			// And I want to do the settings validation on ctor
+			target = proxy.s_pNextProxyTarget;
+			proxy.m_pProxyTarget = target;
+			proxy.s_pNextProxyTarget = null;
+		}
+
+		if (!target)
+			target = this;
+
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
 		if (!settings)
 		{
-			Debug.Error(string.Format("Missing settings annotation for scripted state type '%1'.", Type()));
+			Debug.Error(string.Format("Missing settings annotation for scripted state type '%1'.", target.Type()));
 			return;
 		}
 
 		if (!settings.m_tSaveDataType || settings.m_tSaveDataType == EL_ScriptedStateSaveData)
 		{
-			Debug.Error(string.Format("Missing or invalid save-data type on persistend scripted state '%1'. State will not be persisted!", this));
+			Debug.Error(string.Format("Missing or invalid save-data type on persistend scripted state '%1'. State will not be persisted!", target));
 			return;
 		}
 
@@ -216,9 +274,123 @@ class EL_PersistentScriptedState
 
 		if (EL_BitFlags.CheckFlags(m_eFlags, EL_EPersistenceFlags.PAUSE_TRACKING)) return;
 
-		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(Type());
-		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.SELF_DELETE)) Delete();
+		Managed target;
+		EL_PersistentScriptedStateProxy proxy = EL_PersistentScriptedStateProxy.Cast(this);
+		if (proxy)
+			target = proxy.m_pProxyTarget;
+
+		if (!target)
+			target = this;
+
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
+		if (EL_BitFlags.CheckFlags(settings.m_eOptions, EL_EPersistentScriptedStateOptions.SELF_DELETE))
+			Delete();
 	}
+};
+
+class EL_PersistentScriptedStateProxy : EL_PersistentScriptedState
+{
+	static ref map<Managed, ref EL_PersistentScriptedStateProxy> s_mProxies;
+
+	static Managed s_pNextProxyTarget;
+
+	Managed m_pProxyTarget;
+
+	//------------------------------------------------------------------------------------------------
+	//! Create a proxy for a manged class you can't add a base class to.
+	//! Will attempt restore last known state immediately
+	//! \param targetInstance proxy target instance
+	//! \param id Unique id to find save data for the target. Singleton is assumed if left empty.
+	static EL_PersistentScriptedStateProxy Create(notnull Managed targetInstance, string id = string.Empty)
+	{
+		return CreateEx(targetInstance, id, false, null);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Asynchronously Create a proxy for a manged class you can't add a base class to.
+	//! Will attempt restore last known state but loading can take time.
+	//! \param targetInstance proxy target instance
+	//! \param id Unique id to find save data for the target. Singleton is assumed if left empty.
+	//! \param callback Use the callback to handle the save-data load event
+	static EL_PersistentScriptedStateProxy CreateAsync(notnull Managed targetInstance, string id = string.Empty, EL_DataCallbackSingle<EL_ScriptedStateSaveData> callback = null)
+	{
+		return CreateEx(targetInstance, id, true, callback);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//!
+	protected static EL_PersistentScriptedStateProxy CreateEx(
+		notnull Managed targetInstance,
+		string id,
+		bool async,
+		EL_DataCallbackSingle<EL_ScriptedStateSaveData> callback)
+	{
+		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(targetInstance.Type());
+		if (!settings.m_tSaveDataType || targetInstance.IsInherited(EL_PersistentScriptedState))
+			return null;
+
+		s_pNextProxyTarget = targetInstance;
+		EL_PersistentScriptedStateProxy proxy();
+
+		EL_DbFindCondition condition;
+		if (id)
+			condition = EL_DbFind.Id().Equals(id);
+
+		if (async)
+		{
+			Tuple2<EL_PersistentScriptedStateProxy, EL_DataCallbackSingle<EL_ScriptedStateSaveData>> context(proxy, callback);
+			
+			EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(
+				settings.m_tSaveDataType,
+				condition,
+				limit: 1,
+				callback: new EL_PersistentScriptedStateProxyCreateCallback(context: context));
+		}
+		else
+		{
+			array<ref EL_DbEntity> findResults = EL_PersistenceManager
+				.GetInstance()
+				.GetDbContext()
+				.FindAll(settings.m_tSaveDataType, condition, limit: 1)
+				.GetEntities();
+
+			if (findResults && !findResults.IsEmpty())
+			{
+				EL_ScriptedStateSaveData saveData = EL_ScriptedStateSaveData.Cast(findResults.Get(0));
+				if (saveData && !proxy.Load(saveData))
+					return null;
+			}
+		}
+
+		if (!s_mProxies)
+			s_mProxies = new map<Managed, ref EL_PersistentScriptedStateProxy>();
+
+		s_mProxies.Set(targetInstance, proxy);
+
+		return proxy;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Get proxy instance for the given target
+	static EL_PersistentScriptedStateProxy Get(notnull Managed targetInstance)
+	{
+		if (!s_mProxies)
+			return null;
+
+		return s_mProxies.Get(targetInstance);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Destory the proxy on destruction of the target instance to avoid any mem leaks.
+	static void Destory(notnull Managed targetInstance)
+	{
+		if (s_mProxies)
+			s_mProxies.Remove(targetInstance);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	//! Use Create instead
+	protected void EL_PersistentScriptedStateProxy();
 };
 
 class EL_ScriptedStateSaveData : EL_MetaDataDbEntity
@@ -226,7 +398,7 @@ class EL_ScriptedStateSaveData : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	//! Reads the save-data from the scripted state
 	//! \return EL_EReadResult.OK if save-data could be read, ERROR if something failed, DEFAULT if the data could be trimmed
-	EL_EReadResult ReadFrom(notnull EL_PersistentScriptedState scriptedState)
+	EL_EReadResult ReadFrom(notnull Managed scriptedState)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(scriptedState, this);
 	}
@@ -240,7 +412,7 @@ class EL_ScriptedStateSaveData : EL_MetaDataDbEntity
 
 	//------------------------------------------------------------------------------------------------
 	//! Applies the save-data to the scripted state
-	EL_EApplyResult ApplyTo(notnull EL_PersistentScriptedState scriptedState)
+	EL_EApplyResult ApplyTo(notnull Managed scriptedState)
 	{
 		return EL_DbEntityUtils.StructAutoCopy(this, scriptedState);
 	}
@@ -273,12 +445,14 @@ class EL_PersistentScriptedStateSettings
 	//------------------------------------------------------------------------------------------------
 	static EL_PersistentScriptedStateSettings Get(typename scriptedStateType)
 	{
-		if (!s_mSettings) return null;
+		if (!s_mSettings)
+			return null;
+
 		return s_mSettings.Get(scriptedStateType);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static EL_PersistentScriptedStateSettings Get(EL_PersistentScriptedState scriptedState)
+	static EL_PersistentScriptedStateSettings Get(Managed scriptedState)
 	{
 		return Get(scriptedState.Type());
 	}
@@ -286,19 +460,22 @@ class EL_PersistentScriptedStateSettings
 	//------------------------------------------------------------------------------------------------
 	static typename GetScriptedStateType(typename saveDataType)
 	{
-		if (!s_mReverseMapping) return typename.Empty;
+		if (!s_mReverseMapping)
+			return typename.Empty;
+
 		return s_mReverseMapping.Get(saveDataType);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_PersistentScriptedStateSettings(typename scriptedStateType, EL_ESaveType saveType = EL_ESaveType.SHUTDOWN, EL_EPersistentScriptedStateOptions options = 0)
+	void EL_PersistentScriptedStateSettings(
+		typename scriptedStateType,
+		EL_ESaveType saveType = EL_ESaveType.INTERVAL_SHUTDOWN,
+		EL_EPersistentScriptedStateOptions options = 3) // Have to combine into nuber because enscript can't combine mask as const expression here ...
 	{
 		typename saveDataType = EL_ReflectionUtils.GetAttributeParent();
 
 		if (!saveDataType.IsInherited(EL_ScriptedStateSaveData))
-		{
 			Debug.Error(string.Format("Failed to register '%1' as persistence save struct for '%2'. '%1' must inherit from '%3'.", saveDataType, scriptedStateType, EL_ScriptedStateSaveData));
-		}
 
 		if (!s_mSettings)
 		{
@@ -319,5 +496,17 @@ class EL_PersistentScriptedStateSettings
 
 		s_mSettings.Set(scriptedStateType, this);
 		s_mReverseMapping.Set(saveDataType, scriptedStateType);
+	}
+};
+
+class EL_PersistentScriptedStateProxyCreateCallback : EL_DbFindCallbackSingle<EL_ScriptedStateSaveData>
+{
+	//------------------------------------------------------------------------------------------------
+	override void OnSuccess(EL_ScriptedStateSaveData resultData, Managed context)
+	{
+		auto contextTyped = Tuple2<EL_PersistentScriptedStateProxy, EL_DataCallbackSingle<EL_ScriptedStateSaveData>>.Cast(context);
+		
+		if (resultData && contextTyped.param1.Load(resultData))
+			contextTyped.param2.Invoke(resultData);
 	}
 };

@@ -21,7 +21,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Handles the account information found for the player
-	protected void OnAccountLoaded(Managed context, EL_PlayerAccount account)
+	protected void OnAccountLoaded(EL_PlayerAccount account, Managed context)
 	{
 		Tuple2<int, string> playerInfo = Tuple2<int, string>.Cast(context);
 
@@ -42,7 +42,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Handles the character data found for the players account
-	protected void OnCharacterDataLoaded(Managed context, EL_EDbOperationStatusCode statusCode, EL_CharacterSaveData characterData)
+	protected void OnCharacterDataLoaded(EL_EDbOperationStatusCode statusCode, EL_CharacterSaveData characterData, Managed context)
 	{
 		/*
 			TODO: Use respawn component system for pre spawn communication with player so they can choose the char to spawn with and where potentially
