@@ -20,7 +20,7 @@ sealed class EL_PersistenceComponentClass : ScriptComponentClass
 	ref EL_EntitySaveDataClass m_pSaveData;
 
 	// Derived from shared initialization
-	typename m_tSaveDataTypename;
+	typename m_tSaveDataType;
 
 	//------------------------------------------------------------------------------------------------
 	static override bool DependsOn(string className)
@@ -168,7 +168,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		IEntity owner = GetOwner();
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		EL_EntitySaveData saveData = EL_EntitySaveData.Cast(settings.m_tSaveDataTypename.Spawn());
+		EL_EntitySaveData saveData = EL_EntitySaveData.Cast(settings.m_tSaveDataType.Spawn());
 		if (saveData)
 			readResult = saveData.ReadFrom(owner, settings.m_pSaveData);
 
@@ -210,7 +210,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		{
 			// Was previously saved as storage root but now is not anymore, so the toplevel db entry has to be deleted.
 			// The save-data will be present inside the storage parent instead.
-			persistenceManager.RemoveAsync(settings.m_tSaveDataTypename, GetPersistentId());
+			// Remove immediately so that on e.g. a web driver there is no delete call coming for an id that was previously saved as child
+			persistenceManager.RemoveAsync(settings.m_tSaveDataType, m_sId);
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 		}
 
@@ -289,7 +290,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 			EL_BitFlags.ClearFlags(m_eFlags, EL_EPersistenceFlags.PERSISTENT_RECORD);
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 			EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(GetOwner()));
-			persistenceManager.EnqueueRemoval(settings.m_tSaveDataTypename, m_sId, settings.m_eSaveType);
+			persistenceManager.EnqueueRemoval(settings.m_tSaveDataType, m_sId, settings.m_eSaveType);
 		}
 
 		m_sId = string.Empty;
@@ -304,7 +305,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 
 		// Init and validate settings on shared class-class instance once
 		EL_PersistenceComponentClass settings = EL_PersistenceComponentClass.Cast(GetComponentData(owner));
-		if (!settings.m_tSaveDataTypename)
+		if (!settings.m_tSaveDataType)
 		{
 			if (!settings.m_pSaveData || settings.m_pSaveData.Type() == EL_EntitySaveDataClass)
 			{
@@ -314,7 +315,7 @@ sealed class EL_PersistenceComponent : ScriptComponent
 				return;
 			}
 
-			settings.m_tSaveDataTypename = EL_Utils.TrimEnd(settings.m_pSaveData.ClassName(), 5).ToType();
+			settings.m_tSaveDataType = EL_Utils.TrimEnd(settings.m_pSaveData.ClassName(), 5).ToType();
 
 			// Collect and validate component save data types
 			array<typename> componentSaveDataTypes();

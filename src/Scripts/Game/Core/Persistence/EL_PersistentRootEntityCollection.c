@@ -32,11 +32,11 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void ForceSelfSpawn(EL_PersistenceComponent persistenceComponent, string persistentId, EL_PersistenceComponentClass settings)
 	{
-		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
+		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataType);
 		if (!ids)
 		{
 			ids = {};
-			m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataTypename, ids);
+			m_mSelfSpawnDynamicEntities.Set(settings.m_tSaveDataType, ids);
 		}
 
 		ids.Insert(persistentId);
@@ -54,14 +54,14 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 		}
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataTypename);
+		array<string> ids = m_mSelfSpawnDynamicEntities.Get(settings.m_tSaveDataType);
 		if (!ids)
 			return;
 
 		ids.RemoveItem(persistentId);
 
 		if (ids.IsEmpty())
-			m_mSelfSpawnDynamicEntities.Remove(settings.m_tSaveDataTypename);
+			m_mSelfSpawnDynamicEntities.Remove(settings.m_tSaveDataType);
 	}
 
 	//------------------------------------------------------------------------------------------------

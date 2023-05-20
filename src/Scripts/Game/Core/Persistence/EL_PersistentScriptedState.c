@@ -201,6 +201,7 @@ class EL_PersistentScriptedState
 
 	//------------------------------------------------------------------------------------------------
 	//! Delete the persistence data of this scripted state. Does not delete the state instance itself.
+	//! Note: Will be immediate on EL_ESaveType.MANUAL, otherwise happens on auto/shutdown save.
 	void Delete()
 	{
 		// Only attempt to remove it if it was ever saved
@@ -215,7 +216,7 @@ class EL_PersistentScriptedState
 				target = this;
 
 			EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
-			EL_PersistenceManager.GetInstance().GetDbContext().RemoveAsync(settings.m_tSaveDataType, m_sId);
+			EL_PersistenceManager.GetInstance().EnqueueRemoval(settings.m_tSaveDataType, m_sId, settings.m_eSaveType);
 		}
 
 		m_sId = string.Empty;
@@ -339,7 +340,7 @@ class EL_PersistentScriptedStateProxy : EL_PersistentScriptedState
 		if (async)
 		{
 			Tuple2<EL_PersistentScriptedStateProxy, EL_DataCallbackSingle<EL_ScriptedStateSaveData>> context(proxy, callback);
-			
+
 			EL_PersistenceManager.GetInstance().GetDbContext().FindAllAsync(
 				settings.m_tSaveDataType,
 				condition,
@@ -505,7 +506,7 @@ class EL_PersistentScriptedStateProxyCreateCallback : EL_DbFindCallbackSingle<EL
 	override void OnSuccess(EL_ScriptedStateSaveData resultData, Managed context)
 	{
 		auto contextTyped = Tuple2<EL_PersistentScriptedStateProxy, EL_DataCallbackSingle<EL_ScriptedStateSaveData>>.Cast(context);
-		
+
 		if (resultData && contextTyped.param1.Load(resultData))
 			contextTyped.param2.Invoke(resultData);
 	}

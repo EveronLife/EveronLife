@@ -362,7 +362,7 @@ class EL_PersistenceManager
 						m_mRootAutoSave.Remove(id);
 
 						if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD))
-							m_mRootAutoSaveCleanup.Set(id, settings.m_tSaveDataTypename);
+							m_mRootAutoSaveCleanup.Set(id, settings.m_tSaveDataType);
 					}
 					m_mUncategorizedEntities.Set(id, persistenceComponent);
 				}
@@ -384,7 +384,7 @@ class EL_PersistenceManager
 						m_mRootShutdown.Remove(id);
 
 						if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PERSISTENT_RECORD))
-							m_mRootShutdownCleanup.Set(id, settings.m_tSaveDataTypename);
+							m_mRootShutdownCleanup.Set(id, settings.m_tSaveDataType);
 					}
 					m_mUncategorizedEntities.Set(id, persistenceComponent);
 				}
@@ -484,18 +484,20 @@ class EL_PersistenceManager
 		EL_PersistentScriptedStateProxy proxy = EL_PersistentScriptedStateProxy.Cast(scripedState);
 		if (proxy)
 			target = proxy.m_pProxyTarget;
-		
+
 		if (!target)
 			target = scripedState;
-		
+
 		EL_PersistentScriptedStateSettings settings = EL_PersistentScriptedStateSettings.Get(target.Type());
 
 		if (settings.m_eSaveType == EL_ESaveType.INTERVAL_SHUTDOWN)
 		{
+			m_mRootAutoSaveCleanup.Remove(id);
 			m_mScriptedStateAutoSave.Set(id, scripedState);
 		}
 		else if (settings.m_eSaveType == EL_ESaveType.SHUTDOWN)
 		{
+			m_mRootShutdownCleanup.Remove(id);
 			m_mScriptedStateShutdown.Set(id, scripedState);
 		}
 		else
@@ -603,12 +605,12 @@ class EL_PersistenceManager
 		foreach (string id, EL_PersistenceComponent persistenceComponent : m_mBakedRoots)
 		{
 			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
-			array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataTypename);
+			array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataType);
 
 			if (!loadIds)
 			{
 				loadIds = {};
-				bulkLoad.Set(settings.m_tSaveDataTypename, loadIds);
+				bulkLoad.Set(settings.m_tSaveDataType, loadIds);
 			}
 
 			loadIds.Insert(id);
