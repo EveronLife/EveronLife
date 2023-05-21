@@ -43,7 +43,9 @@ class EL_BaseSceneNameProxyEntity : GenericEntity
 	//------------------------------------------------------------------------------------------------
 	protected void FindTarget(BaseContainer src = null, float radius = 1.0)
 	{
+		#ifdef WORKBENCH
 		m_pTarget = null;
+		#endif
 		if (src && (!src.Get("m_rTarget", m_rTarget) || !m_rTarget))
 		{
 			#ifdef WORKBENCH
