@@ -11,10 +11,25 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	//------------------------------------------------------------------------------------------------
 	override void OnPlayerRegistered(int playerId)
 	{
-		if (!m_pGameMode.IsMaster())
+		// On dedicated servers we need to wait for OnPlayerAuditSuccess instead for the real UID to be available
+		if (m_pGameMode.IsMaster() && (RplSession.Mode() != RplMode.Dedicated))
+			OnUidAvailable(playerId);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void OnPlayerAuditSuccess(int playerId)
+	{
+		if (m_pGameMode.IsMaster())
+			OnUidAvailable(playerId);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void OnUidAvailable(int playerId)
+	{
+		string playerUid = EL_Utils.GetPlayerUID(playerId);
+		if (!playerUid)
 			return;
 
-		string playerUid = EL_Utils.GetPlayerUID(playerId);
 		EL_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", new Tuple2<int, string>(playerId, playerUid));
 		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(playerUid, true, callback);
 	}

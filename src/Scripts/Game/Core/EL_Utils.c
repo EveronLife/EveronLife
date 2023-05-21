@@ -8,7 +8,7 @@ class EL_Utils
 	{
 		if (!Replication.IsServer())
 		{
-			Debug.Error("GetPlayerUID can only be used on the server.");
+			Debug.Error("GetPlayerUID can only be used on the server and after OnPlayerAuditSuccess.");
 			return string.Empty;
 		}
 
@@ -18,11 +18,10 @@ class EL_Utils
 			if (RplSession.Mode() == RplMode.Dedicated)
 			{
 				Debug.Error("Dedicated server is not correctly configuted to connect to the BI backend.\nSee https://community.bistudio.com/wiki/Arma_Reforger:Server_Hosting#gameHostRegisterBindAddress");
+				return string.Empty;
 			}
-			else
-			{
-				uid = string.Format("LOCAL_UID_%1", playerId);
-			}
+
+			uid = string.Format("LOCAL_UID_%1", playerId);
 		}
 
 		return uid;
