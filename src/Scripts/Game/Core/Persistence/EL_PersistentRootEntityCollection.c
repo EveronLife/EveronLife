@@ -1,6 +1,9 @@
 [EL_DbName("RootEntityCollection")]
 class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 {
+	[NonSerialized()]
+	ref set<string> m_aPossibleBackedRootEntities = new set<string>();
+
 	ref set<string> m_aRemovedBackedRootEntities = new set<string>();
 	ref map<typename, ref array<string>> m_mSelfSpawnDynamicEntities = new map<typename, ref array<string>>();
 
@@ -8,16 +11,12 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	void Add(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
 		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
-			return;
-
-		if (state == EL_EPersistenceManagerState.ACTIVE)
 		{
 			// TODO refactor to use https://feedback.bistudio.com/T172042 when patched
 			int idx = m_aRemovedBackedRootEntities.Find(persistentId);
 			if (idx != -1)
 			{
 				m_aRemovedBackedRootEntities.Remove(idx);
-				persistenceComponent.FlagAsBaked();
 				return;
 			}
 		}
@@ -45,11 +44,10 @@ class EL_PersistentRootEntityCollection : EL_MetaDataDbEntity
 	//------------------------------------------------------------------------------------------------
 	void Remove(EL_PersistenceComponent persistenceComponent, string persistentId, EL_EPersistenceManagerState state)
 	{
-		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
+		if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED) &&
+			m_aPossibleBackedRootEntities.Contains(persistentId))
 		{
-			if (state == EL_EPersistenceManagerState.ACTIVE)
-				m_aRemovedBackedRootEntities.Insert(persistentId);
-
+			m_aRemovedBackedRootEntities.Insert(persistentId);
 			return;
 		}
 

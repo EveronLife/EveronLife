@@ -50,7 +50,10 @@ class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 				EL_BitFlags.CheckFlags(slotPersistence.GetFlags(), EL_EPersistenceFlags.BAKED) &&
 				readResult == EL_EReadResult.DEFAULT)
 			{
-				continue;
+				// Ignore only if no parent or parent is also baked
+				EL_PersistenceComponent parentPersistence = EL_Component<EL_PersistenceComponent>.Find(owner.GetParent());
+				if (!parentPersistence || EL_BitFlags.CheckFlags(parentPersistence.GetFlags(), EL_EPersistenceFlags.BAKED))
+					continue;
 			}
 
 			EL_PersistentInventoryStorageSlot persistentSlot();

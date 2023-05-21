@@ -228,7 +228,7 @@ class EL_PersistenceManager
 			EL_PersistenceComponent persistenceComponent = m_mRootAutoSave.GetIteratorElement(m_iAutoSaveEntityIt);
 			m_iAutoSaveEntityIt = m_mRootAutoSave.Next(m_iAutoSaveEntityIt);
 
-			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING)) 
+			if (EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING))
 				continue;
 
 			persistenceComponent.Save();
@@ -246,7 +246,7 @@ class EL_PersistenceManager
 			EL_PersistentScriptedState scriptedState = m_mScriptedStateAutoSave.GetIteratorElement(m_iAutoSaveScriptedStateIt);
 			m_iAutoSaveScriptedStateIt = m_mScriptedStateAutoSave.Next(m_iAutoSaveScriptedStateIt);
 
-			if (EL_BitFlags.CheckFlags(scriptedState.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING)) 
+			if (EL_BitFlags.CheckFlags(scriptedState.GetFlags(), EL_EPersistenceFlags.PAUSE_TRACKING))
 				continue;
 
 			scriptedState.Save();
@@ -339,9 +339,16 @@ class EL_PersistenceManager
 	string Register(notnull EL_PersistenceComponent persistenceComponent, string id = string.Empty)
 	{
 		IEntity owner = persistenceComponent.GetOwner();
-		if (!owner) return string.Empty;
+		if (!owner)
+			return string.Empty;
 
-		if (!id) id = GetPersistentId(persistenceComponent);
+		if (!id)
+			id = GetPersistentId(persistenceComponent);
+
+		// "Hacky" restore of baked status.
+		// If id no longer provides this info, record all ids created up until world init and remember those as baked to check here.
+		if (id.StartsWith("0000"))
+			persistenceComponent.FlagAsBaked();
 
 		EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 		bool isRoot = EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.ROOT);
@@ -413,18 +420,30 @@ class EL_PersistenceManager
 	//------------------------------------------------------------------------------------------------
 	void UpdateRootEntityCollection(notnull EL_PersistenceComponent persistenceComponent, string id, bool isRootEntity)
 	{
+		if (m_eState != EL_EPersistenceManagerState.ACTIVE)
+		{
+			if (m_mBakedRoots && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
+			{
+				if (isRootEntity)
+				{
+					m_mBakedRoots.Set(id, persistenceComponent);
+				}
+				else
+				{
+					m_mBakedRoots.Remove(id);
+				}
+			}
+
+			return;
+		}
+
 		if (isRootEntity)
 		{
 			m_pRootEntityCollection.Add(persistenceComponent, id, m_eState);
-
-			if (m_mBakedRoots && EL_BitFlags.CheckFlags(persistenceComponent.GetFlags(), EL_EPersistenceFlags.BAKED))
-				m_mBakedRoots.Set(id, persistenceComponent);
 		}
 		else
 		{
 			m_pRootEntityCollection.Remove(persistenceComponent, id, m_eState);
-			if (m_mBakedRoots)
-				m_mBakedRoots.Remove(id);
 		}
 	}
 
@@ -610,6 +629,9 @@ class EL_PersistenceManager
 		}
 		foreach (string id, EL_PersistenceComponent persistenceComponent : m_mBakedRoots)
 		{
+			// Remember which ids were world roots on load finish so only those are removed on parent change.
+			m_pRootEntityCollection.m_aPossibleBackedRootEntities.Insert(id);
+
 			EL_PersistenceComponentClass settings = EL_ComponentData<EL_PersistenceComponentClass>.Get(persistenceComponent);
 			array<string> loadIds = bulkLoad.Get(settings.m_tSaveDataType);
 
