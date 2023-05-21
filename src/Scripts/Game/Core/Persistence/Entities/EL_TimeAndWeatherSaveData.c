@@ -3,6 +3,7 @@ class EL_TimeAndWeatherSaveDataClass : EL_EntitySaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_TimeAndWeatherSaveData : EL_EntitySaveData
 {
 	string m_sWeatherState;

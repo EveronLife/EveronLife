@@ -3,6 +3,7 @@ class EL_BaseMuzzleComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_BaseMuzzleComponentSaveData : EL_ComponentSaveData
 {
 	EMuzzleType m_eMuzzleType;

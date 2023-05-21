@@ -3,6 +3,7 @@ class EL_TurretControllerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_TurretControllerComponentSaveData : EL_ComponentSaveData
 {
 	float m_fYaw;

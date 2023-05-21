@@ -3,6 +3,7 @@ class EL_WeaponSlotComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_WeaponSlotComponentSaveData : EL_ComponentSaveData
 {
 	int m_iSlotIndex;

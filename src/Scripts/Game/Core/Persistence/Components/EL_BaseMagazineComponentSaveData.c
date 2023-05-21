@@ -3,6 +3,7 @@ class EL_BaseMagazineComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 {
 	int m_iAmmoCount;

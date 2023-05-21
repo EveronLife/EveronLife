@@ -5,6 +5,7 @@ class EL_HitZoneContainerComponentSaveDataClass : EL_ComponentSaveDataClass
 	ref array<string> m_aHitzoneFilter;
 };
 
+[EL_DbName.Automatic()]
 class EL_HitZoneContainerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentHitZone> m_aHitzones;

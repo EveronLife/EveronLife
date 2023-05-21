@@ -3,6 +3,7 @@ class EL_BaseInventoryStorageComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_BaseInventoryStorageComponentSaveData : EL_ComponentSaveData
 {
 	int m_iPriority;

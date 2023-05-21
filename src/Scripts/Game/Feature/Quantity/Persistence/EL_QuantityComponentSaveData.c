@@ -3,6 +3,7 @@ class EL_QuantityComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_QuantityComponentSaveData : EL_ComponentSaveData
 {
 	int m_iQuantity;

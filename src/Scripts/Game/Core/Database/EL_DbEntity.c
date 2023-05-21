@@ -42,68 +42,65 @@ class EL_DbEntity
 
 class EL_DbName
 {
+	protected static const string AUTO_GENERATE = "AUTO_GENERATE";
+
 	protected static ref map<typename, string> s_mMapping;
-
-	//------------------------------------------------------------------------------------------------
-	static void Set(typename entityType, string name)
-	{
-		if (!s_mMapping)
-			s_mMapping = new map<typename, string>();
-
-		s_mMapping.Set(entityType, name);
-	}
+	protected static ref map<string, typename> s_mReverseMapping;
 
 	//------------------------------------------------------------------------------------------------
 	static string Get(typename entityType)
 	{
-		if (!entityType) return string.Empty;
+		if (s_mMapping)
+			return s_mMapping.Get(entityType);
 
-		if (!s_mMapping)
-			s_mMapping = new map<typename, string>();
-
-		string result = s_mMapping.Get(entityType);
-
-		if (result.IsEmpty())
-		{
-			result = entityType.ToString();
-
-			int tagIdx = result.IndexOf("_");
-			if (tagIdx != -1 && (tagIdx + 1) < result.Length()) ///AAA_
-				result = result.Substring(tagIdx + 1, result.Length() - (tagIdx + 1));
-
-			if (result.StartsWith("Base"))
-				result = result.Substring(4, result.Length() - 4);
-
-			if (result.EndsWith("SaveData"))
-				result = result.Substring(0, result.Length() - 8);
-
-			s_mMapping.Set(entityType, result);
-		}
-
-		return result;
+		return entityType.ToString();
 	}
 
 	//------------------------------------------------------------------------------------------------
 	static typename GetTypeByName(string name)
 	{
-		if (!s_mMapping)
-			s_mMapping = new map<typename, string>();
+		if (s_mReverseMapping)
+			return s_mReverseMapping.Get(name);
 
-		typename result = s_mMapping.GetKeyByValue(name);
-
-		if (!result)
-		{
-			result = name.ToType();
-			s_mMapping.Set(result, name);
-		}
-
-		return result;
+		return name.ToType();
 	}
 
 	//------------------------------------------------------------------------------------------------
-	void EL_DbName(string name)
+	static EL_DbName Automatic()
 	{
-		typename dbEntityType = EL_ReflectionUtils.GetAttributeParent();
-		Set(dbEntityType, name);
+		return new EL_DbName(AUTO_GENERATE);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	void EL_DbName(string name = AUTO_GENERATE)
+	{
+		typename entityType = EL_ReflectionUtils.GetAttributeParent();
+
+		if (!s_mMapping)
+			s_mMapping = new map<typename, string>();
+
+		if (!s_mReverseMapping)
+			s_mReverseMapping = new map<string, typename>();
+
+		if (name == AUTO_GENERATE)
+		{
+			name = entityType.ToString();
+
+			int tagIdx = name.IndexOf("_");
+			if (tagIdx != -1 && (tagIdx + 1) < name.Length())
+				name = name.Substring(tagIdx + 1, name.Length() - (tagIdx + 1));
+
+			if (name.StartsWith("Base"))
+				name = name.Substring(4, name.Length() - 4);
+
+			if (name.EndsWith("SaveData"))
+				name = name.Substring(0, name.Length() - 8);
+
+			s_mMapping.Set(entityType, name);
+			s_mReverseMapping.Set(name, entityType);
+		}
+
+		s_mMapping.Set(entityType, name);
+		s_mReverseMapping.Set(name, entityType);
 	}
 };

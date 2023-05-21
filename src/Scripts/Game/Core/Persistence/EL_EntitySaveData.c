@@ -313,7 +313,7 @@ class EL_EntitySaveData : EL_MetaDataDbEntity
 		if (!saveContext.IsValid()) return false;
 
 		bool isJson = ContainerSerializationSaveContext.Cast(saveContext).GetContainer().IsInherited(BaseJsonSerializationSaveContainer);
-		
+
 		SerializeMetaData(saveContext);
 
 		// Prefab
@@ -566,3 +566,4 @@ class EL_ComponentSaveDataGetter<Class T>
 		return T.Cast(componentsSaveData[0]);
 	}
 };
+

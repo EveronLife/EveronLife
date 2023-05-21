@@ -91,7 +91,8 @@ class EL_ComponentSaveDataType : BaseContainerCustomTitle
 			Debug.Error(string.Format("Failed to register '%1' as persistence save-data type for '%2'. '%1' must follow xyzClass naming convention.", saveDataType));
 		}
 
-		if (!s_mMapping) s_mMapping = new map<typename, typename>();
+		if (!s_mMapping)
+			s_mMapping = new map<typename, typename>();
 
 		s_mMapping.Set(saveDataType, componentType);
 

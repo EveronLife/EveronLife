@@ -3,6 +3,7 @@ class EL_CarControllerSaveDataClass : EL_VehicleControllerSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_CarControllerSaveData : EL_VehicleControllerSaveData
 {
 	bool m_bHandBrake;

@@ -5,6 +5,7 @@ class EL_CharacterInventoryStorageComponentSaveDataClass : EL_BaseInventoryStora
 	int m_iMaxQuickbarSaveTime;
 };
 
+[EL_DbName.Automatic()]
 class EL_CharacterInventoryStorageComponentSaveData : EL_BaseInventoryStorageComponentSaveData
 {
 	ref array<ref EL_PersistentQuickSlotItem> m_aQuickSlotEntities;

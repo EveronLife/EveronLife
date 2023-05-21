@@ -3,6 +3,7 @@ class EL_FuelManagerComponentSaveDataClass : EL_ComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_FuelManagerComponentSaveData : EL_ComponentSaveData
 {
 	ref array<ref EL_PersistentFuelNode> m_aFuelNodes;

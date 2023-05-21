@@ -3,6 +3,7 @@ class EL_MuzzleInMagComponentSaveDataClass : EL_BaseMuzzleComponentSaveDataClass
 {
 };
 
+[EL_DbName.Automatic()]
 class EL_MuzzleInMagComponentSaveData : EL_BaseMuzzleComponentSaveData
 {
 	//------------------------------------------------------------------------------------------------
