@@ -18,7 +18,8 @@ class EL_BaseMagazineComponentSaveData : EL_ComponentSaveData
 		if (magazine.IsUsed())
 		{
 			BaseMuzzleComponent parentMuzzle = EL_Component<BaseMuzzleComponent>.Find(owner.GetParent());
-			maxAmmo -= parentMuzzle.GetBarrelsCount();
+			if (parentMuzzle)
+				maxAmmo -= parentMuzzle.GetBarrelsCount();
 		}
 
 		if (m_iAmmoCount >= maxAmmo)
