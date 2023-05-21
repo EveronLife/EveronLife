@@ -15,7 +15,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 			return;
 
 		string playerUid = EL_Utils.GetPlayerUID(playerId);
-		EL_PlayerAccountCallback callback(this, "OnAccountLoaded", new Tuple2<int, string>(playerId, playerUid));
+		EL_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", new Tuple2<int, string>(playerId, playerUid));
 		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(playerUid, true, callback);
 	}
 
@@ -25,7 +25,9 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	{
 		Tuple2<int, string> playerInfo = Tuple2<int, string>.Cast(context);
 
-		if (account.m_aCharacterIds.IsEmpty())
+		EL_PlayerCharacter activeCharacter = account.GetActiveCharacter();
+
+		if (!activeCharacter)
 		{
 			// New account, skip to new character spawn
 			m_pRespawnSystem.PrepareCharacter(playerInfo.param1, null);
@@ -34,7 +36,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		}
 
 		// Load first available character until selection flow is implemented
-		string characterId = account.m_aCharacterIds.Get(0);
+		string characterId = activeCharacter.GetId();
 		Tuple3<int, string, string> characterContext(playerInfo.param1, playerInfo.param2, characterId);
 		EL_DbFindCallbackSingle<EL_CharacterSaveData> characterDataCallback(this, "OnCharacterDataLoaded", characterContext);
 		EL_PersistenceEntityHelper<EL_CharacterSaveData>.GetRepository().FindAsync(characterId, characterDataCallback);
@@ -56,9 +58,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		Tuple3<int, string, string> characterInfo = Tuple3<int, string, string>.Cast(context);
 
 		if (!characterData)
-		{
 			Print(string.Format("Failed to load existing character '%1' from account '%2'.", characterInfo.param3, characterInfo.param2), LogLevel.ERROR);
-		}
 
 		// Prepare spawn data buffer with last known player data (null for fresh accounts) and queue player for spawn
 		m_pRespawnSystem.PrepareCharacter(characterInfo.param1, characterData);
@@ -79,12 +79,11 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 
 		// Add the dead body root entity collection so it spawns back after restart for looting
 		EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(player);
-		persistence.ForceSelfSpawn();
-
-		// Delete the dead char from account
-		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(player);
-		if (account)
-			account.m_aCharacterIds.RemoveItem(persistence.GetPersistentId());
+		if (persistence)
+		{
+			persistence.SetPersistentId(string.Empty); // Force generation of new id for dead body
+			persistence.ForceSelfSpawn();
+		}
 
 		// Prepare and execute fresh character spawn
 		m_pRespawnSystem.PrepareCharacter(playerId, null);
@@ -99,6 +98,9 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 
 		m_sEnqueuedPlayers.RemoveItem(playerId);
 
+		EL_PlayerAccountManager accountManager = EL_PlayerAccountManager.GetInstance();
+		EL_PlayerAccount account = accountManager.GetFromCache(playerId);
+
 		IEntity player = m_pPlayerManager.GetPlayerController(playerId).GetControlledEntity();
 		if (player)
 		{
@@ -106,8 +108,26 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 			persistence.PauseTracking();
 			persistence.Save();
 		}
+		else if (account)
+		{
+			EL_PlayerCharacter character = account.GetActiveCharacter();
+			if (character)
+			{
+				IEntityComponentSource persistenceSource = SCR_BaseContainerTools.FindComponentSource(Resource.Load(character.GetPrefab()), EL_PersistenceComponent);
+				if (persistenceSource)
+				{
+					BaseContainer saveData = persistenceSource.GetObject("m_pSaveData");
+					if (saveData)
+					{
+						typename saveDataType = saveData.GetClassName().ToType();
+						EL_PersistenceManager.GetInstance().RemoveAsync(saveDataType, character.GetId());
+					}
+				}
+			}
+		}
 
-		EL_PlayerAccountManager.GetInstance().SaveAndReleaseAccount(EL_Utils.GetPlayerUID(playerId));
+		if (account)
+			accountManager.SaveAndReleaseAccount(account);
 	}
 
 	//------------------------------------------------------------------------------------------------

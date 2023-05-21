@@ -4,10 +4,15 @@ class EL_DbEntityUtils
 	static bool StructAutoCopy(notnull Managed from, notnull Class to)
 	{
 		SCR_JsonSaveContext writer();
-		writer.WriteValue("", from);
+		if (!writer.WriteValue("", from))
+			return false;
+
+		string data = writer.ExportToString();
 
 		SCR_JsonLoadContext reader();
-		reader.ImportFromString(writer.ExportToString());
+		if (!reader.ImportFromString(data))
+			return false;
+
 		return reader.ReadValue("", to);
 	}
-}
+};

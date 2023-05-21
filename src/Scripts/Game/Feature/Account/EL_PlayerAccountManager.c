@@ -8,7 +8,7 @@ class EL_PlayerAccountManager
 	//! \param playerUid The players Bohemia UID
 	//! \param create If true a new account will be created if none is found for the UID
 	//! \param callback Async callback to handle the result
-	void LoadAccountAsync(string playerUid, bool create, notnull EL_PlayerAccountCallback callback)
+	void LoadAccountAsync(string playerUid, bool create, notnull EL_DataCallbackSingle<EL_PlayerAccount> callback)
 	{
 		EL_PlayerAccount account = m_mAccounts.Get(playerUid);
 		if (account)
@@ -24,14 +24,11 @@ class EL_PlayerAccountManager
 	//------------------------------------------------------------------------------------------------
 	//! Save and pending changes on the account and release it from the manager. Used primarily on disconnect of player
 	//! \param playerUid The players Bohemia UID
-	void SaveAndReleaseAccount(string playerUid)
+	void SaveAndReleaseAccount(notnull EL_PlayerAccount account)
 	{
-		EL_PlayerAccount account = m_mAccounts.Get(playerUid);
-		if (!account) return;
-
 		account.PauseTracking();
 		account.Save();
-		m_mAccounts.Remove(playerUid);
+		m_mAccounts.Remove(account.GetPersistentId());
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -49,6 +46,12 @@ class EL_PlayerAccountManager
 	}
 
 	//------------------------------------------------------------------------------------------------
+	EL_PlayerAccount GetFromCache(int playerId)
+	{
+		return GetFromCache(EL_Utils.GetPlayerUID(playerId));
+	}
+
+	//------------------------------------------------------------------------------------------------
 	EL_PlayerAccount GetFromCache(IEntity player)
 	{
 		return GetFromCache(EL_Utils.GetPlayerUID(player));
@@ -57,7 +60,9 @@ class EL_PlayerAccountManager
 	//------------------------------------------------------------------------------------------------
 	static EL_PlayerAccountManager GetInstance()
 	{
-		if (!s_pInstance) s_pInstance = new EL_PlayerAccountManager();
+		if (!s_pInstance)
+			s_pInstance = new EL_PlayerAccountManager();
+
 		return s_pInstance;
 	}
 
@@ -78,19 +83,24 @@ class EL_PlayerAccountManagerProcessorCallback : EL_DataCallbackSingle<EL_Player
 {
 	string m_sPlayerUid
 	bool m_bCreate;
-	ref EL_PlayerAccountCallback m_pCallback;
+	ref EL_DataCallbackSingle<EL_PlayerAccount> m_pCallback;
 
 	//------------------------------------------------------------------------------------------------
 	override void OnComplete(EL_PlayerAccount data, Managed context)
 	{
 		EL_PlayerAccount result = data; //Keep explicit strong ref to it or else create on null will fail
-		if (!result && m_bCreate) result = EL_PlayerAccount.Create(m_sPlayerUid);
-		if (result) EL_PlayerAccountManager.GetInstance().AddToCache(result);
-		if (m_pCallback) m_pCallback.Invoke(result);
+		if (!result && m_bCreate)
+			result = EL_PlayerAccount.Create(m_sPlayerUid);
+
+		if (result)
+			EL_PlayerAccountManager.GetInstance().AddToCache(result);
+
+		if (m_pCallback)
+			m_pCallback.Invoke(result);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static EL_PlayerAccountManagerProcessorCallback Create(string playerUid, bool create, EL_PlayerAccountCallback callback)
+	static EL_PlayerAccountManagerProcessorCallback Create(string playerUid, bool create, EL_DataCallbackSingle<EL_PlayerAccount> callback)
 	{
 		EL_PlayerAccountManagerProcessorCallback instance();
 		instance.m_sPlayerUid = playerUid;
@@ -98,8 +108,4 @@ class EL_PlayerAccountManagerProcessorCallback : EL_DataCallbackSingle<EL_Player
 		instance.m_pCallback = callback;
 		return instance;
 	}
-};
-
-class EL_PlayerAccountCallback : EL_DataCallbackSingle<EL_PlayerAccount>
-{
 };

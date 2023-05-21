@@ -1,29 +1,52 @@
 [
-	EL_PersistentScriptedStateSettings(EL_PlayerAccount, saveType: EL_ESaveType.INTERVAL_SHUTDOWN, options: EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER), 
+	EL_PersistentScriptedStateSettings(EL_PlayerAccount, saveType: EL_ESaveType.INTERVAL_SHUTDOWN, options: EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER),
 	EL_DbName.Automatic()
 ]
 class EL_PlayerAccountSaveData : EL_ScriptedStateSaveData
 {
-	ref array<string> m_aCharacterIds;
+	ref array<ref EL_PlayerCharacter> m_aCharacters = {};
+	int m_iActiveCharacterIdx;
 
 	//------------------------------------------------------------------------------------------------
 	override bool Equals(notnull EL_ScriptedStateSaveData other)
 	{
 		EL_PlayerAccountSaveData otherData = EL_PlayerAccountSaveData.Cast(other);
 
-		if (m_aCharacterIds.Count() != otherData.m_aCharacterIds.Count())
+		if (m_iActiveCharacterIdx != otherData.m_iActiveCharacterIdx)
 			return false;
 
-		foreach (int idx, string characterId : m_aCharacterIds)
+		if (m_aCharacters.Count() != otherData.m_aCharacters.Count())
+			return false;
+
+		foreach (int idx, EL_PlayerCharacter character : m_aCharacters)
 		{
 			// Try same index first as they are likely to be the correct ones.
-			if (characterId == otherData.m_aCharacterIds.Get(idx))
+			if (IsCharacterEqual(character, otherData.m_aCharacters.Get(idx)))
 				continue;
 
-			if (!otherData.m_aCharacterIds.Contains(characterId))
+			bool found;
+			foreach (int compareIdx, EL_PlayerCharacter otherCharacter : otherData.m_aCharacters)
+			{
+				if (compareIdx == idx)
+					continue; // Already tried in idx direct compare
+
+				if (IsCharacterEqual(character, otherCharacter))
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
 				return false;
 		}
 
 		return true;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected bool IsCharacterEqual(EL_PlayerCharacter a, EL_PlayerCharacter b)
+	{
+		return (a.GetId() == b.GetId()) && (a.GetPrefab() == b.GetPrefab());
 	}
 };

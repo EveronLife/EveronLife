@@ -19,13 +19,16 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	{
 		GenericEntity playerEntity;
 
-		if (saveData && saveData.m_rPrefab)
+		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(playerId);
+		EL_PlayerCharacter activeCharacter = account.GetActiveCharacter();
+
+		if (saveData)
 		{
 			// Spawn character from data
 			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
 
 			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
-			playerEntity = DoSpawn(saveData.m_rPrefab, saveData.m_pTransformation.m_vOrigin, spawnAngles);
+			playerEntity = DoSpawn(activeCharacter.GetPrefab(), saveData.m_pTransformation.m_vOrigin, spawnAngles);
 
 			EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(playerEntity);
 			if (persistenceComponent)
@@ -49,10 +52,23 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 
 		if (!playerEntity)
 		{
-			if (m_aDefaultCharacterPrefabs.IsEmpty())
+			ResourceName charPrefab;
+			
+			if (activeCharacter)
 			{
-				Print("Could not create new character, no default prefabs configured. Go to EL_GameModeRoleplay > EL_RespawnSytemComponent and add at least one.", LogLevel.ERROR);
-				return;
+				charPrefab = activeCharacter.GetPrefab();
+			}
+			else
+			{
+				charPrefab = m_aDefaultCharacterPrefabs.GetRandomElement();
+				if (!charPrefab)
+				{
+					Print("Could not create new character, no default prefabs configured. Go to EL_GameModeRoleplay > EL_RespawnSytemComponent and add at least one.", LogLevel.ERROR);
+					return;
+				}
+				
+				activeCharacter = EL_PlayerCharacter.Create(charPrefab);
+				account.AddCharacter(activeCharacter, true);
 			}
 
 			vector position;
@@ -66,8 +82,6 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 			}
 
 			spawnPoint.GetPosAngles(position, angles);
-
-			ResourceName charPrefab = m_aDefaultCharacterPrefabs.GetRandomElement();
 
 			playerEntity = DoSpawn(charPrefab, position, angles);
 
@@ -89,18 +103,17 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 				}
 			}
 
-			// Add new character to account
-			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
-			if (!persistenceComponent)
+			EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(playerEntity);
+			if (persistenceComponent)
+			{
+				persistenceComponent.SetPersistentId(activeCharacter.GetId());
+			}
+			else
 			{
 				Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", charPrefab, EL_PersistenceComponent), LogLevel.ERROR);
 				SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
 				return;
 			}
-
-			// Add new character to account
-			EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(EL_Utils.GetPlayerUID(playerId));
-			if (account) account.m_aCharacterIds.Insert(persistenceComponent.GetPersistentId());
 
 			m_mPerparedCharacters.Set(playerId, playerEntity);
 		}
