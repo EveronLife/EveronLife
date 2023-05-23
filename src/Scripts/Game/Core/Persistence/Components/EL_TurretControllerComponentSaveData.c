@@ -28,24 +28,6 @@ class EL_TurretControllerComponentSaveData : EL_ComponentSaveData
 		m_fYaw = angles[0];
 		m_fPitch = angles[1];
 
-		vector initAiming;
-
-		// TODO: Remove this workaround once https://feedback.bistudio.com/T172138 is added
-		array<Managed> outComponents();
-		owner.FindComponents(WeaponSlotComponent, outComponents);
-		foreach (Managed componentRef : outComponents)
-		{
-			WeaponSlotComponent weaponSlot = WeaponSlotComponent.Cast(componentRef);
-			IEntity weaponEntity = weaponSlot.GetWeaponEntity();
-			TurretComponent weaponTurret = EL_Component<TurretComponent>.Find(weaponEntity);
-
-			if (weaponTurret == turret)
-			{
-				BaseContainer turretSource = weaponTurret.GetComponentSource(weaponEntity);
-				turretSource.Get("InitAiming", initAiming);
-			}
-		}
-
 		int defaultIdx;
 		BaseContainer weaponManagerSource = weaponManager.GetComponentSource(owner);
 		weaponManagerSource.Get("DefaultWeaponIndex", defaultIdx);
@@ -62,7 +44,7 @@ class EL_TurretControllerComponentSaveData : EL_ComponentSaveData
 			}
 		}
 
-		if (vector.Distance(angles, initAiming) <= 0.0001 && (m_iSelectedWeaponSlotIdx == defaultIdx))
+		if (vector.Distance(angles, turret.GetInitAiming()) <= 0.0001 && (m_iSelectedWeaponSlotIdx == defaultIdx))
 			return EL_EReadResult.DEFAULT;
 
 		return EL_EReadResult.OK;
@@ -71,8 +53,10 @@ class EL_TurretControllerComponentSaveData : EL_ComponentSaveData
 	//------------------------------------------------------------------------------------------------
 	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
+		// Need to push this 2 frames later because max angles are set on frame after turret spawned ...
+		EL_DeferredApplyResult.AddPending(this, "TurretControllerComponentSaveData::SetAimingAngles");
 		TurretControllerComponent turretController = TurretControllerComponent.Cast(component);
-		turretController.SetAimingAngles(m_fYaw * Math.DEG2RAD, m_fPitch * Math.DEG2RAD);
+		GetGame().GetCallqueue().Call(SetAimingAngles, turretController, m_fYaw * Math.DEG2RAD, m_fPitch * Math.DEG2RAD, true);
 
 		/*
 		TODO: Wait for https://feedback.bistudio.com/T172197 to be added so we can select the weapon from the manager
@@ -94,7 +78,21 @@ class EL_TurretControllerComponentSaveData : EL_ComponentSaveData
 		}
 		*/
 
-		return EL_EApplyResult.OK;
+		return EL_EApplyResult.AWAIT_COMPLETION;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void SetAimingAngles(TurretControllerComponent turretController, float yaw, float pitch, bool wait)
+	{
+		if (wait)
+		{
+			// Waiting for second frame ...
+			GetGame().GetCallqueue().Call(SetAimingAngles, turretController, yaw, pitch, false);
+			return;
+		}
+
+		turretController.SetAimingAngles(yaw, pitch);
+		EL_DeferredApplyResult.SetFinished(this, "TurretControllerComponentSaveData::SetAimingAngles");
 	}
 
 	//------------------------------------------------------------------------------------------------
