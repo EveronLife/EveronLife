@@ -14,7 +14,7 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 		SlotManagerComponent slotManager = SlotManagerComponent.Cast(component);
 
 		m_aSlots = {};
-		array<ref Tuple2<string, ResourceName>> slotinfos = EL_EntitySlotPrefabInfo.GetSlotInfos(owner, slotManager);
+		array<ref EL_EntitySlotPrefabInfo> slotinfos = EL_EntitySlotPrefabInfo.GetSlotInfos(owner, slotManager);
 
 		array<EntitySlotInfo> outSlotInfos();
 		slotManager.GetSlotInfos(outSlotInfos);
@@ -23,8 +23,8 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 			IEntity slotEntity = entitySlot.GetAttachedEntity();
 			ResourceName prefab = EL_Utils.GetPrefabName(slotEntity);
 
-			Tuple2<string, ResourceName> prefabInfo = slotinfos.Get(idx);
-			bool isPrefabMatch = prefab == prefabInfo.param2;
+			EL_EntitySlotPrefabInfo prefabInfo = slotinfos.Get(idx);
+			bool isPrefabMatch = prefab == prefabInfo.GetEnabledSlotPrefab();
 
 			EL_PersistenceComponent slotPersistence = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
 			if (!slotPersistence)
@@ -33,7 +33,7 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 				if (!isPrefabMatch)
 				{
 					EL_PersistentEntitySlot persistentSlot();
-					persistentSlot.m_sName = prefabInfo.param1;
+					persistentSlot.m_sName = prefabInfo.m_sName;
 					m_aSlots.Insert(persistentSlot);
 				}
 
@@ -46,9 +46,7 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 				return EL_EReadResult.ERROR;
 
 			// Read transform to see if slot uses OverrideTransformLS set.
-			EL_PersistenceComponentClass slotAttributes = EL_ComponentData<EL_PersistenceComponentClass>.Get(slotEntity);
-			if (saveData.m_pTransformation.ReadFrom(slotEntity, slotAttributes.m_pSaveData))
-				readResult = EL_EReadResult.OK;
+			ReadTransform(slotEntity, saveData, prefabInfo, readResult);
 
 			// We can safely ignore baked objects with default info on them, but anything else needs to be saved.
 			if (attributes.m_bTrimDefaults &&
@@ -60,7 +58,7 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 			}
 
 			EL_PersistentEntitySlot persistentSlot();
-			persistentSlot.m_sName = prefabInfo.param1;
+			persistentSlot.m_sName = prefabInfo.m_sName;
 			persistentSlot.m_pEntity = saveData;
 			m_aSlots.Insert(persistentSlot);
 		}
@@ -72,6 +70,34 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 	}
 
 	//------------------------------------------------------------------------------------------------
+	static void ReadTransform(IEntity slotEntity, EL_EntitySaveData saveData, EL_EntitySlotPrefabInfo prefabInfo, out EL_EReadResult readResult)
+	{
+		EL_PersistenceComponentClass slotAttributes = EL_ComponentData<EL_PersistenceComponentClass>.Get(slotEntity);
+		if (saveData.m_pTransformation.ReadFrom(slotEntity, slotAttributes.m_pSaveData))
+		{
+			if (saveData.m_pTransformation.m_vOrigin != EL_Const.VEC_INFINITY &&
+				vector.Distance(saveData.m_pTransformation.m_vOrigin, prefabInfo.m_vOffset) > 0.001)
+				readResult = EL_EReadResult.OK;
+
+			if (saveData.m_pTransformation.m_vAngles != EL_Const.VEC_INFINITY)
+			{
+				vector localFixedAngles = slotEntity.GetLocalAngles();
+				if (float.AlmostEqual(localFixedAngles[0], -180))
+					localFixedAngles[0] = 180;
+
+				if (float.AlmostEqual(localFixedAngles[1], -180))
+					localFixedAngles[1] = 180;
+
+				if (float.AlmostEqual(localFixedAngles[2], -180))
+					localFixedAngles[2] = 180;
+
+				if (vector.Distance(localFixedAngles, prefabInfo.m_vAngles) > 0.001)
+					readResult = EL_EReadResult.OK;
+			}
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
 	override EL_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EL_ComponentSaveDataClass attributes)
 	{
 		SlotManagerComponent slotManager = SlotManagerComponent.Cast(component);
@@ -79,78 +105,90 @@ class EL_SlotManagerComponentSaveData : EL_ComponentSaveData
 		array<EntitySlotInfo> outSlotInfos();
 		slotManager.GetSlotInfos(outSlotInfos);
 
-		array<ref Tuple2<string, ResourceName>> slotinfos = EL_EntitySlotPrefabInfo.GetSlotInfos(owner, slotManager);
+		array<ref EL_EntitySlotPrefabInfo> slotinfos = EL_EntitySlotPrefabInfo.GetSlotInfos(owner, slotManager);
+
+		EL_EApplyResult result = EL_EApplyResult.OK;
 
 		// TODO: Refactor to use find by name etc once we have https://feedback.bistudio.com/T171679
 		foreach (EL_PersistentEntitySlot slot : m_aSlots)
 		{
-			foreach (int idx, Tuple2<string, ResourceName> slotInfo : slotinfos)
+			foreach (int idx, EL_EntitySlotPrefabInfo slotInfo : slotinfos)
 			{
-				if (slotInfo.param1 == slot.m_sName)
+				if (slotInfo.m_sName == slot.m_sName)
 				{
-					EntitySlotInfo entitySlot = outSlotInfos.Get(idx);
-					IEntity slotEntity = entitySlot.GetAttachedEntity();
+					EL_EApplyResult slotResult = ApplySlot(outSlotInfos.Get(idx), slot.m_pEntity);
+					if (slotResult == EL_EApplyResult.ERROR)
+						return EL_EApplyResult.ERROR;
 
-					// If there is an tramsform override saved we need to consume it before load operations
-					EL_PersistentTransformation persistentTransform;
-					if (slot.m_pEntity)
-					{
-						persistentTransform = slot.m_pEntity.m_pTransformation;
-						slot.m_pEntity.m_pTransformation = null;
-					}
-
-					// Found matching entity, no need to spawn, just apply save-data
-					if (slot.m_pEntity &&
-						slotEntity &&
-						EL_Utils.GetPrefabName(slotEntity) == slot.m_pEntity.m_rPrefab)
-					{
-						EL_PersistenceComponent slotPersistence = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
-						if (slotPersistence && !slotPersistence.Load(slot.m_pEntity, false))
-							return EL_EApplyResult.ERROR;
-					}
-					else
-					{
-						// Slot did not match save-data, delete current entity on it
-						SCR_EntityHelper.DeleteEntityAndChildren(slotEntity);
-
-						if (!slot.m_pEntity)
-							continue;
-
-						// Spawn new entity and attach it
-						slotEntity = slot.m_pEntity.Spawn(false);
-						if (!slotEntity)
-							return EL_EApplyResult.ERROR;
-
-						entitySlot.AttachEntity(slotEntity);
-						if (entitySlot.GetAttachedEntity() != slotEntity)
-							return EL_EApplyResult.ERROR;
-					}
-
-					if (persistentTransform)
-					{
-						vector transform[4];
-
-						if (persistentTransform.m_vOrigin != EL_Const.VEC_INFINITY)
-							transform[3] = persistentTransform.m_vOrigin;
-
-						if (persistentTransform.m_vAngles != EL_Const.VEC_INFINITY)
-						{
-							Math3D.AnglesToMatrix(persistentTransform.m_vAngles, transform);
-						}
-						else
-						{
-							Math3D.MatrixIdentity3(transform);
-						}
-
-						if (persistentTransform.m_fScale != float.INFINITY)
-							SCR_Math3D.ScaleMatrix(transform, persistentTransform.m_fScale);
-
-						entitySlot.OverrideTransformLS(transform);
-					}
-
-					return EL_EApplyResult.OK;
+					if (slotResult == EL_EApplyResult.AWAIT_COMPLETION)
+						result = EL_EApplyResult.AWAIT_COMPLETION;
 				}
 			}
+		}
+
+		return result;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	static EL_EApplyResult ApplySlot(EntitySlotInfo entitySlot, EL_EntitySaveData saveData)
+	{
+		IEntity slotEntity = entitySlot.GetAttachedEntity();
+
+		// If there is an tramsform override saved we need to consume it before load operations
+		EL_PersistentTransformation persistentTransform;
+		if (saveData)
+		{
+			persistentTransform = saveData.m_pTransformation;
+			saveData.m_pTransformation = null;
+		}
+
+		// Found matching entity, no need to spawn, just apply save-data
+		if (saveData &&
+			slotEntity &&
+			EL_Utils.GetPrefabName(slotEntity) == saveData.m_rPrefab)
+		{
+			EL_PersistenceComponent slotPersistence = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
+			if (slotPersistence && !slotPersistence.Load(saveData, false))
+				return EL_EApplyResult.ERROR;
+		}
+		else
+		{
+			// Slot did not match save-data, delete current entity on it
+			SCR_EntityHelper.DeleteEntityAndChildren(slotEntity);
+
+			if (!saveData)
+				return EL_EApplyResult.OK;
+
+			// Spawn new entity and attach it
+			slotEntity = saveData.Spawn(false);
+			if (!slotEntity)
+				return EL_EApplyResult.ERROR;
+
+			entitySlot.AttachEntity(slotEntity);
+			if (entitySlot.GetAttachedEntity() != slotEntity)
+				return EL_EApplyResult.ERROR;
+		}
+
+		if (persistentTransform)
+		{
+			vector transform[4];
+
+			if (persistentTransform.m_vOrigin != EL_Const.VEC_INFINITY)
+				transform[3] = persistentTransform.m_vOrigin;
+
+			if (persistentTransform.m_vAngles != EL_Const.VEC_INFINITY)
+			{
+				Math3D.AnglesToMatrix(persistentTransform.m_vAngles, transform);
+			}
+			else
+			{
+				Math3D.MatrixIdentity3(transform);
+			}
+
+			if (persistentTransform.m_fScale != float.INFINITY)
+				SCR_Math3D.ScaleMatrix(transform, persistentTransform.m_fScale);
+
+			entitySlot.OverrideTransformLS(transform);
 		}
 
 		return EL_EApplyResult.OK;

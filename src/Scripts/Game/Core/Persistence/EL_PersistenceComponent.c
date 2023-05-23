@@ -421,10 +421,10 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		foreach (Managed componentRef : outComponents)
 		{
 			SlotManagerComponent slotManager = SlotManagerComponent.Cast(componentRef);
-			array<ref Tuple2<string, ResourceName>> slotinfos = EL_EntitySlotPrefabInfo.GetSlotInfos(parent, slotManager);
-			foreach (Tuple2<string, ResourceName> slotInfo : slotinfos)
+			array<ref EL_EntitySlotPrefabInfo> slotinfos = EL_EntitySlotPrefabInfo.GetSlotInfos(parent, slotManager);
+			foreach (EL_EntitySlotPrefabInfo slotInfo : slotinfos)
 			{
-				if (prefab == slotInfo.param2)
+				if (prefab == slotInfo.m_rPrefab)
 				{
 					OnParentAdded();
 					return;
@@ -434,7 +434,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		parent.FindComponents(BaseSlotComponent, outComponents);
 		foreach (Managed componentRef : outComponents)
 		{
-			if (prefab == EL_EntitySlotPrefabInfo.GetSlotPrefab(parent, BaseSlotComponent.Cast(componentRef)))
+			EL_EntitySlotPrefabInfo slotInfo = EL_EntitySlotPrefabInfo.GetSlotInfo(parent, BaseSlotComponent.Cast(componentRef));
+			if (prefab == slotInfo.GetEnabledSlotPrefab())
 			{
 				OnParentAdded();
 				return;
@@ -443,7 +444,8 @@ sealed class EL_PersistenceComponent : ScriptComponent
 		parent.FindComponents(WeaponSlotComponent, outComponents);
 		foreach (Managed componentRef : outComponents)
 		{
-			if (prefab == EL_EntitySlotPrefabInfo.GetSlotPrefab(parent, WeaponSlotComponent.Cast(componentRef)))
+			EL_EntitySlotPrefabInfo slotInfo = EL_EntitySlotPrefabInfo.GetSlotInfo(parent, WeaponSlotComponent.Cast(componentRef));
+			if (prefab == slotInfo.GetEnabledSlotPrefab())
 			{
 				OnParentAdded();
 				return;

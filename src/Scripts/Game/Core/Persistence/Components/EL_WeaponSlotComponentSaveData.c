@@ -15,8 +15,8 @@ class EL_WeaponSlotComponentSaveData : EL_ComponentSaveData
 		WeaponSlotComponent slot = WeaponSlotComponent.Cast(component);
 		IEntity slotEntity = slot.GetWeaponEntity();
 		ResourceName prefab = EL_Utils.GetPrefabName(slotEntity);
-		ResourceName slotPrefab = EL_EntitySlotPrefabInfo.GetSlotPrefab(owner, slot);
-		bool isPrefabMatch = prefab == slotPrefab;
+		EL_EntitySlotPrefabInfo prefabInfo = EL_EntitySlotPrefabInfo.GetSlotInfo(owner, slot);
+		bool isPrefabMatch = prefab == prefabInfo.GetEnabledSlotPrefab();
 
 		EL_PersistenceComponent slotPersistence = EL_Component<EL_PersistenceComponent>.Find(slotEntity);
 		if (!slotPersistence)
@@ -32,6 +32,8 @@ class EL_WeaponSlotComponentSaveData : EL_ComponentSaveData
 		EL_EntitySaveData saveData = slotPersistence.Save(readResult);
 		if (!saveData)
 			return EL_EReadResult.ERROR;
+
+		// Weapon slot does not expose any additive/override transform, so no need to touch it in save-data :)
 
 		// We can safely ignore baked objects with default info on them, but anything else needs to be saved.
 		if (attributes.m_bTrimDefaults &&
