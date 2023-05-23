@@ -1,3 +1,4 @@
+/*
 class EL_BufferedDbContext : EL_DbContext
 {
 	//------------------------------------------------------------------------------------------------
@@ -22,3 +23,4 @@ class EL_BufferedDbContext : EL_DbContext
 		m_Driver = new EL_DbDriverBufferWrapper(driver);
 	}
 };
+*/

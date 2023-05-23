@@ -90,54 +90,55 @@ class EL_FileDbDriverBase : EL_DbDriver
 	override EL_DbFindResultMultiple<EL_DbEntity> FindAll(typename entityType, EL_DbFindCondition condition = null, array<ref TStringArray> orderBy = null, int limit = -1, int offset = -1)
 	{
 		// See if we can only load selected few entities by id or we need the entire collection to search through
-		set<string> relevantIds();
+		set<string> loadIds(), skipIds();
 		bool needsFilter = false;
-		if (!condition || !EL_DbFindCondition.CollectConditionIds(condition, relevantIds))
+		if (!EL_DbFindCondition.CollectConditionIds(condition, loadIds, skipIds) || loadIds.IsEmpty() || !skipIds.IsEmpty())
 		{
 			// Condition(s) require more information than just ids so all need to be loaded and also filtered by condition
-			relevantIds = GetIdsByType(entityType);
+			loadIds = GetIdsByType(entityType, skipIds);
 			needsFilter = true;
 		}
 
 		array<ref EL_DbEntity> entities();
 
-		foreach (string entityId : relevantIds)
+		foreach (string entityId : loadIds)
 		{
 			EL_DbEntity entity;
 
-			if (m_bUseCache) entity = m_pEntityCache.Get(entityId);
+			if (m_bUseCache)
+				entity = m_pEntityCache.Get(entityId);
 
 			if (!entity)
 			{
 				EL_EDbOperationStatusCode statusCode = ReadFromDisk(entityType, entityId, entity);
 
-				if (statusCode != EL_EDbOperationStatusCode.SUCCESS || !entity) continue;
+				if (statusCode != EL_EDbOperationStatusCode.SUCCESS || !entity)
+					continue;
 
-				if (m_bUseCache) m_pEntityCache.Add(entity);
+				if (m_bUseCache)
+					m_pEntityCache.Add(entity);
 			}
 
 			entities.Insert(entity);
 		}
 
 		if (needsFilter && condition)
-		{
 			entities = EL_DbFindConditionEvaluator.GetFiltered(entities, condition);
-		}
 
 		if (orderBy)
-		{
 			entities = EL_DbEntitySorter.GetSorted(entities, orderBy);
-		}
 
 		array<ref EL_DbEntity> resultEntites();
 
 		foreach (int idx, EL_DbEntity entity : entities)
 		{
 			// Respect output limit is specified
-			if (limit != -1 && resultEntites.Count() >= limit) break;
+			if (limit != -1 && resultEntites.Count() >= limit)
+				break;
 
 			// Skip the first n records if offset specified (for paginated loading together with limit)
-			if (offset != -1 && idx < offset) continue;
+			if (offset != -1 && idx < offset)
+				continue;
 
 			resultEntites.Insert(entity);
 		}
@@ -150,7 +151,8 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		// FileIO is blocking, re-use sync api
 		EL_EDbOperationStatusCode resultCode = AddOrUpdate(entity);
-		if (callback) callback.Invoke(resultCode);
+		if (callback)
+			callback.Invoke(resultCode);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -158,7 +160,8 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		// FileIO is blocking, re-use sync api
 		EL_EDbOperationStatusCode resultCode = Remove(entityType, entityId);
-		if (callback) callback.Invoke(resultCode);
+		if (callback)
+			callback.Invoke(resultCode);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -166,36 +169,34 @@ class EL_FileDbDriverBase : EL_DbDriver
 	{
 		// FileIO is blocking, re-use sync api
 		EL_DbFindResultMultiple<EL_DbEntity> findResults = FindAll(entityType, condition, orderBy, limit, offset);
-		if (callback) callback.Invoke(findResults.GetStatusCode(), findResults.GetEntities());
+		if (callback)
+			callback.Invoke(findResults.GetStatusCode(), findResults.GetEntities());
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected set<string> GetIdsByType(typename entityType)
+	protected set<string> GetIdsByType(typename entityType, set<string> skipIds = null)
 	{
 		set<string> ids = m_mEntityIdsyCache.Get(entityType);
-
 		if (!ids)
 		{
-			ids = GetIdsOnDisk(entityType);
+			ids = GetIdsOnDisk(entityType, skipIds);
 			m_mEntityIdsyCache.Set(entityType, ids);
 		}
-
 		return ids;
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected set<string> GetIdsOnDisk(typename entityType)
+	protected set<string> GetIdsOnDisk(typename entityType, set<string> skipIds = null)
 	{
 		EL_FileDbDriverFindIdsCallback callback();
 		System.FindFiles(callback.AddFile, _GetTypeDirectory(entityType), GetFileExtension());
 
 		set<string> ids();
-
 		foreach (string id : callback.m_Ids)
 		{
-			ids.Insert(id);
+			if (!skipIds || !skipIds.Contains(id))
+				ids.Insert(id);
 		}
-
 		return ids;
 	}
 
@@ -260,7 +261,8 @@ class EL_FileDbDriverFindIdsCallback
 		fileName = FilePath.StripExtension(fileName);
 
 		// Not a UUID of 36 chars length
-		if (fileName.IsEmpty() || fileName.Length() != 36) return;
+		if (fileName.IsEmpty() || fileName.Length() != 36)
+			return;
 
 		m_Ids.Insert(fileName);
 	}

@@ -270,7 +270,7 @@ class EL_PersistenceManager
 
 		m_bAutoSaveActive = false;
 
-		FlushDatabase();
+		//FlushDatabase();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -299,7 +299,7 @@ class EL_PersistenceManager
 		}
 		m_mRootShutdownCleanup.Clear();
 
-		FlushDatabase();
+		//FlushDatabase();
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -528,12 +528,14 @@ class EL_PersistenceManager
 	}
 
 	//------------------------------------------------------------------------------------------------
+	/*
 	void FlushDatabase()
 	{
 		EL_BufferedDbContext bufferedDb = EL_BufferedDbContext.Cast(m_pDbContext);
 		if (bufferedDb)
 			bufferedDb.Flush(m_pSettings.m_bBufferedDatabaseBatchsize);
 	}
+	*/
 
 	//------------------------------------------------------------------------------------------------
 	protected void FlushRegistrations()
@@ -562,14 +564,14 @@ class EL_PersistenceManager
 	{
 		m_pSettings = settings;
 
-		if (settings.m_bBufferedDatabaseContext)
+		/*if (settings.m_bBufferedDatabaseContext)
 		{
 			m_pDbContext = EL_BufferedDbContext.Create(settings.m_pConnectionInfo);
 		}
 		else
-		{
+		{*/
 			m_pDbContext = EL_DbContext.Create(settings.m_pConnectionInfo);
-		}
+		//}
 
 		if (!m_pDbContext)
 			return;

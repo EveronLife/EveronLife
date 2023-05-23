@@ -59,12 +59,14 @@ class EL_InMemoryDbDriver : EL_DbDriver
 		array<ref EL_DbEntity> entities;
 
 		// See if we can only load selected few entities by id or we need the entire collection to search through
-		set<string> relevantIds();
+		set<string> loadIds(), skipIds();
 		bool needsFilter = false;
-		if (condition && EL_DbFindCondition.CollectConditionIds(condition, relevantIds))
+		if (EL_DbFindCondition.CollectConditionIds(condition, loadIds, skipIds) && 
+			!loadIds.IsEmpty() &&  // There must be something to load explictly
+			skipIds.IsEmpty()) // and no "load xxx but skip these"
 		{
 			entities = {};
-			foreach (string relevantId : relevantIds)
+			foreach (string relevantId : loadIds)
 			{
 				EL_DbEntity entity = m_pDb.Get(entityType, relevantId);
 				if (entity)

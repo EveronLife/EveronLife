@@ -19,12 +19,12 @@ class EL_DbFind
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static EL_DbFindFieldPrimitiveValueConditonBuilder Id()
+	static EL_DbFindFieldMainConditionBuilder Id()
 	{
 		// Return with only primitive field builder options (implicit cast)
 		return EL_DbFindFieldCollectionHandlingBuilder.Create(EL_DbEntity.FIELD_ID);
 	}
-}
+};
 
 class EL_DbFindCondition
 {
@@ -41,17 +41,28 @@ class EL_DbFindCondition
 
 	//------------------------------------------------------------------------------------------------
 	//! Collects id field comparision values and returns true if there are no other fields that conditions need to be applied to
-	static bool CollectConditionIds(EL_DbFindCondition condition, out set<string> ids)
+	static bool CollectConditionIds(EL_DbFindCondition condition, out set<string> findIds, out set<string> skipIds)
 	{
 		EL_DbFindFieldStringMultiple stringMultipleCondition = EL_DbFindFieldStringMultiple.Cast(condition);
 		if (stringMultipleCondition)
 		{
 			if (stringMultipleCondition.m_sFieldPath != EL_DbEntity.FIELD_ID ||
-				stringMultipleCondition.m_eComparisonOperator != EL_EDbFindOperator.EQUAL) return false;
+				(stringMultipleCondition.m_eComparisonOperator != EL_EDbFindOperator.EQUAL &&
+				stringMultipleCondition.m_eComparisonOperator != EL_EDbFindOperator.NOT_EQUAL))
+			{
+				return false;
+			}
 
 			foreach (string id : stringMultipleCondition.m_aComparisonValues)
 			{
-				ids.Insert(id);
+				if (stringMultipleCondition.m_eComparisonOperator == EL_EDbFindOperator.EQUAL)
+				{
+					findIds.Insert(id);
+				}
+				else
+				{
+					skipIds.Insert(id);
+				}
 			}
 
 			return true;
@@ -60,18 +71,20 @@ class EL_DbFindCondition
 		EL_DbFindConditionWithChildren conditionWithChildren = EL_DbFindConditionWithChildren.Cast(condition);
 		if (conditionWithChildren)
 		{
+			bool isComplex = false;
 			foreach (EL_DbFindCondition childCondition : conditionWithChildren.m_Conditions)
 			{
-				if (!CollectConditionIds(childCondition, ids)) return false;
+				if (!CollectConditionIds(childCondition, findIds, skipIds))
+					isComplex = true;
 			}
 
-			return true;
+			return !isComplex;
 		}
 
 		// TODO: Can be optimized to check if id field is part of AND, and there are no other toplevel ORs, so we can know that only specific ids need to be loaded and then filters applied.
 		return false;
 	}
-}
+};
 
 class EL_DbFindConditionWithChildren : EL_DbFindCondition
 {
@@ -80,7 +93,7 @@ class EL_DbFindConditionWithChildren : EL_DbFindCondition
 	//------------------------------------------------------------------------------------------------
 	override protected string GetDebugString()
 	{
-		if (!m_Conditions) return "NULL";
+		if (!m_Conditions) return "null";
 
 		string dbg = "(";
 
@@ -93,14 +106,15 @@ class EL_DbFindConditionWithChildren : EL_DbFindCondition
 
 			foreach (int nLine, string line : conditionLines)
 			{
-				dbg += string.Format("    %1", line);
+				dbg += string.Format(" %1", line);
 
-				if (nLine != conditionLines.Count() -1) dbg += "\n";
+				if (nLine != conditionLines.Count() -1) 
+					dbg += "\n";
 			}
 
 			if (nCondtion == m_Conditions.Count() - 1)
 			{
-				 dbg += "\n";
+				dbg += "\n";
 			}
 			else
 			{
@@ -116,7 +130,7 @@ class EL_DbFindConditionWithChildren : EL_DbFindCondition
 	{
 		m_Conditions = conditions;
 	}
-}
+};
 
 class EL_DbFindAnd : EL_DbFindConditionWithChildren
 {
@@ -130,11 +144,11 @@ class EL_DbFindAnd : EL_DbFindConditionWithChildren
 	static EL_DbFindAnd Create(notnull array<ref EL_DbFindCondition> conditions)
 	{
 		EL_DbFindAnd inst = new EL_DbFindAnd(conditions);
-		if (!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
+		if (!ALLOC_BUFFER) ALLOC_BUFFER = {null};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
-}
+};
 
 class EL_DbFindOr : EL_DbFindConditionWithChildren
 {
@@ -148,16 +162,16 @@ class EL_DbFindOr : EL_DbFindConditionWithChildren
 	static EL_DbFindOr Create(notnull array<ref EL_DbFindCondition> conditions)
 	{
 		EL_DbFindOr inst = new EL_DbFindOr(conditions);
-		if (!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
+		if (!ALLOC_BUFFER) ALLOC_BUFFER = {null};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
-}
+};
 
 class EL_DbFindFieldCondition : EL_DbFindCondition
 {
 	string m_sFieldPath;
-}
+};
 
 class EL_DbFindCheckFieldNull : EL_DbFindFieldCondition
 {
@@ -175,7 +189,7 @@ class EL_DbFindCheckFieldNull : EL_DbFindFieldCondition
 	static EL_DbFindCheckFieldNull Create(string fieldPath, bool shouldBeNull)
 	{
 		auto inst = new EL_DbFindCheckFieldNull(fieldPath, shouldBeNull);
-		if (!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
+		if (!ALLOC_BUFFER) ALLOC_BUFFER = {null};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
@@ -186,7 +200,7 @@ class EL_DbFindCheckFieldNull : EL_DbFindFieldCondition
 		m_sFieldPath = fieldPath;
 		m_bShouldBeNull = shouldBeNull;
 	}
-}
+};
 
 class EL_DbFindCheckFieldEmpty : EL_DbFindFieldCondition
 {
@@ -204,7 +218,7 @@ class EL_DbFindCheckFieldEmpty : EL_DbFindFieldCondition
 	static EL_DbFindCheckFieldEmpty Create(string fieldPath, bool shouldBeEmpty)
 	{
 		auto inst = new EL_DbFindCheckFieldEmpty(fieldPath, shouldBeEmpty);
-		if (!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
+		if (!ALLOC_BUFFER) ALLOC_BUFFER = {null};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
@@ -215,7 +229,7 @@ class EL_DbFindCheckFieldEmpty : EL_DbFindFieldCondition
 		m_sFieldPath = fieldPath;
 		m_ShouldBeEmpty = shouldBeEmpty;
 	}
-}
+};
 
 enum EL_EDbFindOperator
 {
@@ -227,7 +241,7 @@ enum EL_EDbFindOperator
 	GREATER_THAN_OR_EQUAL,
 	CONTAINS,
 	NOT_CONTAINS
-}
+};
 
 class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
 {
@@ -277,7 +291,7 @@ class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
 	static EL_DbFindCompareFieldValues<ValueType> Create(string fieldPath, EL_EDbFindOperator comparisonOperator, notnull array<ValueType> comparisonValues)
 	{
 		auto inst = new EL_DbFindCompareFieldValues<ValueType>(fieldPath, comparisonOperator, comparisonValues);
-		if (!ALLOC_BUFFER_TVALUES) ALLOC_BUFFER_TVALUES = {NULL};
+		if (!ALLOC_BUFFER_TVALUES) ALLOC_BUFFER_TVALUES = {null};
 		ALLOC_BUFFER_TVALUES.Set(0, inst);
 		return inst;
 	}
@@ -289,7 +303,7 @@ class EL_DbFindCompareFieldValues<Class ValueType> : EL_DbFindFieldCondition
 		m_eComparisonOperator = comparisonOperator;
 		m_aComparisonValues = comparisonValues;
 	}
-}
+};
 
 typedef EL_DbFindCompareFieldValues<int> EL_DbFindFieldIntMultiple;
 typedef EL_DbFindCompareFieldValues<float> EL_DbFindFieldFloatMultiple;
@@ -312,11 +326,11 @@ class EL_DbValues<Class T>
 			data.Insert(value);
 		}
 
-		if (!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
+		if (!ALLOC_BUFFER) ALLOC_BUFFER = {null};
 		ALLOC_BUFFER.Set(0, data);
 		return data;
 	}
-}
+};
 
 typedef EL_DbValues<int> EL_DbValuesInt;
 typedef EL_DbValues<float> EL_DbValuesFloat;
@@ -332,7 +346,7 @@ class EL_DbFindFieldAnnotations
 	const string COUNT = ":count";
 	const string KEYS = ":keys";
 	const string VALUES = ":values";
-}
+};
 
 class EL_DbFindFieldConditionBuilder
 {
@@ -366,7 +380,7 @@ class EL_DbFindFieldConditionBuilder
 		m_sFieldPath = fieldPath;
 		m_bInverted = inverted;
 	}
-}
+};
 
 class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
 {
@@ -472,14 +486,14 @@ class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
 		if (m_bInverted)
 		{
 			return EL_DbFindOr.Create({
-				 EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN, {lowerBound}),
-				 EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN, {upperBound})
+					EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN, {lowerBound}),
+					EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN, {upperBound})
 			});
 		}
 
 		return EL_DbFindAnd.Create({
-			 EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN_OR_EQUAL, {lowerBound}),
-			 EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN_OR_EQUAL, {upperBound})
+				EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN_OR_EQUAL, {lowerBound}),
+				EL_DbFindFieldIntMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN_OR_EQUAL, {upperBound})
 		});
 	}
 
@@ -489,17 +503,17 @@ class EL_DbFindFieldNumericValueConditonBuilder : EL_DbFindFieldConditionBuilder
 		if (m_bInverted)
 		{
 			return EL_DbFindOr.Create({
-				 EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN, {lowerBound}),
-				 EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN, {upperBound})
+					EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN, {lowerBound}),
+					EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN, {upperBound})
 			});
 		}
 
 		return EL_DbFindAnd.Create({
-			 EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN_OR_EQUAL, {lowerBound}),
-			 EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN_OR_EQUAL, {upperBound})
+				EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.GREATER_THAN_OR_EQUAL, {lowerBound}),
+				EL_DbFindFieldFloatMultiple.Create(m_sFieldPath, EL_EDbFindOperator.LESS_THAN_OR_EQUAL, {upperBound})
 		});
 	}
-}
+};
 
 class EL_DbFindFieldPrimitiveValueConditonBuilder : EL_DbFindFieldNumericValueConditonBuilder
 {
@@ -581,7 +595,7 @@ class EL_DbFindFieldPrimitiveValueConditonBuilder : EL_DbFindFieldNumericValueCo
 		_AppendIfNotPresent(EL_DbFindFieldAnnotations.COUNT);
 		return this;
 	}
-}
+};
 
 class EL_DbFindFieldAllValueConditonBuilder : EL_DbFindFieldPrimitiveValueConditonBuilder
 {
@@ -795,7 +809,7 @@ class EL_DbFindFieldAllValueConditonBuilder : EL_DbFindFieldPrimitiveValueCondit
 		_AppendIfNotPresent(EL_DbFindFieldAnnotations.COUNT);
 		return this;
 	}
-}
+};
 
 class EL_DbFindFieldMainConditionBuilder : EL_DbFindFieldAllValueConditonBuilder
 {
@@ -812,7 +826,7 @@ class EL_DbFindFieldMainConditionBuilder : EL_DbFindFieldAllValueConditonBuilder
 		m_sFieldPath += EL_DbFindFieldAnnotations.SEPERATOR + fieldPath;
 		return EL_DbFindFieldCollectionHandlingBuilder.Cast(this);
 	}
-}
+};
 
 class EL_DbFindFieldCollectionHandlingBuilder : EL_DbFindFieldMainConditionBuilder
 {
@@ -868,8 +882,8 @@ class EL_DbFindFieldCollectionHandlingBuilder : EL_DbFindFieldMainConditionBuild
 	static EL_DbFindFieldCollectionHandlingBuilder Create(string fieldPath)
 	{
 		auto inst = new EL_DbFindFieldCollectionHandlingBuilder(fieldPath);
-		if (!ALLOC_BUFFER) ALLOC_BUFFER = {NULL};
+		if (!ALLOC_BUFFER) ALLOC_BUFFER = {null};
 		ALLOC_BUFFER.Set(0, inst);
 		return inst;
 	}
-}
+};

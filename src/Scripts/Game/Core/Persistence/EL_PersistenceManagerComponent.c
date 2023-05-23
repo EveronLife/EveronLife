@@ -16,11 +16,11 @@ class EL_PersistenceManagerComponentClass : SCR_BaseGameModeComponentClass
 	[Attribute(desc: "Default database connection. Can be overriden using \"-ConnectionString=...\" CLI argument", category: "Database")]
 	ref EL_DbConnectionInfoBase m_pConnectionInfo;
 
-	[Attribute(defvalue: "1", desc: "When using a buffered DB context changes are only flushed on auto-/shutdown-save or when called manually. Can increase constistency.", category: "Database")]
-	bool m_bBufferedDatabaseContext;
+	//[Attribute(defvalue: "1", desc: "When using a buffered DB context changes are only flushed on auto-/shutdown-save or when called manually. Can increase constistency.", category: "Database")]
+	//bool m_bBufferedDatabaseContext;
 
-	[Attribute(defvalue: "50", desc: "Max DB operations batch size per frame. Only relevant when buffered DB context is enabled.", category: "Database")]
-	int m_bBufferedDatabaseBatchsize;
+	//[Attribute(defvalue: "50", desc: "Max DB operations batch size per frame. Only relevant when buffered DB context is enabled.", category: "Database")]
+	//int m_bBufferedDatabaseBatchsize;
 };
 
 class EL_PersistenceManagerComponent : SCR_BaseGameModeComponent
