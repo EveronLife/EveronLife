@@ -22,4 +22,4 @@ class EL_ComponentData<Class T>
 		if (!component) return null;
 		return T.Cast(component.GetComponentData(component.GetOwner()));
 	}
-}
+};

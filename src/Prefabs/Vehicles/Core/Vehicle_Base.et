@@ -3,23 +3,5 @@ Vehicle {
  components {
   EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
   }
-  EL_PersistenceComponent "{5A0D2D215F2F2559}" {
-   m_pSaveData EL_VehicleSaveDataClass "{5A0D2D215C6BFA59}" {
-    m_aComponents {
-     EL_HitZoneContainerComponentSaveDataClass "{5A0D2D2153DEF1D3}" {
-     }
-     EL_BaseInventoryStorageComponentSaveDataClass "{5A13060F41A7788F}" {
-     }
-     EL_VehicleControllerSaveDataClass "{5A308829FFA1BEC6}" {
-     }
-     EL_FuelManagerComponentSaveDataClass "{5A308829FB2663B7}" {
-     }
-     EL_BaseLightManagerComponentSaveDataClass "{5A309BE3FE6421AC}" {
-     }
-     EL_SlotManagerComponentSaveDataClass "{5D46776070A12985}" {
-     }
-    }
-   }
-  }
  }
 }

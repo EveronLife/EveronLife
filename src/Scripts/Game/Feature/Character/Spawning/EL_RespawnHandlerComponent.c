@@ -30,7 +30,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		if (!playerUid)
 			return;
 
-		EL_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", new Tuple2<int, string>(playerId, playerUid));
+		EDF_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", new Tuple2<int, string>(playerId, playerUid));
 		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(playerUid, true, callback);
 	}
 
@@ -53,13 +53,13 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		// Load first available character until selection flow is implemented
 		string characterId = activeCharacter.GetId();
 		Tuple3<int, string, string> characterContext(playerInfo.param1, playerInfo.param2, characterId);
-		EL_DbFindCallbackSingle<EL_CharacterSaveData> characterDataCallback(this, "OnCharacterDataLoaded", characterContext);
-		EL_PersistenceEntityHelper<EL_CharacterSaveData>.GetRepository().FindAsync(characterId, characterDataCallback);
+		EDF_DbFindCallbackSingle<EPF_CharacterSaveData> characterDataCallback(this, "OnCharacterDataLoaded", characterContext);
+		EPF_PersistenceEntityHelper<EPF_CharacterSaveData>.GetRepository().FindAsync(characterId, characterDataCallback);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Handles the character data found for the players account
-	protected void OnCharacterDataLoaded(EL_EDbOperationStatusCode statusCode, EL_CharacterSaveData characterData, Managed context)
+	protected void OnCharacterDataLoaded(EDF_EDbOperationStatusCode statusCode, EPF_CharacterSaveData characterData, Managed context)
 	{
 		/*
 			TODO: Use respawn component system for pre spawn communication with player so they can choose the char to spawn with and where potentially
@@ -93,7 +93,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 			return;
 
 		// Add the dead body root entity collection so it spawns back after restart for looting
-		EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(player);
+		EPF_PersistenceComponent persistence = EL_Component<EPF_PersistenceComponent>.Find(player);
 		if (persistence)
 		{
 			persistence.SetPersistentId(string.Empty); // Force generation of new id for dead body
@@ -119,7 +119,7 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		IEntity player = m_pPlayerManager.GetPlayerController(playerId).GetControlledEntity();
 		if (player)
 		{
-			EL_PersistenceComponent persistence = EL_Component<EL_PersistenceComponent>.Find(player);
+			EPF_PersistenceComponent persistence = EL_Component<EPF_PersistenceComponent>.Find(player);
 			persistence.PauseTracking();
 			persistence.Save();
 		}
@@ -128,14 +128,14 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 			EL_PlayerCharacter character = account.GetActiveCharacter();
 			if (character)
 			{
-				IEntityComponentSource persistenceSource = SCR_BaseContainerTools.FindComponentSource(Resource.Load(character.GetPrefab()), EL_PersistenceComponent);
+				IEntityComponentSource persistenceSource = SCR_BaseContainerTools.FindComponentSource(Resource.Load(character.GetPrefab()), EPF_PersistenceComponent);
 				if (persistenceSource)
 				{
 					BaseContainer saveData = persistenceSource.GetObject("m_pSaveData");
 					if (saveData)
 					{
 						typename saveDataType = saveData.GetClassName().ToType();
-						EL_PersistenceManager.GetInstance().RemoveAsync(saveDataType, character.GetId());
+						EPF_PersistenceManager.GetInstance().RemoveAsync(saveDataType, character.GetId());
 					}
 				}
 			}

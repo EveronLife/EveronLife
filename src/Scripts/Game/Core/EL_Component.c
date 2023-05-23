@@ -9,7 +9,7 @@ class EL_Component<Class T>
 		if (!entity) return null;
 		return T.Cast(entity.FindComponent(T));
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	//! Finds the component of the given template type
 	//! \param component A known script component on the entity another component type should be found on
@@ -19,4 +19,4 @@ class EL_Component<Class T>
 		if (!component) return null;
 		return T.Cast(component.GetOwner().FindComponent(T));
 	}
-}
+};

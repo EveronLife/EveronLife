@@ -1,4 +1,4 @@
-class EL_PlayerAccount : EL_PersistentScriptedState
+class EL_PlayerAccount : EPF_PersistentScriptedState
 {
 	protected ref array<ref EL_PlayerCharacter> m_aCharacters = {};
 	protected int m_iActiveCharacterIdx;
@@ -80,7 +80,7 @@ class EL_PlayerCharacter
 	static EL_PlayerCharacter Create(ResourceName prefab)
 	{
 		EL_PlayerCharacter character();
-		character.m_sId = EL_PersistenceIdGenerator.Generate();
+		character.m_sId = EPF_PersistenceIdGenerator.Generate();
 		character.m_rPrefab = prefab;
 		return character;
 	}

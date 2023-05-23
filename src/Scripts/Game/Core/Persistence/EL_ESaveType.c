@@ -1,6 +1,0 @@
-enum EL_ESaveType
-{
-	MANUAL,
-	SHUTDOWN,
-	INTERVAL_SHUTDOWN
-}

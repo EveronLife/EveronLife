@@ -8,7 +8,7 @@ class EL_PlayerAccountManager
 	//! \param playerUid The players Bohemia UID
 	//! \param create If true a new account will be created if none is found for the UID
 	//! \param callback Async callback to handle the result
-	void LoadAccountAsync(string playerUid, bool create, notnull EL_DataCallbackSingle<EL_PlayerAccount> callback)
+	void LoadAccountAsync(string playerUid, bool create, notnull EDF_DataCallbackSingle<EL_PlayerAccount> callback)
 	{
 		EL_PlayerAccount account = m_mAccounts.Get(playerUid);
 		if (account)
@@ -18,7 +18,7 @@ class EL_PlayerAccountManager
 		}
 
 		auto processorCallback = EL_PlayerAccountManagerProcessorCallback.Create(playerUid, create, callback);
-		EL_PersistentScriptedStateLoader<EL_PlayerAccount>.LoadAsync(playerUid, processorCallback);
+		EPF_PersistentScriptedStateLoader<EL_PlayerAccount>.LoadAsync(playerUid, processorCallback);
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -79,11 +79,11 @@ class EL_PlayerAccountManager
 	}
 };
 
-class EL_PlayerAccountManagerProcessorCallback : EL_DataCallbackSingle<EL_PlayerAccount>
+class EL_PlayerAccountManagerProcessorCallback : EDF_DataCallbackSingle<EL_PlayerAccount>
 {
 	string m_sPlayerUid
 	bool m_bCreate;
-	ref EL_DataCallbackSingle<EL_PlayerAccount> m_pCallback;
+	ref EDF_DataCallbackSingle<EL_PlayerAccount> m_pCallback;
 
 	//------------------------------------------------------------------------------------------------
 	override void OnComplete(EL_PlayerAccount data, Managed context)
@@ -100,7 +100,7 @@ class EL_PlayerAccountManagerProcessorCallback : EL_DataCallbackSingle<EL_Player
 	}
 
 	//------------------------------------------------------------------------------------------------
-	static EL_PlayerAccountManagerProcessorCallback Create(string playerUid, bool create, EL_DataCallbackSingle<EL_PlayerAccount> callback)
+	static EL_PlayerAccountManagerProcessorCallback Create(string playerUid, bool create, EDF_DataCallbackSingle<EL_PlayerAccount> callback)
 	{
 		EL_PlayerAccountManagerProcessorCallback instance();
 		instance.m_sPlayerUid = playerUid;

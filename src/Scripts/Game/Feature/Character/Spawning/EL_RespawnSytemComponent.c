@@ -15,7 +15,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	protected ref map<int, GenericEntity> m_mPerparedCharacters = new map<int, GenericEntity>();
 
 	//------------------------------------------------------------------------------------------------
-	void PrepareCharacter(int playerId, EL_CharacterSaveData saveData)
+	void PrepareCharacter(int playerId, EPF_CharacterSaveData saveData)
 	{
 		GenericEntity playerEntity;
 
@@ -25,12 +25,12 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		if (saveData)
 		{
 			// Spawn character from data
-			EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+			EPF_PersistenceManager persistenceManager = EPF_PersistenceManager.GetInstance();
 
 			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
 			playerEntity = DoSpawn(activeCharacter.GetPrefab(), saveData.m_pTransformation.m_vOrigin, spawnAngles);
 
-			EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(playerEntity);
+			EPF_PersistenceComponent persistenceComponent = EL_Component<EPF_PersistenceComponent>.Find(playerEntity);
 			if (persistenceComponent)
 			{
 				// Remember which entity was for what player id
@@ -103,14 +103,14 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 				}
 			}
 
-			EL_PersistenceComponent persistenceComponent = EL_Component<EL_PersistenceComponent>.Find(playerEntity);
+			EPF_PersistenceComponent persistenceComponent = EL_Component<EPF_PersistenceComponent>.Find(playerEntity);
 			if (persistenceComponent)
 			{
 				persistenceComponent.SetPersistentId(activeCharacter.GetId());
 			}
 			else
 			{
-				Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", charPrefab, EL_PersistenceComponent), LogLevel.ERROR);
+				Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", charPrefab, EPF_PersistenceComponent), LogLevel.ERROR);
 				SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
 				return;
 			}
@@ -120,7 +120,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	}
 
 	//------------------------------------------------------------------------------------------------
-	protected void OnCharacterLoaded(EL_PersistenceComponent persistenceComponent, EL_EntitySaveData saveData)
+	protected void OnCharacterLoaded(EPF_PersistenceComponent persistenceComponent, EPF_EntitySaveData saveData)
 	{
 		// We only want to know this once
 		persistenceComponent.GetOnAfterLoadEvent().Remove(OnCharacterLoaded);
@@ -129,11 +129,11 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		int playerId = m_mLoadingCharacters.Get(playerEntity);
 		m_mLoadingCharacters.Remove(playerEntity);
 
-		EL_PersistenceManager persistenceManager = EL_PersistenceManager.GetInstance();
+		EPF_PersistenceManager persistenceManager = EPF_PersistenceManager.GetInstance();
 		SCR_CharacterInventoryStorageComponent inventoryStorage = EL_Component<SCR_CharacterInventoryStorageComponent>.Find(playerEntity);
 		if (inventoryStorage)
 		{
-			EL_CharacterInventoryStorageComponentSaveData charInventorySaveData = EL_ComponentSaveDataGetter<EL_CharacterInventoryStorageComponentSaveData>.GetFirst(saveData);
+			EPF_CharacterInventoryStorageComponentSaveData charInventorySaveData = EPF_ComponentSaveDataGetter<EPF_CharacterInventoryStorageComponentSaveData>.GetFirst(saveData);
 			if (charInventorySaveData && charInventorySaveData.m_aQuickSlotEntities)
 			{
 				array<RplId> quickBarRplIds();
@@ -145,7 +145,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 					quickBarRplIds.Insert(RplId.Invalid());
 				}
 
-				foreach (EL_PersistentQuickSlotItem quickSlot : charInventorySaveData.m_aQuickSlotEntities)
+				foreach (EPF_PersistentQuickSlotItem quickSlot : charInventorySaveData.m_aQuickSlotEntities)
 				{
 					IEntity slotEntity = persistenceManager.FindEntityByPersistentId(quickSlot.m_sEntityId);
 					if (slotEntity && quickSlot.m_iIndex < quickBarRplIds.Count())
@@ -156,10 +156,10 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 				}
 
 				// Apply quick item slots serverside to avoid inital sync back from client with same data
-				inventoryStorage.EL_Rpc_UpdateQuickSlotItems(quickBarRplIds);
+				inventoryStorage.EPF_Rpc_UpdateQuickSlotItems(quickBarRplIds);
 
 				SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
-				respawnComponent.EL_SetQuickBarItems(quickBarRplIds);
+				respawnComponent.EPF_SetQuickBarItems(quickBarRplIds);
 			}
 		}
 

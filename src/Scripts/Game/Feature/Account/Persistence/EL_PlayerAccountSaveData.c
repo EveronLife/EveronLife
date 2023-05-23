@@ -1,14 +1,14 @@
 [
-	EL_PersistentScriptedStateSettings(EL_PlayerAccount, saveType: EL_ESaveType.INTERVAL_SHUTDOWN, options: EL_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER),
-	EL_DbName.Automatic()
+	EPF_PersistentScriptedStateSettings(EL_PlayerAccount, saveType: EPF_ESaveType.INTERVAL_SHUTDOWN, options: EPF_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER),
+	EDF_DbName.Automatic()
 ]
-class EL_PlayerAccountSaveData : EL_ScriptedStateSaveData
+class EL_PlayerAccountSaveData : EPF_ScriptedStateSaveData
 {
 	ref array<ref EL_PlayerCharacter> m_aCharacters = {};
 	int m_iActiveCharacterIdx;
 
 	//------------------------------------------------------------------------------------------------
-	override bool Equals(notnull EL_ScriptedStateSaveData other)
+	override bool Equals(notnull EPF_ScriptedStateSaveData other)
 	{
 		EL_PlayerAccountSaveData otherData = EL_PlayerAccountSaveData.Cast(other);
 

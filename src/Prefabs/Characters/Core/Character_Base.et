@@ -17,20 +17,5 @@ SCR_ChimeraCharacter {
     }
    }
   }
-  EL_PersistenceComponent "{5A12D8F4DFED6D84}" {
-   m_bSelfSpawn 0
-   m_pSaveData EL_CharacterSaveDataClass "{5A12D8F4DA8632DC}" {
-    m_aComponents {
-     EL_HitZoneContainerComponentSaveDataClass "{5A12D8F4D807DD8A}" {
-     }
-     EL_CharacterControllerComponentSaveDataClass "{5CFED52E8CB02A22}" {
-     }
-     EL_BaseInventoryStorageComponentSaveDataClass "{5D22E99D79014EF0}" {
-     }
-     EL_CharacterInventoryStorageComponentSaveDataClass "{5CFED52E980265CA}" {
-     }
-    }
-   }
-  }
  }
 }
