@@ -1,11 +1,6 @@
 EL_GameModeRoleplay {
  ID "59751433747FB462"
  components {
-  EL_PersistenceManagerComponent "{59D28944F1C3532E}" {
-   m_pConnectionInfo EL_JsonFileDbConnectionInfo "{5D690471693CE28D}" {
-    m_sDatabaseName "EveronLife"
-   }
-  }
   EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
   }
   EL_RespawnSytemComponent "{5A10698A884816E6}" {
@@ -37,6 +32,11 @@ EL_GameModeRoleplay {
     }
    }
   }
+  EPF_PersistenceManagerComponent "{5D6F1C34679B4DC0}" {
+   m_pConnectionInfo EDF_JsonFileDbConnectionInfo "{5D6F1C3462E3EE02}" {
+    m_sDatabaseName "EveronLife"
+   }
+  }
   SCR_DestructionManagerComponent "{59751432896EFC0B}" {
   }
   SCR_HintManagerComponent "{59E8CC4E575D1802}" {
@@ -54,7 +54,6 @@ EL_GameModeRoleplay {
    m_iSelectionBehavior FreeMove
   }
   RplComponent "{597514327E500A0C}" {
-   "Rpl State Override" Static
    Streamable Disabled
   }
  }
