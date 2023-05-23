@@ -6,6 +6,6 @@ class EL_DefaultLoadoutItemQuantityComponent : EL_DefaultLoadoutItemComponent
 
 	override void ApplyTo(IEntity item)
 	{
-		EL_ComponentFinder<EL_QuantityComponent>.Find(item).SetQuantity(m_iQuantity);
+		EL_Component<EL_QuantityComponent>.Find(item).SetQuantity(m_iQuantity);
 	}
 }

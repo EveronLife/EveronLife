@@ -16,7 +16,7 @@ modded class EL_InventoryUtils
 		foreach (IEntity item : FindItemsByPrefab(target, prefab))
 		{
 			int amount = 1;
-			EL_QuantityComponent quantity = EL_ComponentFinder<EL_QuantityComponent>.Find(item);
+			EL_QuantityComponent quantity = EL_Component<EL_QuantityComponent>.Find(item);
 			if (quantity) amount = quantity.GetQuantity();
 			totalAmount += amount;
 		}
@@ -67,7 +67,7 @@ modded class EL_InventoryUtils
 
 			if (isQuantityPrefab && remainingAmount > 1)
 			{
-				EL_QuantityComponent quantityComponent = EL_ComponentFinder<EL_QuantityComponent>.Find(item);
+				EL_QuantityComponent quantityComponent = EL_Component<EL_QuantityComponent>.Find(item);
 				int added;
 				quantityComponent.AddQuantity(remainingAmount - 1, true, added); // One quantity added through existence of the new item
 				remainingAmount -= added + 1;

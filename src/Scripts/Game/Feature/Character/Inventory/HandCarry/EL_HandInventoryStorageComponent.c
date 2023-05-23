@@ -30,7 +30,7 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 
 		if (!HasLocalControl()) return;
 
-		CharacterControllerComponent characterController = EL_ComponentFinder<CharacterControllerComponent>.Find(GetOwner());
+		CharacterControllerComponent characterController = EL_Component<CharacterControllerComponent>.Find(GetOwner());
 
 		IEntity currentGadget = characterController.GetAttachedGadgetAtLeftHandSlot();
 		if (currentGadget)
@@ -66,7 +66,7 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 		else if(m_eState != EL_EHandCarryState.ACTIVE && isInHand)
 		{
 			// If active gadget is in the hand storage update the state to active
-			InventoryItemComponent inventoryItem = EL_ComponentFinder<InventoryItemComponent>.Find(gadget);
+			InventoryItemComponent inventoryItem = EL_Component<InventoryItemComponent>.Find(gadget);
 			if (inventoryItem)
 			{
 				InventoryStorageSlot parentSlot = inventoryItem.GetParentSlot();
@@ -120,7 +120,7 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 	//------------------------------------------------------------------------------------------------
 	protected void StopCarry(IEntity gadget = null)
 	{
-		CharacterControllerComponent characterController = EL_ComponentFinder<CharacterControllerComponent>.Find(GetOwner());
+		CharacterControllerComponent characterController = EL_Component<CharacterControllerComponent>.Find(GetOwner());
 		if (m_eState != EL_EHandCarryState.AWAIT_SWAP)
 		{
 			// Only remove gadget if there not a new one scheduled. Otherwise the new gadget will be removed instead "too".
@@ -134,7 +134,7 @@ class EL_HandInventoryStorageComponent : UniversalInventoryStorageComponent
 	//------------------------------------------------------------------------------------------------
 	protected void ClearHandStorage(IEntity keepItem = null)
 	{
-		InventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<InventoryStorageManagerComponent>.Find(GetOwner());
+		InventoryStorageManagerComponent inventoryManager = EL_Component<InventoryStorageManagerComponent>.Find(GetOwner());
 		array<IEntity> outItems();
 		GetAll(outItems);
 		foreach (IEntity handItem : outItems)

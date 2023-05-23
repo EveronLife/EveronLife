@@ -40,7 +40,7 @@ class EL_ProcessAction : ScriptedUserAction
 	{
 		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
 
-		InventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<InventoryStorageManagerComponent>.Find(pUserEntity);
+		InventoryStorageManagerComponent inventoryManager = EL_Component<InventoryStorageManagerComponent>.Find(pUserEntity);
 
 		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
@@ -66,7 +66,7 @@ class EL_ProcessAction : ScriptedUserAction
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
  	{
-		InventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<InventoryStorageManagerComponent>.Find(user);
+		InventoryStorageManagerComponent inventoryManager = EL_Component<InventoryStorageManagerComponent>.Find(user);
 		foreach (EL_ProcessingInput processingInput : m_aProcessingInputs)
 		{
 			int inputPrefabsInInv = EL_InventoryUtils.GetAmount(inventoryManager, processingInput.m_InputPrefab);

@@ -13,8 +13,12 @@ Your chosen folder should now contain the same files you see on the main of the 
 ### Setting up the Workbench
 Most of the development workflows take place in the integrated developer environment for Arma Reforger called Workbench. You start it by launching the `Arma Reforger Tools` tools through Steam. To see all relevant logs during debugging you should add `-logLevel spam` into the start-up parameters in Steam and then selectively disable lower log levels you do not want to see in the console filter settings (top right corner above the log consoles).
 
+#### Setting up dependencies
+When you launch the Workbench you are greeted with the project overview.
+The project has some [dependencies](index.md#dependencies). Make sure you have downloaded them from the workshop and added their `.gproj` as known projects.
+
 #### Adding the project
-When you launch the Workbench you are greeted with the project overview. To add EveronLife you want to click the `Add Existing` button on the bottom left and navigate to the folder you cloned into.
+To add EveronLife you want to click the `Add Existing` button on the bottom left and navigate to the folder you cloned into.
 Now you go into `/src` and select the `EveronLife.gproj`. The full path could look like `C:\EveronLife\src\EveronLife.gproj`. The project list should now contain `EveronLife` and it should have a logo. 
 Double click or select it and click `Open` on the bottom right.
 

@@ -187,7 +187,7 @@ class EL_BetaHud : SCR_InfoDisplay
 		// Init cash display and subscribe to balance changes
 		int currentCash = EL_MoneyUtils.GetCash(owner);
 		OnMoneyChange(EL_MoneyUtils.PREFAB_CASH, currentCash, currentCash);
-		ScriptedInventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<ScriptedInventoryStorageManagerComponent>.Find(owner);
+		ScriptedInventoryStorageManagerComponent inventoryManager = EL_Component<ScriptedInventoryStorageManagerComponent>.Find(owner);
 		if (inventoryManager) inventoryManager.EL_GetOnAmountChanged(EL_MoneyUtils.PREFAB_CASH).Insert(OnMoneyChange);
 	}
 

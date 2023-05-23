@@ -1,7 +1,7 @@
 [ComponentEditorProps(category: "EveronLife/Feature/Character/Spawning", description: "Part of the re-spawn system on the gamemode.")]
 class EL_RespawnSytemComponentClass : SCR_RespawnSystemComponentClass
 {
-}
+};
 
 class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 {
@@ -11,120 +11,64 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 	[Attribute(category: "New character defaults")]
 	protected ref array<ref EL_DefaultLoadoutItem> m_aDefaultCharacterItems;
 
-	protected ref map<int, ref EL_CharacterSaveData> m_mSpawnData = new map<int, ref EL_CharacterSaveData>();
+	protected ref map<GenericEntity, int> m_mLoadingCharacters = new map<GenericEntity, int>();
+	protected ref map<int, GenericEntity> m_mPerparedCharacters = new map<int, GenericEntity>();
 
 	//------------------------------------------------------------------------------------------------
-	void SetSpawnData(int playerId, EL_CharacterSaveData saveData)
-	{
-		m_mSpawnData.Set(playerId, saveData);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	void RemoveSpawnData(int playerId)
-	{
-		m_mSpawnData.Remove(playerId);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	bool HasSpawnData(int playerId)
-	{
-		return m_mSpawnData.Contains(playerId);
-	}
-
-	//------------------------------------------------------------------------------------------------
-	protected override GenericEntity RequestSpawn(int playerId)
+	void PrepareCharacter(int playerId, EPF_CharacterSaveData saveData)
 	{
 		GenericEntity playerEntity;
 
-		EL_CharacterSaveData saveData = m_mSpawnData.Get(playerId);
-		if (saveData && saveData.m_rPrefab)
+		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(playerId);
+		EL_PlayerCharacter activeCharacter = account.GetActiveCharacter();
+
+		if (saveData)
 		{
-			EL_PersistenceManagerInternal persistenceManager = EL_PersistenceManagerInternal.GetInternalInstance();
+			// Spawn character from data
+			EPF_PersistenceManager persistenceManager = EPF_PersistenceManager.GetInstance();
 
-			persistenceManager.SetNextPersistentId(saveData.GetId());
-			EL_TransformationSaveData tmData = EL_TransformationSaveData.Cast(saveData.m_mComponentsSaveData.Get(EL_TransformationSaveData).Get(0));
-			saveData.m_mComponentsSaveData.Remove(EL_TransformationSaveData);
-			playerEntity = DoSpawn(saveData.m_rPrefab, tmData.m_vOrigin, Vector(tmData.m_vAngles[1], tmData.m_vAngles[0], tmData.m_vAngles[2]));
+			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
+			playerEntity = DoSpawn(activeCharacter.GetPrefab(), saveData.m_pTransformation.m_vOrigin, spawnAngles);
 
-			// Validate and return if persistence component is active, aka save-data loaded and entity ready to be used.
-			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
-			if (persistenceComponent && persistenceComponent.Load(saveData))
+			EPF_PersistenceComponent persistenceComponent = EL_Component<EPF_PersistenceComponent>.Find(playerEntity);
+			if (persistenceComponent)
 			{
-				SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
-				if (respawnComponent)
-				{
-					EL_RespawnCharacterState state();
-					state.m_eStance = saveData.m_eStance;
+				// Remember which entity was for what player id
+				m_mLoadingCharacters.Set(playerEntity, playerId);
 
-					IEntity leftHandEntity = persistenceManager.FindEntityByPersistentId(saveData.m_sLeftHandItemId);
-					if (leftHandEntity)
-					{
-						RplComponent replication = RplComponent.Cast(leftHandEntity.FindComponent(RplComponent));
-						if (replication) state.m_pLeftHandItemRplId = replication.Id();
-					}
-					else
-					{
-						state.m_pLeftHandItemRplId = RplId.Invalid();
-					}
+				persistenceComponent.GetOnAfterLoadEvent().Insert(OnCharacterLoaded);
+				if (persistenceComponent.Load(saveData))
+					return;
 
-					IEntity rightHandEntity = persistenceManager.FindEntityByPersistentId(saveData.m_sRightHandItemId);
-					if (rightHandEntity)
-					{
-						RplComponent replication = RplComponent.Cast(rightHandEntity.FindComponent(RplComponent));
-						if (replication)
-						{
-							state.m_pRightHandItemRplId = replication.Id();
-							state.m_eRightHandType = saveData.m_eRightHandType;
-							state.m_bRightHandRaised = saveData.m_bRightHandRaised;
-						}
-					}
-					else
-					{
-						state.m_pRightHandItemRplId = RplId.Invalid();
-					}
-
-					state.m_aQuickBarRplIds = new array<RplId>();
-					SCR_CharacterInventoryStorageComponent inventoryStorage = SCR_CharacterInventoryStorageComponent.Cast(playerEntity.FindComponent(SCR_CharacterInventoryStorageComponent));
-					if (inventoryStorage)
-					{
-						// Init with invalid ids
-						state.m_aQuickBarRplIds.Reserve(inventoryStorage.GetQuickSlotItems().Count());
-						for (int i = 0, count = state.m_aQuickBarRplIds.Count(); i < count; i++)
-						{
-							state.m_aQuickBarRplIds.Insert(RplId.Invalid());
-						}
-
-						foreach (EL_PersistentQuickSlotItem quickSlot : saveData.m_aQuickSlotEntities)
-						{
-							IEntity slotEntity = persistenceManager.FindEntityByPersistentId(quickSlot.m_sEntityId);
-							if (slotEntity && quickSlot.m_iIndex < state.m_aQuickBarRplIds.Count())
-							{
-								RplComponent replication = RplComponent.Cast(slotEntity.FindComponent(RplComponent));
-								if (replication) state.m_aQuickBarRplIds.Set(quickSlot.m_iIndex, replication.Id());
-							}
-						}
-
-						// Apply quick item slots serverside to avoid inital sync back from client with same data
-						inventoryStorage.EL_Rpc_UpdateQuickSlotItems(state.m_aQuickBarRplIds);
-					}
-
-					respawnComponent.SetRespawnCharacterState(state);
-				}
+				// On failure remove again
+				persistenceComponent.GetOnAfterLoadEvent().Remove(OnCharacterLoaded);
+				m_mLoadingCharacters.Remove(playerEntity);
 			}
-			else
-			{
-				Debug.Error(string.Format("Failed to apply save-data '%1:%2' to character.", saveData.Type(), saveData.GetId()));
-				SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
-				playerEntity = null;
-			}
+
+			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to character.", saveData.Type().ToString(), saveData.GetId()));
+			SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
+			playerEntity = null;
 		}
 
 		if (!playerEntity)
 		{
-			if (m_aDefaultCharacterPrefabs.IsEmpty())
+			ResourceName charPrefab;
+			
+			if (activeCharacter)
 			{
-				Print("Could not create new character, no default prefabs configured. Go to EL_GameModeRoleplay > EL_RespawnSytemComponent and add at least one.", LogLevel.ERROR);
-				return null;
+				charPrefab = activeCharacter.GetPrefab();
+			}
+			else
+			{
+				charPrefab = m_aDefaultCharacterPrefabs.GetRandomElement();
+				if (!charPrefab)
+				{
+					Print("Could not create new character, no default prefabs configured. Go to EL_GameModeRoleplay > EL_RespawnSytemComponent and add at least one.", LogLevel.ERROR);
+					return;
+				}
+				
+				activeCharacter = EL_PlayerCharacter.Create(charPrefab);
+				account.AddCharacter(activeCharacter, true);
 			}
 
 			vector position;
@@ -134,39 +78,113 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 			if (!spawnPoint)
 			{
 				Print("Could not spawn character, no default spawn point configured.", LogLevel.ERROR);
-				return null;
+				return;
 			}
 
 			spawnPoint.GetPosAngles(position, angles);
 
-			ResourceName charPrefab = m_aDefaultCharacterPrefabs.GetRandomElement();
-
 			playerEntity = DoSpawn(charPrefab, position, angles);
 
-			InventoryStorageManagerComponent storageManager = InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(InventoryStorageManagerComponent));
-			BaseLoadoutManagerComponent loadoutManager = BaseLoadoutManagerComponent.Cast(playerEntity.FindComponent(BaseLoadoutManagerComponent));
+			InventoryStorageManagerComponent storageManager = EL_Component<InventoryStorageManagerComponent>.Find(playerEntity);
 			foreach (EL_DefaultLoadoutItem loadoutItem : m_aDefaultCharacterItems)
 			{
+				if (loadoutItem.m_ePurpose != EStoragePurpose.PURPOSE_LOADOUT_PROXY)
+				{
+					Debug.Error(string.Format("Failed to add '%1' as default character item. Only clothing/backpack/vest etc. with purpose '%2' are allowed as top level entries.", loadoutItem.m_rPrefab, typename.EnumToString(EStoragePurpose, EStoragePurpose.PURPOSE_LOADOUT_PROXY)));
+					continue;
+				}
+
 				IEntity slotEntity = SpawnDefaultCharacterItem(storageManager, loadoutItem);
 				if (!slotEntity) continue;
-				loadoutManager.Wear(slotEntity);
+
+				if (!storageManager.TryInsertItem(slotEntity, loadoutItem.m_ePurpose))
+				{
+					SCR_EntityHelper.DeleteEntityAndChildren(slotEntity);
+				}
 			}
 
-			// Add new character to account
-			EL_PersistenceComponent persistenceComponent = EL_PersistenceComponent.Cast(playerEntity.FindComponent(EL_PersistenceComponent));
-			if (!persistenceComponent)
+			EPF_PersistenceComponent persistenceComponent = EL_Component<EPF_PersistenceComponent>.Find(playerEntity);
+			if (persistenceComponent)
 			{
-				Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", charPrefab, EL_PersistenceComponent), LogLevel.ERROR);
+				persistenceComponent.SetPersistentId(activeCharacter.GetId());
+			}
+			else
+			{
+				Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", charPrefab, EPF_PersistenceComponent), LogLevel.ERROR);
 				SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
-				return null;
+				return;
 			}
 
-			// Add new character to account
-			EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(EL_Utils.GetPlayerUID(playerId));
-			if (account) account.m_aCharacterIds.Insert(persistenceComponent.GetPersistentId());
+			m_mPerparedCharacters.Set(playerId, playerEntity);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void OnCharacterLoaded(EPF_PersistenceComponent persistenceComponent, EPF_EntitySaveData saveData)
+	{
+		// We only want to know this once
+		persistenceComponent.GetOnAfterLoadEvent().Remove(OnCharacterLoaded);
+
+		GenericEntity playerEntity = GenericEntity.Cast(persistenceComponent.GetOwner());
+		int playerId = m_mLoadingCharacters.Get(playerEntity);
+		m_mLoadingCharacters.Remove(playerEntity);
+
+		EPF_PersistenceManager persistenceManager = EPF_PersistenceManager.GetInstance();
+		SCR_CharacterInventoryStorageComponent inventoryStorage = EL_Component<SCR_CharacterInventoryStorageComponent>.Find(playerEntity);
+		if (inventoryStorage)
+		{
+			EPF_CharacterInventoryStorageComponentSaveData charInventorySaveData = EPF_ComponentSaveDataGetter<EPF_CharacterInventoryStorageComponentSaveData>.GetFirst(saveData);
+			if (charInventorySaveData && charInventorySaveData.m_aQuickSlotEntities)
+			{
+				array<RplId> quickBarRplIds();
+				// Init with invalid ids
+				int nQuickslots = inventoryStorage.GetQuickSlotItems().Count();
+				quickBarRplIds.Reserve(nQuickslots);
+				for (int i = 0; i < nQuickslots; i++)
+				{
+					quickBarRplIds.Insert(RplId.Invalid());
+				}
+
+				foreach (EPF_PersistentQuickSlotItem quickSlot : charInventorySaveData.m_aQuickSlotEntities)
+				{
+					IEntity slotEntity = persistenceManager.FindEntityByPersistentId(quickSlot.m_sEntityId);
+					if (slotEntity && quickSlot.m_iIndex < quickBarRplIds.Count())
+					{
+						RplComponent replication = RplComponent.Cast(slotEntity.FindComponent(RplComponent));
+						if (replication) quickBarRplIds.Set(quickSlot.m_iIndex, replication.Id());
+					}
+				}
+
+				// Apply quick item slots serverside to avoid inital sync back from client with same data
+				inventoryStorage.EPF_Rpc_UpdateQuickSlotItems(quickBarRplIds);
+
+				SCR_RespawnComponent respawnComponent = SCR_RespawnComponent.Cast(GetGame().GetPlayerManager().GetPlayerRespawnComponent(playerId));
+				respawnComponent.EPF_SetQuickBarItems(quickBarRplIds);
+			}
 		}
 
-		return playerEntity;
+		m_mPerparedCharacters.Set(playerId, playerEntity);
+		return; //Wait a few frame for character and weapon controller and gadgets etc to be setup
+	}
+
+	//------------------------------------------------------------------------------------------------
+	bool IsReadyForSpawn(int playerId)
+	{
+		return m_mPerparedCharacters.Contains(playerId);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected override GenericEntity RequestSpawn(int playerId)
+	{
+		GenericEntity playerEntity = m_mPerparedCharacters.Get(playerId);
+		if (playerEntity)
+		{
+			m_mPerparedCharacters.Remove(playerId);
+			return playerEntity;
+		}
+
+		Debug.Error("Attempt to spawn a character that has not finished processing. IsReadyForSpawn was not checked?");
+		return null;
 	}
 
 	//------------------------------------------------------------------------------------------------
@@ -186,7 +204,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 				componentDefault.ApplyTo(slotEntity);
 			}
 		}
-		
+
 		if (loadoutItem.m_aStoredItems)
 		{
 			array<Managed> outComponents();
@@ -234,7 +252,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 			Print("EL_RespawnSytemComponent has to be attached to a EL_GameModeRoleplay (or inherited) entity!", LogLevel.ERROR);
 		}
 	}
-}
+};
 
 [BaseContainerProps()]
 class EL_DefaultLoadoutItem
@@ -250,13 +268,13 @@ class EL_DefaultLoadoutItem
 
 	[Attribute()]
 	ref array<ref EL_DefaultLoadoutItemComponent> m_aComponentDefaults;
-	
+
 	[Attribute()]
 	ref array<ref EL_DefaultLoadoutItem> m_aStoredItems;
-}
+};
 
 [BaseContainerProps()]
 class EL_DefaultLoadoutItemComponent
 {
 	void ApplyTo(IEntity item);
-}
+};
