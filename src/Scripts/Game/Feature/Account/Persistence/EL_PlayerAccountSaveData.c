@@ -1,5 +1,5 @@
 [
-	EPF_PersistentScriptedStateSettings(EL_PlayerAccount, saveType: EPF_ESaveType.INTERVAL_SHUTDOWN, options: EPF_EPersistentScriptedStateOptions.USE_CHANGE_TRACKER),
+	EPF_PersistentScriptedStateSettings(EL_PlayerAccount),
 	EDF_DbName.Automatic()
 ]
 class EL_PlayerAccountSaveData : EPF_ScriptedStateSaveData
