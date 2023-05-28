@@ -12,7 +12,10 @@ class EL_QuantityComponentSaveData : EPF_ComponentSaveData
 	override EPF_EReadResult ReadFrom(IEntity owner, GenericComponent component, EPF_ComponentSaveDataClass attributes)
 	{
 		m_iQuantity = EL_QuantityComponent.Cast(component).GetQuantity();
-		if (m_iQuantity == 1) return EPF_EReadResult.DEFAULT;
+		
+		if (m_iQuantity == 1) 
+			return EPF_EReadResult.DEFAULT;
+		
 		return EPF_EReadResult.OK;
 	}
 
@@ -22,7 +25,7 @@ class EL_QuantityComponentSaveData : EPF_ComponentSaveData
 		EL_QuantityComponent quantity = EL_QuantityComponent.Cast(component);
 		quantity.SetQuantity(m_iQuantity);
 
-		// Keep seperate for current frame to have (relevant during load into storages situation). Remove intend on next frame
+		// Keep seperate for current frame to have (relevant during load into storages situation). Remove intent on next frame
 		quantity.SetTransferIntent(quantity.GetOwner(), true);
 		GetGame().GetCallqueue().Call(quantity.RemoveTransferIntent, quantity.GetOwner());
 		return EPF_EApplyResult.OK;
