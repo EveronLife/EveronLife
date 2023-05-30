@@ -25,8 +25,17 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		if (saveData)
 		{
 			saveData.m_pTransformation.m_bApplied = true;
-			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
-			playerEntity = DoSpawn(activeCharacter.GetPrefab(), saveData.m_pTransformation.m_vOrigin, spawnAngles);
+
+			vector origin;
+			if (!EPF_Const.IsNan(saveData.m_pTransformation.m_vOrigin))
+				origin = saveData.m_pTransformation.m_vOrigin;
+
+			// Spawn angle order is different for what ever reason
+			vector spawnAngles;
+			if (!EPF_Const.IsNan(saveData.m_pTransformation.m_vAngles))
+				spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
+
+			playerEntity = DoSpawn(activeCharacter.GetPrefab(), origin, spawnAngles);
 
 			EPF_PersistenceComponent persistenceComponent = EL_Component<EPF_PersistenceComponent>.Find(playerEntity);
 			if (persistenceComponent)
@@ -50,7 +59,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 		if (!playerEntity)
 		{
 			ResourceName charPrefab;
-			
+
 			if (activeCharacter)
 			{
 				charPrefab = activeCharacter.GetPrefab();
@@ -63,7 +72,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 					Print("Could not create new character, no default prefabs configured. Go to EL_GameModeRoleplay > EL_RespawnSytemComponent and add at least one.", LogLevel.ERROR);
 					return;
 				}
-				
+
 				activeCharacter = EL_PlayerCharacter.Create(charPrefab);
 				account.AddCharacter(activeCharacter, true);
 			}
