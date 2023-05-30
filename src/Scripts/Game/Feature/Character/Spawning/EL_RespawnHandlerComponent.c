@@ -26,12 +26,30 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 	//------------------------------------------------------------------------------------------------
 	protected void OnUidAvailable(int playerId)
 	{
-		string playerUid = EL_Utils.GetPlayerUID(playerId);
+		string playerUid = EPF_Utils.GetPlayerUID(playerId);
 		if (!playerUid)
 			return;
 
-		EDF_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", new Tuple2<int, string>(playerId, playerUid));
-		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(playerUid, true, callback);
+		Tuple2<int, string> characterContext(playerId, playerUid);
+
+		EPF_PersistenceManager persistenceManager = EPF_PersistenceManager.GetInstance();
+		if (persistenceManager.GetState() < EPF_EPersistenceManagerState.ACTIVE)
+		{
+			// Wait with character load until the persistence system is fully loaded
+			EDF_ScriptInvokerCallback callback(this, "RequestAccountLoad", characterContext);
+			persistenceManager.GetOnActiveEvent().Insert(callback.Invoke);
+			return;
+		}
+
+		RequestAccountLoad(characterContext)
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void RequestAccountLoad(Managed context)
+	{
+		Tuple2<int, string> characterContext = Tuple2<int, string>.Cast(context);
+		EDF_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", characterContext);
+		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(characterContext.param2, true, callback);
 	}
 
 	//------------------------------------------------------------------------------------------------

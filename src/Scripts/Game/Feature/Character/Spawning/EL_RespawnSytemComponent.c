@@ -24,9 +24,7 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 
 		if (saveData)
 		{
-			// Spawn character from data
-			EPF_PersistenceManager persistenceManager = EPF_PersistenceManager.GetInstance();
-
+			saveData.m_pTransformation.m_bApplied = true;
 			vector spawnAngles = Vector(saveData.m_pTransformation.m_vAngles[1], saveData.m_pTransformation.m_vAngles[0], saveData.m_pTransformation.m_vAngles[2]);
 			playerEntity = DoSpawn(activeCharacter.GetPrefab(), saveData.m_pTransformation.m_vOrigin, spawnAngles);
 
@@ -45,7 +43,6 @@ class EL_RespawnSytemComponent : SCR_RespawnSystemComponent
 				m_mLoadingCharacters.Remove(playerEntity);
 			}
 
-			Debug.Error(string.Format("Failed to apply save-data '%1:%2' to character.", saveData.Type().ToString(), saveData.GetId()));
 			SCR_EntityHelper.DeleteEntityAndChildren(playerEntity);
 			playerEntity = null;
 		}
