@@ -76,7 +76,7 @@ class EL_QuantityComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	bool SetQuantity(int quantity)
 	{
-		if (!EL_ComponentFinder<RplComponent>.Find(GetOwner()).IsMaster()) return false;
+		if (!EL_Component<RplComponent>.Find(GetOwner()).IsMaster()) return false;
 		if ((quantity < 0) || (quantity > GetMaxQuantity())) return false;
 
 		m_iQuantity = quantity;
@@ -142,7 +142,7 @@ class EL_QuantityComponent : ScriptComponent
 
 		IEntity owner = GetOwner();
 		IEntity destinationEntity = EL_Utils.SpawnEntityPrefab(EL_Utils.GetPrefabName(owner), owner.GetOrigin());
-		EL_QuantityComponent quantityDestination = EL_ComponentFinder<EL_QuantityComponent>.Find(destinationEntity);
+		EL_QuantityComponent quantityDestination = EL_Component<EL_QuantityComponent>.Find(destinationEntity);
 		if (!quantityDestination) return;
 
 		AddQuantity(-splitSize);
@@ -150,7 +150,7 @@ class EL_QuantityComponent : ScriptComponent
 
 		SetTransferIntent(destinationEntity, true);
 
-		InventoryItemComponent sourceInventoryItem = EL_ComponentFinder<InventoryItemComponent>.Find(owner);
+		InventoryItemComponent sourceInventoryItem = EL_Component<InventoryItemComponent>.Find(owner);
 
 		// Ground item, just move it somewhere else so it can be picked up seperatly from the source stack
 		if (!sourceInventoryItem.GetParentSlot())
@@ -165,7 +165,7 @@ class EL_QuantityComponent : ScriptComponent
 
 		BaseInventoryStorageComponent storage = sourceInventoryItem.GetParentSlot().GetStorage();
 		InventoryStorageManagerComponent storageManager = EL_InventoryUtils.GetResponsibleStorageManager(owner);
-		if (!storageManager) storageManager = EL_GlobalInventoryStorageManagerComponent.GetInstance();
+		if (!storageManager) storageManager = EPF_GlobalInventoryStorageManagerComponent.GetInstance();
 		storageManager.TryInsertItemInStorage(destinationEntity, storage);
 	}
 
@@ -185,7 +185,7 @@ class EL_QuantityComponent : ScriptComponent
 	//------------------------------------------------------------------------------------------------
 	static bool HandleOnItemAdded(InventoryStorageManagerComponent invManager, BaseInventoryStorageComponent storageOwner, IEntity item)
 	{
-		EL_QuantityComponent quantitySource = EL_ComponentFinder<EL_QuantityComponent>.Find(item);
+		EL_QuantityComponent quantitySource = EL_Component<EL_QuantityComponent>.Find(item);
 		if (!quantitySource) return false;
 
 		bool ignoreSuper;
@@ -277,7 +277,7 @@ class EL_QuantityComponent : ScriptComponent
 		components.Reserve(entities.Count());
 		foreach(IEntity entity : entities)
 		{
-			components.Insert(EL_ComponentFinder<EL_QuantityComponent>.Find(entity));
+			components.Insert(EL_Component<EL_QuantityComponent>.Find(entity));
 		}
 
 		return components;

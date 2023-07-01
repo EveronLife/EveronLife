@@ -2,19 +2,17 @@
 This document is a detailed step-by-step guide to setting up a customized Everon Life server for your own community. 
 It will go through the basic setup of how to make a mod based on the Everon Life framework, how to publish it and how to get it running on a dedicated server.
 
-A video version of this is guide is available here *(more languages coming soon / additions welcome)*:
-<kbd>[<img title="English" alt="English" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/gb.svg" width="22">](https://www.youtube.com/watch?v=yNJNhTeZJN0)</kbd>
-
 ### Prerequisites
 - You must own [Arma Reforger](https://store.steampowered.com/app/1874880) and have it as well as the `Arma Reforger Tools` and `Arma Reforger Server` installed on your pc.
 - You will need a BI account to publish the workshop item. You can register one [here](https://accounts.bistudio.com) if needed.
 - Make sure you have launched the game at least once.
 
-### Subscribe to Everon Life 
+### Subscribe to Everon Life & dependencies
 The Everon Life workshop item will be the basis for your server. It contains all the base functionality and a small amount of roleplay-related assets to build your server with.
 By building on top of the existing workshop item you can automatically receive new features, bug fixes, and compatibility updates for future game versions. 
 Because of the way the framework is designed, you still have the freedom to customize all aspects of your server easily.
 To subscribe to the item, launch the game and click `Workshop` in the main menu. On the top right enter `Everon Life` and download the workshop item published by `Everon Life Team`.
+You might also need to download the [dependencies](index.md#dependencies) in the same way.
 Now you can close the game.
 
 ### Custom server mod
@@ -26,7 +24,8 @@ When people want to join your server any missing mods are automatically download
 Open the Workbench by launching `Arma Reforger Tools` via Steam. It shows up with a list of all your mod projects.
 
 ##### Project creation
-First, you need to add `EveronLife` as a known dependency. To do this click the `Add Existing` button and navigate to `Documents\My Games\ArmaReforger\addons\59636E668EA37AD7` and select the `EveronLife.gproj`. Alternatively, if you downloaded the framework source directly, add that as an existing project.  
+First, you need to add `EveronLife` and the other [dependencies](index.md#dependencies) to your project list. To do this click the `Add Existing` button and navigate to `Documents\My Games\ArmaReforger\addons\EveronLife_59636E668EA37AD7` and select the `EveronLife.gproj`. Alternatively, if you downloaded the framework source directly, add that as an existing project. 
+Repeat the same process for the dependencies.  
 Now you want to create a new mod. To do this, click the bottom left `Create New` button. 
 The Workbench will ask you for a project name. You can for example name it after your community. 
 The name can be changed later with a bit of effort, but you can save yourself some time by getting it right the first time.
@@ -51,7 +50,7 @@ If it's not saved, save it via `File > Force Save All`. You should now see the f
 
 ##### Adding the game mode
 Now it is time to connect the map with the game mode. To do this, all you need to do is place two prefabs. Prefabs are a bundle of map objects and script components that are your primary building blocks when mapping for your server.
-You need two prefabs for now. `GameMode_Roleplay.et` and `SpawnPoint_LIFE.et`. You can find both by searching for them in the `Resource Browser` at the bottom middle of your screen. You can locate them manually via `Prefabs > MP > Modes > Roleplay > GameMode_Roleplay.et` and `Prefabs > MP > Spawning > SpawnPoint_LIFE.et`.  
+You need two prefabs for now. `GameMode_Roleplay.et` and `SpawnPoint_LIFE.et`. You can find both by searching for them in the `Resource Browser` at the bottom middle of your screen. You can locate them manually via `Prefabs > MP > Modes > Roleplay > GameMode_Roleplay.et` and `Prefabs > MP > Spawn > SpawnPoint_LIFE.et`.  
 You simply drag and drop them from the `Resource Browser` into the world view above. They will appear in the `Hierarchy` view on the left afterward. Move the `SpawnPoint_LIFE` to where you want your players to spawn. The position of the `GameMode_Roleplay` entity does not matter. It is recommended to teleport it to 0 0 0 using the object transformation properties on the right when selected.  
 To test if everything so far has been working, you can quickly press the play button in the top menu bar. You should spawn where you placed the spawn point and be able to control your player. You can close the world editor for now.
 
@@ -112,25 +111,24 @@ The `Mission config path` can be optiained by navigating to your `MyCustomServer
 Go into the installation directory of your dedicated server e.g. `C:\Program Files (x86)\Steam\steamapps\common\Arma Reforger Server` and create a file called `launch.json` in the same folder the `ArmaReforgerServer.exe` is located in and put the following content into it:
 ```json
 {
-	"dedicatedServerId": "",
 	"region": "EU",
-	"gameHostBindAddress": "",
-	"gameHostBindPort": 2001,
-	"gameHostRegisterBindAddress": "",
-	"gameHostRegisterPort": 2001,
-	"adminPassword": "roleplayftw",
+	"bindAddress": "",
+	"bindPort": 2001,
+	"publicAddress": "",
+	"publicPort": 2001,
 	"game": {
 		"name": "Roleplay - MyCustomServer",
 		"password": "",
+		"passwordAdmin": "roleplayftw",
 		"scenarioId": "{5C552F6B07B10383}Missions/MyCustomServer.conf", <----- Mission config path mentioned in the previous step
 		"playerCountLimit": 32,
-		"autoJoinable": false,
+		"autoJoinable": true,
 		"visible": true,
 		"gameProperties": {
 			"serverMaxViewDistance": 2500,
 			"serverMinGrassDistance": 50,
 			"networkViewDistance": 1000,
-			"disableThirdPerson": true,
+			"disableThirdPerson": false,
 			"fastValidation": true,
 			"battlEye": true
 		},

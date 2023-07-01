@@ -1,9 +1,9 @@
 GameProject {
  ID "EveronLife"
  GUID "59636E668EA37AD7"
- TITLE "EveronLife"
+ TITLE "Everon Life"
  Dependencies {
-  "58D0FB3206B6F859"
+  "5D6EBC81EB1842EF" "58D0FB3206B6F859"
  }
  Configurations {
   GameProjectConfig PC {

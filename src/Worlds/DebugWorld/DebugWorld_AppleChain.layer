@@ -165,7 +165,7 @@ GenericEntity AppleTrader {
     Flags 1027
    }
   }
-  $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01.et" {
+  $grp SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
    {
     coords 0.147 0 0
    }
@@ -187,7 +187,7 @@ GenericEntity AppleTrader {
    }
    coords 0 0 -0.957
   }
-  GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01_white.et" {
+  SCR_DestructibleEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01/ChairRecreation_01_white.et" {
    coords -2.173 0 -0.978
    angleX 3.475
    angleY 14.617
@@ -217,6 +217,6 @@ Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domest
  coords 107.432 0 134.812
  angleY -104.782
 }
-GenericEntity AppleProcessor : "{1DD3BF6A1A249CDE}Prefabs/Processor/Apple_Processor.et" {
+GenericEntity AppleProcessor : "{1DD3BF6A1A249CDE}Prefabs/Processor/AppleJuicer.et" {
  coords 108.516 0.899 135.363
 }

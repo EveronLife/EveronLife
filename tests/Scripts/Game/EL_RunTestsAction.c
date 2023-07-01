@@ -35,7 +35,7 @@ class EL_RunTestsAction : ScriptedUserAction
 		FileHandle handle = FileIO.OpenFile(string.Format("$profile:%1", resultFile), FileMode.WRITE);
 		if (!handle) return;
 
-		handle.FPrint(testResults);
-		handle.CloseFile();
+		handle.Write(testResults);
+		handle.Close();
 	}
 }

@@ -1,9 +1,6 @@
 Tree : "{388228D9B7D2CCB0}Prefabs/Resources/WoodCutting/CuttableTree_Base.et" {
  ID "5ACE9762F521AE84"
  components {
-  MeshObject "{5ACE976091305C8B}" {
-   Object "{847A517466B4C2CD}Assets/Vegetation/Tree/Pinus_Sylvestris/t_pinus_sylvestris_2s.xob"
-  }
   EL_DestructibleResourceComponent "{5ACCE1B70F3EF473}" {
    "Additional hit zones" {
     EL_DestructibleResourceHitZone WoodCutting {
@@ -24,6 +21,9 @@ Tree : "{388228D9B7D2CCB0}Prefabs/Resources/WoodCutting/CuttableTree_Base.et" {
      }
     }
    }
+  }
+  MeshObject "{5ACE976091305C8B}" {
+   Object "{847A517466B4C2CD}Assets/Vegetation/Tree/Pinus_Sylvestris/t_pinus_sylvestris_2s.xob"
   }
  }
 }

@@ -1,0 +1,15 @@
+GameEntity {
+ ID "51ACD0965653D003"
+ components {
+  EL_PersistenceComponent "{5D46D95CC53F48C8}" {
+   m_pSaveData EL_TurretSaveDataClass "{5D46D95CE10EEB7E}" {
+    m_aComponents {
+     EL_TurretControllerComponentSaveDataClass "{5D46D95BE9139026}" {
+     }
+     EL_WeaponSlotComponentSaveDataClass "{5D48D07BA76401FC}" {
+     }
+    }
+   }
+  }
+ }
+}

@@ -25,7 +25,7 @@ class EL_InventoryUtils
 	{
 		while (item)
 		{
-			InventoryStorageManagerComponent manager = EL_ComponentFinder<InventoryStorageManagerComponent>.Find(item);
+			InventoryStorageManagerComponent manager = EL_Component<InventoryStorageManagerComponent>.Find(item);
 			if (manager) return manager;
 			InventoryItemComponent itemComponent = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
 			if (!itemComponent || !itemComponent.GetParentSlot()) break;
@@ -56,13 +56,13 @@ class EL_InventoryUtils
 	//------------------------------------------------------------------------------------------------
 	static bool DropItem(notnull IEntity character, notnull IEntity item)
 	{
-		InventoryItemComponent itemComponent = EL_ComponentFinder<InventoryItemComponent>.Find(item);
+		InventoryItemComponent itemComponent = EL_Component<InventoryItemComponent>.Find(item);
 		if (!itemComponent) return false;
 
 		InventoryStorageSlot parentSlot = itemComponent.GetParentSlot();
 		if (!parentSlot) return false;
 
-		InventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<InventoryStorageManagerComponent>.Find(character);
+		InventoryStorageManagerComponent inventoryManager = EL_Component<InventoryStorageManagerComponent>.Find(character);
 		BaseInventoryStorageComponent storage = parentSlot.GetStorage();
 		if (!storage || storage.GetOwner() != character) return false;
 		return inventoryManager.TryRemoveItemFromStorage(item, storage);
