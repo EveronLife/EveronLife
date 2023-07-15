@@ -1,131 +1,83 @@
 [ComponentEditorProps(category: "EveronLife/Feature/Character/Spawning", description: "Part of the re-spawn system on the gamemode.")]
-class EL_RespawnHandlerComponentClass: SCR_RespawnHandlerComponentClass
+class EL_RespawnHandlerComponentClass : SCR_RespawnHandlerComponentClass
 {
-}
+};
 
 class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 {
 	protected EL_RespawnSytemComponent m_pRespawnSystem;
+	protected PlayerManager m_pPlayerManager;
 
 	//------------------------------------------------------------------------------------------------
-	override void OnPlayerConnected(int playerId)
+	override void OnPlayerRegistered(int playerId)
 	{
-		if (!m_pGameMode.IsMaster()) return;
-
-		// Hard override to ignore all the base component logic we do not need
-		m_sEnqueuedPlayers.Insert(playerId);
+		// On dedicated servers we need to wait for OnPlayerAuditSuccess instead for the real UID to be available
+		if (m_pGameMode.IsMaster() && (RplSession.Mode() != RplMode.Dedicated))
+			OnUidAvailable(playerId);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnPlayerKilled(int playerId, IEntity player, IEntity killer)
+	override void OnPlayerAuditSuccess(int playerId)
 	{
-		if (!m_pGameMode.IsMaster()) return;
-
-		EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(player.FindComponent(EL_PersistenceComponent));
-
-		// Add the dead body root entity collection so it spawns back after restart for looting
-		EL_PersistenceManagerInternal.GetInternalInstance().GetRootEntityCollection().Add(persistence, false, true);
-
-		// Delete the dead char from account
-		EL_PlayerAccount account = EL_PlayerAccountManager.GetInstance().GetFromCache(player);
-		if (account) account.m_aCharacterIds.RemoveItem(persistence.GetPersistentId());
-
-		// Prepare and execute fresh character spawn
-		m_pRespawnSystem.SetSpawnData(playerId, null);
-		m_sEnqueuedPlayers.Insert(playerId);
+		if (m_pGameMode.IsMaster())
+			OnUidAvailable(playerId);
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnPlayerDisconnected(int playerId)
+	protected void OnUidAvailable(int playerId)
 	{
-		if (!m_pGameMode.IsMaster()) return;
+		string playerUid = EPF_Utils.GetPlayerUID(playerId);
+		if (!playerUid)
+			return;
 
-		int idx = m_sEnqueuedPlayers.Find(playerId);
-		if (idx != -1) m_sEnqueuedPlayers.Remove(idx);
+		Tuple2<int, string> characterContext(playerId, playerUid);
 
-		m_pRespawnSystem.RemoveSpawnData(playerId);
-
-		PlayerController playerController = GetGame().GetPlayerManager().GetPlayerController(playerId);
-		if (playerController)
+		EPF_PersistenceManager persistenceManager = EPF_PersistenceManager.GetInstance();
+		if (persistenceManager.GetState() < EPF_EPersistenceManagerState.ACTIVE)
 		{
-			IEntity player = playerController.GetControlledEntity();
-			if (player)
-			{
-				EL_PersistenceComponent persistence = EL_PersistenceComponent.Cast(player.FindComponent(EL_PersistenceComponent));
-				persistence.Save();
-				persistence.Detach();
-			}
-		}
-
-		EL_PlayerAccountManager.GetInstance().SaveAndReleaseAccount(EL_Utils.GetPlayerUID(playerId));
-	}
-
-	//------------------------------------------------------------------------------------------------
-	override void EOnFrame(IEntity owner, float timeSlice)
-	{
-		if (!m_pGameMode.IsMaster() || (EL_PersistenceManager.GetInstance().GetState() < EL_EPersistenceManagerState.ACTIVE)) return;
-
-		// Wait until the player uid is available for the queued join players
-		array<int> removeIds;
-		foreach (int playerId : m_sEnqueuedPlayers)
-		{
-			string playerUid = EL_Utils.GetPlayerUID(playerId);
-			if (playerUid)
-			{
-				LoadPlayerData(playerId, playerUid);
-				if (!removeIds) removeIds = new array<int>();
-				removeIds.Insert(playerId)
-			}
-		}
-
-		// Remove any ids from queue that the loading via uid was kicked off for
-		if (!removeIds) return;
-		foreach (int removeId : removeIds)
-		{
-			int idx = m_sEnqueuedPlayers.Find(removeId);
-			if (idx != -1) m_sEnqueuedPlayers.Remove(idx);
-		}
-	}
-
-	//------------------------------------------------------------------------------------------------
-	//! Starts async loading of the players data
-	protected void LoadPlayerData(int playerId, string playerUid)
-	{
-		if (m_pRespawnSystem.HasSpawnData(playerId))
-		{
-			// Player data already known from previous event e.g. respawn, skip loading ...
-			GetGame().GetPlayerManager().GetPlayerController(playerId).RequestRespawn();
+			// Wait with character load until the persistence system is fully loaded
+			EDF_ScriptInvokerCallback callback(this, "RequestAccountLoad", characterContext);
+			persistenceManager.GetOnActiveEvent().Insert(callback.Invoke);
 			return;
 		}
 
-		EL_PlayerAccountCallback callback(new Tuple2<int, string>(playerId, playerUid));
-		callback.ConfigureInvoker(this, "OnAccountLoaded");
-		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(playerUid, true, callback);
+		RequestAccountLoad(characterContext)
+	}
+
+	//------------------------------------------------------------------------------------------------
+	protected void RequestAccountLoad(Managed context)
+	{
+		Tuple2<int, string> characterContext = Tuple2<int, string>.Cast(context);
+		EDF_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", characterContext);
+		EL_PlayerAccountManager.GetInstance().LoadAccountAsync(characterContext.param2, true, callback);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Handles the account information found for the player
-	protected void OnAccountLoaded(Managed context, EL_PlayerAccount account)
+	protected void OnAccountLoaded(EL_PlayerAccount account, Managed context)
 	{
 		Tuple2<int, string> playerInfo = Tuple2<int, string>.Cast(context);
 
-		if (account.m_aCharacterIds.IsEmpty())
+		EL_PlayerCharacter activeCharacter = account.GetActiveCharacter();
+
+		if (!activeCharacter)
 		{
-			m_pRespawnSystem.SetSpawnData(playerInfo.param1, null);
-			GetGame().GetPlayerManager().GetPlayerController(playerInfo.param1).RequestRespawn();
+			// New account, skip to new character spawn
+			m_pRespawnSystem.PrepareCharacter(playerInfo.param1, null);
+			m_sEnqueuedPlayers.Insert(playerInfo.param1);
 			return;
 		}
 
-		string characterId = account.m_aCharacterIds.Get(0);
+		// Load first available character until selection flow is implemented
+		string characterId = activeCharacter.GetId();
 		Tuple3<int, string, string> characterContext(playerInfo.param1, playerInfo.param2, characterId);
-		EL_DbFindCallbackSingle<EL_CharacterSaveData> characterDataCallback(characterContext);
-		characterDataCallback.ConfigureInvoker(this, "OnCharacterDataLoaded");
-		EL_PersistenceEntityHelper<EL_CharacterSaveData>.GetRepository().FindAsync(characterId, characterDataCallback);
+		EDF_DbFindCallbackSingle<EPF_CharacterSaveData> characterDataCallback(this, "OnCharacterDataLoaded", characterContext);
+		EPF_PersistenceEntityHelper<EPF_CharacterSaveData>.GetRepository().FindAsync(characterId, characterDataCallback);
 	}
 
 	//------------------------------------------------------------------------------------------------
 	//! Handles the character data found for the players account
-	protected void OnCharacterDataLoaded(Managed context, EL_EDbOperationStatusCode statusCode, EL_CharacterSaveData characterData)
+	protected void OnCharacterDataLoaded(EDF_EDbOperationStatusCode statusCode, EPF_CharacterSaveData characterData, Managed context)
 	{
 		/*
 			TODO: Use respawn component system for pre spawn communication with player so they can choose the char to spawn with and where potentially
@@ -139,20 +91,98 @@ class EL_RespawnHandlerComponent : SCR_RespawnHandlerComponent
 		Tuple3<int, string, string> characterInfo = Tuple3<int, string, string>.Cast(context);
 
 		if (!characterData)
-		{
 			Print(string.Format("Failed to load existing character '%1' from account '%2'.", characterInfo.param3, characterInfo.param2), LogLevel.ERROR);
+
+		// Prepare spawn data buffer with last known player data (null for fresh accounts) and queue player for spawn
+		m_pRespawnSystem.PrepareCharacter(characterInfo.param1, characterData);
+		m_sEnqueuedPlayers.Insert(characterInfo.param1);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void OnPlayerSpawned(int playerId, IEntity controlledEntity)
+	{
+		m_sEnqueuedPlayers.RemoveItem(playerId);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void OnPlayerKilled(int playerId, IEntity player, IEntity killer)
+	{
+		if (!m_pGameMode.IsMaster())
+			return;
+
+		// Add the dead body root entity collection so it spawns back after restart for looting
+		EPF_PersistenceComponent persistence = EL_Component<EPF_PersistenceComponent>.Find(player);
+		if (persistence)
+		{
+			persistence.SetPersistentId(string.Empty); // Force generation of new id for dead body
+			persistence.ForceSelfSpawn();
 		}
 
-		// Prepare spawn data buffer with last known player data (null for fresh accounts) and spawn character
-		m_pRespawnSystem.SetSpawnData(characterInfo.param1, characterData);
-		GetGame().GetPlayerManager().GetPlayerController(characterInfo.param1).RequestRespawn();
+		// Prepare and execute fresh character spawn
+		m_pRespawnSystem.PrepareCharacter(playerId, null);
+		m_sEnqueuedPlayers.Insert(playerId);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void OnPlayerDisconnected(int playerId, KickCauseCode cause, int timeout)
+	{
+		if (!m_pGameMode.IsMaster())
+			return;
+
+		m_sEnqueuedPlayers.RemoveItem(playerId);
+
+		EL_PlayerAccountManager accountManager = EL_PlayerAccountManager.GetInstance();
+		EL_PlayerAccount account = accountManager.GetFromCache(playerId);
+
+		IEntity player = m_pPlayerManager.GetPlayerController(playerId).GetControlledEntity();
+		if (player)
+		{
+			EPF_PersistenceComponent persistence = EL_Component<EPF_PersistenceComponent>.Find(player);
+			persistence.PauseTracking();
+			persistence.Save();
+		}
+		else if (account)
+		{
+			EL_PlayerCharacter character = account.GetActiveCharacter();
+			if (character)
+			{
+				IEntityComponentSource persistenceSource = SCR_BaseContainerTools.FindComponentSource(Resource.Load(character.GetPrefab()), EPF_PersistenceComponent);
+				if (persistenceSource)
+				{
+					BaseContainer saveData = persistenceSource.GetObject("m_pSaveData");
+					if (saveData)
+					{
+						typename saveDataType = saveData.GetClassName().ToType();
+						EPF_PersistenceManager.GetInstance().RemoveAsync(saveDataType, character.GetId());
+					}
+				}
+			}
+		}
+
+		if (account)
+			accountManager.SaveAndReleaseAccount(account);
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override void EOnFrame(IEntity owner, float timeSlice)
+	{
+		if (m_sEnqueuedPlayers.IsEmpty())
+			return;
+
+		set<int> iterCopy();
+		iterCopy.Copy(m_sEnqueuedPlayers);
+		foreach (int playerId : iterCopy)
+		{
+			if (m_pRespawnSystem.IsReadyForSpawn(playerId))
+				m_pPlayerManager.GetPlayerController(playerId).RequestRespawn();
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------
 	override protected void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
-
-		m_pRespawnSystem = EL_RespawnSytemComponent.Cast(owner.FindComponent(EL_RespawnSytemComponent));
+		m_pRespawnSystem = EL_Component<EL_RespawnSytemComponent>.Find(owner);
+		m_pPlayerManager = GetGame().GetPlayerManager();
 	}
-}
+};

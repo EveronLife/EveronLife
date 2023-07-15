@@ -30,7 +30,7 @@ class EL_GatherAction : ScriptedUserAction
 	{
 		if (!EL_NetworkUtils.IsOwner(pOwnerEntity)) return;
 		
-		SCR_InventoryStorageManagerComponent inventoryManager = EL_ComponentFinder<SCR_InventoryStorageManagerComponent>.Find(pUserEntity);
+		SCR_InventoryStorageManagerComponent inventoryManager = EL_Component<SCR_InventoryStorageManagerComponent>.Find(pUserEntity);
 		if (EL_InventoryUtils.AddAmount(inventoryManager, m_GatherItemPrefab, m_GatherAmount))
 		{
 			inventoryManager.RpcAsk_PlaySound(EL_NetworkUtils.GetRplId(pUserEntity), "SOUND_PICK_UP");
@@ -81,7 +81,7 @@ class EL_GatherAction : ScriptedUserAction
 		if (!m_GatherToolRequirement) return true;
 
 		SetCannotPerformReason("Requires item in hands");
-		CharacterControllerComponent characterController = EL_ComponentFinder<CharacterControllerComponent>.Find(user);
+		CharacterControllerComponent characterController = EL_Component<CharacterControllerComponent>.Find(user);
 		if (characterController)
 		{
 			IEntity rightHandItem = characterController.GetRightHandItem();

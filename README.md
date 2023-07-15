@@ -22,6 +22,9 @@ Through our high quality standards, our love for the community and our mature co
 #### ▶ [READ MORE ABOUT EVERON LIFE](https://github.com/EveronLife/EveronLife/discussions/42) ◀
 _______
 
+> **Warning**
+> The game mode is still under heavy development and is not ready to be played yet.
+
 ## 🚀 Features
 <!--
 🚧 meaning is being actively worked on

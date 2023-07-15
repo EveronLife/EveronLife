@@ -42,7 +42,7 @@ class EL_UIInfoUtils
 	{
 		if (!entity) return null;
 
-		InventoryItemComponent item = EL_ComponentFinder<InventoryItemComponent>.Find(entity);
+		InventoryItemComponent item = EL_Component<InventoryItemComponent>.Find(entity);
 		if (!item) return null;
 
 		UIInfo resultInfo = item.GetAttributes().GetUIInfo();
