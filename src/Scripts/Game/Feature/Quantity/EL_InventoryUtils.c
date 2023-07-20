@@ -40,7 +40,7 @@ modded class EL_InventoryUtils
 
 		int remainingAmount = amount;
 
-		bool isQuantityPrefab = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), EL_QuantityComponent);
+		bool isQuantityPrefab = SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), EL_QuantityComponent) != null;
 		if (isQuantityPrefab)
 		{
 			// Try fill up existing quantity components first
