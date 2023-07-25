@@ -56,7 +56,24 @@ class EL_RespawnSystemComponent : SCR_RespawnSystemComponent
 	//------------------------------------------------------------------------------------------------
 	override void OnPlayerDisconnected_S(int playerId, KickCauseCode cause, int timeout)
 	{
-		super.OnPlayerDisconnected_S(playerId, cause, timeout);
+		IEntity character = m_pPlayerManager.GetPlayerController(playerId).GetControlledEntity();
+		if (character)
+		{
+			EPF_PersistenceComponent persistence = EPF_Component<EPF_PersistenceComponent>.Find(character);
+			persistence.PauseTracking();
+			persistence.Save();
+			// Game will cleanup the char for us because it was controlled by the player.
+		}
+		else
+		{
+			// Delete a still loading char that was not handed over to a player.
+			IEntity transientCharacter = m_mLoadingCharacters.Get(playerId);
+			EPF_PersistenceComponent persistence = EPF_Component<EPF_PersistenceComponent>.Find(transientCharacter);
+			if (persistence)
+				persistence.PauseTracking();
+
+			SCR_EntityHelper.DeleteEntityAndChildren(transientCharacter);
+		}
 
 		EL_PlayerAccountManager accountManager = EL_PlayerAccountManager.GetInstance();
 		EL_PlayerAccount account = accountManager.GetFromCache(playerId);
