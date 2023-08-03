@@ -1,9 +1,0 @@
-GenericEntity {
- ID "4BA426CBAED42A14"
- components {
-  EL_PersistenceComponent "{5A28749FA22EC9AC}" {
-   m_pSaveData EL_ItemSaveDataClass "{5A28749FA0C6FB38}" {
-   }
-  }
- }
-}
