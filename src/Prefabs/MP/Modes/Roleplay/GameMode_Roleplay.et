@@ -32,6 +32,8 @@ EL_GameModeRoleplay {
       }
      }
     }
+    EPF_PersistentDoorStateManagerComponent "{5E0896B880761681}" {
+    }
    }
    m_pConnectionInfo EDF_JsonFileDbConnectionInfo "{5D6F1C3462E3EE02}" {
     m_sDatabaseName "EveronLife"
