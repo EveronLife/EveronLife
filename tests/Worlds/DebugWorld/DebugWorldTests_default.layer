@@ -1,4 +1,4 @@
-GenericEntity Testbench : "{467951CEFC8F345B}PrefabLibrary/Props/Civilian/SignPub_01.et" {
+SCR_DestructibleEntity Testbench : "{467951CEFC8F345B}PrefabLibrary/Props/Civilian/SignPub_01.et" {
  components {
   RigidBody "{5872F0EB7DFB5A9D}" {
   }
@@ -28,5 +28,5 @@ GenericEntity Testbench : "{467951CEFC8F345B}PrefabLibrary/Props/Civilian/SignPu
    Streamable Disabled
   }
  }
- coords 109.995 0.001 137.935
+ coords 109.995 0.001 136.617
 }

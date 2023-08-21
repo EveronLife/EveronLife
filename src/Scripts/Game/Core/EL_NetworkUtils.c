@@ -1,4 +1,4 @@
-class EL_NetworkUtils
+class EL_NetworkUtils : EPF_NetworkUtils
 {
 	//------------------------------------------------------------------------------------------------
 	static RplId GetRplId(IEntity entity)

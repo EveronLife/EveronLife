@@ -8,7 +8,7 @@ modded class SCR_InventoryStoragesListUI
 	//------------------------------------------------------------------------------------------------
 	void EL_UpdateHandSlot()
 	{
-		EL_HandInventoryStorageComponent handStorage = EL_ComponentFinder<EL_HandInventoryStorageComponent>.Find(m_Storage.GetOwner());
+		EL_HandInventoryStorageComponent handStorage = EL_Component<EL_HandInventoryStorageComponent>.Find(m_Storage.GetOwner());
 		if (!handStorage) return;
 
 		IEntity item;
@@ -18,7 +18,7 @@ modded class SCR_InventoryStoragesListUI
 
 		if (item)
 		{
-			InventoryItemComponent invItem = EL_ComponentFinder<InventoryItemComponent>.Find(item);
+			InventoryItemComponent invItem = EL_Component<InventoryItemComponent>.Find(item);
 
 			if (!m_pELHandSlot)
 			{

@@ -6,15 +6,15 @@ GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
     "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
    }
   }
-  EL_PersistenceComponent "{5A0D2D213B33ECD8}" {
-   m_pSaveData EL_ItemSaveData "{5A0D2D2139A3D7EC}" {
+  EL_QuantityComponent "{5AD2B81F97B9381B}" {
+  }
+  EPF_PersistenceComponent "{5A0D2D213B33ECD8}" {
+   m_pSaveData EPF_ItemSaveDataClass "{5A0D2D2139A3D7EC}" {
     m_aComponents {
-     EL_QuantityComponentSaveData "{5AD69915FD125194}" {
+     EL_QuantityComponentSaveDataClass "{5E0678CA7591F1F3}" {
      }
     }
    }
-  }
-  EL_QuantityComponent "{5AD2B81F97B9381B}" {
   }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {

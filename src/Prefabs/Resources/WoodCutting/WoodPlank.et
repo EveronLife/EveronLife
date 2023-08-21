@@ -1,9 +1,6 @@
 GenericEntity : "{6BF776E22ECF67E7}Prefabs/Items/Core/HandCarryItem_Base.et" {
  ID "0000000000000001"
  components {
-  EL_PersistenceComponent "{5A0D2D213B33ECD8}" {
-   Enabled 1
-  }
   InventoryItemComponent "{5222EB4D0C73006B}" {
    Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
     ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
