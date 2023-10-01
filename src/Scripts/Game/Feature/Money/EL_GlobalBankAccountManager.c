@@ -59,7 +59,7 @@ class EL_GlobalBankAccountManager : GenericEntity
 		}
 
 		//Send account data to client
-		EL_RpcSenderComponent rpcSender = EL_ComponentFinder<EL_RpcSenderComponent>.Find(player);
+		EL_RpcSenderComponent rpcSender = EPF_Component<EL_RpcSenderComponent>.Find(player);
 		rpcSender.AskSetLocalBankAccount(bankAccount);
 	}
 
