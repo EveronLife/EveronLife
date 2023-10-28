@@ -116,13 +116,16 @@ Go into the installation directory of your dedicated server e.g. `C:\Program Fil
 	"bindPort": 2001,
 	"publicAddress": "",
 	"publicPort": 2001,
+	"a2s": {
+		"address": "",
+		"port": 17777
+	},
 	"game": {
 		"name": "Roleplay - MyCustomServer",
 		"password": "",
 		"passwordAdmin": "roleplayftw",
 		"scenarioId": "{5C552F6B07B10383}Missions/MyCustomServer.conf", <----- Mission config path mentioned in the previous step
-		"playerCountLimit": 32,
-		"autoJoinable": true,
+		"maxPlayers": 64,
 		"visible": true,
 		"gameProperties": {
 			"serverMaxViewDistance": 2500,
@@ -139,9 +142,7 @@ Go into the installation directory of your dedicated server e.g. `C:\Program Fil
 				"version": "0.0.1" <---------------------- Your mod version here (likely to be 0.0.1 at first if you followed this guide.
 			}
 		]
-	},
-	"a2sQueryEnabled": true,
-	"steamQueryPort": 17777
+	}
 }
 ```
 Make sure to remove the helper arrows from the file before saving.
