@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{046F651565FB8615}Configs/ItemShop/Shops/GeneralStoreConfig.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,80 @@
+GenericEntity {
+ ID "59C4F485BE70DBE7"
+ components {
+  EL_ShopItemComponent "{5AC6DBF94189D860}" {
+   m_ShopsConfig EL_ShopsConfig "{5B1087A47B9AA61D}" : "{9CA1D6CE3F6914BA}Configs/ItemShop/EL_Shops.conf" {
+   }
+  }
+  InventoryItemComponent "{5B1733B735196E46}" {
+   Attributes SCR_ItemAttributeCollection "{5B1733B734927C76}" {
+    ItemPhysAttributes ItemPhysicalAttributes "{5B1733B748B4EFD1}" {
+     Weight 0
+     SizeSetupStrategy Volume
+     ItemDimensions 1 1 1
+     ItemVolume 0
+     DimensionScaler 0
+     ActivePhysicalSimulation None
+    }
+    m_SlotType SLOT_ANY
+    m_bDraggable 0
+    m_bVisible 0
+   }
+  }
+  MeshObject "{59C4F48745893DBF}" {
+  }
+  ActionsManagerComponent "{59C4F487641A3025}" {
+   ActionContexts {
+    UserActionContext "{59C4F4877FC8DC6C}" {
+     ContextName "default"
+     Position PointInfo "{59C4F487736AF3DB}" {
+     }
+     Radius 0.5
+    }
+   }
+   additionalActions {
+    EL_BuyItemAction "{59C4F4878D841445}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 1
+    }
+    EL_BuyItemAction "{5B0CE8A3AC2813C3}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 10
+     m_iBuyAmount 10
+    }
+    EL_SellItemAction "{5AFB307B26D7FFE2}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 1001
+    }
+    EL_SellItemAction "{5B0CE8A3BA19D2A4}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 1010
+     m_iSellAmount 10
+    }
+    EL_SellItemAction "{5B0CC2F9E89996B9}" {
+     ParentContextList {
+      "default"
+     }
+     Duration 0.5
+     "Sort Priority" 1999
+     m_iSellAmount -1
+    }
+   }
+  }
+  RplComponent "{59C4F4898DA2E09B}" {
+  }
+ }
+ coords 4713.364 164.864 6932.544
+ Flags 1027
+}
