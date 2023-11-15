@@ -8,16 +8,16 @@ class EL_ChangeTimeAction : ScriptedUserAction
 	{
 		RplComponent replication = RplComponent.Cast(pOwnerEntity.FindComponent(RplComponent));
 		if (replication && !replication.IsOwner()) return;
-		
-		TimeAndWeatherManagerEntity weatherManager = GetGame().GetTimeAndWeatherManager();
-		if (!weatherManager) return;
-		
-		weatherManager.SetTimeOfTheDay(m_fTargetTime, true);
+
+		ChimeraWorld world = pOwnerEntity.GetWorld();
+		TimeAndWeatherManagerEntity weatherManager = world.GetTimeAndWeatherManager();
+		if (weatherManager)
+			weatherManager.SetTimeOfTheDay(m_fTargetTime, true);
 	}
-	
+
 	//------------------------------------------------------------------------------------------------
 	override bool CanBePerformedScript(IEntity user)
- 	{
+	{
 		return true;
- 	}
+	}
 }

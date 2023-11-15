@@ -341,12 +341,9 @@ modded class SCR_InventoryMenuUI
 			if ((storage.GetOccupiedSpace() + physicalAttributes.GetVolume()) > storage.GetMaxVolumeCapacity()) return false;
 
 			// Check max weight for scripted storages
-			if (storage.Type().IsInherited(SCR_UniversalInventoryStorageComponent))
-			{
-				bool weightOk;
-				GetGame().GetScriptModule().Call(storage, "IsWeightOk", false, weightOk, physicalAttributes.GetWeight());
-				if (!weightOk) return false;
-			}
+			auto universalStorage = SCR_UniversalInventoryStorageComponent.Cast(storage);
+			if (universalStorage && !universalStorage.IsWeightOk(physicalAttributes.GetWeight()))
+				return false;
 		}
 
 		return true;
@@ -382,7 +379,7 @@ modded class SCR_InventoryMenuUI
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override void OnAction(SCR_NavigationButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
+	override void OnAction(SCR_InputButtonComponent comp, string action, SCR_InventoryStorageBaseUI pParentStorage = null, int traverseStorageIndex = -1)
 	{
 		switch (action)
 		{
@@ -467,6 +464,7 @@ modded class SCR_InventoryMenuUI
 	}
 
 	//------------------------------------------------------------------------------------------------
+	/*
 	override bool FocusOnSlotInStorage(SCR_InventoryStorageBaseUI storage, int id = 0, bool focus = true)
 	{
 		array<SCR_InventorySlotUI> slots = storage.GetUISlots();
@@ -486,6 +484,7 @@ modded class SCR_InventoryMenuUI
 
 		return super.FocusOnSlotInStorage(storage, id, focus);
 	}
+	*/
 
 	//------------------------------------------------------------------------------------------------
 	override void OnMenuOpen()
