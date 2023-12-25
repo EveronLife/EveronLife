@@ -23,7 +23,7 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
        IkSettingsStand 4
       }
      }
-     AnimationInstance "{D01958BBC8FE6598}anims/workspaces/player/player_main_pistol_beretta.asi"
+     AnimationInstance "{41AABAE44257A657}anims/workspaces/player/player_main_pistol.asi"
      AnimationIKPose "{6AAD163C7072AF0F}Assets/Weapons/Handguns/M9/anims/anm/p_m9_ik.anm"
     }
     CustomAttributes {
@@ -42,10 +42,6 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
   SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
    m_fDamage 20.22
    m_fRange 1
-   m_fExecutionTime 2
-   m_aCollisionProbesPos {
-    0 -0.05 0 0 -0.025 0.05
-   }
   }
   WeaponComponent "{5990809682E12ADF}" {
    SignalsSourceAccess SignalsSourceAccessClass "{59927B29CCA9EA6F}" {

@@ -6,8 +6,8 @@ GenericEntity : "{69FC0AAC5FFE1288}Prefabs/Weapons/Core/Melee_Base.et" {
     "{430CD8162D17C2FF}Sounds/Weapons/_SharedData/Melee/Weapons_Melee_Pistol.acp" "{8D040E18DFEC29AF}Sounds/Weapons/_SharedData/PickUp/Weapons_PickUp_HandGun.acp"
    }
   }
-  EL_PersistenceComponent "{5A4C7559CF69AAF0}" {
-   m_pSaveData EL_ItemSaveDataClass "{5A4C7559EABBF0B0}" {
+  EPF_PersistenceComponent "{5E0678CB9F3D3919}" {
+   m_pSaveData EPF_ItemSaveDataClass "{5E0678CB9AB2FCAC}" {
    }
   }
   InventoryItemComponent "{5ACCA164BC7A99A2}" {

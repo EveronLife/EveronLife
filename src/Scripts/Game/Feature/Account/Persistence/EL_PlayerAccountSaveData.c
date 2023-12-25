@@ -8,6 +8,27 @@ class EL_PlayerAccountSaveData : EPF_ScriptedStateSaveData
 	int m_iActiveCharacterIdx;
 
 	//------------------------------------------------------------------------------------------------
+	override EPF_EReadResult ReadFrom(notnull Managed scriptedState)
+	{
+		// TODO: Undo this and make the props protected again after https://feedback.bistudio.com/T174113 is fixed!
+		EL_PlayerAccount account = EL_PlayerAccount.Cast(scriptedState);
+		SetId(account.GetPersistentId());
+		m_aCharacters = account.m_aCharacters;
+		m_iActiveCharacterIdx = account.m_iActiveCharacterIdx;
+		return EPF_EReadResult.OK;
+	}
+
+	//------------------------------------------------------------------------------------------------
+	override EPF_EApplyResult ApplyTo(notnull Managed scriptedState)
+	{
+		EL_PlayerAccount account = EL_PlayerAccount.Cast(scriptedState);
+		account.SetPersistentId(GetId());
+		account.m_aCharacters = m_aCharacters;
+		account.m_iActiveCharacterIdx = m_iActiveCharacterIdx;
+		return EPF_EReadResult.OK;
+	}
+
+	//------------------------------------------------------------------------------------------------
 	override bool Equals(notnull EPF_ScriptedStateSaveData other)
 	{
 		EL_PlayerAccountSaveData otherData = EL_PlayerAccountSaveData.Cast(other);
@@ -49,4 +70,4 @@ class EL_PlayerAccountSaveData : EPF_ScriptedStateSaveData
 	{
 		return (a.GetId() == b.GetId()) && (a.GetPrefab() == b.GetPrefab());
 	}
-};
+}

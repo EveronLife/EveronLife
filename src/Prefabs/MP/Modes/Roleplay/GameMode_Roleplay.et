@@ -1,38 +1,40 @@
 EL_GameModeRoleplay {
  ID "59751433747FB462"
  components {
-  EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
-  }
-  EL_RespawnSytemComponent "{5A10698A884816E6}" {
-   m_aDefaultCharacterPrefabs {
-    "{CE23D4366B47E9B9}Prefabs/Characters/Presets/White_Male_01.et" "{C465F15DDF56A6D8}Prefabs/Characters/Presets/Asian_Male_02.et" "{BFD6AFB8A1D8E2F9}Prefabs/Characters/Presets/Black_Male_02.et"
-   }
-   m_aDefaultCharacterItems {
-    EL_DefaultLoadoutItem "{5B04BEA632661AF2}" {
-     m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
-     m_ePurpose PURPOSE_LOADOUT_PROXY
-     m_aStoredItems {
-      EL_DefaultLoadoutItem "{5B04BEA625F04EAC}" {
-       m_rPrefab "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
-       m_aComponentDefaults {
-        EL_DefaultLoadoutItemQuantityComponent "{5B04BEA65E4A1912}" {
-         m_iQuantity 100
+  EPF_PersistenceManagerComponent "{5D6F1C34679B4DC0}" {
+   components {
+    EL_RespawnSystemComponent "{5DE922B7CF459104}" {
+     m_aDefaultCharacterPrefabs {
+      "{CE23D4366B47E9B9}Prefabs/Characters/Presets/White_Male_01.et" "{C465F15DDF56A6D8}Prefabs/Characters/Presets/Asian_Male_02.et" "{BFD6AFB8A1D8E2F9}Prefabs/Characters/Presets/Black_Male_02.et"
+     }
+     m_aDefaultCharacterItems {
+      EL_DefaultLoadoutItem "{5DE922B73E9BEFE0}" {
+       m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
+       m_ePurpose PURPOSE_LOADOUT_PROXY
+       m_aStoredItems {
+        EL_DefaultLoadoutItem "{5DE922B7340B5316}" {
+         m_rPrefab "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
+         m_aComponentDefaults {
+          EL_DefaultLoadoutItemQuantityComponent "{5DE922B72CFC64BE}" {
+           m_iQuantity 100
+          }
+         }
         }
        }
       }
+      EL_DefaultLoadoutItem "{5DE92DF82F18AE7D}" {
+       m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
+       m_ePurpose PURPOSE_LOADOUT_PROXY
+      }
+      EL_DefaultLoadoutItem "{5DE92DF82CDA1016}" {
+       m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+       m_ePurpose PURPOSE_LOADOUT_PROXY
+      }
      }
     }
-    EL_DefaultLoadoutItem "{5B04BEA657DB0F2D}" {
-     m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
-     m_ePurpose PURPOSE_LOADOUT_PROXY
-    }
-    EL_DefaultLoadoutItem "{5B04BEA6507A8381}" {
-     m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
-     m_ePurpose PURPOSE_LOADOUT_PROXY
+    EPF_PersistentDoorStateManagerComponent "{5E0896B880761681}" {
     }
    }
-  }
-  EPF_PersistenceManagerComponent "{5D6F1C34679B4DC0}" {
    m_pConnectionInfo EDF_JsonFileDbConnectionInfo "{5D6F1C3462E3EE02}" {
     m_sDatabaseName "EveronLife"
    }
@@ -44,14 +46,6 @@ EL_GameModeRoleplay {
   SCR_NametagConfigComponent "{597514328498E41D}" {
    Enabled 0
    m_sConfigPath "{8547E1B142411624}Configs/NameTags/NametagRoleplay.conf"
-  }
-  SCR_RadialMenuComponent "{5C7B0A4E4002C0BA}" {
-   m_sInput_Toggle "Inventory_WeaponSwitchingRadial"
-   m_bUsingLeftStick 0
-   m_bHoldToggleToOpen 1
-   m_iEntryPerformType OnClose
-   m_bEvenlyPlacedEntries 1
-   m_iSelectionBehavior FreeMove
   }
   RplComponent "{597514327E500A0C}" {
    Streamable Disabled

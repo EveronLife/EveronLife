@@ -1,7 +1,7 @@
 class EL_PlayerAccount : EPF_PersistentScriptedState
 {
-	protected ref array<ref EL_PlayerCharacter> m_aCharacters = {};
-	protected int m_iActiveCharacterIdx;
+	/*protected*/ ref array<ref EL_PlayerCharacter> m_aCharacters = {};
+	/*protected*/ int m_iActiveCharacterIdx;
 
 	//------------------------------------------------------------------------------------------------
 	void AddCharacter(notnull EL_PlayerCharacter character, bool setAsActive = false)
