@@ -45,7 +45,7 @@ class EL_GatherAction : ScriptedUserAction
 		//Initalize timeout if resource depleted
 		if(m_iRemainingGathers <= 0)
 		{
-			m_fNextQuantityRestock = Replication.Time() + m_GatherTimeout;
+			m_fNextQuantityRestock = pOwnerEntity.GetWorld().GetTimestamp().DiffMilliseconds(null) + m_GatherTimeout;
 		}
 	}
 
@@ -70,9 +70,10 @@ class EL_GatherAction : ScriptedUserAction
 	// If so, check if its in the users inventory/hands depending on settings set
 	override bool CanBePerformedScript(IEntity user)
  	{
-		if(m_fNextQuantityRestock > Replication.Time())
+		float time = user.GetWorld().GetTimestamp().DiffMilliseconds(null);
+		if (m_fNextQuantityRestock > time)
 		{
-			int secondsLeft = (m_fNextQuantityRestock - Replication.Time()) / 1000;
+			int secondsLeft = (m_fNextQuantityRestock - time) / 1000;
 			SetCannotPerformReason(string.Format("Please wait %1 seconds", secondsLeft + 1)); //+1 to avoid 0 seconds left.
 			return false;
 		}
