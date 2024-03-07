@@ -160,4 +160,4 @@ When you attempt to join it will prompt you to download the mods it uses.
 
 ### Something is not working?
 Go through the steps again, maybe you overlooked something. Otherwise, compare your setup with the example files repository that can be found [here](https://github.com/EveronLife/MyCustomServer).
-If that does not help, reach out to us via discussions or [Discord](https://discord.gg/everonlife)
+If that does not help, reach out to us via discussions or [Discord](https://discord.gg/YJmUHe7K3S)
