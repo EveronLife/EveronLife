@@ -8,7 +8,7 @@
 
 [![Releases](https://img.shields.io/github/v/release/EveronLife/EveronLife)](https://github.com/EveronLife/EveronLife/releases)
 [![Contributors](https://img.shields.io/github/contributors/EveronLife/EveronLife)](https://github.com/EveronLife/EveronLife/graphs/contributors)
-[![Discord](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/everonlife)
+[![Discord](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/YJmUHe7K3S)
 [![License MIT](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 </div>
 
