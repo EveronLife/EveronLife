@@ -1,0 +1,52 @@
+GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
+ ID "598F21A86EB5B48E"
+ components {
+  MeshObject "{598F21A867C4015C}" {
+   Object "{D73D5FE0EEFBCD9B}Assets/Props/Industrial/BarrelMetal_01/BarrelMetal_01.xob"
+   Materials {
+    MaterialAssignClass "{5A5B3767496922BD}" {
+     SourceMaterial "BarrelMetal_01"
+     AssignedMaterial "{4A8694FF26DA3078}Assets/Props/Industrial/BarrelMetal_01/Data/BarrelMetal_01_rust.emat"
+    }
+   }
+  }
+  Hierarchy "{5A5B376614CF16A7}" {
+  }
+  ActionsManagerComponent "{598F21A8710B89C1}" {
+   ActionContexts {
+    UserActionContext "{598F21A871DA7304}" {
+     Position PointInfo "{598F21A875320722}" {
+      Offset 0 0.3718 0.1281
+     }
+     Radius 1
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{598F21A877BE6DEE}" {
+     UIInfo UIInfo "{5A5B376614CF16B2}" {
+      Name "Process Opium"
+     }
+     Duration 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{5A5B376614CF194B}" {
+       m_InputPrefab "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et"
+      }
+      EL_ProcessingInput "{5A5B376614CF194D}" {
+       m_InputPrefab "{F18EF6233EADE5E5}Prefabs/Items/Drugs/PickedPoppies.et"
+       m_iInputAmount 10
+      }
+      EL_ProcessingInput "{5A5B376614CF194C}" {
+       m_InputPrefab "{174F6806DF7F3C92}Prefabs/Items/Resources/Jerrycan_Empty.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{5A5B376614CF194E}" {
+       m_OutputPrefab "{3C87D05C5C79625A}Prefabs/Items/Resources/Jerrycan_MorphineSolution.et"
+      }
+     }
+    }
+   }
+  }
+ }
+ coords 109.747 0.917 134.929
+}

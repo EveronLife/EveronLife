@@ -1,0 +1,5 @@
+MatPBRBasic {
+ Color 0.157 0.275 0.624 1
+ BCRMap "{9A09133C07512467}Assets/Props/Civilian/PaintCan_01/Data/PaintCan_01_BCR.edds"
+ NMOMap "{A2D1A8AEDE2676F9}Assets/Props/Civilian/PaintCan_01/Data/PaintCan_01_NMO.edds"
+}

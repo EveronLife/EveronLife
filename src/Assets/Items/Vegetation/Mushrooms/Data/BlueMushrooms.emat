@@ -1,0 +1,6 @@
+MatPBRBasic {
+ Color 0.157 0.275 0.624 1
+ SpecularIBL 0.312 0.312 0.312 1
+ BCRMap "{0B012BCFBC322579}Assets/Clutter/Vegetation/Mushrooms/Data/c_mushrooms_01_BCR.edds"
+ NMOMap "{D8E7E48094F695A5}Assets/Clutter/Vegetation/Mushrooms/Data/c_mushrooms_01_N.edds"
+}
