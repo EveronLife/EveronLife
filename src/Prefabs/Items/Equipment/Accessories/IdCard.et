@@ -1,0 +1,62 @@
+GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  SoundComponent "{59927CDF1923CCA3}" {
+   Filenames {
+    "{13F8D0DE67678118}Sounds/Items/_SharedData/PickUp/Items_PickUp_Map.acp"
+   }
+   OnFrameUpdate 0
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "ID Card"
+     Description "This is your ID Card, don't lose it!"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 0.2
+     ItemVolume 113
+     RestingUP Forward
+     RestingAdditiveRotationLS 0 0 0
+     RestingAdditiveOffsetLS 0 0 -0.008
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59927CDF1923CCAA}" {
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59927CDF1923CCAF}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation -65 -60 -60
+     HandAdditiveTranslation -0.07 0.03 -0.01
+    }
+   }
+   WbPlacementFromAttributes 1
+  }
+  MeshObject "{59927CDF1923CCD2}" {
+   Object "{F0EA214737403A67}Assets/Items/Equipment/Accessories/IdCard/IdCard.xob"
+   LODScale 0.1
+   PixelSizeScale 10
+  }
+  RigidBody "{59927CDF1923CCD4}" {
+   LinearDamping 0.5
+   AngularDamping 0.5
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   Static 1
+   CCDRadius 0.015
+  }
+  SCR_GadgetComponent "{5994769C10789CF5}" {
+   m_eAnimVariable FLASHLIGHT_SOVIET_01
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   ActionContexts {
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{51EC842E3A187379}" {
+    }
+   }
+  }
+ }
+}
