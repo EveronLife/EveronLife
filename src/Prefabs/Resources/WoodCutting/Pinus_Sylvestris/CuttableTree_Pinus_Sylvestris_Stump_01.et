@@ -1,0 +1,7 @@
+Tree : "{1263BEF0B822A24A}Prefabs/Vegetation/Tree/t_pinus_sylvestris_stump_01.et" {
+ ID "0F2AA6B42CA78628"
+ components {
+  RplComponent "{5ACE976391B3DB7F}" {
+  }
+ }
+}

@@ -1,0 +1,69 @@
+GenericEntity : "{6BF776E22ECF67E7}Prefabs/Items/Core/HandCarryItem_Base.et" {
+ ID "59E108D9C9FD1407"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Wooden log"
+     Description "Part of a cut down tree"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{59E108D9A227B7E3}" {
+     DimensionScaler 0
+     RestingAdditiveRotationLS 0 0 0
+     RestingAdditiveOffsetLS 0 0 0
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59E108DB000CCEEB}" {
+     AnimationAttachments {
+      AnimationAttachmentInfo "{59E33B494D8FF442}" {
+       AnimGraph "{9028A404378C292B}Anims/Workspaces/Player/player_carry.agr"
+       AnimInstance "{7D42F1DF2B857BC5}Anims/Workspaces/Player/player_carry.asi"
+       StartNode "Player Carry"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 90 0 0
+     HandAdditiveTranslation -0.147 2.1 -1
+    }
+    CustomAttributes {
+     CharacterModifierAttributes "{59E489793FA8F156}" {
+      SpeedLimit 1
+      ADSSpeedLimit 1
+      SpeedLimitHighready 1
+      CanBeEquippedInVehicle 0
+     }
+     PreviewRenderAttributes "{59E4897D1350DC3B}" {
+      CameraPreset Top
+      CameraDistanceToItem 1
+      CameraOffset 0 -0.05 0.2
+      ItemRenderRotation 0 0 90
+     }
+    }
+    m_Size SLOT_2x1
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{8D73FF908E973C20}Assets/Props/Forest/WoodPile_01/Dst/WoodLog_01_C_dst_01.xob"
+  }
+  RigidBody "{5A4ACBB1A0084DA1}" {
+   Active Active
+   Mass 0.25
+   CenterOfMass 0 0 -2
+   LinearDamping 0.45
+   AngularDamping 0.45
+   ResponseIndex "SmallDestructible"
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   ActionContexts {
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 0.05 -2
+     }
+    }
+   }
+   additionalActions {
+    SCR_PickUpItemAction "{51EC842E3A187379}" {
+    }
+   }
+  }
+ }
+}

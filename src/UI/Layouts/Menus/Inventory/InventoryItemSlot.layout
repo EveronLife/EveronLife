@@ -1,0 +1,43 @@
+SizeLayoutWidgetClass {
+ {
+  ButtonWidgetClass "{0000000066E08B87}" {
+   Prefab "{0000000066E08B87}"
+   {
+    OverlayWidgetClass "{00000000A5515BE1}" {
+     Prefab "{00000000A5515BE1}"
+     {
+      VerticalLayoutWidgetClass "{55388A642B0B8008}" {
+       Prefab "{55388A642B0B8008}"
+       {
+        HorizontalLayoutWidgetClass "{5696AC7B18E45929}" {
+         Prefab "{5696AC7B18E45929}"
+         {
+          OverlayWidgetClass "{5696AC7B18E45923}" {
+           Prefab "{5696AC7B18E45923}"
+           Slot LayoutSlot "{5670AEF48A7B2AC1}" {
+            FillWeight 2.0
+           }
+           {
+            HorizontalLayoutWidgetClass "{571E75B49AF5F401}" {
+             Prefab "{571E75B49AF5F401}"
+             {
+              TextWidgetClass "{5696AC7B18E45922}" {
+               Prefab "{5696AC7B18E45922}"
+               Slot LayoutSlot "{571E75B49846B5C3}" {
+                Padding 0 0 8 0
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

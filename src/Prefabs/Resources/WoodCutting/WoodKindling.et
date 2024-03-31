@@ -1,0 +1,22 @@
+GenericEntity : "{8B993DEBBF41116C}Prefabs/Items/Core/RoleplayItem_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Wood Kindling"
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5A5EE74F6DA6882D}" {
+      CameraPreset Top
+      CameraDistanceToItem 0.6
+      ItemRenderRotation 0 0 90
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{B91CE31467CC6D56}Assets/Props/Civilian/WoodKindling_01/WoodKindling_01.xob"
+  }
+ }
+}

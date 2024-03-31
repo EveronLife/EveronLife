@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{4762CA1C4E5BCCBA}Assets/UI/EL_StatsBars.imageset"
+ Configurations {
+  ImageSetResourceClass PC {
+  }
+  ImageSetResourceClass XBOX_ONE : PC {
+  }
+  ImageSetResourceClass XBOX_SERIES : PC {
+  }
+  ImageSetResourceClass PS4 : PC {
+  }
+  ImageSetResourceClass HEADLESS : PC {
+  }
+ }
+}

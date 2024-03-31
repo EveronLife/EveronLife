@@ -1,0 +1,38 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Brick"
+     Description "A brick"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 1
+     SizeSetupStrategy Volume
+     ItemVolume 100
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59BCA073459D6271}" {
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0.005 -0.065
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{59BCA073459D626C}" {
+      CameraOrbitAngles 90 0 90
+      CameraDistanceToItem 0.3
+      CameraOffset 0 0 0
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{2A301FAA4ED493E3}Assets/Props/Debris/Brick/Brick_dbr_02.xob"
+   Materials {
+    MaterialAssignClass "{59BCB28CAE705ACE}" {
+     SourceMaterial "Assets/Structures/Walls/Brick/Data/BrickWall_01_bricks"
+     AssignedMaterial "{F91EF4F5C90B9DF8}Assets/Rocks/Granite/Data/GraniteCluster_01.emat"
+    }
+   }
+  }
+ }
+}

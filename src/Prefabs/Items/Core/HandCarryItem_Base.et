@@ -1,0 +1,16 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  EL_HandCarryComponent "{5AACABCF01ABD97D}" {
+   m_eAnimVariable EL_ITEM
+  }
+  EL_QuantityComponent "{5AD2B81F97B9381B}" {
+   m_iMaxQuantity 1
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    m_SlotType SLOT_GADGETS_STORAGE
+   }
+  }
+ }
+}

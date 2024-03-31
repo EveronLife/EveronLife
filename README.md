@@ -8,7 +8,7 @@
 
 [![Releases](https://img.shields.io/github/v/release/EveronLife/EveronLife)](https://github.com/EveronLife/EveronLife/releases)
 [![Contributors](https://img.shields.io/github/contributors/EveronLife/EveronLife)](https://github.com/EveronLife/EveronLife/graphs/contributors)
-[![Discord](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/everonlife)
+[![Discord](https://img.shields.io/discord/976203864632086619?label=discord)](https://discord.gg/YJmUHe7K3S)
 [![License MIT](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 </div>
 
@@ -21,6 +21,9 @@ Through our high quality standards, our love for the community and our mature co
 
 #### ▶ [READ MORE ABOUT EVERON LIFE](https://github.com/EveronLife/EveronLife/discussions/42) ◀
 _______
+
+> **Warning**
+> The game mode is still under heavy development and is not ready to be played yet.
 
 ## 🚀 Features
 <!--
@@ -41,7 +44,7 @@ How to [customize your server](docs/custom_server.md) (including how to set one 
 *Quick start guide for server owners using Docker coming soon.*
 
 ## 📖 Documentation
-Detailed information for server owners and our technical documentation can be found here [here](docs/index.md).
+Detailed information for server owners and our technical documentation can be found [here](docs/index.md).
 
 ## 🛠️ Contributing
 If you want to contribute to this community effort, please check out our [contributor guide](.github/CONTRIBUTING.md) and [development setup instructions](docs/development_setup.md).

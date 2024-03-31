@@ -1,0 +1,10 @@
+AnimSrcGraph {
+ AnimSetTemplate "{2CD070C907748167}Anims/Workspaces/Npc/Npc_Main.ast"
+ ControlTemplate AnimSrcGCT "{5A4B0128F41A6820}" {
+ }
+ Debug AnimSrcGD "{5A4B0128F41A6809}" {
+ }
+ GraphFilesResourceNames {
+  "{112C0873AE123CA5}Anims/Workspaces/Npc/Npc_Main.agf"
+ }
+}

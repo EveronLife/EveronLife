@@ -1,0 +1,59 @@
+GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
+ ID "50989DC991E68512"
+ components {
+  InventoryItemComponent "{5ACCA164BC7A99A2}" {
+   Attributes SCR_ItemAttributeCollection "{51F080D5C64F12C5}" {
+    ItemDisplayName UIInfo "{5990AD6EC4FAB1CD}" {
+     Name "Axe"
+     Description "Axe for wood cutting "
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{5990AD6B74ECA5AE}" {
+     Weight 3
+     SizeSetupStrategy Volume
+     ItemVolume 50
+     RestingUP Forward
+     RestingAdditiveRotationLS 0 90 0
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5284960F659FDDA7}" {
+     IkSettings {
+      ItemIKSettings "{59927B2BFF57A5D5}" {
+       Jumping 1
+       Lowered 1
+       ProneTurn 1
+       IkSettingsStand 4
+      }
+     }
+     AnimationInstance "{41AABAE44257A657}anims/workspaces/player/player_main_pistol.asi"
+     AnimationIKPose "{6AAD163C7072AF0F}Assets/Weapons/Handguns/M9/anims/anm/p_m9_ik.anm"
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5990AD67802E3130}" {
+      CameraDistanceToItem 0.42
+      CameraOffset 0.17 0 0
+      ItemRenderRotation -90 90 0
+     }
+    }
+    m_SlotType SLOT_WEAPONS_STORAGE
+   }
+  }
+  MeshObject "{59908096775F151D}" {
+   Object "{B24B07C19FECA100}Assets/Tools/Axe/Axe.xob"
+  }
+  SCR_MeleeWeaponProperties "{599080951A5F84A5}" {
+   m_fDamage 20.22
+   m_fRange 1
+  }
+  WeaponComponent "{5990809682E12ADF}" {
+   SignalsSourceAccess SignalsSourceAccessClass "{59927B29CCA9EA6F}" {
+   }
+   useAimingType None
+   WeaponType Handgun
+   SoundInt 1010200
+   UIInfo WeaponUIInfo "{59927B2B73B2CA77}" {
+    Name "Axe"
+    Description "Axe for wood cutting"
+   }
+   WeaponSlotType "secondary"
+  }
+ }
+}

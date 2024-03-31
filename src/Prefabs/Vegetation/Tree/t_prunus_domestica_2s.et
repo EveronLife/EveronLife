@@ -1,11 +1,6 @@
 Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
  ID "0F2AA6B42CA78628"
  components {
-  SimpleSoundComponent "{597CB6B1BE8365AB}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-  }
   ActionsManagerComponent "{597CB6B1CB95890C}" {
    ActionContexts {
     UserActionContext "{597CB6B2F827CA1A}" {
@@ -25,7 +20,6 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
       "Gather"
      }
      Duration 1
-     m_GatherItemDisplayName "Plum"
      m_GatherItemPrefab "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et"
     }
    }

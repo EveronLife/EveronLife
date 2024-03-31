@@ -1,14 +1,16 @@
-class EL_Utils
+class EL_Utils : EPF_Utils
 {
-	static IEntity SpawnEntityPrefab(ResourceName prefab, vector origin, vector orientation = "0 0 0")
+	//------------------------------------------------------------------------------------------------
+	static int MaxInt(int a, int b)
 	{
-		EntitySpawnParams spawnParams();
-		
-		spawnParams.TransformMode = ETransformMode.WORLD;
-		
-		Math3D.AnglesToMatrix(orientation, spawnParams.Transform);
-		spawnParams.Transform[3] = origin;
-		
-		return GetGame().SpawnEntityPrefab(Resource.Load(prefab), GetGame().GetWorld(), spawnParams);
+		if (a > b) return a;
+		return b;
 	}
-}
+
+	//------------------------------------------------------------------------------------------------
+	static int MinInt(int a, int b)
+	{
+		if (a < b) return a;
+		return b;
+	}
+};

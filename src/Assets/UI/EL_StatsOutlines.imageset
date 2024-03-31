@@ -1,0 +1,47 @@
+ImageSetClass {
+ RefSize 250 200
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{DB95B773DF95902A}Assets/UI/statsoutlines.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass Health {
+   Name "Health"
+   Pos 17 101
+   Size 70 90
+   Flags 0
+  }
+  ImageSetDefClass Stamina {
+   Name "Stamina"
+   Pos 87 11
+   Size 70 90
+   Flags 0
+  }
+  ImageSetDefClass Thirst {
+   Name "Thirst"
+   Pos 17 11
+   Size 70 90
+   Flags 0
+  }
+  ImageSetDefClass Hunger {
+   Name "Hunger"
+   Pos 158 11
+   Size 70 90
+   Flags 0
+  }
+  ImageSetDefClass Blood {
+   Name "Blood"
+   Pos 88 101
+   Size 70 90
+   Flags 0
+  }
+  ImageSetDefClass Temperature {
+   Name "Temperature"
+   Pos 158 101
+   Size 70 90
+   Flags 0
+  }
+ }
+}

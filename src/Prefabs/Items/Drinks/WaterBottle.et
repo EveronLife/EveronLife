@@ -1,0 +1,29 @@
+GenericEntity : "{693D54F74C95B3D6}Prefabs/Items/Drinks/Drink_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Waterbottle"
+     Description "A bottle of water"
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5A44B635612069D5}" {
+     HandAdditiveRotation 50 0 -90
+     HandAdditiveTranslation 0.12 0.02 0
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{1F941A15AF4D93BF}Assets/Items/Drinks/WaterBottle/Bottle.xob"
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   ActionContexts {
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 0.1154 0
+     }
+    }
+   }
+  }
+ }
+}

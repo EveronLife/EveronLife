@@ -1,11 +1,6 @@
 Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
  ID "27132768B0952045"
  components {
-  SimpleSoundComponent "{5965409495EFF593}" {
-   Filenames {
-    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
-   }
-  }
   ActionsManagerComponent "{596540948BBDD481}" {
    ActionContexts {
     UserActionContext "{5965409488C45647}" {
@@ -24,7 +19,6 @@ Tree : "{388AE316D09D0680}Prefabs/Vegetation/Core/Tree_Base.et" {
       "Gather"
      }
      Duration 1
-     m_GatherItemDisplayName "Apples"
      m_GatherItemPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
     }
    }

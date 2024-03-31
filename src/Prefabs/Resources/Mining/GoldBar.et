@@ -1,0 +1,45 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "59A73089E432894C"
+ components {
+  SoundComponent "{5A4ADB24952425BA}" {
+   Filenames {
+    "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
+   }
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Gold Bar"
+     Description "Smelted piece of gold. Shiny"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 12.5
+     ItemVolume 113
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59A730880E26625E}" {
+     HandAdditiveRotation 0 -90 210
+     HandAdditiveTranslation 0 0.05 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{59A730880E26624A}" {
+      CameraPreset Top
+      CameraOrbitAngles 0 0 0
+      CameraDistanceToItem 0.15
+      CameraOffset 0 -0.02 0
+      ItemRenderRotation 0 0 -90
+     }
+    }
+    m_Size SLOT_2x1
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{75ABFBE70F78E212}Assets/Resources/Mining/MetalBar.xob"
+   Materials {
+    MaterialAssignClass "{59A7308807FEF850}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{9C005A256F4C2921}Assets/Resources/Mining/Data/Gold.emat"
+    }
+   }
+  }
+ }
+}

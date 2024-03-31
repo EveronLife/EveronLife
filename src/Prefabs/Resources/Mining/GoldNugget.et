@@ -1,0 +1,46 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "59A73089E08C43F7"
+ components {
+  SoundComponent "{5A4ADB24952425BA}" {
+   Filenames {
+    "{0026043E3CD828D0}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic_Metallic.acp"
+   }
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Gold Nugget"
+     Description "A piece of gold ore"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 1
+     SizeSetupStrategy Scaler
+     ItemDimensions 0.01 0.01 0.01
+     ItemVolume 0.01
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{59A730880E261BD3}" {
+     HandAdditiveRotation 0 90 180
+     HandAdditiveTranslation 0 0.01 -0.015
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{59A730880E261BD6}" {
+      CameraPreset Top
+      CameraOrbitAngles 0 0 0
+      CameraDistanceToItem 0.19
+      CameraOffset 0 -0.01 0
+      ItemRenderRotation 0 0 0
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{6E7678CE6CD95DFD}Assets/Resources/Mining/MetalNugget.xob"
+   Materials {
+    MaterialAssignClass "{59A73088024D4BEA}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{9C005A256F4C2921}Assets/Resources/Mining/Data/Gold.emat"
+    }
+   }
+  }
+ }
+}

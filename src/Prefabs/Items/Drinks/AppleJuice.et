@@ -1,0 +1,15 @@
+GenericEntity : "{693D54F74C95B3D6}Prefabs/Items/Drinks/Drink_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Apple Juice"
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{240D853DBB045D05}Assets/Props/Civilian/BeerBottle_01/BeerBottle_01.xob"
+  }
+ }
+}

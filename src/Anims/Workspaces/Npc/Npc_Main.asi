@@ -1,0 +1,8 @@
+AnimSetInstanceSource {
+ Template "{2CD070C907748167}Anims/Workspaces/Npc/Npc_Main.ast"
+ Lines {
+  AnimSetInstanceSource_Line "Idles.Default.Idle" {
+   Resource "{2309193F5F66F1A6}anims/anm/player/locomotion/unarmed/IdleTurns/p_erc_idle_breath_ADD_low.anm"
+  }
+ }
+}

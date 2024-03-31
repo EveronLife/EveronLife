@@ -1,0 +1,21 @@
+SCR_ChimeraCharacter {
+ ID "520EC961A090B1EE"
+ components {
+  SCR_CharacterInventoryStorageComponent "{520EA1D2DB118DAC}" {
+   components {
+    EL_HandInventoryStorageComponent "{5AA6AAC21A5038FC}" {
+     Priority 999999999
+     StoragePurpose 5
+    }
+   }
+  }
+  SCR_BaseHUDComponent "{520EA1D2DB118134}" {
+   InfoDisplays {
+    EL_BetaHud "{5CDCF78652BDD9FF}" {
+     m_LayoutPath "{9165B2D1BAEA7F6A}UI/Layouts/HUD/Beta/Beta.layout"
+     m_eLayer ALWAYS_TOP
+    }
+   }
+  }
+ }
+}

@@ -3,9 +3,17 @@ MetaFileClass {
  Configurations {
   FBXResourceClass PC {
    MaterialAssigns {
-    MaterialAssignClass "{5984B2710C322D79}" {
-     SourceMaterial "Material"
+    MaterialAssignClass "{5A4ACE730CA26356}" {
+     SourceMaterial "Plum"
      AssignedMaterial "{2FE9029EE6853C72}Assets/Items/Food/Plum/Data/Plum.emat"
+    }
+   }
+   GeometryParams {
+    GeometryParam UCS_Main {
+     LayerPreset "ItemFireView"
+     SurfaceProperties {
+      "{7898C33735EFBBB0}Common/Materials/Game/Core/default.gamemat"
+     }
     }
    }
    Common TXOCommonClass "{5984B2710F6EFDBA}" : "{0877E7C4BB2B2C9A}Configs/System/ResourceTypes/PC/MeshObjectCommon.conf" {
