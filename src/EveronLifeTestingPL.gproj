@@ -1,7 +1,7 @@
 GameProject {
- ID "EveronLife"
- GUID "59636E668EA37AD7"
- TITLE "Everon Life"
+ ID "EveronLifeTestingPL"
+ GUID "60FF6EE1FD8E87E9"
+ TITLE "EVERON LIFE - For Testing (PL)"
  Dependencies {
   "5D6EBC81EB1842EF" "58D0FB3206B6F859"
  }
@@ -26,6 +26,9 @@ GameProject {
   GameProjectConfig XBOX_SERIES {
   }
   GameProjectConfig PS4 {
+  }
+  GameProjectConfig PS5 : PC {
+   PlatformHardware PS5
   }
   GameProjectConfig HEADLESS {
   }
