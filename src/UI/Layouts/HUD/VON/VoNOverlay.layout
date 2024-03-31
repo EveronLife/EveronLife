@@ -1,0 +1,13 @@
+FrameWidgetClass {
+ {
+  VerticalLayoutWidgetClass "{59389903A80C9C04}" {
+   Prefab "{59389903A80C9C04}"
+   {
+    VerticalLayoutWidgetClass "{00000000AB3C9068}" {
+     Prefab "{00000000AB3C9068}"
+     "Is Visible" 0
+    }
+   }
+  }
+ }
+}

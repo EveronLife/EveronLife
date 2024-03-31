@@ -1,4 +1,4 @@
-GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
  ID "508AB2013EEE1E00"
  components {
   InventoryItemComponent "{5222EB4D0C73006B}" {
@@ -13,8 +13,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      ItemVolume 3000
     }
     ItemAnimationAttributes ItemAnimationAttributes "{598A6878445EB15B}" {
-     AnimationInstance "{81E91C367B2A22D6}anims/workspaces/player/player_main_rpg.asi"
-     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
      HandAdditiveRotation 90 0 -90
      HandAdditiveTranslation 0 0.02 0
     }
@@ -31,13 +29,15 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
   MeshObject "{5A4ACD10B8DA304F}" {
    Object "{F4A6B9CC408CD0F4}Assets/Props/Military/Sandbags/Sandbag_01_single.xob"
    Materials {
-    MaterialAssignClass "{598A687A815E1D6C}" {
+    MaterialAssignClass "{5AD2B81B5A46568C}" {
      SourceMaterial "Sandbags_01_End"
      AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
     }
+    MaterialAssignClass "{5AD2B81B5A46567E}" {
+     SourceMaterial "Sandbags_01_MLOD"
+     AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
+    }
    }
-   LODScale 0.1
-   PixelSizeScale 10
   }
   ActionsManagerComponent "{508AB5952B584B2E}" {
    ActionContexts {

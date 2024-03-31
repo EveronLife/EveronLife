@@ -1,0 +1,29 @@
+GenericEntity {
+ ID "598F21A86EB5B48E"
+ components {
+  MeshObject "{598F21A867C4015C}" {
+  }
+  RigidBody "{598F21A88C41A341}" {
+   ModelGeometry 1
+   Static 1
+  }
+  ActionsManagerComponent "{598F21A8710B89C1}" {
+   ActionContexts {
+    UserActionContext "{598F21A871DA7304}" {
+     ContextName "default"
+     Position PointInfo "{598F21A875320722}" {
+     }
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{598F21A877BE6DEE}" {
+     ParentContextList {
+      "default"
+     }
+    }
+   }
+  }
+  RplComponent "{5A5ED98B02E2D4BF}" {
+  }
+ }
+}

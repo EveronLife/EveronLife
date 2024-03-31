@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F437ACE2BD5F11E1}UI/layouts/Menus/Inventory/InventoryItemSlot.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

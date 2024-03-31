@@ -1,0 +1,35 @@
+OverlayWidgetClass {
+ Name "ThinSlider"
+ Slot LayoutSlot "{5A78AECB5992BE96}" {
+  Padding 10 0 10 0
+  SizeMode Fill
+ }
+ components {
+  EL_ThinSliderWidget "{5A78AECEC487F728}" {
+  }
+ }
+ {
+  ImageWidgetClass "{5A78AECDA278A3C6}" {
+   Name "HorizontalLine"
+   Slot OverlayWidgetSlot "{5A78AECDA278A3A7}" {
+    HorizontalAlign 3
+   }
+   Size 32 3
+  }
+  ImageWidgetClass "{5A78AECA44D13E4F}" {
+   Name "SliderPositionIndicator"
+   Slot OverlayWidgetSlot "{5A78AECA44D13E35}" {
+   }
+   Size 5 32
+  }
+  SliderWidgetClass "{5A78AEC8A5E17FFC}" {
+   Name "HiddenSlider"
+   Slot OverlayWidgetSlot "{5A78AECB562D461B}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 0 0 5 0
+   }
+   Opacity 0
+  }
+ }
+}

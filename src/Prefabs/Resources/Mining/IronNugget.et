@@ -1,4 +1,4 @@
-GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" {
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
  ID "59A730891D62ED4E"
  components {
   SoundComponent "{5A4ADB24952425BA}" {
@@ -19,15 +19,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      ItemVolume 0.01
     }
     ItemAnimationAttributes ItemAnimationAttributes "{59A730880E261EBB}" {
-     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
-     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
-     AnimationAttachments {
-      AnimationAttachmentInfo "{59A730880E261EB8}" {
-       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
-       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
-       BindingName "Gadget"
-      }
-     }
      HandAdditiveRotation 0 90 180
      HandAdditiveTranslation 0 0.01 -0.015
     }
@@ -50,9 +41,6 @@ GenericEntity : "{6A40DF87E1E4E960}Prefabs/Items/Core/ItemInteractable_Base.et" 
      AssignedMaterial "{29473C87C35726A4}Assets/Resources/Mining/Data/Iron.emat"
     }
    }
-  }
-  SCR_ConsumableItemComponent "{59A730880E261EA1}" {
-   m_eAnimVariable ADRIANOV
   }
  }
 }

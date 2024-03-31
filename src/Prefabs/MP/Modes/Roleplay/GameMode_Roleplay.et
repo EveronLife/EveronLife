@@ -1,38 +1,42 @@
 EL_GameModeRoleplay {
  ID "59751433747FB462"
  components {
-  EL_PersistenceManagerComponent "{59D28944F1C3532E}" {
-  }
-  EL_RespawnHandlerComponent "{5A10698ABECAD262}" {
-  }
-  EL_RespawnSytemComponent "{5A10698A884816E6}" {
-   m_aDefaultCharacterPrefabs {
-    "{CE23D4366B47E9B9}Prefabs/Characters/Presets/White_Male_01.et" "{C465F15DDF56A6D8}Prefabs/Characters/Presets/Asian_Male_02.et" "{BFD6AFB8A1D8E2F9}Prefabs/Characters/Presets/Black_Male_02.et"
-   }
-   m_aDefaultCharacterItems {
-    EL_DefaultCharacterLoadoutSlot "{5A2882A2E1E3D609}" {
-     m_eArea ELA_Jacket
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A229C1EEFB}" {
-      m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
-      m_aStoredItems {
-       EL_DefaultCharacterLoadoutItem "{5A2882A8880828ED}" {
-        m_rPrefab "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+  EPF_PersistenceManagerComponent "{5D6F1C34679B4DC0}" {
+   components {
+    EL_RespawnSystemComponent "{5DE922B7CF459104}" {
+     m_aDefaultCharacterPrefabs {
+      "{CE23D4366B47E9B9}Prefabs/Characters/Presets/White_Male_01.et" "{C465F15DDF56A6D8}Prefabs/Characters/Presets/Asian_Male_02.et" "{BFD6AFB8A1D8E2F9}Prefabs/Characters/Presets/Black_Male_02.et"
+     }
+     m_aDefaultCharacterItems {
+      EL_DefaultLoadoutItem "{5DE922B73E9BEFE0}" {
+       m_rPrefab "{9F546CCA2582D16F}Prefabs/Characters/Uniforms/Jacket_M88.et"
+       m_ePurpose PURPOSE_LOADOUT_PROXY
+       m_aStoredItems {
+        EL_DefaultLoadoutItem "{5DE922B7340B5316}" {
+         m_rPrefab "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
+         m_aComponentDefaults {
+          EL_DefaultLoadoutItemQuantityComponent "{5DE922B72CFC64BE}" {
+           m_iQuantity 100
+          }
+         }
+        }
        }
+      }
+      EL_DefaultLoadoutItem "{5DE92DF82F18AE7D}" {
+       m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
+       m_ePurpose PURPOSE_LOADOUT_PROXY
+      }
+      EL_DefaultLoadoutItem "{5DE92DF82CDA1016}" {
+       m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+       m_ePurpose PURPOSE_LOADOUT_PROXY
       }
      }
     }
-    EL_DefaultCharacterLoadoutSlot "{5A2882A371CF8003}" {
-     m_eArea ELA_Pants
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A36B89DF57}" {
-      m_rPrefab "{DCF980831E880F6A}Prefabs/Characters/Uniforms/Pants_M88.et"
-     }
+    EPF_PersistentDoorStateManagerComponent "{5E0896B880761681}" {
     }
-    EL_DefaultCharacterLoadoutSlot "{5A2882A36132BCD3}" {
-     m_eArea ELA_Boots
-     m_pItem EL_DefaultCharacterLoadoutItem "{5A2882A49CA76329}" {
-      m_rPrefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
-     }
-    }
+   }
+   m_pConnectionInfo EDF_JsonFileDbConnectionInfo "{5D6F1C3462E3EE02}" {
+    m_sDatabaseName "EveronLife"
    }
   }
   SCR_DestructionManagerComponent "{59751432896EFC0B}" {
@@ -40,10 +44,10 @@ EL_GameModeRoleplay {
   SCR_HintManagerComponent "{59E8CC4E575D1802}" {
   }
   SCR_NametagConfigComponent "{597514328498E41D}" {
+   Enabled 0
    m_sConfigPath "{8547E1B142411624}Configs/NameTags/NametagRoleplay.conf"
   }
   RplComponent "{597514327E500A0C}" {
-   "Rpl State Override" Static
    Streamable Disabled
   }
  }
@@ -51,19 +55,19 @@ EL_GameModeRoleplay {
  PlayerControllerPrefab "{CC42DCDAD458D66B}Prefabs/Characters/Core/PlayerControllerRoleplayMP.et"
  {
   TagManager TagManager : "{2FA9E172CAB1857A}Prefabs/MP/Managers/TagManager.et" {
-   ID "59751433747FB464"
+   ID "2FA9E172CAB1857A"
   }
   RadioManagerEntity RadioManager : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
-   ID "59751433747F9C03"
+   ID "B8E09FAB91C4ECCD"
   }
   ScriptedChatEntity ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
-   ID "59751433747F9C02"
+   ID "F69BC912AC8236F9"
   }
   SCR_GarbageManager GarbageManager {
-   ID "59751433747F9391"
+   ID "9B883A7D8EBB282A"
   }
   SCR_MPDestructionManager MPDestructionManager : "{9BB369F2803C6F71}Prefabs/MP/MPDestructionManager.et" {
-   ID "59751433747F2879"
+   ID "9BB369F2803C6F71"
   }
  }
 }

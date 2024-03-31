@@ -1,12 +1,25 @@
 GameProject {
  ID "EveronLife"
  GUID "59636E668EA37AD7"
- TITLE "EveronLife"
+ TITLE "Everon Life"
  Dependencies {
-  "58D0FB3206B6F859"
+  "5D6EBC81EB1842EF" "58D0FB3206B6F859"
  }
  Configurations {
   GameProjectConfig PC {
+   WidgetManagerSettings WidgetManagerSettings "{AC4BE58770485E02}" {
+    StringTables {
+     StringTableDefinition "{5A5EA10345D394A8}" {
+      StringTableSource "{5A5E9D41E02D75AB}Language/everonlife_localization.st"
+      Languages {
+       LanguageDefinition "{5A5EA100D7030B61}" {
+        Code "en_us"
+        StringTableRuntime "{55C94506A4DE38D4}Language/everonlife_localization.en_us.conf"
+       }
+      }
+     }
+    }
+   }
   }
   GameProjectConfig XBOX_ONE {
   }

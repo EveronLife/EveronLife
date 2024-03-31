@@ -1,0 +1,267 @@
+FrameWidgetClass : "{E6B607B27BCC1477}UI/layouts/Menus/Dialogs/ConfigurableDialog.layout" {
+ {
+  SizeLayoutWidgetClass "{5CC296FE0BE2ED39}" {
+   Prefab "{5CC296FE0BE2ED39}"
+   {
+    OverlayWidgetClass "{5CC296FBD8B6CA52}" {
+     Prefab "{5CC296FBD8B6CA52}"
+     {
+      VerticalLayoutWidgetClass "{5CC296FBD8B6CA68}" {
+       Prefab "{5CC296FBD8B6CA68}"
+       {
+        HorizontalLayoutWidgetClass "{5CC296FE665361F7}" {
+         Prefab "{5CC296FE665361F7}"
+         {
+          SizeLayoutWidgetClass "{5CECDEAA2B312BCD}" {
+           Prefab "{5CECDEAA2B312BCD}"
+           {
+            FrameWidgetClass "{5CECDEAACC989450}" {
+             Prefab "{5CECDEAACC989450}"
+             {
+              TextWidgetClass "{5CC296FBD8B6CA6C}" {
+               Prefab "{5CC296FBD8B6CA6C}"
+               Text "#EL-SplitQuantityDialog_Name"
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        OverlayWidgetClass "{5CC296FBD8B6CA6D}" {
+         Prefab "{5CC296FBD8B6CA6D}"
+         {
+          SizeLayoutWidgetClass "{5CC296F8389B4B68}" {
+           Prefab "{5CC296F8389B4B68}"
+           {
+            VerticalLayoutWidgetClass "{5CC296F8389B4B6E}" {
+             Prefab "{5CC296F8389B4B6E}"
+             {
+              SizeLayoutWidgetClass "{5CDAEBCA568F503F}" {
+               Prefab "{5CDAEBCA568F503F}"
+               {
+                RichTextWidgetClass "{5CC296FCA638C20F}" {
+                 Prefab "{5CC296FCA638C20F}"
+                 "Is Visible" 1
+                 Text "#EL-SplitQuantityDialog_Message"
+                }
+               }
+              }
+              OverlayWidgetClass "{5CC296F8389B4B62}" {
+               Prefab "{5CC296F8389B4B62}"
+               {
+                VerticalLayoutWidgetClass "{5A7A86E936C53321}" {
+                 Name "SizeSelectionLayout"
+                 Slot LayoutSlot "{5A7A86E936C5330C}" {
+                  Padding 0 10 0 0
+                 }
+                 "Z Order" 1
+                 {
+                  HorizontalLayoutWidgetClass "{5A78FE4FFE8A2256}" {
+                   Name "InputRow"
+                   Slot LayoutSlot "{5A78AEC77EA07252}" {
+                    Padding 0 0 0 0
+                   }
+                   {
+                    VerticalLayoutWidgetClass "{5A7AC3D8AD142424}" {
+                     Name "KeepGroup"
+                     Slot LayoutSlot "{5A7AC3D8AD1427FF}" {
+                      SizeMode Fill
+                      FillWeight 1
+                     }
+                     {
+                      OverlayWidgetClass "{5A7A86E8CD7E352F}" {
+                       Name "KeepOverlay"
+                       Slot LayoutSlot "{5A7A86E8CD7E3511}" {
+                        SizeMode Fill
+                        FillWeight 1
+                       }
+                       {
+                        PanelWidgetClass "{5A7A86E8D6D6B8BD}" {
+                         Name "KeepBorder"
+                         Slot OverlayWidgetSlot "{5A7A86E8C66B2079}" {
+                          HorizontalAlign 3
+                          VerticalAlign 3
+                         }
+                         style outline_2px
+                        }
+                        EditBoxWidgetClass "{5A78FE4FFE8A1273}" {
+                         Name "KeepAmount"
+                         Slot OverlayWidgetSlot "{5A7A86E8C448FAB7}" {
+                          HorizontalAlign 3
+                          VerticalAlign 3
+                          Padding 3 3 3 3
+                         }
+                         components {
+                          EditBoxFilterComponent "{5A7A86F208CBE2B3}" {
+                           m_iCharacterLimit 9
+                           m_bPunctuation 0
+                           m_bASCIIchars 0
+                           m_bUTFMultibyte 0
+                          }
+                         }
+                         "Use placeholder text" 1
+                         "Placeholder text" "#EL-SplitQuantityDialog_Input_Amount"
+                         "Horizontal alignment" Center
+                         "Virtual Keyboard Title" "Keep amount"
+                        }
+                       }
+                      }
+                      TextWidgetClass "{5A7A86E96A4A6B9E}" {
+                       Name "KeepText"
+                       Slot LayoutSlot "{5A7A86E96A4A6B7D}" {
+                        HorizontalAlign 1
+                        Padding 0 0 0 0
+                       }
+                       Text "#EL-SplitQuantityDialog_Input_Keep"
+                       "Font Size" 16
+                       "Min Font Size" 16
+                      }
+                     }
+                    }
+                    SizeLayoutWidgetClass "{5A7AC3D8EDE39C89}" {
+                     Name "SizeLimiter"
+                     Slot LayoutSlot "{5A7AC3D8EDE39C10}" {
+                      VerticalAlign 0
+                      Padding 10 0 10 0
+                      FillWeight 2.5
+                     }
+                     AllowMaxDesiredHeight 1
+                     MaxDesiredHeight 30
+                     {
+                      OverlayWidgetClass "{5A78FE4FFE8A126E}" : "{B7DC3B0D9D536470}UI/Layouts/WidgetLibrary/ThinSliderWidget.layout" {
+                       Name "AmountSlider"
+                       Slot LayoutSlot "{5A78AECB5992BE96}" {
+                        VerticalAlign 0
+                        Padding 0 0 0 0
+                        FillWeight 2.5
+                       }
+                       {
+                        ImageWidgetClass "{5A78AECA44D13E4F}" {
+                         Prefab "{5A78AECA44D13E4F}"
+                         Slot OverlayWidgetSlot "{5A78AECA44D13E35}" {
+                          HorizontalAlign 0
+                          Padding 135 0 0 0
+                         }
+                        }
+                        SliderWidgetClass "{5A78AEC8A5E17FFC}" {
+                         Prefab "{5A78AEC8A5E17FFC}"
+                         "Left rule" Explicit
+                         "Left target" "KeepAmount"
+                         "Right rule" Explicit
+                         "Right target" "SplitAmount"
+                         "Up rule" Explicit
+                         "Up target" "KeepAmount"
+                         "Down rule" Explicit
+                         "Down target" "SplitAmount"
+                        }
+                       }
+                      }
+                     }
+                    }
+                    VerticalLayoutWidgetClass "{5A7AC3D8A294BC78}" {
+                     Name "SplitOffGroup"
+                     Slot LayoutSlot "{5A7AC3D8A294BC5D}" {
+                      Padding 0 0 0 0
+                      SizeMode Fill
+                     }
+                     {
+                      OverlayWidgetClass "{5A7A86E9CCC33C13}" {
+                       Name "SplitOverlay"
+                       Slot LayoutSlot "{5A7A86E9CCC33FE9}" {
+                        Padding 0 0 0 0
+                        SizeMode Fill
+                       }
+                       {
+                        PanelWidgetClass "{5A7A86E9CAD97BE4}" {
+                         Name "SplitBorder"
+                         Slot OverlayWidgetSlot "{5A7A86E8C66B2079}" {
+                          HorizontalAlign 3
+                          VerticalAlign 3
+                         }
+                         style outline_2px
+                        }
+                        EditBoxWidgetClass "{5A78FE4FFE8A126F}" {
+                         Name "SplitAmount"
+                         Slot OverlayWidgetSlot "{5A7A86E9CCD11B6E}" {
+                          HorizontalAlign 3
+                          VerticalAlign 3
+                          Padding 3 3 3 3
+                         }
+                         components {
+                          EditBoxFilterComponent "{5A7A86F2395D12BB}" {
+                           m_iCharacterLimit 9
+                           m_bPunctuation 0
+                           m_bASCIIchars 0
+                           m_bUTFMultibyte 0
+                          }
+                         }
+                         "Use placeholder text" 1
+                         "Placeholder text" "#EL-SplitQuantityDialog_Input_Amount"
+                         "Horizontal alignment" Center
+                         "Virtual Keyboard Title" "Split off amount"
+                        }
+                       }
+                      }
+                      TextWidgetClass "{5A7A86E968ABC1EF}" {
+                       Name "SplitOffText"
+                       Slot LayoutSlot "{5A7A86E968ABC1D0}" {
+                        HorizontalAlign 1
+                        Padding 0 0 0 0
+                       }
+                       Text "#EL-SplitQuantityDialog_Input_SplitOff"
+                       "Font Size" 16
+                       "Min Font Size" 16
+                      }
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        HorizontalLayoutWidgetClass "{5CC296FBD8B6CA62}" {
+         Prefab "{5CC296FBD8B6CA62}"
+         {
+          OverlayWidgetClass "{5CC296FBE7B45399}" {
+           Prefab "{5CC296FBE7B45399}"
+           {
+            HorizontalLayoutWidgetClass "{5CC296FBE7B4539E}" {
+             Prefab "{5CC296FBE7B4539E}"
+             {
+              ButtonWidgetClass "{5DEA68F17EB756AD}" : "{0114A06AD44D49BD}UI/layouts/WidgetLibrary/Buttons/DialogButtonCancel.layout" {
+               Name "Cancel"
+               Slot LayoutSlot "{5CC2F7A314C9440B}" {
+               }
+              }
+             }
+            }
+            HorizontalLayoutWidgetClass "{5CC296FBE7B4539F}" {
+             Prefab "{5CC296FBE7B4539F}"
+             {
+              ButtonWidgetClass "{5DEA68F16367A9D1}" : "{51898FF369FE5EB8}UI/layouts/WidgetLibrary/Buttons/DialogButtonConfirm.layout" {
+               Name "Confirm"
+               Slot LayoutSlot "{5CC2F7A314C9440B}" {
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

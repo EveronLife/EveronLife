@@ -1,0 +1,33 @@
+GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  SignalsManagerComponent "{5EDF3D5F6CF6462A}" {
+  }
+  SoundComponent "{5A4ADB24952425BA}" {
+   Filenames {
+    "{12A94705DF2BFD25}Sounds/Items/_SharedData/PickUp/Items_PickUp_Generic.acp"
+   }
+  }
+  EL_QuantityComponent "{5AD2B81F97B9381B}" {
+  }
+  EPF_PersistenceComponent "{5A0D2D213B33ECD8}" {
+   m_pSaveData EPF_ItemSaveDataClass "{5A0D2D2139A3D7EC}" {
+    m_aComponents {
+     EL_QuantityComponentSaveDataClass "{5E0678CA7591F1F3}" {
+     }
+    }
+   }
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    CommonItemType "EL_ITEM"
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+  }
+  RigidBody "{5A4ACBB1A0084DA1}" {
+   LayerPreset "ItemFireView"
+   ModelGeometry 1
+  }
+ }
+}
