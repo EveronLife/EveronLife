@@ -1,0 +1,18 @@
+﻿{
+    "id": "5D6EBC81EB1842EF",
+    "name": "Enfusion Persistence Framework",
+    "revision": {
+        "version": "0.6.5",
+        "gameVersion": "1.1.0.34",
+        "changelog": "- Fix BadVec assert #36",
+        "dependencies": [
+            {
+                "assetId": "5D6EA74A94173EDF",
+                "assetName": "Enfusion Database Framework",
+                "version": "0.6.5"
+            }
+        ],
+        "scenarios": [],
+        "env": 7
+    }
+}

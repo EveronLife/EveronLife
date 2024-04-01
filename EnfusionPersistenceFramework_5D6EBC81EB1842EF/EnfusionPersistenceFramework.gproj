@@ -1,0 +1,8 @@
+GameProject {
+ ID "EnfusionPersistenceFramework"
+ GUID "5D6EBC81EB1842EF"
+ TITLE "Enfusion Persistence Framework"
+ Dependencies {
+  "5D6EA74A94173EDF" "58D0FB3206B6F859"
+ }
+}

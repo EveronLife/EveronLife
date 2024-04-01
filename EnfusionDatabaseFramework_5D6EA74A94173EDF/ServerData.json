@@ -1,0 +1,12 @@
+﻿{
+    "id": "5D6EA74A94173EDF",
+    "name": "Enfusion Database Framework",
+    "revision": {
+        "version": "0.6.5",
+        "gameVersion": "1.1.0.34",
+        "changelog": "- Add deep copy db entity ulity\n- Remove db entity utily template parameter requirement hack",
+        "dependencies": [],
+        "scenarios": [],
+        "env": 7
+    }
+}
