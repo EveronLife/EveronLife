@@ -1,4 +1,35 @@
 $grp GenericEntity {
+ PlumTraderTestItems {
+  coords 115.906 0.914 134.704
+  {
+   $grp GenericEntity : "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et" {
+    Plum_5A4C5C558992D31E {
+     coords -0.115 0 -0.073
+    }
+    Plum_5A4C5C558992D5AA {
+     coords -0.029 0 -0.073
+    }
+    Plum_5A4C5C558992D56B {
+     coords 0.046 0 -0.073
+    }
+    Plum_5A4C5C558992D539 {
+     coords 0.126 0 -0.073
+    }
+    Plum_5A4C5C558992D515 {
+     coords -0.029 0 0.012
+    }
+    Plum_5A4C5C558992D4E0 {
+     coords 0.046 0 0.012
+    }
+    Plum_5A4C5C558992D4BB {
+     coords 0.126 0 0.012
+    }
+    Plum_5A4C5C558992D495 {
+     coords -0.115 0 0.012
+    }
+   }
+  }
+ }
  PlumTradeContainer {
   components {
    EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
@@ -62,48 +93,17 @@ $grp GenericEntity {
     Enabled 1
    }
   }
-  coords 115.659 0.892 135.396
+  coords 116.723 0.908 134.898
   angleY -14.907
   Flags 1027
- }
- PlumTraderTestItems {
-  coords 114.842 0.898 135.202
-  {
-   $grp GenericEntity : "{C3E35D690317B5BE}Prefabs/Items/Food/Plum.et" {
-    Plum_5A4C5C558992D31E {
-     coords -0.115 0 -0.073
-    }
-    Plum_5A4C5C558992D5AA {
-     coords -0.029 0 -0.073
-    }
-    Plum_5A4C5C558992D56B {
-     coords 0.046 0 -0.073
-    }
-    Plum_5A4C5C558992D539 {
-     coords 0.126 0 -0.073
-    }
-    Plum_5A4C5C558992D515 {
-     coords -0.029 0 0.012
-    }
-    Plum_5A4C5C558992D4E0 {
-     coords 0.046 0 0.012
-    }
-    Plum_5A4C5C558992D4BB {
-     coords 0.126 0 0.012
-    }
-    Plum_5A4C5C558992D495 {
-     coords -0.115 0 0.012
-    }
-   }
-  }
  }
 }
 $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
  {
-  coords 115.594 0.002 135.006
+  coords 115.483 0.016 134.518
  }
  {
-  coords 114.419 0 135.015
+  coords 116.658 0.018 134.508
  }
 }
 EL_NpcBaseEntity PlumNpc : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Default_01.et" {
@@ -115,16 +115,16 @@ EL_NpcBaseEntity PlumNpc : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Defaul
    }
   }
  }
- coords 115.47 0 134.105
+ coords 116.534 0.016 133.607
 }
 GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01/ChairRecreation_01_white.et" {
- coords 114.191 0 133.542
+ coords 115.255 0.016 133.045
  angleX 3.575
  angleY 26.768
  angleZ -0.096
 }
 Tree PlumGatherTree : "{CEFEBF266E7040A9}Prefabs/Vegetation/Tree/t_prunus_domestica_2s.et" {
- coords 112.969 -0 134.77
+ coords 114.033 0.016 134.273
  angleY -31.425
 }
 GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_blue.et" {
@@ -135,5 +135,5 @@ GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKeros
    m_eInitialLightState LIT
   }
  }
- coords 114.051 0.895 134.668
+ coords 115.115 0.911 134.171
 }

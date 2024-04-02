@@ -1,32 +1,4 @@
 $grp GenericEntity {
- AppleTraderTestItems {
-  coords 110.222 0.953 135.141
-  {
-   $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
-    Apple_5A0E821DC5FD6433 {
-     coords -0.137 -0.036 -0.08
-    }
-    Apple_5A0E821DC5FD1C61 {
-     coords -0.074 -0.043 0.152
-    }
-    Apple_5A0E821DC5FD1115 {
-     coords 0.168 -0.036 0.057
-    }
-    Apple_5A0E821DC5FD1220 {
-     coords -0.002 -0.036 0.074
-    }
-    Apple_5A0E821DC5FD1706 {
-     coords -0.165 -0.036 0.08
-    }
-    Apple_5A0E821DC5FD082C {
-     coords -0.052 -0.036 -0.034
-    }
-    Apple_5A0E821DC5FD0D6E {
-     coords 0.1 -0.036 -0.035
-    }
-   }
-  }
- }
  AppleTradeContainer {
   components {
    EL_RestrictedInventoryStorageComponent "{59693C53BBA0FC99}" {
@@ -90,7 +62,7 @@ $grp GenericEntity {
     Enabled 1
    }
   }
-  coords 111.233 0.899 134.962
+  coords 111.304 1.005 134.996
   angleY -14.907
   Flags 1027
  }
@@ -157,9 +129,37 @@ $grp GenericEntity {
     Enabled 1
    }
   }
-  coords 109.183 0.899 135.065
+  coords 109.254 1.005 135.099
   angleY -14.907
   Flags 1027
+ }
+ AppleTraderTestItems {
+  coords 110.293 1.059 135.175
+  {
+   $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
+    Apple_5A0E821DC5FD6433 {
+     coords -0.137 -0.036 -0.08
+    }
+    Apple_5A0E821DC5FD1C61 {
+     coords -0.074 -0.043 0.152
+    }
+    Apple_5A0E821DC5FD1115 {
+     coords 0.168 -0.036 0.057
+    }
+    Apple_5A0E821DC5FD1220 {
+     coords -0.002 -0.036 0.074
+    }
+    Apple_5A0E821DC5FD1706 {
+     coords -0.165 -0.036 0.08
+    }
+    Apple_5A0E821DC5FD082C {
+     coords -0.052 -0.036 -0.034
+    }
+    Apple_5A0E821DC5FD0D6E {
+     coords 0.1 -0.036 -0.035
+    }
+   }
+  }
  }
 }
 Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domestica_2s.et" {
@@ -171,7 +171,7 @@ Tree AppleGatherTree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domest
    }
   }
  }
- coords 107.423 -0 134.886
+ coords 107.494 0.106 134.92
  angleY -104.782
 }
 GenericEntity AppleProcessor : "{1DD3BF6A1A249CDE}Prefabs/Processor/AppleJuicer.et" {
@@ -188,17 +188,17 @@ GenericEntity AppleProcessor : "{1DD3BF6A1A249CDE}Prefabs/Processor/AppleJuicer.
    }
   }
  }
- coords 108.53 0.899 135.089
+ coords 108.601 1.005 135.123
 }
 $grp GenericEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
  {
-  coords 111.209 0 135.011
+  coords 111.28 0.106 135.045
  }
  {
-  coords 108.805 0 135.057
+  coords 108.876 0.106 135.091
  }
  {
-  coords 110.01 0 135.012
+  coords 110.081 0.106 135.046
  }
 }
 EL_NpcBaseEntity AppleNpc : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Default_01.et" {
@@ -210,10 +210,10 @@ EL_NpcBaseEntity AppleNpc : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Defau
    }
   }
  }
- coords 111.089 0 133.974
+ coords 111.16 0.106 134.008
 }
 GenericEntity : "{B80655BD24D2C162}PrefabLibrary/Props/Civilian/Recreation/ChairRecreation_01/ChairRecreation_01_white.et" {
- coords 108.897 0 134.009
+ coords 108.968 0.106 134.043
  angleX 3.475
  angleY 14.617
  angleZ -0.846
@@ -226,5 +226,5 @@ GameEntity : "{EC645B2E2123131F}Prefabs/Props/Civilian/LampKerosene_01/LampKeros
    m_eInitialLightState LIT
   }
  }
- coords 109.774 0.899 134.913
+ coords 109.845 1.005 134.947
 }
