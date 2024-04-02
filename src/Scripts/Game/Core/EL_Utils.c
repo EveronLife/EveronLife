@@ -87,7 +87,7 @@ class EL_Utils
 			SCR_TerrainHelper.OrientToTerrain(transform);
 		}
 
-		if (scale != -1) SCR_Math3D.ScaleMatrix(transform, scale);
+		if (scale != -1) Math3D.MatrixScale(transform, scale);
 
 		TeleportTM(entity, transform);
 	}
@@ -226,17 +226,6 @@ class EL_Utils
 	{
 		if(a < b) return a;
 		return b;
-	}
-
-	//------------------------------------------------------------------------------------------------
-	static bool IsAnyInherited(Class instance, notnull array<typename> from)
-	{
-		typename type = instance.Type();
-		foreach (typename candiate : from)
-		{
-			if (type.IsInherited(candiate)) return true;
-		}
-		return false;
 	}
 
 	//------------------------------------------------------------------------------------------------

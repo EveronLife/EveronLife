@@ -274,7 +274,7 @@ modded class SCR_InventoryMenuUI
 				m_pNavigationBar.SetAllButtonEnabled(false);
 
 				bool isFocusStorage = !m_pFocusedSlotUI || (m_pFocusedSlotUI && m_pFocusedSlotUI.Type().IsInherited(SCR_InventorySlotStorageEmbeddedUI));
-				bool isValidTargetStorage = isFocusStorage && m_pActiveStorageUI && !EL_Utils.IsAnyInherited(m_pActiveStorageUI, {SCR_InventoryStoragesListUI, SCR_InventoryStorageWeaponsUI});
+				bool isValidTargetStorage = isFocusStorage && m_pActiveStorageUI && !EPF_Utils.IsAnyInherited(m_pActiveStorageUI.Type(), {SCR_InventoryStoragesListUI, SCR_InventoryStorageWeaponsUI});
 				bool canTransfer = m_pActiveStorageUI && m_pSelectedSlotUI && (m_pActiveStorageUI != m_pSelectedSlotUI.GetStorageUI());
 
 				EL_QuantityComponent quantityDestination;
