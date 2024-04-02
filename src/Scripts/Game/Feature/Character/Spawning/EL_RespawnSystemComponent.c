@@ -12,7 +12,8 @@ class EL_RespawnSystemComponent : EPF_BaseRespawnSystemComponent
 	protected ref array<ref EL_DefaultLoadoutItem> m_aDefaultCharacterItems;
 
 	//------------------------------------------------------------------------------------------------
-	override protected void HandlePlayerLoad(Managed context)
+	/*protected --Hotfix for 1.0 DO NOT CALL THIS MANUALLY*/
+	override void HandlePlayerLoad(Managed context)
 	{
 		Tuple2<int, string> characterContext = Tuple2<int, string>.Cast(context);
 		EDF_DataCallbackSingle<EL_PlayerAccount> callback(this, "OnAccountLoaded", characterContext);
@@ -21,7 +22,8 @@ class EL_RespawnSystemComponent : EPF_BaseRespawnSystemComponent
 
 	//------------------------------------------------------------------------------------------------
 	//! Handles the account information found for the player
-	protected void OnAccountLoaded(EL_PlayerAccount account, Managed context)
+	/*protected --Hotfix for 1.0 DO NOT CALL THIS MANUALLY*/
+	void OnAccountLoaded(EL_PlayerAccount account, Managed context)
 	{
 		Tuple2<int, string> characterContext = Tuple2<int, string>.Cast(context);
 

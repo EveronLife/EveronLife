@@ -1,9 +1,9 @@
-class EL_DestructibleResourceHitZone : ScriptedHitZone
+class EL_DestructibleResourceHitZone : SCR_HitZone
 {
 	//------------------------------------------------------------------------------------------------
-	override void OnDamage(EDamageType type, float damage, HitZone pOriginalHitzone, IEntity instigator, inout vector hitTransform[3], float speed, int colliderID, int nodeID)
+	override void OnDamage(notnull BaseDamageContext damageContext)
 	{
-		super.OnDamage(type, damage, pOriginalHitzone, instigator, hitTransform, speed, colliderID, nodeID);
+		super.OnDamage(damageContext);
 
 		if (System.IsConsoleApp()) return;
 
@@ -12,21 +12,22 @@ class EL_DestructibleResourceHitZone : ScriptedHitZone
 		if (destructibleResource)
 		{
 			EL_DestructibleResourceComponentClass settings = EL_DestructibleResourceComponentClass.Cast(destructibleResource.GetComponentData(owner));
-			EL_Utils.SpawnEntityPrefab(settings.m_rHitEffect, hitTransform[0], hitTransform[2], false);
+			EL_Utils.SpawnEntityPrefab(settings.m_rHitEffect, damageContext.hitPosition, damageContext.hitNormal.VectorToAngles(), false);
 		}
 	}
 
 	//------------------------------------------------------------------------------------------------
-	override float ComputeEffectiveDamage(EDamageType damageType, float rawDamage, IEntity hitEntity, HitZone struckHitZone, IEntity damageSource, IEntity damageSourceGunner, IEntity damageSourceParent, const GameMaterial hitMaterial, int colliderID, inout vector hitTransform[3], const vector impactVelocity, int nodeID, bool isDOT)
+	override float ComputeEffectiveDamage(notnull BaseDamageContext damageContext, bool isDOT)
 	{
 		EL_DestructibleResourceComponent destructibleResource = EL_Component<EL_DestructibleResourceComponent>.Find(GetOwner());
 		if (destructibleResource)
 		{
 			EL_DestructibleResourceComponentClass settings = EL_DestructibleResourceComponentClass.Cast(destructibleResource.GetComponentData(destructibleResource.GetOwner()));
-			ResourceName currentTool = EL_Utils.GetPrefabName(damageSource);
+			ResourceName currentTool = EL_Utils.GetPrefabName(damageContext.damageSource);
 			foreach (EL_ResourceDestructionTool tool : settings.m_aTools)
 			{
-				if (tool.m_rTool == currentTool) return tool.m_fHitDamage;
+				if (tool.m_rTool == currentTool)
+					return tool.m_fHitDamage;
 			}
 		}
 

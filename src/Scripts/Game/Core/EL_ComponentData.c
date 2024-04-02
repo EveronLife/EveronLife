@@ -4,7 +4,7 @@ class EL_ComponentData<Class T>
 	//! Gets the shared component data class instance
 	//! \param entity World entity that holds the component to get the data class for
 	//! \return strong typed component data class or null if not found
-	static T Get(IEntity entity)
+	sealed static T Get(IEntity entity)
 	{
 		if (!entity) return null;
 		typename dataClassType = T;
@@ -17,7 +17,7 @@ class EL_ComponentData<Class T>
 	//! Gets the shared component data class instance
 	//! \param component The script component instance to get the data class for.
 	//! \return strong typed component data class or null if not found
-	static T Get(ScriptComponent component)
+	sealed static T Get(ScriptComponent component)
 	{
 		if (!component) return null;
 		return T.Cast(component.GetComponentData(component.GetOwner()));

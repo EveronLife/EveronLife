@@ -4,9 +4,9 @@ modded class SCR_InventoryStorageManagerComponent
 	override void InsertItem(IEntity pItem, BaseInventoryStorageComponent pStorageTo = null, BaseInventoryStorageComponent pStorageFrom = null, SCR_InvCallBack cb = null)
 	{
 		// Stop pickup animations on hand carry items
-		if (m_pCharacterController && EL_Component<EL_HandCarryComponent>.Find(pItem))
+		if (m_CharacterController && EL_Component<EL_HandCarryComponent>.Find(pItem))
 		{
-			m_pCharacterController.TryPlayItemGesture(EItemGesture.EItemGestureNone);
+			m_CharacterController.TryPlayItemGesture(EItemGesture.EItemGestureNone);
 		}
 
 		super.InsertItem(pItem, pStorageTo, pStorageFrom, cb);

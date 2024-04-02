@@ -1,6 +1,6 @@
 modded class SCR_InventoryStoragesListUI
 {
-	protected const int EL_HAND_GRID_ROW = 9;
+	protected const int EL_HAND_GRID_ROW = 10;
 
 	protected SCR_InventorySlotUI m_pELHandSlot;
 	protected Widget m_pELHandSlotBackground;
