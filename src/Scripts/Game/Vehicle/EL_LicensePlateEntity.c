@@ -59,7 +59,6 @@ class EL_LicensePlateEntity : GenericEntity
 			{
 				m_TextWidget.SetText(m_LicensePlateManager.m_Registration);
 			}
-			
 		}
 		
 		m_wRenderTargetTextureWidget.SetGUIWidget(this, m_MaterialIndex);

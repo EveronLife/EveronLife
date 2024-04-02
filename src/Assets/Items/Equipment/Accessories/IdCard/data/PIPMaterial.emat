@@ -1,4 +1,0 @@
-MatPBRBasic {
- BCRMap "$rendertarget"
- NMOMap "{5C7F52916AEE1F46}Assets/Items/Equipment/Accessories/IdCard/data/PIPMaterial_NMO.edds"
-}
