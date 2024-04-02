@@ -1,0 +1,14 @@
+Vehicle M151A1 : "{F649585ABB3706C4}Prefabs/Vehicles/Wheeled/M151A2/M151A2.et" {
+ components {
+  EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
+   m_Plates {
+    EL_LicensePlatePointInfo "{6105223991D6DEEA}" {
+     PivotID "v_body"
+     Offset -0.008 0.6033 1.809
+     Angles 180 0 0
+    }
+   }
+  }
+ }
+ coords 110.033 -0 142.605
+}

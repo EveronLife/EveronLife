@@ -1,0 +1,34 @@
+GenericEntity WoodLog_01_Small_5ACEABD58E8C3 : "{32F5A906D8A573BC}Prefabs/Resources/WoodCutting/WoodLog_01_Small.et" {
+ coords 94.054 0 136.882
+}
+Tree : "{391791B1CAE33AFE}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_2f.et" {
+ coords 96.001 -0 134.81
+ angleY 18.018
+}
+GenericEntity WoodPlank_5ACEABD590364FAA3 : "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et" {
+ coords 93.842 0 134.852
+}
+GenericEntity : "{6105032F794BA64B}Prefabs/Props/Civilian/LogChopping_01.et" {
+ coords 94.95 0 134.909
+ {
+  GenericEntity Axe_5ACCA165954CE408 : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+   coords -0.265 0.977 0.013
+   angleX -55.875
+   angleY -85.813
+   angleZ -180
+  }
+ }
+}
+GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Sawmill.et" {
+ coords 92.584 0 135.149
+}
+GenericEntity Axe_6105223D75AEC620 : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+ components {
+  SignalsManagerComponent "{6105223D75AEDC11}" {
+  }
+ }
+ coords 94.916 0.585 135.442
+ angleX -61.705
+ angleY -179.456
+ angleZ -0.602
+}
