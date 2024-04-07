@@ -2,7 +2,22 @@ GenericEntity WoodLog_01_Small_5ACEABD58E8C3 : "{32F5A906D8A573BC}Prefabs/Resour
  coords 94.054 0 136.882
 }
 Tree : "{391791B1CAE33AFE}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_2f.et" {
- coords 96.001 -0 134.81
+ components {
+  EL_DestructibleResourceComponent "{5ACCE1B70F3EF473}" {
+   m_DestroySpawnObjects {
+    SCR_ParticleSpawnable "{610D328A02CD9BC5}" {
+     m_vOffsetPosition 0 1 0
+     m_Particle "{12571DF1E334C899}Particles/WoodCutting/WoodImpact_Small.ptc"
+    }
+   }
+  }
+  SCR_ImpactEffectComponent "{610D328881432DE5}" {
+   m_aDefaultParticles {
+    "{12571DF1E334C899}Particles/WoodCutting/WoodImpact_Small.ptc"
+   }
+  }
+ }
+ coords 96.001 0 134.81
  angleY 18.018
 }
 GenericEntity WoodPlank_5ACEABD590364FAA3 : "{45D1B36F99DD2FC3}Prefabs/Resources/WoodCutting/WoodPlank.et" {

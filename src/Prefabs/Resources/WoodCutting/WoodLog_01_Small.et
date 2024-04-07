@@ -47,7 +47,7 @@ GenericEntity : "{6BF776E22ECF67E7}Prefabs/Items/Core/HandCarryItem_Base.et" {
   RigidBody "{5A4ACBB1A0084DA1}" {
    Active Active
    Mass 0.25
-   CenterOfMass 0 0 -2
+   CenterOfMass 0 0 0
    LinearDamping 0.45
    AngularDamping 0.45
    ResponseIndex "SmallDestructible"
