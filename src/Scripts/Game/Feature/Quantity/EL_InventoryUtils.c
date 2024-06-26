@@ -9,7 +9,7 @@ modded class EL_InventoryUtils
 		// No quantity used, so default engine count function
 		if (!SCR_BaseContainerTools.FindComponentSource(Resource.Load(prefab), EL_QuantityComponent))
 		{
-			return target.GetDepositItemCountByResource(prefab);
+			return target.GetDepositItemCountByResource(target.GetOwner(), prefab);
 		}
 
 		int totalAmount;

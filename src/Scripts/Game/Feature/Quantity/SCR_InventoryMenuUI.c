@@ -342,7 +342,7 @@ modded class SCR_InventoryMenuUI
 
 			// Check max weight for scripted storages
 			auto universalStorage = SCR_UniversalInventoryStorageComponent.Cast(storage);
-			if (universalStorage && !universalStorage.IsWeightOk(physicalAttributes.GetWeight()))
+			if (universalStorage && !universalStorage.IsAdditionalWeightOk(physicalAttributes.GetWeight()))
 				return false;
 		}
 
