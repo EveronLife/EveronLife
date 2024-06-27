@@ -1,0 +1,23 @@
+GenericEntity : "{51D31AB07AE3C1C7}Prefabs/Props/Commercial/CashierShop_01.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{5B0B1EE358F7219F}" {
+   ActionContexts {
+    UserActionContext "{5B0B1EE35A0CB1CC}" {
+     ContextName "default"
+    }
+   }
+   additionalActions {
+    EL_OpenBankMenuAction "{5B3CD45FD6BB8CA8}" {
+     ParentContextList {
+      "default"
+     }
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+ coords 101.696 0.898 135.286
+}

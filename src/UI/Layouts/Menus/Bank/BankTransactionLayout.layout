@@ -1,0 +1,137 @@
+SizeLayoutWidgetClass {
+ Name "TransactionEntry"
+ AllowHeightOverride 1
+ HeightOverride 150
+ {
+  OverlayWidgetClass "{5C44E1E764FD9766}" {
+   Name "Overlay0"
+   Slot AlignableSlot "{5C44E1E764FD94B9}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+    Padding 10 10 10 10
+   }
+   {
+    ImageWidgetClass "{5C44E1E77F3DD807}" {
+     Name "Background"
+     Slot OverlayWidgetSlot "{5C44E1E77F3DD866}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0.021 0.061 0.223 1
+    }
+    VerticalLayoutWidgetClass "{5C44E1E48F8912A5}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5C4525F627628BAE}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     "Fill Origin" Center
+     {
+      HorizontalLayoutWidgetClass "{5C44E1E50E091E8D}" {
+       Name "HeaderLayout"
+       Slot LayoutSlot "{5C44E1E50E091E10}" {
+        Padding 10 0 10 0
+        SizeMode Fill
+        FillWeight 30
+       }
+       {
+        HorizontalLayoutWidgetClass "{5C44E1E583C3156E}" {
+         Name "SourceLayout"
+         Slot LayoutSlot "{5C44E1E583C31540}" {
+          Padding 0 0 0 0
+          SizeMode Fill
+          FillWeight 10
+         }
+         {
+          TextWidgetClass "{5C44E1E5675FBE2E}" {
+           Name "Source"
+           Slot LayoutSlot "{5C44E1E4170A2E50}" {
+            Padding 0 0 0 0
+            FillWeight 10
+           }
+           "Is Visible" 0
+           Color 0.025 0.175 0.451 1
+           Text "From"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+          TextWidgetClass "{5C44E1E5854F19BD}" {
+           Name "Source0"
+           Slot LayoutSlot "{5C44E1E4170A2E50}" {
+            Padding 10 0 0 0
+            FillWeight 10
+           }
+           "Is Visible" 0
+           Text "Wallet"
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+         }
+        }
+        TextWidgetClass "{5C44E1E50E09490E}" {
+         Name "Date"
+         Slot LayoutSlot "{5C44E1E4170A2E50}" {
+          Padding 0 0 0 0
+         }
+         Text "01.01.2023"
+         "Font Size" 20
+         "Min Font Size" 20
+         "Horizontal Alignment" Right
+         "Vertical Alignment" Center
+        }
+       }
+      }
+      ImageWidgetClass "{5C44E1E75FB55500}" {
+       Name "Seperator"
+       Slot LayoutSlot "{5C44E1E75FB5555D}" {
+        Padding 0 0 0 0
+       }
+       Color 0.61 0.61 0.61 1
+       Size 32 3
+      }
+      HorizontalLayoutWidgetClass "{5C44E1E4103DE5CA}" {
+       Name "BotLayout"
+       Slot LayoutSlot "{5C4525F627628AB1}" {
+        SizeMode Fill
+        FillWeight 70
+       }
+       {
+        TextWidgetClass "{5C44E1E54EA91AD6}" {
+         Name "CommentText"
+         Slot LayoutSlot "{5C44E1E4E386F199}" {
+          Padding 0 0 0 0
+          SizeMode Fill
+          FillWeight 80
+         }
+         Text "-"
+         "Font Size" 15
+         "Min Font Size" 15
+         FontProperties FontProperties "{5C4525F66B729D21}" {
+          Italic 1
+         }
+         Offset 5 15
+        }
+        TextWidgetClass "{5C44E1E4170A2E72}" {
+         Name "MoneyText"
+         Slot LayoutSlot "{5C44E1E4170A2E50}" {
+          Padding 0 0 10 0
+          SizeMode Fill
+          FillWeight 20
+         }
+         Color 0.407 0.017 0.017 1
+         Text "- $1.000"
+         "Font Size" 25
+         "Horizontal Alignment" Right
+         "Vertical Alignment" Center
+         FontProperties FontProperties "{5C4525F663C11B41}" {
+          Bold 1
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
