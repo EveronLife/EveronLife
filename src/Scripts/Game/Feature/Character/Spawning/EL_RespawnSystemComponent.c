@@ -32,9 +32,11 @@ class EL_RespawnSystemComponent : EPF_BaseRespawnSystemComponent
 		if (!hasCharData)
 		{
 			ResourceName prefab = m_aDefaultCharacterPrefabs.GetRandomElement();
+			string firstname = "Test";
+			string lastname = "User";
 			if (prefab)
 			{
-				activeCharacter = EL_PlayerCharacter.Create(prefab);
+				activeCharacter = EL_PlayerCharacter.Create(prefab, firstname, lastname);
 				account.AddCharacter(activeCharacter, true);
 			}
 			else
@@ -56,6 +58,11 @@ class EL_RespawnSystemComponent : EPF_BaseRespawnSystemComponent
 		#endif
 
 		super.HandlePlayerLoad(characterContext);
+		
+		
+		
+		
+		
 	}
 
 	//------------------------------------------------------------------------------------------------

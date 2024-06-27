@@ -55,5 +55,7 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
    }
    WeaponSlotType "secondary"
   }
+  SignalsManagerComponent "{6105223D75AEDC11}" {
+  }
  }
 }

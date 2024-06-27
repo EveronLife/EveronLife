@@ -63,6 +63,8 @@ class EL_PlayerCharacter
 {
 	protected string m_sId;
 	protected ResourceName m_rPrefab;
+	protected string m_firstname;
+	protected string m_lastname;
 
 	//------------------------------------------------------------------------------------------------
 	string GetId()
@@ -75,13 +77,27 @@ class EL_PlayerCharacter
 	{
 		return m_rPrefab;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	string GetFirstname()
+	{
+		return m_firstname;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	string GetLastname()
+	{
+		return m_lastname;
+	}
 
 	//------------------------------------------------------------------------------------------------
-	static EL_PlayerCharacter Create(ResourceName prefab)
+	static EL_PlayerCharacter Create(ResourceName prefab, string firstname, string lastname)
 	{
 		EL_PlayerCharacter character();
 		character.m_sId = EPF_PersistenceIdGenerator.Generate();
 		character.m_rPrefab = prefab;
+		character.m_firstname = firstname;
+		character.m_lastname = lastname;
 		return character;
 	}
 };

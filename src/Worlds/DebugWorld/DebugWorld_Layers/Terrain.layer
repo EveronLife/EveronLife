@@ -16,44 +16,6 @@ GenericWorldEntity world {
 GenericTerrainEntity DebugTerrain {
  LayerPreset "Terrain"
 }
-GenericWorldPPEffect PP_SSR {
- coords 94.322 -0.999 117.803
- Priority 0
- Profile 4
- {
-  $grp GenericWorldPPEffect {
-   GodRays {
-    Priority 1
-    Profile 1
-   }
-   UnderWater {
-    Priority 2
-    Profile 5
-   }
-   SSDO {
-    Priority 14
-    Profile 3
-   }
-   HBAO {
-    Priority 15
-    Profile 0
-   }
-   HDR {
-    Priority 16
-    Profile 2
-   }
-   RainEffect {
-    coords 2522.945 78.034 1718.33
-    Priority 3
-    Material "{FA4DE95A7276143D}Common/Postprocess/rain.emat"
-   }
-   PPAA {
-    Priority 17
-    Profile 6
-   }
-  }
- }
-}
 GenericWorldFogEntity Fog_Haze {
  coords 3311.59 -0.996 3078.493
  FakeDistFog 1
@@ -63,21 +25,6 @@ GenericWorldFogEntity Fog_Haze {
  Color 0.5 0.5 0.5 0
  ColorBack 0.4 0.4 0.4 0
 }
-GenericWorldLightEntity Lighting2 {
- coords 94.322 -0.999 117.803
- angleX -45
- angleY -155
- DirectLightLV 15
- DirectLightColor 1 1 1 0
- IndirectLightLV 14
- IndirectLightColor 1 1 1 0
- ShadowFactor 1
- PenumbraMultiplier 50
- TargetEV 1.7
- TargetEVLimitBright 1
- TargetEVLimitDark 0
- ManualHDRBrightnessLV 13
-}
 SCR_CameraManager CameraManager {
  coords 6.741 0.001 3.383
 }
@@ -85,7 +32,4 @@ TimeAndWeatherManagerEntity TimeAndWeatherManager_5A2F39DFADA7BC53 : "{A3BAF78F6
  "Internal variant transition" 0
  "Internal subvariant 0" 0
  "Internal subvariant 1" 0
-}
-ProjectileSoundsManager ProjectileSoundsManager : "{B4DA8B0024536625}Prefabs/World/Game/ProjectileSoundsManager.et" {
- coords 94.322 -0.999 117.803
 }
