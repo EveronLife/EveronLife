@@ -1,0 +1,43 @@
+GenericEntity : "{1EA06AA76191AE7A}Prefabs/Processor/Cocaine_Processor.et" {
+ coords 98.008 0.002 140.106
+}
+Tree : "{30549DAE871F6E7E}Prefabs/Vegetation/Bush/CocaBush.et" {
+ coords 95.349 0.39 139.977
+ angleY 0
+}
+$grp SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
+ {
+  coords 96.906 0.001 140.155
+ }
+ {
+  coords 99.19 0.004 140.18
+ }
+}
+GenericEntity : "{B4A13C5D1D049FFB}Prefabs/Items/Resources/Jerrycan_Diesel.et" {
+ coords 97.194 0.9 139.884
+}
+$grp GenericEntity : "{BBAC42E6A4F3B251}Prefabs/Items/Drugs/CocaLeaves.et" {
+ {
+  coords 96.486 0.901 139.733
+  angleX -48.48
+ }
+ {
+  coords 96.646 0.9 139.753
+  angleX -48.48
+ }
+ {
+  coords 96.754 0.9 139.741
+  angleX -48.48
+ }
+}
+$grp GenericEntity : "{DCF75A3923FCEF7E}Prefabs/Items/Drugs/Cocaine.et" {
+ {
+  coords 99.027 0.903 140.323
+ }
+ {
+  coords 99.162 0.903 140.067
+ }
+ {
+  coords 99.338 0.903 139.804
+ }
+}

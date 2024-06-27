@@ -1,0 +1,48 @@
+GenericEntity : "{8594DC1E8A135607}Prefabs/Processor/EL_Processor_Base.et" {
+ ID "598F21A86EB5B48E"
+ components {
+  MeshObject "{598F21A867C4015C}" {
+   Object "{8D4E2E836BBABBDD}Assets/Props/Civilian/Bucket_01/Bucket_01.xob"
+   Materials {
+    MaterialAssignClass "{5A5B37615CC007B7}" {
+     SourceMaterial "Bucket_01"
+     AssignedMaterial "{C3A7ADF460D9712F}Assets/Props/Civilian/Bucket_01/Data/Bucket_02.emat"
+    }
+   }
+  }
+  Hierarchy "{5A5B37614DDE729A}" {
+  }
+  ActionsManagerComponent "{598F21A8710B89C1}" {
+   ActionContexts {
+    UserActionContext "{598F21A871DA7304}" {
+     Position PointInfo "{598F21A875320722}" {
+      Offset 0 0.3718 0.1281
+     }
+     Radius 1
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{598F21A877BE6DEE}" {
+     UIInfo UIInfo "{5A5B37614DDE7295}" {
+      Name "Process Heroin"
+     }
+     Duration 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{5A5B37614DDE72AA}" {
+       m_InputPrefab "{3C87D05C5C79625A}Prefabs/Items/Resources/Jerrycan_MorphineSolution.et"
+      }
+      EL_ProcessingInput "{5A5B37614DDE72AE}" {
+       m_InputPrefab "{EBE54B3E2DD2AF2C}Prefabs/Items/Resources/AceticAnhydride.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{5A5B37614DDE72A3}" {
+       m_OutputPrefab "{860FD10180850F0A}Prefabs/Items/Drugs/Heroin.et"
+      }
+     }
+    }
+   }
+  }
+ }
+ coords 109.747 0.917 134.929
+}

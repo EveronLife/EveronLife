@@ -1,0 +1,68 @@
+GenericEntity {
+ ID "508AB2013EEE1E00"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Poppies"
+     Description "A handful of poppies"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 0.2
+     SizeSetupStrategy Volume
+     ItemVolume 113
+     RestingAdditiveRotationLS 0 0 90
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{5A5B37692922949F}" {
+     AnimationInstance "{4FCBEA45CAEBC9C0}anims/workspaces/player/player_main_1h.asi"
+     AnimationIKPose "{3E5C93E85F05C6B5}Assets/Weapons/Grenades/RGD5/anims/anm/p_rgd5_ik.anm"
+     AnimationAttachments {
+      AnimationAttachmentInfo "{5A5B376929229497}" {
+       AnimGraph "{883777E45A6C4DA1}Assets/Items/Medicine/Workspaces/Gauze_01.agr"
+       AnimInstance "{79BD98038DD60F88}Assets/Items/Medicine/Workspaces/Gauze_01_player.asi"
+       BindingName "Gadget"
+      }
+     }
+     HandAdditiveRotation 90 0 -90
+     HandAdditiveTranslation -0.02 0.018 0
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{5A5B3769292294AB}" {
+      CameraOrbitAngles -16 144 0
+      CameraDistanceToItem 0.7
+      CameraOffset 0 0 0
+     }
+    }
+    m_SlotType SLOT_ANY
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{5090CAA4A7BA34C4}Assets/Items/Vegetation/Poppies/Poppies.xob"
+   Materials {
+    MaterialAssignClass "{5A5B3769292294AE}" {
+     SourceMaterial "mushroom_01"
+     AssignedMaterial "{F10A1F11E9AAC092}Assets/Items/Vegetation/Mushrooms/Data/BlueMushrooms.emat"
+    }
+   }
+   PixelSizeScale 10
+  }
+  RigidBody "{5A4ACBB1A0084DA1}" {
+   ModelGeometry 0
+  }
+  SCR_ConsumableItemComponent "{5A5B3769292294A2}" {
+   m_eAnimVariable ADRIANOV
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   ActionContexts {
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 0.1613 0
+     }
+     Radius 1
+    }
+   }
+  }
+ }
+ angleZ 90
+ scale 0.4
+}

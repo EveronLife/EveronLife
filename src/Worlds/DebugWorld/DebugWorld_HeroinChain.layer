@@ -1,0 +1,59 @@
+$grp Tree : "{0D43B6ED2628AC1C}Prefabs/Vegetation/Flora/Poppies.et" {
+ {
+  coords 101.842 0.001 140.042
+ }
+ {
+  coords 101.677 0.001 139.925
+ }
+}
+GenericEntity : "{174F6806DF7F3C92}Prefabs/Items/Resources/Jerrycan_Empty.et" {
+ coords 102.784 0.903 140.512
+}
+GenericEntity : "{3C87D05C5C79625A}Prefabs/Items/Resources/Jerrycan_MorphineSolution.et" {
+ coords 104.986 0.9 140.055
+}
+$grp SCR_DestructibleEntity : "{622F9989DDC4865B}PrefabLibrary/Props/Civilian/Recreation/TableRecreation_01/TableRecreation_01.et" {
+ {
+  coords 102.681 0.004 140.179
+ }
+ {
+  coords 105.335 0.001 140.073
+ }
+}
+$grp GenericEntity : "{A231A5F8D479B5DC}Prefabs/Items/Drinks/WaterBottle.et" {
+ WaterBottle_5B0771B021D4F391 {
+  coords 102.951 0.903 139.751
+ }
+ WaterBottle_5B0771B026CEB7D2 {
+  coords 103.038 0.903 139.818
+ }
+ WaterBottle_5B0771B027F75997 {
+  coords 103.108 0.903 139.625
+ }
+}
+GenericEntity : "{A4558C7E13204146}Prefabs/Processor/Opium_Processor.et" {
+ coords 103.909 0.001 140.032
+}
+GenericEntity : "{A4558C7E13204147}Prefabs/Processor/Heroin_Processor.et" {
+ coords 106.539 0.001 139.997
+}
+GenericEntity : "{EBE54B3E2DD2AF2C}Prefabs/Items/Resources/AceticAnhydride.et" {
+ coords 105.496 0.9 139.876
+}
+$grp GenericEntity : "{F18EF6233EADE5E5}Prefabs/Items/Drugs/PickedPoppies.et" {
+ {
+  coords 102.396 0.92 139.911
+  angleX -89.918
+  angleZ 0
+ }
+ {
+  coords 102.482 0.901 139.929
+  angleX -89.918
+  angleZ 0
+ }
+ {
+  coords 102.267 0.927 139.925
+  angleX -89.921
+  angleZ 0
+ }
+}
