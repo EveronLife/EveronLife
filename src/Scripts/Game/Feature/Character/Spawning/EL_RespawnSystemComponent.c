@@ -106,7 +106,9 @@ class EL_RespawnSystemComponent : EPF_BaseRespawnSystemComponent
 	//! \return parent entity of the items spawned by the configuration or null on failure
 	protected IEntity SpawnDefaultCharacterItem(InventoryStorageManagerComponent storageManager, EL_DefaultLoadoutItem loadoutItem)
 	{
-		IEntity slotEntity = GetGame().SpawnEntityPrefab(Resource.Load(loadoutItem.m_rPrefab));
+		EntitySpawnParams spawnParams();
+        spawnParams.Transform[3] = storageManager.GetOwner().GetOrigin();
+		IEntity slotEntity = GetGame().SpawnEntityPrefab(loadoutItem.m_rPrefab, false, null, spawnParams);
 		if (!slotEntity) return null;
 
 		if (loadoutItem.m_aComponentDefaults)

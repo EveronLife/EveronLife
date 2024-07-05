@@ -21,10 +21,13 @@ modded class SCR_InventoryStorageManagerComponent
 					return;
 				}
 				// spawn and insert ItemToGive into inventory
-				auto barterItem = GetGame().SpawnEntityPrefab(Resource.Load(trader.m_ItemToGive));
+				EntitySpawnParams spawnParams();
+        		spawnParams.Transform[3] = GetOwner().GetOrigin(); // Source origin	
+				auto barterItem = GetGame().SpawnEntityPrefab(trader.m_ItemToGive, false, null, spawnParams);
 				bool insertSuccess = TryInsertItemInStorage(barterItem, pStorageFrom);
-				if (!insertSuccess){
-					TryInsertItemInStorage(GetGame().SpawnEntityPrefab(Resource.Load(trader.m_ItemToReceive)), pStorageFrom);
+				if (!insertSuccess)
+				{
+					TryInsertItemInStorage(GetGame().SpawnEntityPrefab(trader.m_ItemToReceive, false), pStorageFrom);
 					return;
 				}
 				this.SetReturnCode(EInventoryRetCode.RETCODE_OK);
