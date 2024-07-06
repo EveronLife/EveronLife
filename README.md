@@ -59,6 +59,12 @@ Ensure your `LICENSE` file is up-to-date and clearly states the terms of the MIT
 Include a notice in your source code files. For example:
 ```
 This mod is based on the EveronLife framework.
-EveronLife is licensed under the MIT License. © [Author/Organization Name].
+EveronLife is licensed under the MIT License. © [EveronLife/EveronLife].
 For more information, visit the official repository at https://github.com/EveronLife/EveronLife.
+```
+
+**Notice in the Mod Description on the Workshop:**
+Include a notice in your mod's description on the workshop or any distribution platform, such as:
+```
+This mod is built upon the EveronLife framework. EveronLife is licensed under the MIT License. © [EveronLife/EveronLife].
 ```
