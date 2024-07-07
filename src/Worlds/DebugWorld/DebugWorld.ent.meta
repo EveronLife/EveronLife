@@ -9,6 +9,8 @@ MetaFileClass {
   }
   ENTResourceClass PS4 : PC {
   }
+  ENTResourceClass PS5 : PC {
+  }
   ENTResourceClass HEADLESS : PC {
   }
  }

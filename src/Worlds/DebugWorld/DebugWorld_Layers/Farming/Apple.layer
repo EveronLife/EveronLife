@@ -1,0 +1,243 @@
+GenericEntity : "{086E85DB687EA38F}Prefabs/Props/Construction/GravelPile_01_medium.et" {
+ coords 87.686 24.144 169.972
+}
+GenericEntity Brick_6128C0872C34A58E : "{0D5DA590E223A195}Prefabs/Items/Resources/Brick.et" {
+ coords 112.92 24.144 175.343
+}
+GenericEntity : "{1571BF54599093AF}PrefabsEditable/Auto/Props/Furniture/E_MeetingTable_01.et" {
+ coords 119.85 24.144 160.954
+ angleY 90.69
+}
+GenericEntity : "{15B2CA2949A061FF}PrefabsEditable/Auto/Props/Commercial/ShoppingBasket_01/E_ShoppingBasket_01_green.et" {
+ components {
+  EL_RestrictedInventoryStorageComponent "{6128C0846B4356ED}" {
+   Attributes SCR_ItemAttributeCollection "{6128C08462F65500}" {
+    ItemDisplayName UIInfo "{6128C0846076C655}" {
+     Name "Trade apples"
+     Description "Trade apples for money"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{6128C0841F0CFCE4}" {
+    }
+    CommonItemType "NONE"
+    m_Size SLOT_3x3
+    m_SlotType SLOT_ANY
+   }
+  }
+  EL_TraderManagerComponent "{6128B6C09B0C6961}" {
+   m_ItemToReceive "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et"
+   m_ItemToGive "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
+  }
+  ActionsManagerComponent "{6128B6C0D17D2C2A}" {
+   ActionContexts {
+    UserActionContext "{6128B6C0D7FA2267}" {
+     ContextName "Default"
+     Position PointInfo "{6128B6C0C3604C15}" {
+     }
+     Radius 1
+     Height 1
+    }
+   }
+   additionalActions {
+    EL_OpenTraderAction "{6128B6C0FACB16B3}" {
+     ParentContextList {
+      "Default"
+     }
+     UIInfo UIInfo "{6128B6C7BE8F6C73}" {
+      Name "Trade Apples"
+      Description "Trade apples for money"
+     }
+    }
+   }
+  }
+ }
+ coords 119.89 25.098 161.377
+}
+GenericEntity CopperNugget_6128C0873D0FA4B4 : "{1881C4F2BD43E3E1}Prefabs/Resources/Mining/CopperNugget.et" {
+ coords 105.655 24.144 179.854
+}
+GenericEntity : "{19A3C48FC2665A3F}Prefabs/Props/Construction/GravelPile_01_large.et" {
+ coords 86.068 24.144 177.527
+}
+$grp Tree : "{1C6F9AD2669C17F9}Prefabs/Vegetation/Tree/t_malus_domestica_2s.et" {
+ {
+  coords 138.763 -0.255 165.848
+ }
+ {
+  coords 135.633 0 161.643
+ }
+ {
+  coords 133.298 0 164.086
+ }
+ {
+  coords 139.236 0 157.503
+ }
+ {
+  coords 131.58 0 159.628
+ }
+}
+$grp GenericEntity : "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et" {
+ AppleJuice_6128B6C0DB352CC1 {
+  coords 119.94 25.05 160.495
+ }
+ AppleJuice_6128B6C0DA0ED02F {
+  coords 119.82 25.05 160.507
+ }
+ AppleJuice_6128B6C0DA0ED02F2 {
+  coords 119.941 25.05 160.403
+ }
+ AppleJuice_6128B6C0DA0ED02F3 {
+  coords 119.813 25.05 160.411
+ }
+}
+GenericEntity : "{1DD3BF6A1A249CDE}Prefabs/Processor/AppleJuicer.et" {
+ components {
+  ActionsManagerComponent "{598F21A8710B89C1}" {
+   ActionContexts {
+    UserActionContext "{598F21A871DA7304}" {
+    }
+   }
+  }
+ }
+ coords 119.829 25.05 160.806
+ angleY -90.38
+}
+GenericEntity : "{2C571D6F7C05E095}Prefabs/Resources/Mining/IronOre.et" {
+ coords 99.562 24.144 180.52
+}
+GenericEntity GravelBag_6128C0872E9B3368 : "{344090890C63F4CA}Prefabs/Items/Resources/GravelBag.et" {
+ coords 115.454 24.144 175.451
+}
+$grp Tree : "{391791B1CAE33AFE}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_2f.et" {
+ {
+  coords 100.211 24.144 131.926
+ }
+ {
+  coords 99.314 24.144 129.904
+ }
+ {
+  coords 103.559 24.144 131.927
+ }
+ CuttableTree_Pinus_Sylvestris_2f_6128C087E553B497 {
+  coords 98.714 24.144 132.014
+ }
+}
+GenericEntity : "{3C4F54AD0CB24525}Prefabs/Resources/Mining/GoldOre.et" {
+ coords 102.453 24.144 180.975
+}
+GenericEntity CopperBar_6128C0873C4FE28F : "{577A665F1662E7AD}Prefabs/Resources/Mining/CopperBar.et" {
+ coords 105.079 24.144 179.804
+}
+GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Sawmill.et" {
+ coords 92.881 24.144 130.389
+}
+GenericEntity IronNugget_6128C087313E894C : "{6853E2E2AE878611}Prefabs/Resources/Mining/IronNugget.et" {
+ coords 100.579 24.144 179.203
+}
+StaticModelEntity : "{81CB1B2631584427}Prefabs/Props/Construction/CementPile.et" {
+ coords 95.314 0.771 181.537
+}
+EL_NpcBaseEntity : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Default_01.et" {
+ components {
+  EL_RestrictedInventoryStorageComponent "{6128C08407111C7B}" {
+   Attributes SCR_ItemAttributeCollection "{6128C084041D1F82}" {
+    ItemDisplayName UIInfo "{6128C08439892BBB}" {
+     Name "Trade applejuice"
+     Description "Trade applejuice for money"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes "{6128C08434705DFC}" {
+    }
+    CommonItemType "NONE"
+    m_Size SLOT_3x3
+    m_SlotType SLOT_ANY
+   }
+  }
+  EL_TraderManagerComponent "{6128B6C07470BE20}" {
+   m_ItemToReceive "{1DBD99E6347DE1AD}Prefabs/Items/Drinks/AppleJuice.et"
+   m_ItemToGive "{5439738849229352}Prefabs/Items/Currencies/MoneyStack.et"
+  }
+  ActionsManagerComponent "{5A4B13A9811FB113}" {
+   ActionContexts {
+    UserActionContext "{6128B6C05CDEAEA0}" {
+     ContextName "Default"
+     Position PointInfo "{6128B6C04E14F544}" {
+      Offset 0.0699 1.3446 0
+     }
+     Radius 1
+    }
+   }
+   additionalActions {
+    EL_OpenTraderAction "{6128B6C078CF97AD}" {
+     ParentContextList {
+      "Default"
+     }
+     UIInfo UIInfo "{6128B6C76574E9A9}" {
+      Name "Trade Applejuice"
+      Description "Trade applejuice for money"
+     }
+    }
+   }
+  }
+ }
+ coords 120.978 24.144 159.977
+ angleY -97.176
+}
+GenericEntity GoldNugget_6128C08737E40336 : "{8F81BD0BF343CF49}Prefabs/Resources/Mining/GoldNugget.et" {
+ coords 103.279 24.144 179.704
+}
+GenericEntity Axe_6128C087DD0B8B3B : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
+ coords 97.007 24.582 131.954
+ angleX -83.781
+ angleY 180
+ angleZ 3.718
+}
+SCR_DestructibleBuildingEntity : "{A92A5F3B79FF56BE}Prefabs/Structures/Industrial/Houses/ConcretePlant_E_01.et" {
+ coords 113.295 0 180.291
+ angleY 94.328
+}
+GenericEntity GoldBar_6128C087360C467A : "{ACC9A10F0F20F5C4}Prefabs/Resources/Mining/GoldBar.et" {
+ coords 102.315 24.144 179.622
+}
+GenericEntity Sandbag_6128C0872FAC70B8 : "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et" {
+ coords 116.813 24.144 175.456
+}
+GenericEntity IronBar_6128C08730E89F8B : "{BCD1E8CD7F975074}Prefabs/Resources/Mining/IronBar.et" {
+ coords 100.131 24.144 179.144
+}
+GenericEntity : "{C7FC93FD15F0574C}Prefabs/Resources/Mining/CopperOre.et" {
+ coords 105.153 24.144 181.115
+}
+$grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
+ Apple_6128B6C1443BE7F6 {
+  coords 120.037 25.05 162
+ }
+ Apple_6128B6C1443BE7F2 {
+  coords 120.049 25.05 161.9
+ }
+ Apple_6128B6C1443BE7F3 {
+  coords 119.955 25.05 162
+ }
+ Apple_6128B6C1443BE7F4 {
+  coords 119.95 25.05 161.9
+ }
+ Apple_6128B6C1443BE7F5 {
+  coords 119.864 25.05 162
+ }
+ Apple_6128B6C1443BE7F7 {
+  coords 119.857 25.05 161.9
+ }
+ Apple_6128B6C1443BE7F8 {
+  coords 119.773 25.05 162
+ }
+ Apple_6128B6C1443BE7F9 {
+  coords 119.773 25.05 161.9
+ }
+}
+GenericEntity CementBag_6128C0872DCF5C6E : "{D58674633332DC86}Prefabs/Items/Resources/CementBag.et" {
+ coords 114.16 24.144 175.559
+}
+GenericEntity : "{DEB57429CD49782D}Prefabs/Props/Construction/SandPile_01.et" {
+ coords 95.067 24.053 174.221
+}
+Tree : "{FC9E572F03833045}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/CuttableTree_Pinus_Sylvestris_Stump_01.et" {
+ coords 97.052 0 131.689
+}
