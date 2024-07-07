@@ -1,0 +1,43 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "0000000000000001"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Gunpowder"
+     Description "A bag of Gunpowder"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 1
+     SizeSetupStrategy Volume
+     ItemVolume 10
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{61C967E059EF30C0}" {
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0.005 -0.065
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{61C967E059EF30FA}" {
+      CameraOrbitAngles 90 0 90
+      CameraDistanceToItem 0.3
+      CameraOffset 0 0 0
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{1D309C35F90BE925}Assets/Props/Construction/GravelPile_01/GravelPile_01_large.xob"
+   Materials {
+    MaterialAssignClass "{61CB1B032539DFEE}" {
+     SourceMaterial "SandPile_01"
+     AssignedMaterial "{0A4BAF297553EF8F}Assets/Props/Construction/GravelPile_01/Data/GravelPile_01.emat"
+    }
+    MaterialAssignClass "{61CB1B032539DF01}" {
+     SourceMaterial "SandPile_01_Decal"
+     AssignedMaterial "{A504FC705DC948D8}Assets/Props/Construction/GravelPile_01/Data/GravelPile_01_Decal.emat"
+    }
+   }
+  }
+ }
+ scale 0.012
+}

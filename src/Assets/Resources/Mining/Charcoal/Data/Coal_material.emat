@@ -1,0 +1,5 @@
+MatPBRBasic {
+ RoughnessScale 5
+ BCRMap "{769D0C2776763EB4}Assets/Resources/Mining/Charcoal/Coal_BCR.edds"
+ NMOMap "{4E45B7B5AF016C2A}Assets/Resources/Mining/Charcoal/Coal_NMO.edds"
+}

@@ -1,0 +1,38 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "0000000000000001"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Sulfur"
+     Description "A piece of sulfur"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 1
+     SizeSetupStrategy Volume
+     ItemVolume 100
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{61C8E5ED63FD4F6A}" {
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0.005 -0.065
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{61C8E5ED63FD4F67}" {
+      CameraOrbitAngles 90 0 90
+      CameraDistanceToItem 0.3
+      CameraOffset 0 0 0
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{9283DB6FD47532CF}Assets/Resources/Mining/Sulfur/sulfur.xob"
+   Materials {
+    MaterialAssignClass "{61CB1B0190561B04}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{7C2E488A0E64AF45}Assets/Rocks/Granite/Data/GraniteBeach_Forest_MLOD.emat"
+    }
+   }
+  }
+ }
+}

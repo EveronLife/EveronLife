@@ -1,0 +1,43 @@
+GenericEntity : "{4CC2C69DE1AEF103}Prefabs/Props/Core/Destructible_Props_Base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{8D4E2E836BBABBDD}Assets/Props/Civilian/Bucket_01/Bucket_01.xob"
+  }
+  RigidBody "{5872F0EB7DFB5A9D}" {
+   Mass 3
+   ModelGeometry 1
+  }
+  ActionsManagerComponent "{61CAEEAF0ED4F100}" {
+   ActionContexts {
+    UserActionContext "{61CAEEAF0CC1AD17}" {
+     ContextName "default"
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{61CAEEAF345427D2}" {
+     UIInfo UIInfo "{61CAEEAF338EF42E}" {
+      Name "Craft Gunpowder"
+     }
+     m_aProcessingInputs {
+      EL_ProcessingInput "{61CAEEAF390A53EC}" {
+       m_InputPrefab "{8A38F1C4850E0ED5}Prefabs/Items/Resources/charcoal.et"
+      }
+      EL_ProcessingInput "{61CAEEAF2E524760}" {
+       m_InputPrefab "{E7FF798571A926D9}Prefabs/Items/Resources/sulfur.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{61CAEEAFD2DEC727}" {
+       m_OutputPrefab "{FC2EA75CF878358A}Prefabs/Items/Components/Gunpowder.et"
+      }
+     }
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+ coords 2.49 4.269 3.152
+}

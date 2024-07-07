@@ -1,0 +1,39 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "0000000000000001"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Linen"
+     Description "A peice of linen"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 0.05
+     SizeSetupStrategy Volume
+     ItemVolume 2
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{61C8E5ED12C694B6}" {
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0.005 -0.065
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{61C8E5ED12C694A3}" {
+      CameraOrbitAngles 90 0 90
+      CameraDistanceToItem 0.3
+      CameraOffset 0 0 0
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{0C80EF92ACEB51C9}Assets/Props/Military/Sandbags/Sandbag_01_empty.xob"
+   Materials {
+    MaterialAssignClass "{61C8E5ECA633752B}" {
+     SourceMaterial "Sandbags_01_End"
+     AssignedMaterial "{F0C36633F38101EF}Assets/Items/Resources/GravelBag/GravelBag.emat"
+    }
+   }
+  }
+ }
+ scale 0.3
+}

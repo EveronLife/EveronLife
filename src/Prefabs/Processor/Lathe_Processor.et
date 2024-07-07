@@ -1,0 +1,39 @@
+GenericEntity : "{D74AF3B338ED494C}Prefabs/Props/Industrial/Lathe_01.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{61CF4728CD53E2A3}" {
+   ActionContexts {
+    UserActionContext "{61CF4728CD53E2DE}" {
+     ContextName "default"
+     Position PointInfo "{61CF4728CD53E2D6}" {
+      Offset -0.0873 0.7376 0.4846
+     }
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{61CF4728CD53E2CD}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{61CF4728CD53E2CF}" {
+      Name "Create M4"
+     }
+     Duration 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{61CF4728CD53E2C4}" {
+       m_InputPrefab "{BCD1E8CD7F975074}Prefabs/Resources/Mining/IronBar.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{61CF4728CD53E2FA}" {
+       m_OutputPrefab "{3E413771E1834D2F}Prefabs/Weapons/Rifles/M16/Rifle_M16A2.et"
+      }
+     }
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+}

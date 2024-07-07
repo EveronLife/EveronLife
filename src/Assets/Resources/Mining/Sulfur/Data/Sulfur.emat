@@ -1,0 +1,10 @@
+MatPBRBasic {
+ Specular 0.875 0.82 0.656 1
+ SpecularMul 1.25
+ RoughnessScale 5
+ MetalnessScale 0.404
+ AOScale 5
+ CavityFromAO 0
+ BCRMap "{AA6169804543EE28}Assets/Resources/Mining/Data/Gold_BCR.edds"
+ NMOMap "{92B9D2129C34BCB6}Assets/Resources/Mining/Data/Gold_NMO.edds"
+}

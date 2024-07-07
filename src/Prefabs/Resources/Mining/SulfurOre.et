@@ -1,0 +1,47 @@
+GenericEntity {
+ ID "61C7340F8B7A6012"
+ components {
+  MeshObject "{61C7340F8B7A600A}" {
+   Object "{6399C4DB701BF230}Assets/Resources/Mining/MetalOre.xob"
+   Materials {
+    MaterialAssignClass "{61C7340D14DFCC73}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{2C170889474F816C}Assets/Resources/Mining/Data/Sulfur.emat"
+    }
+   }
+  }
+  RigidBody "{61C7340F8B7A602B}" {
+   LayerPreset "RockFireView"
+   Mass 1000
+   AngularSleepingThreashold 1
+   ModelGeometry 1
+   Static 1
+  }
+  ActionsManagerComponent "{61CAEEA632D28424}" {
+   ActionContexts {
+    UserActionContext "{61CAEEA630562EE0}" {
+     ContextName "default"
+     Position PointInfo "{61CAEEA6256E9748}" {
+      Offset -0.2435 0.5259 0
+     }
+     Radius 2
+    }
+   }
+   additionalActions {
+    EL_GatherAction "{61CAEEA62B9715F1}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{61CAEEA6D0B83E3D}" {
+      Name "Gather Sulfur"
+     }
+     Duration 1
+     m_GatherItemPrefab "{E7FF798571A926D9}Prefabs/Items/Resources/sulfur.et"
+    }
+   }
+  }
+  RplComponent "{61C7340F8B7A602F}" {
+  }
+ }
+ coords 105.117 0.097 132.47
+}
