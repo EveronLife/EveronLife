@@ -55,5 +55,15 @@ GenericEntity : "{F3919A62ADD6123A}Prefabs/Tools/Tool_Base.et" {
    }
    WeaponSlotType "secondary"
   }
+  RplComponent "{59908095DD42CB50}" {
+   "Rpl State Override" Runtime
+   "Parent Node From Parent Entity" 0
+  }
+  SignalsManagerComponent "{61CF0B091E06CFEA}" {
+  }
  }
+ coords 97.007 24.582 131.954
+ angleX -83.781
+ angleY 180
+ angleZ 3.718
 }
