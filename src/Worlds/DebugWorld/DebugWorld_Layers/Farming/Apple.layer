@@ -177,6 +177,8 @@ EL_NpcBaseEntity : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Default_01.et"
     }
    }
   }
+  RplComponent "{61CF3C7B1FC8D2AF}" {
+  }
  }
  coords 120.978 24.144 159.977
  angleY -97.176
