@@ -1,0 +1,226 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  OverlayWidgetClass "{5B3ADC3218EB1052}" {
+   Name "Overlay0"
+   Slot FrameWidgetSlot "{5B3ADC3218EB10A9}" {
+    Anchor 0 0 1 1
+    PositionX 0
+    OffsetLeft 500
+    PositionY 0
+    OffsetTop 200
+    SizeX -1820
+    OffsetRight 500
+    SizeY -1050
+    OffsetBottom 200
+   }
+   {
+    ImageWidgetClass "{5B3ADC32C02E341B}" {
+     Name "OverlayBackground"
+     Slot OverlayWidgetSlot "{5B3ADC32C02E347D}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0.133 0.133 0.133 1
+     "Shadow Offset" 2 2
+     "Shadow Size Increase" 2 2
+     "Shadow Color" 0.042 0.042 0.042 1
+    }
+    VerticalLayoutWidgetClass "{5B3ADC328ADC549C}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5B3ADC328ADC54FD}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+      Padding 50 50 50 50
+     }
+     "Fill Origin" Center
+     {
+      TextWidgetClass "{5B3ADC328F5FA57E}" {
+       Name "SourceAccount"
+       Slot LayoutSlot "{5B3ADC328F5FA55E}" {
+        SizeMode Fill
+        FillWeight 10
+       }
+       Text "Account 555"
+       "Font Size" 37
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+       FontProperties FontProperties "{5B3ADC32DC5A7732}" {
+        Bold 1
+       }
+      }
+      TextWidgetClass "{5C610998C7AE4DE9}" {
+       Name "AmountTitle"
+       Slot LayoutSlot "{5B3ADC328F5FA55E}" {
+        VerticalAlign 1
+        Padding 50 0 0 0
+        FillWeight 93.2
+       }
+       Rotation 0
+       Text "Amount"
+       "Font Size" 20
+       "Min Font Size" 20
+       "Vertical Alignment" Center
+       FontProperties FontProperties "{5B3ADC32DC5A7732}" {
+       }
+      }
+      EditBoxWidgetClass "{5B3ADC32A24E53C7}" {
+       Name "MoneyAmount"
+       Slot LayoutSlot "{5B3ADC32A24E5C20}" {
+        VerticalAlign 1
+        Padding 50 10 0 10
+        FillWeight 50
+       }
+       components {
+        EditBoxFilterComponent "{5B3ADC344D0C1EA2}" {
+         m_bPunctuation 0
+         m_bASCIIchars 0
+         m_bUTFMultibyte 0
+        }
+       }
+       "Font Size" 50
+       "Use placeholder text" 1
+       "Placeholder text" "$ 0.00"
+      }
+      ImageWidgetClass "{5C610998E6DA9C17}" {
+       Name "Underline"
+       Slot LayoutSlot "{5C610998E6DA9C7A}" {
+        Padding 50 0 50 0
+       }
+       Size 2 2
+      }
+      EditBoxWidgetClass "{5C6109988035F48E}" {
+       Name "CommentText"
+       Slot LayoutSlot "{5B3ADC32A24E5C20}" {
+        Padding 50 20 50 50
+        SizeMode Fill
+        FillWeight 26.1
+       }
+       components {
+        EditBoxFilterComponent "{5B3ADC33ECD4A099}" {
+         m_iCharacterLimit 50
+         m_bUTFMultibyte 0
+        }
+       }
+       "Font Size" 30
+       "Use placeholder text" 1
+       "Placeholder text" "<Comment>"
+       "Vertical alignment" Top
+      }
+      HorizontalLayoutWidgetClass "{5B3ADC331CE0EA48}" {
+       Name "HorizontalLayout0"
+       Slot LayoutSlot "{5B3ADC331CE0EAAB}" {
+        SizeMode Fill
+        FillWeight 10
+       }
+       {
+        ButtonWidgetClass "{5B3CFB9125CC922B}" {
+         Name "Cancel"
+         Slot LayoutSlot "{5B3ADC329CD75466}" {
+          Padding 20 0 20 0
+          SizeMode Fill
+          FillWeight 50
+         }
+         Color 0 0 0 0
+         components {
+          SCR_NavigationButtonComponent "{5B3CF3ECD86E6626}" {
+           m_BackgroundDefault 0.328 0.02 0.02 1
+           m_BackgroundHovered 0.429 0.047 0.047 0.302
+           m_sLabel "Cancel"
+          }
+         }
+         {
+          OverlayWidgetClass "{5B3CFB9125CC922A}" {
+           Name "Overlay"
+           Slot ButtonWidgetSlot "{5B3CFB90331451BC}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            ImageWidgetClass "{5B3CFB9125CC9225}" {
+             Name "Background"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             "Shadow Offset" 2 2
+             "Shadow Size Increase" 2 2
+             "Shadow Color" 0.072 0.006 0.006 1
+            }
+            PanelWidgetClass "{5B3CFB9125CC9224}" {
+             Name "Border"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             style outline_2px
+            }
+            TextWidgetClass "{5B3CFB9125CC9226}" {
+             Name "Text"
+             Slot OverlayWidgetSlot "{5B3CFB9042C96104}" {
+             }
+            }
+           }
+          }
+         }
+        }
+        ButtonWidgetClass "{5B3CFB9125CC92B3}" {
+         Name "Confirm"
+         Slot LayoutSlot "{5B3ADC329CD75466}" {
+          Padding 20 0 20 0
+          SizeMode Fill
+          FillWeight 50
+         }
+         Color 0 0 0 0
+         components {
+          SCR_NavigationButtonComponent "{5B3CF3ECD6233AD8}" {
+           m_BackgroundDefault 0.022 0.159 0.028 1
+           m_BackgroundHovered 0.051 0.238 0.06 0.302
+           m_sLabel "Deposit"
+          }
+         }
+         {
+          OverlayWidgetClass "{5B3CFB9125CC92B2}" {
+           Name "Overlay"
+           Slot ButtonWidgetSlot "{5B3CFB90331451BC}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           Color 0 0 0 0
+           {
+            ImageWidgetClass "{5B3CFB9125CC92AD}" {
+             Name "Background"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             Color 0.022 0.159 0.028 1
+             "Shadow Offset" 2 2
+             "Shadow Size Increase" 2 2
+             "Shadow Color" 0 0.06 0.018 1
+            }
+            PanelWidgetClass "{5B3CFB9125CC92AC}" {
+             Name "Border"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             style outline_2px
+            }
+            TextWidgetClass "{5B3CFB9125CC89D5}" {
+             Name "Text"
+             Slot OverlayWidgetSlot "{5B3CFB9042C96104}" {
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

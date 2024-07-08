@@ -1,0 +1,198 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ {
+  OverlayWidgetClass "{5B3ADC33A2C04635}" {
+   Name "Overlay0"
+   Slot FrameWidgetSlot "{5B3ADC3218EB10A9}" {
+    Anchor 0 0 1 1
+    PositionX 0
+    OffsetLeft 500
+    PositionY 0
+    OffsetTop 200
+    SizeX -1820
+    OffsetRight 500
+    SizeY -1050
+    OffsetBottom 200
+   }
+   {
+    ImageWidgetClass "{5B3ADC33A2C04628}" {
+     Name "Image0"
+     Slot OverlayWidgetSlot "{5B3ADC32C02E347D}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0.133 0.133 0.133 1
+     Size 5000 2300
+    }
+    VerticalLayoutWidgetClass "{5B3ADC33A2C0462F}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5B3ADC328ADC54FD}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+      Padding 50 50 50 50
+     }
+     "Fill Origin" Center
+     {
+      TextWidgetClass "{5B3ADC33A2C0462C}" {
+       Name "SourceAccountID"
+       Slot LayoutSlot "{5B3ADC328F5FA55E}" {
+        SizeMode Fill
+        FillWeight 10
+       }
+       Text "AccountID: 555"
+       "Font Size" 37
+       "Horizontal Alignment" Center
+       "Vertical Alignment" Center
+       FontProperties FontProperties "{5B3ADC32DC5A7732}" {
+        Bold 1
+       }
+      }
+      EditBoxWidgetClass "{5B3ADC33A2C0462D}" {
+       Name "MoneyAmount"
+       Slot LayoutSlot "{5B3ADC32A24E5C20}" {
+        SizeMode Fill
+        FillWeight 50
+       }
+       components {
+        EditBoxFilterComponent "{5B3ADC33F2E3D334}" {
+         m_bPunctuation 0
+         m_bASCIIchars 0
+         m_bUTFMultibyte 0
+        }
+       }
+       "Font Size" 50
+       "Use placeholder text" 1
+       "Placeholder text" "99.999.999 $"
+       "Horizontal alignment" Center
+      }
+      EditBoxWidgetClass "{5B3ADC33A75B68D4}" {
+       Name "TargetAccountID"
+       Slot LayoutSlot "{5B3ADC32A24E5C20}" {
+        Padding 0 0 0 50
+        SizeMode Fill
+        FillWeight 26.1
+       }
+       components {
+        EditBoxFilterComponent "{5B3ADC33ECD4A099}" {
+         m_iCharacterLimit 8
+         m_bPunctuation 0
+         m_bASCIIchars 0
+         m_bUTFMultibyte 0
+        }
+       }
+       "Font Size" 50
+       "Use placeholder text" 1
+       "Placeholder text" "<Target AccountID>"
+       "Horizontal alignment" Center
+      }
+      HorizontalLayoutWidgetClass "{5B3ADC33A2C0D080}" {
+       Name "HorizontalLayout0"
+       Slot LayoutSlot "{5B3ADC331CE0EAAB}" {
+        SizeMode Fill
+        FillWeight 10
+       }
+       {
+        ButtonWidgetClass "{5B3ADC33A2C0D08D}" {
+         Name "Cancel"
+         Slot LayoutSlot "{5B3ADC329CD75466}" {
+          Padding 20 0 20 0
+          SizeMode Fill
+          FillWeight 50
+         }
+         Color 0 0 0 0
+         components {
+          SCR_NavigationButtonComponent "{5B3CF3ECD86E6626}" {
+           m_BackgroundDefault 0.328 0.02 0.02 1
+           m_BackgroundHovered 0.429 0.047 0.047 0.302
+           m_sLabel "Cancel"
+          }
+         }
+         {
+          OverlayWidgetClass "{5B3CFB90864C5A26}" {
+           Name "Overlay"
+           Slot ButtonWidgetSlot "{5B3CFB90331451BC}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           {
+            ImageWidgetClass "{5B3CFB90864C5A21}" {
+             Name "Background"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+            }
+            PanelWidgetClass "{5B3CFB90864C5A23}" {
+             Name "Border"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             style outline_2px
+            }
+            TextWidgetClass "{5B3CFB90864C5A22}" {
+             Name "Text"
+             Slot OverlayWidgetSlot "{5B3CFB9042C96104}" {
+             }
+            }
+           }
+          }
+         }
+        }
+        ButtonWidgetClass "{5B3ADC33A2C0D08B}" {
+         Name "Confirm"
+         Slot LayoutSlot "{5B3ADC329CD75466}" {
+          Padding 20 0 20 0
+          SizeMode Fill
+          FillWeight 50
+         }
+         Color 0 0 0 0
+         components {
+          SCR_NavigationButtonComponent "{5B3CF3ECD6233AD8}" {
+           m_BackgroundDefault 0.022 0.159 0.028 1
+           m_BackgroundHovered 0.051 0.238 0.06 0.302
+           m_sLabel "Transfer"
+          }
+         }
+         {
+          OverlayWidgetClass "{5B3CFB9033145158}" {
+           Name "Overlay"
+           Slot ButtonWidgetSlot "{5B3CFB90331451BC}" {
+            HorizontalAlign 3
+            VerticalAlign 3
+           }
+           Color 0 0 0 0
+           {
+            ImageWidgetClass "{5B3CFB9036937271}" {
+             Name "Background"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             Color 0.022 0.159 0.028 1
+            }
+            PanelWidgetClass "{5B3CFB904F3D0023}" {
+             Name "Border"
+             Slot OverlayWidgetSlot "{5B3CFB9036937257}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             style outline_2px
+            }
+            TextWidgetClass "{5B3CFB9042C96126}" {
+             Name "Text"
+             Slot OverlayWidgetSlot "{5B3CFB9042C96104}" {
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
