@@ -1,0 +1,38 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "0000000000000001"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Log"
+     Description "A log"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 1
+     SizeSetupStrategy Volume
+     ItemVolume 100
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{61C95A93EAD6793C}" {
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0.005 -0.065
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{61C95A93EAD67937}" {
+      CameraOrbitAngles 90 0 90
+      CameraDistanceToItem 0.3
+      CameraOffset 0 0 0
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{A8098145E6F0B4C3}Assets/Props/Civilian/LogChopping_01/LogChopping_01.xob"
+   Materials {
+    MaterialAssignClass "{61C95A93EAD6792E}" {
+     SourceMaterial "Assets/Structures/Walls/Brick/Data/BrickWall_01_bricks"
+     AssignedMaterial "{F91EF4F5C90B9DF8}Assets/Rocks/Granite/Data/GraniteCluster_01.emat"
+    }
+   }
+  }
+ }
+}

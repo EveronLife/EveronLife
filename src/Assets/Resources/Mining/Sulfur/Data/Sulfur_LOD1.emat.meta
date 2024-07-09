@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{F33D72A13B3A176A}Assets/Resources/Mining/Sulfur/Data/Sulfur_LOD1.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass PS5 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

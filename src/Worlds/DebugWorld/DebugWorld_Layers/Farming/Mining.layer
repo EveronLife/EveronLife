@@ -1,0 +1,36 @@
+GenericEntity CopperNugget_6128C0873D0FA4B4 : "{1881C4F2BD43E3E1}Prefabs/Resources/Mining/CopperNugget.et" {
+ coords 75.996 24.144 165.885
+ angleY -60.585
+}
+GenericEntity : "{2C571D6F7C05E095}Prefabs/Resources/Mining/IronOre.et" {
+ coords 72.505 24.144 161.585
+ angleY -60.585
+}
+GenericEntity : "{3C4F54AD0CB24525}Prefabs/Resources/Mining/GoldOre.et" {
+ coords 73.447 24.144 163.646
+ angleY -60.585
+}
+GenericEntity CopperBar_6128C0873C4FE28F : "{577A665F1662E7AD}Prefabs/Resources/Mining/CopperBar.et" {
+ coords 75.757 24.144 165.359
+ angleY -60.585
+}
+GenericEntity IronNugget_6128C087313E894C : "{6853E2E2AE878611}Prefabs/Resources/Mining/IronNugget.et" {
+ coords 74.152 24.144 161.824
+ angleY -60.585
+}
+GenericEntity GoldNugget_6128C08737E40336 : "{8F81BD0BF343CF49}Prefabs/Resources/Mining/GoldNugget.et" {
+ coords 74.96 24.144 163.742
+ angleY -60.585
+}
+GenericEntity GoldBar_6128C087360C467A : "{ACC9A10F0F20F5C4}Prefabs/Resources/Mining/GoldBar.et" {
+ coords 74.558 24.144 162.862
+ angleY -60.585
+}
+GenericEntity IronBar_6128C08730E89F8B : "{BCD1E8CD7F975074}Prefabs/Resources/Mining/IronBar.et" {
+ coords 73.983 24.144 161.405
+ angleY -60.585
+}
+GenericEntity : "{C7FC93FD15F0574C}Prefabs/Resources/Mining/CopperOre.et" {
+ coords 74.657 24.144 165.506
+ angleY -60.585
+}

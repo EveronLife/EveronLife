@@ -52,9 +52,6 @@ GenericEntity : "{15B2CA2949A061FF}PrefabsEditable/Auto/Props/Commercial/Shoppin
  }
  coords 119.89 25.098 161.377
 }
-GenericEntity CopperNugget_6128C0873D0FA4B4 : "{1881C4F2BD43E3E1}Prefabs/Resources/Mining/CopperNugget.et" {
- coords 105.655 24.144 179.854
-}
 GenericEntity : "{19A3C48FC2665A3F}Prefabs/Props/Construction/GravelPile_01_large.et" {
  coords 86.068 24.144 177.527
 }
@@ -101,9 +98,6 @@ GenericEntity : "{1DD3BF6A1A249CDE}Prefabs/Processor/AppleJuicer.et" {
  coords 119.829 25.05 160.806
  angleY -90.38
 }
-GenericEntity : "{2C571D6F7C05E095}Prefabs/Resources/Mining/IronOre.et" {
- coords 99.562 24.144 180.52
-}
 GenericEntity GravelBag_6128C0872E9B3368 : "{344090890C63F4CA}Prefabs/Items/Resources/GravelBag.et" {
  coords 115.454 24.144 175.451
 }
@@ -121,17 +115,8 @@ $grp Tree : "{391791B1CAE33AFE}Prefabs/Resources/WoodCutting/Pinus_Sylvestris/Cu
   coords 98.714 24.144 132.014
  }
 }
-GenericEntity : "{3C4F54AD0CB24525}Prefabs/Resources/Mining/GoldOre.et" {
- coords 102.453 24.144 180.975
-}
-GenericEntity CopperBar_6128C0873C4FE28F : "{577A665F1662E7AD}Prefabs/Resources/Mining/CopperBar.et" {
- coords 105.079 24.144 179.804
-}
 GenericEntity : "{61418A72BA63D059}Prefabs/Processor/Sawmill.et" {
  coords 92.881 24.144 130.389
-}
-GenericEntity IronNugget_6128C087313E894C : "{6853E2E2AE878611}Prefabs/Resources/Mining/IronNugget.et" {
- coords 100.579 24.144 179.203
 }
 StaticModelEntity : "{81CB1B2631584427}Prefabs/Props/Construction/CementPile.et" {
  coords 95.314 0.771 181.537
@@ -183,9 +168,6 @@ EL_NpcBaseEntity : "{850859F356F5058E}Prefabs/Characters/Npcs/Npc_Default_01.et"
  coords 120.978 24.144 159.977
  angleY -97.176
 }
-GenericEntity GoldNugget_6128C08737E40336 : "{8F81BD0BF343CF49}Prefabs/Resources/Mining/GoldNugget.et" {
- coords 103.279 24.144 179.704
-}
 GenericEntity Axe_6128C087DD0B8B3B : "{9CAC68BA551417A4}Prefabs/Tools/Axe/Axe.et" {
  coords 97.007 24.582 131.954
  angleX -83.781
@@ -196,17 +178,8 @@ SCR_DestructibleBuildingEntity : "{A92A5F3B79FF56BE}Prefabs/Structures/Industria
  coords 113.295 0 180.291
  angleY 94.328
 }
-GenericEntity GoldBar_6128C087360C467A : "{ACC9A10F0F20F5C4}Prefabs/Resources/Mining/GoldBar.et" {
- coords 102.315 24.144 179.622
-}
 GenericEntity Sandbag_6128C0872FAC70B8 : "{ADFEF306D1C22E5F}Prefabs/Items/Resources/Sandbag.et" {
  coords 116.813 24.144 175.456
-}
-GenericEntity IronBar_6128C08730E89F8B : "{BCD1E8CD7F975074}Prefabs/Resources/Mining/IronBar.et" {
- coords 100.131 24.144 179.144
-}
-GenericEntity : "{C7FC93FD15F0574C}Prefabs/Resources/Mining/CopperOre.et" {
- coords 105.153 24.144 181.115
 }
 $grp GenericEntity : "{C9D661E5B0714711}Prefabs/Items/Food/Apple.et" {
  Apple_6128B6C1443BE7F6 {

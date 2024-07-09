@@ -1,0 +1,29 @@
+GameEntity : "{D9842C11742C00CF}Prefabs/Props/Civilian/Fireplace_01.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{5876E7F5CCE95371}" {
+   additionalActions {
+    EL_ProcessAction "{61CF47288A545B34}" {
+     ParentContextList {
+      "fireplace"
+     }
+     UIInfo UIInfo "{61CF47288A545B20}" {
+      Name "Create Coal"
+     }
+     Duration 1
+     CanAggregate 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{61CF47288A545B58}" {
+       m_InputPrefab "{C9FFE295A79B6481}Prefabs/Items/Resources/log.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{61CF47288A545B5F}" {
+       m_OutputPrefab "{8A38F1C4850E0ED5}Prefabs/Items/Resources/Charcoal.et"
+      }
+     }
+    }
+   }
+  }
+ }
+}

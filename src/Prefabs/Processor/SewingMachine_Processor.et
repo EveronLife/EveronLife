@@ -1,0 +1,39 @@
+GenericEntity : "{1D9FA80D3742DBD6}Prefabs/Props/Civilian/SewingMachine_01.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsManagerComponent "{61CF4728B00BD66A}" {
+   ActionContexts {
+    UserActionContext "{61CF4728B00BD666}" {
+     ContextName "default"
+     Position PointInfo "{61CF4728B00BD79D}" {
+      Offset -0.2923 1.0037 0
+     }
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{61CF4728B00BD790}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{61CF4728B00BD792}" {
+      Name "Sew Alice Bag"
+     }
+     Duration 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{61CF4728B00BD78B}" {
+       m_InputPrefab "{0FDB322B11656817}Prefabs/Items/Components/Linen.et"
+       m_iInputAmount 5
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{61CF4728B00BD781}" {
+       m_OutputPrefab "{06B68C58B72EAAC6}Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium.et"
+      }
+     }
+    }
+   }
+  }
+  RplComponent "{61CF4728B00BD786}" {
+  }
+ }
+}

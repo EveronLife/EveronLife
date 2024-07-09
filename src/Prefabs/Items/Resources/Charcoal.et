@@ -1,0 +1,38 @@
+GenericEntity : "{B26D228CF60863F6}Prefabs/Items/Core/InteractableItem_Base.et" {
+ ID "0000000000000001"
+ components {
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName UIInfo "{5222EB4D07D865FA}" {
+     Name "Charcoal"
+     Description "A piece of charcoal"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 1
+     SizeSetupStrategy Volume
+     ItemVolume 15
+    }
+    ItemAnimationAttributes ItemAnimationAttributes "{61C8E5ED6C13B101}" {
+     HandAdditiveRotation 0 0 0
+     HandAdditiveTranslation 0 0.005 -0.065
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{61C8E5ED6C13B13D}" {
+      CameraOrbitAngles 90 0 90
+      CameraDistanceToItem 0.3
+      CameraOffset 0 0 0
+     }
+    }
+   }
+  }
+  MeshObject "{5A4ACD10B8DA304F}" {
+   Object "{70A34A0D1788C5D5}Assets/Resources/Mining/Charcoal/coal.xob"
+   Materials {
+    MaterialAssignClass "{61CB1B003128D16C}" {
+     SourceMaterial "Material"
+     AssignedMaterial "{7D20B25DF128D43E}Assets/Rocks/Granite/Data/GraniteBeachStone_02.emat"
+    }
+   }
+  }
+ }
+}

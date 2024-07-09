@@ -1,0 +1,5 @@
+MatPBRBasic {
+ RoughnessScale 5
+ BCRMap "{50DEF290741F590C}Assets/Resources/Mining/Sulfur/Sulfur_BCP.edds"
+ NMOMap "{C2E627D91F38EDE9}Assets/Resources/Mining/Sulfur/Sulfur_NMO.edds"
+}

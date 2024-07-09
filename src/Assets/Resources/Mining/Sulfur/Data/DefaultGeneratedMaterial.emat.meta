@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{01D95D718CEE65C7}Assets/Resources/Mining/Sulfur/Data/DefaultGeneratedMaterial.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass PS5 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

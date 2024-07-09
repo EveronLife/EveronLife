@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{4E45B7B5AF016C2A}Assets/Resources/Mining/Charcoal/Coal_NMO.edds"
+ Configurations {
+  PNGResourceClass PC : "{A968DA7F9A1E3A3E}Configs/System/ResourceTypes/PC/TextureNType.conf" {
+  }
+  PNGResourceClass XBOX_ONE : "{7F6A4D372443A88D}Configs/System/ResourceTypes/XBOX_ONE/TextureNType.conf" {
+  }
+  PNGResourceClass XBOX_SERIES : "{065D289C7FF8B20D}Configs/System/ResourceTypes/XBOX_SERIES/TextureNType.conf" {
+  }
+  PNGResourceClass PS4 : "{29DF4A6CBBABE916}Configs/System/ResourceTypes/PS4/TextureNType.conf" {
+  }
+  PNGResourceClass PS5 : "{DED3C8CA8494EA99}configs/ResourceTypes/PS5/TextureNType.conf" {
+  }
+  PNGResourceClass HEADLESS : "{AFD658E4D0EB5FBC}Configs/System/ResourceTypes/HEADLESS/TextureNType.conf" {
+  }
+ }
+}

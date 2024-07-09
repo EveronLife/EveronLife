@@ -1,0 +1,65 @@
+GenericEntity : "{2B0BD0720F8FB3A7}Prefabs/Props/Industrial/Workbench_Vice_01.et" {
+ ID "5174984221CBDEDA"
+ components {
+  ActionsManagerComponent "{61CF4728E6A28347}" {
+   ActionContexts {
+    UserActionContext "{61CF4728E6A2836A}" {
+     ContextName "default"
+     Position PointInfo "{61CF4728E6A28364}" {
+      Offset 0 0.0907 0.2297
+     }
+    }
+   }
+   additionalActions {
+    EL_ProcessAction "{61CF4728E6A2809D}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{61CF4728E6A28091}" {
+      Name "Craft 30rd STANAG 5.56x45"
+     }
+     Duration 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{61CF4728E6A28089}" {
+       m_InputPrefab "{F3BDFD1DAA020E81}Prefabs/Items/Components/BulletCasings.et"
+      }
+      EL_ProcessingInput "{61CF4728E6A2808F}" {
+       m_InputPrefab "{FC2EA75CF878358A}Prefabs/Items/Components/Gunpowder.et"
+      }
+      EL_ProcessingInput "{61CF4728E6A28083}" {
+       m_InputPrefab "{BCD1E8CD7F975074}Prefabs/Resources/Mining/IronBar.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{61CF4728E6A28086}" {
+       m_OutputPrefab "{2EBF60EF24B108FC}Prefabs/Weapons/Magazines/Magazine_556x45_STANAG_30rnd_Ball.et"
+      }
+     }
+    }
+    EL_ProcessAction "{61CF4728E6A280BC}" {
+     ParentContextList {
+      "default"
+     }
+     UIInfo UIInfo "{61CF4728E6A280B0}" {
+      Name "Craft Bullet Casings"
+     }
+     Duration 1
+     m_aProcessingInputs {
+      EL_ProcessingInput "{61CF4728E6A280B5}" {
+       m_InputPrefab "{577A665F1662E7AD}Prefabs/Resources/Mining/CopperBar.et"
+      }
+     }
+     m_aProcessingOutputs {
+      EL_ProcessingOutput "{61CF4728E6A280B6}" {
+       m_OutputPrefab "{F3BDFD1DAA020E81}Prefabs/Items/Components/BulletCasings.et"
+       m_iOutputAmount 10
+      }
+     }
+    }
+   }
+  }
+  RplComponent "{5624A88DC2D9928D}" {
+   Enabled 1
+  }
+ }
+}
