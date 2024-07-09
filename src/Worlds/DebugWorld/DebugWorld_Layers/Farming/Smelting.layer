@@ -1,0 +1,122 @@
+$grp GenericEntity : "{1881C4F2BD43E3E1}Prefabs/Resources/Mining/CopperNugget.et" {
+ CopperNugget_61CF4FCF6BC89419 {
+  coords 73.188 25.044 153.949
+ }
+ CopperNugget_61CF4FCF6BC2 {
+  coords 72.964 25.043 153.993
+ }
+ CopperNugget_61CF4FCF6BC3 {
+  coords 72.654 25.043 153.99
+ }
+ CopperNugget_61CF4FCF6BC4 {
+  coords 72.401 25.043 153.992
+ }
+}
+GenericEntity : "{1C689C446D96DB2B}Prefabs/Processor/BoilerLarge_Processor.et" {
+ coords 72.874 24.144 155.596
+ angleY 88.802
+}
+$grp GenericEntity : "{5182D2E81189AC44}Prefabs/Props/Furniture/TableRecreation_01/TableRecreation_01.et" {
+ {
+  coords 72.796 24.144 154.431
+ }
+ {
+  coords 72.831 24.144 156.818
+ }
+}
+$grp GenericEntity : "{577A665F1662E7AD}Prefabs/Resources/Mining/CopperBar.et" {
+ CopperBar_61CF4FCF23FA7196 {
+  coords 73.155 25.043 156.388
+ }
+ CopperBar_61CF4FCF217B65DE {
+  coords 73.34 25.043 156.399
+ }
+ CopperBar_61CF4FCF23FA2 {
+  coords 72.808 25.043 156.38
+ }
+ CopperBar_61CF4FCF217B65DE2 {
+  coords 72.993 25.044 156.391
+ }
+}
+$grp GenericEntity : "{6853E2E2AE878611}Prefabs/Resources/Mining/IronNugget.et" {
+ IronNugget_61CF4FCF0C2AAF5D {
+  coords 72.378 25.044 154.465
+ }
+ IronNugget_61CF4FCF0C2AAF5D2 {
+  coords 72.645 25.04 154.464
+ }
+ IronNugget_61CF4FCF0C2AAF5D3 {
+  coords 72.938 25.044 154.423
+ }
+ IronNugget_61CF4FCF0C2AAF5D4 {
+  coords 73.201 25.043 154.426
+ }
+}
+$grp GenericEntity : "{8A38F1C4850E0ED5}Prefabs/Items/Resources/Charcoal.et" {
+ Charcoal_61CF4FCFFC63C839 {
+  coords 72.806 25.043 154.866
+ }
+ Charcoal_61CF4FCFFC63C2 {
+  coords 72.956 25.044 154.85
+ }
+ Charcoal_61CF4FCFFC63C3 {
+  coords 73.114 25.044 154.86
+ }
+ Charcoal_61CF4FCFFC63C4 {
+  coords 73.274 25.042 154.851
+ }
+ Charcoal_61CF4FCFFC63C5 {
+  coords 73.059 25.044 154.747
+ }
+ Charcoal_61CF4FCFFC63C6 {
+  coords 72.75 25.043 154.753
+ }
+ Charcoal_61CF4FCFFC63C7 {
+  coords 73.219 25.044 154.738
+ }
+ Charcoal_61CF4FCFFC63C8 {
+  coords 72.901 25.044 154.738
+ }
+}
+$grp GenericEntity : "{8F81BD0BF343CF49}Prefabs/Resources/Mining/GoldNugget.et" {
+ GoldNugget_61CF4FCF18D2881C {
+  coords 72.385 25.043 154.205
+ }
+ GoldNugget_61CF4FCF18D2881C2 {
+  coords 72.643 25.044 154.214
+ }
+ GoldNugget_61CF4FCF18D2881C3 {
+  coords 72.936 25.043 154.178
+ }
+ GoldNugget_61CF4FCF18D2881C4 {
+  coords 73.2 25.043 154.174
+ }
+}
+$grp GenericEntity : "{ACC9A10F0F20F5C4}Prefabs/Resources/Mining/GoldBar.et" {
+ GoldBar_61CF4FCF2E2ABF42 {
+  coords 73.185 25.043 156.849
+ }
+ GoldBar_61CF4FCF2FE215F6 {
+  coords 73.335 25.043 156.855
+ }
+ GoldBar_61CF4FCF2E2ABF2 {
+  coords 72.838 25.043 156.841
+ }
+ GoldBar_61CF4FCF2FE215F2 {
+  coords 72.988 25.044 156.846
+ }
+}
+$grp GenericEntity : "{BCD1E8CD7F975074}Prefabs/Resources/Mining/IronBar.et" {
+ IronBar_61CF4FCF2D359591 {
+  coords 73.176 25.043 157.242
+ }
+ IronBar_61CF4FCF2ADF4D35 {
+  coords 73.34 25.043 157.228
+ }
+ IronBar_61CF4FCF2D2 {
+  coords 72.829 25.043 157.234
+ }
+ IronBar_61CF4FCF2ADF4D2 {
+  coords 72.993 25.044 157.22
+ }
+}
