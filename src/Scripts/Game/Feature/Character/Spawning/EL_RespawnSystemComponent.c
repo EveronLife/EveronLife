@@ -108,7 +108,7 @@ class EL_RespawnSystemComponent : EPF_BaseRespawnSystemComponent
 	{
 		EntitySpawnParams spawnParams();
         spawnParams.Transform[3] = storageManager.GetOwner().GetOrigin();
-		IEntity slotEntity = GetGame().SpawnEntityPrefab(loadoutItem.m_rPrefab, false, null, spawnParams);
+		IEntity slotEntity = GetGame().SpawnEntityPrefabEx(loadoutItem.m_rPrefab, false, null, spawnParams);
 		if (!slotEntity) return null;
 
 		if (loadoutItem.m_aComponentDefaults)
