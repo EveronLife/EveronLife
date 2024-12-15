@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{97FCA0DB66C27142}Assets/Items/Currencies/Data/MoneyStack.edds"
+ Name "{A2AA2A6089838618}Assets/Items/Currencies/Data/cashTexture_displacement.edds"
  Configurations {
   TIFFResourceClass PC : "{DC555BD399D92412}Configs/System/ResourceTypes/PC/TextureUnspecified.conf" {
   }
