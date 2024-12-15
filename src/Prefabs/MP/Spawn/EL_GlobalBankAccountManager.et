@@ -1,0 +1,10 @@
+EL_GlobalBankAccountManager {
+ ID "5B0B1EE3B3C43620"
+ components {
+  EL_PersistenceComponent "{5B0B1EE3ACA358E6}" {
+   m_pSaveData EL_BankAccountSaveData "{5B0B23851BEABC06}" {
+   }
+  }
+ }
+ coords 101.946 0 135.62
+}

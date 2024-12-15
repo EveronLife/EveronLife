@@ -1,0 +1,123 @@
+ButtonWidgetClass {
+ Name "AccountButton"
+ Slot OverlayWidgetSlot "{5C42E2E386A1A4F1}" {
+  HorizontalAlign 3
+  VerticalAlign 3
+  Padding 10 10 10 10
+ }
+ Color 0.021 0.061 0.223 1
+ components {
+  SCR_ModularButtonComponent "{5C4CCC1F36B23C28}" {
+   m_aEffects {
+    SCR_ButtonEffectColor "{5C588072DD4B9EFD}" {
+     m_sWidgetName "Background"
+     m_cHovered 0 0.502 0.502 1
+    }
+   }
+   m_bCanBeToggled 1
+   m_eEventReturnValue 2147483585
+  }
+ }
+ Switch toggle
+ {
+  SizeLayoutWidgetClass "{5C430D0E9AE8413D}" {
+   Name "AccoundID"
+   Slot ButtonWidgetSlot "{5C430D0E9AE84124}" {
+    HorizontalAlign 3
+    VerticalAlign 3
+   }
+   Color 0 0 0 0
+   AllowHeightOverride 1
+   HeightOverride 150
+   {
+    OverlayWidgetClass "{5B3ADC1E28A3BA2E}" {
+     Name "Overlay"
+     Slot AlignableSlot "{5B3ADC10358ECF5C}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0 0 0 0
+     {
+      ImageWidgetClass "{5B3ADC1E28A3BA2F}" {
+       Name "Background"
+       Slot OverlayWidgetSlot "{5B3ADC1029EBB015}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+       }
+       Color 0.007 0.054 0.168 1
+      }
+      VerticalLayoutWidgetClass "{5C42A27FA893780B}" {
+       Name "VerticalLayout0"
+       Slot OverlayWidgetSlot "{5C42A27FA893786C}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        Padding 5 0 5 0
+       }
+       {
+        TextWidgetClass "{5B3ADC1E28A3BA22}" {
+         Name "AccoundIDText"
+         Slot LayoutSlot "{5C42E2E38B6003BB}" {
+          SizeMode Fill
+         }
+         Text "Account: 555"
+         "Font Size" 22
+         "Min Font Size" 22
+         "Vertical Alignment" Center
+        }
+        ImageWidgetClass "{5C43575EBC42CD11}" {
+         Name "SeperatorLine"
+         Slot LayoutSlot "{5C43575EBC42CD7F}" {
+         }
+         Color 0.275 0.275 0.275 0.502
+         Size 32 5
+        }
+        TextWidgetClass "{5C43575E4D14D66C}" {
+         Name "AccountOwner"
+         Slot LayoutSlot "{5C42E2E38B6003BB}" {
+          SizeMode Fill
+         }
+         Text "Personal Account"
+         "Font Size" 14
+         "Min Font Size" 10
+         "Vertical Alignment" Center
+        }
+        HorizontalLayoutWidgetClass "{5C42A27FD3ED83FF}" {
+         Name "HorizontalLayout0"
+         Slot LayoutSlot "{5C42A27FD3ED83E2}" {
+          SizeMode Fill
+         }
+         {
+          TextWidgetClass "{5C42A27FBEA08FEF}" {
+           Name "CurrentBalanceText"
+           Slot LayoutSlot "{5C42A27FBEA08FB4}" {
+            SizeMode Fill
+            FillWeight 50
+           }
+           Text "Balance:"
+           "Font Size" 22
+           "Min Font Size" 22
+           "Vertical Alignment" Center
+          }
+          TextWidgetClass "{5C42A27FE9A3F9C1}" {
+           Name "CurrentBalance"
+           Slot LayoutSlot "{5C42A27FBEA08FB4}" {
+            Padding 0 0 0 0
+            SizeMode Fill
+            FillWeight 50
+           }
+           Text "$0.00"
+           "Font Size" 22
+           "Min Font Size" 22
+           "Horizontal Alignment" Right
+           "Vertical Alignment" Center
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
