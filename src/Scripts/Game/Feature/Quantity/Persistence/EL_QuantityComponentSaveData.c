@@ -3,7 +3,7 @@ class EL_QuantityComponentSaveDataClass : EPF_ComponentSaveDataClass
 {
 };
 
-[EDF_DbName.Automatic()]
+[EDF_DbName()]
 class EL_QuantityComponentSaveData : EPF_ComponentSaveData
 {
 	int m_iQuantity;

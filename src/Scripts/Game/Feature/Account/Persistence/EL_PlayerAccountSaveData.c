@@ -1,6 +1,6 @@
 [
 	EPF_PersistentScriptedStateSettings(EL_PlayerAccount),
-	EDF_DbName.Automatic()
+	EDF_DbName()
 ]
 class EL_PlayerAccountSaveData : EPF_ScriptedStateSaveData
 {
