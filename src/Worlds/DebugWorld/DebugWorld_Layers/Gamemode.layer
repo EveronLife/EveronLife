@@ -1,6 +1,23 @@
 EL_GameModeRoleplay : "{03913608C59017A3}Prefabs/MP/Modes/Roleplay/GameMode_Roleplay.et" {
+ components {
+  EPF_PersistenceManagerComponent "{5D6F1C34679B4DC0}" {
+   Enabled 1
+  }
+ }
+}
+GenericEntity Backpack_ALICE_Medium_691F1CD4E66993FF : "{06B68C58B72EAAC6}Prefabs/Items/Equipment/Backpacks/Backpack_ALICE_Medium.et" {
+ coords 104.243 0 138.794
 }
 EPF_SpawnPoint : "{260C1BEFBF9AA86B}Prefabs/MP/Spawn/SpawnPoint_LIFE.et" {
  coords 110 0 137.516
- angleY 180
+ angles 0 180 0
+}
+GenericEntity VehicleKey_692D362879D9A5D0 : "{2C55945E5BAB108E}Prefabs/Items/Keys/VehicleKey.et" {
+ components {
+  EL_VehicleKeyComponent "{598779B5FE37ED05}" {
+   m_sDebugIdentifier "Test1"
+  }
+ }
+ coords 112.749 0 142.096
+ angles 0 0 0
 }

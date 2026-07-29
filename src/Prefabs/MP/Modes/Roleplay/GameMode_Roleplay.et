@@ -2,6 +2,7 @@ EL_GameModeRoleplay {
  ID "59751433747FB462"
  components {
   EPF_PersistenceManagerComponent "{5D6F1C34679B4DC0}" {
+   Enabled 0
    components {
     EPF_PersistentDoorStateManagerComponent "{5E0896B880761681}" {
     }

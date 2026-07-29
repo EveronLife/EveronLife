@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F3D1E53A4550EFAF}Assets/Items/Vehicles/VehicleKey/data/VehicleKey.emat"
+ Configurations {
+  EMATResourceClass PC {
+  }
+  EMATResourceClass XBOX_ONE : PC {
+  }
+  EMATResourceClass XBOX_SERIES : PC {
+  }
+  EMATResourceClass PS4 : PC {
+  }
+  EMATResourceClass HEADLESS : PC {
+  }
+ }
+}

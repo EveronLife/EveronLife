@@ -3,5 +3,16 @@ Vehicle {
  components {
   EL_LicensePlateManagerComponent "{5984C85FA25812F2}" {
   }
+  EL_VehicleLockComponent "{691D1854FC9F35B7}" {
+  }
+  ActionsManagerComponent "{C97BE5489221AE18}" {
+   additionalActions {
+    EL_VehicleLockAction "{692D362D8143CCE0}" {
+     ParentContextList {
+      ""
+     }
+    }
+   }
+  }
  }
 }
