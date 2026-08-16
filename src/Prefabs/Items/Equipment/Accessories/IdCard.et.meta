@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{34CFA1F65E1EA0E1}Prefabs/Items/Equipment/Accessories/IdCard/IdCard.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

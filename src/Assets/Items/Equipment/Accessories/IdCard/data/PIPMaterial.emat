@@ -1,0 +1,11 @@
+MatPBRBasic {
+ Color 0.561 0.561 0.561 1
+ BCRMap "$rendertarget"
+ NMOMap "{5C7F52916AEE1F46}Assets/Items/Equipment/Accessories/IdCard/data/PIPMaterial_NMO.edds"
+ DetailNormalPower 1
+ DetailNormalMap "{3A423F83EC60AF97}Assets/_SharedData/Concrete/ST_Concrete_Clean_01_NMO.edds"
+ DetailNormalMapUVTransform MatUVTransform "{5996CA6C17835EE1}" {
+  TilingU 10
+  TilingV 10
+ }
+}

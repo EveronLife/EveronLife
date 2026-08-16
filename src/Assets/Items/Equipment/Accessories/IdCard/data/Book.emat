@@ -1,0 +1,16 @@
+MatPBRMulti {
+ GlobalMCRMap "{4E7A2C5745938E09}Assets/Items/Equipment/Accessories/IdCard/data/Book_MCR.edds"
+ MaskMap "{11127687E95AB3C9}Assets/Items/Equipment/Accessories/IdCard/data/Book_GLOBAL_MASK.edds"
+ GlobalNMOMap "{8AC91D54EE1A4C49}Assets/Items/Equipment/Accessories/IdCard/data/Book_NMO.edds"
+ Color_4 0.973 0.878 0.698 1
+ Enabled_3 1
+ Color_3 0.502 0.376 0 1
+ Enabled_2 1
+ Color_2 0 0.125 0.502 1
+ BCR_2 "{2C2411924177AC7B}Assets/_SharedData/Fabric/ST_Leather_01_BCR.edds"
+ NMO_2 "{D6F07D5F999E24BB}Assets/_SharedData/Fabric/ST_Leather_01_N.edds"
+ MaskOffset_2 0.102
+ Color_1 0.973 0.878 0.698 1
+ BCR_1 "{029A84113517FD09}Assets/_SharedData/Concrete/ST_Concrete_Clean_01_BCR.edds"
+ NMO_1 "{3A423F83EC60AF97}Assets/_SharedData/Concrete/ST_Concrete_Clean_01_NMO.edds"
+}
