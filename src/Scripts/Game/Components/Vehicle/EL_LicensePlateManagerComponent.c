@@ -53,8 +53,6 @@ class EL_LicensePlateManagerComponent: ScriptComponent
 
 			plate.m_Object = EL_LicensePlateEntity.Cast(GetGame().SpawnEntityPrefabLocal(resource, owner.GetWorld(), params));
 			Vehicle veh = Vehicle.Cast(owner);
-			
-			veh.AddChild(plate.m_Object, -1, EAddChildFlags.RECALC_LOCAL_TRANSFORM);
 			plate.m_Object.m_LicensePlateManager = this;
 		}
 	}
