@@ -36,7 +36,7 @@ class EL_MoneyUtils
 	//------------------------------------------------------------------------------------------------
 	//! Remove cash from the target
 	//! \param amount Cash to remove
-	//! \return the amount of cash added or 0 on faulty opertations.
+	//! \return the amount of cash removed or 0 on faulty opertations.
 	static int RemoveCash(InventoryStorageManagerComponent target, int amount)
 	{
 		return EL_InventoryUtils.RemoveAmount(target, PREFAB_CASH, amount);

@@ -1,0 +1,360 @@
+FrameWidgetClass {
+ Name "BankMenuFrame"
+ {
+  OverlayWidgetClass "{5B3CD45C1BD1552E}" {
+   Name "BankMenuOverlay"
+   Slot FrameWidgetSlot "{5B3CD45C1BD152F1}" {
+    Anchor 0 0 1 1
+    PositionX 50
+    OffsetLeft 75
+    PositionY 50
+    OffsetTop 75
+    SizeX -100
+    OffsetRight 75
+    SizeY -50
+    OffsetBottom 75
+   }
+   Color 0.007 0.017 0.045 1
+   {
+    ImageWidgetClass "{5B3CD45C24390AF0}" {
+     Name "BankMenuBackground"
+     Slot OverlayWidgetSlot "{5B3CD45C24390AD4}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     Color 0.005 0.009 0.022 1
+    }
+    VerticalLayoutWidgetClass "{5B3CD45E879A24EB}" {
+     Name "VerticalLayout0"
+     Slot OverlayWidgetSlot "{5C42A27F7B31F1B6}" {
+      HorizontalAlign 3
+      VerticalAlign 3
+     }
+     "Inherit Color" 1
+     {
+      OverlayWidgetClass "{5B3CD45E90E9326C}" {
+       Name "TopHeader"
+       Slot LayoutSlot "{5B3CD45901465E6B}" {
+        SizeMode Fill
+        FillWeight 10
+       }
+       "Inherit Color" 1
+       {
+        ImageWidgetClass "{5B3CD45E90E9326F}" {
+         Name "TopHeaderBackground"
+         Slot OverlayWidgetSlot "{5B3CD459AFB991F9}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         "Inherit Color" 1
+        }
+        HorizontalLayoutWidgetClass "{5B3CD45E90E9326E}" {
+         Name "TopHeaderHorizontalLayout"
+         Slot OverlayWidgetSlot "{5B3CD459110F2D58}" {
+          HorizontalAlign 3
+          VerticalAlign 3
+         }
+         "Fill Origin" Right
+         {
+          ButtonWidgetClass "{5B3CD45E90E93269}" {
+           Name "ExitButton"
+           Slot LayoutSlot "{5B3CD45E90E93356}" {
+            SizeMode Fill
+            FillWeight 5
+           }
+           Color 1 1 1 0
+           components {
+            SCR_ButtonComponent "{5B3CD4599C33EC03}" {
+            }
+           }
+           {
+            ImageWidgetClass "{5B3CD45E90E93268}" {
+             Name "ExitImage"
+             Slot ButtonWidgetSlot "{5B3CD4592288BA98}" {
+              HorizontalAlign 2
+              VerticalAlign 0
+              Padding 0 0 0 0
+             }
+             Color 0.366 0.033 0.033 1
+             Texture "{E0B1311CCED2471A}UI/Textures/Icons/iconExit.edds"
+             Size 48 48
+            }
+           }
+          }
+          HorizontalLayoutWidgetClass "{5C42A27C1B1F751D}" {
+           Name "HorizontalLayout0"
+           Slot LayoutSlot "{5C42A27C1B1F7502}" {
+            HorizontalAlign 1
+            SizeMode Fill
+            FillWeight 50
+           }
+           {
+            TextWidgetClass "{5B3CD45E90E9326A}" {
+             Name "CurrentMoneyText"
+             Slot LayoutSlot "{5B3CD4595D77B1B7}" {
+              Padding 20 0 20 0
+              FillWeight 50
+             }
+             Text "Cash:"
+             "Font Size" 39
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+            }
+            TextWidgetClass "{5C42A27C1040017E}" {
+             Name "CurrentMoney"
+             Slot LayoutSlot "{5B3CD4595D77B1B7}" {
+              Padding 20 0 20 0
+              FillWeight 50
+             }
+             Text "999.999.999$"
+             "Font Size" 39
+             "Horizontal Alignment" Center
+             "Vertical Alignment" Center
+            }
+           }
+          }
+          TextWidgetClass "{5B3CD45E90E929A1}" {
+           Name "PlayerName"
+           Slot LayoutSlot "{5B3CD45E90E93226}" {
+            HorizontalAlign 3
+            Padding 20 0 0 0
+            SizeMode Fill
+            FillWeight 50
+           }
+           Text "TheBonBon"
+           "Font Size" 37
+           "Horizontal Alignment" Center
+           "Vertical Alignment" Center
+          }
+          ImageWidgetClass "{5B3CD45E90E929AF}" {
+           Name "BankLogo"
+           Slot LayoutSlot "{5B3CD45E90E93208}" {
+            HorizontalAlign 1
+            VerticalAlign 1
+            SizeMode Fill
+            FillWeight 10
+           }
+           Color 0 0.195 0.604 1
+           Texture "{9B01E7A0F2C34F8C}UI/Textures/BBBanking.edds"
+           Size 128 128
+          }
+         }
+        }
+       }
+      }
+      HorizontalLayoutWidgetClass "{5B394574567F44A6}" {
+       Name "BodyLayout"
+       Slot LayoutSlot "{5B3CD45FD2B9CAEA}" {
+        HorizontalAlign 3
+        VerticalAlign 3
+        SizeMode Fill
+        FillWeight 90
+       }
+       "Inherit Color" 1
+       {
+        VerticalLayoutWidgetClass "{5B3945746F81FE60}" {
+         Name "LeftOverlay"
+         Slot LayoutSlot "{5B3945746F81FE47}" {
+          SizeMode Fill
+          FillWeight 35
+         }
+         "Inherit Color" 1
+         {
+          OverlayWidgetClass "{5B3945768FB1398D}" {
+           Name "BankAccountsOverlay"
+           Slot LayoutSlot "{5B3945768FB139ED}" {
+            Padding 0 0 0 0
+            SizeMode Fill
+            FillWeight 80
+           }
+           {
+            ScrollLayoutWidgetClass "{5B394574E6C92CAF}" {
+             Name "ScrollLayout0"
+             Slot OverlayWidgetSlot "{5B39457795C08F46}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+              Padding 0 0 0 0
+             }
+             components {
+              SCR_GamepadScrollComponent "{5B39457650FF5BC8}" {
+              }
+             }
+             {
+              VerticalLayoutWidgetClass "{5B39457508F5E1BF}" {
+               Name "AccountList"
+               Slot AlignableSlot "{5B39457508F5E1AA}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+              }
+             }
+            }
+           }
+          }
+          OverlayWidgetClass "{5B3945718D1FFC23}" {
+           Name "ButtonOverlay"
+           Slot LayoutSlot "{5B3945718D1FFC7F}" {
+            Padding 0 0 0 0
+            SizeMode Fill
+            FillWeight 10
+           }
+           "Inherit Color" 1
+           {
+            ImageWidgetClass "{5B39457183AFBA4C}" {
+             Name "Image0"
+             Slot OverlayWidgetSlot "{5B39457183AFBAB7}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+             }
+             "Inherit Color" 1
+            }
+            HorizontalLayoutWidgetClass "{5B394574C80B31F9}" {
+             Name "BankButtonLayout"
+             Slot OverlayWidgetSlot "{5B3ADC100ED087A1}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+              Padding 0 15 0 15
+             }
+             Color 0.021 0.061 0.223 1
+             "Fill Origin" Center
+             {
+              ButtonWidgetClass "{5B394574C0476EB5}" {
+               Name "DepositButton"
+               Slot LayoutSlot "{5B394574C0476E9B}" {
+                Padding 10 0 10 0
+                SizeMode Fill
+                FillWeight 33
+               }
+               "Inherit Color" 1
+               components {
+                SCR_ButtonComponent "{5B3CD458768302FA}" {
+                }
+               }
+               {
+                TextWidgetClass "{5B394570FF4BAC90}" {
+                 Name "DepositText"
+                 Slot ButtonWidgetSlot "{5B394570FF4BACEF}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 Text "Deposit"
+                 "Font Size" 25
+                 "Horizontal Alignment" Center
+                 "Vertical Alignment" Center
+                }
+               }
+              }
+              ButtonWidgetClass "{5B394574C31F18FA}" {
+               Name "WithdrawButton"
+               Slot LayoutSlot "{5B394574C0476E9B}" {
+                Padding 10 0 10 0
+                SizeMode Fill
+                FillWeight 33
+               }
+               "Inherit Color" 1
+               components {
+                SCR_ButtonComponent "{5B3CD458AAFDFD39}" {
+                }
+               }
+               {
+                TextWidgetClass "{5B394570F5F08F07}" {
+                 Name "WithdrawButton"
+                 Slot ButtonWidgetSlot "{5B394570FF4BACEF}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 Text "Withdraw"
+                 "Font Size" 25
+                 "Horizontal Alignment" Center
+                 "Vertical Alignment" Center
+                }
+               }
+              }
+              ButtonWidgetClass "{5B394574C30BD98F}" {
+               Name "TransferButton"
+               Slot LayoutSlot "{5B394574C0476E9B}" {
+                Padding 10 0 10 0
+                SizeMode Fill
+                FillWeight 33
+               }
+               "Is Enabled" 0
+               "Inherit Color" 1
+               components {
+                SCR_ButtonComponent "{5B3CD458AFAF7412}" {
+                }
+               }
+               {
+                TextWidgetClass "{5B394570F44DC52F}" {
+                 Name "TransferButton"
+                 Slot ButtonWidgetSlot "{5B394570FF4BACEF}" {
+                  HorizontalAlign 3
+                  VerticalAlign 3
+                 }
+                 Text "Transfer"
+                 "Font Size" 25
+                 "Horizontal Alignment" Center
+                 "Vertical Alignment" Center
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+        ImageWidgetClass "{5B3CD45EDC3BA7CE}" {
+         Name "SeperatorLine"
+         Slot LayoutSlot "{5B3CD45EDC3BA7A3}" {
+         }
+         "Inherit Color" 1
+         Size 10 10
+        }
+        VerticalLayoutWidgetClass "{5B3945746E76C717}" {
+         Name "RightOverlay"
+         Slot LayoutSlot "{5B3945746E76C777}" {
+          SizeMode Fill
+          FillWeight 70
+         }
+         {
+          OverlayWidgetClass "{5B394571CBA06EF7}" {
+           Name "TransferListOverlay"
+           Slot LayoutSlot "{5B3945768FB139ED}" {
+            Padding 0 0 0 0
+            SizeMode Fill
+            FillWeight 90
+           }
+           {
+            ScrollLayoutWidgetClass "{5B394571CBA06EF6}" {
+             Name "ScrollLayout0"
+             Slot OverlayWidgetSlot "{5B39457795C08F46}" {
+              HorizontalAlign 3
+              VerticalAlign 3
+              Padding 0 0 0 0
+             }
+             components {
+              SCR_GamepadScrollComponent "{5B39457650FF5BC8}" {
+              }
+             }
+             {
+              VerticalLayoutWidgetClass "{5B394571CBA06EF0}" {
+               Name "TransactionList"
+               Slot AlignableSlot "{5B39457508F5E1AA}" {
+                HorizontalAlign 3
+                VerticalAlign 3
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

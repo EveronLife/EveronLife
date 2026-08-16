@@ -17,5 +17,7 @@ SCR_ChimeraCharacter {
     }
    }
   }
+  EL_RpcSenderComponent "{5C5F212707674949}" {
+  }
  }
 }
